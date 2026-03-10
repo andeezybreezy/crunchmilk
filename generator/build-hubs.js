@@ -110,7 +110,7 @@ function main() {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://example.com/" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://crunchmilk.com/" },
         { "@type": "ListItem", "position": 2, "name": meta.name }
       ]
     }, null, 2);
@@ -126,7 +126,7 @@ function main() {
           "@type": "ListItem",
           "position": i + 1,
           "name": tool.toolName,
-          "url": "https://example.com/" + tool.slug + "/"
+          "url": "https://crunchmilk.com/" + tool.slug + "/"
         };
       })
     }, null, 2);
@@ -147,7 +147,7 @@ function main() {
       .replace(/\{\{title\}\}/g, meta.name + ' — Free Online Tools')
       .replace(/\{\{metaDescription\}\}/g, 'Free ' + meta.name.toLowerCase() + '. ' + tools.length + ' tools to help you calculate, estimate, and plan. No signup required.')
       .replace(/\{\{keywords\}\}/g, meta.name.toLowerCase() + ', free calculators, online tools')
-      .replace(/\{\{domain\}\}/g, 'example.com')
+      .replace(/\{\{domain\}\}/g, 'crunchmilk.com')
       .replace(/\{\{hubSlug\}\}/g, meta.slug)
       .replace(/\{\{primaryColor\}\}/g, meta.color)
       .replace(/\{\{primaryDarkColor\}\}/g, meta.colorDark)

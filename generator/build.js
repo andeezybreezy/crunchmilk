@@ -305,7 +305,7 @@ function buildShareJS(config) {
   return SHARE_SYSTEM_JS
     .replace(/\{\{toolNameEsc\}\}/g, (config.toolName || '').replace(/'/g, "\\'"))
     .replace(/\{\{slug\}\}/g, config.slug)
-    .replace(/\{\{domain\}\}/g, config.domain || 'example.com')
+    .replace(/\{\{domain\}\}/g, config.domain || 'crunchmilk.com')
     .replace(/\{\{isEmotional\}\}/g, isEmotional ? 'true' : 'false')
     .replace(/\{\{category\}\}/g, config.category || '');
 }
@@ -473,7 +473,7 @@ function buildSite(configFile) {
     metaDescription: config.metaDescription || '',
     keywords: config.keywords || '',
     slug: config.slug,
-    domain: config.domain || 'example.com',
+    domain: config.domain || 'crunchmilk.com',
     toolName: config.toolName,
     tagline: config.tagline || '',
     primaryColor: config.primaryColor || '#e85d04',

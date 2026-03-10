@@ -138,7 +138,7 @@ function main() {
       }
 
       // Add canonical pointing to state variant (not the base)
-      stateConfig.canonicalUrl = 'https://example.com/' + stateSlug + '/';
+      stateConfig.canonicalUrl = 'https://crunchmilk.com/' + stateSlug + '/';
 
       // Add link back to parent tool in relatedTools
       if (!stateConfig.relatedTools) stateConfig.relatedTools = [];

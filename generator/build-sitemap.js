@@ -6,7 +6,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(ROOT, 'output');
-const DOMAIN = 'example.com'; // Replace with actual domain
+const DOMAIN = 'crunchmilk.com';
 
 function main() {
   const dirs = fs.readdirSync(OUTPUT_DIR).filter(d => {
