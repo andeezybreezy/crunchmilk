@@ -214,14 +214,9 @@ footer a{color:var(--text-light)}
 .share-btn-download{background:var(--primary)}
 .share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
 .share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
-.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
-.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
-.email-capture-row{display:flex;gap:8px}
-.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
-.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
 
 /* Print */
-@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
 
 /* Mobile */
 @media(max-width:480px){
@@ -682,15 +677,6 @@ footer a{color:var(--text-light)}
     html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
     html += '</div>';
 
-    // Email capture
-    html += '<div class="email-capture">';
-    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
-    html += '<div class="email-capture-row">';
-    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
-    html += '<button type="button" id="emailSubmit">Email My Result</button>';
-    html += '</div>';
-    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
-    html += '</div>';
 
     bar.innerHTML = html;
     resultEl.appendChild(bar);
@@ -700,8 +686,6 @@ footer a{color:var(--text-light)}
       btn.addEventListener('click', handleShare);
     });
 
-    var emailBtn = document.getElementById('emailSubmit');
-    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
   }
 
   // --- Handle share button clicks ---
@@ -792,26 +776,6 @@ footer a{color:var(--text-light)}
     ctx.lineTo(x, y + r);
     ctx.quadraticCurveTo(x, y, x + r, y);
     ctx.closePath();
-  }
-
-  // --- Email capture ---
-  function handleEmail() {
-    var emailEl = document.getElementById('emailCapture');
-    var statusEl = document.getElementById('emailStatus');
-    var email = emailEl ? emailEl.value.trim() : '';
-    if (!email || !email.includes('@')) {
-      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
-      return;
-    }
-    // Store locally (would connect to backend in production)
-    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
-    subs.push({ email: email, tool: TOOL_SLUG, category: 'fitness', date: new Date().toISOString() });
-    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
-    if (statusEl) {
-      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
-      statusEl.style.color = '#16a34a';
-    }
-    if (emailEl) emailEl.value = '';
   }
 
   // --- Show share bar when result is visible ---

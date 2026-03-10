@@ -90,15 +90,6 @@ const SHARE_SYSTEM_JS = `
     html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
     html += '</div>';
 
-    // Email capture
-    html += '<div class="email-capture">';
-    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
-    html += '<div class="email-capture-row">';
-    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
-    html += '<button type="button" id="emailSubmit">Email My Result</button>';
-    html += '</div>';
-    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
-    html += '</div>';
 
     bar.innerHTML = html;
     resultEl.appendChild(bar);
@@ -108,8 +99,6 @@ const SHARE_SYSTEM_JS = `
       btn.addEventListener('click', handleShare);
     });
 
-    var emailBtn = document.getElementById('emailSubmit');
-    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
   }
 
   // --- Handle share button clicks ---
@@ -200,26 +189,6 @@ const SHARE_SYSTEM_JS = `
     ctx.lineTo(x, y + r);
     ctx.quadraticCurveTo(x, y, x + r, y);
     ctx.closePath();
-  }
-
-  // --- Email capture ---
-  function handleEmail() {
-    var emailEl = document.getElementById('emailCapture');
-    var statusEl = document.getElementById('emailStatus');
-    var email = emailEl ? emailEl.value.trim() : '';
-    if (!email || !email.includes('@')) {
-      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
-      return;
-    }
-    // Store locally (would connect to backend in production)
-    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
-    subs.push({ email: email, tool: TOOL_SLUG, category: '{{category}}', date: new Date().toISOString() });
-    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
-    if (statusEl) {
-      statusEl.textContent = '✓ We\\'ll email your result and notify you when data changes.';
-      statusEl.style.color = '#16a34a';
-    }
-    if (emailEl) emailEl.value = '';
   }
 
   // --- Show share bar when result is visible ---
