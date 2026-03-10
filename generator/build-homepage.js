@@ -8,46 +8,48 @@ const ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(ROOT, 'output');
 const MASTER_LIST_PATH = path.join(ROOT, 'data', 'master-tool-list.json');
 
+// Consistent 20x20 SVG icons - all use stroke style for visual uniformity
+const SVG = (d) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 const CATEGORY_META = {
-  'construction': { name: 'Construction', slug: 'construction-calculators', icon: '&#9635;' },
-  'cooking': { name: 'Cooking & Recipes', slug: 'cooking-calculators', icon: '&#9672;' },
-  'fitness': { name: 'Fitness & Health', slug: 'fitness-calculators', icon: '&#9651;' },
-  'finance': { name: 'Finance & Money', slug: 'finance-calculators', icon: '&#11044;' },
-  'niche-finance': { name: 'Investment', slug: 'niche-finance-calculators', icon: '&#9670;' },
-  'automotive': { name: 'Automotive', slug: 'automotive-calculators', icon: '&#9654;' },
-  'gardening': { name: 'Gardening', slug: 'gardening-calculators', icon: '&#10022;' },
-  'energy': { name: 'Energy', slug: 'energy-calculators', icon: '&#9733;' },
-  'energy-independence': { name: 'Energy Independence', slug: 'energy-independence-calculators', icon: '&#9737;' },
-  'legal': { name: 'Legal', slug: 'legal-calculators', icon: '&#9878;' },
-  'legal-regulatory': { name: 'Regulatory', slug: 'legal-regulatory-calculators', icon: '&#9744;' },
-  'firearms': { name: 'Hunting & Outdoors', slug: 'firearms-calculators', icon: '&#9678;' },
-  'agriculture': { name: 'Agriculture', slug: 'agriculture-calculators', icon: '&#10047;' },
-  'trades-industrial': { name: 'Trades', slug: 'trades-industrial-calculators', icon: '&#9881;' },
-  'ai-automation': { name: 'AI & Automation', slug: 'ai-automation-calculators', icon: '&#9043;' },
-  'tariffs': { name: 'Tariffs & Trade', slug: 'tariff-calculators', icon: '&#8853;' },
-  'housing': { name: 'Housing', slug: 'housing-calculators', icon: '&#9632;' },
-  'crypto': { name: 'Crypto', slug: 'crypto-calculators', icon: '&#9830;' },
-  'climate': { name: 'Climate & Safety', slug: 'climate-calculators', icon: '&#8776;' },
-  'demographics': { name: 'Relocation', slug: 'demographics-calculators', icon: '&#10148;' },
-  'health-longevity': { name: 'Health & Longevity', slug: 'health-longevity-calculators', icon: '&#10023;' },
-  'niche-health': { name: 'Medical', slug: 'medical-calculators', icon: '&#10010;' },
-  'paranormal': { name: 'Astrology', slug: 'paranormal-calculators', icon: '&#10038;' },
-  'survival': { name: 'Survival', slug: 'survival-calculators', icon: '&#9650;' },
-  'audio': { name: 'Audio & Music', slug: 'audio-calculators', icon: '&#9835;' },
-  'pet': { name: 'Pets', slug: 'pet-calculators', icon: '&#10070;' },
-  'crafts': { name: 'Crafts', slug: 'craft-calculators', icon: '&#10036;' },
-  'sewing': { name: 'Sewing & Quilting', slug: 'sewing-calculators', icon: '&#10687;' },
-  'photography': { name: 'Photography', slug: 'photography-calculators', icon: '&#9724;' },
-  'woodworking': { name: 'Woodworking', slug: 'woodworking-calculators', icon: '&#9646;' },
-  'science': { name: 'Science', slug: 'science-calculators', icon: '&#9883;' },
-  'marine': { name: 'Boating', slug: 'marine-calculators', icon: '&#9875;' },
-  'weather': { name: 'Weather', slug: 'weather-calculators', icon: '&#9730;' },
-  'sports': { name: 'Sports', slug: 'sports-calculators', icon: '&#9898;' },
-  'education': { name: 'Education', slug: 'education-calculators', icon: '&#9998;' },
-  'shipping': { name: 'Shipping', slug: 'shipping-calculators', icon: '&#9645;' },
-  'printing': { name: 'Printing', slug: 'printing-calculators', icon: '&#9641;' },
-  '3d-printing': { name: '3D Printing', slug: '3d-printing-calculators', icon: '&#11200;' },
-  'rv': { name: 'RV', slug: 'rv-calculators', icon: '&#9656;' }
+  'construction':        { name: 'Construction',         slug: 'construction-calculators',         icon: SVG('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 6V2"/><path d="M6 6V4"/><path d="M18 6V4"/>') },
+  'cooking':             { name: 'Cooking & Recipes',    slug: 'cooking-calculators',              icon: SVG('<path d="M12 2v6"/><path d="M8 2v6"/><path d="M16 2v6"/><path d="M2 10h20"/><path d="M4 10v10a2 2 0 002 2h12a2 2 0 002-2V10"/>') },
+  'fitness':             { name: 'Fitness & Health',     slug: 'fitness-calculators',              icon: SVG('<path d="M18 8h2a1 1 0 011 1v6a1 1 0 01-1 1h-2"/><path d="M6 8H4a1 1 0 00-1 1v6a1 1 0 001 1h2"/><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/><path d="M10 12h4"/>') },
+  'finance':             { name: 'Finance & Money',      slug: 'finance-calculators',              icon: SVG('<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>') },
+  'niche-finance':       { name: 'Investment',           slug: 'niche-finance-calculators',        icon: SVG('<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>') },
+  'automotive':          { name: 'Automotive',           slug: 'automotive-calculators',           icon: SVG('<path d="M5 17h14M5 17a2 2 0 01-2-2V9a2 2 0 012-2h14a2 2 0 012 2v6a2 2 0 01-2 2M5 17l-1 2M19 17l1 2"/><circle cx="7.5" cy="13" r="1.5"/><circle cx="16.5" cy="13" r="1.5"/>') },
+  'gardening':           { name: 'Gardening',            slug: 'gardening-calculators',            icon: SVG('<path d="M7 20h10"/><path d="M10 20c5-6 9.5-9 9.5-9a9.5 9.5 0 00-9.5 9z"/><path d="M14 20c-5-6-9.5-9-9.5-9A9.5 9.5 0 0114 20z"/>') },
+  'energy':              { name: 'Energy',               slug: 'energy-calculators',               icon: SVG('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>') },
+  'energy-independence': { name: 'Energy Independence',  slug: 'energy-independence-calculators',  icon: SVG('<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>') },
+  'legal':               { name: 'Legal',                slug: 'legal-calculators',                icon: SVG('<path d="M12 3v18"/><path d="M5 7l7-4 7 4"/><path d="M5 7v2a7 7 0 007 7"/><path d="M19 7v2a7 7 0 01-7 7"/>') },
+  'legal-regulatory':    { name: 'Regulatory',           slug: 'legal-regulatory-calculators',     icon: SVG('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="M8 8h8"/><path d="M8 16h4"/>') },
+  'firearms':            { name: 'Hunting & Outdoors',   slug: 'firearms-calculators',             icon: SVG('<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>') },
+  'agriculture':         { name: 'Agriculture',          slug: 'agriculture-calculators',          icon: SVG('<path d="M12 22V8"/><path d="M5 12H2a10 10 0 0020 0h-3"/><path d="M8 5l4-3 4 3"/>') },
+  'trades-industrial':   { name: 'Trades',               slug: 'trades-industrial-calculators',    icon: SVG('<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>') },
+  'ai-automation':       { name: 'AI & Automation',      slug: 'ai-automation-calculators',        icon: SVG('<rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="10" r="1.5"/><path d="M8 15h8"/>') },
+  'tariffs':             { name: 'Tariffs & Trade',      slug: 'tariff-calculators',               icon: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>') },
+  'housing':             { name: 'Housing',              slug: 'housing-calculators',              icon: SVG('<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>') },
+  'crypto':              { name: 'Crypto',               slug: 'crypto-calculators',               icon: SVG('<path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042l-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893l-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042l.348-1.97M7.48 20.364l3.126-17.727"/>') },
+  'climate':             { name: 'Climate & Safety',     slug: 'climate-calculators',              icon: SVG('<path d="M2 12h2"/><path d="M8 12H6"/><path d="M12 2v2"/><path d="M12 8V6"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 7.34l1.41-1.41"/><path d="M20 12h2"/><path d="M17 12h-1"/><path d="M12 20v2"/><path d="M12 17v-1"/><path d="M4.93 19.07l1.41-1.41"/><path d="M17.66 16.66l1.41 1.41"/>') },
+  'demographics':        { name: 'Relocation',           slug: 'demographics-calculators',         icon: SVG('<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>') },
+  'health-longevity':    { name: 'Health & Longevity',   slug: 'health-longevity-calculators',     icon: SVG('<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>') },
+  'niche-health':        { name: 'Medical',              slug: 'medical-calculators',              icon: SVG('<path d="M8 2v4"/><path d="M16 2v4"/><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 14h6"/><path d="M12 11v6"/>') },
+  'paranormal':          { name: 'Astrology',            slug: 'paranormal-calculators',           icon: SVG('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>') },
+  'survival':            { name: 'Survival',             slug: 'survival-calculators',             icon: SVG('<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>') },
+  'audio':               { name: 'Audio & Music',        slug: 'audio-calculators',                icon: SVG('<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>') },
+  'pet':                 { name: 'Pets',                 slug: 'pet-calculators',                  icon: SVG('<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="4" cy="8" r="2"/><path d="M12 12c-4 0-6 2-6 6s2 4 6 4 6 0 6-4-2-6-6-6z"/>') },
+  'crafts':              { name: 'Crafts',               slug: 'craft-calculators',                icon: SVG('<path d="M12 2L2 22h20L12 2z"/>') },
+  'sewing':              { name: 'Sewing & Quilting',    slug: 'sewing-calculators',               icon: SVG('<path d="M18 12.5V10a2 2 0 00-2-2v0a2 2 0 00-2 2v1.4"/><path d="M14 11V9a2 2 0 00-2-2v0a2 2 0 00-2 2v2"/><path d="M10 10.5V5a2 2 0 00-2-2v0a2 2 0 00-2 2v9"/><path d="M18 12a2 2 0 012 2v0a6 6 0 01-6 6H8"/>') },
+  'photography':         { name: 'Photography',          slug: 'photography-calculators',          icon: SVG('<path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>') },
+  'woodworking':         { name: 'Woodworking',          slug: 'woodworking-calculators',          icon: SVG('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 12h16"/><path d="M12 4v16"/>') },
+  'science':             { name: 'Science',              slug: 'science-calculators',              icon: SVG('<path d="M10 2v8L4.5 20.5a1 1 0 00.9 1.5h13.2a1 1 0 00.9-1.5L14 10V2"/><path d="M8 2h8"/><path d="M7 16h10"/>') },
+  'marine':              { name: 'Boating',              slug: 'marine-calculators',               icon: SVG('<path d="M2 20l.8-2.2A6 6 0 018.5 14H12l3.5 6"/><path d="M12 14l3-8 3 8"/><path d="M2 20h20"/>') },
+  'weather':             { name: 'Weather',              slug: 'weather-calculators',              icon: SVG('<path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/>') },
+  'sports':              { name: 'Sports',               slug: 'sports-calculators',               icon: SVG('<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 000 20"/><path d="M12 2a14.5 14.5 0 010 20"/><path d="M2 12h20"/>') },
+  'education':           { name: 'Education',            slug: 'education-calculators',            icon: SVG('<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>') },
+  'shipping':            { name: 'Shipping',             slug: 'shipping-calculators',             icon: SVG('<rect x="1" y="6" width="15" height="12" rx="1"/><path d="M16 10h4l3 4v4h-7V10z"/><circle cx="5.5" cy="19.5" r="1.5"/><circle cx="18.5" cy="19.5" r="1.5"/>') },
+  'printing':            { name: 'Printing',             slug: 'printing-calculators',             icon: SVG('<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>') },
+  '3d-printing':         { name: '3D Printing',          slug: '3d-printing-calculators',          icon: SVG('<path d="M12 2l10 6v8l-10 6L2 16V8l10-6z"/><path d="M12 8l10 6"/><path d="M12 8L2 14"/><path d="M12 8v14"/>') },
+  'rv':                  { name: 'RV',                   slug: 'rv-calculators',                   icon: SVG('<rect x="1" y="8" width="18" height="10" rx="2"/><path d="M19 12h3l2 3v3h-5"/><circle cx="5" cy="19" r="1.5"/><circle cx="21" cy="19" r="1.5"/>') }
 };
 
 function main() {
@@ -70,7 +72,7 @@ function main() {
     .map((k, i) => {
       const m = CATEGORY_META[k];
       const count = catCounts[k] || 0;
-      return `<a href="/${m.slug}/" class="cat-card" style="animation-delay:${i * 40}ms"><span class="cat-icon">${m.icon}</span><span class="cat-name">${m.name}</span><span class="cat-count">${count} tools</span></a>`;
+      return `<a href="/${m.slug}/" class="cat-card" style="animation-delay:${i * 40}ms"><span class="cat-icon">${m.icon}</span><span class="cat-name">${m.name}</span><span class="cat-count">${count}</span></a>`;
     }).join('\n      ');
 
   const html = `<!DOCTYPE html>
@@ -166,15 +168,15 @@ main{padding:48px 0 64px}
 .section-count{font-size:0.8rem;color:var(--text-light);font-weight:500}
 
 /* Category grid */
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:48px}
-.cat-card{display:flex;align-items:center;gap:14px;padding:18px 20px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:1px solid rgba(0,0,0,0.04);transition:all 0.2s ease;position:relative;overflow:hidden;animation:cardIn 0.4s ease both}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:48px}
+.cat-card{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:1px solid rgba(0,0,0,0.04);transition:all 0.2s ease;position:relative;overflow:hidden;animation:cardIn 0.4s ease both}
 .cat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--coral);transform:scaleY(0);transition:transform 0.2s ease;transform-origin:bottom}
 .cat-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(28,25,23,0.1);border-color:rgba(0,0,0,0.08)}
 .cat-card:hover::before{transform:scaleY(1)}
-.cat-icon{font-size:1.4rem;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:6px;flex-shrink:0;color:var(--navy);font-weight:700}
-.cat-info{display:flex;flex-direction:column}
-.cat-name{font-family:var(--font-display);font-weight:700;font-size:0.92rem;letter-spacing:-0.2px;line-height:1.3}
-.cat-count{font-size:0.75rem;color:var(--text-light);font-weight:500;margin-top:2px}
+.cat-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:6px;flex-shrink:0;color:var(--navy)}
+.cat-icon svg{width:20px;height:20px}
+.cat-name{font-family:var(--font-display);font-weight:700;font-size:0.92rem;letter-spacing:-0.2px;line-height:1.3;flex:1;min-width:0}
+.cat-count{font-size:0.72rem;color:var(--text-light);font-weight:600;white-space:nowrap;flex-shrink:0;background:var(--cream);padding:3px 10px;border-radius:10px}
 
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
