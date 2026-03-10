@@ -1,0 +1,152 @@
+{
+  "slug": "drag-strip-calculator",
+  "toolName": "Drag Strip Calculator",
+  "tagline": "Estimate quarter-mile ET and trap speed from vehicle weight and horsepower",
+  "title": "Drag Strip Calculator — 1/4 Mile ET & Trap Speed Estimator",
+  "metaDescription": "Estimate your quarter-mile ET and trap speed using weight and horsepower. Uses Brock's formula with presets for popular cars.",
+  "keywords": "drag strip calculator, quarter mile calculator, 1/4 mile ET calculator, trap speed calculator, drag racing calculator, ET predictor",
+  "domain": "example.com",
+  "primaryColor": "#1e40af",
+  "primaryDarkColor": "#1a3590",
+  "ogTitle": "Drag Strip Calculator — 1/4 Mile ET & Trap Speed",
+  "ogDescription": "Estimate quarter-mile ET and trap speed from vehicle weight and horsepower using Brock's formula.",
+  "twitterDescription": "Estimate your quarter-mile ET and trap speed from weight and HP.",
+  "jsonLdDescription": "Calculate estimated quarter-mile elapsed time and trap speed from vehicle weight and horsepower.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Drag Strip Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"presetCar\">Vehicle Preset (optional)</label>\n      <select id=\"presetCar\">\n        <option value=\"custom\">Custom</option>\n        <option value=\"mustang\">Ford Mustang GT (4,100 lbs / 480 HP)</option>\n        <option value=\"camaro\">Chevy Camaro SS (3,950 lbs / 455 HP)</option>\n        <option value=\"civic\">Honda Civic Si (2,950 lbs / 200 HP)</option>\n        <option value=\"tesla3\">Tesla Model 3 LR (4,100 lbs / 346 HP)</option>\n        <option value=\"wrx\">Subaru WRX (3,500 lbs / 271 HP)</option>\n        <option value=\"challenger\">Dodge Challenger Scat Pack (4,300 lbs / 485 HP)</option>\n        <option value=\"corvette\">Chevy Corvette C8 (3,650 lbs / 490 HP)</option>\n        <option value=\"supra\">Toyota Supra 3.0 (3,500 lbs / 382 HP)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"vehicleWeight\">Vehicle Weight (lbs, with driver)</label>\n      <input type=\"number\" id=\"vehicleWeight\" placeholder=\"e.g. 3800\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"vehicleHP\">Horsepower (wheel HP preferred)</label>\n      <input type=\"number\" id=\"vehicleHP\" placeholder=\"e.g. 400\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate ET & Speed</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">1/4 Mile ET</div>\n          <div class=\"result-value\" id=\"quarterET\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">1/4 Mile Trap Speed</div>\n          <div class=\"result-value\" id=\"quarterMPH\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">1/8 Mile ET</div>\n          <div class=\"result-value\" id=\"eighthET\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">1/8 Mile Trap Speed</div>\n          <div class=\"result-value\" id=\"eighthMPH\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Weight-to-Power Ratio</div>\n          <div class=\"result-value\" id=\"wtPower\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator uses Brock's well-known formulas to estimate quarter-mile performance based on vehicle weight and horsepower. These formulas have been validated against thousands of actual drag strip runs.",
+    "rules": [
+      "Quarter-mile ET (Brock's formula): <strong>ET = 5.825 × (weight / HP) ^ (1/3)</strong>",
+      "Quarter-mile trap speed: <strong>MPH = 234 × (HP / weight) ^ (1/3)</strong>",
+      "1/8 mile estimates: ET ≈ quarter ET × 0.653, MPH ≈ quarter MPH × 0.813"
+    ],
+    "outro": "These are theoretical estimates for consistent full-power runs. Actual results depend on traction, driver skill, transmission type, altitude, temperature, and track conditions. AWD vehicles often outperform these estimates at lower power levels due to better launch traction."
+  },
+  "faq": [
+    {
+      "question": "How accurate are ET estimates from weight and HP?",
+      "answer": "Brock's formula is typically accurate within 0.3-0.5 seconds for most street cars. It works best for vehicles between 200-700 HP. Very high-power cars or those with traction issues may differ more. AWD cars with good launches often beat the estimate."
+    },
+    {
+      "question": "Should I use crank HP or wheel HP?",
+      "answer": "Wheel HP is more accurate for this calculator since it represents actual power at the wheels. If you only know crank HP, subtract about 15% for manual transmission cars and 18-20% for automatics to estimate wheel HP."
+    },
+    {
+      "question": "Why does weight matter so much for drag racing?",
+      "answer": "Newton's second law: force equals mass times acceleration. Reducing weight has the same effect on acceleration as adding power. Removing 100 lbs from a 4,000 lb car improves ET by about 0.1 seconds — equivalent to adding roughly 10 HP."
+    },
+    {
+      "question": "What is a good quarter-mile time for a street car?",
+      "answer": "A mid-13 second quarter mile is quick for a stock performance car. Under 12 seconds is fast. Under 11 seconds is very fast and usually requires modifications. Under 10 seconds is serious drag car territory. The quickest street-legal cars run 8-9 seconds."
+    },
+    {
+      "question": "How does 1/8 mile relate to quarter-mile?",
+      "answer": "The 1/8 mile ET is approximately 65% of the quarter-mile ET, and 1/8 mile speed is about 81% of quarter-mile trap speed. Many smaller tracks only have 1/8 mile strips. You can roughly convert 1/8 mile ET to quarter mile by multiplying by 1.53."
+    },
+    {
+      "question": "Why do I run slower than the estimate?",
+      "answer": "The most common reasons are: traction loss at launch (wheel spin), short-shifting or poor reaction time, automatic transmission that doesn't hold gears, heat soak reducing power, or the horsepower number being overstated. Altitude and hot weather also hurt performance."
+    }
+  ],
+  "chart": {
+    "title": "Estimated Quarter-Mile Times for Popular Cars",
+    "subtitle": "Estimates using crank HP with ~15% drivetrain loss. Driver weight included.",
+    "columns": [
+      "Vehicle",
+      "Weight (lbs)",
+      "HP (crank)",
+      "Est. 1/4 ET",
+      "Est. Trap MPH"
+    ],
+    "rows": [
+      [
+        "Honda Civic Si",
+        "2,950",
+        "200",
+        "14.7s",
+        "95 mph"
+      ],
+      [
+        "Subaru WRX",
+        "3,500",
+        "271",
+        "13.8s",
+        "101 mph"
+      ],
+      [
+        "Toyota Supra 3.0",
+        "3,500",
+        "382",
+        "12.7s",
+        "111 mph"
+      ],
+      [
+        "Ford Mustang GT",
+        "4,100",
+        "480",
+        "12.2s",
+        "116 mph"
+      ],
+      [
+        "Camaro SS",
+        "3,950",
+        "455",
+        "12.3s",
+        "115 mph"
+      ],
+      [
+        "Corvette C8",
+        "3,650",
+        "490",
+        "11.8s",
+        "119 mph"
+      ],
+      [
+        "Challenger Hellcat",
+        "4,500",
+        "717",
+        "11.2s",
+        "126 mph"
+      ],
+      [
+        "Tesla Model 3 Perf",
+        "4,100",
+        "450",
+        "12.4s",
+        "114 mph"
+      ]
+    ]
+  },
+  "category": "automotive",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This drag strip calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This drag strip calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "cost-per-mile-calculator",
+    "tire-size-calculator",
+    "gear-ratio-calculator",
+    "fuel-cost-trip-calculator",
+    "towing-capacity-calculator",
+    "hp-to-torque-calculator",
+    "turbo-boost-calculator",
+    "towing-payload-calculator"
+  ]
+}

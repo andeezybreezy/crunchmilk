@@ -1,0 +1,150 @@
+{
+  "slug": "aspect-ratio-calculator",
+  "toolName": "Aspect Ratio Calculator",
+  "tagline": "Calculate, convert, and scale aspect ratios for any resolution",
+  "title": "Aspect Ratio Calculator — Find Ratio, Scale Dimensions & Convert",
+  "metaDescription": "Calculate aspect ratios from width and height. Scale dimensions while keeping ratio. Supports 16:9, 4:3, 3:2, 21:9, and custom ratios.",
+  "keywords": "aspect ratio calculator, 16:9 calculator, resolution calculator, image ratio, video aspect ratio, scale dimensions, pixel calculator",
+  "domain": "example.com",
+  "primaryColor": "#1e40af",
+  "primaryDarkColor": "#1e3a8a",
+  "ogTitle": "Aspect Ratio Calculator — Scale & Convert Ratios",
+  "ogDescription": "Calculate aspect ratios from pixel dimensions, scale to new sizes, and convert between common ratios.",
+  "twitterDescription": "Calculate and scale aspect ratios for images, video, and displays.",
+  "jsonLdDescription": "Calculate aspect ratios from dimensions, scale while preserving ratio, and convert between common formats like 16:9 and 4:3.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Aspect Ratio Calculator</h2>\n\n    <div class=\"input-group\">\n      <label>Mode</label>\n      <div class=\"unit-toggle\" role=\"group\" aria-label=\"Calculator mode\" id=\"modeToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"find\" aria-pressed=\"true\">Find Ratio</button>\n        <button type=\"button\" data-mode=\"scale\" aria-pressed=\"false\">Scale by Ratio</button>\n      </div>\n    </div>\n\n    <div id=\"findMode\">\n      <div class=\"input-group\">\n        <label for=\"inputWidth\">Width (pixels)</label>\n        <input type=\"number\" id=\"inputWidth\" placeholder=\"e.g. 1920\" inputmode=\"numeric\">\n      </div>\n      <div class=\"input-group\">\n        <label for=\"inputHeight\">Height (pixels)</label>\n        <input type=\"number\" id=\"inputHeight\" placeholder=\"e.g. 1080\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div id=\"scaleMode\" style=\"display:none;\">\n      <div class=\"input-group\">\n        <label for=\"ratioSelect\">Aspect Ratio</label>\n        <select id=\"ratioSelect\">\n          <option value=\"16:9\">16:9 (Widescreen)</option>\n          <option value=\"4:3\">4:3 (Standard)</option>\n          <option value=\"3:2\">3:2 (Photo)</option>\n          <option value=\"1:1\">1:1 (Square)</option>\n          <option value=\"21:9\">21:9 (Ultrawide)</option>\n          <option value=\"9:16\">9:16 (Vertical Video)</option>\n          <option value=\"custom\">Custom</option>\n        </select>\n      </div>\n      <div class=\"input-group\" id=\"customRatioGroup\" style=\"display:none;\">\n        <label>Custom Ratio (W : H)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"customRatioW\" placeholder=\"W\" inputmode=\"numeric\" style=\"width:45%\">\n          <span style=\"padding:0 8px;\">:</span>\n          <input type=\"number\" id=\"customRatioH\" placeholder=\"H\" inputmode=\"numeric\" style=\"width:45%\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"knownDim\">Known Dimension</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"knownDim\" placeholder=\"e.g. 1920\" inputmode=\"numeric\">\n          <div class=\"unit-toggle\" role=\"group\" aria-label=\"Dimension type\" id=\"dimToggle\">\n            <button type=\"button\" class=\"active\" data-dim=\"width\" aria-pressed=\"true\">Width</button>\n            <button type=\"button\" data-dim=\"height\" aria-pressed=\"false\">Height</button>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Aspect Ratio</div>\n          <div class=\"result-value\" id=\"ratioResult\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Decimal Ratio</div>\n          <div class=\"result-value\" id=\"decimalRatio\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Dimensions</div>\n          <div class=\"result-value\" id=\"dimensions\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Megapixels</div>\n          <div class=\"result-value\" id=\"megapixels\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Aspect ratio describes the proportional relationship between width and height. It's essential for photography, video, web design, and print layout.",
+    "rules": [
+      "<strong>Find Ratio mode:</strong> enter width and height to discover the simplified aspect ratio",
+      "<strong>Scale by Ratio mode:</strong> pick a target ratio and one dimension to calculate the other",
+      "The calculator simplifies ratios using the greatest common divisor (GCD)"
+    ],
+    "outro": "Common aspect ratios include 16:9 (HD video and modern monitors), 4:3 (classic TV and iPad), 3:2 (35mm photography), and 1:1 (Instagram square)."
+  },
+  "faq": [
+    {
+      "question": "What is aspect ratio?",
+      "answer": "Aspect ratio is the proportional relationship between the width and height of an image or screen. It's expressed as two numbers separated by a colon, like 16:9. A 16:9 ratio means for every 16 units of width, there are 9 units of height."
+    },
+    {
+      "question": "What aspect ratio is 1920x1080?",
+      "answer": "1920x1080 is a 16:9 aspect ratio, also known as Full HD (1080p). This is the most common aspect ratio for modern monitors, TVs, and video content. Other 16:9 resolutions include 1280x720 (720p), 2560x1440 (1440p), and 3840x2160 (4K)."
+    },
+    {
+      "question": "What is the best aspect ratio for social media?",
+      "answer": "It depends on the platform. Instagram posts use 1:1 (square) or 4:5 (portrait). Instagram Stories and TikTok use 9:16 (vertical). YouTube and most video use 16:9 (widescreen). Facebook posts work well with 1.91:1. Twitter images are best at 16:9 or 2:1."
+    },
+    {
+      "question": "How do I calculate aspect ratio from pixel dimensions?",
+      "answer": "Divide both width and height by their greatest common divisor (GCD). For example, 1920÷120 = 16 and 1080÷120 = 9, giving you 16:9. This calculator does this automatically for any dimensions you enter."
+    },
+    {
+      "question": "What is the difference between 16:9 and 21:9?",
+      "answer": "16:9 is standard widescreen (used by most TVs and monitors), while 21:9 is ultrawide (used by cinema screens and ultrawide monitors). 21:9 gives about 33% more horizontal space, which is great for immersive gaming and multitasking."
+    },
+    {
+      "question": "How do megapixels relate to aspect ratio?",
+      "answer": "Megapixels measure total resolution (width × height / 1,000,000) while aspect ratio describes the shape. A 12MP image could be 4000×3000 (4:3) or 4242×2828 (3:2) — same megapixels but different shapes. Aspect ratio determines framing; megapixels determine detail."
+    }
+  ],
+  "chart": {
+    "title": "Common Aspect Ratios & Resolutions",
+    "subtitle": "Standard resolutions for each common aspect ratio.",
+    "columns": [
+      "Ratio",
+      "Name",
+      "Common Resolutions",
+      "Use Case"
+    ],
+    "rows": [
+      [
+        "16:9",
+        "Widescreen",
+        "1920×1080, 2560×1440, 3840×2160",
+        "HD video, monitors, TV"
+      ],
+      [
+        "4:3",
+        "Standard",
+        "1024×768, 1600×1200, 2048×1536",
+        "iPad, classic TV, presentations"
+      ],
+      [
+        "3:2",
+        "Photo",
+        "6000×4000, 4500×3000, 3000×2000",
+        "DSLR photos, MacBook display"
+      ],
+      [
+        "1:1",
+        "Square",
+        "1080×1080, 2048×2048",
+        "Instagram, profile pictures"
+      ],
+      [
+        "21:9",
+        "Ultrawide",
+        "2560×1080, 3440×1440, 5120×2160",
+        "Cinema, ultrawide monitors"
+      ],
+      [
+        "9:16",
+        "Vertical",
+        "1080×1920",
+        "Stories, TikTok, Reels"
+      ],
+      [
+        "4:5",
+        "Portrait",
+        "1080×1350",
+        "Instagram portrait posts"
+      ],
+      [
+        "2:1",
+        "Univisium",
+        "2048×1024, 4096×2048",
+        "360° VR, some cinema"
+      ],
+      [
+        "1.91:1",
+        "Facebook",
+        "1200×628",
+        "Facebook link previews"
+      ],
+      [
+        "2.35:1",
+        "Anamorphic",
+        "2560×1089",
+        "Widescreen cinema"
+      ]
+    ]
+  },
+  "category": "photography",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This aspect ratio calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This aspect ratio calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "depth-of-field-calculator",
+    "print-size-calculator",
+    "dpi-calculator"
+  ]
+}

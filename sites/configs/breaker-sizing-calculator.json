@@ -1,0 +1,133 @@
+{
+  "slug": "breaker-sizing-calculator",
+  "toolName": "Breaker Sizing Calculator",
+  "tagline": "Determine the correct circuit breaker size per NEC load rules",
+  "title": "Breaker Sizing Calculator — NEC 80% Rule & Standard Sizes",
+  "metaDescription": "Calculate the right breaker size for any load. Applies NEC 80% rule for continuous loads and recommends standard breaker and wire sizes.",
+  "keywords": "breaker size calculator, circuit breaker sizing, NEC 80% rule, what size breaker do I need, breaker calculator, electrical panel sizing",
+  "domain": "example.com",
+  "primaryColor": "#ca8a04",
+  "primaryDarkColor": "#a16207",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Breaker Sizing Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"loadType\">Load Type</label>\n      <select id=\"loadType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"continuous\">Continuous (3+ hours: lighting, HVAC, heaters)</option>\n        <option value=\"non-continuous\" selected>Non-Continuous (general outlets, tools)</option>\n        <option value=\"motor\">Motor Load (125% FLA per NEC 430)</option>\n      </select>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Continuous loads require 125% sizing per NEC 210.20(A)</div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"loadAmps\">Load (amps)</label>\n      <input type=\"number\" id=\"loadAmps\" placeholder=\"e.g. 20\" inputmode=\"decimal\" step=\"any\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"voltage\">System Voltage</label>\n      <select id=\"voltage\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"120\">120V</option>\n        <option value=\"208\">208V</option>\n        <option value=\"240\" selected>240V</option>\n        <option value=\"277\">277V</option>\n        <option value=\"480\">480V</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"phase\">Phase</label>\n      <select id=\"phase\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"single\" selected>Single Phase</option>\n        <option value=\"three\">Three Phase</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Size the Breaker</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Minimum Breaker Size</div>\n          <div class=\"result-value\" id=\"rBreaker\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Required Wire (Copper)</div>\n          <div class=\"result-value\" id=\"rWire\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Design Current</div>\n          <div class=\"result-value\" id=\"rDesignAmps\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Circuit Wattage</div>\n          <div class=\"result-value\" id=\"rWattage\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Breaker sizing is about matching protection to the wire and load. The breaker protects the wire, not the appliance — so it must be sized correctly for both the load type and conductor ampacity.",
+    "rules": [
+      "Continuous loads (3+ hours): breaker must be rated for 125% of the load current per NEC 210.20(A). A 16A continuous load needs a 20A breaker minimum",
+      "Non-continuous loads: breaker must be rated at or above the actual load current. Use the next standard size up",
+      "Motor loads: size at 125% of the motor's full-load amps per NEC 430.52, then select the next standard breaker size"
+    ],
+    "outro": "Standard residential breaker sizes are 15, 20, 25, 30, 40, 50, 60, 70, 80, and 100 amps. The wire gauge must match or exceed the breaker rating — never put a 20A breaker on 14 AWG wire."
+  },
+  "faq": [
+    {
+      "question": "What is the NEC 80% rule for breakers?",
+      "answer": "The NEC 80% rule means continuous loads (running 3+ hours) can only use 80% of a breaker's rating. A 20A breaker can handle only 16A continuously. This is really a 125% sizing rule — multiply the continuous load by 1.25 to find the minimum breaker size."
+    },
+    {
+      "question": "What size breaker do I need for a 240V water heater?",
+      "answer": "A typical 4,500W water heater at 240V draws 18.75A. Since it's a continuous load, multiply by 1.25 = 23.4A minimum. The next standard breaker size is 25A or 30A. Most installations use a 30A double-pole breaker with 10 AWG wire."
+    },
+    {
+      "question": "Can I use a bigger breaker if my circuit keeps tripping?",
+      "answer": "Never upsize a breaker without also upsizing the wire. The breaker protects the wire from overheating. If a 15A breaker trips, the fix is to reduce the load on the circuit or run a new circuit — not install a 20A breaker on 14 AWG wire, which creates a fire hazard."
+    },
+    {
+      "question": "What size wire goes with each breaker size?",
+      "answer": "Common pairings (copper THHN): 15A breaker = 14 AWG, 20A = 12 AWG, 30A = 10 AWG, 40A = 8 AWG, 50A = 6 AWG, 60A = 6 AWG, 100A = 3 AWG. These are minimums — always check voltage drop for long runs."
+    },
+    {
+      "question": "How do I size a breaker for a motor?",
+      "answer": "Motor circuits are special under NEC Article 430. Size the breaker at 125% of the motor's full-load amps (from NEC Table 430.248, not the nameplate). Use the next standard size up. Motor branch circuits also need overload protection sized differently from the breaker."
+    },
+    {
+      "question": "What is the difference between single-pole and double-pole breakers?",
+      "answer": "Single-pole breakers provide 120V and take one panel slot. Double-pole breakers provide 240V and take two slots. For 240V loads like dryers, ranges, water heaters, and AC units, you need a double-pole breaker. Some 120V circuits use double-pole for MWBC (multi-wire branch circuits)."
+    }
+  ],
+  "relatedTools": [
+    "wire-size-calculator",
+    "voltage-drop-calculator",
+    "conduit-fill-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Standard Breaker Sizes & Wire Pairings",
+    "subtitle": "Minimum copper wire gauge and maximum continuous load per NEC.",
+    "columns": [
+      "Breaker Size",
+      "Min Wire (Cu)",
+      "Max Continuous",
+      "Typical Use"
+    ],
+    "rows": [
+      [
+        "15A",
+        "14 AWG",
+        "12A",
+        "Lighting, bedroom outlets"
+      ],
+      [
+        "20A",
+        "12 AWG",
+        "16A",
+        "Kitchen, bath, garage outlets"
+      ],
+      [
+        "30A",
+        "10 AWG",
+        "24A",
+        "Water heater, dryer (small)"
+      ],
+      [
+        "40A",
+        "8 AWG",
+        "32A",
+        "Range, cooktop"
+      ],
+      [
+        "50A",
+        "6 AWG",
+        "40A",
+        "Range, EV charger, sub-panel"
+      ],
+      [
+        "60A",
+        "6 AWG",
+        "48A",
+        "Sub-panel, large HVAC"
+      ],
+      [
+        "100A",
+        "3 AWG",
+        "80A",
+        "Sub-panel, service entrance"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This breaker sizing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This breaker sizing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "hay-bale-calculator",
+  "toolName": "Hay Bale Calculator",
+  "tagline": "Calculate how many hay bales you need for cattle, horses, goats, or sheep",
+  "title": "Hay Bale Calculator — Bales Needed by Herd Size & Feeding Period",
+  "metaDescription": "Calculate hay bales needed for cattle, horses, goats, or sheep. Enter herd size and feeding days to get bale counts and storage area.",
+  "keywords": "hay bale calculator, how many bales of hay, cattle hay calculator, horse hay needs, livestock feed calculator, round bale calculator",
+  "primaryColor": "#92400e",
+  "primaryDarkColor": "#78350f",
+  "domain": "example.com",
+  "ogTitle": "Hay Bale Calculator — Bales Needed for Your Herd",
+  "ogDescription": "Calculate how many small square, large square, or round bales of hay you need for cattle, horses, goats, or sheep.",
+  "twitterDescription": "Calculate hay bales needed for your herd based on animal type, herd size, and feeding period.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Hay Bale Calculator",
+    "description": "Calculate hay bale requirements for cattle, horses, goats, and sheep based on herd size and feeding period.",
+    "url": "https://example.com/hay-bale-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much hay does a cow eat per day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An average 1,200-lb cow eats about 25-30 lbs of hay per day, or roughly 2.5% of body weight. Lactating cows may eat up to 35 lbs. Over a 180-day winter feeding season, one cow consumes about 4,500-5,400 lbs of hay."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many bales of hay per cow per winter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For a 180-day feeding period: about 108 small square bales (50 lbs each), 5-6 large square bales (1,000 lbs), or 4-5 round bales (1,200 lbs). Add 10-15% for waste depending on feeder type."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much hay does a horse eat per day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An average 1,000-lb horse eats 15-20 lbs of hay per day, about 1.5-2% of body weight. Horses in heavy work may need more. Quality matters — horses need cleaner, dust-free hay than cattle."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does a round bale of hay weigh?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A standard 5×5 round bale weighs 1,000-1,200 lbs for grass hay. A 4×4 round bale weighs 500-700 lbs. Alfalfa round bales can weigh 15-20% more than grass hay bales of the same size."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much storage space do hay bales need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Small square bales need about 6 sq ft each stacked 5 high. Large square bales need about 24 sq ft each. Round bales need about 36 sq ft each and should not be stacked more than 2 high. Allow airflow between rows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I reduce hay waste?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use hay rings or feeders to reduce waste from 30-40% (ground feeding) to 5-15%. Store hay under cover on pallets. Feed smaller amounts more frequently. Round bale feeders with cone-style covers waste only 3-5%."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Hay Bale Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"herdSize\">Herd Size (number of animals)</label>\n    <input type=\"number\" id=\"herdSize\" value=\"10\" min=\"1\" max=\"10000\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"animalType\">Animal Type</label>\n    <select id=\"animalType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"cattle\" selected>Cattle (~30 lbs/day)</option>\n      <option value=\"horse\">Horse (~20 lbs/day)</option>\n      <option value=\"goat\">Goat (~5 lbs/day)</option>\n      <option value=\"sheep\">Sheep (~5 lbs/day)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"feedDays\">Feeding Period (days)</label>\n    <input type=\"number\" id=\"feedDays\" value=\"180\" min=\"1\" max=\"365\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wastePercent\">Hay Waste Factor (%)</label>\n    <input type=\"number\" id=\"wastePercent\" value=\"15\" min=\"0\" max=\"50\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Hay Needs</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Hay Needed</div>\n        <div class=\"result-value\" id=\"totalLbs\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Small Square Bales (50 lbs)</div>\n        <div class=\"result-value\" id=\"smallBales\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Large Square Bales (1,000 lbs)</div>\n        <div class=\"result-value\" id=\"largeBales\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Round Bales (1,200 lbs)</div>\n        <div class=\"result-value\" id=\"roundBales\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Storage Area (round bales)</div>\n        <div class=\"result-value\" id=\"storageArea\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Consumption</div>\n        <div class=\"result-value\" id=\"dailyTotal\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Daily Hay Consumption by Animal</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Animal</th><th>Lbs/Day</th><th>Lbs/Month</th><th>Small Bales/Month</th><th>Round Bales/Month</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Cattle (1,200 lbs)</td><td>25-30</td><td>750-900</td><td>15-18</td><td>0.6-0.8</td></tr>\n        <tr><td>Horse (1,000 lbs)</td><td>15-20</td><td>450-600</td><td>9-12</td><td>0.4-0.5</td></tr>\n        <tr><td>Goat (150 lbs)</td><td>4-5</td><td>120-150</td><td>2.4-3</td><td>0.1</td></tr>\n        <tr><td>Sheep (175 lbs)</td><td>4-5</td><td>120-150</td><td>2.4-3</td><td>0.1</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Hay Bale Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator estimates total hay needs based on animal type, herd size, and feeding period, then converts to bale counts.</p>\n  <div style=\"background:#fef3c7;border:2px solid #f59e0b;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Total Hay = Animals × Lbs/Day × Days × (1 + Waste%)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Cattle:</strong> ~30 lbs/day (2.5% of body weight)</li>\n    <li><strong>Horses:</strong> ~20 lbs/day (2% of body weight)</li>\n    <li><strong>Goats/Sheep:</strong> ~5 lbs/day (3% of body weight)</li>\n    <li><strong>Bale sizes:</strong> Small square 50 lbs, large square 1,000 lbs, round 1,200 lbs</li>\n    <li><strong>Waste factor:</strong> 5-15% with feeders, 25-40% ground feeding</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How much hay does a cow eat per day?</h3>\n    <p>An average 1,200-lb cow eats 25-30 lbs of hay per day, roughly 2.5% of body weight. Lactating cows or cattle in cold weather may eat up to 35 lbs. Over a 180-day winter, one cow needs about 5,400 lbs of hay.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many bales per cow per winter?</h3>\n    <p>For a 180-day feeding season, plan on about 108 small square bales (50 lbs each), 5-6 large square bales (1,000 lbs), or 4-5 round bales (1,200 lbs) per cow. Add your waste factor on top.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much hay does a horse eat per day?</h3>\n    <p>An average 1,000-lb horse eats 15-20 lbs of hay per day, about 1.5-2% of body weight. Use clean, dust-free hay for horses, as they are more sensitive to mold and dust than cattle.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much does a round bale weigh?</h3>\n    <p>A standard 5x5 round bale weighs 1,000-1,200 lbs for grass hay and up to 1,400 lbs for dense alfalfa. A smaller 4x4 round bale weighs 500-700 lbs. Weight varies with moisture and density.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much storage space do hay bales need?</h3>\n    <p>Round bales need about 36 sq ft each on the ground. Small squares need 6 sq ft stacked 5 high. Store under cover on pallets with airflow between rows to prevent mold and spoilage.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How do I reduce hay waste?</h3>\n    <p>Use hay rings or feeders to cut waste from 30-40% (ground feeding) to 5-15%. Cone-style round bale feeders limit waste to 3-5%. Feed smaller portions more frequently and keep hay dry and covered.</p>\n  </div>\n</div>",
+  "category": "trades-industrial",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This hay bale calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This hay bale calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "septic-tank-calculator",
+    "well-pump-pressure-calculator",
+    "grain-bin-calculator",
+    "irrigation-drip-calculator",
+    "cattle-fencing-calculator",
+    "diesel-tank-sizing-calculator",
+    "propane-tank-runtime-calculator",
+    "mobile-home-tiedown-calculator"
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "slug": "reloading-cost-calculator",
+  "toolName": "Reloading Cost Calculator",
+  "tagline": "Calculate your cost per round and savings vs. factory ammo",
+  "title": "Reloading Cost Calculator — Cost Per Round & Savings vs Factory Ammo",
+  "metaDescription": "Calculate your reloading cost per round from component prices. Compare to factory ammo and find your break-even point on equipment investment.",
+  "keywords": "reloading cost calculator, cost per round calculator, ammo reloading savings, handloading cost, reloading vs factory ammo, reloading break even",
+  "domain": "example.com",
+  "primaryColor": "#78350f",
+  "primaryDarkColor": "#5c2a0a",
+  "ogTitle": "Reloading Cost Calculator — Cost Per Round & Savings",
+  "ogDescription": "Calculate your reloading cost per round and compare savings vs. factory ammo prices.",
+  "twitterDescription": "Calculate reloading cost per round and savings vs factory ammo.",
+  "jsonLdDescription": "Calculate ammunition reloading cost per round from component prices and compare to factory ammo costs.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Reloading Cost Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"primerCost\">Primer Cost (per 1,000)</label>\n      <input type=\"number\" id=\"primerCost\" placeholder=\"e.g. 80\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"powderCost\">Powder Cost (per 1 lb)</label>\n      <input type=\"number\" id=\"powderCost\" placeholder=\"e.g. 40\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"powderCharge\">Powder Charge (grains per round)</label>\n      <input type=\"number\" id=\"powderCharge\" placeholder=\"e.g. 42\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"bulletCost\">Bullet Cost (per box)</label>\n      <input type=\"number\" id=\"bulletCost\" placeholder=\"e.g. 35\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"bulletsPerBox\">Bullets Per Box</label>\n      <input type=\"number\" id=\"bulletsPerBox\" placeholder=\"e.g. 100\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"brassCost\">Brass Cost (per case)</label>\n      <input type=\"number\" id=\"brassCost\" placeholder=\"e.g. 0.50\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"brassLife\">Brass Reloads Before Discard</label>\n      <input type=\"number\" id=\"brassLife\" value=\"5\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"factoryPrice\">Factory Ammo Price (per box of 20)</label>\n      <input type=\"number\" id=\"factoryPrice\" placeholder=\"e.g. 28\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"equipCost\">Equipment Investment (optional, for break-even)</label>\n      <input type=\"number\" id=\"equipCost\" placeholder=\"e.g. 500\" step=\"1\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Cost</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Per Round (reload)</div>\n          <div class=\"result-value\" id=\"costRound\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Per Round (factory)</div>\n          <div class=\"result-value\" id=\"factoryCPR\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Per Box of 20</div>\n          <div class=\"result-value\" id=\"costBox20\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Per Box of 50</div>\n          <div class=\"result-value\" id=\"costBox50\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Savings Per Round</div>\n          <div class=\"result-value\" id=\"savingsRound\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Break-Even Point</div>\n          <div class=\"result-value\" id=\"breakEven\">—</div>\n        </div>\n      </div>\n\n      <h3 style=\"margin-top:1.25rem;margin-bottom:0.75rem;\">Cost Breakdown Per Round</h3>\n      <div class=\"table-wrap\">\n        <table class=\"chart-table\">\n          <thead><tr><th>Component</th><th>Cost</th><th>% of Total</th></tr></thead>\n          <tbody id=\"breakdownBody\"></tbody>\n        </table>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator breaks down the cost of each handloaded round from its individual components: primer, powder, bullet, and brass. It then compares your reloading cost to factory ammunition prices.",
+    "rules": [
+      "<strong>Primer cost</strong> = price per 1,000 ÷ 1,000",
+      "<strong>Powder cost</strong> = (charge in grains ÷ 7,000) × price per pound",
+      "<strong>Bullet cost</strong> = box price ÷ bullets per box",
+      "<strong>Brass cost</strong> = price per case ÷ number of reloads before discard"
+    ],
+    "outro": "Total cost per round is the sum of all four components. The break-even calculation tells you how many rounds you need to reload before your equipment investment pays for itself through savings versus factory ammo."
+  },
+  "faq": [
+    {
+      "question": "Is reloading ammunition cheaper than buying factory ammo?",
+      "answer": "In most cases, yes. Reloading typically saves 30-60% per round compared to factory ammo, depending on the caliber and components used. The savings are most significant for larger or premium calibers like .300 Win Mag or 6.5 Creedmoor."
+    },
+    {
+      "question": "How many times can I reload brass?",
+      "answer": "Most rifle brass can be reloaded 5-10 times, and pistol brass can go 10-20+ times depending on the cartridge and pressure levels. Signs of worn brass include split necks, loose primer pockets, and head separation marks."
+    },
+    {
+      "question": "How many grains of powder are in a pound?",
+      "answer": "There are 7,000 grains in one pound of powder. So a typical .308 Win load using 42 grains per round yields about 166 rounds per pound of powder."
+    },
+    {
+      "question": "What equipment do I need to start reloading?",
+      "answer": "At minimum you need a reloading press, dies for your caliber, a powder scale, a powder measure, a case trimmer, and a reloading manual. A quality single-stage press setup typically costs $300-600. Progressive presses for higher volume cost $500-1,500."
+    },
+    {
+      "question": "How long does it take to break even on reloading equipment?",
+      "answer": "With a $500 equipment investment and savings of $0.50 per round, you'd break even after reloading 1,000 rounds. Most active shooters recoup their investment within the first year. High-volume shooters break even much faster."
+    },
+    {
+      "question": "Does this calculator include the cost of reloading time?",
+      "answer": "No, this calculator covers component costs only. An experienced reloader on a single-stage press produces about 50-100 rounds per hour. Progressive presses can produce 200-500+ rounds per hour. Whether your time factors in is a personal decision."
+    }
+  ],
+  "chart": {
+    "title": "Typical Reloading Cost vs Factory Ammo by Caliber",
+    "subtitle": "Approximate costs using mid-range components at current market prices.",
+    "columns": [
+      "Caliber",
+      "Reload Cost/Rd",
+      "Factory Cost/Rd",
+      "Savings/Rd",
+      "Savings %"
+    ],
+    "rows": [
+      [
+        ".223 Rem",
+        "$0.28",
+        "$0.55",
+        "$0.27",
+        "49%"
+      ],
+      [
+        ".308 Win",
+        "$0.45",
+        "$1.00",
+        "$0.55",
+        "55%"
+      ],
+      [
+        "6.5 Creedmoor",
+        "$0.52",
+        "$1.25",
+        "$0.73",
+        "58%"
+      ],
+      [
+        ".30-06",
+        "$0.48",
+        "$1.10",
+        "$0.62",
+        "56%"
+      ],
+      [
+        ".300 Win Mag",
+        "$0.65",
+        "$1.80",
+        "$1.15",
+        "64%"
+      ],
+      [
+        "9mm",
+        "$0.14",
+        "$0.30",
+        "$0.16",
+        "53%"
+      ],
+      [
+        ".45 ACP",
+        "$0.20",
+        "$0.45",
+        "$0.25",
+        "56%"
+      ]
+    ]
+  },
+  "category": "firearms",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This reloading cost calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This reloading cost calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "bullet-drop-calculator",
+    "hunting-license-calculator",
+    "deer-processing-calculator",
+    "draw-odds-calculator",
+    "effective-range-calculator",
+    "turkey-season-calculator",
+    "cost-per-mile-calculator"
+  ]
+}

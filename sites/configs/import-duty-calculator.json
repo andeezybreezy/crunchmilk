@@ -1,0 +1,138 @@
+{
+  "slug": "import-duty-calculator",
+  "toolName": "Import Duty & Tariff Calculator",
+  "tagline": "Estimate customs duties, tariff surcharges, and total landed cost for imported goods",
+  "title": "Import Duty & Tariff Calculator — Landed Cost Estimator",
+  "metaDescription": "Calculate import duties, tariff surcharges, and total landed cost. Covers 30+ product categories and current duty rates by country of origin.",
+  "keywords": "import duty calculator, tariff calculator, customs duty estimator, landed cost calculator, import tax calculator, tariff surcharge calculator",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Import Duty & Tariff Calculator — Landed Cost Estimator",
+  "ogDescription": "Estimate customs duties, tariff surcharges, and total landed cost for imported goods by category and country.",
+  "twitterDescription": "How much will import duties and tariffs add to your costs? Calculate landed cost for 30+ product categories. Free calculator.",
+  "jsonLdDescription": "Calculate import duties, tariff surcharges, and total landed cost for goods imported into the US. Covers 30+ product categories with rates by country of origin.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Import Duty & Tariff Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"productType\">Product Category</label>\n      <select id=\"productType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"electronics_consumer\">Consumer Electronics</option>\n        <option value=\"electronics_components\">Electronic Components</option>\n        <option value=\"clothing_cotton\">Clothing (Cotton/Synthetic)</option>\n        <option value=\"clothing_wool\">Clothing (Wool/Silk)</option>\n        <option value=\"footwear\">Footwear</option>\n        <option value=\"furniture\">Furniture</option>\n        <option value=\"auto_parts\">Auto Parts</option>\n        <option value=\"steel\">Steel Products</option>\n        <option value=\"aluminum\">Aluminum Products</option>\n        <option value=\"plastics\">Plastics & Rubber</option>\n        <option value=\"machinery\">Machinery & Equipment</option>\n        <option value=\"toys\">Toys & Games</option>\n        <option value=\"food_processed\">Processed Food</option>\n        <option value=\"beverages\">Beverages (Non-Alcohol)</option>\n        <option value=\"alcohol\">Alcoholic Beverages</option>\n        <option value=\"cosmetics\">Cosmetics & Personal Care</option>\n        <option value=\"pharmaceuticals\">Pharmaceuticals</option>\n        <option value=\"textiles_raw\">Raw Textiles/Fabrics</option>\n        <option value=\"ceramics\">Ceramics & Glassware</option>\n        <option value=\"tools\">Hand Tools</option>\n        <option value=\"batteries\">Batteries & Energy Storage</option>\n        <option value=\"solar_panels\">Solar Panels</option>\n        <option value=\"chemicals\">Chemicals</option>\n        <option value=\"paper\">Paper Products</option>\n        <option value=\"jewelry\">Jewelry</option>\n        <option value=\"sporting_goods\">Sporting Goods</option>\n        <option value=\"musical\">Musical Instruments</option>\n        <option value=\"medical_devices\">Medical Devices</option>\n        <option value=\"lumber\">Lumber & Wood</option>\n        <option value=\"agricultural\">Agricultural Products</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"countryOrigin\">Country of Origin</label>\n      <select id=\"countryOrigin\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"china\">China</option>\n        <option value=\"eu\">European Union</option>\n        <option value=\"japan\">Japan</option>\n        <option value=\"south_korea\">South Korea</option>\n        <option value=\"taiwan\">Taiwan</option>\n        <option value=\"vietnam\">Vietnam</option>\n        <option value=\"india\">India</option>\n        <option value=\"mexico\">Mexico</option>\n        <option value=\"canada\">Canada</option>\n        <option value=\"uk\">United Kingdom</option>\n        <option value=\"thailand\">Thailand</option>\n        <option value=\"indonesia\">Indonesia</option>\n        <option value=\"malaysia\">Malaysia</option>\n        <option value=\"bangladesh\">Bangladesh</option>\n        <option value=\"other\">Other</option>\n      </select>\n    </div>\n\n    <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n      <div class=\"input-group\">\n        <label for=\"declaredValue\">Declared Value ($)</label>\n        <input type=\"number\" id=\"declaredValue\" placeholder=\"5000\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div class=\"input-group\">\n        <label for=\"shippingCost\">Shipping Cost ($)</label>\n        <input type=\"number\" id=\"shippingCost\" placeholder=\"500\" value=\"0\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"quantity\">Quantity (units)</label>\n      <input type=\"number\" id=\"quantity\" placeholder=\"100\" value=\"1\" inputmode=\"decimal\" step=\"1\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Landed Cost</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Base Duty</div>\n          <div class=\"result-value\" id=\"rDuty\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Tariff Surcharge</div>\n          <div class=\"result-value\" id=\"rSurcharge\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Duties & Tariffs</div>\n          <div class=\"result-value\" id=\"rTotalDuty\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Landed Cost</div>\n          <div class=\"result-value\" id=\"rLanded\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Increase</div>\n          <div class=\"result-value\" id=\"rIncrease\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Per-Unit Landed</div>\n          <div class=\"result-value\" id=\"rPerUnit\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates US import duties and tariff surcharges based on product category, country of origin, and declared value. It calculates the total landed cost including shipping and all applicable duties.",
+    "rules": [
+      "Dutiable value = declared product value + shipping and insurance costs",
+      "Base duty = dutiable value × applicable HTS duty rate for product category",
+      "Tariff surcharges applied based on country of origin (e.g., Section 301 tariffs on Chinese goods)",
+      "Total landed cost = declared value + shipping + base duty + tariff surcharges + processing fees"
+    ],
+    "outro": "Duty rates shown are general estimates based on common HTS categories. Actual rates depend on the specific HTS code, which is determined by detailed product classification. For exact rates, consult the US International Trade Commission's Harmonized Tariff Schedule or a licensed customs broker."
+  },
+  "faq": [
+    {
+      "question": "How are US import duties calculated?",
+      "answer": "US import duties are based on the dutiable value (product cost + shipping + insurance) multiplied by the applicable duty rate from the Harmonized Tariff Schedule (HTS). Rates vary by product classification and can range from 0% to over 25%. Additional tariff surcharges may apply based on country of origin."
+    },
+    {
+      "question": "What are Section 301 tariffs on Chinese goods?",
+      "answer": "Section 301 tariffs are additional surcharges on goods imported from China, ranging from 7.5% to 25% on top of regular duty rates. They cover thousands of product categories and were implemented starting in 2018. Some exclusions exist but many products face the full surcharge."
+    },
+    {
+      "question": "Is there a duty-free threshold for imports?",
+      "answer": "Yes, the de minimis threshold for US imports is $800 per person per day. Shipments valued under $800 are generally duty-free. However, this does not apply to commercial shipments, goods subject to quotas, or certain restricted items."
+    },
+    {
+      "question": "Do I pay duty on the shipping cost too?",
+      "answer": "Yes. US Customs calculates duty on the 'dutiable value,' which includes the product cost, shipping/freight charges, and insurance. This is known as CIF (Cost, Insurance, Freight) valuation. The shipping cost is added to the declared value before the duty rate is applied."
+    },
+    {
+      "question": "What is the Merchandise Processing Fee?",
+      "answer": "The Merchandise Processing Fee (MPF) is 0.3464% of the dutiable value, with a minimum of $31.67 and maximum of $614.35 per entry. It applies to most formal entries (goods valued over $2,500). There is also a Harbor Maintenance Fee of 0.125% on ocean shipments."
+    },
+    {
+      "question": "Can I reduce import duties legally?",
+      "answer": "Yes. Options include: using Free Trade Agreement (FTA) preferences (USMCA for Mexico/Canada), applying for duty drawback on re-exported goods, using Foreign Trade Zones, properly classifying products under the most favorable HTS code, and structuring imports to use the de minimis threshold where applicable."
+    }
+  ],
+  "relatedTools": [
+    "sales-tax-calculator",
+    "currency-converter",
+    "tariff-cost-calculator",
+    "made-in-usa-premium-calculator",
+    "reshoring-cost-calculator",
+    "tariff-price-impact-calculator",
+    "cost-per-mile-calculator"
+  ],
+  "chart": {
+    "title": "Common Import Duty Rates by Product Category",
+    "subtitle": "Base US duty rates before any country-specific tariff surcharges. Actual HTS rates may vary.",
+    "columns": [
+      "Product Category",
+      "Base Duty Rate",
+      "China Surcharge",
+      "Total (China)",
+      "Total (Other)"
+    ],
+    "rows": [
+      [
+        "Consumer Electronics",
+        "0-3.9%",
+        "7.5-25%",
+        "7.5-28.9%",
+        "0-3.9%"
+      ],
+      [
+        "Clothing (Cotton)",
+        "12-20%",
+        "7.5%",
+        "19.5-27.5%",
+        "12-20%"
+      ],
+      [
+        "Footwear",
+        "8-20%",
+        "15%",
+        "23-35%",
+        "8-20%"
+      ],
+      [
+        "Auto Parts",
+        "2.5-4%",
+        "25%",
+        "27.5-29%",
+        "2.5-4%"
+      ],
+      [
+        "Steel Products",
+        "0-3%",
+        "25%",
+        "25-28%",
+        "0-3%"
+      ],
+      [
+        "Furniture",
+        "0-5%",
+        "25%",
+        "25-30%",
+        "0-5%"
+      ]
+    ]
+  },
+  "category": "tariffs",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This import duty & tariff calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This import duty & tariff calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

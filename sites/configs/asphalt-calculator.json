@@ -1,0 +1,137 @@
+{
+  "slug": "asphalt-calculator",
+  "toolName": "Asphalt Calculator",
+  "tagline": "Calculate asphalt tonnage and cost for any paving project",
+  "title": "Asphalt Calculator — How Much Asphalt Do I Need? (Tons & Cost)",
+  "metaDescription": "Calculate how many tons of asphalt you need for driveways, parking lots, and roads. Enter dimensions, get tonnage, cost estimates, and material.",
+  "keywords": "asphalt calculator, how much asphalt do I need, asphalt tonnage calculator, paving calculator, driveway asphalt calculator, asphalt cost calculator",
+  "domain": "example.com",
+  "primaryColor": "#374151",
+  "primaryDarkColor": "#1f2937",
+  "ogTitle": "Asphalt Calculator — How Much Asphalt Do I Need?",
+  "ogDescription": "Calculate asphalt tonnage and cost for driveways, parking lots, and roads. Enter dimensions, get instant results.",
+  "twitterDescription": "Calculate how many tons of asphalt you need for any paving project. Free calculator.",
+  "jsonLdDescription": "Calculate asphalt tonnage, volume, and cost estimates for driveways, parking lots, and roads.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Asphalt Calculator</h2>\n\n    <!-- Project Presets -->\n    <div class=\"presets\" style=\"margin-top:0;margin-bottom:20px\">\n      <h3>Quick Presets — Select a project type</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n\n    <!-- Area Input Mode -->\n    <div class=\"input-group\">\n      <label>Area Input Method</label>\n      <div class=\"unit-toggle\" role=\"group\" aria-label=\"Area input method\" id=\"areaToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"rect\" aria-pressed=\"true\">Length &times; Width</button>\n        <button type=\"button\" data-mode=\"sqft\" aria-pressed=\"false\">Square Footage</button>\n      </div>\n    </div>\n\n    <!-- Rectangle inputs -->\n    <div id=\"rectInputs\">\n      <div class=\"input-group\">\n        <label for=\"lengthFt\">Length (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"lengthFt\" placeholder=\"e.g. 20\" inputmode=\"decimal\" aria-label=\"Length in feet\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"widthFt\">Width (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"widthFt\" placeholder=\"e.g. 10\" inputmode=\"decimal\" aria-label=\"Width in feet\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <!-- Direct square footage -->\n    <div id=\"sqftInput\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"areaSqft\">Total Area (square feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"areaSqft\" placeholder=\"e.g. 200\" inputmode=\"decimal\" aria-label=\"Area in square feet\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <!-- Thickness -->\n    <div class=\"input-group\">\n      <label for=\"thickness\">Thickness</label>\n      <div class=\"input-row\">\n        <select id=\"thickness\" aria-label=\"Asphalt thickness\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"1\">1 inch — Overlay / patch</option>\n          <option value=\"1.5\">1.5 inches — Thin overlay</option>\n          <option value=\"2\" selected>2 inches — Residential driveway</option>\n          <option value=\"2.5\">2.5 inches — Heavy-use driveway</option>\n          <option value=\"3\">3 inches — Parking lot</option>\n          <option value=\"4\">4 inches — Commercial</option>\n          <option value=\"6\">6 inches — Road base</option>\n          <option value=\"custom\">Custom...</option>\n        </select>\n      </div>\n      <div id=\"customThicknessWrap\" style=\"display:none;margin-top:8px\">\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"customThickness\" placeholder=\"Enter thickness in inches\" inputmode=\"decimal\" aria-label=\"Custom thickness in inches\" step=\"any\">\n        </div>\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Driveways: 2-3\" &bull; Parking lots: 3-4\" &bull; Roads: 4-6\"</div>\n    </div>\n\n    <!-- Asphalt Type -->\n    <div class=\"input-group\">\n      <label for=\"asphaltType\">Asphalt Type</label>\n      <div class=\"input-row\">\n        <select id=\"asphaltType\" aria-label=\"Asphalt type\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"145\">Hot Mix Asphalt (HMA) — Standard (145 lbs/cu ft)</option>\n          <option value=\"143\">Warm Mix Asphalt (WMA) — (143 lbs/cu ft)</option>\n          <option value=\"140\">Cold Patch — (140 lbs/cu ft)</option>\n        </select>\n      </div>\n    </div>\n\n    <!-- Waste Factor -->\n    <div class=\"input-group\">\n      <label for=\"wasteFactor\">Waste / Overage Factor</label>\n      <div class=\"input-row\">\n        <select id=\"wasteFactor\" aria-label=\"Waste factor\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"0\">None (exact calculation)</option>\n          <option value=\"5\" selected>5% — Typical overage</option>\n          <option value=\"10\">10% — Extra safety margin</option>\n        </select>\n      </div>\n    </div>\n\n    <!-- Price Inputs -->\n    <div class=\"input-group\">\n      <label>Pricing (per ton)</label>\n      <div class=\"input-row\">\n        <div style=\"flex:1\">\n          <div style=\"font-size:0.8rem;color:var(--text-light);margin-bottom:4px\">Material only</div>\n          <input type=\"number\" id=\"priceMaterial\" value=\"85\" inputmode=\"decimal\" aria-label=\"Material cost per ton\" step=\"any\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n        </div>\n        <div style=\"flex:1\">\n          <div style=\"font-size:0.8rem;color:var(--text-light);margin-bottom:4px\">Installed</div>\n          <input type=\"number\" id=\"priceInstalled\" value=\"150\" inputmode=\"decimal\" aria-label=\"Installed cost per ton\" step=\"any\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n        </div>\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Material: $40-$80/ton &bull; Installed: $100-$200/ton</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Asphalt Needed</button>\n\n    <!-- Results -->\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Asphalt Needed</div>\n          <div class=\"result-value\" id=\"rTons\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">With Waste Factor</div>\n          <div class=\"result-value\" id=\"rTonsWaste\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Calculating asphalt tonnage is straightforward once you know your project dimensions. The key is converting your area and thickness into volume, then multiplying by the asphalt density to get weight.",
+    "rules": [
+      "Measure your area — length &times; width for rectangles, or estimate total square footage for irregular shapes",
+      "Choose the right thickness — 2&quot; for residential driveways, 3&quot; for parking lots, 4-6&quot; for roads",
+      "Always order 5-10% extra to account for compaction, waste, and uneven surfaces"
+    ],
+    "outro": "This calculator uses standard asphalt densities (140-145 lbs per cubic foot depending on mix type) and provides both material-only and fully-installed cost estimates. Actual costs vary by region, season, and project complexity. Get at least 3 quotes from local paving contractors."
+  },
+  "faq": [
+    {
+      "question": "How much does asphalt cost per ton?",
+      "answer": "Asphalt typically costs $40-$80 per ton for material only and $100-$200 per ton installed (including labor, equipment, and base prep). Prices vary by region, season, and project size. Hot mix asphalt (HMA) is the most common and generally the most cost-effective for large jobs."
+    },
+    {
+      "question": "How thick should a driveway be?",
+      "answer": "A residential driveway should be 2-3 inches of asphalt over a properly prepared gravel base (typically 6-8 inches of compacted aggregate). For heavy vehicles like RVs or trucks, go with 3 inches. The base preparation is just as important as the asphalt thickness for long-term durability."
+    },
+    {
+      "question": "How many square feet does a ton of asphalt cover?",
+      "answer": "At 2 inches thick, one ton of hot mix asphalt covers approximately 83 square feet. At 1 inch thick, it covers about 166 square feet. The exact coverage depends on the asphalt density and compaction rate. Use our calculator above for precise estimates based on your specific dimensions."
+    },
+    {
+      "question": "What's the difference between hot mix and cold patch?",
+      "answer": "Hot mix asphalt (HMA) is heated to 300-350°F and must be applied while hot. It creates the strongest, most durable surface and is standard for driveways, parking lots, and roads. Cold patch is pre-mixed asphalt that can be applied at any temperature — it's designed for small repairs and pothole filling, not full paving projects."
+    },
+    {
+      "question": "How long does asphalt last?",
+      "answer": "A properly installed asphalt driveway lasts 15-20 years with regular maintenance. Sealcoating every 2-3 years, filling cracks promptly, and ensuring proper drainage can extend its life to 25+ years. Parking lots and roads may need resurfacing sooner due to heavier traffic loads."
+    },
+    {
+      "question": "When is the best time to pave?",
+      "answer": "The best time for asphalt paving is late spring through early fall when temperatures are consistently above 50°F (10°C). Hot mix asphalt needs warm conditions to compact properly. Avoid paving in rain or when rain is expected within 24 hours. Many contractors offer better pricing in early spring or late fall during their slower season."
+    }
+  ],
+  "relatedTools": [
+    "epoxy-calculator",
+    "board-foot-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Asphalt Coverage Reference Chart",
+    "subtitle": "Tons needed by thickness, based on hot mix asphalt (HMA) at 145 lbs per cubic foot.",
+    "columns": [
+      "Thickness",
+      "Tons per 100 sq ft",
+      "Tons per 1,000 sq ft",
+      "Common Use"
+    ],
+    "rows": [
+      [
+        "1 inch",
+        "0.06",
+        "0.60",
+        "Overlay / patch"
+      ],
+      [
+        "1.5 inches",
+        "0.09",
+        "0.91",
+        "Thin overlay"
+      ],
+      [
+        "2 inches",
+        "0.12",
+        "1.21",
+        "Residential driveway"
+      ],
+      [
+        "2.5 inches",
+        "0.15",
+        "1.51",
+        "Heavy-use driveway"
+      ],
+      [
+        "3 inches",
+        "0.18",
+        "1.81",
+        "Parking lot"
+      ],
+      [
+        "4 inches",
+        "0.24",
+        "2.42",
+        "Commercial"
+      ],
+      [
+        "6 inches",
+        "0.36",
+        "3.63",
+        "Road base"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This asphalt calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This asphalt calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

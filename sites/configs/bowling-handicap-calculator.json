@@ -1,0 +1,113 @@
+{
+  "slug": "bowling-handicap-calculator",
+  "toolName": "Bowling Handicap Calculator",
+  "tagline": "Calculate your bowling handicap and adjusted scores",
+  "title": "Bowling Handicap Calculator — Handicap Score & Adjusted Average",
+  "metaDescription": "Calculate your bowling handicap instantly. Enter your average, basis score, and percentage to get your handicap and adjusted game scores.",
+  "keywords": "bowling handicap calculator, bowling handicap formula, USBC handicap, bowling average calculator, handicap bowling score",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "domain": "example.com",
+  "ogTitle": "Bowling Handicap Calculator — Handicap & Adjusted Scores",
+  "ogDescription": "Calculate your bowling handicap and adjusted scores using USBC league formulas with customizable basis and percentage.",
+  "twitterDescription": "Calculate your bowling handicap and adjusted game scores with customizable basis and percentage.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Bowling Handicap Calculator",
+    "description": "Calculate bowling handicap and adjusted scores with customizable basis score and percentage.",
+    "url": "https://example.com/bowling-handicap-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is bowling handicap calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Handicap = (Basis Score - Your Average) × Handicap Percentage. For example, with a 150 average, 200 basis, and 80%: (200 - 150) × 0.80 = 40 pins handicap. If your average exceeds the basis, handicap is 0."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a basis score in bowling?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The basis score is the reference average set by the league, typically 200 or 210. It represents a target score that most bowlers fall below. Higher basis scores produce higher handicaps for all bowlers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What percentage is used for bowling handicap?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most leagues use 80% or 90%. The percentage determines how much of the difference between your average and the basis score is added as handicap. Higher percentages create more equalized competition."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good bowling average?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Beginner: 80-120, Casual: 120-150, Intermediate: 150-180, Advanced: 180-210, Expert: 210-240, Professional: 220+. The average recreational bowler scores around 120-140."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can your bowling handicap be zero?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. If your average equals or exceeds the basis score, your handicap is zero. For example, a 210 average with a 200 basis score gives a handicap of 0 — you don't receive bonus pins."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many games are needed to establish an average?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most USBC leagues require a minimum of 3 games to establish an entering average. Your average updates each week as more games are added. Some leagues use a pre-set book average for the first few weeks."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Bowling Handicap Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"avgScore\">Your Bowling Average</label>\n    <input type=\"number\" id=\"avgScore\" value=\"150\" min=\"0\" max=\"300\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"basisScore\">Basis Score</label>\n    <select id=\"basisScore\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"200\" selected>200</option>\n      <option value=\"210\">210</option>\n      <option value=\"220\">220</option>\n      <option value=\"230\">230</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"handicapPct\">Handicap Percentage</label>\n    <select id=\"handicapPct\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"80\" selected>80%</option>\n      <option value=\"90\">90%</option>\n      <option value=\"100\">100%</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Handicap</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Your Handicap</div>\n        <div class=\"result-value\" id=\"handicap\" style=\"font-size:2.2rem\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Adjusted Score (per game)</div>\n        <div class=\"result-value\" id=\"adjustedScore\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n\n  <div style=\"margin-top:24px\">\n    <h3>Score Specific Games</h3>\n    <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:12px\">Enter actual game scores to see handicap-adjusted results:</p>\n    <div class=\"input-group\">\n      <label for=\"game1\">Game 1</label>\n      <input type=\"number\" id=\"game1\" placeholder=\"e.g. 165\" min=\"0\" max=\"300\" step=\"1\" inputmode=\"numeric\">\n    </div>\n    <div class=\"input-group\">\n      <label for=\"game2\">Game 2</label>\n      <input type=\"number\" id=\"game2\" placeholder=\"e.g. 142\" min=\"0\" max=\"300\" step=\"1\" inputmode=\"numeric\">\n    </div>\n    <div class=\"input-group\">\n      <label for=\"game3\">Game 3</label>\n      <input type=\"number\" id=\"game3\" placeholder=\"e.g. 178\" min=\"0\" max=\"300\" step=\"1\" inputmode=\"numeric\">\n    </div>\n    <div id=\"gameResults\" style=\"margin-top:12px\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Handicap Reference Table</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Handicap values for common averages (basis 200, 80% factor).</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Average</th><th>Handicap (80%)</th><th>Handicap (90%)</th><th>Adjusted Score</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>100</td><td>80</td><td>90</td><td>180 / 190</td></tr>\n        <tr><td>120</td><td>64</td><td>72</td><td>184 / 192</td></tr>\n        <tr><td>140</td><td>48</td><td>54</td><td>188 / 194</td></tr>\n        <tr><td>150</td><td>40</td><td>45</td><td>190 / 195</td></tr>\n        <tr><td>160</td><td>32</td><td>36</td><td>192 / 196</td></tr>\n        <tr><td>170</td><td>24</td><td>27</td><td>194 / 197</td></tr>\n        <tr><td>180</td><td>16</td><td>18</td><td>196 / 198</td></tr>\n        <tr><td>190</td><td>8</td><td>9</td><td>198 / 199</td></tr>\n        <tr><td>200+</td><td>0</td><td>0</td><td>200+</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How Bowling Handicap Works</h2>\n  <p style=\"margin-bottom:12px\">Bowling handicap levels the playing field by giving lower-average bowlers bonus pins based on the gap between their average and a basis score.</p>\n  <div style=\"background:#f3e8ff;border:2px solid #d8b4fe;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Handicap = (Basis Score - Average) × Percentage</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Basis score</strong> is set by the league (typically 200 or 210)</li>\n    <li><strong>Percentage</strong> is usually 80% or 90%</li>\n    <li>If your average ≥ basis score, handicap = 0</li>\n    <li><strong>Adjusted score</strong> = actual game score + handicap</li>\n    <li>Handicap is recalculated as your average changes throughout the season</li>\n  </ul>\n  <p><strong>Example:</strong> Average of 150, basis of 200, 80%: (200 - 150) × 0.80 = 40 pin handicap. A game of 165 becomes 205 adjusted.</p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How is bowling handicap calculated?</h3>\n    <p>Handicap = (Basis Score - Your Average) × Percentage. With a 150 average, 200 basis, and 80%: (200 - 150) × 0.80 = 40 pins. This is added to each game score.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is a basis score in bowling?</h3>\n    <p>The basis score is a league-set reference number, typically 200 or 210. It represents the ceiling for handicap calculation. Bowlers with averages at or above the basis receive zero handicap.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What percentage is used for bowling handicap?</h3>\n    <p>Most leagues use 80% or 90%. An 80% factor gives lower-average bowlers 80% of the difference between their average and the basis. Higher percentages equalize competition more.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is a good bowling average?</h3>\n    <p>Recreational: 120-140, League beginner: 140-160, Intermediate: 160-180, Advanced: 180-210, Expert/Pro: 210+. The average league bowler falls around 150-170.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Can your bowling handicap be zero?</h3>\n    <p>Yes. If your average meets or exceeds the basis score, your handicap is zero. You bowl scratch (without bonus pins) in handicap leagues but still compete on adjusted totals.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many games are needed to establish an average?</h3>\n    <p>USBC leagues typically require 3 games minimum. Your average is recalculated weekly as more games are bowled. Some leagues use a book average (last season's final average) to start.</p>\n  </div>\n</div>",
+  "category": "sports",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This bowling handicap calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This bowling handicap calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "golf-handicap-calculator",
+    "gpa-calculator",
+    "running-pace-calculator"
+  ]
+}

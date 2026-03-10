@@ -1,0 +1,127 @@
+{
+  "slug": "fish-tank-stocking-calculator",
+  "toolName": "Fish Tank Stocking Calculator",
+  "tagline": "Calculate aquarium stocking levels using the inch-per-gallon rule",
+  "title": "Fish Tank Stocking Calculator — Aquarium Stocking Level",
+  "metaDescription": "Calculate fish tank stocking levels based on tank size and fish species. Uses the inch-per-gallon rule with adjustments for fish type.",
+  "keywords": "fish tank stocking calculator, aquarium stocking level, inch per gallon rule, how many fish in my tank, aquarium fish calculator",
+  "domain": "example.com",
+  "primaryColor": "#0284c7",
+  "primaryDarkColor": "#0369a1",
+  "ogTitle": "Fish Tank Stocking Calculator — How Many Fish?",
+  "ogDescription": "Calculate aquarium stocking levels based on tank size and fish species. See stocking percentage and capacity remaining.",
+  "twitterDescription": "Calculate how many fish your aquarium can hold based on tank size and fish species.",
+  "jsonLdDescription": "Calculate aquarium stocking levels based on tank gallons and fish sizes using the inch-per-gallon rule with species-specific adjustments.",
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Fish Tank Stocking Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"tankGallons\">Tank Size (gallons)</label>\n    <input type=\"number\" id=\"tankGallons\" value=\"29\" min=\"1\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"filterType\">Filtration Level</label>\n    <select id=\"filterType\">\n      <option value=\"0.8\">Basic (sponge/internal)</option>\n      <option value=\"1.0\" selected>Standard (HOB filter)</option>\n      <option value=\"1.2\">Heavy (canister/sump)</option>\n    </select>\n  </div>\n\n  <h3 style=\"margin-bottom:8px;color:var(--primary)\">Add Fish</h3>\n  <div id=\"fishList\"></div>\n  <div class=\"input-row\">\n    <div class=\"input-group\">\n      <label for=\"fishSpecies\">Fish Type</label>\n      <select id=\"fishSpecies\">\n        <option value=\"1|0.5\">Neon Tetra (1\")</option>\n        <option value=\"2|0.8\">Guppy (2\")</option>\n        <option value=\"2.5|1\">Platy / Molly (2.5\")</option>\n        <option value=\"2|1\">Corydoras (2\")</option>\n        <option value=\"3|1.2\">Dwarf Gourami (3\")</option>\n        <option value=\"3|1.5\">Angelfish (3\" body)</option>\n        <option value=\"6|2\">Oscar (6\" juv.)</option>\n        <option value=\"1.5|0.8\">Cherry Barb (1.5\")</option>\n        <option value=\"5|1.5\" selected>Goldfish (5\")</option>\n        <option value=\"4|1.5\">Betta (solo) (4\")</option>\n      </select>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"fishCount\">Count</label>\n      <input type=\"number\" id=\"fishCount\" value=\"3\" min=\"1\" step=\"1\" inputmode=\"numeric\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"addFishBtn\" style=\"margin-bottom:12px;background:#059669\">+ Add Fish</button>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Stocking</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Stocking Level</div>\n        <div class=\"result-value\" id=\"stockLevel\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Fish Inches</div>\n        <div class=\"result-value\" id=\"totalInches\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Max Inches (adjusted)</div>\n        <div class=\"result-value\" id=\"maxInches\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Capacity Remaining</div>\n        <div class=\"result-value\" id=\"remaining\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Bioload Factor</div>\n        <div class=\"result-value\" id=\"bioload\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Fish Count</div>\n        <div class=\"result-value\" id=\"fishTotal\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "howItWorks": {
+    "intro": "The calculator uses the classic inch-per-gallon rule as a starting point, then adjusts for fish bioload (waste production) and filtration capacity.",
+    "rules": [
+      "Base rule: 1 inch of fish per gallon of water",
+      "Filter adjustment: basic (0.8×), standard (1.0×), heavy (1.2×) multiplies effective capacity",
+      "Bioload factor accounts for messy fish (goldfish, oscars) needing more water per inch",
+      "Stocking percentage: green (0-75%), yellow (75-100%), red (over 100%)",
+      "This rule works best for small, slim-bodied community fish under 3 inches"
+    ],
+    "outro": "The inch-per-gallon rule is a rough guideline. Large-bodied, messy fish like goldfish and oscars need much more space. Always research specific species requirements and monitor water parameters with a test kit."
+  },
+  "faq": [
+    {
+      "question": "Is the 1 inch per gallon rule accurate?",
+      "answer": "It is a reasonable starting point for small community fish (tetras, guppies, rasboras). It breaks down for large-bodied fish, messy fish, and territorial species. A 10-inch oscar does not belong in a 10-gallon tank."
+    },
+    {
+      "question": "How do I know if my tank is overstocked?",
+      "answer": "Test water weekly. Rising ammonia or nitrite, or nitrate above 40 ppm before water changes, suggests overstocking. Other signs: fish gasping at the surface, aggression, or needing water changes more than once a week."
+    },
+    {
+      "question": "Do plants help with stocking levels?",
+      "answer": "Yes. Live plants absorb ammonia and nitrate, effectively increasing your tank's capacity by 10-20%. A heavily planted tank can handle a slightly higher bioload than a bare tank with the same filtration."
+    },
+    {
+      "question": "What is bioload?",
+      "answer": "Bioload is the amount of waste a fish produces. A 6-inch goldfish produces far more waste than six 1-inch neon tetras, despite the same total inches. Messy eaters, large-bodied fish, and bottom feeders tend to have higher bioload."
+    }
+  ],
+  "relatedTools": [
+    "aquarium-volume-calculator",
+    "dog-food-calculator",
+    "pool-chemical-calculator"
+  ],
+  "chart": {
+    "title": "Suggested Fish Counts by Tank Size",
+    "subtitle": "Approximate counts for small community fish with standard filtration",
+    "columns": [
+      "Tank Size",
+      "Neon Tetras (1\")",
+      "Guppies (2\")",
+      "Corydoras (2\")",
+      "Platys (2.5\")"
+    ],
+    "rows": [
+      [
+        "10 gallon",
+        "8-10",
+        "4-5",
+        "4-5",
+        "3-4"
+      ],
+      [
+        "20 gallon",
+        "15-18",
+        "8-10",
+        "8-10",
+        "6-8"
+      ],
+      [
+        "29 gallon",
+        "20-25",
+        "12-14",
+        "12-14",
+        "10-11"
+      ],
+      [
+        "40 gallon",
+        "30-35",
+        "18-20",
+        "15-18",
+        "14-16"
+      ],
+      [
+        "55 gallon",
+        "40-50",
+        "25-27",
+        "20-25",
+        "18-22"
+      ],
+      [
+        "75 gallon",
+        "55-70",
+        "35-37",
+        "30-35",
+        "25-30"
+      ]
+    ]
+  },
+  "category": "pet",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This fish tank stocking calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This fish tank stocking calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

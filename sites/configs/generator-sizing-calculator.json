@@ -1,0 +1,139 @@
+{
+  "slug": "generator-sizing-calculator",
+  "toolName": "Generator Sizing Calculator",
+  "tagline": "Calculate backup generator wattage based on your appliances and electrical loads",
+  "title": "Generator Sizing Calculator — Wattage & Load Estimator",
+  "metaDescription": "Calculate what size generator you need. Select appliances and loads to determine running watts, starting watts, and recommended generator size.",
+  "keywords": "generator sizing calculator, what size generator do I need, generator wattage calculator, backup generator calculator, generator load calculator",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Generator Sizing Calculator — Wattage & Load Estimator",
+  "ogDescription": "Calculate the right generator size for your home or jobsite. Select appliances to get running watts, starting watts, and generator recommendations.",
+  "twitterDescription": "Free generator sizing calculator. Select your appliances and loads to find out exactly what size backup generator you need.",
+  "jsonLdDescription": "Calculate backup generator wattage requirements by selecting household appliances and electrical loads to determine running watts, starting watts, and recommended generator size.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Generator Sizing Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Select the appliances you need to power during an outage.</p>\n\n    <div class=\"input-group\">\n      <label style=\"font-weight:700;margin-bottom:8px;display:block\">Essential Loads</label>\n      <div style=\"display:flex;flex-direction:column;gap:6px\" id=\"essentialLoads\">\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"700\" data-start=\"2200\" checked> Refrigerator (700W / 2,200W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"300\" data-start=\"300\" checked> Freezer (300W / 300W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"500\" data-start=\"1500\"> Sump Pump 1/3 HP (500W / 1,500W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"800\" data-start=\"2400\"> Sump Pump 1/2 HP (800W / 2,400W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"500\" data-start=\"500\" checked> Furnace Blower (500W / 500W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"300\" data-start=\"300\" checked> Lights — 5 LED bulbs (300W / 300W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"150\" data-start=\"150\" checked> Phone/Device Chargers (150W)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"300\" data-start=\"300\"> TV + Internet Router (300W)</label>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label style=\"font-weight:700;margin-bottom:8px;display:block\">Large Loads (optional)</label>\n      <div style=\"display:flex;flex-direction:column;gap:6px\" id=\"largeLoads\">\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"2000\" data-start=\"6000\"> Well Pump 1 HP (2,000W / 6,000W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"5000\" data-start=\"5000\"> Electric Water Heater (5,000W)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"1800\" data-start=\"1800\"> Space Heater (1,800W)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"1500\" data-start=\"2200\"> Window AC 10,000 BTU (1,500W / 2,200W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"3800\" data-start=\"5700\"> Central AC 3-ton (3,800W / 5,700W start)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"5000\" data-start=\"5000\"> Electric Range/Oven (5,000W)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"5400\" data-start=\"5400\"> Electric Clothes Dryer (5,400W)</label>\n        <label style=\"display:flex;align-items:center;gap:8px;cursor:pointer\"><input type=\"checkbox\" data-run=\"1200\" data-start=\"1200\"> Microwave (1,200W)</label>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"customWatts\">Additional Custom Load (watts)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"customWatts\" placeholder=\"e.g. 500\" value=\"0\" step=\"100\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Generator Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Running Watts</div>\n          <div class=\"result-value\" id=\"rRunning\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Starting Watts</div>\n          <div class=\"result-value\" id=\"rStarting\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Size</div>\n          <div class=\"result-value\" id=\"rSize\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Generator Type</div>\n          <div class=\"result-value\" id=\"rType\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Items Selected</div>\n          <div class=\"result-value\" id=\"rItems\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Safety Margin</div>\n          <div class=\"result-value\" id=\"rMargin\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator adds up the running watts of all selected appliances, finds the highest starting watt surge, then recommends a generator size with a 20% safety margin.",
+    "rules": [
+      "Running watts = sum of all selected appliance running wattages",
+      "Starting watts = running watts + largest single starting surge (not all surge simultaneously)",
+      "Recommended size = starting watts x 1.20 (20% safety margin)",
+      "Motor-driven loads (pumps, compressors, refrigerators) draw 2-3x running watts at startup",
+      "Resistive loads (heaters, lights, toasters) have equal running and starting watts",
+      "Standard generator sizes: 3,000 / 5,000 / 7,500 / 10,000 / 12,000 / 17,500 / 22,000 watts"
+    ],
+    "outro": "Never exceed 80% of continuous generator capacity for extended use. Motor loads should be started one at a time. Consider a whole-house standby generator (automatic transfer switch) for loads over 10,000 running watts."
+  },
+  "faq": [
+    {
+      "question": "What size generator do I need for my house?",
+      "answer": "For essential circuits only (fridge, freezer, furnace, lights, outlets): 3,000-5,000W portable. For essentials + well pump + sump pump: 7,500-10,000W. For whole-house including AC: 15,000-22,000W standby. Most homes need 5,000-7,500W for comfortable backup power."
+    },
+    {
+      "question": "What is the difference between running and starting watts?",
+      "answer": "Running watts is the continuous power needed to keep an appliance operating. Starting watts (surge watts) is the extra power needed for the first few seconds when a motor starts up — typically 2-3x running watts. Your generator must handle the starting surge of the largest motor."
+    },
+    {
+      "question": "Can I run my AC on a generator?",
+      "answer": "A window AC (10,000 BTU) needs about 1,500 running watts and 2,200 starting watts — a 3,500W+ generator handles this. A central AC (3-ton) needs 3,800 running watts and 5,700 starting — requiring a 7,500W+ generator minimum, often with nothing else running at startup."
+    },
+    {
+      "question": "How much fuel does a generator use?",
+      "answer": "At half load: a 5,000W portable uses about 0.5 gal/hr of gasoline, a 10,000W uses about 0.8 gal/hr. Natural gas standby generators use 150-300 cu ft/hr. Propane generators use 2-3 gal/hr. Running time on a full tank: 8-12 hours typical for portables."
+    },
+    {
+      "question": "Do I need a transfer switch?",
+      "answer": "Yes, for safety and code compliance. A transfer switch prevents backfeeding power into utility lines (which can electrocute lineworkers). Manual transfer switches cost $200-$500 installed. Automatic transfer switches (for standby generators) cost $500-$1,500 installed."
+    },
+    {
+      "question": "Portable vs standby generator?",
+      "answer": "Portable (3,000-12,000W): $500-$2,500, manual start, gasoline, 8-12 hr runtime, requires manual setup during outage. Standby (7,000-22,000W): $3,000-$15,000 installed, auto-start within seconds, natural gas or propane, unlimited runtime, permanent installation."
+    }
+  ],
+  "relatedTools": [
+    "concrete-calculator",
+    "lumber-calculator",
+    "drywall-calculator",
+    "roofing-calculator",
+    "deck-board-calculator",
+    "fence-calculator"
+  ],
+  "chart": {
+    "title": "Common Generator Sizes and Capabilities",
+    "subtitle": "What each generator size can typically power",
+    "columns": [
+      "Generator Size",
+      "Running Watts",
+      "Type",
+      "Can Power",
+      "Approx. Cost"
+    ],
+    "rows": [
+      [
+        "3,000W",
+        "2,400W",
+        "Portable",
+        "Fridge + lights + chargers",
+        "$400-$800"
+      ],
+      [
+        "5,000W",
+        "4,000W",
+        "Portable",
+        "Essentials + furnace",
+        "$600-$1,200"
+      ],
+      [
+        "7,500W",
+        "6,000W",
+        "Portable",
+        "Essentials + well pump or AC",
+        "$1,000-$2,000"
+      ],
+      [
+        "10,000W",
+        "8,000W",
+        "Portable",
+        "Most circuits except AC + dryer",
+        "$1,500-$3,000"
+      ],
+      [
+        "14,000W",
+        "12,000W",
+        "Standby",
+        "Whole house minus central AC",
+        "$3,500-$6,000"
+      ],
+      [
+        "22,000W",
+        "18,000W",
+        "Standby",
+        "Entire house including AC",
+        "$5,000-$15,000"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This generator sizing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This generator sizing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

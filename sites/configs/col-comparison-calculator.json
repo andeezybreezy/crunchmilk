@@ -1,0 +1,190 @@
+{
+  "slug": "col-comparison-calculator",
+  "toolName": "Cost of Living Comparison Calculator",
+  "tagline": "Compare cost of living between cities using housing, food, transport, healthcare, and utility indices",
+  "title": "Cost of Living Comparison Calculator — City-by-City Index Breakdown",
+  "metaDescription": "Compare cost of living between any two cities. Breakdown by housing, food, transportation, healthcare, and utilities with salary equivalent.",
+  "keywords": "cost of living comparison calculator, city cost comparison, COL calculator, cost of living index, salary equivalent calculator, compare cities cost",
+  "domain": "example.com",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "ogTitle": "Cost of Living Comparison — Compare Cities Side by Side",
+  "ogDescription": "Compare cost of living between cities with detailed breakdowns for housing, food, transport, healthcare, and utilities.",
+  "twitterDescription": "Compare cost of living between any two cities. See how your salary translates with detailed category breakdowns.",
+  "jsonLdDescription": "Compare cost of living between cities using composite indices for housing, food, transportation, healthcare, and utilities. Calculate salary equivalents needed to maintain your standard of living.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Cost of Living Comparison</h2>\n\n    <div class=\"input-group\">\n      <label for=\"currentCity\">Current City</label>\n      <select id=\"currentCity\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"nyc\">New York City, NY</option>\n        <option value=\"sf\">San Francisco, CA</option>\n        <option value=\"la\">Los Angeles, CA</option>\n        <option value=\"chi\" selected>Chicago, IL</option>\n        <option value=\"hou\">Houston, TX</option>\n        <option value=\"phx\">Phoenix, AZ</option>\n        <option value=\"dal\">Dallas, TX</option>\n        <option value=\"atl\">Atlanta, GA</option>\n        <option value=\"mia\">Miami, FL</option>\n        <option value=\"den\">Denver, CO</option>\n        <option value=\"sea\">Seattle, WA</option>\n        <option value=\"bos\">Boston, MA</option>\n        <option value=\"nas\">Nashville, TN</option>\n        <option value=\"aus\">Austin, TX</option>\n        <option value=\"ral\">Raleigh, NC</option>\n        <option value=\"min\">Minneapolis, MN</option>\n        <option value=\"det\">Detroit, MI</option>\n        <option value=\"slc\">Salt Lake City, UT</option>\n        <option value=\"por\">Portland, OR</option>\n        <option value=\"nat\">National Average</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"targetCity\">Target City</label>\n      <select id=\"targetCity\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"nyc\">New York City, NY</option>\n        <option value=\"sf\">San Francisco, CA</option>\n        <option value=\"la\">Los Angeles, CA</option>\n        <option value=\"chi\">Chicago, IL</option>\n        <option value=\"hou\">Houston, TX</option>\n        <option value=\"phx\">Phoenix, AZ</option>\n        <option value=\"dal\">Dallas, TX</option>\n        <option value=\"atl\" selected>Atlanta, GA</option>\n        <option value=\"mia\">Miami, FL</option>\n        <option value=\"den\">Denver, CO</option>\n        <option value=\"sea\">Seattle, WA</option>\n        <option value=\"bos\">Boston, MA</option>\n        <option value=\"nas\">Nashville, TN</option>\n        <option value=\"aus\">Austin, TX</option>\n        <option value=\"ral\">Raleigh, NC</option>\n        <option value=\"min\">Minneapolis, MN</option>\n        <option value=\"det\">Detroit, MI</option>\n        <option value=\"slc\">Salt Lake City, UT</option>\n        <option value=\"por\">Portland, OR</option>\n        <option value=\"nat\">National Average</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"currentSalary\">Current Annual Salary ($)</label>\n      <input type=\"number\" id=\"currentSalary\" value=\"85000\" min=\"0\" step=\"1000\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Compare Cost of Living</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Overall COL Difference</div>\n          <div class=\"result-value\" id=\"rOverall\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Equivalent Salary Needed</div>\n          <div class=\"result-value\" id=\"rSalary\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Housing Difference</div>\n          <div class=\"result-value\" id=\"rHousing\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Food & Groceries</div>\n          <div class=\"result-value\" id=\"rFood\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Transportation</div>\n          <div class=\"result-value\" id=\"rTransport\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Healthcare</div>\n          <div class=\"result-value\" id=\"rHealth\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Utilities</div>\n          <div class=\"result-value\" id=\"rUtilities\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Annual Difference</div>\n          <div class=\"result-value\" id=\"rAnnualDiff\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator compares cost of living between cities using composite indices where 100 = national average. Each category is weighted to reflect typical household spending patterns.",
+    "rules": [
+      "Housing (35% weight): Includes rent, home prices, property taxes, and homeowner's insurance",
+      "Food & Groceries (15% weight): Grocery prices, dining out, and food delivery costs",
+      "Transportation (15% weight): Gas, car insurance, public transit, and vehicle maintenance",
+      "Healthcare (10% weight): Doctor visits, insurance premiums, prescription costs",
+      "Utilities (10% weight): Electricity, gas, water, internet, and phone services",
+      "Salary equivalent = current salary × (target city index / current city index)"
+    ],
+    "outro": "Indices are based on aggregated data from BLS Consumer Expenditure Survey, Census Bureau, and cost-of-living databases. Individual spending patterns may differ significantly from averages. Tax differences between states can substantially affect take-home pay."
+  },
+  "faq": [
+    {
+      "question": "How is cost of living index calculated?",
+      "answer": "Cost of living indices compare prices in a specific city to a national baseline of 100. A city with an index of 120 is 20% more expensive than average; 80 means 20% cheaper. Housing is typically the largest variable, sometimes differing by 200-300% between cities."
+    },
+    {
+      "question": "What has the biggest impact on cost of living?",
+      "answer": "Housing costs are by far the biggest factor, making up 30-40% of most household budgets. A move from San Francisco (housing index ~230) to Houston (housing index ~78) can reduce total living costs by 40%+ even if other categories are similar."
+    },
+    {
+      "question": "Should I take a pay cut to move to a cheaper city?",
+      "answer": "Use the salary equivalent to decide. If your current $100K in San Francisco equals $60K in Atlanta, accepting $75K in Atlanta actually gives you more purchasing power. Factor in state income tax differences too — Texas, Florida, and Tennessee have no state income tax."
+    },
+    {
+      "question": "Which US cities have the lowest cost of living?",
+      "answer": "The lowest COL major metros include Memphis, Oklahoma City, Louisville, Birmingham, and San Antonio, typically with overall indices of 85-92. Small and mid-size cities in the Midwest and South are generally the most affordable, with housing 40-60% below the national average."
+    },
+    {
+      "question": "Does cost of living include taxes?",
+      "answer": "This calculator focuses on spending costs. State and local taxes can significantly affect your bottom line. States without income tax (TX, FL, TN, NV, WA) offer 3-10% more take-home pay. However, some compensate with higher property or sales taxes."
+    }
+  ],
+  "relatedTools": [
+    "remote-salary-calculator",
+    "retirement-location-calculator",
+    "interstate-migration-calculator",
+    "remote-work-tax-calculator",
+    "digital-nomad-visa-calculator",
+    "budget-calculator"
+  ],
+  "chart": {
+    "title": "Cost of Living Index by Major City",
+    "subtitle": "National average = 100. Higher = more expensive.",
+    "columns": [
+      "City",
+      "Overall",
+      "Housing",
+      "Food",
+      "Transport",
+      "Healthcare"
+    ],
+    "rows": [
+      [
+        "New York City",
+        "187",
+        "282",
+        "115",
+        "130",
+        "110"
+      ],
+      [
+        "San Francisco",
+        "179",
+        "267",
+        "112",
+        "128",
+        "115"
+      ],
+      [
+        "Boston",
+        "152",
+        "210",
+        "108",
+        "112",
+        "118"
+      ],
+      [
+        "Seattle",
+        "149",
+        "205",
+        "110",
+        "120",
+        "108"
+      ],
+      [
+        "Los Angeles",
+        "146",
+        "208",
+        "106",
+        "125",
+        "105"
+      ],
+      [
+        "Denver",
+        "128",
+        "155",
+        "103",
+        "105",
+        "104"
+      ],
+      [
+        "Miami",
+        "123",
+        "160",
+        "105",
+        "108",
+        "102"
+      ],
+      [
+        "Austin",
+        "111",
+        "125",
+        "98",
+        "100",
+        "97"
+      ],
+      [
+        "Chicago",
+        "107",
+        "115",
+        "104",
+        "110",
+        "102"
+      ],
+      [
+        "Atlanta",
+        "102",
+        "98",
+        "100",
+        "105",
+        "103"
+      ],
+      [
+        "Dallas",
+        "97",
+        "88",
+        "96",
+        "98",
+        "100"
+      ],
+      [
+        "Houston",
+        "94",
+        "78",
+        "95",
+        "100",
+        "96"
+      ]
+    ]
+  },
+  "category": "demographics",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This cost of living comparison calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This cost of living comparison calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "slug": "running-pace-calculator",
+  "toolName": "Running Pace Calculator",
+  "tagline": "Calculate pace, time, or distance for any run",
+  "title": "Running Pace Calculator — Pace, Time & Distance for Runners",
+  "metaDescription": "Calculate running pace, finish time, or distance. Supports 5K, 10K, half marathon, marathon, and custom distances with split tables.",
+  "keywords": "running pace calculator, pace calculator, marathon pace, 5K pace, running time calculator, split calculator, race pace",
+  "domain": "example.com",
+  "primaryColor": "#2563eb",
+  "primaryDarkColor": "#1d4ed8",
+  "ogTitle": "Running Pace Calculator — Pace, Time & Distance",
+  "ogDescription": "Calculate your running pace, finish time, or distance. Get per-mile and per-km splits for any race distance.",
+  "twitterDescription": "Calculate running pace, time, or distance for any run.",
+  "jsonLdDescription": "Calculate running pace, finish time, or distance with splits for 5K, 10K, half marathon, marathon, and custom distances.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Running Pace Calculator</h2>\n\n    <div class=\"input-group\">\n      <label>Calculate</label>\n      <div class=\"unit-toggle\" role=\"group\" aria-label=\"Calculation mode\">\n        <button type=\"button\" class=\"active\" data-mode=\"pace\" aria-pressed=\"true\">Pace</button>\n        <button type=\"button\" data-mode=\"time\" aria-pressed=\"false\">Time</button>\n        <button type=\"button\" data-mode=\"distance\" aria-pressed=\"false\">Distance</button>\n      </div>\n    </div>\n\n    <div id=\"distanceGroup\">\n      <div class=\"input-group\">\n        <label for=\"distPreset\">Distance</label>\n        <div class=\"input-row\">\n          <select id=\"distPreset\">\n            <option value=\"1\">1 Mile</option>\n            <option value=\"3.10686\">5K</option>\n            <option value=\"6.21371\" selected>10K</option>\n            <option value=\"13.1094\">Half Marathon</option>\n            <option value=\"26.2188\">Marathon</option>\n            <option value=\"custom\">Custom</option>\n          </select>\n        </div>\n      </div>\n      <div class=\"input-group\" id=\"customDistGroup\" style=\"display:none\">\n        <label for=\"customDist\">Custom Distance (miles)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"customDist\" placeholder=\"e.g. 4\" step=\"0.01\" inputmode=\"decimal\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"timeGroup\">\n      <div class=\"input-group\">\n        <label>Finish Time</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"timeHrs\" placeholder=\"hrs\" min=\"0\" inputmode=\"numeric\" style=\"width:30%\">\n          <input type=\"number\" id=\"timeMin\" placeholder=\"min\" min=\"0\" max=\"59\" inputmode=\"numeric\" style=\"width:30%\">\n          <input type=\"number\" id=\"timeSec\" placeholder=\"sec\" min=\"0\" max=\"59\" inputmode=\"numeric\" style=\"width:30%\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"paceGroup\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label>Pace (per mile)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"paceMin\" placeholder=\"min\" min=\"0\" inputmode=\"numeric\" style=\"width:45%\">\n          <input type=\"number\" id=\"paceSec\" placeholder=\"sec\" min=\"0\" max=\"59\" inputmode=\"numeric\" style=\"width:45%\">\n        </div>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" style=\"display:none\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Pace (per mile)</div>\n          <div class=\"result-value\" id=\"resPaceMi\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Pace (per km)</div>\n          <div class=\"result-value\" id=\"resPaceKm\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Finish Time</div>\n          <div class=\"result-value\" id=\"resTime\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Speed</div>\n          <div class=\"result-value\" id=\"resSpeed\">—</div>\n        </div>\n      </div>\n      <div id=\"splitsTable\" style=\"margin-top:1rem\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator works in three modes: find your pace from distance and time, find your finish time from distance and pace, or find your distance from pace and time.",
+    "rules": [
+      "<strong>Pace mode:</strong> Enter distance and finish time to get your per-mile and per-km pace",
+      "<strong>Time mode:</strong> Enter distance and target pace to get your projected finish time",
+      "<strong>Distance mode:</strong> Enter pace and time to find how far you ran"
+    ],
+    "outro": "The calculator also generates a mile-by-mile splits table so you can plan your race pacing strategy. Even pacing (running the same pace throughout) is the most efficient strategy for most runners."
+  },
+  "faq": [
+    {
+      "question": "What is a good running pace for beginners?",
+      "answer": "Most beginners run between 10:00-13:00 per mile (6:15-8:00 per km). A comfortable conversational pace is ideal for building endurance. Don't worry about speed — consistency matters more when starting out."
+    },
+    {
+      "question": "How do I calculate my pace per mile?",
+      "answer": "Divide your total time in minutes by the distance in miles. For example, if you ran 3.1 miles (5K) in 28 minutes, your pace is 28 ÷ 3.1 = 9:02 per mile. This calculator does it automatically for any distance."
+    },
+    {
+      "question": "What is a good 5K time?",
+      "answer": "Average 5K times vary by age and fitness. For beginners, under 35 minutes is a solid goal. Intermediate runners often target 20-25 minutes. Competitive runners aim for under 20 minutes. Elite runners finish in 13-15 minutes."
+    },
+    {
+      "question": "Should I run negative splits?",
+      "answer": "Negative splits (running the second half faster than the first) is a popular strategy because it prevents starting too fast and burning out. However, even splits (consistent pace throughout) are equally effective. Both are better than starting too fast."
+    },
+    {
+      "question": "How do I convert pace per mile to pace per kilometer?",
+      "answer": "Divide your pace per mile by 1.60934. For example, a 9:00/mile pace equals about 5:35/km. This calculator shows both automatically so you don't need to convert manually."
+    },
+    {
+      "question": "How does elevation affect my pace?",
+      "answer": "As a rough guide, add 15-20 seconds per mile for every 100 feet of elevation gain. Downhill sections are faster but not by the same amount. Hilly courses typically result in overall slower times than flat courses."
+    }
+  ],
+  "chart": {
+    "title": "Race Pace Reference Chart",
+    "subtitle": "Finish times for common distances at popular paces.",
+    "columns": [
+      "Pace/Mile",
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Marathon"
+    ],
+    "rows": [
+      [
+        "7:00",
+        "21:44",
+        "43:29",
+        "1:31:36",
+        "3:03:33"
+      ],
+      [
+        "8:00",
+        "24:51",
+        "49:42",
+        "1:44:42",
+        "3:29:45"
+      ],
+      [
+        "9:00",
+        "27:58",
+        "55:55",
+        "1:57:47",
+        "3:55:57"
+      ],
+      [
+        "10:00",
+        "31:04",
+        "1:02:09",
+        "2:10:53",
+        "4:22:10"
+      ],
+      [
+        "11:00",
+        "34:11",
+        "1:08:22",
+        "2:23:59",
+        "4:48:22"
+      ],
+      [
+        "12:00",
+        "37:17",
+        "1:14:35",
+        "2:37:05",
+        "5:14:34"
+      ],
+      [
+        "13:00",
+        "40:23",
+        "1:20:48",
+        "2:50:10",
+        "5:40:46"
+      ]
+    ]
+  },
+  "category": "fitness",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This running pace calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This running pace calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "body-fat-calculator",
+    "tdee-calculator",
+    "macro-calculator",
+    "calorie-deficit-calculator",
+    "one-rep-max-calculator",
+    "plate-loading-calculator",
+    "wilks-score-calculator",
+    "race-time-predictor"
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "slug": "voltage-drop-calculator",
+  "toolName": "Voltage Drop Calculator",
+  "tagline": "Calculate voltage drop across wire runs to ensure NEC compliance",
+  "title": "Voltage Drop Calculator — NEC Compliant Wire Run Analysis",
+  "metaDescription": "Calculate voltage drop for any wire run. Enter voltage, wire gauge, length, and load amps to check NEC 3% branch and 5% total limits instantly.",
+  "keywords": "voltage drop calculator, NEC voltage drop, wire voltage drop, electrical voltage drop, branch circuit voltage drop, wire run calculator",
+  "domain": "example.com",
+  "primaryColor": "#ca8a04",
+  "primaryDarkColor": "#a16207",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Voltage Drop Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"voltage\">System Voltage</label>\n      <select id=\"voltage\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"120\">120V</option>\n        <option value=\"208\">208V</option>\n        <option value=\"240\" selected>240V</option>\n        <option value=\"277\">277V</option>\n        <option value=\"480\">480V</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"phase\">Phase</label>\n      <select id=\"phase\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"single\" selected>Single Phase</option>\n        <option value=\"three\">Three Phase</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"conductor\">Conductor Material</label>\n      <select id=\"conductor\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"copper\" selected>Copper (K=12.9)</option>\n        <option value=\"aluminum\">Aluminum (K=21.2)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wireGauge\">Wire Gauge (AWG)</label>\n      <select id=\"wireGauge\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"14\">14 AWG</option>\n        <option value=\"12\" selected>12 AWG</option>\n        <option value=\"10\">10 AWG</option>\n        <option value=\"8\">8 AWG</option>\n        <option value=\"6\">6 AWG</option>\n        <option value=\"4\">4 AWG</option>\n        <option value=\"3\">3 AWG</option>\n        <option value=\"2\">2 AWG</option>\n        <option value=\"1\">1 AWG</option>\n        <option value=\"1/0\">1/0 AWG</option>\n        <option value=\"2/0\">2/0 AWG</option>\n        <option value=\"3/0\">3/0 AWG</option>\n        <option value=\"4/0\">4/0 AWG</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wireLength\">One-Way Wire Length (feet)</label>\n      <input type=\"number\" id=\"wireLength\" placeholder=\"e.g. 150\" inputmode=\"decimal\" step=\"any\">\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Distance from panel to load, one direction only</div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"loadAmps\">Load (amps)</label>\n      <input type=\"number\" id=\"loadAmps\" placeholder=\"e.g. 20\" inputmode=\"decimal\" step=\"any\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Voltage Drop</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Voltage Drop</div>\n          <div class=\"result-value\" id=\"rVoltageDrop\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Drop Percentage</div>\n          <div class=\"result-value\" id=\"rDropPct\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Voltage at Load</div>\n          <div class=\"result-value\" id=\"rVoltageAtLoad\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">NEC Compliance</div>\n          <div class=\"result-value\" id=\"rNecStatus\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Voltage drop occurs when electrical current flows through a wire's resistance. Excessive drop reduces equipment performance and can violate NEC requirements.",
+    "rules": [
+      "Single-phase formula: VD = (2 × K × I × L) / CM, where K is resistivity (12.9 copper, 21.2 aluminum), I is amps, L is one-way length in feet, and CM is circular mils of the wire",
+      "Three-phase formula multiplies by 1.732 (√3) instead of 2",
+      "NEC recommends max 3% voltage drop for branch circuits and 5% total for feeder + branch combined"
+    ],
+    "outro": "Keeping voltage drop within NEC limits ensures motors start properly, lights don't flicker, and sensitive electronics receive adequate power. For long runs, upsizing wire gauge is the standard solution."
+  },
+  "faq": [
+    {
+      "question": "What is an acceptable voltage drop per NEC?",
+      "answer": "NEC recommends no more than 3% voltage drop on branch circuits and no more than 5% total when combining feeder and branch circuits. For a 120V circuit, that means no more than 3.6V drop on the branch and 6V total. These are recommendations in NEC 210.19(A) and 215.2(A), not hard requirements."
+    },
+    {
+      "question": "How do I reduce voltage drop on a long wire run?",
+      "answer": "The most common solution is to increase wire gauge size. Going from 12 AWG to 10 AWG roughly cuts voltage drop in half. Other options include increasing voltage (240V vs 120V), shortening the run, or reducing the load. For very long runs, consider a sub-panel closer to the load."
+    },
+    {
+      "question": "What is the K factor in voltage drop calculations?",
+      "answer": "K is the resistivity constant of the conductor material measured in ohm-circular mils per foot. For copper, K = 12.9 and for aluminum, K = 21.2 at 75°C. Aluminum requires larger wire gauges to achieve the same voltage drop as copper due to its higher resistivity."
+    },
+    {
+      "question": "Does wire length mean one-way or round-trip distance?",
+      "answer": "Enter one-way distance only — the distance from your electrical panel to the load. The formula uses a multiplier of 2 (single-phase) or 1.732 (three-phase) to account for the return path automatically."
+    },
+    {
+      "question": "Why is voltage drop worse on 120V circuits than 240V?",
+      "answer": "A 240V circuit carries half the current of a 120V circuit for the same wattage (P=V×I). Since voltage drop is proportional to current, the 240V circuit has roughly half the voltage drop. This is why long runs to workshops, outbuildings, and wells often use 240V."
+    },
+    {
+      "question": "What circular mil values does this calculator use?",
+      "answer": "This calculator uses NEC Chapter 9 Table 8 values: 14 AWG = 4,110 CM, 12 AWG = 6,530 CM, 10 AWG = 10,380 CM, 8 AWG = 16,510 CM, 6 AWG = 26,240 CM, up to 4/0 AWG = 211,600 CM. These are standard values used throughout the electrical trade."
+    }
+  ],
+  "relatedTools": [
+    "wire-size-calculator",
+    "conduit-fill-calculator",
+    "breaker-sizing-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Voltage Drop by Wire Gauge at 100 ft (Copper, Single Phase, 240V)",
+    "subtitle": "Voltage drop percentage for common loads and wire sizes.",
+    "columns": [
+      "Wire Gauge",
+      "10A",
+      "20A",
+      "30A",
+      "40A"
+    ],
+    "rows": [
+      [
+        "14 AWG",
+        "1.57%",
+        "3.14%",
+        "4.71%",
+        "6.28%"
+      ],
+      [
+        "12 AWG",
+        "0.99%",
+        "1.98%",
+        "2.97%",
+        "3.96%"
+      ],
+      [
+        "10 AWG",
+        "0.62%",
+        "1.24%",
+        "1.87%",
+        "2.49%"
+      ],
+      [
+        "8 AWG",
+        "0.39%",
+        "0.78%",
+        "1.17%",
+        "1.56%"
+      ],
+      [
+        "6 AWG",
+        "0.25%",
+        "0.49%",
+        "0.74%",
+        "0.98%"
+      ],
+      [
+        "4 AWG",
+        "0.16%",
+        "0.31%",
+        "0.47%",
+        "0.62%"
+      ],
+      [
+        "2 AWG",
+        "0.10%",
+        "0.19%",
+        "0.29%",
+        "0.39%"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This voltage drop calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This voltage drop calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

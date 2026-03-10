@@ -1,0 +1,118 @@
+{
+  "slug": "well-pump-pressure-calculator",
+  "toolName": "Well Pump Pressure Calculator",
+  "tagline": "Calculate total dynamic head, pump HP, and pressure tank size for your well system",
+  "title": "Well Pump Pressure Calculator — TDH, Pump HP & Tank Sizing",
+  "metaDescription": "Calculate total dynamic head, pump horsepower, and pressure tank size for well water systems. Enter well depth, flow rate, and elevation.",
+  "keywords": "well pump calculator, total dynamic head, pump HP calculator, pressure tank size, well pump sizing, TDH calculator",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "domain": "example.com",
+  "ogTitle": "Well Pump Pressure Calculator — TDH, HP & Pressure Tank",
+  "ogDescription": "Size your well pump and pressure tank by calculating total dynamic head from well depth, elevation, friction loss, and desired pressure.",
+  "twitterDescription": "Calculate total dynamic head, pump HP, and pressure tank size for residential well systems.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Well Pump Pressure Calculator",
+    "description": "Calculate total dynamic head, recommended pump horsepower, and pressure tank size for well water systems.",
+    "url": "https://example.com/well-pump-pressure-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is total dynamic head (TDH)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TDH is the total equivalent height a pump must push water. It includes well depth to water level, elevation change, friction loss in pipes, and the desired pressure converted to feet of head (pressure PSI × 2.31)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I size a well pump?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Calculate TDH and required flow rate (GPM). A 1/2 HP pump handles up to 10 GPM at 150 ft TDH. A 3/4 HP pump handles 10-15 GPM or deeper wells. 1 HP and above are for deep wells or high flow demands."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What size pressure tank do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A general rule is the pressure tank drawdown in gallons should equal or exceed your pump's GPM flow rate. For a 10 GPM pump, a tank with at least 10 gallons of drawdown (typically a 30-40 gallon tank) is recommended."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is friction loss in well piping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Friction loss is energy lost to pipe wall resistance. It increases with flow rate and decreases with larger pipe diameter. A 1-inch pipe at 10 GPM loses about 5 ft of head per 100 ft of pipe."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What pressure should a well system run at?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most residential well systems use a 40/60 PSI pressure switch (on at 40, off at 60). Some use 30/50 PSI. The pump must produce enough pressure to maintain the cut-off pressure plus account for all head losses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How deep can a well pump push water?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Submersible pumps can push water from wells over 400 feet deep. Jet pumps are limited to about 25 feet (shallow well) or 100 feet (deep well jet). Deeper wells require more horsepower."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Well Pump Pressure Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"wellDepth\">Well Depth to Water Level (ft)</label>\n    <input type=\"number\" id=\"wellDepth\" value=\"150\" min=\"10\" max=\"1000\" step=\"1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pipeDiameter\">Pipe Diameter</label>\n    <select id=\"pipeDiameter\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"0.75\">3/4 inch</option>\n      <option value=\"1\" selected>1 inch</option>\n      <option value=\"1.25\">1-1/4 inch</option>\n      <option value=\"1.5\">1-1/2 inch</option>\n      <option value=\"2\">2 inch</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"flowRate\">Flow Rate (GPM)</label>\n    <input type=\"number\" id=\"flowRate\" value=\"10\" min=\"1\" max=\"100\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"elevChange\">Elevation Change — Well to House (ft)</label>\n    <input type=\"number\" id=\"elevChange\" value=\"20\" min=\"0\" max=\"500\" step=\"1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"desiredPSI\">Desired Pressure (PSI)</label>\n    <input type=\"number\" id=\"desiredPSI\" value=\"50\" min=\"20\" max=\"100\" step=\"5\" inputmode=\"decimal\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Pump Size</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Dynamic Head</div>\n        <div class=\"result-value\" id=\"tdh\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Friction Loss</div>\n        <div class=\"result-value\" id=\"frictionLoss\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Recommended Pump HP</div>\n        <div class=\"result-value\" id=\"pumpHP\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Pressure Tank Size</div>\n        <div class=\"result-value\" id=\"tankSize\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Well Pump Sizing Reference</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Pump HP</th><th>Max TDH (ft)</th><th>Flow (GPM)</th><th>Best For</th><th>Tank Size</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>1/2 HP</td><td>150</td><td>5-10</td><td>Shallow wells, low demand</td><td>20-30 gal</td></tr>\n        <tr><td>3/4 HP</td><td>250</td><td>8-15</td><td>Medium wells, avg home</td><td>30-50 gal</td></tr>\n        <tr><td>1 HP</td><td>350</td><td>10-20</td><td>Deep wells, 3-4 bath</td><td>40-80 gal</td></tr>\n        <tr><td>1.5 HP</td><td>450</td><td>15-25</td><td>Very deep wells, high flow</td><td>50-85 gal</td></tr>\n        <tr><td>2 HP</td><td>500+</td><td>20-35</td><td>Commercial or irrigation</td><td>85-120 gal</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Well Pump Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator determines the total dynamic head your pump must overcome and recommends appropriate pump and tank sizing.</p>\n  <div style=\"background:#e0f2fe;border:2px solid #7dd3fc;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">TDH = Well Depth + Elevation + Friction Loss + (PSI × 2.31)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Well depth:</strong> Distance from pump to standing water level</li>\n    <li><strong>Elevation:</strong> Height difference from well head to house</li>\n    <li><strong>Friction loss:</strong> Calculated from pipe diameter, length, and flow rate</li>\n    <li><strong>Pressure head:</strong> Desired PSI × 2.31 converts pressure to feet of head</li>\n    <li><strong>Pump HP:</strong> Sized to deliver required GPM at calculated TDH</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>What is total dynamic head (TDH)?</h3>\n    <p>TDH is the total equivalent height in feet that a pump must push water. It combines well depth, elevation change, friction losses in piping, and the desired outlet pressure converted to feet of head.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How do I size a well pump?</h3>\n    <p>Calculate your TDH and required flow rate in GPM. Match these to pump performance curves. A 1/2 HP pump handles up to about 150 ft TDH, while 1 HP handles up to 350 ft. Always size slightly above your calculated needs.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What size pressure tank do I need?</h3>\n    <p>The tank drawdown (usable gallons) should equal or exceed your pump's GPM rating. For a 10 GPM pump, choose a tank with at least 10 gallons of drawdown, typically a 30-40 gallon tank.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is friction loss in well piping?</h3>\n    <p>Friction loss is pressure lost to pipe wall resistance. It increases with higher flow rate and smaller pipe diameter. Using larger pipe reduces friction but costs more. The calculator accounts for this automatically.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What pressure should a well system run at?</h3>\n    <p>Most homes use a 40/60 PSI switch setting. The pump turns on at 40 PSI and off at 60 PSI. Homes with long pipe runs or multiple stories may benefit from a 50/70 setting.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How deep can a well pump push water?</h3>\n    <p>Submersible pumps can work in wells over 400 feet deep with sufficient horsepower. Shallow well jet pumps top out around 25 feet, while deep well jet pumps can reach about 100 feet.</p>\n  </div>\n</div>",
+  "category": "trades-industrial",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This well pump pressure calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This well pump pressure calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "septic-tank-calculator",
+    "grain-bin-calculator",
+    "irrigation-drip-calculator",
+    "cattle-fencing-calculator",
+    "hay-bale-calculator",
+    "diesel-tank-sizing-calculator",
+    "propane-tank-runtime-calculator",
+    "mobile-home-tiedown-calculator"
+  ]
+}

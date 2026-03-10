@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VO2 Max Calculator — Fitness Level & Age Percentile</title>
+<meta name="description" content="Estimate your VO2 max using Cooper test, 1-mile walk, or step test. See your fitness category and age percentile ranking.">
+<meta name="keywords" content="vo2 max calculator, cooper test calculator, vo2max estimate, fitness level calculator, rockport walk test, cardio fitness test">
+<link rel="canonical" href="https://example.com/vo2-max-calculator/">
+<meta property="og:title" content="VO2 Max Calculator — Fitness Level & Age Percentile">
+<meta property="og:description" content="Estimate your VO2 max from running or walking tests. See your fitness category and age percentile.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/vo2-max-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VO2 Max Calculator — Fitness Level & Age Percentile">
+<meta name="twitter:description" content="What is your VO2 max? Estimate it from a Cooper test, walk test, or step test. See your fitness ranking. Free calculator.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "VO2 Max Calculator",
+  "description": "Estimate VO2 max using Cooper 12-minute run test, Rockport 1-mile walk test, step test, or resting estimate. Includes fitness category classification and age percentile rankings.",
+  "url": "https://example.com/vo2-max-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good VO2 max?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For men: poor is below 35, fair is 35-40, good is 40-48, excellent is 48-55, and superior is above 55 ml/kg/min. For women: poor is below 28, fair is 28-34, good is 34-41, excellent is 41-48, and superior is above 48. These ranges shift downward with age."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the Cooper test performed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run as far as possible in exactly 12 minutes on a flat surface (track is ideal). Record your total distance in meters. Walk if needed but try to maintain the highest sustainable pace. Warm up for 5-10 minutes before starting. The test works best for people already doing regular cardio."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does VO2 max matter for longevity?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A landmark 2022 study of 750,000+ people found that low VO2 max is as dangerous as smoking for mortality risk. Moving from the bottom 25% to above-average fitness reduced death risk by 50%. Peter Attia considers VO2 max the single most powerful marker of longevity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I improve my VO2 max?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Untrained individuals can improve VO2 max by 15-20% with consistent training. The most effective methods are Zone 2 training (3-4 hours/week) combined with high-intensity intervals (1-2 sessions/week of 4x4 minute intervals at 90-95% max HR). Improvements are seen within 6-8 weeks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are these estimates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Cooper test is most accurate (correlation of 0.90 with lab testing). The Rockport walk test is good for less fit individuals. Step tests are moderate accuracy. Resting estimates are the least accurate. For precise measurement, a lab-based graded exercise test with gas analysis is the gold standard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the Apple Watch VO2 max mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Apple Watch estimates VO2 max using heart rate data during outdoor walks/runs. It tends to underestimate for fit individuals and has moderate accuracy (within 5-10 ml/kg/min). Use it for tracking trends over time rather than absolute values. A proper field test like the Cooper test is more reliable."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Health & Longevity Calculators",
+      "item": "https://example.com/health-longevity-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "VO2 Max Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#059669;--primary-dark:#047857;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/health-longevity-calculators/">Health & Longevity Calculators</a> &rsaquo; <span>VO2 Max Calculator</span>
+    </nav>
+    <h1>VO2 Max Calculator</h1>
+    <p>Estimate your VO2 max from running, walking, or step tests and see your fitness percentile by age</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>VO2 Max Calculator</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+      <div class="input-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" placeholder="35" inputmode="decimal" step="1">
+      </div>
+      <div class="input-group">
+        <label for="gender">Gender</label>
+        <select id="gender" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="testType">Test Type</label>
+        <select id="testType" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+          <option value="cooper">Cooper 12-min Run</option>
+          <option value="rockport">1-Mile Walk (Rockport)</option>
+          <option value="step">3-Min Step Test</option>
+          <option value="resting">Resting Estimate</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="testInputs"></div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate VO2 Max</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Estimated VO2 Max</div>
+          <div class="result-value" id="rVO2">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Fitness Category</div>
+          <div class="result-value" id="rCategory">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Age Percentile</div>
+          <div class="result-value" id="rPercentile">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Longevity Outlook</div>
+          <div class="result-value" id="rLongevity">—</div>
+        </div>
+      </div>
+      <div id="resultDetails" style="text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>VO2 Max Fitness Categories by Age &amp; Gender</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Values in ml/kg/min. Based on American College of Sports Medicine classifications.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Age</th>
+          <th>Poor (M/F)</th>
+          <th>Fair (M/F)</th>
+          <th>Good (M/F)</th>
+          <th>Excellent (M/F)</th>
+          <th>Superior (M/F)</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>20-29</td><td><34 / <28</td><td>34-40 / 28-34</td><td>40-48 / 34-41</td><td>48-55 / 41-48</td><td>>55 / >48</td></tr>
+        <tr><td>30-39</td><td><32 / <26</td><td>32-38 / 26-32</td><td>38-45 / 32-38</td><td>45-52 / 38-45</td><td>>52 / >45</td></tr>
+        <tr><td>40-49</td><td><30 / <24</td><td>30-35 / 24-29</td><td>35-42 / 29-35</td><td>42-49 / 35-42</td><td>>49 / >42</td></tr>
+        <tr><td>50-59</td><td><27 / <22</td><td>27-33 / 22-27</td><td>33-39 / 27-33</td><td>39-46 / 33-39</td><td>>46 / >39</td></tr>
+        <tr><td>60-69</td><td><24 / <20</td><td>24-30 / 20-25</td><td>30-36 / 25-31</td><td>36-43 / 31-37</td><td>>43 / >37</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This vo2 max calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator estimates your VO2 max (maximal oxygen uptake) using validated exercise test formulas. VO2 max is the gold standard measure of cardiovascular fitness and a strong predictor of longevity.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Cooper test: VO2max = (distance_meters − 504.9) / 44.73</li>
+      <li>Rockport 1-mile walk: uses body weight, walk time, and ending heart rate in a regression formula</li>
+      <li>3-min step test: uses recovery heart rate after 3 minutes of stepping at a set cadence</li>
+      <li>Resting estimate: uses age and gender norms (least accurate but requires no test)</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">VO2 max is one of the strongest predictors of all-cause mortality. Research shows that moving from the bottom 25th percentile to above the 50th percentile reduces mortality risk by 50%. Elite endurance athletes typically have VO2 max values of 60-85 ml/kg/min.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This vo2 max calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is a good VO2 max?</h3>
+      <p>For men: poor is below 35, fair is 35-40, good is 40-48, excellent is 48-55, and superior is above 55 ml/kg/min. For women: poor is below 28, fair is 28-34, good is 34-41, excellent is 41-48, and superior is above 48. These ranges shift downward with age.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How is the Cooper test performed?</h3>
+      <p>Run as far as possible in exactly 12 minutes on a flat surface (track is ideal). Record your total distance in meters. Walk if needed but try to maintain the highest sustainable pace. Warm up for 5-10 minutes before starting. The test works best for people already doing regular cardio.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Why does VO2 max matter for longevity?</h3>
+      <p>A landmark 2022 study of 750,000+ people found that low VO2 max is as dangerous as smoking for mortality risk. Moving from the bottom 25% to above-average fitness reduced death risk by 50%. Peter Attia considers VO2 max the single most powerful marker of longevity.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I improve my VO2 max?</h3>
+      <p>Yes. Untrained individuals can improve VO2 max by 15-20% with consistent training. The most effective methods are Zone 2 training (3-4 hours/week) combined with high-intensity intervals (1-2 sessions/week of 4x4 minute intervals at 90-95% max HR). Improvements are seen within 6-8 weeks.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How accurate are these estimates?</h3>
+      <p>The Cooper test is most accurate (correlation of 0.90 with lab testing). The Rockport walk test is good for less fit individuals. Step tests are moderate accuracy. Resting estimates are the least accurate. For precise measurement, a lab-based graded exercise test with gas analysis is the gold standard.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What does the Apple Watch VO2 max mean?</h3>
+      <p>Apple Watch estimates VO2 max using heart rate data during outdoor walks/runs. It tends to underestimate for fit individuals and has moderate accuracy (within 5-10 ml/kg/min). Use it for tracking trends over time rather than absolute values. A proper field test like the Cooper test is more reliable.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/zone2-heart-rate-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Zone 2 Heart Rate Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find your optimal Zone 2 heart rate range for longevity training using MAF, Karvonen, and %Max methods</span></a>
+      <a href="/glp1-weight-loss-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">GLP-1 Weight Loss Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Project your weight loss timeline on Ozempic, Wegovy, Mounjaro, or Zepbound based on clinical trial data</span></a>
+      <a href="/biological-age-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Biological Age Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your biological age based on health metrics and lifestyle factors</span></a>
+      <a href="/longevity-score-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Longevity Score Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate life expectancy based on lifestyle factors</span></a>
+      <a href="/cgm-to-a1c-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">CGM to A1C Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert your CGM average glucose to estimated A1C and understand your time-in-range equivalents</span></a>
+      <a href="/seed-oil-intake-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Seed Oil Intake Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your daily seed oil consumption from dietary habits</span></a>
+      <a href="/heart-rate-zone-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Heart Rate Zone Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find your 5 heart rate training zones for optimal fitness</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 VO2 Max Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function fmt(n, d) {
+    if (typeof d === 'undefined') d = 1;
+    return n.toFixed(d);
+  }
+
+  var ageEl = document.getElementById('age');
+  var genderEl = document.getElementById('gender');
+  var testTypeEl = document.getElementById('testType');
+  var testInputsDiv = document.getElementById('testInputs');
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  var chartData = [
+    ['20-29', '<34 / <28', '34-40 / 28-34', '40-48 / 34-41', '48-55 / 41-48', '>55 / >48'],
+    ['30-39', '<32 / <26', '32-38 / 26-32', '38-45 / 32-38', '45-52 / 38-45', '>52 / >45'],
+    ['40-49', '<30 / <24', '30-35 / 24-29', '35-42 / 29-35', '42-49 / 35-42', '>49 / >42'],
+    ['50-59', '<27 / <22', '27-33 / 22-27', '33-39 / 27-33', '39-46 / 33-39', '>46 / >39'],
+    ['60-69', '<24 / <20', '24-30 / 20-25', '30-36 / 25-31', '36-43 / 31-37', '>43 / >37']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      var cells = '';
+      for (var i = 0; i < row.length; i++) cells += '<td>' + row[i] + '</td>';
+      tr.innerHTML = cells;
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function buildTestInputs() {
+    var type = testTypeEl.value;
+    var html = '';
+    if (type === 'cooper') {
+      html += '<div class="input-group"><label for="cooperDist">Distance Covered in 12 min (meters)</label>';
+      html += '<input type="number" id="cooperDist" placeholder="2400" inputmode="decimal" step="any"></div>';
+      html += '<p style="font-size:0.8rem;color:var(--text-light);margin-top:-8px">Tip: 1 mile = 1609 meters. Run on a track for best accuracy.</p>';
+    } else if (type === 'rockport') {
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">';
+      html += '<div class="input-group"><label for="weight">Body Weight (lbs)</label>';
+      html += '<input type="number" id="weight" placeholder="170" inputmode="decimal" step="any"></div>';
+      html += '<div class="input-group"><label for="walkTime">1-Mile Walk Time (min)</label>';
+      html += '<input type="number" id="walkTime" placeholder="15.5" inputmode="decimal" step="0.1"></div>';
+      html += '<div class="input-group"><label for="walkHR">Ending Heart Rate (bpm)</label>';
+      html += '<input type="number" id="walkHR" placeholder="140" inputmode="decimal" step="1"></div>';
+      html += '</div>';
+    } else if (type === 'step') {
+      html += '<div class="input-group"><label for="recoveryHR">Recovery Heart Rate (bpm, 1 min after 3-min step test)</label>';
+      html += '<input type="number" id="recoveryHR" placeholder="100" inputmode="decimal" step="1"></div>';
+      html += '<p style="font-size:0.8rem;color:var(--text-light);margin-top:-8px">Step up and down on a 12-inch step at 24 steps/min for 3 minutes. Measure HR at 1 minute after stopping.</p>';
+    } else {
+      html += '<p style="font-size:0.85rem;color:var(--text-light);padding:12px;background:#f9fafb;border-radius:8px">Resting estimate uses age and gender norms. No test needed, but this is the least accurate method. Consider the Cooper test for better results.</p>';
+    }
+    testInputsDiv.innerHTML = html;
+  }
+
+  buildTestInputs();
+  testTypeEl.addEventListener('change', buildTestInputs);
+
+  function getVal(id) {
+    var el = document.getElementById(id);
+    if (!el) return 0;
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  // Fitness categories by age decade and gender: [poor, fair, good, excellent, superior]
+  var categories = {
+    male: {
+      20: [34, 40, 48, 55],
+      30: [32, 38, 45, 52],
+      40: [30, 35, 42, 49],
+      50: [27, 33, 39, 46],
+      60: [24, 30, 36, 43],
+      70: [21, 27, 33, 40]
+    },
+    female: {
+      20: [28, 34, 41, 48],
+      30: [26, 32, 38, 45],
+      40: [24, 29, 35, 42],
+      50: [22, 27, 33, 39],
+      60: [20, 25, 31, 37],
+      70: [18, 23, 28, 34]
+    }
+  };
+
+  function getCategory(vo2, age, gender) {
+    var decade = Math.min(Math.max(Math.floor(age / 10) * 10, 20), 70);
+    var thresholds = categories[gender][decade];
+    if (vo2 < thresholds[0]) return { label: 'Poor', color: '#dc2626', percentile: '< 20th' };
+    if (vo2 < thresholds[1]) return { label: 'Fair', color: '#d97706', percentile: '20th-40th' };
+    if (vo2 < thresholds[2]) return { label: 'Good', color: '#059669', percentile: '40th-60th' };
+    if (vo2 < thresholds[3]) return { label: 'Excellent', color: '#059669', percentile: '60th-80th' };
+    return { label: 'Superior', color: '#7c3aed', percentile: '> 80th' };
+  }
+
+  function calculate() {
+    var age = getVal('age');
+    var gender = genderEl.value;
+    var type = testTypeEl.value;
+
+    if (age <= 0 || age > 100) return;
+
+    var vo2 = 0;
+    var method = '';
+
+    if (type === 'cooper') {
+      var dist = getVal('cooperDist');
+      if (dist <= 0) return;
+      vo2 = (dist - 504.9) / 44.73;
+      method = 'Cooper 12-Minute Run Test';
+    } else if (type === 'rockport') {
+      var weight = getVal('weight');
+      var walkTime = getVal('walkTime');
+      var walkHR = getVal('walkHR');
+      if (weight <= 0 || walkTime <= 0 || walkHR <= 0) return;
+      var weightKg = weight * 0.4536;
+      var genderVal = gender === 'male' ? 1 : 0;
+      vo2 = 132.853 - (0.0769 * weight) - (0.3877 * age) + (6.315 * genderVal) - (3.2649 * walkTime) - (0.1565 * walkHR);
+      method = 'Rockport 1-Mile Walk Test';
+    } else if (type === 'step') {
+      var recoveryHR = getVal('recoveryHR');
+      if (recoveryHR <= 0) return;
+      if (gender === 'male') {
+        vo2 = 111.33 - (0.42 * recoveryHR);
+      } else {
+        vo2 = 65.81 - (0.1847 * recoveryHR);
+      }
+      method = '3-Minute Step Test';
+    } else {
+      // Resting estimate based on age/gender averages
+      var decade = Math.min(Math.max(Math.floor(age / 10) * 10, 20), 70);
+      var thresholds = categories[gender][decade];
+      vo2 = (thresholds[1] + thresholds[2]) / 2; // midpoint of fair-good
+      method = 'Resting Estimate (age/gender norms)';
+    }
+
+    vo2 = Math.max(vo2, 10);
+    var cat = getCategory(vo2, age, gender);
+
+    // Longevity outlook
+    var longevity;
+    if (cat.label === 'Superior' || cat.label === 'Excellent') {
+      longevity = 'Strong';
+    } else if (cat.label === 'Good') {
+      longevity = 'Above Average';
+    } else if (cat.label === 'Fair') {
+      longevity = 'Average';
+    } else {
+      longevity = 'Elevated Risk';
+    }
+
+    document.getElementById('rVO2').textContent = fmt(vo2, 1) + ' ml/kg/min';
+    document.getElementById('rVO2').style.color = cat.color;
+    document.getElementById('rCategory').textContent = cat.label;
+    document.getElementById('rCategory').style.color = cat.color;
+    document.getElementById('rPercentile').textContent = cat.percentile;
+    document.getElementById('rLongevity').textContent = longevity;
+    document.getElementById('rLongevity').style.color = cat.color;
+
+    var d = '';
+
+    d += '<div style="padding:12px;background:#f0fdf4;border-radius:8px;font-size:0.9rem;margin-bottom:12px">';
+    d += '<strong>Your Result: ' + fmt(vo2, 1) + ' ml/kg/min</strong><br>';
+    d += 'Method: ' + method + '<br>';
+    d += 'Category: <strong style="color:' + cat.color + '">' + cat.label + '</strong> for ' + age + '-year-old ' + (gender === 'male' ? 'male' : 'female') + '<br>';
+    d += 'Percentile: ' + cat.percentile + '</div>';
+
+    // Improvement targets
+    var decade2 = Math.min(Math.max(Math.floor(age / 10) * 10, 20), 70);
+    var t = categories[gender][decade2];
+    d += '<div style="padding:12px;background:#eff6ff;border-radius:8px;font-size:0.9rem;margin-bottom:12px">';
+    d += '<strong>Targets for Your Age Group (' + gender + ', ' + decade2 + 's)</strong><br>';
+    d += '<span style="color:#dc2626">Poor: &lt;' + t[0] + '</span> | ';
+    d += '<span style="color:#d97706">Fair: ' + t[0] + '-' + t[1] + '</span> | ';
+    d += '<span style="color:#059669">Good: ' + t[1] + '-' + t[2] + '</span> | ';
+    d += '<span style="color:#059669">Excellent: ' + t[2] + '-' + t[3] + '</span> | ';
+    d += '<span style="color:#7c3aed">Superior: &gt;' + t[3] + '</span>';
+    d += '</div>';
+
+    d += '<div style="padding:12px;background:#fefce8;border-radius:8px;font-size:0.9rem">';
+    d += '<strong>Longevity Significance</strong><br>';
+    d += 'Research shows VO2 max is one of the strongest predictors of all-cause mortality. ';
+    if (vo2 < t[1]) {
+      d += 'Improving from your current level to "Good" (' + t[1] + '+) could <strong>reduce mortality risk by up to 50%</strong>. ';
+      d += 'Focus on Zone 2 training (3-4 hours/week) plus 1-2 high-intensity interval sessions.';
+    } else if (vo2 < t[2]) {
+      d += 'You are in a good range. Aim for "Excellent" (' + t[2] + '+) with consistent Zone 2 training and weekly intervals.';
+    } else {
+      d += 'Your fitness level is associated with <strong>significantly reduced mortality risk</strong>. Maintain with consistent training.';
+    }
+    d += '</div>';
+
+    document.getElementById('resultDetails').innerHTML = d;
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+  }
+
+  calcBtn.addEventListener('click', function() {
+    calculate();
+    if (resultEl.classList.contains('visible')) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  [ageEl, genderEl, testTypeEl].forEach(function(inp) {
+    if (inp) {
+      inp.addEventListener('input', calculate);
+      inp.addEventListener('change', calculate);
+      inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+    }
+  });
+
+  testInputsDiv.addEventListener('input', calculate);
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'VO2 Max Calculator';
+  var TOOL_SLUG = 'vo2-max-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'health-longevity', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+{
+  "slug": "amortization-calculator",
+  "toolName": "Amortization Calculator",
+  "tagline": "See your full loan amortization schedule with optional extra payments",
+  "title": "Amortization Calculator — Loan Payment Schedule with Extra Payments",
+  "metaDescription": "Calculate your loan amortization schedule showing monthly payments, interest breakdown, and how extra payments save money and time.",
+  "keywords": "amortization calculator, amortization schedule, loan payment calculator, mortgage amortization, extra payment calculator, loan payoff calculator",
+  "domain": "example.com",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "ogTitle": "Amortization Calculator — Full Loan Payment Schedule",
+  "ogDescription": "Generate a complete amortization schedule with optional extra payments. See interest saved and time reduced.",
+  "twitterDescription": "Calculate your loan amortization schedule and see how extra payments save money.",
+  "jsonLdDescription": "Calculate loan amortization schedules with monthly payment breakdowns, total interest costs, and the impact of extra payments on payoff time.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Amortization Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"loanAmount\">Loan Amount ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"loanAmount\" placeholder=\"e.g. 280000\" inputmode=\"decimal\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"interestRate\">Annual Interest Rate (%)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"interestRate\" placeholder=\"e.g. 7.0\" inputmode=\"decimal\" step=\"0.125\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"loanTerm\">Loan Term (years)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"loanTerm\" value=\"30\" inputmode=\"numeric\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"extraPayment\">Extra Monthly Payment (optional, $)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"extraPayment\" placeholder=\"0\" value=\"0\" inputmode=\"decimal\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"startDate\">Start Date</label>\n      <div class=\"input-row\"><input type=\"month\" id=\"startDate\" aria-label=\"Loan start date\"></div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Schedule</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Monthly Payment</div><div class=\"result-value\" id=\"monthlyPayment\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Total with Extra</div><div class=\"result-value\" id=\"totalPayment\">—</div></div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Total Interest</div><div class=\"result-value\" id=\"totalInterest\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Total Cost</div><div class=\"result-value\" id=\"totalCost\">—</div></div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Payoff Date</div><div class=\"result-value\" id=\"payoffDate\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Interest Saved</div><div class=\"result-value\" id=\"interestSaved\">—</div></div>\n      </div>\n      <div class=\"result-row\" id=\"extraRow\" style=\"display:none\">\n        <div class=\"result-item\"><div class=\"result-label\">Time Saved</div><div class=\"result-value\" id=\"timeSaved\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Original Payoff</div><div class=\"result-value\" id=\"origPayoff\">—</div></div>\n      </div>\n    </div>\n\n    <div class=\"result\" id=\"scheduleResult\" style=\"margin-top:12px\">\n      <h3 style=\"margin:0 0 8px\">Amortization Schedule</h3>\n      <div class=\"unit-toggle\" role=\"group\" id=\"viewToggle\" style=\"margin-bottom:8px\">\n        <button type=\"button\" class=\"active\" data-view=\"yearly\" aria-pressed=\"true\">Yearly</button>\n        <button type=\"button\" data-view=\"monthly\" aria-pressed=\"false\">Monthly</button>\n      </div>\n      <div style=\"max-height:400px;overflow-y:auto\">\n        <table class=\"result-table\" style=\"width:100%;border-collapse:collapse\">\n          <thead><tr><th style=\"text-align:left;padding:6px\" id=\"periodHead\">Year</th><th style=\"text-align:right;padding:6px\">Principal</th><th style=\"text-align:right;padding:6px\">Interest</th><th style=\"text-align:right;padding:6px\">Balance</th></tr></thead>\n          <tbody id=\"scheduleBody\"></tbody>\n        </table>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "An amortization schedule shows how each loan payment splits between principal and interest over the life of the loan. Early payments are mostly interest; later payments are mostly principal.",
+    "rules": [
+      "<strong>Monthly Payment</strong> = P × [r(1+r)^n] / [(1+r)^n - 1]",
+      "P = loan amount, r = monthly interest rate, n = total number of payments",
+      "Each month: Interest = Remaining Balance × Monthly Rate, Principal = Payment - Interest",
+      "Extra payments go entirely toward <strong>principal</strong>, reducing total interest and loan term"
+    ],
+    "outro": "Even small extra payments can save thousands in interest. An extra $100/month on a $280,000 mortgage at 7% saves over $60,000 in interest and pays off the loan 5+ years early."
+  },
+  "faq": [
+    {
+      "question": "How is a mortgage payment calculated?",
+      "answer": "The monthly payment formula is M = P[r(1+r)^n]/[(1+r)^n-1], where P is the loan amount, r is the monthly interest rate (annual rate ÷ 12), and n is the total number of payments (years × 12). This gives you the fixed monthly principal and interest payment."
+    },
+    {
+      "question": "Why do I pay more interest at the beginning of a loan?",
+      "answer": "Interest is calculated on the remaining balance each month. At the start, your balance is highest, so most of your payment goes to interest. As you pay down principal, less interest accrues each month, and more of your payment goes to principal. This is how amortization works."
+    },
+    {
+      "question": "How much can I save with extra payments?",
+      "answer": "Extra payments can save significant money. For a $280,000 loan at 7% over 30 years, adding $200/month saves about $100,000 in interest and pays off the loan 8 years early. Even $50/month extra makes a meaningful difference over time."
+    },
+    {
+      "question": "Should I make extra payments or invest the money?",
+      "answer": "Compare your mortgage rate to expected investment returns. If your mortgage is at 7% and investments average 10%, investing may be better financially. However, paying off your mortgage provides guaranteed 'returns' equal to your interest rate and eliminates the payment obligation, reducing risk."
+    },
+    {
+      "question": "What is the difference between 15-year and 30-year mortgages?",
+      "answer": "A 15-year mortgage has higher monthly payments but much lower total interest. For a $280,000 loan at 7%, the 30-year payment is $1,863/month (total interest: $390,506). The 15-year payment is $2,517/month (total interest: $173,067) — saving over $217,000 in interest."
+    },
+    {
+      "question": "Does my monthly payment include taxes and insurance?",
+      "answer": "This calculator shows principal and interest only (P&I). Your actual monthly mortgage payment typically also includes property taxes and homeowner insurance (PITI), and possibly PMI if your down payment was less than 20%. These additional costs are held in an escrow account."
+    }
+  ],
+  "chart": {
+    "title": "Monthly Payment by Loan Amount and Rate",
+    "subtitle": "30-year fixed rate mortgage — principal and interest only",
+    "columns": [
+      "Loan Amount",
+      "6.0%",
+      "6.5%",
+      "7.0%",
+      "7.5%",
+      "8.0%"
+    ],
+    "rows": [
+      [
+        "$150,000",
+        "$899",
+        "$948",
+        "$998",
+        "$1,049",
+        "$1,101"
+      ],
+      [
+        "$200,000",
+        "$1,199",
+        "$1,264",
+        "$1,331",
+        "$1,399",
+        "$1,468"
+      ],
+      [
+        "$250,000",
+        "$1,499",
+        "$1,580",
+        "$1,663",
+        "$1,748",
+        "$1,834"
+      ],
+      [
+        "$300,000",
+        "$1,799",
+        "$1,896",
+        "$1,996",
+        "$2,098",
+        "$2,201"
+      ],
+      [
+        "$350,000",
+        "$2,098",
+        "$2,212",
+        "$2,329",
+        "$2,447",
+        "$2,568"
+      ],
+      [
+        "$400,000",
+        "$2,398",
+        "$2,528",
+        "$2,661",
+        "$2,797",
+        "$2,935"
+      ],
+      [
+        "$500,000",
+        "$2,998",
+        "$3,160",
+        "$3,327",
+        "$3,496",
+        "$3,669"
+      ],
+      [
+        "$750,000",
+        "$4,496",
+        "$4,741",
+        "$4,990",
+        "$5,244",
+        "$5,503"
+      ]
+    ]
+  },
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This amortization calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This amortization calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

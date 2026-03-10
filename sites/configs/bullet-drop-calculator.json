@@ -1,0 +1,143 @@
+{
+  "slug": "bullet-drop-calculator",
+  "toolName": "Bullet Drop Calculator",
+  "tagline": "Calculate bullet trajectory, drop, and holdover from 100 to 1000 yards",
+  "title": "Bullet Drop Calculator — Ballistic Trajectory & Holdover Table",
+  "metaDescription": "Free bullet drop calculator with preset loads for .223, .308, 6.5 Creedmoor, .30-06 and more. Get drop, velocity, energy, and holdover in MOA and MIL.",
+  "keywords": "bullet drop calculator, ballistic calculator, bullet trajectory, holdover chart, MOA calculator, MIL holdover, long range shooting calculator",
+  "domain": "example.com",
+  "primaryColor": "#78350f",
+  "primaryDarkColor": "#5c2a0a",
+  "ogTitle": "Bullet Drop Calculator — Trajectory & Holdover Table",
+  "ogDescription": "Calculate bullet drop, velocity, energy, and holdover for popular calibers from 100 to 1000 yards.",
+  "twitterDescription": "Calculate bullet drop, velocity, energy, and holdover from 100 to 1000 yards.",
+  "jsonLdDescription": "Calculate bullet trajectory including drop, remaining velocity, energy, and holdover in MOA and MIL for popular rifle calibers.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Bullet Drop Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"caliberSelect\">Caliber / Cartridge Preset</label>\n      <select id=\"caliberSelect\">\n        <option value=\"custom\">Custom</option>\n        <option value=\"223\">.223 Rem (55gr)</option>\n        <option value=\"308\">.308 Win (168gr)</option>\n        <option value=\"65cm\">6.5 Creedmoor (140gr)</option>\n        <option value=\"3006\">.30-06 (165gr)</option>\n        <option value=\"300wm\">.300 Win Mag (180gr)</option>\n        <option value=\"22lr\">.22 LR (40gr)</option>\n        <option value=\"12ga\">12ga Slug (437gr)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"muzzleVel\">Muzzle Velocity (fps)</label>\n      <input type=\"number\" id=\"muzzleVel\" placeholder=\"e.g. 2700\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"bulletWeight\">Bullet Weight (grains)</label>\n      <input type=\"number\" id=\"bulletWeight\" placeholder=\"e.g. 168\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ballisticCoeff\">Ballistic Coefficient (G1)</label>\n      <input type=\"number\" id=\"ballisticCoeff\" placeholder=\"e.g. 0.462\" step=\"0.001\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"zeroRange\">Zero Range (yards)</label>\n      <input type=\"number\" id=\"zeroRange\" value=\"100\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"windSpeed\">Crosswind Speed (mph, optional)</label>\n      <input type=\"number\" id=\"windSpeed\" placeholder=\"0\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Drop Table</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Muzzle Energy</div>\n          <div class=\"result-value\" id=\"muzzleEnergy\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Zero Range</div>\n          <div class=\"result-value\" id=\"zeroDisp\">—</div>\n        </div>\n      </div>\n      <div class=\"table-wrap\">\n        <table class=\"chart-table\" id=\"dropTable\">\n          <thead>\n            <tr>\n              <th>Range (yd)</th>\n              <th>Drop (in)</th>\n              <th>Velocity (fps)</th>\n              <th>Energy (ft-lbs)</th>\n              <th>Holdover MOA</th>\n              <th>Holdover MIL</th>\n            </tr>\n          </thead>\n          <tbody id=\"dropBody\"></tbody>\n        </table>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This bullet drop calculator uses a simplified flat-fire ballistic model with drag to estimate bullet trajectory at various distances. It accounts for gravity drop, air resistance via the G1 ballistic coefficient, and optional crosswind drift.",
+    "rules": [
+      "Select a preset caliber or enter custom ballistic data (muzzle velocity, bullet weight, BC)",
+      "The calculator computes trajectory at 50-yard increments from 100 to 1000 yards",
+      "Drop, remaining velocity, energy, and holdover (MOA and MIL) are displayed for each range"
+    ],
+    "outro": "Results are approximations for standard sea-level conditions. Real-world performance varies with altitude, temperature, humidity, and barrel length. Always confirm zero at the range before relying on calculated holdovers."
+  },
+  "faq": [
+    {
+      "question": "How accurate is this bullet drop calculator?",
+      "answer": "This calculator uses a simplified flat-fire drag model that is reasonably accurate out to moderate ranges for most rifle cartridges. For precision long-range work beyond 600 yards, dedicated ballistic software accounting for Coriolis effect, spin drift, and atmospheric conditions will be more precise."
+    },
+    {
+      "question": "What is ballistic coefficient (BC)?",
+      "answer": "Ballistic coefficient measures a bullet's ability to overcome air resistance. A higher BC means the bullet retains velocity and energy better over distance. BC values are specific to each bullet design and weight. G1 is the most common reference standard."
+    },
+    {
+      "question": "What is the difference between MOA and MIL holdover?",
+      "answer": "MOA (Minute of Angle) equals approximately 1.047 inches at 100 yards. MIL (milliradian) equals approximately 3.6 inches at 100 yards. Most American scopes use MOA adjustments while many tactical and European scopes use MIL. Both measure the same angle, just in different units."
+    },
+    {
+      "question": "Why does my bullet drop so much past 500 yards?",
+      "answer": "Bullet drop increases exponentially with distance because gravity acts on the bullet for a longer time as it slows down. Air resistance continuously decelerates the bullet, so it spends more time in flight at longer ranges, allowing gravity to pull it further below the line of sight."
+    },
+    {
+      "question": "What zero range should I use?",
+      "answer": "A 100-yard zero is the most common for hunting rifles. Some shooters prefer a 200-yard zero for flatter trajectory at moderate ranges, accepting a slight high impact at 100 yards. For rimfire or short-range cartridges, a 50-yard zero is typical."
+    },
+    {
+      "question": "How does wind affect bullet trajectory?",
+      "answer": "A crosswind pushes the bullet sideways throughout its flight. The deflection increases with range and is worse for slower, lower-BC bullets. A 10 mph crosswind can push a .308 bullet over 10 inches at 300 yards and over 60 inches at 600 yards."
+    }
+  ],
+  "chart": {
+    "title": "Common Cartridge Ballistic Comparison",
+    "subtitle": "Approximate performance at 300 yards with typical hunting loads, zeroed at 100 yards.",
+    "columns": [
+      "Cartridge",
+      "Muzzle Vel (fps)",
+      "BC (G1)",
+      "Drop at 300yd",
+      "Energy at 300yd"
+    ],
+    "rows": [
+      [
+        ".223 Rem 55gr",
+        "3,240",
+        "0.243",
+        "-11.5\"",
+        "620 ft-lbs"
+      ],
+      [
+        ".308 Win 168gr",
+        "2,650",
+        "0.462",
+        "-13.8\"",
+        "1,575 ft-lbs"
+      ],
+      [
+        "6.5 Creedmoor 140gr",
+        "2,710",
+        "0.530",
+        "-11.2\"",
+        "1,620 ft-lbs"
+      ],
+      [
+        ".30-06 165gr",
+        "2,800",
+        "0.477",
+        "-12.0\"",
+        "1,740 ft-lbs"
+      ],
+      [
+        ".300 Win Mag 180gr",
+        "2,960",
+        "0.507",
+        "-9.8\"",
+        "2,100 ft-lbs"
+      ],
+      [
+        ".22 LR 40gr",
+        "1,200",
+        "0.130",
+        "-78\"",
+        "65 ft-lbs"
+      ],
+      [
+        "12ga Slug 437gr",
+        "1,600",
+        "0.065",
+        "-42\"",
+        "1,150 ft-lbs"
+      ]
+    ]
+  },
+  "category": "firearms",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This bullet drop calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This bullet drop calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "hunting-license-calculator",
+    "deer-processing-calculator",
+    "reloading-cost-calculator",
+    "draw-odds-calculator",
+    "effective-range-calculator",
+    "turkey-season-calculator"
+  ]
+}

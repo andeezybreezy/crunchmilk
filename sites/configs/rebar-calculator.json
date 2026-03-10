@@ -1,0 +1,118 @@
+{
+  "slug": "rebar-calculator",
+  "toolName": "Rebar Calculator",
+  "tagline": "Calculate rebar bars, linear feet, and weight for concrete slabs",
+  "title": "Rebar Calculator — Bars, Linear Feet & Weight",
+  "metaDescription": "Calculate rebar for concrete slabs. Enter dimensions, spacing, and bar size to get total bars, linear feet, weight, and chairs needed.",
+  "keywords": "rebar calculator, rebar for slab, rebar spacing, how much rebar do I need, rebar weight calculator",
+  "primaryColor": "#6b7280",
+  "primaryDarkColor": "#4b5563",
+  "domain": "example.com",
+  "ogTitle": "Rebar Calculator — Bars, Linear Feet & Weight",
+  "ogDescription": "Calculate rebar for any concrete slab: total bars, linear feet, weight by bar size, and support chairs needed.",
+  "twitterDescription": "Calculate rebar for concrete slabs. Get total bars, linear feet, weight, and chairs needed.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Rebar Calculator",
+    "description": "Calculate rebar bars, linear feet, weight, and chairs for concrete slab reinforcement.",
+    "url": "https://example.com/rebar-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate rebar for a concrete slab?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For each direction, divide the slab dimension by the spacing and add 1. For a 20 ft × 30 ft slab with 12-inch spacing: lengthwise bars = 20/1 + 1 = 21 bars at 30 ft each, widthwise bars = 30/1 + 1 = 31 bars at 20 ft each. Total = 52 bars, 1,250 linear feet."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What rebar spacing should I use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common spacings are 12 inches (standard for driveways and structural slabs), 18 inches (patios and light-duty slabs), and 24 inches (non-structural slabs). Always follow your engineer's or local code specifications."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does rebar weigh per foot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "#3 rebar (3/8\") weighs 0.376 lb/ft, #4 rebar (1/2\") weighs 0.668 lb/ft, and #5 rebar (5/8\") weighs 1.043 lb/ft. Standard rebar comes in 20 ft lengths."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many rebar chairs do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Place rebar chairs approximately every 3-4 feet along each bar to maintain proper elevation. For a typical slab, plan about 1 chair per 4 square feet. A 20×30 slab needs roughly 150 chairs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What size rebar for a 4-inch slab?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "#3 (3/8\") or #4 (1/2\") rebar is standard for 4-inch residential slabs. #3 is common for patios and sidewalks. #4 is used for driveways and garage floors. Position rebar at the center of the slab thickness (2 inches from bottom)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate overlap for rebar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When bars need to be spliced, overlap a minimum of 40 bar diameters. For #4 rebar: 40 × 0.5\" = 20 inches overlap. For #5: 40 × 0.625\" = 25 inches. Stagger splices so they don't all fall on the same line. This calculator adds 10% to linear feet to account for overlaps."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Rebar Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"slabLen\">Slab Length (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"slabLen\" placeholder=\"e.g. 20\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"20\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"slabWid\">Slab Width (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"slabWid\" placeholder=\"e.g. 30\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"30\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"rebarSpacing\">Rebar Spacing</label>\n    <div class=\"input-row\">\n      <select id=\"rebarSpacing\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"12\" selected>12\" on center (standard)</option>\n        <option value=\"18\">18\" on center</option>\n        <option value=\"24\">24\" on center</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"rebarSize\">Rebar Size</label>\n    <div class=\"input-row\">\n      <select id=\"rebarSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"3\" selected>#3 (3/8\" — 0.376 lb/ft)</option>\n        <option value=\"4\">#4 (1/2\" — 0.668 lb/ft)</option>\n        <option value=\"5\">#5 (5/8\" — 1.043 lb/ft)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Bars</div>\n        <div class=\"result-value\" id=\"outBars\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Linear Feet</div>\n        <div class=\"result-value\" id=\"outLinFt\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">20 ft Sticks</div>\n        <div class=\"result-value\" id=\"outSticks\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Weight</div>\n        <div class=\"result-value\" id=\"outWeight\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Chairs / Supports</div>\n        <div class=\"result-value\" id=\"outChairs\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Slab Area</div>\n        <div class=\"result-value\" id=\"outArea\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">Enter slab dimensions to calculate rebar needed.</div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Rebar Size &amp; Weight Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Common rebar sizes, diameters, and weights per linear foot.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Bar Size</th><th>Diameter</th><th>Weight (lb/ft)</th><th>Typical Use</th><th>Splice Overlap</th></tr></thead>\n      <tbody>\n        <tr><td>#3</td><td>3/8\"</td><td>0.376</td><td>Patios, sidewalks</td><td>15\"</td></tr>\n        <tr><td>#4</td><td>1/2\"</td><td>0.668</td><td>Driveways, garages</td><td>20\"</td></tr>\n        <tr><td>#5</td><td>5/8\"</td><td>1.043</td><td>Structural slabs, footings</td><td>25\"</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Rebar for a Slab</h2>\n  <p style=\"margin-bottom:12px\">Rebar is laid in a grid pattern. Count bars in each direction based on the slab dimension and spacing, then calculate total linear feet and weight.</p>\n  <div style=\"background:#f3f4f6;border:2px solid #d1d5db;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Bars per direction = Dimension &divide; Spacing + 1</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Lengthwise bars:</strong> width &divide; spacing + 1, each bar = slab length</li>\n    <li><strong>Widthwise bars:</strong> length &divide; spacing + 1, each bar = slab width</li>\n    <li><strong>Linear feet:</strong> sum of all bar lengths + 10% for overlaps</li>\n    <li><strong>20 ft sticks:</strong> total linear feet &divide; 20</li>\n    <li><strong>Weight:</strong> linear feet &times; weight per foot (varies by bar size)</li>\n    <li><strong>Chairs:</strong> approximately 1 per 4 sq ft of slab area</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\"><h3>How do I calculate rebar for a slab?</h3><p>Divide each slab dimension by the spacing and add 1. For 20×30 ft at 12\" spacing: 21 bars lengthwise (30 ft each) + 31 bars widthwise (20 ft each) = 52 bars, 1,250 linear feet.</p></div>\n  <div class=\"faq-item\"><h3>What rebar spacing should I use?</h3><p>12\" for driveways and structural slabs, 18\" for patios, 24\" for non-structural slabs. Always follow your engineer's specifications.</p></div>\n  <div class=\"faq-item\"><h3>How much does rebar weigh per foot?</h3><p>#3 = 0.376 lb/ft, #4 = 0.668 lb/ft, #5 = 1.043 lb/ft. Standard sticks are 20 ft long.</p></div>\n  <div class=\"faq-item\"><h3>How many rebar chairs do I need?</h3><p>About 1 chair per 4 square feet, placed every 3-4 ft along each bar. A 20×30 slab needs roughly 150 chairs.</p></div>\n  <div class=\"faq-item\"><h3>What size rebar for a 4-inch slab?</h3><p>#3 for patios and sidewalks, #4 for driveways and garages. Position at slab center (2\" from bottom).</p></div>\n  <div class=\"faq-item\"><h3>How much overlap for rebar splices?</h3><p>Minimum 40 bar diameters: 15\" for #3, 20\" for #4, 25\" for #5. Stagger splices across different lines.</p></div>\n</div>",
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This rebar calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This rebar calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator",
+    "concrete-stair-calculator",
+    "retaining-wall-calculator"
+  ]
+}

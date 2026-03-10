@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beam Span Calculator — Structural Beam Sizing Guide</title>
+<meta name="description" content="Calculate beam size for structural spans. Enter span length, load, and tributary width to find the right LVL, glulam, or steel beam.">
+<meta name="keywords" content="beam span calculator, beam sizing calculator, lvl beam span, structural beam calculator, header beam size, glulam beam span">
+<link rel="canonical" href="https://example.com/beam-span-calculator/">
+<meta property="og:title" content="Beam Span Calculator — Structural Beam Sizing Guide">
+<meta property="og:description" content="Calculate the required beam size for any structural span. Get recommendations for LVL, glulam, and dimensional lumber beams.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/beam-span-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Beam Span Calculator — Structural Beam Sizing Guide">
+<meta name="twitter:description" content="Free beam span calculator. Enter span, load, and tributary width to find the right beam size for your project. LVL, glulam, and lumber options.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Beam Span Calculator",
+  "description": "Calculate required beam size for structural spans based on span length, tributary width, and loading conditions including options for LVL, glulam, and dimensional lumber beams.",
+  "url": "https://example.com/beam-span-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What size beam do I need for a 16 foot span?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a 16-foot span carrying a typical floor load (40 psf live + 15 psf dead) with 12-foot tributary width, you'll need approximately a 3.5\" × 14\" LVL, a 5.125\" × 12\" glulam, or a tripled 2×12 in Douglas Fir. Steel option: W8×24 or W10×19."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is tributary width?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tributary width is the floor area that loads onto the beam, measured perpendicular to the beam. It's typically half the joist span on each side. If joists span 12 feet on each side of a beam, the tributary width is 12 feet (6 feet from each side)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "LVL vs glulam — which is better for beams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LVL (1.75\" or 3.5\" wide) is stronger per unit width and better for narrow, deep beams where height isn't a concern. Glulam (3.5\" or 5.125\" wide) is better for wider beams, exposed applications, and where a shallower profile is needed. Both are engineered and more consistent than dimensional lumber."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use doubled 2×12s as a beam?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Doubled 2×12 Douglas Fir can span approximately 8-10 feet for typical residential floor loads. Tripled 2×12s extend this to about 12-14 feet. Beyond that, LVL or steel is typically required. All plies must be nailed together per code (16d nails at 16\" OC staggered)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the deflection limit for beams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The standard deflection limit is L/360 for live load and L/240 for total load, where L is the beam span. For a 16-foot beam, maximum live load deflection is 192/360 = 0.53 inches. Stricter limits (L/480) may apply under tile floors or sensitive finishes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a structural engineer for beam sizing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, for any load-bearing beam. While this calculator provides preliminary estimates, a licensed structural engineer must design the beam, specify connections, verify bearing capacity at supports, and stamp the plans. Most building departments require engineered beam calculations."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Construction Calculators",
+      "item": "https://example.com/construction-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Beam Span Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0f766e;--primary-dark:#115e59;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/construction-calculators/">Construction Calculators</a> &rsaquo; <span>Beam Span Calculator</span>
+    </nav>
+    <h1>Beam Span Calculator</h1>
+    <p>Calculate required beam size for structural spans based on load and tributary area</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Beam Span Calculator</h2>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:16px">Determine required beam size based on span and loading.</p>
+
+    <div class="input-group">
+      <label for="beamSpan">Beam Span (feet)</label>
+      <div class="input-row">
+        <input type="number" id="beamSpan" placeholder="e.g. 16" value="16" step="0.5" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="tribWidth">Tributary Width (feet)</label>
+      <div class="input-row">
+        <input type="number" id="tribWidth" placeholder="e.g. 12" value="12" step="0.5" inputmode="decimal">
+      </div>
+      <span style="font-size:0.8rem;color:var(--text-light)">Half the joist span on each side of the beam</span>
+    </div>
+
+    <div class="input-group">
+      <label for="liveLoad">Live Load (psf)</label>
+      <div class="input-row">
+        <input type="number" id="liveLoad" placeholder="e.g. 40" value="40" step="5" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="deadLoad">Dead Load (psf)</label>
+      <div class="input-row">
+        <input type="number" id="deadLoad" placeholder="e.g. 15" value="15" step="5" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="beamType">Beam Material</label>
+      <select id="beamType" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+        <option value="lvl" selected>LVL (Laminated Veneer Lumber)</option>
+        <option value="glulam">Glulam</option>
+        <option value="lumber">Dimensional Lumber (doubled/tripled)</option>
+        <option value="steel">Steel W-Flange</option>
+      </select>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Beam Size</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Required Beam</div>
+          <div class="result-value" id="rBeamSize">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Total Load</div>
+          <div class="result-value" id="rTotalLoad">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Load per Lin. Ft</div>
+          <div class="result-value" id="rPLF">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Max Moment</div>
+          <div class="result-value" id="rMoment">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Max Shear</div>
+          <div class="result-value" id="rShear">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Max Deflection</div>
+          <div class="result-value" id="rDeflect">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>LVL Beam Size Guide by Span</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">40 psf live + 15 psf dead, 12' tributary width</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Span</th>
+          <th>Load (plf)</th>
+          <th>LVL Size</th>
+          <th>Glulam</th>
+          <th>Steel</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>8 ft</td><td>660</td><td>3.5×9.25"</td><td>3.5×9"</td><td>W6×12</td></tr>
+        <tr><td>10 ft</td><td>660</td><td>3.5×11.25"</td><td>5.125×9"</td><td>W8×13</td></tr>
+        <tr><td>12 ft</td><td>660</td><td>3.5×11.875"</td><td>5.125×10.5"</td><td>W8×18</td></tr>
+        <tr><td>16 ft</td><td>660</td><td>3.5×14"</td><td>5.125×12"</td><td>W10×19</td></tr>
+        <tr><td>20 ft</td><td>660</td><td>3.5×18"</td><td>5.125×15"</td><td>W10×26</td></tr>
+        <tr><td>24 ft</td><td>660</td><td>5.25×18"</td><td>6.75×16.5"</td><td>W12×30</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This beam span calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator sizes structural beams using engineering principles: total load is computed from tributary area and loading, then required section modulus and moment of inertia are calculated to select an appropriate beam.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Total uniform load (w) = (live load + dead load) × tributary width (plf)</li>
+      <li>Maximum bending moment (M) = w × L² ÷ 8 (for uniformly loaded simple span)</li>
+      <li>Required section modulus (S) = M ÷ allowable bending stress (Fb)</li>
+      <li>Maximum deflection = 5wL⁴ ÷ (384EI) — must be ≤ L/360 for live load</li>
+      <li>Beam selected is the smallest section meeting both bending and deflection criteria</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">This calculator provides preliminary sizing only. All structural beams must be designed and approved by a licensed structural engineer. Actual sizing depends on connection details, bearing conditions, unbraced length, load duration, and other factors not captured here.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This beam span calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What size beam do I need for a 16 foot span?</h3>
+      <p>For a 16-foot span carrying a typical floor load (40 psf live + 15 psf dead) with 12-foot tributary width, you'll need approximately a 3.5" × 14" LVL, a 5.125" × 12" glulam, or a tripled 2×12 in Douglas Fir. Steel option: W8×24 or W10×19.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is tributary width?</h3>
+      <p>Tributary width is the floor area that loads onto the beam, measured perpendicular to the beam. It's typically half the joist span on each side. If joists span 12 feet on each side of a beam, the tributary width is 12 feet (6 feet from each side).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>LVL vs glulam — which is better for beams?</h3>
+      <p>LVL (1.75" or 3.5" wide) is stronger per unit width and better for narrow, deep beams where height isn't a concern. Glulam (3.5" or 5.125" wide) is better for wider beams, exposed applications, and where a shallower profile is needed. Both are engineered and more consistent than dimensional lumber.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I use doubled 2×12s as a beam?</h3>
+      <p>Doubled 2×12 Douglas Fir can span approximately 8-10 feet for typical residential floor loads. Tripled 2×12s extend this to about 12-14 feet. Beyond that, LVL or steel is typically required. All plies must be nailed together per code (16d nails at 16" OC staggered).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the deflection limit for beams?</h3>
+      <p>The standard deflection limit is L/360 for live load and L/240 for total load, where L is the beam span. For a 16-foot beam, maximum live load deflection is 192/360 = 0.53 inches. Stricter limits (L/480) may apply under tile floors or sensitive finishes.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do I need a structural engineer for beam sizing?</h3>
+      <p>Yes, for any load-bearing beam. While this calculator provides preliminary estimates, a licensed structural engineer must design the beam, specify connections, verify bearing capacity at supports, and stamp the plans. Most building departments require engineered beam calculations.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/concrete-slab-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Slab Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete volume and bags for slabs, patios, and driveways</span></a>
+      <a href="/deck-board-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Deck Board Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate deck boards, screws, and joists for your deck</span></a>
+      <a href="/concrete-footing-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Footing Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete for rectangular and round footings</span></a>
+      <a href="/sonotube-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Sonotube Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete for Sonotube cardboard forms</span></a>
+      <a href="/concrete-block-fill-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Block Fill Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete fill for CMU block walls and cores</span></a>
+      <a href="/concrete-bag-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Bag Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how many bags of concrete you need for any project</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Beam Span Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function fmt(n, d) {
+    if (typeof d === 'undefined') d = 2;
+    var parts = n.toFixed(d).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
+  // LVL properties: Fb=2600psi, E=1.9M psi
+  // Glulam: Fb=2400psi, E=1.8M psi
+  // Lumber (DF#1): Fb=1000psi, E=1.7M psi
+  // Steel A992: Fy=50ksi, E=29M psi
+
+  var lvlSizes = [
+    {name:'1.75×7.25"', b:1.75,d:7.25}, {name:'1.75×9.25"', b:1.75,d:9.25},
+    {name:'1.75×11.25"', b:1.75,d:11.25}, {name:'1.75×11.875"', b:1.75,d:11.875},
+    {name:'3.5×9.25"', b:3.5,d:9.25}, {name:'3.5×11.25"', b:3.5,d:11.25},
+    {name:'3.5×11.875"', b:3.5,d:11.875}, {name:'3.5×14"', b:3.5,d:14},
+    {name:'3.5×16"', b:3.5,d:16}, {name:'3.5×18"', b:3.5,d:18},
+    {name:'5.25×14"', b:5.25,d:14}, {name:'5.25×16"', b:5.25,d:16},
+    {name:'5.25×18"', b:5.25,d:18}, {name:'5.25×20"', b:5.25,d:20}
+  ];
+
+  var glulamSizes = [
+    {name:'3.125×9"', b:3.125,d:9}, {name:'3.125×10.5"', b:3.125,d:10.5},
+    {name:'3.5×9"', b:3.5,d:9}, {name:'3.5×10.5"', b:3.5,d:10.5},
+    {name:'3.5×12"', b:3.5,d:12}, {name:'5.125×9"', b:5.125,d:9},
+    {name:'5.125×10.5"', b:5.125,d:10.5}, {name:'5.125×12"', b:5.125,d:12},
+    {name:'5.125×13.5"', b:5.125,d:13.5}, {name:'5.125×15"', b:5.125,d:15},
+    {name:'6.75×12"', b:6.75,d:12}, {name:'6.75×13.5"', b:6.75,d:13.5},
+    {name:'6.75×15"', b:6.75,d:15}, {name:'6.75×16.5"', b:6.75,d:16.5}
+  ];
+
+  var steelSections = [
+    {name:'W6×12', Sx:10.9, Ix:32.1}, {name:'W8×13', Sx:9.91, Ix:39.6},
+    {name:'W8×18', Sx:15.2, Ix:61.9}, {name:'W8×24', Sx:20.9, Ix:82.7},
+    {name:'W10×19', Sx:18.8, Ix:96.3}, {name:'W10×22', Sx:23.2, Ix:118},
+    {name:'W10×26', Sx:27.9, Ix:144}, {name:'W12×26', Sx:33.4, Ix:204},
+    {name:'W12×30', Sx:38.6, Ix:238}, {name:'W14×30', Sx:42, Ix:291}
+  ];
+
+  var lumberSizes = [
+    {name:'(2) 2×8', b:3,d:7.25}, {name:'(2) 2×10', b:3,d:9.25},
+    {name:'(2) 2×12', b:3,d:11.25}, {name:'(3) 2×10', b:4.5,d:9.25},
+    {name:'(3) 2×12', b:4.5,d:11.25}, {name:'(4) 2×12', b:6,d:11.25}
+  ];
+
+  function sectionMod(b, d) { return b * d * d / 6; }
+  function momentOfInertia(b, d) { return b * d * d * d / 12; }
+
+  var spanEl = document.getElementById('beamSpan');
+  var tribEl = document.getElementById('tribWidth');
+  var liveEl = document.getElementById('liveLoad');
+  var deadEl = document.getElementById('deadLoad');
+  var typeEl = document.getElementById('beamType');
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  var chartData = [
+    ['8 ft', '660', '3.5×9.25"', '3.5×9"', 'W6×12'],
+    ['10 ft', '660', '3.5×11.25"', '5.125×9"', 'W8×13'],
+    ['12 ft', '660', '3.5×11.875"', '5.125×10.5"', 'W8×18'],
+    ['16 ft', '660', '3.5×14"', '5.125×12"', 'W10×19'],
+    ['20 ft', '660', '3.5×18"', '5.125×15"', 'W10×26'],
+    ['24 ft', '660', '5.25×18"', '6.75×16.5"', 'W12×30']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function getVal(el) { var v = parseFloat(el.value); return isNaN(v) ? 0 : v; }
+
+  function calculate() {
+    var span = getVal(spanEl);
+    var trib = getVal(tribEl);
+    var live = getVal(liveEl);
+    var dead = getVal(deadEl);
+    var type = typeEl.value;
+
+    if (span <= 0 || trib <= 0) return;
+
+    var totalPSF = live + dead;
+    var wPLF = totalPSF * trib; // pounds per linear foot
+    var wPLI = wPLF / 12; // pounds per linear inch
+    var spanIn = span * 12;
+
+    // Maximum moment: wL^2/8 (in-lbs)
+    var Mmax = wPLI * spanIn * spanIn / 8;
+    // Maximum shear: wL/2 (lbs)
+    var Vmax = wPLF * span / 2;
+
+    var beamName = '';
+
+    if (type === 'lvl') {
+      var Fb = 2600;
+      var E = 1900000;
+      var reqS = Mmax / Fb;
+      var deflLimit = spanIn / 360;
+      for (var i = 0; i < lvlSizes.length; i++) {
+        var s = lvlSizes[i];
+        var S = sectionMod(s.b, s.d);
+        var I = momentOfInertia(s.b, s.d);
+        var defl = 5 * wPLI * Math.pow(spanIn, 4) / (384 * E * I);
+        if (S >= reqS && defl <= deflLimit) { beamName = s.name; break; }
+      }
+      if (!beamName) beamName = 'Exceeds LVL tables';
+    } else if (type === 'glulam') {
+      var Fb2 = 2400;
+      var E2 = 1800000;
+      var reqS2 = Mmax / Fb2;
+      var deflLimit2 = spanIn / 360;
+      for (var j = 0; j < glulamSizes.length; j++) {
+        var g = glulamSizes[j];
+        var Sg = sectionMod(g.b, g.d);
+        var Ig = momentOfInertia(g.b, g.d);
+        var deflG = 5 * wPLI * Math.pow(spanIn, 4) / (384 * E2 * Ig);
+        if (Sg >= reqS2 && deflG <= deflLimit2) { beamName = g.name; break; }
+      }
+      if (!beamName) beamName = 'Exceeds glulam tables';
+    } else if (type === 'lumber') {
+      var Fb3 = 1000;
+      var E3 = 1700000;
+      var reqS3 = Mmax / Fb3;
+      var deflLimit3 = spanIn / 360;
+      for (var k = 0; k < lumberSizes.length; k++) {
+        var l = lumberSizes[k];
+        var Sl = sectionMod(l.b, l.d);
+        var Il = momentOfInertia(l.b, l.d);
+        var deflL = 5 * wPLI * Math.pow(spanIn, 4) / (384 * E3 * Il);
+        if (Sl >= reqS3 && deflL <= deflLimit3) { beamName = l.name; break; }
+      }
+      if (!beamName) beamName = 'Use LVL or steel';
+    } else if (type === 'steel') {
+      // Steel: Fb = 0.66 * Fy = 33ksi = 33000 psi
+      var FbSteel = 33000;
+      var Esteel = 29000000;
+      var reqSs = Mmax / FbSteel;
+      var deflLimitS = spanIn / 360;
+      for (var m = 0; m < steelSections.length; m++) {
+        var st = steelSections[m];
+        var deflS = 5 * wPLI * Math.pow(spanIn, 4) / (384 * Esteel * st.Ix);
+        if (st.Sx >= reqSs && deflS <= deflLimitS) { beamName = st.name; break; }
+      }
+      if (!beamName) beamName = 'Exceeds tables — consult engineer';
+    }
+
+    var maxDefl = spanIn / 360;
+
+    document.getElementById('rBeamSize').textContent = beamName;
+    document.getElementById('rTotalLoad').textContent = fmt(totalPSF, 0) + ' psf';
+    document.getElementById('rPLF').textContent = fmt(wPLF, 0) + ' plf';
+    document.getElementById('rMoment').textContent = fmt(Mmax / 12, 0) + ' ft-lbs';
+    document.getElementById('rShear').textContent = fmt(Vmax, 0) + ' lbs';
+    document.getElementById('rDeflect').textContent = 'L/360 = ' + fmt(maxDefl, 2) + '"';
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+  }
+
+  calcBtn.addEventListener('click', function() {
+    calculate();
+    if (resultEl.classList.contains('visible')) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  [spanEl, tribEl, liveEl, deadEl, typeEl].forEach(function(inp) {
+    if (inp) {
+      inp.addEventListener('input', calculate);
+      inp.addEventListener('change', calculate);
+      inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+    }
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Beam Span Calculator';
+  var TOOL_SLUG = 'beam-span-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'construction', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+{
+  "slug": "cfm-calculator",
+  "toolName": "CFM Calculator",
+  "tagline": "Calculate airflow in cubic feet per minute for HVAC ducts, fans, and ventilation",
+  "title": "CFM Calculator — Airflow, Duct Size & Ventilation",
+  "metaDescription": "Calculate CFM airflow for HVAC, bathroom fans, range hoods, and duct sizing. Enter room size or duct dimensions for instant results.",
+  "keywords": "cfm calculator, cubic feet per minute calculator, duct cfm calculator, airflow calculator, ventilation cfm, bathroom fan cfm",
+  "domain": "example.com",
+  "primaryColor": "#0d9488",
+  "primaryDarkColor": "#0f766e",
+  "ogTitle": "CFM Calculator — Airflow, Duct Size & Ventilation",
+  "ogDescription": "Calculate CFM for HVAC systems, exhaust fans, and ductwork. Enter room dimensions or duct size for accurate airflow estimates.",
+  "twitterDescription": "Free CFM calculator for HVAC, fans, and ducts. Calculate airflow in cubic feet per minute for any ventilation application.",
+  "jsonLdDescription": "Calculate CFM (cubic feet per minute) airflow for HVAC duct sizing, bathroom exhaust fans, range hoods, and whole-house ventilation based on room size and air changes per hour.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>CFM Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate airflow requirements for HVAC, fans, and ventilation.</p>\n\n    <div class=\"input-group\">\n      <label for=\"calcMode\">Calculation Mode</label>\n      <select id=\"calcMode\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"room\" selected>Room Ventilation (ACH method)</option>\n        <option value=\"duct\">Duct Airflow (velocity method)</option>\n        <option value=\"bath\">Bathroom Fan Sizing</option>\n        <option value=\"range\">Range Hood Sizing</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roomLength\">Room Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roomLength\" placeholder=\"e.g. 15\" value=\"15\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roomWidth\">Room Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roomWidth\" placeholder=\"e.g. 12\" value=\"12\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roomHeight\">Ceiling Height (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roomHeight\" placeholder=\"e.g. 8\" value=\"8\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"achRate\">Air Changes per Hour (ACH)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"achRate\" placeholder=\"e.g. 6\" value=\"6\" step=\"1\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Bathroom: 8 ACH, Kitchen: 15 ACH, Office: 6 ACH, Workshop: 10 ACH</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ductDiameter\">Duct Diameter (inches, for duct mode)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"ductDiameter\" placeholder=\"e.g. 8\" value=\"8\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"airVelocity\">Air Velocity (FPM, for duct mode)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"airVelocity\" placeholder=\"e.g. 900\" value=\"900\" step=\"50\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Residential: 600-900 FPM, Commercial: 1000-1500 FPM</span>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate CFM</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Required CFM</div>\n          <div class=\"result-value\" id=\"rCFM\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Room Volume</div>\n          <div class=\"result-value\" id=\"rVolume\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Duct Size Needed</div>\n          <div class=\"result-value\" id=\"rDuct\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Fan Recommendation</div>\n          <div class=\"result-value\" id=\"rFan\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator determines airflow (CFM) using two methods: the Air Changes per Hour (ACH) method for room ventilation, and the velocity method for duct sizing.",
+    "rules": [
+      "ACH method: CFM = (room volume in cu ft × air changes per hour) ÷ 60",
+      "Duct method: CFM = duct area (sq ft) × air velocity (FPM)",
+      "Duct area for round duct = π × (diameter/2)² ÷ 144 (convert sq in to sq ft)",
+      "Bathroom fans: 1 CFM per sq ft of bathroom floor area (minimum 50 CFM)",
+      "Range hoods: 100 CFM per linear foot of range width (minimum), 1 CFM per 100 BTU for gas ranges"
+    ],
+    "outro": "Proper ductwork design also considers static pressure, friction loss, and equivalent duct length for fittings. For complex HVAC systems, use Manual D duct design methods. Always size fans with enough capacity to overcome duct static pressure."
+  },
+  "faq": [
+    {
+      "question": "How do I calculate CFM for a room?",
+      "answer": "Calculate the room volume (length × width × height), multiply by the recommended air changes per hour (ACH), and divide by 60. For a 15×12×8 room with 6 ACH: (1,440 cu ft × 6) ÷ 60 = 144 CFM. Different room types need different ACH rates."
+    },
+    {
+      "question": "What size bathroom exhaust fan do I need?",
+      "answer": "For bathrooms up to 100 sq ft: 1 CFM per sq ft (50 CFM minimum). For larger bathrooms: add up 50 CFM per toilet, 50 per shower, 100 per jetted tub. A standard 8×10 bathroom needs 80 CFM. Install a fan rated at the next standard size up (80, 110, 150 CFM)."
+    },
+    {
+      "question": "What CFM range hood do I need?",
+      "answer": "Electric range: minimum 100 CFM per linear foot of range width (300 CFM for 30\" range). Gas range: 1 CFM per 100 BTU of burner output. A 60,000 BTU gas range needs at least 600 CFM. For island installations, increase CFM by 50%."
+    },
+    {
+      "question": "What duct size do I need for a given CFM?",
+      "answer": "At typical residential velocities (600-900 FPM): 6\" duct carries 100-150 CFM, 8\" carries 200-300 CFM, 10\" carries 350-500 CFM, 12\" carries 500-700 CFM. Keep velocity under 900 FPM in residential systems to minimize noise."
+    },
+    {
+      "question": "What are Air Changes per Hour (ACH)?",
+      "answer": "ACH is how many times the entire volume of air in a room is replaced per hour. Standard rates: bedrooms 4-6 ACH, living rooms 6-8 ACH, kitchens 15-20 ACH, bathrooms 8-10 ACH, garages 6-8 ACH, workshops 10-15 ACH."
+    },
+    {
+      "question": "How do I convert CFM to duct size?",
+      "answer": "Use the formula: duct area = CFM ÷ velocity. For 300 CFM at 900 FPM: area = 0.33 sq ft = 48 sq in, which is about an 8\" round duct (50.3 sq in). Always round up to the next standard duct size for safety margin."
+    }
+  ],
+  "relatedTools": [
+    "solar-panel-calculator",
+    "drywall-calculator",
+    "paint-calculator",
+    "carpet-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator"
+  ],
+  "chart": {
+    "title": "Duct Size vs. CFM Capacity",
+    "subtitle": "At recommended residential air velocity (700 FPM)",
+    "columns": [
+      "Duct Diameter",
+      "Area (sq in)",
+      "CFM",
+      "Max CFM @900 FPM"
+    ],
+    "rows": [
+      [
+        "4\"",
+        "12.6",
+        "61",
+        "79"
+      ],
+      [
+        "6\"",
+        "28.3",
+        "137",
+        "177"
+      ],
+      [
+        "8\"",
+        "50.3",
+        "244",
+        "314"
+      ],
+      [
+        "10\"",
+        "78.5",
+        "381",
+        "491"
+      ],
+      [
+        "12\"",
+        "113.1",
+        "549",
+        "707"
+      ],
+      [
+        "14\"",
+        "153.9",
+        "747",
+        "961"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This cfm calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This cfm calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

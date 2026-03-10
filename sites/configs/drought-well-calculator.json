@@ -1,0 +1,136 @@
+{
+  "slug": "drought-well-calculator",
+  "toolName": "Drought & Well Depth Calculator",
+  "tagline": "Calculate well depth requirements and drought impact on water supply and cost",
+  "title": "Drought & Well Depth Calculator — Water Supply & Cost Estimator",
+  "metaDescription": "Calculate required well depth, drilling costs, water yield, and drought impact on your private well. Estimate gallons per day by household size.",
+  "keywords": "well depth calculator, well drilling cost calculator, drought well impact, private well depth, well water yield calculator, well gallons per day",
+  "domain": "example.com",
+  "primaryColor": "#854d0e",
+  "primaryDarkColor": "#713f12",
+  "ogTitle": "Drought & Well Depth Calculator — Depth, Cost & Yield",
+  "ogDescription": "Calculate well depth requirements, drilling costs, and how drought conditions affect your private well water supply.",
+  "twitterDescription": "How deep should your well be? Calculate drilling depth, cost, daily yield, and drought impact on water supply.",
+  "jsonLdDescription": "Calculate private well drilling depth requirements, costs, daily water yield, and drought severity impact on water table levels for residential properties.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Drought & Well Depth Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"region\">Region / Geology</label>\n      <select id=\"region\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"coastal\">Coastal plain (sand/gravel)</option>\n        <option value=\"piedmont\" selected>Piedmont / clay-rock</option>\n        <option value=\"mountain\">Mountain / fractured rock</option>\n        <option value=\"plains\">Great Plains / sandstone</option>\n        <option value=\"desert\">Desert / arid basin</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"staticLevel\">Current Static Water Level (feet below surface)</label>\n      <input type=\"number\" id=\"staticLevel\" value=\"40\" min=\"0\" max=\"1000\" step=\"5\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"householdSize\">Household Size (people)</label>\n      <input type=\"number\" id=\"householdSize\" value=\"4\" min=\"1\" max=\"20\" step=\"1\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"irrigation\">Irrigation / Outdoor Use</label>\n      <select id=\"irrigation\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"0\">None (indoor use only)</option>\n        <option value=\"100\" selected>Small garden (100 gal/day)</option>\n        <option value=\"300\">Large lawn/garden (300 gal/day)</option>\n        <option value=\"600\">Hobby farm / livestock (600 gal/day)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"droughtLevel\">Drought Severity</label>\n      <select id=\"droughtLevel\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"0\">No drought (normal)</option>\n        <option value=\"1\" selected>D1 — Moderate drought</option>\n        <option value=\"2\">D2 — Severe drought</option>\n        <option value=\"3\">D3 — Extreme drought</option>\n        <option value=\"4\">D4 — Exceptional drought</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"drillCost\">Drilling Cost per Foot ($)</label>\n      <input type=\"number\" id=\"drillCost\" value=\"35\" min=\"10\" max=\"200\" step=\"5\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Well Requirements</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Well Depth</div>\n          <div class=\"result-value\" id=\"rDepth\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Estimated Drilling Cost</div>\n          <div class=\"result-value\" id=\"rCost\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Daily Water Need</div>\n          <div class=\"result-value\" id=\"rDailyNeed\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Required Yield (GPM)</div>\n          <div class=\"result-value\" id=\"rGPM\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Drought Water Table Drop</div>\n          <div class=\"result-value\" id=\"rDrop\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Drought Risk Level</div>\n          <div class=\"result-value\" id=\"rDroughtRisk\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates recommended well depth based on your geology, water needs, and drought conditions. It factors in water table drop during drought to ensure reliable year-round supply.",
+    "rules": [
+      "Daily indoor water use averages 50-80 gallons per person per day for residential use",
+      "Recommended well depth = static water level + drought drop buffer + 50-100 feet of water column for storage",
+      "During severe drought (D2-D3), water tables can drop 10-40 feet depending on geology and aquifer type",
+      "Minimum recommended well yield is 3-5 GPM for residential use; 1 GPM can supply ~1,440 gallons/day with storage",
+      "Deeper wells cost more but provide greater drought resilience and more consistent water quality"
+    ],
+    "outro": "Well depth and yield vary significantly by local geology, aquifer conditions, and nearby pumping. Always hire a licensed well driller who knows local conditions and check with your county for well construction requirements."
+  },
+  "faq": [
+    {
+      "question": "How deep should a residential well be?",
+      "answer": "Typical residential wells range from 100-500 feet deep. Coastal areas often need only 50-150 feet, while mountain and desert regions may need 300-800 feet. The well must extend below the lowest expected water table level plus 50-100 feet of water column for adequate supply and storage."
+    },
+    {
+      "question": "How much does it cost to drill a well?",
+      "answer": "Well drilling costs $15-50 per foot depending on geology and location. A typical 200-foot well costs $5,000-12,000 for drilling alone. Add $2,000-5,000 for pump, pressure tank, and plumbing. Total installed cost is typically $8,000-20,000 for a complete residential system."
+    },
+    {
+      "question": "How does drought affect my well?",
+      "answer": "Drought lowers the water table (static water level). Shallow wells may go dry during severe drought. Moderate drought (D1) may drop water tables 5-15 feet; severe drought (D2-D3) can drop them 15-40+ feet. Deep wells with sufficient water column are more drought-resistant."
+    },
+    {
+      "question": "What GPM do I need for a home well?",
+      "answer": "The standard recommendation is 3-5 GPM for a typical home. However, 1 GPM well can provide 1,440 gallons per day with adequate storage tank capacity. A household of 4 needs about 300-400 gallons/day for indoor use. Higher GPM is needed for simultaneous fixtures and irrigation."
+    },
+    {
+      "question": "Can I deepen an existing well?",
+      "answer": "Sometimes. Wells drilled in bedrock can often be deepened by drilling deeper into the same borehole. Wells in sand/gravel aquifers are harder to deepen. Deepening costs $30-80 per foot. In some cases, drilling a new well is more cost-effective, especially if the existing well has other issues."
+    }
+  ],
+  "relatedTools": [
+    "home-resilience-calculator",
+    "flood-zone-calculator",
+    "solar-payback-calculator",
+    "wildfire-risk-calculator",
+    "hurricane-insurance-calculator",
+    "heat-dome-safety-calculator",
+    "well-pump-pressure-calculator",
+    "water-storage-calculator"
+  ],
+  "chart": {
+    "title": "Typical Well Depths & Costs by Region",
+    "subtitle": "Average residential well depth and drilling costs by geological region",
+    "columns": [
+      "Region/Geology",
+      "Typical Depth",
+      "Cost/Foot",
+      "Avg Total",
+      "Drought Vulnerability"
+    ],
+    "rows": [
+      [
+        "Coastal plain",
+        "50-150 ft",
+        "$15-25",
+        "$3,000-$5,000",
+        "Moderate (saltwater intrusion risk)"
+      ],
+      [
+        "Piedmont / clay-rock",
+        "150-400 ft",
+        "$25-40",
+        "$6,000-$16,000",
+        "Moderate"
+      ],
+      [
+        "Mountain / fractured rock",
+        "200-600 ft",
+        "$30-50",
+        "$8,000-$30,000",
+        "Low-Moderate"
+      ],
+      [
+        "Great Plains / sandstone",
+        "100-400 ft",
+        "$20-35",
+        "$4,000-$14,000",
+        "High (Ogallala depletion)"
+      ],
+      [
+        "Desert / arid basin",
+        "300-800 ft",
+        "$35-60",
+        "$12,000-$48,000",
+        "Very High"
+      ],
+      [
+        "Glacial deposits",
+        "50-200 ft",
+        "$20-30",
+        "$2,000-$6,000",
+        "Low-Moderate"
+      ]
+    ]
+  },
+  "category": "climate",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This drought & well depth calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This drought & well depth calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

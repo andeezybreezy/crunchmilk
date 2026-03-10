@@ -1,0 +1,118 @@
+{
+  "slug": "cap-rate-calculator",
+  "toolName": "Cap Rate Calculator",
+  "tagline": "Calculate capitalization rate for any investment property",
+  "title": "Cap Rate Calculator — Capitalization Rate for Real Estate",
+  "metaDescription": "Free cap rate calculator. Enter property price, rental income, and expenses to find cap rate and NOI. Includes reverse calculator for max purchase price.",
+  "keywords": "cap rate calculator, capitalization rate calculator, real estate cap rate, NOI calculator, investment property calculator",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "domain": "example.com",
+  "ogTitle": "Cap Rate Calculator — Real Estate Capitalization Rate",
+  "ogDescription": "Calculate cap rate from property price, rental income, and expenses. Includes NOI calculation and reverse cap rate tool.",
+  "twitterDescription": "Calculate capitalization rate for investment properties. Includes NOI and reverse cap rate calculator.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cap Rate Calculator",
+    "description": "Calculate cap rate from property price, rental income, and expenses. Includes reverse cap rate calculator.",
+    "url": "https://example.com/cap-rate-calculator/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a cap rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cap rate (capitalization rate) is the ratio of a property's net operating income (NOI) to its purchase price, expressed as a percentage. It measures the expected rate of return on a real estate investment, independent of financing. A 6% cap rate means the property generates 6% of its value in net income annually."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate cap rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cap Rate = Net Operating Income (NOI) / Property Price × 100. NOI is gross rental income minus operating expenses (but not mortgage payments). For example, a property earning $24,000 NOI with a $400,000 price has a 6% cap rate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good cap rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on the market and property type. Generally: 4-5% in prime urban areas, 5-7% in suburban markets, 7-10% in rural or higher-risk areas. Class A properties have lower cap rates. A good cap rate provides adequate return for the risk involved."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is NOI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Net Operating Income (NOI) is gross rental income minus all operating expenses. Operating expenses include property taxes, insurance, maintenance, management fees, and vacancy allowance. NOI does NOT include mortgage payments, income taxes, or capital expenditures."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does cap rate include mortgage payments?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Cap rate is calculated using NOI, which excludes mortgage payments (debt service). This makes cap rate useful for comparing properties regardless of financing. To evaluate returns with financing, use cash-on-cash return or total ROI instead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use cap rate to determine a purchase price?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Divide the NOI by your target cap rate. For example, if a property generates $30,000 NOI and you want a 7% return, the maximum price is $30,000 / 0.07 = $428,571. This reverse calculation helps you determine what to offer on a property."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Cap Rate Calculator</h2>\n\n  <div style=\"display:flex;gap:8px;margin-bottom:20px\">\n    <button type=\"button\" class=\"convert-btn\" id=\"modeForward\" style=\"flex:1;font-size:0.9rem\">Calculate Cap Rate</button>\n    <button type=\"button\" id=\"modeReverse\" style=\"flex:1;padding:12px;border:2px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-size:0.9rem;font-weight:600\">Max Purchase Price</button>\n  </div>\n\n  <div id=\"forwardMode\">\n    <div class=\"input-group\">\n      <label for=\"propertyPrice\">Property Price ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"propertyPrice\" value=\"300000\" min=\"0\" step=\"10000\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"grossIncome\">Annual Gross Rental Income ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"grossIncome\" value=\"36000\" min=\"0\" step=\"1000\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"expenseMode\">Expenses</label>\n      <div class=\"input-row\">\n        <select id=\"expenseMode\" style=\"flex:0 0 auto\">\n          <option value=\"dollar\">Dollar Amount</option>\n          <option value=\"percent\">% of Income</option>\n        </select>\n        <input type=\"number\" id=\"expenses\" value=\"12000\" min=\"0\" step=\"500\" inputmode=\"decimal\">\n        <span id=\"expenseLabel\" style=\"font-size:0.9rem;color:var(--text-light)\">/ year</span>\n      </div>\n    </div>\n  </div>\n\n  <div id=\"reverseMode\" style=\"display:none\">\n    <div class=\"input-group\">\n      <label for=\"revNOI\">Annual NOI ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"revNOI\" value=\"24000\" min=\"0\" step=\"1000\" inputmode=\"decimal\">\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"revCapRate\">Desired Cap Rate (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"revCapRate\" value=\"7\" min=\"0.1\" max=\"30\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\" id=\"resultLabel1\">Cap Rate</div>\n        <div class=\"result-value\" id=\"resultVal1\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\" id=\"resultLabel2\">NOI</div>\n        <div class=\"result-value\" id=\"resultVal2\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\" id=\"resultLabel3\">Monthly NOI</div>\n        <div class=\"result-value\" id=\"resultVal3\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\" id=\"extraResults\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Gross Rent Multiplier</div>\n        <div class=\"result-value\" id=\"grm\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Expense Ratio</div>\n        <div class=\"result-value\" id=\"expenseRatio\">—</div>\n      </div>\n    </div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Cap Rate Ranges by Property Type</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Typical cap rates across different real estate investment types (US averages).</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr>\n          <th>Property Type</th>\n          <th>Class A (Prime)</th>\n          <th>Class B</th>\n          <th>Class C</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>Multifamily (Apartments)</td><td>3.5–5%</td><td>5–7%</td><td>7–10%</td></tr>\n        <tr><td>Single Family Rental</td><td>4–5.5%</td><td>5.5–7.5%</td><td>7.5–10%</td></tr>\n        <tr><td>Office</td><td>4–6%</td><td>6–8%</td><td>8–12%</td></tr>\n        <tr><td>Retail</td><td>4.5–6%</td><td>6–8%</td><td>8–12%</td></tr>\n        <tr><td>Industrial / Warehouse</td><td>4–5.5%</td><td>5.5–7%</td><td>7–10%</td></tr>\n        <tr><td>Self-Storage</td><td>4.5–6%</td><td>6–8%</td><td>8–10%</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Cap Rate</h2>\n  <p style=\"margin-bottom:12px\">The capitalization rate (cap rate) is the most widely used metric for evaluating and comparing investment properties. It measures the property's unlevered return — independent of financing.</p>\n  <div style=\"background:#ecfdf5;border:2px solid #a7f3d0;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Cap Rate = NOI / Property Price × 100</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>NOI</strong> = Gross Rental Income − Operating Expenses</li>\n    <li>Operating expenses include: property tax, insurance, maintenance, management, vacancy</li>\n    <li>NOI does <strong>NOT</strong> include mortgage payments, income tax, or capital improvements</li>\n    <li><strong>Reverse formula:</strong> Max Price = NOI / Target Cap Rate</li>\n  </ul>\n  <p style=\"padding:12px;background:#f5f5f5;border-radius:8px;font-family:monospace\"><strong>Example:</strong> $36,000 gross income − $12,000 expenses = $24,000 NOI. $24,000 / $300,000 = <strong>8.0% cap rate</strong></p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n\n  <div class=\"faq-item\">\n    <h3>What is a cap rate?</h3>\n    <p>Cap rate (capitalization rate) is the ratio of a property's net operating income (NOI) to its purchase price, expressed as a percentage. It measures the expected rate of return on a real estate investment independent of financing. A 6% cap rate means the property generates 6% of its value in net income annually.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do you calculate cap rate?</h3>\n    <p>Cap Rate = Net Operating Income (NOI) / Property Price × 100. NOI equals gross rental income minus operating expenses (but not mortgage payments). For example, a property earning $24,000 in NOI with a $400,000 purchase price has a 6% cap rate.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is a good cap rate?</h3>\n    <p>It depends heavily on the market, property type, and your investment goals. Generally: 4–5% in prime urban areas (lower risk, higher appreciation), 5–7% in suburban markets, and 7–10% in rural or higher-risk areas. The key is that the cap rate adequately compensates for the risk involved.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is NOI?</h3>\n    <p>Net Operating Income (NOI) is the gross rental income minus all operating expenses. These include property taxes, insurance, maintenance, management fees, and vacancy allowance. NOI does not include mortgage payments, personal income taxes, or capital expenditures like roof replacement or major renovations.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>Does cap rate include mortgage payments?</h3>\n    <p>No. Cap rate uses NOI, which excludes mortgage payments (debt service). This intentional exclusion makes cap rate useful for comparing properties regardless of how they are financed. To evaluate returns that include financing effects, use cash-on-cash return or total ROI instead.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do I use cap rate to determine a purchase price?</h3>\n    <p>Divide the property's NOI by your target cap rate. For example, if a property generates $30,000 in NOI and you want a 7% return, the maximum purchase price is $30,000 / 0.07 = $428,571. This reverse calculation helps you determine what to offer on a property to meet your return goals.</p>\n  </div>\n</div>",
+  "category": "finance",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This cap rate calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This cap rate calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "fire-calculator",
+    "debt-snowball-calculator",
+    "debt-avalanche-calculator",
+    "rental-property-roi-calculator",
+    "cash-on-cash-return-calculator",
+    "freelance-rate-calculator",
+    "markup-calculator",
+    "profit-margin-calculator"
+  ]
+}

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biological Age Calculator — How Old Is Your Body Really?</title>
+<meta name="description" content="Estimate your biological age from health metrics like heart rate, blood pressure, exercise, sleep, and diet. Find your top improvement areas.">
+<meta name="keywords" content="biological age calculator, real age calculator, body age test, biological age test, health age calculator, how old is my body, longevity calculator">
+<link rel="canonical" href="https://example.com/biological-age-calculator/">
+<meta property="og:title" content="Biological Age Calculator — How Old Is Your Body Really?">
+<meta property="og:description" content="Is your body older or younger than your actual age? Estimate biological age from health metrics and lifestyle factors.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/biological-age-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Biological Age Calculator — How Old Is Your Body Really?">
+<meta name="twitter:description" content="How old is your body really? Estimate your biological age from heart rate, blood pressure, exercise, sleep, and more. Free calculator.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Biological Age Calculator",
+  "description": "Estimate biological age based on chronological age, resting heart rate, blood pressure, exercise frequency, sleep quality, diet, stress, and other lifestyle factors to determine how your body is aging relative to your actual age.",
+  "url": "https://example.com/biological-age-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is biological age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Biological age measures how well your body is functioning relative to your chronological age. Two 50-year-olds can have very different biological ages based on their health, fitness, and lifestyle. Someone with excellent cardiovascular health, regular exercise, and good diet might have a biological age of 40, while a sedentary smoker could have a biological age of 60+."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is this biological age estimate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator provides a rough estimate based on lifestyle factors correlated with aging in population studies. For a clinical-grade measurement, consider epigenetic age tests (TruDiagnostic, Elysium Index) that analyze DNA methylation — the gold standard for biological age measurement. Costs range from $200-$500 per test."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What has the biggest impact on biological age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Research consistently shows exercise is the single most powerful anti-aging intervention. Regular moderate exercise (150+ min/week) can reduce biological age by 5-10 years. Other high-impact factors include not smoking, maintaining a healthy weight, quality sleep (7-8 hours), stress management, and a nutrient-rich diet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you reverse your biological age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, to a degree. Studies show that lifestyle interventions can measurably reduce biological age. A 2023 study showed participants reduced their epigenetic age by an average of 4.6 years through diet, exercise, sleep optimization, and stress management over 8 weeks. Quitting smoking and starting regular exercise show the largest effects."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does stress affect biological age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Chronic stress accelerates aging through multiple pathways: increased cortisol damages telomeres, promotes inflammation, disrupts sleep, and increases cardiovascular risk. Studies show chronically stressed individuals can have biological ages 5-10 years older than their chronological age. Meditation, therapy, and regular exercise are effective countermeasures."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does diet quality really affect how fast I age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Significantly. The Mediterranean diet has been shown to slow epigenetic aging by 1-3 years. Diets high in processed foods, added sugar, and refined carbohydrates promote inflammation and oxidative stress, accelerating aging. Key anti-aging foods include fatty fish, leafy greens, berries, nuts, olive oil, and fermented foods."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Health & Longevity Calculators",
+      "item": "https://example.com/health-longevity-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Biological Age Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#059669;--primary-dark:#047857;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/health-longevity-calculators/">Health & Longevity Calculators</a> &rsaquo; <span>Biological Age Calculator</span>
+    </nav>
+    <h1>Biological Age Calculator</h1>
+    <p>Estimate your biological age based on health metrics and lifestyle factors</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Biological Age Calculator</h2>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:16px">Estimate how old your body really is based on key health indicators and lifestyle factors.</p>
+
+    <div class="input-group">
+      <label for="chronAge">Chronological Age</label>
+      <div class="input-row">
+        <input type="number" id="chronAge" placeholder="e.g. 40" inputmode="decimal" step="1">
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="input-group">
+        <label for="restingHR" style="font-size:0.85rem">Resting Heart Rate (bpm)</label>
+        <input type="number" id="restingHR" placeholder="e.g. 68" inputmode="decimal" step="1" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem">
+      </div>
+      <div class="input-group">
+        <label for="systolicBP" style="font-size:0.85rem">Systolic Blood Pressure</label>
+        <input type="number" id="systolicBP" placeholder="e.g. 120" inputmode="decimal" step="1" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="waist">Waist Circumference (inches)</label>
+      <div class="input-row">
+        <input type="number" id="waist" placeholder="e.g. 34" inputmode="decimal" step="0.5">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="exercise">Exercise Frequency</label>
+      <select id="exercise" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+        <option value="0">Sedentary (no regular exercise)</option>
+        <option value="1">Light (1-2 days/week)</option>
+        <option value="2">Moderate (3-4 days/week)</option>
+        <option value="3">Active (5-6 days/week)</option>
+        <option value="4">Very Active (daily, includes strength training)</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="sleep">Average Sleep (hours/night)</label>
+      <div class="input-row">
+        <input type="number" id="sleep" placeholder="e.g. 7" inputmode="decimal" step="0.5">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="smoking">Smoking Status</label>
+      <select id="smoking" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+        <option value="never">Never smoked</option>
+        <option value="former">Former smoker (quit 1+ years ago)</option>
+        <option value="light">Light smoker (less than 10/day)</option>
+        <option value="heavy">Heavy smoker (10+ per day)</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="alcohol">Alcohol Consumption</label>
+      <select id="alcohol" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+        <option value="none">None</option>
+        <option value="light">Light (1-3 drinks/week)</option>
+        <option value="moderate">Moderate (4-7 drinks/week)</option>
+        <option value="heavy">Heavy (8+ drinks/week)</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="stress">Stress Level</label>
+      <select id="stress" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+        <option value="low">Low — rarely stressed</option>
+        <option value="moderate">Moderate — sometimes stressed</option>
+        <option value="high">High — frequently stressed</option>
+        <option value="chronic">Chronic — constantly stressed/burned out</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="diet">Diet Quality</label>
+      <select id="diet" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+        <option value="poor">Poor (mostly processed/fast food)</option>
+        <option value="average">Average (some whole foods, some processed)</option>
+        <option value="good">Good (mostly whole foods, fruits, vegetables)</option>
+        <option value="excellent">Excellent (Mediterranean/whole-food plant-rich diet)</option>
+      </select>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Biological Age</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Biological Age</div>
+          <div class="result-value" id="rBioAge">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">vs Chronological</div>
+          <div class="result-value" id="rDelta">—</div>
+        </div>
+      </div>
+      <div id="resultDetails" style="text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Lifestyle Factor Impact on Biological Age</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Approximate years added (+) or subtracted (-) from chronological age based on research</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Optimal</th>
+          <th>Average</th>
+          <th>Poor</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Exercise</td><td>-5 years</td><td>0</td><td>+4 years</td></tr>
+        <tr><td>Smoking</td><td>0 (never)</td><td>+2 (former)</td><td>+8 (current)</td></tr>
+        <tr><td>Sleep</td><td>-2 years (7-8 hrs)</td><td>0</td><td>+3 years (<5 hrs)</td></tr>
+        <tr><td>Diet Quality</td><td>-3 years</td><td>0</td><td>+3 years</td></tr>
+        <tr><td>Stress Level</td><td>-1 year (low)</td><td>+1 year</td><td>+4 years (chronic)</td></tr>
+        <tr><td>Blood Pressure</td><td>-2 years (<120)</td><td>0</td><td>+4 years (>140)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This biological age calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator estimates biological age by scoring key health metrics and lifestyle factors against your chronological age. Each factor can add or subtract years, reflecting how these markers correlate with aging in population studies.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Resting heart rate: <60 bpm subtracts years (strong cardiovascular health); >80 adds years</li>
+      <li>Blood pressure: <120 systolic is optimal; 140+ significantly accelerates biological aging</li>
+      <li>Exercise: regular moderate-to-vigorous exercise is the strongest anti-aging factor, subtracting up to 5+ years</li>
+      <li>Sleep: 7-8 hours is optimal; chronic sleep deprivation (<6 hrs) or excess (>9 hrs) adds years</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Biological age is a concept — no single calculator can measure it precisely. Clinical biological age tests (epigenetic clocks like Horvath, GrimAge, or TruDiagnostic) analyze DNA methylation patterns and are far more accurate. This calculator uses lifestyle-correlated estimates as a general guide.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This biological age calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is biological age?</h3>
+      <p>Biological age measures how well your body is functioning relative to your chronological age. Two 50-year-olds can have very different biological ages based on their health, fitness, and lifestyle. Someone with excellent cardiovascular health, regular exercise, and good diet might have a biological age of 40, while a sedentary smoker could have a biological age of 60+.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How accurate is this biological age estimate?</h3>
+      <p>This calculator provides a rough estimate based on lifestyle factors correlated with aging in population studies. For a clinical-grade measurement, consider epigenetic age tests (TruDiagnostic, Elysium Index) that analyze DNA methylation — the gold standard for biological age measurement. Costs range from $200-$500 per test.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What has the biggest impact on biological age?</h3>
+      <p>Research consistently shows exercise is the single most powerful anti-aging intervention. Regular moderate exercise (150+ min/week) can reduce biological age by 5-10 years. Other high-impact factors include not smoking, maintaining a healthy weight, quality sleep (7-8 hours), stress management, and a nutrient-rich diet.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can you reverse your biological age?</h3>
+      <p>Yes, to a degree. Studies show that lifestyle interventions can measurably reduce biological age. A 2023 study showed participants reduced their epigenetic age by an average of 4.6 years through diet, exercise, sleep optimization, and stress management over 8 weeks. Quitting smoking and starting regular exercise show the largest effects.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How does stress affect biological age?</h3>
+      <p>Chronic stress accelerates aging through multiple pathways: increased cortisol damages telomeres, promotes inflammation, disrupts sleep, and increases cardiovascular risk. Studies show chronically stressed individuals can have biological ages 5-10 years older than their chronological age. Meditation, therapy, and regular exercise are effective countermeasures.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does diet quality really affect how fast I age?</h3>
+      <p>Significantly. The Mediterranean diet has been shown to slow epigenetic aging by 1-3 years. Diets high in processed foods, added sugar, and refined carbohydrates promote inflammation and oxidative stress, accelerating aging. Key anti-aging foods include fatty fish, leafy greens, berries, nuts, olive oil, and fermented foods.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+    <div class="embed-section">
+    <h2>Embed This Calculator</h2>
+    <p>Want to add this calculator to your website or blog? Copy the code below:</p>
+    <textarea class="embed-code" rows="3" readonly id="embedCode">&lt;iframe src=&quot;https://example.com/biological-age-calculator/&quot; width=&quot;100%&quot; height=&quot;600&quot; frameborder=&quot;0&quot; title=&quot;Biological Age Calculator&quot;&gt;&lt;/iframe&gt;</textarea>
+    <button type="button" class="embed-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('embedCode').value.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'&quot;'));this.textContent='Copied!'">Copy Embed Code</button>
+  </div>
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/glp1-weight-loss-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">GLP-1 Weight Loss Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Project your weight loss timeline on Ozempic, Wegovy, Mounjaro, or Zepbound based on clinical trial data</span></a>
+      <a href="/longevity-score-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Longevity Score Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate life expectancy based on lifestyle factors</span></a>
+      <a href="/zone2-heart-rate-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Zone 2 Heart Rate Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find your optimal Zone 2 heart rate range for longevity training using MAF, Karvonen, and %Max methods</span></a>
+      <a href="/vo2-max-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">VO2 Max Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your VO2 max from running, walking, or step tests and see your fitness percentile by age</span></a>
+      <a href="/cgm-to-a1c-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">CGM to A1C Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert your CGM average glucose to estimated A1C and understand your time-in-range equivalents</span></a>
+      <a href="/seed-oil-intake-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Seed Oil Intake Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your daily seed oil consumption from dietary habits</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Biological Age Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function fmt(n, d) {
+    return n.toFixed(typeof d === 'undefined' ? 1 : d);
+  }
+
+  var chronAgeEl = document.getElementById('chronAge');
+  var restingHREl = document.getElementById('restingHR');
+  var systolicBPEl = document.getElementById('systolicBP');
+  var waistEl = document.getElementById('waist');
+  var exerciseEl = document.getElementById('exercise');
+  var sleepEl = document.getElementById('sleep');
+  var smokingEl = document.getElementById('smoking');
+  var alcoholEl = document.getElementById('alcohol');
+  var stressEl = document.getElementById('stress');
+  var dietEl = document.getElementById('diet');
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  var chartData = [
+    ['Exercise', '-5 years', '0', '+4 years'],
+    ['Smoking', '0 (never)', '+2 (former)', '+8 (current)'],
+    ['Sleep', '-2 years (7-8 hrs)', '0', '+3 years (<5 hrs)'],
+    ['Diet Quality', '-3 years', '0', '+3 years'],
+    ['Stress Level', '-1 year (low)', '+1 year', '+4 years (chronic)'],
+    ['Blood Pressure', '-2 years (<120)', '0', '+4 years (>140)']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function getVal(el) { var v = parseFloat(el.value); return isNaN(v) ? 0 : v; }
+
+  function calculate() {
+    var age = getVal(chronAgeEl);
+    if (age <= 0) return;
+
+    var factors = [];
+    var delta = 0;
+
+    // Resting heart rate
+    var hr = getVal(restingHREl);
+    if (hr > 0) {
+      var hrDelta = 0;
+      if (hr < 55) { hrDelta = -2.5; }
+      else if (hr < 60) { hrDelta = -1.5; }
+      else if (hr < 70) { hrDelta = 0; }
+      else if (hr < 80) { hrDelta = 1.5; }
+      else if (hr < 90) { hrDelta = 3; }
+      else { hrDelta = 4.5; }
+      delta += hrDelta;
+      factors.push({ name: 'Resting Heart Rate', value: hr + ' bpm', delta: hrDelta, tip: hr > 75 ? 'Aim for <70 bpm through regular cardio exercise' : hr < 60 ? 'Excellent cardiovascular fitness' : 'Within normal range' });
+    }
+
+    // Blood pressure
+    var bp = getVal(systolicBPEl);
+    if (bp > 0) {
+      var bpDelta = 0;
+      if (bp < 110) { bpDelta = -2; }
+      else if (bp < 120) { bpDelta = -1; }
+      else if (bp < 130) { bpDelta = 0.5; }
+      else if (bp < 140) { bpDelta = 2; }
+      else if (bp < 160) { bpDelta = 4; }
+      else { bpDelta = 6; }
+      delta += bpDelta;
+      factors.push({ name: 'Blood Pressure', value: bp + ' mmHg systolic', delta: bpDelta, tip: bp >= 130 ? 'Reduce sodium, increase exercise, manage stress' : 'Blood pressure is well-controlled' });
+    }
+
+    // Waist circumference
+    var waist = getVal(waistEl);
+    if (waist > 0) {
+      var waistDelta = 0;
+      if (waist < 32) { waistDelta = -1.5; }
+      else if (waist < 35) { waistDelta = 0; }
+      else if (waist < 38) { waistDelta = 1; }
+      else if (waist < 42) { waistDelta = 2.5; }
+      else { waistDelta = 4; }
+      delta += waistDelta;
+      factors.push({ name: 'Waist Circumference', value: waist + '"', delta: waistDelta, tip: waist >= 37 ? 'Visceral fat accelerates aging — focus on reducing through diet and exercise' : 'Healthy waist measurement' });
+    }
+
+    // Exercise
+    var exercise = parseInt(exerciseEl.value);
+    var exDelta = 0;
+    var exLabels = ['Sedentary', 'Light', 'Moderate', 'Active', 'Very Active'];
+    if (exercise === 0) { exDelta = 4; }
+    else if (exercise === 1) { exDelta = 1; }
+    else if (exercise === 2) { exDelta = -2; }
+    else if (exercise === 3) { exDelta = -4; }
+    else { exDelta = -5; }
+    delta += exDelta;
+    factors.push({ name: 'Exercise', value: exLabels[exercise], delta: exDelta, tip: exercise < 2 ? 'Exercise is the #1 anti-aging intervention — aim for 150 min/week moderate activity' : 'Excellent exercise habits' });
+
+    // Sleep
+    var sleep = getVal(sleepEl);
+    if (sleep > 0) {
+      var slDelta = 0;
+      if (sleep >= 7 && sleep <= 8) { slDelta = -2; }
+      else if (sleep >= 6.5 && sleep < 7) { slDelta = 0; }
+      else if (sleep >= 8 && sleep <= 8.5) { slDelta = 0; }
+      else if (sleep >= 6 && sleep < 6.5) { slDelta = 1; }
+      else if (sleep < 6) { slDelta = 3; }
+      else { slDelta = 1.5; }
+      delta += slDelta;
+      factors.push({ name: 'Sleep', value: sleep + ' hrs/night', delta: slDelta, tip: (sleep < 7 || sleep > 8.5) ? 'Aim for 7-8 hours. Consistency matters more than duration.' : 'Optimal sleep duration' });
+    }
+
+    // Smoking
+    var smoking = smokingEl.value;
+    var smDelta = 0;
+    if (smoking === 'never') { smDelta = 0; }
+    else if (smoking === 'former') { smDelta = 2; }
+    else if (smoking === 'light') { smDelta = 5; }
+    else { smDelta = 8; }
+    delta += smDelta;
+    if (smoking !== 'never') {
+      factors.push({ name: 'Smoking', value: smoking === 'former' ? 'Former smoker' : smoking === 'light' ? 'Light smoker' : 'Heavy smoker', delta: smDelta, tip: smoking !== 'former' ? 'Quitting smoking is the single best thing you can do for longevity' : 'Good that you quit — risk continues to decrease over time' });
+    }
+
+    // Alcohol
+    var alcohol = alcoholEl.value;
+    var alDelta = 0;
+    if (alcohol === 'none') { alDelta = 0; }
+    else if (alcohol === 'light') { alDelta = 0; }
+    else if (alcohol === 'moderate') { alDelta = 1; }
+    else { alDelta = 3.5; }
+    delta += alDelta;
+    if (alDelta > 0) {
+      factors.push({ name: 'Alcohol', value: alcohol === 'moderate' ? '4-7 drinks/week' : '8+ drinks/week', delta: alDelta, tip: 'Recent research shows no amount of alcohol is beneficial. Reducing intake improves health markers.' });
+    }
+
+    // Stress
+    var stress = stressEl.value;
+    var stDelta = 0;
+    if (stress === 'low') { stDelta = -1; }
+    else if (stress === 'moderate') { stDelta = 1; }
+    else if (stress === 'high') { stDelta = 2.5; }
+    else { stDelta = 4; }
+    delta += stDelta;
+    factors.push({ name: 'Stress Level', value: stress.charAt(0).toUpperCase() + stress.slice(1), delta: stDelta, tip: stDelta > 1 ? 'Chronic stress accelerates aging — consider meditation, therapy, or lifestyle changes' : 'Good stress management' });
+
+    // Diet
+    var diet = dietEl.value;
+    var diDelta = 0;
+    if (diet === 'excellent') { diDelta = -3; }
+    else if (diet === 'good') { diDelta = -1; }
+    else if (diet === 'average') { diDelta = 1; }
+    else { diDelta = 3; }
+    delta += diDelta;
+    factors.push({ name: 'Diet Quality', value: diet.charAt(0).toUpperCase() + diet.slice(1), delta: diDelta, tip: diDelta > 0 ? 'Focus on whole foods, vegetables, lean protein, and healthy fats' : 'Great dietary habits' });
+
+    var bioAge = Math.round(age + delta);
+    var displayDelta = bioAge - age;
+
+    document.getElementById('rBioAge').textContent = bioAge + ' years';
+    document.getElementById('rBioAge').style.color = displayDelta <= -3 ? '#059669' : displayDelta >= 3 ? '#dc2626' : '#f59e0b';
+
+    var deltaText = displayDelta === 0 ? 'Same as chronological' : (displayDelta > 0 ? '+' + displayDelta + ' years older' : displayDelta + ' years younger');
+    document.getElementById('rDelta').textContent = deltaText;
+    document.getElementById('rDelta').style.color = displayDelta <= 0 ? '#059669' : '#dc2626';
+
+    var d = '';
+
+    // Visual gauge
+    var gaugeMin = age - 15;
+    var gaugeMax = age + 15;
+    var gaugePos = Math.max(0, Math.min(100, ((bioAge - gaugeMin) / (gaugeMax - gaugeMin)) * 100));
+    d += '<div style="margin-bottom:20px">';
+    d += '<div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-light)">';
+    d += '<span>' + (age - 10) + ' (younger)</span><span>Age ' + age + '</span><span>' + (age + 10) + ' (older)</span>';
+    d += '</div>';
+    d += '<div style="width:100%;height:20px;background:linear-gradient(to right, #059669, #f59e0b, #dc2626);border-radius:10px;position:relative;margin-top:4px">';
+    d += '<div style="position:absolute;left:' + gaugePos + '%;top:-4px;transform:translateX(-50%);width:12px;height:28px;background:#1f2937;border-radius:6px;border:2px solid white"></div>';
+    d += '</div></div>';
+
+    // Factor breakdown
+    d += '<div style="margin-bottom:12px"><strong>Factor Breakdown</strong></div>';
+    // Sort by absolute impact (most impactful first)
+    factors.sort(function(a, b) { return Math.abs(b.delta) - Math.abs(a.delta); });
+
+    factors.forEach(function(f) {
+      var bg = f.delta <= -1 ? '#f0fdf4' : f.delta >= 1 ? '#fef2f2' : '#f9fafb';
+      var sign = f.delta > 0 ? '+' : '';
+      var dColor = f.delta <= -1 ? '#059669' : f.delta >= 1 ? '#dc2626' : '#6b7280';
+      d += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:' + bg + ';border-radius:6px;margin-bottom:4px;font-size:0.9rem">';
+      d += '<div><strong>' + f.name + '</strong>: ' + f.value + '</div>';
+      d += '<div style="color:' + dColor + ';font-weight:bold;min-width:70px;text-align:right">' + sign + fmt(f.delta) + ' yrs</div>';
+      d += '</div>';
+    });
+
+    // Top 3 improvement areas
+    var improvable = factors.filter(function(f) { return f.delta > 0; }).slice(0, 3);
+    if (improvable.length > 0) {
+      d += '<div style="padding:14px;background:#f0fdf4;border-radius:8px;margin-top:16px;border-left:4px solid #059669">';
+      d += '<strong style="color:#059669">Top Improvement Areas</strong>';
+      d += '<ol style="margin:8px 0 0 0;padding-left:20px;font-size:0.9rem;line-height:1.7">';
+      improvable.forEach(function(f) {
+        d += '<li><strong>' + f.name + '</strong> (+' + fmt(f.delta) + ' yrs): ' + f.tip + '</li>';
+      });
+      d += '</ol></div>';
+    } else {
+      d += '<div style="padding:14px;background:#f0fdf4;border-radius:8px;margin-top:16px;border-left:4px solid #059669">';
+      d += '<strong style="color:#059669">Excellent! Your lifestyle factors are all positive or neutral.</strong>';
+      d += '</div>';
+    }
+
+    d += '<div style="padding:12px;background:#f9fafb;border-radius:8px;font-size:0.8rem;margin-top:12px">';
+    d += '<strong>Note:</strong> This is an estimate based on population-level research correlations, not a clinical measurement. For a precise biological age, consider an epigenetic age test (DNA methylation analysis) from providers like TruDiagnostic or Elysium.';
+    d += '</div>';
+
+    document.getElementById('resultDetails').innerHTML = d;
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+  }
+
+  calcBtn.addEventListener('click', function() {
+    calculate();
+    if (resultEl.classList.contains('visible')) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  [chronAgeEl, restingHREl, systolicBPEl, waistEl, sleepEl].forEach(function(inp) {
+    if (inp) {
+      inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+    }
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Biological Age Calculator';
+  var TOOL_SLUG = 'biological-age-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = true;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'health-longevity', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

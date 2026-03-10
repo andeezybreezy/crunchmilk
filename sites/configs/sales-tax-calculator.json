@@ -1,0 +1,235 @@
+{
+  "slug": "sales-tax-calculator",
+  "toolName": "Sales Tax Calculator",
+  "tagline": "Add or remove sales tax and find tax rates by state",
+  "title": "Sales Tax Calculator — Add Tax, Remove Tax, or Find Tax Rate",
+  "metaDescription": "Calculate sales tax for any purchase. Add tax to a price, find the pre-tax amount, or determine the tax rate. Includes all US state tax rates.",
+  "keywords": "sales tax calculator, add sales tax, remove sales tax, find tax rate, state sales tax rates, tax calculator",
+  "domain": "example.com",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "ogTitle": "Sales Tax Calculator — Add, Remove, or Find Tax Rate",
+  "ogDescription": "Calculate sales tax with three modes: add tax, find pre-tax price, or determine the tax rate. All US state rates included.",
+  "twitterDescription": "Calculate sales tax — add tax, remove tax, or find the rate for any US state.",
+  "jsonLdDescription": "Calculate sales tax for any purchase with three modes: add tax to a price, find the pre-tax amount, or determine the tax rate.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Sales Tax Calculator</h2>\n\n    <div class=\"input-group\">\n      <label>Mode</label>\n      <div class=\"unit-toggle\" role=\"group\" aria-label=\"Calculator mode\" id=\"modeToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"add\" aria-pressed=\"true\">Add Tax</button>\n        <button type=\"button\" data-mode=\"remove\" aria-pressed=\"false\">Remove Tax</button>\n        <button type=\"button\" data-mode=\"findrate\" aria-pressed=\"false\">Find Rate</button>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"priceGroup\">\n      <label for=\"price\" id=\"priceLabel\">Price Before Tax ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"price\" placeholder=\"e.g. 49.99\" inputmode=\"decimal\" step=\"0.01\" aria-label=\"Price\">\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"totalPriceGroup\" style=\"display:none\">\n      <label for=\"totalPrice\">Total Price Including Tax ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"totalPrice\" placeholder=\"e.g. 53.49\" inputmode=\"decimal\" step=\"0.01\" aria-label=\"Total price with tax\">\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"taxRateGroup\">\n      <label for=\"taxRate\">Tax Rate (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"taxRate\" placeholder=\"e.g. 8.25\" inputmode=\"decimal\" step=\"0.01\" aria-label=\"Tax rate\">\n        <select id=\"stateSelect\" aria-label=\"Select state for default rate\" style=\"max-width:140px\">\n          <option value=\"\">State rate...</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"taxAmountGroup\" style=\"display:none\">\n      <label for=\"taxAmountInput\">Tax Amount ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"taxAmountInput\" placeholder=\"e.g. 3.50\" inputmode=\"decimal\" step=\"0.01\" aria-label=\"Tax amount\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Pre-Tax Price</div><div class=\"result-value\" id=\"preTax\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Tax Amount</div><div class=\"result-value\" id=\"taxAmount\">—</div></div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Total Price</div><div class=\"result-value\" id=\"totalResult\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Tax Rate</div><div class=\"result-value\" id=\"rateResult\">—</div></div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Sales tax is a percentage added to the purchase price of goods and services. This calculator works in three modes to solve any sales tax problem.",
+    "rules": [
+      "<strong>Add Tax:</strong> Total = Price × (1 + Tax Rate ÷ 100)",
+      "<strong>Remove Tax:</strong> Pre-tax Price = Total Price ÷ (1 + Tax Rate ÷ 100)",
+      "<strong>Find Rate:</strong> Tax Rate = (Tax Amount ÷ Pre-tax Price) × 100",
+      "US sales tax varies by state, county, and city — rates range from <strong>0% to 10%+</strong>"
+    ],
+    "outro": "Five states have no state sales tax: Alaska, Delaware, Montana, New Hampshire, and Oregon. However, some Alaska localities charge local sales tax. Always check combined state + local rates for accurate calculations."
+  },
+  "faq": [
+    {
+      "question": "How do I calculate sales tax?",
+      "answer": "Multiply the price by the tax rate as a decimal. For example, $50 at 8% tax: $50 × 0.08 = $4.00 tax. The total is $50 + $4 = $54.00. This calculator does this automatically in 'Add Tax' mode."
+    },
+    {
+      "question": "How do I find the pre-tax price from a total?",
+      "answer": "Divide the total price by (1 + tax rate as a decimal). For example, if you paid $54 with 8% tax: $54 ÷ 1.08 = $50.00 pre-tax price. Use 'Remove Tax' mode for this calculation."
+    },
+    {
+      "question": "Which states have no sales tax?",
+      "answer": "Five states have no state-level sales tax: Alaska, Delaware, Montana, New Hampshire, and Oregon. However, Alaska allows local jurisdictions to charge sales tax, so some Alaska cities do have a local sales tax."
+    },
+    {
+      "question": "Which state has the highest sales tax?",
+      "answer": "California has the highest state sales tax rate at 7.25%. However, when combined with local taxes, Tennessee and Louisiana often have the highest total rates, with some areas exceeding 10%."
+    },
+    {
+      "question": "Is sales tax included in the listed price?",
+      "answer": "In the United States, sales tax is almost always added at checkout and not included in the displayed price. In most other countries, VAT (value-added tax) is included in the listed price."
+    },
+    {
+      "question": "Do I pay sales tax on online purchases?",
+      "answer": "Yes, in most cases. Since the 2018 Supreme Court ruling in South Dakota v. Wayfair, states can require online retailers to collect sales tax even without a physical presence in the state. Most major online retailers now collect sales tax in all applicable states."
+    }
+  ],
+  "chart": {
+    "title": "US State Sales Tax Rates",
+    "subtitle": "State-level base rates only — local taxes may apply. As of 2024.",
+    "columns": [
+      "State",
+      "Rate",
+      "State",
+      "Rate"
+    ],
+    "rows": [
+      [
+        "Alabama",
+        "4.00%",
+        "Montana",
+        "0.00%"
+      ],
+      [
+        "Alaska",
+        "0.00%",
+        "Nebraska",
+        "5.50%"
+      ],
+      [
+        "Arizona",
+        "5.60%",
+        "Nevada",
+        "6.85%"
+      ],
+      [
+        "Arkansas",
+        "6.50%",
+        "New Hampshire",
+        "0.00%"
+      ],
+      [
+        "California",
+        "7.25%",
+        "New Jersey",
+        "6.625%"
+      ],
+      [
+        "Colorado",
+        "2.90%",
+        "New Mexico",
+        "4.875%"
+      ],
+      [
+        "Connecticut",
+        "6.35%",
+        "New York",
+        "4.00%"
+      ],
+      [
+        "Delaware",
+        "0.00%",
+        "North Carolina",
+        "4.75%"
+      ],
+      [
+        "Florida",
+        "6.00%",
+        "North Dakota",
+        "5.00%"
+      ],
+      [
+        "Georgia",
+        "4.00%",
+        "Ohio",
+        "5.75%"
+      ],
+      [
+        "Hawaii",
+        "4.00%",
+        "Oklahoma",
+        "4.50%"
+      ],
+      [
+        "Idaho",
+        "6.00%",
+        "Oregon",
+        "0.00%"
+      ],
+      [
+        "Illinois",
+        "6.25%",
+        "Pennsylvania",
+        "6.00%"
+      ],
+      [
+        "Indiana",
+        "7.00%",
+        "Rhode Island",
+        "7.00%"
+      ],
+      [
+        "Iowa",
+        "6.00%",
+        "South Carolina",
+        "6.00%"
+      ],
+      [
+        "Kansas",
+        "6.50%",
+        "South Dakota",
+        "4.20%"
+      ],
+      [
+        "Kentucky",
+        "6.00%",
+        "Tennessee",
+        "7.00%"
+      ],
+      [
+        "Louisiana",
+        "4.45%",
+        "Texas",
+        "6.25%"
+      ],
+      [
+        "Maine",
+        "5.50%",
+        "Utah",
+        "6.10%"
+      ],
+      [
+        "Maryland",
+        "6.00%",
+        "Vermont",
+        "6.00%"
+      ],
+      [
+        "Massachusetts",
+        "6.25%",
+        "Virginia",
+        "5.30%"
+      ],
+      [
+        "Michigan",
+        "6.00%",
+        "Washington",
+        "6.50%"
+      ],
+      [
+        "Minnesota",
+        "6.875%",
+        "West Virginia",
+        "6.00%"
+      ],
+      [
+        "Mississippi",
+        "7.00%",
+        "Wisconsin",
+        "5.00%"
+      ],
+      [
+        "Missouri",
+        "4.225%",
+        "Wyoming",
+        "4.00%"
+      ]
+    ]
+  },
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This sales tax calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This sales tax calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

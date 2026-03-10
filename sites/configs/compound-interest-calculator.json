@@ -1,0 +1,119 @@
+{
+  "slug": "compound-interest-calculator",
+  "toolName": "Compound Interest Calculator",
+  "tagline": "See how your money grows over time with compound interest",
+  "title": "Compound Interest Calculator — See Your Investment Growth Over Time",
+  "metaDescription": "Free compound interest calculator. Enter principal, contributions, rate, and compounding frequency to see future value, total interest, and growth.",
+  "keywords": "compound interest calculator, investment calculator, compound interest formula, interest rate calculator, savings growth calculator",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "domain": "example.com",
+  "ogTitle": "Compound Interest Calculator — Investment Growth Over Time",
+  "ogDescription": "Calculate compound interest with contributions. See future value, total interest earned, and a year-by-year growth breakdown.",
+  "twitterDescription": "Calculate compound interest with contributions. See future value, total interest, and year-by-year breakdown.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Compound Interest Calculator",
+    "description": "Calculate compound interest with principal, contributions, rate, and compounding frequency. Year-by-year breakdown included.",
+    "url": "https://example.com/compound-interest-calculator/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is compound interest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest, which only earns on the principal, compound interest grows exponentially over time because you earn interest on your interest."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is compound interest calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The formula is A = P(1 + r/n)^(nt) where P is the principal, r is the annual interest rate as a decimal, n is the number of times interest compounds per year, and t is the number of years. For regular contributions, add PMT × [((1 + r/n)^(nt) - 1) / (r/n)]."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often should interest compound?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "More frequent compounding yields more interest. Daily compounding earns slightly more than monthly, which earns more than quarterly or annually. However, the difference between daily and monthly compounding is typically small. Most savings accounts compound daily, while many investments compound monthly or quarterly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Rule of 72?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Rule of 72 is a quick way to estimate how long it takes to double your money. Divide 72 by the annual interest rate to get the approximate number of years. For example, at 8% interest, your money doubles in roughly 72 ÷ 8 = 9 years."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good compound interest rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on the investment type. High-yield savings accounts offer 4–5% APY. Certificates of deposit (CDs) range from 4–5%. The S&P 500 has historically returned about 10% annually before inflation (roughly 7% after). Bond funds typically yield 3–6%. The higher the return, the higher the risk."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do monthly contributions affect compound interest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Regular monthly contributions dramatically increase your final balance. For example, $10,000 at 8% for 30 years grows to about $100,627. Adding just $200/month to the same scenario yields about $381,025 — nearly four times as much. Consistent contributions are one of the most powerful wealth-building strategies."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Compound Interest Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"principal\">Initial Principal ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"principal\" value=\"10000\" min=\"0\" step=\"100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"monthlyContribution\">Monthly Contribution ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"monthlyContribution\" value=\"200\" min=\"0\" step=\"50\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"interestRate\">Annual Interest Rate (%)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"interestRate\" value=\"7\" min=\"0\" max=\"50\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"compoundFreq\">Compounding Frequency</label>\n    <div class=\"input-row\">\n      <select id=\"compoundFreq\">\n        <option value=\"365\">Daily</option>\n        <option value=\"12\" selected>Monthly</option>\n        <option value=\"4\">Quarterly</option>\n        <option value=\"1\">Annually</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"timePeriod\">Time Period (years)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"timePeriod\" value=\"20\" min=\"1\" max=\"100\" step=\"1\" inputmode=\"numeric\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Future Value</div>\n        <div class=\"result-value\" id=\"futureValue\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Contributions</div>\n        <div class=\"result-value\" id=\"totalContributions\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Interest Earned</div>\n        <div class=\"result-value\" id=\"totalInterest\">—</div>\n      </div>\n    </div>\n  </div>\n\n  <div id=\"breakdownWrap\" style=\"display:none;margin-top:20px\">\n    <h3 style=\"margin-bottom:12px\">Year-by-Year Breakdown</h3>\n    <div style=\"overflow-x:auto\">\n      <table class=\"chart-table\" id=\"breakdownTable\">\n        <thead>\n          <tr>\n            <th>Year</th>\n            <th>Contributions</th>\n            <th>Interest</th>\n            <th>Balance</th>\n          </tr>\n        </thead>\n        <tbody id=\"breakdownBody\"></tbody>\n      </table>\n    </div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Compound Interest Growth — Quick Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">How $10,000 grows at various rates over time (no additional contributions).</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr>\n          <th>Rate</th>\n          <th>5 Years</th>\n          <th>10 Years</th>\n          <th>20 Years</th>\n          <th>30 Years</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>3%</td><td>$11,593</td><td>$13,439</td><td>$18,061</td><td>$24,273</td></tr>\n        <tr><td>5%</td><td>$12,763</td><td>$16,289</td><td>$26,533</td><td>$43,219</td></tr>\n        <tr><td>7%</td><td>$14,026</td><td>$19,672</td><td>$38,697</td><td>$76,123</td></tr>\n        <tr><td>8%</td><td>$14,693</td><td>$21,589</td><td>$46,610</td><td>$100,627</td></tr>\n        <tr><td>10%</td><td>$16,105</td><td>$25,937</td><td>$67,275</td><td>$174,494</td></tr>\n        <tr><td>12%</td><td>$17,623</td><td>$31,058</td><td>$96,463</td><td>$299,599</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How Compound Interest Works</h2>\n  <p style=\"margin-bottom:12px\">Compound interest is often called the \"eighth wonder of the world.\" Unlike simple interest, which only grows based on your original deposit, compound interest earns interest on previously earned interest — creating exponential growth over time.</p>\n  <p style=\"margin-bottom:12px\"><strong>The formula:</strong></p>\n  <div style=\"background:#ecfdf5;border:2px solid #a7f3d0;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">A = P(1 + r/n)<sup>nt</sup> + PMT × [((1 + r/n)<sup>nt</sup> − 1) / (r/n)]</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>P</strong> = initial principal (starting amount)</li>\n    <li><strong>r</strong> = annual interest rate (as a decimal)</li>\n    <li><strong>n</strong> = compounding periods per year</li>\n    <li><strong>t</strong> = number of years</li>\n    <li><strong>PMT</strong> = regular contribution amount</li>\n  </ul>\n  <p style=\"margin-bottom:12px\"><strong>Example:</strong> $10,000 at 7% compounded monthly for 20 years with $200/month contributions:</p>\n  <p style=\"padding:12px;background:#f5f5f5;border-radius:8px;font-family:monospace\">Future Value = <strong>$143,785</strong> (you contributed $58,000, earned $85,785 in interest)</p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n\n  <div class=\"faq-item\">\n    <h3>What is compound interest?</h3>\n    <p>Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest, which only earns on the principal, compound interest grows exponentially over time because you earn interest on your interest. This is why starting to save early has such a massive impact on long-term wealth.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How is compound interest calculated?</h3>\n    <p>The formula is A = P(1 + r/n)^(nt) where P is the principal, r is the annual interest rate as a decimal, n is the number of times interest compounds per year, and t is the number of years. For regular contributions, add PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. This calculator handles all of this automatically.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How often should interest compound?</h3>\n    <p>More frequent compounding yields more interest. Daily compounding earns slightly more than monthly, which earns more than quarterly or annually. However, the difference between daily and monthly compounding is typically small. Most savings accounts compound daily, while many investments compound monthly or quarterly.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is the Rule of 72?</h3>\n    <p>The Rule of 72 is a quick way to estimate how long it takes to double your money. Divide 72 by the annual interest rate to get the approximate number of years. For example, at 8% interest, your money doubles in roughly 72 ÷ 8 = 9 years. At 12%, it doubles in about 6 years.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is a good compound interest rate?</h3>\n    <p>It depends on the investment type and risk level. High-yield savings accounts currently offer 4–5% APY. Certificates of deposit range from 4–5%. The S&P 500 has historically returned about 10% annually before inflation (roughly 7% after). Bond funds typically yield 3–6%. Higher returns generally carry higher risk.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do monthly contributions affect compound interest?</h3>\n    <p>Regular monthly contributions dramatically increase your final balance. For example, $10,000 at 8% for 30 years grows to about $100,627. Adding just $200/month to the same scenario yields about $381,025 — nearly four times as much. Consistent contributions are one of the most powerful wealth-building strategies available.</p>\n  </div>\n</div>",
+  "category": "finance",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This compound interest calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This compound interest calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "fire-calculator",
+    "debt-snowball-calculator",
+    "debt-avalanche-calculator",
+    "cap-rate-calculator",
+    "rental-property-roi-calculator",
+    "cash-on-cash-return-calculator",
+    "freelance-rate-calculator",
+    "markup-calculator"
+  ],
+  "embeddable": true
+}

@@ -1,0 +1,140 @@
+{
+  "slug": "beam-span-calculator",
+  "toolName": "Beam Span Calculator",
+  "tagline": "Calculate required beam size for structural spans based on load and tributary area",
+  "title": "Beam Span Calculator — Structural Beam Sizing Guide",
+  "metaDescription": "Calculate beam size for structural spans. Enter span length, load, and tributary width to find the right LVL, glulam, or steel beam.",
+  "keywords": "beam span calculator, beam sizing calculator, lvl beam span, structural beam calculator, header beam size, glulam beam span",
+  "domain": "example.com",
+  "primaryColor": "#0f766e",
+  "primaryDarkColor": "#115e59",
+  "ogTitle": "Beam Span Calculator — Structural Beam Sizing Guide",
+  "ogDescription": "Calculate the required beam size for any structural span. Get recommendations for LVL, glulam, and dimensional lumber beams.",
+  "twitterDescription": "Free beam span calculator. Enter span, load, and tributary width to find the right beam size for your project. LVL, glulam, and lumber options.",
+  "jsonLdDescription": "Calculate required beam size for structural spans based on span length, tributary width, and loading conditions including options for LVL, glulam, and dimensional lumber beams.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Beam Span Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Determine required beam size based on span and loading.</p>\n\n    <div class=\"input-group\">\n      <label for=\"beamSpan\">Beam Span (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"beamSpan\" placeholder=\"e.g. 16\" value=\"16\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"tribWidth\">Tributary Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"tribWidth\" placeholder=\"e.g. 12\" value=\"12\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Half the joist span on each side of the beam</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"liveLoad\">Live Load (psf)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"liveLoad\" placeholder=\"e.g. 40\" value=\"40\" step=\"5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"deadLoad\">Dead Load (psf)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"deadLoad\" placeholder=\"e.g. 15\" value=\"15\" step=\"5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"beamType\">Beam Material</label>\n      <select id=\"beamType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"lvl\" selected>LVL (Laminated Veneer Lumber)</option>\n        <option value=\"glulam\">Glulam</option>\n        <option value=\"lumber\">Dimensional Lumber (doubled/tripled)</option>\n        <option value=\"steel\">Steel W-Flange</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Beam Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Required Beam</div>\n          <div class=\"result-value\" id=\"rBeamSize\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Load</div>\n          <div class=\"result-value\" id=\"rTotalLoad\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Load per Lin. Ft</div>\n          <div class=\"result-value\" id=\"rPLF\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max Moment</div>\n          <div class=\"result-value\" id=\"rMoment\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max Shear</div>\n          <div class=\"result-value\" id=\"rShear\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max Deflection</div>\n          <div class=\"result-value\" id=\"rDeflect\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator sizes structural beams using engineering principles: total load is computed from tributary area and loading, then required section modulus and moment of inertia are calculated to select an appropriate beam.",
+    "rules": [
+      "Total uniform load (w) = (live load + dead load) × tributary width (plf)",
+      "Maximum bending moment (M) = w × L² ÷ 8 (for uniformly loaded simple span)",
+      "Required section modulus (S) = M ÷ allowable bending stress (Fb)",
+      "Maximum deflection = 5wL⁴ ÷ (384EI) — must be ≤ L/360 for live load",
+      "Beam selected is the smallest section meeting both bending and deflection criteria"
+    ],
+    "outro": "This calculator provides preliminary sizing only. All structural beams must be designed and approved by a licensed structural engineer. Actual sizing depends on connection details, bearing conditions, unbraced length, load duration, and other factors not captured here."
+  },
+  "faq": [
+    {
+      "question": "What size beam do I need for a 16 foot span?",
+      "answer": "For a 16-foot span carrying a typical floor load (40 psf live + 15 psf dead) with 12-foot tributary width, you'll need approximately a 3.5\" × 14\" LVL, a 5.125\" × 12\" glulam, or a tripled 2×12 in Douglas Fir. Steel option: W8×24 or W10×19."
+    },
+    {
+      "question": "What is tributary width?",
+      "answer": "Tributary width is the floor area that loads onto the beam, measured perpendicular to the beam. It's typically half the joist span on each side. If joists span 12 feet on each side of a beam, the tributary width is 12 feet (6 feet from each side)."
+    },
+    {
+      "question": "LVL vs glulam — which is better for beams?",
+      "answer": "LVL (1.75\" or 3.5\" wide) is stronger per unit width and better for narrow, deep beams where height isn't a concern. Glulam (3.5\" or 5.125\" wide) is better for wider beams, exposed applications, and where a shallower profile is needed. Both are engineered and more consistent than dimensional lumber."
+    },
+    {
+      "question": "Can I use doubled 2×12s as a beam?",
+      "answer": "Doubled 2×12 Douglas Fir can span approximately 8-10 feet for typical residential floor loads. Tripled 2×12s extend this to about 12-14 feet. Beyond that, LVL or steel is typically required. All plies must be nailed together per code (16d nails at 16\" OC staggered)."
+    },
+    {
+      "question": "What is the deflection limit for beams?",
+      "answer": "The standard deflection limit is L/360 for live load and L/240 for total load, where L is the beam span. For a 16-foot beam, maximum live load deflection is 192/360 = 0.53 inches. Stricter limits (L/480) may apply under tile floors or sensitive finishes."
+    },
+    {
+      "question": "Do I need a structural engineer for beam sizing?",
+      "answer": "Yes, for any load-bearing beam. While this calculator provides preliminary estimates, a licensed structural engineer must design the beam, specify connections, verify bearing capacity at supports, and stamp the plans. Most building departments require engineered beam calculations."
+    }
+  ],
+  "relatedTools": [
+    "lumber-calculator",
+    "concrete-slab-calculator",
+    "deck-board-calculator",
+    "pergola-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "LVL Beam Size Guide by Span",
+    "subtitle": "40 psf live + 15 psf dead, 12' tributary width",
+    "columns": [
+      "Span",
+      "Load (plf)",
+      "LVL Size",
+      "Glulam",
+      "Steel"
+    ],
+    "rows": [
+      [
+        "8 ft",
+        "660",
+        "3.5×9.25\"",
+        "3.5×9\"",
+        "W6×12"
+      ],
+      [
+        "10 ft",
+        "660",
+        "3.5×11.25\"",
+        "5.125×9\"",
+        "W8×13"
+      ],
+      [
+        "12 ft",
+        "660",
+        "3.5×11.875\"",
+        "5.125×10.5\"",
+        "W8×18"
+      ],
+      [
+        "16 ft",
+        "660",
+        "3.5×14\"",
+        "5.125×12\"",
+        "W10×19"
+      ],
+      [
+        "20 ft",
+        "660",
+        "3.5×18\"",
+        "5.125×15\"",
+        "W10×26"
+      ],
+      [
+        "24 ft",
+        "660",
+        "5.25×18\"",
+        "6.75×16.5\"",
+        "W12×30"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This beam span calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This beam span calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

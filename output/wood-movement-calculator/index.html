@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wood Movement Calculator — Expansion & Contraction Estimator</title>
+<meta name="description" content="Calculate wood expansion and contraction by species and humidity. Enter width, species, and moisture change for movement estimate.">
+<meta name="keywords" content="wood movement calculator, wood expansion, wood contraction, wood shrinkage, dimensional change, humidity wood, wood species coefficient">
+<link rel="canonical" href="https://woodmovementcalculator.com/wood-movement-calculator/">
+<meta property="og:title" content="Wood Movement Calculator — Expansion & Contraction by Species">
+<meta property="og:description" content="Calculate how much wood moves with humidity changes. Enter species, width, and moisture change to estimate dimensional change.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://woodmovementcalculator.com/wood-movement-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wood Movement Calculator — Expansion & Contraction by Species">
+<meta name="twitter:description" content="Calculate wood expansion and contraction by species and humidity change. Essential for woodworking joints, tabletops, and panels.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Wood Movement Calculator",
+  "description": "Wood movement calculator that estimates dimensional change based on species-specific coefficients, board width, and moisture content change using the formula: width × coefficient × moisture change.",
+  "url": "https://woodmovementcalculator.com/wood-movement-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is wood movement calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Movement = Board Width × Species Coefficient × Change in Moisture Content. Each species has a unique coefficient for tangential (flat-sawn) and radial (quarter-sawn) movement, expressed as percentage change per 1% MC change."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between tangential and radial movement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tangential movement occurs across the growth rings (flat-sawn boards) and is typically 1.5-2× greater than radial movement (across the radius, quarter-sawn boards). Quarter-sawn lumber is more dimensionally stable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What moisture content should I expect indoors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In heated homes, wood typically stabilizes at 6-8% MC in winter and 8-12% MC in summer, depending on climate and HVAC. Desert climates may see 4-6%, while humid coastal areas may reach 12-14%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does wood move along its length?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Longitudinal movement (along the grain) is negligible — about 0.1% over the full MC range. This is why wood movement is only a concern across the width, not the length."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I reduce wood movement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use quarter-sawn lumber, apply finish to all surfaces (including ends), choose stable species (teak, mahogany, cedar), or use engineered wood (plywood, MDF). Acclimate lumber to your shop's humidity before building."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://woodmovementcalculator.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Woodworking Calculators",
+      "item": "https://woodmovementcalculator.com/woodworking-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Wood Movement Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#92400e;--primary-dark:#78350f;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/woodworking-calculators/">Woodworking Calculators</a> &rsaquo; <span>Wood Movement Calculator</span>
+    </nav>
+    <h1>Wood Movement Calculator</h1>
+    <p>Calculate wood expansion and contraction by species, width, and humidity change</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Wood Movement Calculator</h2>
+
+    <div class="input-group">
+      <label for="species">Wood Species</label>
+      <div class="input-row">
+        <select id="species">
+          <option value="red-oak">Red Oak</option>
+          <option value="white-oak">White Oak</option>
+          <option value="hard-maple">Hard Maple</option>
+          <option value="cherry">Cherry</option>
+          <option value="walnut">Black Walnut</option>
+          <option value="white-pine">White Pine</option>
+          <option value="douglas-fir">Douglas Fir</option>
+          <option value="poplar">Poplar / Tulipwood</option>
+          <option value="ash">White Ash</option>
+          <option value="mahogany">Genuine Mahogany</option>
+          <option value="teak">Teak</option>
+          <option value="cedar">Western Red Cedar</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="boardWidth">Board Width (inches)</label>
+      <div class="input-row">
+        <input type="number" id="boardWidth" placeholder="e.g. 12" min="0.1" step="0.1" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="grainDir">Grain Direction</label>
+      <div class="input-row">
+        <select id="grainDir">
+          <option value="tangential">Tangential (flat-sawn) — most movement</option>
+          <option value="radial">Radial (quarter-sawn) — less movement</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="mcStart">Starting Moisture Content (%)</label>
+      <div class="input-row">
+        <input type="number" id="mcStart" placeholder="e.g. 8" min="0" max="30" step="0.1" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="mcEnd">Ending Moisture Content (%)</label>
+      <div class="input-row">
+        <input type="number" id="mcEnd" placeholder="e.g. 12" min="0" max="30" step="0.1" inputmode="decimal">
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="convertBtn">Calculate Movement</button>
+
+    <div class="result" id="result">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Dimensional Change</div>
+          <div class="result-value" id="dimChange">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">New Width</div>
+          <div class="result-value" id="newWidth">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Change (mm)</div>
+          <div class="result-value" id="changeMm">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Direction</div>
+          <div class="result-value" id="direction">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Movement Coefficients by Species</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Dimensional change coefficient per 1% moisture content change.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Species</th>
+          <th>Tangential</th>
+          <th>Radial</th>
+          <th>T/R Ratio</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Red Oak</td><td>0.00369</td><td>0.00158</td><td>2.33</td></tr>
+        <tr><td>White Oak</td><td>0.00365</td><td>0.00180</td><td>2.03</td></tr>
+        <tr><td>Hard Maple</td><td>0.00353</td><td>0.00165</td><td>2.14</td></tr>
+        <tr><td>Cherry</td><td>0.00274</td><td>0.00126</td><td>2.17</td></tr>
+        <tr><td>Black Walnut</td><td>0.00274</td><td>0.00190</td><td>1.44</td></tr>
+        <tr><td>White Pine</td><td>0.00216</td><td>0.00071</td><td>3.04</td></tr>
+        <tr><td>Douglas Fir</td><td>0.00267</td><td>0.00168</td><td>1.59</td></tr>
+        <tr><td>Mahogany</td><td>0.00170</td><td>0.00125</td><td>1.36</td></tr>
+        <tr><td>Teak</td><td>0.00155</td><td>0.00105</td><td>1.48</td></tr>
+        <tr><td>Western Red Cedar</td><td>0.00166</td><td>0.00081</td><td>2.05</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This wood movement calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Wood expands when it absorbs moisture and contracts when it dries. The amount of movement depends on the species, grain orientation, board width, and the magnitude of moisture content change.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Formula: <strong>Movement = Width × Coefficient × (MC_end − MC_start)</strong></li>
+      <li>Tangential (flat-sawn) movement is roughly <strong>twice</strong> that of radial (quarter-sawn)</li>
+      <li>Movement only occurs below the <strong>fiber saturation point (~28% MC)</strong> — above that, wood dimensions are stable</li>
+      <li>Most indoor wood stabilizes at <strong>6-10% MC</strong>; seasonal swings of 3-5% MC are common</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Always account for wood movement in designs over 6 inches wide. Use breadboard ends, elongated screw holes, and floating panels to allow for seasonal expansion and contraction.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This wood movement calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How is wood movement calculated?</h3>
+      <p>Movement = Board Width × Species Coefficient × Change in Moisture Content. Each species has a unique coefficient for tangential (flat-sawn) and radial (quarter-sawn) movement, expressed as percentage change per 1% MC change.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the difference between tangential and radial movement?</h3>
+      <p>Tangential movement occurs across the growth rings (flat-sawn boards) and is typically 1.5-2× greater than radial movement (across the radius, quarter-sawn boards). Quarter-sawn lumber is more dimensionally stable.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What moisture content should I expect indoors?</h3>
+      <p>In heated homes, wood typically stabilizes at 6-8% MC in winter and 8-12% MC in summer, depending on climate and HVAC. Desert climates may see 4-6%, while humid coastal areas may reach 12-14%.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does wood move along its length?</h3>
+      <p>Longitudinal movement (along the grain) is negligible — about 0.1% over the full MC range. This is why wood movement is only a concern across the width, not the length.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How can I reduce wood movement?</h3>
+      <p>Use quarter-sawn lumber, apply finish to all surfaces (including ends), choose stable species (teak, mahogany, cedar), or use engineered wood (plywood, MDF). Acclimate lumber to your shop's humidity before building.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/dovetail-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Dovetail Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate dovetail joint spacing, pin and tail sizes for woodworking projects</span></a>
+      <a href="/board-foot-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Board Foot Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate board feet and lumber costs instantly</span></a>
+      <a href="/plywood-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Plywood Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate plywood sheets and cost for any project</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Wood Movement Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // Coefficients: [tangential, radial] per 1% MC change
+  var species = {
+    'red-oak':     [0.00369, 0.00158],
+    'white-oak':   [0.00365, 0.00180],
+    'hard-maple':  [0.00353, 0.00165],
+    'cherry':      [0.00274, 0.00126],
+    'walnut':      [0.00274, 0.00190],
+    'white-pine':  [0.00216, 0.00071],
+    'douglas-fir': [0.00267, 0.00168],
+    'poplar':      [0.00282, 0.00149],
+    'ash':         [0.00274, 0.00166],
+    'mahogany':    [0.00170, 0.00125],
+    'teak':        [0.00155, 0.00105],
+    'cedar':       [0.00166, 0.00081]
+  };
+
+  var chartData = [
+    ['Red Oak', '0.00369', '0.00158', '2.33'],
+    ['White Oak', '0.00365', '0.00180', '2.03'],
+    ['Hard Maple', '0.00353', '0.00165', '2.14'],
+    ['Cherry', '0.00274', '0.00126', '2.17'],
+    ['Black Walnut', '0.00274', '0.00190', '1.44'],
+    ['White Pine', '0.00216', '0.00071', '3.04'],
+    ['Douglas Fir', '0.00267', '0.00168', '1.59'],
+    ['Mahogany', '0.00170', '0.00125', '1.36'],
+    ['Teak', '0.00155', '0.00105', '1.48'],
+    ['Western Red Cedar', '0.00166', '0.00081', '2.05']
+  ];
+
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody && chartBody.children.length === 0) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row[0] + '</td><td>' + row[1] + '</td><td>' + row[2] + '</td><td>' + row[3] + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function calculate() {
+    var sp = document.getElementById('species').value;
+    var width = parseFloat(document.getElementById('boardWidth').value);
+    var grainDir = document.getElementById('grainDir').value;
+    var mcStart = parseFloat(document.getElementById('mcStart').value);
+    var mcEnd = parseFloat(document.getElementById('mcEnd').value);
+
+    if (!species[sp] || isNaN(width) || isNaN(mcStart) || isNaN(mcEnd) || width <= 0) return;
+
+    var coeff = grainDir === 'tangential' ? species[sp][0] : species[sp][1];
+    var mcChange = mcEnd - mcStart;
+    var movement = width * coeff * mcChange;
+    var newWidth = width + movement;
+    var movementMm = movement * 25.4;
+
+    var direction;
+    if (mcChange > 0) direction = 'Expansion';
+    else if (mcChange < 0) direction = 'Contraction';
+    else direction = 'No change';
+
+    document.getElementById('dimChange').textContent = (movement >= 0 ? '+' : '') + movement.toFixed(4) + '"';
+    document.getElementById('newWidth').textContent = newWidth.toFixed(4) + '"';
+    document.getElementById('changeMm').textContent = (movementMm >= 0 ? '+' : '') + movementMm.toFixed(2) + ' mm';
+    document.getElementById('direction').textContent = direction;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('convertBtn').addEventListener('click', calculate);
+
+  ['boardWidth', 'mcStart', 'mcEnd'].forEach(function(id) {
+    document.getElementById(id).addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') calculate();
+    });
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Wood Movement Calculator';
+  var TOOL_SLUG = 'wood-movement-calculator';
+  var DOMAIN = 'woodmovementcalculator.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'woodworking', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

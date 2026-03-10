@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sourdough Calculator</title>
+<meta name="description" content="Calculate sourdough bread ingredients with baker's percentages. Accounts for flour and water in your starter. Includes levain build calculator.">
+<meta name="keywords" content="sourdough calculator, sourdough bread calculator, sourdough starter calculator, baker's percentage sourdough, levain calculator">
+<link rel="canonical" href="https://example.com/sourdough-calculator/">
+<meta property="og:title" content="Sourdough Calculator — Perfect Sourdough Every Time">
+<meta property="og:description" content="Calculate exact sourdough ingredients with baker's percentages. Accounts for flour and water in your starter with full breakdown.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/sourdough-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sourdough Calculator — Perfect Sourdough Every Time">
+<meta name="twitter:description" content="Calculate sourdough bread ingredients with starter hydration math.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Sourdough Calculator",
+  "description": "Calculate sourdough bread ingredients using baker's percentages, accounting for flour and water in the starter.",
+  "url": "https://example.com/sourdough-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does starter hydration mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Starter hydration is the ratio of water to flour in your starter, expressed as a percentage. A 100% hydration starter has equal parts flour and water by weight (e.g., 50g flour + 50g water = 100g of 100% hydration starter). Most sourdough starters are maintained at 100% hydration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much starter should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most recipes call for 15-25% starter relative to total flour. Using 20% is a good default. More starter (25-30%) means faster fermentation. Less starter (10-15%) means slower, longer fermentation with more complex flavor. Adjust based on your schedule and ambient temperature."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the calculator subtract flour and water from the starter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your starter is a mixture of flour and water. If you add 200g of 100% hydration starter, you're adding 100g flour and 100g water. This flour and water count toward your total recipe amounts, so you need to subtract them from the flour and water you add separately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What hydration should I use for sourdough bread?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For beginners, 70-75% hydration is manageable and produces great bread. Experienced bakers often use 78-85% for a more open crumb. Lower hydration (65-70%) is easier to shape and good for sandwich loaves. Higher hydration requires stronger shaping technique."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a levain build?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A levain (or leaven) is a portion of starter that you feed the night before baking to ensure it's at peak activity. You take a small amount of your starter, feed it with fresh flour and water, and let it ferment 8-12 hours. The calculator shows how much to build."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know when my starter is ready to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your starter is ready when it has doubled in size, has a domed top, and passes the float test (a small spoonful floats in water). This typically takes 4-8 hours after feeding at room temperature. The timing depends on your starter's strength and ambient temperature."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://example.com/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Sourdough Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#92400e;--primary-dark:#78350f;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/tools/">Tools</a> &rsaquo; <span>Sourdough Calculator</span>
+    </nav>
+    <h1>Sourdough Calculator</h1>
+    <p>Calculate sourdough bread ingredients with starter hydration math</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Sourdough Bread Calculator</h2>
+
+    <div class="input-group">
+      <label for="totalFlour">Total Flour Weight (g)</label>
+      <div class="input-row">
+        <input type="number" id="totalFlour" value="1000" min="100" max="10000" inputmode="numeric" aria-label="Total flour weight in grams">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="hydration">Hydration %</label>
+      <div class="input-row">
+        <input type="number" id="hydration" value="75" min="50" max="100" step="1" inputmode="numeric" aria-label="Hydration percentage">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="starterPct">Starter % (of total flour)</label>
+      <div class="input-row">
+        <input type="number" id="starterPct" value="20" min="5" max="50" step="1" inputmode="numeric" aria-label="Starter percentage">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="starterHydration">Starter Hydration %</label>
+      <div class="input-row">
+        <input type="number" id="starterHydration" value="100" min="50" max="200" step="1" inputmode="numeric" aria-label="Starter hydration percentage">
+        <span style="color:#666;font-size:0.9rem;margin-left:8px;">100% = equal parts flour &amp; water</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="saltPct">Salt %</label>
+      <div class="input-row">
+        <input type="number" id="saltPct" value="2" min="1" max="4" step="0.1" inputmode="decimal" aria-label="Salt percentage">
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="convertBtn">Calculate Recipe</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <h3>Sourdough Recipe</h3>
+      <div id="doughOutput"></div>
+      <div id="breakdownOutput" style="margin-top:16px;"></div>
+      <div id="levainOutput" style="margin-top:16px;"></div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Sourdough Hydration Guide</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">How hydration affects dough handling and crumb structure.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Hydration</th>
+          <th>Dough Feel</th>
+          <th>Crumb</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>65-68%</td><td>Stiff, easy to shape</td><td>Tight, even crumb</td><td>Sandwich loaves, bagels</td></tr>
+        <tr><td>70-73%</td><td>Moderate, manageable</td><td>Medium crumb, some holes</td><td>All-purpose loaves</td></tr>
+        <tr><td>74-78%</td><td>Tacky, needs bench rest</td><td>Open crumb, good holes</td><td>Country loaves, batards</td></tr>
+        <tr><td>79-83%</td><td>Wet, sticky, advanced</td><td>Very open, large holes</td><td>Ciabatta-style, high-hydration boules</td></tr>
+        <tr><td>84-90%</td><td>Very wet, pour-like</td><td>Extremely open, irregular</td><td>Focaccia, ciabatta, pan breads</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This sourdough calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Sourdough recipes use baker's percentages, but the starter itself contains both flour and water. This calculator accounts for that, ensuring your final dough has the correct hydration.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Starter contributes flour and water</strong> — these are subtracted from totals</li>
+      <li>A 100% hydration starter is <strong>50% flour, 50% water</strong> by weight</li>
+      <li>Final dough flour = total flour − flour in starter; final water = total water − water in starter</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">This calculator also includes a levain build section showing you how much starter, flour, and water to combine the night before your bake. Use a kitchen scale for accuracy — sourdough baking is all about precision.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This sourdough calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What does starter hydration mean?</h3>
+      <p>Starter hydration is the ratio of water to flour in your starter, expressed as a percentage. A 100% hydration starter has equal parts flour and water by weight (e.g., 50g flour + 50g water = 100g of 100% hydration starter). Most sourdough starters are maintained at 100% hydration.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much starter should I use?</h3>
+      <p>Most recipes call for 15-25% starter relative to total flour. Using 20% is a good default. More starter (25-30%) means faster fermentation. Less starter (10-15%) means slower, longer fermentation with more complex flavor. Adjust based on your schedule and ambient temperature.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Why does the calculator subtract flour and water from the starter?</h3>
+      <p>Your starter is a mixture of flour and water. If you add 200g of 100% hydration starter, you're adding 100g flour and 100g water. This flour and water count toward your total recipe amounts, so you need to subtract them from the flour and water you add separately.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What hydration should I use for sourdough bread?</h3>
+      <p>For beginners, 70-75% hydration is manageable and produces great bread. Experienced bakers often use 78-85% for a more open crumb. Lower hydration (65-70%) is easier to shape and good for sandwich loaves. Higher hydration requires stronger shaping technique.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is a levain build?</h3>
+      <p>A levain (or leaven) is a portion of starter that you feed the night before baking to ensure it's at peak activity. You take a small amount of your starter, feed it with fresh flour and water, and let it ferment 8-12 hours. The calculator shows how much to build.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I know when my starter is ready to use?</h3>
+      <p>Your starter is ready when it has doubled in size, has a domed top, and passes the float test (a small spoonful floats in water). This typically takes 4-8 hours after feeding at room temperature. The timing depends on your starter's strength and ambient temperature.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+  
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Sourdough Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function calculate() {
+    var totalFlour = parseFloat(document.getElementById('totalFlour').value);
+    var hydration = parseFloat(document.getElementById('hydration').value);
+    var starterPct = parseFloat(document.getElementById('starterPct').value);
+    var starterHydration = parseFloat(document.getElementById('starterHydration').value);
+    var saltPct = parseFloat(document.getElementById('saltPct').value);
+
+    if (isNaN(totalFlour) || totalFlour <= 0) return;
+
+    // Total water needed based on baker's percentage
+    var totalWater = totalFlour * hydration / 100;
+    var totalSalt = totalFlour * saltPct / 100;
+
+    // Starter weight
+    var starterWeight = totalFlour * starterPct / 100;
+
+    // Flour and water IN the starter
+    // starter hydration = water_in_starter / flour_in_starter * 100
+    // starterWeight = flour_in_starter + water_in_starter
+    // flour_in_starter = starterWeight / (1 + starterHydration/100)
+    var flourInStarter = starterWeight / (1 + starterHydration / 100);
+    var waterInStarter = starterWeight - flourInStarter;
+
+    // Final amounts to add
+    var flourToAdd = totalFlour - flourInStarter;
+    var waterToAdd = totalWater - waterInStarter;
+
+    if (flourToAdd < 0) flourToAdd = 0;
+    if (waterToAdd < 0) waterToAdd = 0;
+
+    var totalDough = totalFlour + totalWater + totalSalt + (starterWeight - flourInStarter - waterInStarter);
+    // Actually total dough = flourToAdd + waterToAdd + starterWeight + totalSalt
+    totalDough = flourToAdd + waterToAdd + starterWeight + totalSalt;
+
+    // Main recipe output
+    var html = '<div style="display:grid;gap:4px;">';
+    html += row('Flour (to add)', flourToAdd.toFixed(0) + 'g');
+    html += row('Water (to add)', waterToAdd.toFixed(0) + 'g');
+    html += row('Starter', starterWeight.toFixed(0) + 'g');
+    html += row('Salt', totalSalt.toFixed(1) + 'g');
+    html += '</div>';
+    html += '<div style="margin-top:8px;padding:10px;background:#f3f4f6;border-radius:8px;font-size:0.9rem;">';
+    html += '<strong>Total dough weight:</strong> ' + totalDough.toFixed(0) + 'g';
+    html += '</div>';
+
+    document.getElementById('doughOutput').innerHTML = html;
+
+    // Breakdown
+    var bk = '<div style="padding:12px;background:#fefce8;border:1px solid #fde68a;border-radius:8px;">';
+    bk += '<strong>Starter Breakdown (' + starterWeight.toFixed(0) + 'g at ' + starterHydration + '% hydration):</strong><br>';
+    bk += 'Flour in starter: ' + flourInStarter.toFixed(0) + 'g<br>';
+    bk += 'Water in starter: ' + waterInStarter.toFixed(0) + 'g<br>';
+    bk += '<br><strong>True Totals:</strong><br>';
+    bk += 'Total flour (added + in starter): ' + totalFlour.toFixed(0) + 'g<br>';
+    bk += 'Total water (added + in starter): ' + totalWater.toFixed(0) + 'g<br>';
+    bk += 'Actual hydration: ' + (totalWater / totalFlour * 100).toFixed(1) + '%';
+    bk += '</div>';
+
+    document.getElementById('breakdownOutput').innerHTML = bk;
+
+    // Levain build calculator
+    // Build enough levain: need starterWeight of ripe starter
+    // Typical 1:5:5 build means seedAmount = starterWeight / 11, flour = water = starterWeight * 5/11
+    var seedAmount = Math.ceil(starterWeight / 11);
+    var levainFlour = Math.ceil(starterWeight * 5 / 11);
+    var levainWater = Math.ceil(starterWeight * 5 / 11);
+
+    var lv = '<div style="padding:12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;">';
+    lv += '<strong>Levain Build (night before):</strong><br>';
+    lv += 'Ripe starter (seed): ' + seedAmount + 'g<br>';
+    lv += 'Flour: ' + levainFlour + 'g<br>';
+    lv += 'Water: ' + levainWater + 'g<br>';
+    lv += '<span style="color:#666;font-size:0.85rem;">Mix and let ferment 8-12 hours at room temp. Use when doubled and domed.</span>';
+    lv += '</div>';
+
+    document.getElementById('levainOutput').innerHTML = lv;
+
+    document.getElementById('resultTip').textContent = 'Use a kitchen scale for best results. Autolyse flour and water 30-60 min before adding starter and salt.';
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function row(label, value) {
+    return '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #e5e7eb;">' +
+      '<span style="font-weight:600;">' + label + '</span>' +
+      '<span>' + value + '</span></div>';
+  }
+
+  document.getElementById('convertBtn').addEventListener('click', calculate);
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Sourdough Calculator';
+  var TOOL_SLUG = 'sourdough-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: '', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+{
+  "slug": "ac-tonnage-calculator",
+  "toolName": "AC Tonnage Calculator",
+  "tagline": "Calculate the right air conditioner size in tons and BTU for your home",
+  "title": "AC Tonnage Calculator — HVAC Sizing for Your Home",
+  "metaDescription": "Calculate AC tonnage and BTU for your home. Enter square footage, climate, and insulation to find the right air conditioner size.",
+  "keywords": "ac tonnage calculator, hvac sizing calculator, air conditioner size calculator, how many tons ac, btu calculator for house",
+  "domain": "example.com",
+  "primaryColor": "#2563eb",
+  "primaryDarkColor": "#1d4ed8",
+  "ogTitle": "AC Tonnage Calculator — HVAC Sizing for Your Home",
+  "ogDescription": "Calculate the right AC size for your home. Enter square footage, climate zone, insulation, and sun exposure for accurate tonnage estimates.",
+  "twitterDescription": "Free AC tonnage calculator. Enter your home's square footage and climate to find the right air conditioner size in tons and BTU.",
+  "jsonLdDescription": "Calculate air conditioner tonnage and BTU requirements for residential cooling based on square footage, climate zone, insulation quality, sun exposure, and ceiling height.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>AC Tonnage Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Find the right air conditioner size for your home.</p>\n\n    <div class=\"input-group\">\n      <label for=\"sqft\">Cooled Square Footage</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"sqft\" placeholder=\"e.g. 2000\" value=\"2000\" step=\"100\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"climate\">Climate Zone</label>\n      <select id=\"climate\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"1\">Zone 1 — Hot Humid (Miami, Houston)</option>\n        <option value=\"2\">Zone 2 — Hot Dry (Phoenix, Las Vegas)</option>\n        <option value=\"3\" selected>Zone 3 — Warm (Atlanta, Dallas)</option>\n        <option value=\"4\">Zone 4 — Mixed (DC, St. Louis)</option>\n        <option value=\"5\">Zone 5 — Cool (Chicago, Boston)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"insulation\">Insulation Quality</label>\n      <select id=\"insulation\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"poor\">Poor (old home, no insulation)</option>\n        <option value=\"average\" selected>Average (standard insulation)</option>\n        <option value=\"good\">Good (well insulated, newer home)</option>\n        <option value=\"excellent\">Excellent (energy star, tight envelope)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"sunExposure\">Sun Exposure</label>\n      <select id=\"sunExposure\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"heavy\">Heavy (many west/south windows)</option>\n        <option value=\"moderate\" selected>Moderate (average windows)</option>\n        <option value=\"light\">Light (shaded, few windows)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ceilingHeight\">Ceiling Height</label>\n      <select id=\"ceilingHeight\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"8\" selected>8 feet (standard)</option>\n        <option value=\"9\">9 feet</option>\n        <option value=\"10\">10 feet</option>\n        <option value=\"12\">12 feet (vaulted)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"occupants\">Number of Occupants</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"occupants\" placeholder=\"e.g. 4\" value=\"4\" min=\"1\" max=\"20\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate AC Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Tonnage</div>\n          <div class=\"result-value\" id=\"rTons\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">BTU Required</div>\n          <div class=\"result-value\" id=\"rBTU\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Range (min-max)</div>\n          <div class=\"result-value\" id=\"rRange\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">BTU per Sq Ft</div>\n          <div class=\"result-value\" id=\"rPerSqFt\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates AC tonnage using a modified Manual J approach, starting with a base BTU-per-square-foot value adjusted for climate, insulation, sun exposure, ceiling height, and occupancy.",
+    "rules": [
+      "Base cooling load: approximately 20 BTU per sq ft for Zone 3 (adjusted by climate zone)",
+      "Climate factor: Zone 1-2 (hot) adds 10-20%, Zone 4-5 (cool) reduces 10-20%",
+      "Insulation factor: poor insulation adds 30%, excellent insulation reduces 20%",
+      "Sun exposure: heavy sun adds 10%, light/shaded reduces 10%",
+      "Ceiling height: add 10% per foot above 8 feet; each occupant above 2 adds 600 BTU",
+      "1 ton of cooling = 12,000 BTU/hr"
+    ],
+    "outro": "This is an estimate. For accurate sizing, a Manual J load calculation performed by an HVAC contractor is recommended. Oversized AC units short-cycle (reducing dehumidification and efficiency), while undersized units run constantly without reaching set temperature."
+  },
+  "faq": [
+    {
+      "question": "How many tons of AC per square foot?",
+      "answer": "The general rule is 1 ton per 400-600 sq ft, but this varies hugely by climate and insulation. In hot Phoenix, you might need 1 ton per 350 sq ft. In mild San Francisco, 1 ton per 700+ sq ft. A proper calculation considers many factors beyond just square footage."
+    },
+    {
+      "question": "What happens if my AC is too big?",
+      "answer": "An oversized AC short-cycles — it cools quickly then shuts off before adequately dehumidifying the air. This leads to clammy, uncomfortable air, higher humidity, more wear on the compressor, higher energy bills, and a shorter equipment lifespan. Proper sizing is critical."
+    },
+    {
+      "question": "What is a Manual J calculation?",
+      "answer": "Manual J is the ACCA standard for residential HVAC load calculations. It accounts for insulation R-values, window U-factors, infiltration rates, duct losses, occupancy, appliance heat gain, and local weather data to determine the exact BTU load. It's more accurate than any rule of thumb."
+    },
+    {
+      "question": "How much does a new AC system cost per ton?",
+      "answer": "Central AC systems cost $3,000-$5,000 per ton installed (equipment + labor). A 3-ton system runs $9,000-$15,000 installed. Mini-split systems cost $2,000-$4,000 per ton. Equipment alone is $1,500-$3,000 per ton for quality brands."
+    },
+    {
+      "question": "What SEER rating should I get?",
+      "answer": "The federal minimum is SEER2 13.4-15.2 depending on region (as of 2023). We recommend SEER2 16+ for moderate climates and SEER2 18+ for hot climates. Higher SEER costs more upfront but saves 20-40% on cooling costs vs minimum-efficiency units."
+    },
+    {
+      "question": "Should I get a heat pump or AC?",
+      "answer": "Heat pumps provide both cooling and heating and are 2-3x more efficient than furnaces for heating in mild climates (above 30°F). In cold climates, a dual-fuel system (heat pump + gas furnace backup) is ideal. In hot climates where heating is minimal, a standard AC may suffice."
+    }
+  ],
+  "relatedTools": [
+    "solar-panel-calculator",
+    "concrete-slab-calculator",
+    "drywall-calculator",
+    "paint-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "AC Tonnage by Home Size",
+    "subtitle": "Zone 3, average insulation, moderate sun, 8' ceilings",
+    "columns": [
+      "Sq Ft",
+      "BTU",
+      "Tons",
+      "Unit Size"
+    ],
+    "rows": [
+      [
+        "800-1,000",
+        "18,000-22,000",
+        "1.5",
+        "18K mini-split or 1.5-ton central"
+      ],
+      [
+        "1,000-1,300",
+        "22,000-26,000",
+        "2.0",
+        "24K unit / 2-ton central"
+      ],
+      [
+        "1,300-1,700",
+        "26,000-34,000",
+        "2.5",
+        "30K unit / 2.5-ton central"
+      ],
+      [
+        "1,700-2,100",
+        "34,000-42,000",
+        "3.0",
+        "36K unit / 3-ton central"
+      ],
+      [
+        "2,100-2,700",
+        "42,000-52,000",
+        "3.5-4.0",
+        "48K unit / 4-ton central"
+      ],
+      [
+        "2,700-3,300",
+        "52,000-60,000",
+        "4.0-5.0",
+        "60K unit / 5-ton central"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This ac tonnage calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This ac tonnage calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

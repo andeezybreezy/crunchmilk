@@ -1,0 +1,118 @@
+{
+  "slug": "pole-barn-calculator",
+  "toolName": "Pole Barn Calculator",
+  "tagline": "Estimate posts, trusses, roofing, siding, and concrete for your pole barn build",
+  "title": "Pole Barn Calculator — Posts, Trusses, Roofing & Cost Estimate",
+  "metaDescription": "Calculate pole barn materials: posts, trusses, metal roofing, siding panels, and concrete. Enter dimensions, post spacing, and roof pitch.",
+  "keywords": "pole barn calculator, pole barn cost, post frame building calculator, pole barn materials, metal building calculator, pole barn estimate",
+  "primaryColor": "#78716c",
+  "primaryDarkColor": "#57534e",
+  "domain": "example.com",
+  "ogTitle": "Pole Barn Calculator — Materials, Posts & Cost Estimate",
+  "ogDescription": "Estimate pole barn materials including posts, trusses, metal roofing and siding panels, and concrete for footings.",
+  "twitterDescription": "Calculate pole barn materials and cost for posts, trusses, roofing, siding, and concrete footings.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pole Barn Calculator",
+    "description": "Calculate pole barn materials including posts, trusses, metal roofing, siding, concrete footings, and cost estimates.",
+    "url": "https://example.com/pole-barn-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many posts does a pole barn need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Posts are spaced every 8 feet along the perimeter. A 30×40 barn with 8-foot spacing needs about 18 posts: 6 along each 40-foot side and 3 along each 30-foot end, including corners."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does a pole barn cost per square foot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DIY pole barn materials cost $7-$15 per square foot. A basic 30×40 kit runs $15,000-$25,000. Fully built by a contractor, expect $15-$35 per square foot depending on features and finishes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How deep should pole barn posts be set?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Posts should be set 4-6 feet deep depending on soil conditions and local frost line. Each post hole is typically 18-24 inches in diameter. Concrete footings use about 2-3 bags (80 lb) of mix per post."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What roof pitch is best for a pole barn?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A 4/12 pitch is most common for pole barns — it sheds water and snow well while keeping material costs down. Steeper pitches (6/12) are used in heavy snow areas. Low-slope (3/12) works in mild climates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many trusses does a pole barn need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Trusses are typically spaced at the same interval as posts, usually every 8 feet. A 40-foot long barn needs about 6 trusses (at 0, 8, 16, 24, 32, and 40 feet). Larger spans may need engineered trusses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many metal roofing panels do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard metal panels are 3 feet wide. Calculate roof area using width × rafter length (adjusted for pitch) for both sides, then divide by panel coverage area. Add 10% for overlaps and waste."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Pole Barn Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"barnLength\">Building Length (ft)</label>\n    <input type=\"number\" id=\"barnLength\" value=\"40\" min=\"10\" max=\"500\" step=\"2\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"barnWidth\">Building Width (ft)</label>\n    <input type=\"number\" id=\"barnWidth\" value=\"30\" min=\"10\" max=\"200\" step=\"2\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"barnHeight\">Eave Height (ft)</label>\n    <input type=\"number\" id=\"barnHeight\" value=\"12\" min=\"8\" max=\"30\" step=\"1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"postSpacing\">Post Spacing (ft)</label>\n    <select id=\"postSpacing\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"6\">6 ft</option>\n      <option value=\"8\" selected>8 ft (standard)</option>\n      <option value=\"10\">10 ft</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"roofPitch\">Roof Pitch</label>\n    <select id=\"roofPitch\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"3\">3/12 (low slope)</option>\n      <option value=\"4\" selected>4/12 (standard)</option>\n      <option value=\"6\">6/12 (steep)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"doorCount\">Number of Doors</label>\n    <input type=\"number\" id=\"doorCount\" value=\"2\" min=\"0\" max=\"10\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Materials</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Posts Needed</div>\n        <div class=\"result-value\" id=\"postCount\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Trusses</div>\n        <div class=\"result-value\" id=\"trussCount\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Roofing Panels (3 ft wide)</div>\n        <div class=\"result-value\" id=\"roofPanels\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Siding Panels (3 ft wide)</div>\n        <div class=\"result-value\" id=\"sidingPanels\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Concrete (80-lb bags)</div>\n        <div class=\"result-value\" id=\"concreteBags\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Material Cost</div>\n        <div class=\"result-value\" id=\"totalCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Common Pole Barn Sizes & Costs</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Size (L×W)</th><th>Sq Ft</th><th>Posts</th><th>Trusses</th><th>Material Cost</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>24×24</td><td>576</td><td>12</td><td>4</td><td>$5,000-$8,000</td></tr>\n        <tr><td>30×40</td><td>1,200</td><td>18</td><td>6</td><td>$10,000-$16,000</td></tr>\n        <tr><td>40×60</td><td>2,400</td><td>24</td><td>8</td><td>$18,000-$28,000</td></tr>\n        <tr><td>40×80</td><td>3,200</td><td>28</td><td>11</td><td>$24,000-$36,000</td></tr>\n        <tr><td>60×100</td><td>6,000</td><td>40</td><td>13</td><td>$40,000-$60,000</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Pole Barn Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator estimates materials for a post-frame building based on your dimensions, post spacing, and roof pitch.</p>\n  <div style=\"background:#f5f5f4;border:2px solid #a8a29e;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Posts = Perimeter ÷ Post Spacing + Corners</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Posts:</strong> Perimeter ÷ spacing, set 4-6 ft deep with concrete</li>\n    <li><strong>Trusses:</strong> One per post spacing along the length + 1</li>\n    <li><strong>Roof area:</strong> Width ÷ 2 × pitch multiplier × length × 2 sides</li>\n    <li><strong>Siding:</strong> Perimeter × eave height, minus door openings</li>\n    <li><strong>Concrete:</strong> 2-3 bags of 80-lb mix per post hole</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How many posts does a pole barn need?</h3>\n    <p>Posts go around the perimeter at your chosen spacing (typically 8 ft). A 30x40 barn needs about 18 posts. Each post is set 4-6 feet deep in a concrete footing for stability.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much does a pole barn cost per square foot?</h3>\n    <p>DIY materials run $7-$15 per square foot. A contractor-built pole barn costs $15-$35 per sq ft. A basic 30x40 (1,200 sq ft) barn costs $10,000-$18,000 in materials or $18,000-$42,000 fully built.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How deep should pole barn posts be?</h3>\n    <p>Set posts 4-6 feet deep, depending on frost depth and soil. Each hole should be 18-24 inches in diameter. Use 2-3 bags of concrete mix per post for solid footings.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What roof pitch is best for a pole barn?</h3>\n    <p>A 4/12 pitch is standard and handles rain and moderate snow well. Use 6/12 in heavy snow areas for better shedding. A 3/12 pitch works in mild climates and uses less material.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many trusses does a pole barn need?</h3>\n    <p>Trusses match post spacing along the length of the building. With 8-foot spacing on a 40-foot building, you need 6 trusses. Wider spans (over 40 ft) require engineered trusses.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many metal roofing panels do I need?</h3>\n    <p>Divide the total roof area by panel coverage (typically 3 ft wide × panel length). Account for roof pitch increasing the rafter length, and add 10% for overlaps and waste.</p>\n  </div>\n</div>",
+  "category": "trades-industrial",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This pole barn calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This pole barn calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "septic-tank-calculator",
+    "well-pump-pressure-calculator",
+    "grain-bin-calculator",
+    "irrigation-drip-calculator",
+    "cattle-fencing-calculator",
+    "hay-bale-calculator",
+    "diesel-tank-sizing-calculator",
+    "propane-tank-runtime-calculator"
+  ]
+}

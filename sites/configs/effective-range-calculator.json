@@ -1,0 +1,135 @@
+{
+  "slug": "effective-range-calculator",
+  "toolName": "Effective Range Calculator",
+  "tagline": "Find the maximum ethical shooting range based on energy and accuracy thresholds",
+  "title": "Effective Range Calculator — Maximum Ethical Hunting Range Finder",
+  "metaDescription": "Calculate the maximum effective range of your rifle based on minimum energy thresholds for ethical kills and accuracy limits.",
+  "keywords": "effective range calculator, ethical hunting range, maximum range rifle, minimum energy deer, hunting range calculator, ballistic range finder",
+  "domain": "example.com",
+  "primaryColor": "#78350f",
+  "primaryDarkColor": "#5c2a0a",
+  "ogTitle": "Effective Range Calculator — Ethical Hunting Range",
+  "ogDescription": "Find the maximum effective range based on energy thresholds for deer, elk, and varmint, plus your accuracy limits.",
+  "twitterDescription": "Calculate your rifle's maximum ethical hunting range based on energy and accuracy.",
+  "jsonLdDescription": "Determine maximum ethical hunting range based on bullet energy thresholds and shooter accuracy for various game animals.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Effective Range Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"caliberSelect\">Caliber Preset</label>\n      <select id=\"caliberSelect\">\n        <option value=\"custom\">Custom</option>\n        <option value=\"223\">.223 Rem (55gr)</option>\n        <option value=\"308\">.308 Win (168gr)</option>\n        <option value=\"65cm\">6.5 Creedmoor (140gr)</option>\n        <option value=\"3006\">.30-06 (165gr)</option>\n        <option value=\"300wm\">.300 Win Mag (180gr)</option>\n        <option value=\"270\">.270 Win (130gr)</option>\n        <option value=\"243\">.243 Win (100gr)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"muzzleVel\">Muzzle Velocity (fps)</label>\n      <input type=\"number\" id=\"muzzleVel\" placeholder=\"e.g. 2700\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"bulletWeight\">Bullet Weight (grains)</label>\n      <input type=\"number\" id=\"bulletWeight\" placeholder=\"e.g. 168\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ballisticCoeff\">Ballistic Coefficient (G1)</label>\n      <input type=\"number\" id=\"ballisticCoeff\" placeholder=\"e.g. 0.462\" step=\"0.001\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"gameType\">Game Animal</label>\n      <select id=\"gameType\">\n        <option value=\"deer\">Deer — 1,000 ft-lbs minimum</option>\n        <option value=\"elk\">Elk — 1,500 ft-lbs minimum</option>\n        <option value=\"varmint\">Varmint — 200 ft-lbs minimum</option>\n        <option value=\"custom_energy\">Custom threshold</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\" id=\"customEnergyGroup\" style=\"display:none;\">\n      <label for=\"customEnergy\">Custom Minimum Energy (ft-lbs)</label>\n      <input type=\"number\" id=\"customEnergy\" placeholder=\"e.g. 800\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"shooterMOA\">Your Accuracy (MOA group size)</label>\n      <input type=\"number\" id=\"shooterMOA\" value=\"2\" step=\"0.25\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"targetSize\">Vital Zone Size (inches)</label>\n      <input type=\"number\" id=\"targetSize\" value=\"10\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Effective Range</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max Effective Range</div>\n          <div class=\"result-value\" id=\"maxRange\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Limiting Factor</div>\n          <div class=\"result-value\" id=\"limitFactor\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Energy at Max Range</div>\n          <div class=\"result-value\" id=\"energyAtMax\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Drop at Max Range</div>\n          <div class=\"result-value\" id=\"dropAtMax\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Energy-Limited Range</div>\n          <div class=\"result-value\" id=\"energyRange\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Accuracy-Limited Range</div>\n          <div class=\"result-value\" id=\"accuracyRange\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Effective range is determined by two factors: the distance at which bullet energy drops below the threshold for a clean ethical kill, and the distance at which your accuracy can no longer reliably hit the vital zone. The shorter of these two distances is your true maximum effective range.",
+    "rules": [
+      "Energy threshold depends on game: <strong>1,000 ft-lbs</strong> for deer, <strong>1,500 ft-lbs</strong> for elk, <strong>200 ft-lbs</strong> for varmint",
+      "Accuracy range = vital zone size ÷ (shooter MOA × 1.047) × 100 yards",
+      "Your effective range is the <strong>shorter</strong> of the energy range and the accuracy range"
+    ],
+    "outro": "These are theoretical maximums under ideal conditions. Real-world factors like wind, shooting position, adrenaline, and animal movement reduce practical range. Most ethical hunters limit themselves well below their theoretical maximum."
+  },
+  "faq": [
+    {
+      "question": "What is the minimum energy needed to ethically kill a deer?",
+      "answer": "The widely accepted minimum is 1,000 ft-lbs of energy at impact for deer-sized game. This ensures reliable bullet expansion and sufficient penetration for a quick, humane kill. Some experts recommend even more — 1,200 ft-lbs — for marginal shot angles."
+    },
+    {
+      "question": "Why does accuracy matter for effective range?",
+      "answer": "A bullet with enough energy is useless if you can't place it in the vital zone. If your rifle shoots 2 MOA groups, that's a 10-inch spread at 500 yards. On a deer with an 8-inch vital zone, your chances of a clean hit are poor at that distance."
+    },
+    {
+      "question": "What MOA accuracy should I use for this calculator?",
+      "answer": "Use your actual group size from a field position, not a bench rest. Most hunters shoot 2-4 MOA from field positions. If you only shoot from a bench, add 1-2 MOA for real-world conditions. Be honest — a wounded animal suffers from optimistic range estimates."
+    },
+    {
+      "question": "Is 6.5 Creedmoor better for long range than .308?",
+      "answer": "The 6.5 Creedmoor has a significantly higher ballistic coefficient, meaning it retains energy and velocity better at long range. A 6.5CM typically maintains 1,000+ ft-lbs past 700 yards while the .308 drops below that threshold around 500-600 yards."
+    },
+    {
+      "question": "What is the effective range of .223 Remington for deer?",
+      "answer": "The .223 Remington drops below the 1,000 ft-lbs threshold very quickly — typically by 100 yards. Most wildlife agencies don't recommend .223 for deer. Where it's legal, ethical shots are generally limited to 100 yards or less with proper bullet selection."
+    },
+    {
+      "question": "How does wind affect effective range?",
+      "answer": "Wind is often the true limiting factor for long-range shooting. A 10 mph crosswind can push a .308 bullet over 30 inches at 500 yards. If you can't accurately read and compensate for wind, your practical effective range is much shorter than the energy limit."
+    }
+  ],
+  "chart": {
+    "title": "Effective Range by Caliber and Game Type",
+    "subtitle": "Approximate maximum range based on energy thresholds. Assumes standard hunting loads.",
+    "columns": [
+      "Caliber",
+      "Deer (1000 ft-lbs)",
+      "Elk (1500 ft-lbs)",
+      "Varmint (200 ft-lbs)"
+    ],
+    "rows": [
+      [
+        ".223 Rem 55gr",
+        "~75 yards",
+        "N/A",
+        "~350 yards"
+      ],
+      [
+        ".243 Win 100gr",
+        "~350 yards",
+        "~125 yards",
+        "~700 yards"
+      ],
+      [
+        ".270 Win 130gr",
+        "~550 yards",
+        "~350 yards",
+        "~900 yards"
+      ],
+      [
+        ".308 Win 168gr",
+        "~550 yards",
+        "~325 yards",
+        "~850 yards"
+      ],
+      [
+        "6.5 Creedmoor 140gr",
+        "~725 yards",
+        "~425 yards",
+        "~1000+ yards"
+      ],
+      [
+        ".30-06 165gr",
+        "~625 yards",
+        "~400 yards",
+        "~900 yards"
+      ],
+      [
+        ".300 Win Mag 180gr",
+        "~800 yards",
+        "~550 yards",
+        "~1000+ yards"
+      ]
+    ]
+  },
+  "category": "firearms",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This effective range calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This effective range calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "bullet-drop-calculator",
+    "hunting-license-calculator",
+    "deer-processing-calculator",
+    "reloading-cost-calculator",
+    "draw-odds-calculator",
+    "turkey-season-calculator"
+  ]
+}

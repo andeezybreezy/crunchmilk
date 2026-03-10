@@ -1,0 +1,174 @@
+{
+  "slug": "bpm-tap-tempo",
+  "toolName": "BPM Tap Tempo",
+  "tagline": "Tap to the beat to find the BPM of any song instantly",
+  "title": "BPM Tap Tempo — Tap to Find Beats Per Minute",
+  "metaDescription": "Tap along to any song to find the BPM. Also converts BPM to milliseconds per beat, beats per second, and time signature timing.",
+  "keywords": "bpm tap tempo, tap tempo, beats per minute, bpm counter, bpm calculator, tap bpm, tempo finder",
+  "domain": "example.com",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "ogTitle": "BPM Tap Tempo — Tap to Find the Beat",
+  "ogDescription": "Tap along to any song to find the BPM instantly. Plus convert BPM to ms per beat and beats per second.",
+  "twitterDescription": "Tap along to any song to find the BPM instantly.",
+  "jsonLdDescription": "Tap tempo tool to find beats per minute (BPM) of any song. Also converts BPM to milliseconds per beat and beats per second.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>BPM Tap Tempo</h2>\n\n    <div class=\"input-group\" style=\"text-align:center;\">\n      <button type=\"button\" class=\"convert-btn\" id=\"tapBtn\" style=\"font-size:1.4rem; padding:20px 48px; min-width:200px;\">TAP</button>\n      <div style=\"margin-top:8px;\">\n        <button type=\"button\" id=\"resetBtn\" style=\"background:none; border:none; color:var(--primary); cursor:pointer; text-decoration:underline; font-size:0.95rem;\">Reset</button>\n      </div>\n    </div>\n\n    <div class=\"result\" id=\"tapResult\" role=\"status\" aria-live=\"polite\" style=\"opacity:1;\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">BPM</div>\n          <div class=\"result-value\" id=\"bpmDisplay\" style=\"font-size:2.5rem;\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Taps</div>\n          <div class=\"result-value\" id=\"tapCount\">0</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">ms per Beat</div>\n          <div class=\"result-value\" id=\"msPerBeat\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Beats per Second</div>\n          <div class=\"result-value\" id=\"bps\">—</div>\n        </div>\n      </div>\n    </div>\n\n    <hr style=\"margin:24px 0; border:none; border-top:1px solid #e5e7eb;\">\n\n    <h3 style=\"margin-bottom:12px;\">Manual BPM Converter</h3>\n    <div class=\"input-group\">\n      <label for=\"manualBpm\">Enter BPM</label>\n      <input type=\"number\" id=\"manualBpm\" placeholder=\"e.g. 120\" inputmode=\"decimal\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Convert</button>\n\n    <div class=\"result\" id=\"convertResult\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">ms per Beat</div>\n          <div class=\"result-value\" id=\"convMs\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Beats per Second</div>\n          <div class=\"result-value\" id=\"convBps\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Bars per Minute (4/4)</div>\n          <div class=\"result-value\" id=\"convBars\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Seconds per Bar (4/4)</div>\n          <div class=\"result-value\" id=\"convSecBar\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Finding the tempo of a song is as simple as tapping along to the beat. This tool measures the time between your taps and calculates the BPM.",
+    "rules": [
+      "Tap the button in time with the beat — the more taps, the more accurate the reading",
+      "At least <strong>4 taps</strong> are needed for a reliable BPM reading",
+      "The BPM auto-resets if you stop tapping for more than <strong>3 seconds</strong>"
+    ],
+    "outro": "You can also manually enter a BPM to convert it to milliseconds per beat, which is useful for setting delay and reverb times in music production."
+  },
+  "faq": [
+    {
+      "question": "How many taps do I need for an accurate BPM?",
+      "answer": "At least 4 taps will give you a reasonable estimate, but 8-16 taps provide much better accuracy. The more taps you make, the more the random timing variations average out. Most musicians tap for 8-10 beats for a reliable reading."
+    },
+    {
+      "question": "What BPM is common for different music genres?",
+      "answer": "Hip-hop: 80-115 BPM. Pop: 100-130 BPM. House: 120-130 BPM. Techno: 125-150 BPM. Drum & Bass: 160-180 BPM. Dubstep: 140 BPM (half-time feel). Metal: 100-160 BPM. Classical varies widely from 40-200+ BPM."
+    },
+    {
+      "question": "What does BPM stand for?",
+      "answer": "BPM stands for Beats Per Minute. It measures the tempo or speed of music. A BPM of 60 means one beat per second. A BPM of 120 means two beats per second. It's the universal standard for describing musical tempo."
+    },
+    {
+      "question": "How do I convert BPM to milliseconds?",
+      "answer": "Divide 60,000 by the BPM. For example, 120 BPM = 60,000 / 120 = 500 milliseconds per beat. This conversion is essential for setting delay times, sequencer timing, and synchronizing effects in music production."
+    },
+    {
+      "question": "Why does the BPM reset after I stop tapping?",
+      "answer": "The tool resets after 3 seconds of no taps to ensure fresh, accurate readings. If the gap between taps is too long, the intervals would skew the average and give an incorrectly slow BPM reading."
+    },
+    {
+      "question": "Can I use keyboard keys to tap?",
+      "answer": "Yes! You can press the spacebar or Enter key to tap instead of clicking the button. This is often easier for getting accurate timing since you can keep your eyes on the music source while tapping."
+    }
+  ],
+  "chart": {
+    "title": "BPM to Milliseconds Reference",
+    "subtitle": "Common BPM values with ms per beat and musical context.",
+    "columns": [
+      "BPM",
+      "ms per Beat",
+      "Beats/Sec",
+      "Common Genre"
+    ],
+    "rows": [
+      [
+        "60",
+        "1000 ms",
+        "1.00",
+        "Ballads, ambient"
+      ],
+      [
+        "80",
+        "750 ms",
+        "1.33",
+        "Hip-hop, R&B"
+      ],
+      [
+        "90",
+        "667 ms",
+        "1.50",
+        "Hip-hop, downtempo"
+      ],
+      [
+        "100",
+        "600 ms",
+        "1.67",
+        "Pop, reggae"
+      ],
+      [
+        "110",
+        "545 ms",
+        "1.83",
+        "Pop, soul"
+      ],
+      [
+        "120",
+        "500 ms",
+        "2.00",
+        "House, disco, pop"
+      ],
+      [
+        "128",
+        "469 ms",
+        "2.13",
+        "EDM, house"
+      ],
+      [
+        "130",
+        "462 ms",
+        "2.17",
+        "Dance pop"
+      ],
+      [
+        "140",
+        "429 ms",
+        "2.33",
+        "Dubstep, trance"
+      ],
+      [
+        "150",
+        "400 ms",
+        "2.50",
+        "Techno, hardstyle"
+      ],
+      [
+        "160",
+        "375 ms",
+        "2.67",
+        "Drum & bass"
+      ],
+      [
+        "174",
+        "345 ms",
+        "2.90",
+        "Drum & bass"
+      ],
+      [
+        "180",
+        "333 ms",
+        "3.00",
+        "Speed metal, punk"
+      ],
+      [
+        "200",
+        "300 ms",
+        "3.33",
+        "Thrash metal"
+      ]
+    ]
+  },
+  "category": "audio",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This bpm tap tempo uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This bpm tap tempo is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "delay-time-calculator",
+    "speaker-wire-calculator",
+    "dpi-calculator"
+  ]
+}

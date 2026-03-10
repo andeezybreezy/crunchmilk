@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gig Worker Tax Calculator — 1099 Taxes & Quarterly Estimates</title>
+<meta name="description" content="Calculate 1099 self-employment tax, quarterly estimated payments, and W-2 equivalent salary. Covers SE tax, income brackets, and deductions.">
+<meta name="keywords" content="gig worker tax calculator, 1099 tax calculator, self employment tax, quarterly tax estimate, freelance tax calculator, w2 equivalent salary">
+<link rel="canonical" href="https://example.com/gig-worker-tax-calculator/">
+<meta property="og:title" content="Gig Worker Tax Calculator — 1099 Taxes & Quarterly Estimates">
+<meta property="og:description" content="Calculate your 1099 self-employment taxes, quarterly payments, and find your W-2 equivalent salary.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/gig-worker-tax-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gig Worker Tax Calculator — 1099 Taxes & Quarterly Estimates">
+<meta name="twitter:description" content="How much tax do gig workers really pay? Calculate SE tax, quarterly estimates, and W-2 equivalent. Free calculator.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Gig Worker Tax Calculator",
+  "description": "Calculate self-employment taxes for 1099 gig workers including SE tax, income tax by bracket, quarterly estimated payments, and W-2 equivalent salary comparison.",
+  "url": "https://example.com/gig-worker-tax-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is self-employment tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Self-employment tax is 15.3% of your net earnings — 12.4% for Social Security (on income up to $168,600 in 2024) and 2.9% for Medicare (no cap). W-2 employees split this with their employer (7.65% each), but self-employed workers pay both halves."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When are quarterly estimated tax payments due?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Quarterly payments are due April 15, June 15, September 15, and January 15 of the following year. Missing these deadlines can result in underpayment penalties of about 8% annually on the amount owed, even if you pay in full when filing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What can gig workers deduct as business expenses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common deductions include vehicle mileage ($0.67/mile in 2024), home office, phone/internet, equipment, software/apps, health insurance premiums, retirement contributions (SEP IRA, Solo 401k), professional development, and supplies. Keep receipts and track expenses diligently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the W-2 equivalent salary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your W-2 equivalent is the salary a traditional job would need to pay for you to take home the same amount. It accounts for the employer paying 7.65% FICA and typically contributing to health insurance (~$6,000/yr) and retirement (~3% match). A $75,000 1099 income often equals about a $60,000-$65,000 W-2 salary."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should gig workers set aside for taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A safe rule is 25-30% of net income (after expenses). For higher earners (over $90,000 net), set aside 30-35%. Open a separate savings account and transfer your tax percentage with each payment you receive to avoid a painful surprise at tax time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can gig workers reduce their tax bill with retirement accounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. A SEP IRA allows contributions up to 25% of net self-employment income (max $69,000 in 2024). A Solo 401(k) allows up to $23,000 employee contribution plus 25% employer contribution. These reduce both income tax and are powerful wealth-building tools."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Legal & Regulatory Calculators",
+      "item": "https://example.com/legal-regulatory-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Gig Worker Tax Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0369a1;--primary-dark:#075985;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/legal-regulatory-calculators/">Legal & Regulatory Calculators</a> &rsaquo; <span>Gig Worker Tax Calculator</span>
+    </nav>
+    <h1>Gig Worker Tax Calculator</h1>
+    <p>Calculate self-employment taxes, quarterly payments, and your W-2 equivalent salary</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Gig Worker Tax Calculator</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="input-group">
+        <label for="grossIncome">Gross 1099 Income ($)</label>
+        <input type="number" id="grossIncome" placeholder="75000" inputmode="decimal" step="any">
+      </div>
+      <div class="input-group">
+        <label for="expenses">Business Expenses ($)</label>
+        <input type="number" id="expenses" placeholder="10000" value="0" inputmode="decimal" step="any">
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="input-group">
+        <label for="filingStatus">Filing Status</label>
+        <select id="filingStatus" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff">
+          <option value="single">Single</option>
+          <option value="married">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="otherIncome">Other W-2 Income ($)</label>
+        <input type="number" id="otherIncome" placeholder="0" value="0" inputmode="decimal" step="any">
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Taxes</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Self-Employment Tax</div>
+          <div class="result-value" id="rSETax">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Income Tax</div>
+          <div class="result-value" id="rIncomeTax">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Total Tax</div>
+          <div class="result-value" id="rTotalTax">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Effective Rate</div>
+          <div class="result-value" id="rEffRate">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Quarterly Payment</div>
+          <div class="result-value" id="rQuarterly">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">W-2 Equivalent Salary</div>
+          <div class="result-value" id="rW2Equiv">—</div>
+        </div>
+      </div>
+      <div id="resultDetails" style="text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>1099 Tax Burden by Income Level (Single Filer, No Expenses)</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Includes self-employment tax + federal income tax after standard deduction. 2024 brackets.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Gross 1099</th>
+          <th>SE Tax</th>
+          <th>Income Tax</th>
+          <th>Total Tax</th>
+          <th>Effective Rate</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>$30,000</td><td>$4,238</td><td>$1,028</td><td>$5,266</td><td>17.6%</td></tr>
+        <tr><td>$50,000</td><td>$7,065</td><td>$3,258</td><td>$10,323</td><td>20.6%</td></tr>
+        <tr><td>$75,000</td><td>$10,597</td><td>$6,638</td><td>$17,235</td><td>23.0%</td></tr>
+        <tr><td>$100,000</td><td>$14,130</td><td>$10,607</td><td>$24,737</td><td>24.7%</td></tr>
+        <tr><td>$125,000</td><td>$17,662</td><td>$15,230</td><td>$32,892</td><td>26.3%</td></tr>
+        <tr><td>$150,000</td><td>$20,458</td><td>$20,120</td><td>$40,578</td><td>27.1%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This gig worker tax calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator estimates the total tax burden for 1099/self-employed gig workers, including self-employment tax and federal income tax, then calculates quarterly estimated payments and the equivalent W-2 salary.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Self-employment tax = 92.35% of net earnings × 15.3% (12.4% Social Security + 2.9% Medicare)</li>
+      <li>SE tax deduction = 50% of SE tax is deductible from gross income for income tax purposes</li>
+      <li>Federal income tax calculated using 2024 tax brackets after standard deduction</li>
+      <li>W-2 equivalent accounts for employer-paid FICA (7.65%) and typical benefits value</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Gig workers effectively pay double FICA taxes since they cover both the employer and employee portions. The half-of-SE-tax deduction and business expense deductions help offset this. Set aside 25-30% of net income for taxes and pay quarterly to avoid penalties.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This gig worker tax calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is self-employment tax?</h3>
+      <p>Self-employment tax is 15.3% of your net earnings — 12.4% for Social Security (on income up to $168,600 in 2024) and 2.9% for Medicare (no cap). W-2 employees split this with their employer (7.65% each), but self-employed workers pay both halves.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>When are quarterly estimated tax payments due?</h3>
+      <p>Quarterly payments are due April 15, June 15, September 15, and January 15 of the following year. Missing these deadlines can result in underpayment penalties of about 8% annually on the amount owed, even if you pay in full when filing.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What can gig workers deduct as business expenses?</h3>
+      <p>Common deductions include vehicle mileage ($0.67/mile in 2024), home office, phone/internet, equipment, software/apps, health insurance premiums, retirement contributions (SEP IRA, Solo 401k), professional development, and supplies. Keep receipts and track expenses diligently.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the W-2 equivalent salary?</h3>
+      <p>Your W-2 equivalent is the salary a traditional job would need to pay for you to take home the same amount. It accounts for the employer paying 7.65% FICA and typically contributing to health insurance (~$6,000/yr) and retirement (~3% match). A $75,000 1099 income often equals about a $60,000-$65,000 W-2 salary.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much should gig workers set aside for taxes?</h3>
+      <p>A safe rule is 25-30% of net income (after expenses). For higher earners (over $90,000 net), set aside 30-35%. Open a separate savings account and transfer your tax percentage with each payment you receive to avoid a painful surprise at tax time.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can gig workers reduce their tax bill with retirement accounts?</h3>
+      <p>Yes. A SEP IRA allows contributions up to 25% of net self-employment income (max $69,000 in 2024). A Solo 401(k) allows up to $23,000 employee contribution plus 25% employer contribution. These reduce both income tax and are powerful wealth-building tools.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/freelance-rate-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Freelance Rate Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate the hourly rate you need to charge as a freelancer</span></a>
+      <a href="/non-compete-checker/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Non-Compete Agreement Checker</strong><span style="font-size:0.8rem;color:var(--text-light)">Check if your non-compete is enforceable based on your state, role, and agreement terms</span></a>
+      <a href="/remote-work-tax-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Remote Work Tax Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find out which states you owe taxes to when working remotely across state lines</span></a>
+      <a href="/digital-asset-inheritance-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Digital Asset Inheritance Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate the cost and complexity of including digital assets in your estate plan</span></a>
+      <a href="/rmd-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">RMD Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate your required minimum distribution from IRAs and 401(k)s using IRS life expectancy tables</span></a>
+      <a href="/cta-filing-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">CTA Filing Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your Corporate Transparency Act BOI filing cost, timeline, and requirements</span></a>
+      <a href="/self-employment-tax-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Self-Employment Tax Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate your SE tax, income tax, and quarterly estimated payments</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Gig Worker Tax Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function fmt(n, d) {
+    if (typeof d === 'undefined') d = 2;
+    var parts = n.toFixed(d).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
+  function fmtDollars(n) {
+    var sign = n < 0 ? '-' : '';
+    return sign + '$' + fmt(Math.abs(n), 0).replace(/\..*/, '');
+  }
+
+  var grossIncome = document.getElementById('grossIncome');
+  var expenses = document.getElementById('expenses');
+  var filingStatus = document.getElementById('filingStatus');
+  var otherIncome = document.getElementById('otherIncome');
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  var chartData = [
+    ['$30,000', '$4,238', '$1,028', '$5,266', '17.6%'],
+    ['$50,000', '$7,065', '$3,258', '$10,323', '20.6%'],
+    ['$75,000', '$10,597', '$6,638', '$17,235', '23.0%'],
+    ['$100,000', '$14,130', '$10,607', '$24,737', '24.7%'],
+    ['$125,000', '$17,662', '$15,230', '$32,892', '26.3%'],
+    ['$150,000', '$20,458', '$20,120', '$40,578', '27.1%']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row[0] + '</td><td>' + row[1] + '</td><td>' + row[2] + '</td><td>' + row[3] + '</td><td>' + row[4] + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function getVal(el) {
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  // 2024 tax brackets
+  var brackets = {
+    single: [
+      { limit: 11600, rate: 0.10 },
+      { limit: 47150, rate: 0.12 },
+      { limit: 100525, rate: 0.22 },
+      { limit: 191950, rate: 0.24 },
+      { limit: 243725, rate: 0.32 },
+      { limit: 609350, rate: 0.35 },
+      { limit: Infinity, rate: 0.37 }
+    ],
+    married: [
+      { limit: 23200, rate: 0.10 },
+      { limit: 94300, rate: 0.12 },
+      { limit: 201050, rate: 0.22 },
+      { limit: 383900, rate: 0.24 },
+      { limit: 487450, rate: 0.32 },
+      { limit: 731200, rate: 0.35 },
+      { limit: Infinity, rate: 0.37 }
+    ],
+    hoh: [
+      { limit: 16550, rate: 0.10 },
+      { limit: 63100, rate: 0.12 },
+      { limit: 100500, rate: 0.22 },
+      { limit: 191950, rate: 0.24 },
+      { limit: 243700, rate: 0.32 },
+      { limit: 609350, rate: 0.35 },
+      { limit: Infinity, rate: 0.37 }
+    ]
+  };
+
+  var stdDeduction = { single: 14600, married: 29200, hoh: 21900 };
+
+  function calcIncomeTax(taxableIncome, status) {
+    var brk = brackets[status];
+    var tax = 0;
+    var prev = 0;
+    for (var i = 0; i < brk.length; i++) {
+      var upper = brk[i].limit;
+      var rate = brk[i].rate;
+      if (taxableIncome <= prev) break;
+      var chunk = Math.min(taxableIncome, upper) - prev;
+      tax += chunk * rate;
+      prev = upper;
+    }
+    return Math.max(tax, 0);
+  }
+
+  function calculate() {
+    var gross = getVal(grossIncome);
+    var exp = getVal(expenses);
+    var status = filingStatus.value;
+    var w2 = getVal(otherIncome);
+
+    if (gross <= 0) return;
+
+    var netEarnings = gross - exp;
+    var seBase = netEarnings * 0.9235;
+    var ssTaxCap = 168600;
+
+    // SE tax
+    var ssTax = Math.min(seBase, ssTaxCap) * 0.124;
+    var medicareTax = seBase * 0.029;
+    var additionalMedicare = seBase > 200000 ? (seBase - 200000) * 0.009 : 0;
+    var seTax = ssTax + medicareTax + additionalMedicare;
+
+    // Income tax
+    var seDeduction = seTax / 2;
+    var agi = netEarnings + w2 - seDeduction;
+    var deduction = stdDeduction[status];
+    var taxableIncome = Math.max(agi - deduction, 0);
+    var incomeTax = calcIncomeTax(taxableIncome, status);
+
+    // If there's W-2 income, approximate that some income tax is already withheld
+    // We calculate total tax on combined income
+    var totalTax = seTax + incomeTax;
+    var effectiveRate = gross > 0 ? (totalTax / gross) * 100 : 0;
+    var quarterly = totalTax / 4;
+
+    // W-2 equivalent: account for employer FICA (7.65%) and benefits (~$7,500/yr)
+    var employerFICA = netEarnings * 0.0765;
+    var benefitsValue = 7500;
+    var w2Equivalent = netEarnings - employerFICA - benefitsValue;
+
+    document.getElementById('rSETax').textContent = fmtDollars(seTax);
+    document.getElementById('rIncomeTax').textContent = fmtDollars(incomeTax);
+    document.getElementById('rTotalTax').textContent = fmtDollars(totalTax);
+    document.getElementById('rTotalTax').style.color = '#dc2626';
+    document.getElementById('rEffRate').textContent = fmt(effectiveRate, 1) + '%';
+    document.getElementById('rQuarterly').textContent = fmtDollars(quarterly);
+    document.getElementById('rW2Equiv').textContent = fmtDollars(w2Equivalent);
+
+    var takeHome = netEarnings - totalTax;
+
+    var d = '';
+    d += '<div style="padding:12px;background:#eff6ff;border-radius:8px;font-size:0.9rem;margin-bottom:12px">';
+    d += '<strong>Tax Breakdown</strong><br>';
+    d += 'Net self-employment income: ' + fmtDollars(netEarnings) + '<br>';
+    d += 'SE tax base (92.35%): ' + fmtDollars(seBase) + '<br>';
+    d += 'Social Security (12.4%): ' + fmtDollars(ssTax) + '<br>';
+    d += 'Medicare (2.9%): ' + fmtDollars(medicareTax) + '<br>';
+    if (additionalMedicare > 0) d += 'Additional Medicare (0.9%): ' + fmtDollars(additionalMedicare) + '<br>';
+    d += 'Half-SE deduction: -' + fmtDollars(seDeduction) + '<br>';
+    d += 'Standard deduction: -' + fmtDollars(deduction) + '<br>';
+    d += 'Taxable income: ' + fmtDollars(taxableIncome) + '<br>';
+    d += '</div>';
+
+    d += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.9rem">';
+    d += '<div style="padding:12px;background:#f0fdf4;border-radius:8px">';
+    d += '<strong>Take-Home</strong><br>';
+    d += 'After taxes: <strong style="color:#059669">' + fmtDollars(takeHome) + '</strong><br>';
+    d += 'Monthly: ' + fmtDollars(takeHome / 12);
+    d += '</div>';
+    d += '<div style="padding:12px;background:#fefce8;border-radius:8px">';
+    d += '<strong>Quarterly Payments</strong><br>';
+    d += 'Q1 (Apr 15): ' + fmtDollars(quarterly) + '<br>';
+    d += 'Q2 (Jun 15): ' + fmtDollars(quarterly) + '<br>';
+    d += 'Q3 (Sep 15): ' + fmtDollars(quarterly) + '<br>';
+    d += 'Q4 (Jan 15): ' + fmtDollars(quarterly);
+    d += '</div>';
+    d += '</div>';
+
+    d += '<div style="margin-top:12px;padding:12px;background:#f5f3ff;border-radius:8px;font-size:0.9rem">';
+    d += '<strong>W-2 Comparison</strong><br>';
+    d += 'Your ' + fmtDollars(gross) + ' gross 1099 income nets ' + fmtDollars(takeHome) + ' after taxes.<br>';
+    d += 'An equivalent W-2 salary would be approximately <strong>' + fmtDollars(w2Equivalent) + '</strong>, ';
+    d += 'accounting for employer-paid FICA and typical benefits.';
+    d += '</div>';
+
+    document.getElementById('resultDetails').innerHTML = d;
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+  }
+
+  calcBtn.addEventListener('click', function() {
+    calculate();
+    if (resultEl.classList.contains('visible')) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  var inputs = [grossIncome, expenses, filingStatus, otherIncome];
+  inputs.forEach(function(inp) {
+    if (inp) {
+      inp.addEventListener('input', calculate);
+      inp.addEventListener('change', calculate);
+      inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+    }
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Gig Worker Tax Calculator';
+  var TOOL_SLUG = 'gig-worker-tax-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'legal-regulatory', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

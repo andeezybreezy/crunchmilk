@@ -1,0 +1,117 @@
+{
+  "slug": "chicken-egg-calculator",
+  "toolName": "Chicken Egg Calculator",
+  "tagline": "Estimate egg production by flock size, breed type, and season with feed cost analysis",
+  "title": "Chicken Egg Calculator — Daily, Weekly & Yearly Egg Production",
+  "metaDescription": "Calculate chicken egg production by flock size, breed, and hen age. Includes seasonal adjustment, feed cost, and egg value comparison.",
+  "keywords": "chicken egg calculator, egg production calculator, how many eggs per hen, laying hen calculator, egg yield estimator, backyard chicken eggs",
+  "primaryColor": "#ea580c",
+  "primaryDarkColor": "#c2410c",
+  "domain": "example.com",
+  "ogTitle": "Chicken Egg Calculator — Egg Production & Feed Cost",
+  "ogDescription": "Estimate daily, weekly, and yearly egg production from your flock with feed cost vs. egg value analysis.",
+  "twitterDescription": "Calculate chicken egg production by breed, flock size, and season with feed cost analysis.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Chicken Egg Calculator",
+    "description": "Calculate chicken egg production based on flock size, breed type, hen age, and seasonal adjustments with feed cost comparison.",
+    "url": "https://example.com/chicken-egg-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many eggs does a chicken lay per year?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "High-production breeds (Leghorns, ISA Browns) lay 280-320 eggs per year. Heritage breeds (Plymouth Rock, Orpington) lay 150-200. Bantam breeds produce 100-150 eggs per year. Production declines about 10-15% each year after the first."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do chickens lay fewer eggs in winter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, egg production drops about 40% in winter due to shorter daylight hours. Chickens need 14-16 hours of light to maintain peak production. Adding a coop light on a timer can help maintain winter production."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much feed does a laying hen eat per day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A laying hen eats about 1/4 to 1/3 pound (4-5 oz) of feed per day, or roughly 1.5 lbs per week. At $15-$20 per 50-lb bag, that costs about $0.06-$0.08 per hen per day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "At what age do hens start laying?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most hens start laying at 18-22 weeks (4.5-5.5 months). High-production breeds tend to start earlier. Heritage breeds may not start until 24-28 weeks. The first eggs are often small and irregular."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long do chickens keep laying eggs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Chickens lay productively for 2-3 years. After year one, production drops 10-15% annually. Most hens continue laying some eggs for 5-7 years, but at greatly reduced rates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it cheaper to raise chickens for eggs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Feed costs average $0.06-$0.08 per hen per day. A good layer produces eggs costing about $1.50-$2.50 per dozen in feed. Store eggs cost $3-$6 per dozen, so backyard eggs can save money once startup costs are covered."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Chicken Egg Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"henCount\">Number of Hens</label>\n    <input type=\"number\" id=\"henCount\" value=\"6\" min=\"1\" max=\"10000\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"breedType\">Breed Type</label>\n    <select id=\"breedType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"high\" selected>High Production (Leghorn, ISA Brown) — 280-320/yr</option>\n      <option value=\"heritage\">Heritage (Plymouth Rock, Orpington) — 150-200/yr</option>\n      <option value=\"bantam\">Bantam (Silkie, Cochin) — 100-150/yr</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"henAge\">Hen Age</label>\n    <select id=\"henAge\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"1\" selected>Year 1 (peak production)</option>\n      <option value=\"2\">Year 2 (85% of peak)</option>\n      <option value=\"3\">Year 3 (70% of peak)</option>\n      <option value=\"4\">Year 4+ (55% of peak)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"season\">Current Season</label>\n    <select id=\"season\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"summer\" selected>Spring/Summer (peak)</option>\n      <option value=\"fall\">Fall (slight decline)</option>\n      <option value=\"winter\">Winter (reduced ~40%)</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Production</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Eggs</div>\n        <div class=\"result-value\" id=\"dailyEggs\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly Eggs</div>\n        <div class=\"result-value\" id=\"weeklyEggs\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Eggs</div>\n        <div class=\"result-value\" id=\"monthlyEggs\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Yearly Eggs</div>\n        <div class=\"result-value\" id=\"yearlyEggs\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Dozens per Month</div>\n        <div class=\"result-value\" id=\"dozensMonth\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Feed Cost vs Egg Value</div>\n        <div class=\"result-value\" id=\"costAnalysis\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Egg Production by Breed</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Breed Type</th><th>Eggs/Year</th><th>Egg Size</th><th>Start Laying</th><th>Best For</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Leghorn</td><td>280-320</td><td>Large, white</td><td>18-20 weeks</td><td>Maximum production</td></tr>\n        <tr><td>ISA Brown</td><td>300-320</td><td>Large, brown</td><td>18-20 weeks</td><td>Reliable layers</td></tr>\n        <tr><td>Rhode Island Red</td><td>200-250</td><td>Large, brown</td><td>20-22 weeks</td><td>Dual purpose</td></tr>\n        <tr><td>Plymouth Rock</td><td>180-200</td><td>Large, brown</td><td>20-24 weeks</td><td>Heritage, friendly</td></tr>\n        <tr><td>Orpington</td><td>150-200</td><td>Large, brown</td><td>22-26 weeks</td><td>Cold hardy, broody</td></tr>\n        <tr><td>Silkie (bantam)</td><td>100-120</td><td>Small, cream</td><td>24-28 weeks</td><td>Broodiness, pets</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Chicken Egg Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator estimates egg production based on breed potential, adjusted for age and seasonal light changes.</p>\n  <div style=\"background:#fff7ed;border:2px solid #fb923c;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Daily Eggs = Hens × (Breed Rate ÷ 365) × Age Factor × Season Factor</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>High production:</strong> 280-320 eggs/hen/year (0.82-0.88/day)</li>\n    <li><strong>Heritage:</strong> 150-200 eggs/hen/year (0.41-0.55/day)</li>\n    <li><strong>Bantam:</strong> 100-150 eggs/hen/year (0.27-0.41/day)</li>\n    <li><strong>Age decline:</strong> ~15% drop per year after year 1</li>\n    <li><strong>Winter drop:</strong> ~40% reduction without supplemental light</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How many eggs does a chicken lay per year?</h3>\n    <p>High-production breeds lay 280-320 eggs per year in their first year. Heritage breeds produce 150-200 eggs, and bantams lay 100-150. Production drops about 15% each year after the first.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Do chickens lay fewer eggs in winter?</h3>\n    <p>Yes, production drops about 40% in winter due to shorter days. Hens need 14-16 hours of light for peak laying. Adding a coop light on a timer can maintain production through winter months.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much feed does a laying hen eat per day?</h3>\n    <p>A laying hen eats about 1/4 pound (4 oz) of feed daily, roughly 1.5 lbs per week. At typical feed prices, this costs about $0.06-$0.08 per hen per day.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>At what age do hens start laying?</h3>\n    <p>Most hens begin laying at 18-22 weeks old. High-production breeds start earliest, while heritage and bantam breeds may wait until 24-28 weeks. First eggs are often small and become regular over a few weeks.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How long do chickens keep laying eggs?</h3>\n    <p>Hens lay productively for 2-3 years. After the first year, production declines about 15% annually. Most hens still lay occasionally for 5-7 years but at much lower rates.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Is it cheaper to raise chickens for eggs?</h3>\n    <p>Feed costs work out to roughly $1.50-$2.50 per dozen eggs, compared to $3-$6 at the store. Once you recover startup costs (coop, feeders, chicks), backyard eggs save money and are fresher.</p>\n  </div>\n</div>",
+  "category": "agriculture",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This chicken egg calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This chicken egg calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "garden-soil-volume-calculator",
+    "composting-ratio-calculator",
+    "beehive-yield-calculator",
+    "goat-milk-calculator",
+    "food-preservation-jar-calculator",
+    "seed-starting-calculator",
+    "hay-bale-calculator"
+  ]
+}

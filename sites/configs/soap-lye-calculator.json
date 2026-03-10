@@ -1,0 +1,113 @@
+{
+  "slug": "soap-lye-calculator",
+  "toolName": "Soap Lye Calculator",
+  "tagline": "Calculate lye and water for cold process soap making",
+  "title": "Soap Lye Calculator — NaOH, Water & Superfat for Cold Process Soap",
+  "metaDescription": "Calculate NaOH lye and water amounts for soap making. Enter oils, weights, and superfat percentage. Supports coconut, olive, palm, shea, and castor oils.",
+  "keywords": "soap lye calculator, lye calculator, soap making calculator, saponification calculator, NaOH calculator, cold process soap",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "domain": "example.com",
+  "ogTitle": "Soap Lye Calculator — NaOH & Water for Cold Process Soap",
+  "ogDescription": "Calculate exact NaOH lye and water amounts for cold process soap making. Supports multiple oils with SAP values.",
+  "twitterDescription": "Calculate lye and water for cold process soap. Supports multiple oils with SAP values.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Soap Lye Calculator",
+    "description": "Calculate NaOH lye and water amounts for cold process soap making with multiple oil support and superfat percentage.",
+    "url": "https://example.com/soap-lye-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate lye for soap?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiply each oil's weight by its SAP value (NaOH), then reduce by the superfat percentage. For example, 16 oz coconut oil × 0.178 SAP = 2.85 oz NaOH before superfat adjustment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is superfat in soap making?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Superfat is the percentage of oils left unsaponified in the final soap. A 5% superfat means 5% of oils won't react with lye, making the bar more moisturizing. Most recipes use 3-8% superfat."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the water to lye ratio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most common water to lye ratio is 2:1 (twice as much water as lye by weight). Some soap makers use 1.5:1 for harder bars or 2.5:1 for more working time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a SAP value?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SAP (saponification) value is the amount of KOH (potassium hydroxide) in mg needed to saponify 1g of oil. For NaOH (sodium hydroxide) soap, divide by 1.403 to convert. Each oil has a unique SAP value."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I substitute oils in a soap recipe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, but you must recalculate the lye amount since each oil has a different SAP value. Never substitute oils without recalculating — too much lye makes caustic soap, too little leaves it soft and oily."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much soap does a recipe make?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Total batch weight equals oils + lye + water. A recipe with 32 oz oils, 4.5 oz lye, and 9 oz water makes about 45.5 oz of raw soap. Finished bars weigh less after 4-6 weeks of curing as water evaporates."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Soap Lye Calculator</h2>\n\n  <div id=\"oilEntries\">\n    <div class=\"oil-entry\" style=\"display:flex;gap:8px;align-items:end;margin-bottom:12px;flex-wrap:wrap\">\n      <div style=\"flex:1;min-width:140px\">\n        <label>Oil Type</label>\n        <select class=\"oil-select\" style=\"width:100%;padding:10px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n          <option value=\"coconut\">Coconut Oil</option>\n          <option value=\"olive\" selected>Olive Oil</option>\n          <option value=\"palm\">Palm Oil</option>\n          <option value=\"shea\">Shea Butter</option>\n          <option value=\"castor\">Castor Oil</option>\n          <option value=\"cocoa\">Cocoa Butter</option>\n          <option value=\"avocado\">Avocado Oil</option>\n          <option value=\"sunflower\">Sunflower Oil</option>\n          <option value=\"sweet_almond\">Sweet Almond Oil</option>\n          <option value=\"lard\">Lard</option>\n        </select>\n      </div>\n      <div style=\"flex:0 0 100px\">\n        <label>Weight (oz)</label>\n        <input type=\"number\" class=\"oil-weight\" value=\"16\" min=\"0\" step=\"0.1\" inputmode=\"decimal\" style=\"width:100%;padding:10px;border:2px solid var(--border);border-radius:8px;font-size:1rem\">\n      </div>\n      <button type=\"button\" class=\"remove-oil-btn\" style=\"padding:10px 14px;background:#fee2e2;color:#991b1b;border:2px solid #fecaca;border-radius:8px;cursor:pointer;font-weight:700\" title=\"Remove oil\">&times;</button>\n    </div>\n  </div>\n\n  <button type=\"button\" id=\"addOilBtn\" style=\"width:100%;padding:10px;background:#f3f4f6;border:2px dashed var(--border);border-radius:8px;cursor:pointer;font-size:0.95rem;margin-bottom:16px;color:var(--text-light)\">+ Add Another Oil</button>\n\n  <div class=\"input-group\">\n    <label for=\"superfat\">Superfat (%)</label>\n    <input type=\"number\" id=\"superfat\" value=\"5\" min=\"0\" max=\"20\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"waterRatio\">Water : Lye Ratio</label>\n    <select id=\"waterRatio\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"1.5\">1.5 : 1 (less water)</option>\n      <option value=\"2\" selected>2 : 1 (standard)</option>\n      <option value=\"2.5\">2.5 : 1 (more water)</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Lye & Water</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">NaOH (Lye)</div>\n        <div class=\"result-value\" id=\"lyeWeight\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Water</div>\n        <div class=\"result-value\" id=\"waterWeight\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Oil Weight</div>\n        <div class=\"result-value\" id=\"totalOilWeight\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Batch Weight</div>\n        <div class=\"result-value\" id=\"totalBatchWeight\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Oil SAP Values Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">SAP values shown as NaOH (sodium hydroxide) amount needed per oz of oil.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Oil</th><th>NaOH SAP (per oz)</th><th>Properties in Soap</th><th>Recommended %</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Coconut Oil</td><td>0.178</td><td>Hardness, cleansing, big lather</td><td>15-30%</td></tr>\n        <tr><td>Olive Oil</td><td>0.134</td><td>Conditioning, mild, creamy lather</td><td>25-100%</td></tr>\n        <tr><td>Palm Oil</td><td>0.141</td><td>Hardness, stable lather</td><td>25-35%</td></tr>\n        <tr><td>Shea Butter</td><td>0.128</td><td>Conditioning, creamy</td><td>5-15%</td></tr>\n        <tr><td>Castor Oil</td><td>0.128</td><td>Bubbly lather, moisturizing</td><td>3-8%</td></tr>\n        <tr><td>Cocoa Butter</td><td>0.137</td><td>Hardness, conditioning</td><td>5-15%</td></tr>\n        <tr><td>Avocado Oil</td><td>0.133</td><td>Conditioning, gentle</td><td>5-20%</td></tr>\n        <tr><td>Sunflower Oil</td><td>0.134</td><td>Conditioning, light lather</td><td>5-15%</td></tr>\n        <tr><td>Sweet Almond Oil</td><td>0.136</td><td>Conditioning, stable lather</td><td>5-20%</td></tr>\n        <tr><td>Lard</td><td>0.138</td><td>Hardness, creamy lather</td><td>25-50%</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Soap Lye Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator uses saponification (SAP) values to determine the exact amount of sodium hydroxide (NaOH) needed to turn oils into soap.</p>\n  <div style=\"background:#f3e8ff;border:2px solid #d8b4fe;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Lye = (Oil Weight × SAP Value) × (1 - Superfat%/100)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li>Each oil has a unique <strong>SAP value</strong> — the amount of NaOH needed to saponify it</li>\n    <li><strong>Superfat</strong> reduces the lye so some oil remains unsaponified for moisturizing</li>\n    <li><strong>Water</strong> dissolves the lye and is calculated as a ratio to the lye weight</li>\n    <li>Total batch = oils + lye + water (soap will lose water weight during 4-6 week cure)</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How do you calculate lye for soap?</h3>\n    <p>Multiply each oil's weight by its NaOH SAP value, sum them, then reduce by the superfat percentage. For example: 16 oz coconut oil × 0.178 = 2.85 oz NaOH, minus 5% superfat = 2.71 oz NaOH.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is superfat in soap making?</h3>\n    <p>Superfat is extra oil that remains unsaponified in the finished soap, making it more moisturizing. A 5% superfat means 5% of the oils won't react with lye. Most cold process recipes use 3-8%.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is the water to lye ratio?</h3>\n    <p>Standard is 2:1 (twice as much water as lye by weight). Use 1.5:1 for faster unmolding and harder bars, or 2.5:1 for more working time. Never use less than 1:1.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is a SAP value?</h3>\n    <p>The saponification value is the amount of alkali needed to convert an oil into soap. Each oil has a unique SAP value based on its fatty acid profile. Always use a lye calculator — never guess.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Can I substitute oils in a soap recipe?</h3>\n    <p>Yes, but you must recalculate the lye amount because different oils have different SAP values. Substituting without recalculating can result in lye-heavy (caustic) or oil-heavy (soft, rancid) soap.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much soap does a recipe make?</h3>\n    <p>Total batch weight equals oils + lye + water. A recipe with 32 oz oils might produce about 45 oz of raw soap. After 4-6 weeks of curing, bars lose 10-15% of their weight as water evaporates.</p>\n  </div>\n</div>",
+  "category": "crafts",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This soap lye calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This soap lye calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "epoxy-resin-calculator",
+    "candle-wax-calculator",
+    "candle-fragrance-calculator"
+  ]
+}

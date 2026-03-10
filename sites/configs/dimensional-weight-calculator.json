@@ -1,0 +1,113 @@
+{
+  "slug": "dimensional-weight-calculator",
+  "toolName": "Dimensional Weight Calculator",
+  "tagline": "Calculate DIM weight and billable weight for shipping",
+  "title": "Dimensional Weight Calculator — DIM Weight for UPS, FedEx & USPS",
+  "metaDescription": "Calculate dimensional weight for UPS, FedEx, and USPS shipping. Compare DIM weight vs actual weight to find your billable weight instantly.",
+  "keywords": "dimensional weight calculator, DIM weight calculator, shipping weight calculator, billable weight, UPS DIM weight, FedEx dimensional weight",
+  "primaryColor": "#6b7280",
+  "primaryDarkColor": "#4b5563",
+  "domain": "example.com",
+  "ogTitle": "Dimensional Weight Calculator — UPS, FedEx & USPS",
+  "ogDescription": "Calculate dimensional weight and billable weight for any carrier. Compare DIM weight vs actual weight for shipping costs.",
+  "twitterDescription": "Calculate dimensional weight for UPS, FedEx, and USPS. Find your billable shipping weight.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Dimensional Weight Calculator",
+    "description": "Calculate dimensional weight for UPS, FedEx, and USPS shipping with billable weight comparison.",
+    "url": "https://example.com/dimensional-weight-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is dimensional weight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dimensional weight (DIM weight) is a pricing method that considers package size, not just actual weight. Carriers charge based on whichever is greater: actual weight or dimensional weight. This prevents large, lightweight packages from taking up cargo space at low cost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate DIM weight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DIM Weight = (Length × Width × Height) ÷ DIM factor. For UPS and FedEx domestic, the DIM factor is 139. For USPS, it's 166. Dimensions are in inches, and the result is in pounds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a DIM factor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DIM factor (also called DIM divisor) converts cubic inches to a weight equivalent. UPS and FedEx use 139 for domestic shipments. USPS uses 166. International shipments often use a factor of 139 or lower."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is billable weight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Billable weight is whichever is greater: the actual package weight or the dimensional weight. If your box weighs 5 lbs but the DIM weight is 12 lbs, you'll be billed for 12 lbs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I reduce dimensional weight charges?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the smallest box that fits your item, avoid excessive void fill, consider poly mailers for soft goods, and use custom-sized boxes when possible. Even 1 inch reduction on each side can significantly lower DIM weight."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does USPS use dimensional weight?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, USPS applies DIM weight pricing to Priority Mail packages over 1 cubic foot (1,728 cubic inches) using a DIM factor of 166. USPS Flat Rate boxes are exempt since pricing is fixed regardless of weight."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Dimensional Weight Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"dimUnit\">Measurement Unit</label>\n    <select id=\"dimUnit\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"in\" selected>Inches</option>\n      <option value=\"cm\">Centimeters</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pkgLength\">Length</label>\n    <input type=\"number\" id=\"pkgLength\" value=\"18\" min=\"0\" step=\"0.25\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pkgWidth\">Width</label>\n    <input type=\"number\" id=\"pkgWidth\" value=\"14\" min=\"0\" step=\"0.25\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pkgHeight\">Height</label>\n    <input type=\"number\" id=\"pkgHeight\" value=\"10\" min=\"0\" step=\"0.25\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"actualWeight\">Actual Weight (lbs)</label>\n    <input type=\"number\" id=\"actualWeight\" value=\"5\" min=\"0\" step=\"0.1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"carrier\">Carrier</label>\n    <select id=\"carrier\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"ups\" selected>UPS (DIM factor: 139)</option>\n      <option value=\"fedex\">FedEx (DIM factor: 139)</option>\n      <option value=\"usps\">USPS (DIM factor: 166)</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Billable Weight</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Dimensional Weight</div>\n        <div class=\"result-value\" id=\"dimWeight\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Actual Weight</div>\n        <div class=\"result-value\" id=\"actWeight\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Billable Weight</div>\n        <div class=\"result-value\" id=\"billWeight\" style=\"font-size:2rem\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cubic Inches</div>\n        <div class=\"result-value\" id=\"cubicIn\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>DIM Factor by Carrier</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Carrier</th><th>Domestic DIM Factor</th><th>International DIM Factor</th><th>Notes</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>UPS</td><td>139</td><td>139</td><td>Applies to all UPS services</td></tr>\n        <tr><td>FedEx</td><td>139</td><td>139</td><td>Applies to all FedEx services</td></tr>\n        <tr><td>USPS</td><td>166</td><td>166</td><td>Priority Mail over 1 cu ft only; Flat Rate exempt</td></tr>\n        <tr><td>DHL</td><td>139</td><td>139</td><td>Express shipments</td></tr>\n      </tbody>\n    </table>\n  </div>\n  <h3 style=\"margin-top:20px\">Common Box Size DIM Weights</h3>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Box Size</th><th>Cubic In</th><th>UPS/FedEx DIM</th><th>USPS DIM</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>10×8×6\"</td><td>480</td><td>3.5 lbs</td><td>2.9 lbs</td></tr>\n        <tr><td>12×12×8\"</td><td>1,152</td><td>8.3 lbs</td><td>6.9 lbs</td></tr>\n        <tr><td>18×14×10\"</td><td>2,520</td><td>18.1 lbs</td><td>15.2 lbs</td></tr>\n        <tr><td>24×18×12\"</td><td>5,184</td><td>37.3 lbs</td><td>31.2 lbs</td></tr>\n        <tr><td>24×24×24\"</td><td>13,824</td><td>99.5 lbs</td><td>83.3 lbs</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How Dimensional Weight Works</h2>\n  <p style=\"margin-bottom:12px\">Carriers use dimensional weight pricing to charge for the space a package occupies, not just its actual weight.</p>\n  <div style=\"background:#f3f4f6;border:2px solid #d1d5db;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">DIM Weight = (L × W × H) ÷ DIM Factor</span><br>\n    <span style=\"font-size:1rem;font-weight:600;color:var(--text-light)\">Billable Weight = MAX(actual, DIM weight)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li>UPS and FedEx domestic DIM factor: <strong>139</strong></li>\n    <li>USPS DIM factor: <strong>166</strong> (Priority Mail over 1 cu ft)</li>\n    <li>Always round <strong>up</strong> to the next whole pound</li>\n    <li>The <strong>billable weight</strong> is whichever is greater: actual or DIM</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>What is dimensional weight?</h3>\n    <p>Dimensional weight is a shipping pricing method based on package size rather than actual weight. Carriers charge the greater of actual weight or DIM weight, ensuring large lightweight packages are priced fairly for the space they consume.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How do you calculate DIM weight?</h3>\n    <p>Multiply Length × Width × Height (in inches) and divide by the carrier's DIM factor: 139 for UPS/FedEx, 166 for USPS. Round up to the next pound. Example: 18×14×10 ÷ 139 = 18.1 lbs DIM weight.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is a DIM factor?</h3>\n    <p>The DIM factor (divisor) converts cubic inches into an equivalent weight. A lower factor means higher DIM weight charges. UPS and FedEx use 139; USPS uses the more generous 166.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is billable weight?</h3>\n    <p>Billable weight is the greater of actual weight or DIM weight. If a package weighs 5 lbs but has a DIM weight of 18 lbs, you pay shipping rates for 18 lbs.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How can I reduce dimensional weight charges?</h3>\n    <p>Use the smallest box possible, minimize void fill, consider poly mailers for non-fragile items, and right-size your packaging. Even 1-2 inches smaller per dimension can save significantly.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Does USPS use dimensional weight?</h3>\n    <p>Yes. USPS applies DIM weight to Priority Mail packages exceeding 1 cubic foot (1,728 cubic inches) with a DIM factor of 166. Flat Rate boxes and First Class are exempt from DIM pricing.</p>\n  </div>\n</div>",
+  "category": "shipping",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This dimensional weight calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This dimensional weight calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "box-size-calculator",
+    "markup-calculator",
+    "profit-margin-calculator"
+  ]
+}

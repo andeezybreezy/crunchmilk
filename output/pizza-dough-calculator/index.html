@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizza Dough Calculator</title>
+<meta name="description" content="Calculate exact pizza dough amounts for any number of pizzas. Uses baker's percentages for flour, water, salt, yeast, and oil. Neapolitan and NY style.">
+<meta name="keywords" content="pizza dough calculator, pizza dough recipe, baker's percentage pizza, neapolitan dough calculator, pizza flour calculator">
+<link rel="canonical" href="https://example.com/pizza-dough-calculator/">
+<meta property="og:title" content="Pizza Dough Calculator — Perfect Dough Every Time">
+<meta property="og:description" content="Calculate exact pizza dough ingredients for any number of pizzas using baker's percentages. Neapolitan, NY, and custom styles.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/pizza-dough-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pizza Dough Calculator — Perfect Dough Every Time">
+<meta name="twitter:description" content="Calculate exact pizza dough amounts using baker's percentages. Any size, any style.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pizza Dough Calculator",
+  "description": "Calculate pizza dough ingredients using baker's percentages for any number and size of pizzas.",
+  "url": "https://example.com/pizza-dough-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is baker's percentage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Baker's percentage expresses each ingredient as a percentage of the total flour weight. Flour is always 100%. If you have 1000g flour and 63% hydration, you use 630g water. This makes scaling easy — just change the flour amount and all other ingredients adjust proportionally."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What hydration should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Neapolitan style uses 60-65% hydration for a supple, slightly chewy dough. New York style uses 65-70% for a foldable, slightly puffier crust. Higher hydration (70%+) creates lighter, more airy crusts but is harder to handle. Start at 63% and adjust from there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much yeast should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on fermentation time. For a 24-hour cold ferment, use 0.1-0.2% instant yeast. For same-day dough (4-6 hours at room temperature), use 0.5-1%. For a quick 1-2 hour rise, use 1-1.5%. Less yeast with longer fermentation gives better flavor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What flour should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For Neapolitan, use Tipo 00 flour (like Caputo Pizzeria). For NY style, bread flour or a blend of bread flour and all-purpose works great. The higher protein in bread flour gives a chewier texture. All-purpose works in a pinch but gives a softer crust."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long should I ferment the dough?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 24-hour cold ferment in the refrigerator gives the best flavor. You can also do a 48-72 hour cold ferment for even more complex flavors. Same-day dough (2-4 hours at room temperature) works but won't develop as much flavor. Pull dough from fridge 1-2 hours before shaping."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I add olive oil to pizza dough?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Traditional Neapolitan dough uses no oil. NY style and pan pizza recipes often include 2-3% olive oil for a slightly softer crumb and richer flavor. Oil also makes the dough easier to stretch. Skip it for authentic Neapolitan; add it for everything else."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Cooking Calculators",
+      "item": "https://example.com/cooking-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Pizza Dough Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#dc2626;--primary-dark:#b91c1c;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/cooking-calculators/">Cooking Calculators</a> &rsaquo; <span>Pizza Dough Calculator</span>
+    </nav>
+    <h1>Pizza Dough Calculator</h1>
+    <p>Calculate exact pizza dough ingredients using baker's percentages</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Pizza Dough Calculator</h2>
+
+    <div class="input-group">
+      <label for="numPizzas">Number of Pizzas</label>
+      <div class="input-row">
+        <input type="number" id="numPizzas" value="4" min="1" max="50" inputmode="numeric" aria-label="Number of pizzas">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="pizzaSize">Pizza Size</label>
+      <div class="input-row">
+        <select id="pizzaSize" aria-label="Pizza size">
+          <option value="10">10 inch (Personal)</option>
+          <option value="12" selected>12 inch (Medium)</option>
+          <option value="14">14 inch (Large)</option>
+          <option value="16">16 inch (Extra Large)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="hydration">Hydration %</label>
+      <div class="input-row">
+        <input type="number" id="hydration" value="63" min="50" max="85" step="1" inputmode="numeric" aria-label="Hydration percentage">
+        <span style="color:#666;font-size:0.9rem;margin-left:8px;">60-65% Neapolitan &bull; 65-70% NY style</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="saltPct">Salt %</label>
+      <div class="input-row">
+        <input type="number" id="saltPct" value="2.8" min="1" max="5" step="0.1" inputmode="decimal" aria-label="Salt percentage">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="yeastPct">Yeast % (instant/active dry)</label>
+      <div class="input-row">
+        <input type="number" id="yeastPct" value="0.2" min="0.05" max="2" step="0.05" inputmode="decimal" aria-label="Yeast percentage">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="oilPct">Olive Oil % (0 for Neapolitan)</label>
+      <div class="input-row">
+        <input type="number" id="oilPct" value="2" min="0" max="10" step="0.5" inputmode="decimal" aria-label="Olive oil percentage">
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="convertBtn">Calculate Dough</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <h3>Dough Recipe</h3>
+      <div id="doughOutput"></div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+
+    <div class="presets">
+      <h3>Style Presets</h3>
+      <div class="preset-grid" id="presetGrid"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Pizza Dough Ball Weight Guide</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Recommended dough ball weights by pizza size and style.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Size</th>
+          <th>Neapolitan</th>
+          <th>NY Style</th>
+          <th>Thick/Pan</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>10 inch</td><td>180-200g</td><td>200-220g</td><td>250-280g</td></tr>
+        <tr><td>12 inch</td><td>250-280g</td><td>280-310g</td><td>350-400g</td></tr>
+        <tr><td>14 inch</td><td>330-360g</td><td>360-400g</td><td>450-500g</td></tr>
+        <tr><td>16 inch</td><td>420-460g</td><td>460-500g</td><td>550-620g</td></tr>
+        <tr><td>18 inch</td><td>520-560g</td><td>560-620g</td><td>680-750g</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This pizza dough calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Baker's percentages express every ingredient as a percentage of total flour weight. This system makes it easy to scale recipes while keeping ratios consistent.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Flour = 100%</strong> (the base — all other ingredients are relative to flour)</li>
+      <li><strong>Water = hydration %</strong> (63% means 630g water per 1000g flour)</li>
+      <li><strong>Salt = 2.5–3%</strong>, Yeast = 0.1–0.3%, Oil = 0–3%</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Ball weight is calculated from pizza size. Lower yeast percentages require longer fermentation but develop more complex flavor. A 24-hour cold ferment with 0.1-0.2% yeast is standard for Neapolitan pizza.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This pizza dough calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is baker's percentage?</h3>
+      <p>Baker's percentage expresses each ingredient as a percentage of the total flour weight. Flour is always 100%. If you have 1000g flour and 63% hydration, you use 630g water. This makes scaling easy — just change the flour amount and all other ingredients adjust proportionally.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What hydration should I use?</h3>
+      <p>Neapolitan style uses 60-65% hydration for a supple, slightly chewy dough. New York style uses 65-70% for a foldable, slightly puffier crust. Higher hydration (70%+) creates lighter, more airy crusts but is harder to handle. Start at 63% and adjust from there.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much yeast should I use?</h3>
+      <p>It depends on fermentation time. For a 24-hour cold ferment, use 0.1-0.2% instant yeast. For same-day dough (4-6 hours at room temperature), use 0.5-1%. For a quick 1-2 hour rise, use 1-1.5%. Less yeast with longer fermentation gives better flavor.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What flour should I use?</h3>
+      <p>For Neapolitan, use Tipo 00 flour (like Caputo Pizzeria). For NY style, bread flour or a blend of bread flour and all-purpose works great. The higher protein in bread flour gives a chewier texture. All-purpose works in a pinch but gives a softer crust.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How long should I ferment the dough?</h3>
+      <p>A 24-hour cold ferment in the refrigerator gives the best flavor. You can also do a 48-72 hour cold ferment for even more complex flavors. Same-day dough (2-4 hours at room temperature) works but won't develop as much flavor. Pull dough from fridge 1-2 hours before shaping.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Should I add olive oil to pizza dough?</h3>
+      <p>Traditional Neapolitan dough uses no oil. NY style and pan pizza recipes often include 2-3% olive oil for a slightly softer crumb and richer flavor. Oil also makes the dough easier to stretch. Skip it for authentic Neapolitan; add it for everything else.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/air-fryer-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Air Fryer Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert conventional oven recipes to air fryer time and temperature</span></a>
+      <a href="/convection-oven-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Convection Oven Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert standard oven recipes to convection oven settings instantly</span></a>
+      <a href="/slow-cooker-converter/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Slow Cooker Converter</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert any oven recipe to slow cooker time and settings</span></a>
+      <a href="/pressure-cooker-converter/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Pressure Cooker Converter</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert conventional cooking times to pressure cooker settings</span></a>
+      <a href="/sous-vide-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Sous Vide Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Get perfect time and temperature for any protein and doneness</span></a>
+      <a href="/recipe-scaling-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Recipe Scaling Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Scale any recipe up or down with smart fraction display</span></a>
+      <a href="/bakers-percentage-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Baker's Percentage Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate baker's percentages and scale bread recipes by flour weight</span></a>
+      <a href="/bread-hydration-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Bread Hydration Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate dough hydration percentage including starter and other liquid sources</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Pizza Dough Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // Ball weight in grams by pizza size (inches) — Neapolitan-ish
+  var ballWeights = { 10: 190, 12: 270, 14: 350, 16: 440 };
+
+  var presets = [
+    { name: 'Neapolitan', hydration: 62, salt: 2.8, yeast: 0.15, oil: 0 },
+    { name: 'New York Style', hydration: 67, salt: 2.5, yeast: 0.5, oil: 3 },
+    { name: 'Same-Day Quick', hydration: 65, salt: 2.5, yeast: 1.2, oil: 2 },
+    { name: 'Detroit / Pan', hydration: 72, salt: 2.5, yeast: 0.8, oil: 4 },
+    { name: '72-Hour Cold Ferment', hydration: 63, salt: 2.8, yeast: 0.1, oil: 0 },
+    { name: 'Thin & Crispy', hydration: 58, salt: 2.5, yeast: 0.5, oil: 3 }
+  ];
+
+  var presetGrid = document.getElementById('presetGrid');
+  presets.forEach(function(p) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'preset-btn';
+    btn.innerHTML = p.name + '<span>' + p.hydration + '% hydration</span>';
+    btn.addEventListener('click', function() {
+      document.getElementById('hydration').value = p.hydration;
+      document.getElementById('saltPct').value = p.salt;
+      document.getElementById('yeastPct').value = p.yeast;
+      document.getElementById('oilPct').value = p.oil;
+      calculate();
+    });
+    presetGrid.appendChild(btn);
+  });
+
+  function fermentationNote(yeastPct) {
+    if (yeastPct <= 0.15) return 'Recommended: 24-72 hour cold ferment in refrigerator.';
+    if (yeastPct <= 0.3) return 'Recommended: 16-24 hour cold ferment or 6-8 hours at room temp.';
+    if (yeastPct <= 0.8) return 'Recommended: 4-8 hours at room temperature.';
+    return 'Recommended: 1.5-3 hours at room temperature (same-day dough).';
+  }
+
+  function calculate() {
+    var numPizzas = parseInt(document.getElementById('numPizzas').value) || 1;
+    var size = parseInt(document.getElementById('pizzaSize').value) || 12;
+    var hydration = parseFloat(document.getElementById('hydration').value) || 63;
+    var saltPct = parseFloat(document.getElementById('saltPct').value) || 2.8;
+    var yeastPct = parseFloat(document.getElementById('yeastPct').value) || 0.2;
+    var oilPct = parseFloat(document.getElementById('oilPct').value) || 0;
+
+    var ballWeight = ballWeights[size] || 270;
+    var totalDough = ballWeight * numPizzas;
+
+    // total dough = flour + water + salt + yeast + oil
+    // flour = totalDough / (1 + hydration/100 + salt/100 + yeast/100 + oil/100)
+    var divisor = 1 + hydration / 100 + saltPct / 100 + yeastPct / 100 + oilPct / 100;
+    var flour = totalDough / divisor;
+    var water = flour * hydration / 100;
+    var salt = flour * saltPct / 100;
+    var yeast = flour * yeastPct / 100;
+    var oil = flour * oilPct / 100;
+
+    var html = '<div style="display:grid;gap:8px;">';
+    html += resultRow('Flour', flour.toFixed(0) + 'g', '100%');
+    html += resultRow('Water', water.toFixed(0) + 'g', hydration + '%');
+    html += resultRow('Salt', salt.toFixed(1) + 'g', saltPct + '%');
+    html += resultRow('Yeast (instant)', yeast.toFixed(2) + 'g', yeastPct + '%');
+    if (oil > 0) {
+      html += resultRow('Olive Oil', oil.toFixed(1) + 'g', oilPct + '%');
+    }
+    html += '</div>';
+    html += '<div style="margin-top:12px;padding:10px;background:#f3f4f6;border-radius:8px;font-size:0.9rem;">';
+    html += '<strong>Total dough:</strong> ' + totalDough.toFixed(0) + 'g &bull; ';
+    html += '<strong>Per ball:</strong> ' + ballWeight + 'g &bull; ';
+    html += numPizzas + ' × ' + size + '" pizzas';
+    html += '</div>';
+
+    document.getElementById('doughOutput').innerHTML = html;
+    document.getElementById('resultTip').textContent = fermentationNote(yeastPct);
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function resultRow(label, value, pct) {
+    return '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #e5e7eb;">' +
+      '<span style="font-weight:600;">' + label + '</span>' +
+      '<span>' + value + ' <span style="color:#888;font-size:0.85rem;">(' + pct + ')</span></span>' +
+      '</div>';
+  }
+
+  document.getElementById('convertBtn').addEventListener('click', calculate);
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Pizza Dough Calculator';
+  var TOOL_SLUG = 'pizza-dough-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'cooking', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

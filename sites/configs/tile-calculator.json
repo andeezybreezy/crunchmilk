@@ -1,0 +1,131 @@
+{
+  "slug": "tile-calculator",
+  "toolName": "Tile Calculator",
+  "tagline": "Calculate how many tiles you need for any room or area",
+  "title": "Tile Calculator — How Many Tiles Do I Need? (With Waste & Boxes)",
+  "metaDescription": "Calculate tiles needed for any room. Enter dimensions, pick tile size, get total tiles, boxes, and grout estimate with waste factor.",
+  "keywords": "tile calculator, how many tiles do I need, tile coverage calculator, floor tile calculator, tile square footage, tile per box calculator",
+  "domain": "example.com",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "ogTitle": "Tile Calculator — How Many Tiles Do I Need?",
+  "ogDescription": "Calculate tiles needed for floors, walls, or backsplashes. Enter dimensions, pick tile size, get instant tile counts and box estimates.",
+  "twitterDescription": "Calculate how many tiles you need for any project. Enter dimensions, pick a tile size, get results instantly.",
+  "jsonLdDescription": "Calculate tile quantities, boxes, waste, and grout estimates for flooring and wall tile projects.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Tile Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"roomLength\">Room Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roomLength\" placeholder=\"e.g. 12\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roomWidth\">Room Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roomWidth\" placeholder=\"e.g. 10\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"tileSize\">Tile Size</label>\n      <div class=\"input-row\">\n        <select id=\"tileSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"4x4\">4&Prime; &times; 4&Prime;</option>\n          <option value=\"6x6\">6&Prime; &times; 6&Prime;</option>\n          <option value=\"12x12\" selected>12&Prime; &times; 12&Prime;</option>\n          <option value=\"12x24\">12&Prime; &times; 24&Prime;</option>\n          <option value=\"18x18\">18&Prime; &times; 18&Prime;</option>\n          <option value=\"24x24\">24&Prime; &times; 24&Prime;</option>\n          <option value=\"custom\">Custom...</option>\n        </select>\n      </div>\n      <div id=\"customTileWrap\" style=\"display:none;margin-top:8px\">\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"customTileW\" placeholder=\"Width (inches)\" inputmode=\"decimal\" step=\"any\" style=\"flex:1\">\n          <input type=\"number\" id=\"customTileH\" placeholder=\"Height (inches)\" inputmode=\"decimal\" step=\"any\" style=\"flex:1\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wastePct\">Waste Factor</label>\n      <div class=\"input-row\">\n        <select id=\"wastePct\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"10\" selected>10% &mdash; Standard</option>\n          <option value=\"12\">12% &mdash; Diagonal / complex layout</option>\n          <option value=\"15\">15% &mdash; Pattern / lots of cuts</option>\n        </select>\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">10% for straight lay, 12-15% for diagonal or patterns</div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"tilePrice\">Price per Tile (optional)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"tilePrice\" placeholder=\"e.g. 2.50\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Tiles Needed</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Tiles Needed</div>\n          <div class=\"result-value\" id=\"rTiles\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Boxes Needed</div>\n          <div class=\"result-value\" id=\"rBoxes\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Calculating tile coverage is simple: divide your room area by the area of a single tile, then add a waste factor for cuts and breakage.",
+    "rules": [
+      "Measure your room length and width in feet to get the total square footage",
+      "Select your tile size — common sizes range from 4&times;4 inches to 24&times;24 inches",
+      "Always add 10-15% extra for cuts, breakage, and future replacements"
+    ],
+    "outro": "This calculator provides tile counts, box estimates, and grout weight approximations. Tiles per box vary by size: smaller tiles have more per box, larger tiles fewer. Always buy all your tile from the same lot to ensure color consistency."
+  },
+  "faq": [
+    {
+      "question": "How many tiles do I need per square foot?",
+      "answer": "It depends on tile size. For 12×12 inch tiles, you need exactly 1 tile per square foot. For 6×6 tiles, you need 4 per square foot. For 24×24 tiles, you need 0.25 per square foot (1 tile covers 4 sq ft). Always add 10-15% for waste."
+    },
+    {
+      "question": "How many tiles come in a box?",
+      "answer": "It varies by tile size and manufacturer. Typical counts: 4×4 tiles — 80-100 per box, 6×6 — 44-50, 12×12 — 10-14, 12×24 — 6-8, 18×18 — 5-6, 24×24 — 3-4. Check the box label for the exact count and square footage coverage."
+    },
+    {
+      "question": "Should I buy extra tiles?",
+      "answer": "Absolutely. Always buy 10-15% more than your calculated amount. Extra tiles cover breakage during cutting, future repairs if a tile cracks, and slight measurement errors. Many stores allow returns of unopened boxes, so there's little risk to buying a bit extra."
+    },
+    {
+      "question": "How do I calculate tile for an L-shaped room?",
+      "answer": "Break the room into two rectangles, calculate the area of each, and add them together. Then use that total square footage in the calculator. For any irregular shape, divide it into simple rectangles and sum the areas."
+    },
+    {
+      "question": "What size tile is best for a small bathroom?",
+      "answer": "Medium tiles like 12×12 or 12×24 work well in small bathrooms. They have fewer grout lines which makes the room look larger. Very large tiles (24×24) may require many cuts in a small space, increasing waste. Avoid very small tiles (2×2 mosaics) on floors as they require more grout maintenance."
+    },
+    {
+      "question": "How much grout do I need for my tile job?",
+      "answer": "Grout quantity depends on tile size, grout line width, and tile thickness. As a rough estimate, a 25-lb bag of grout covers 100-200 sq ft for 12×12 tiles with 1/8\" grout lines. Smaller tiles or wider grout lines require more grout. Our calculator provides a grout estimate based on your tile size."
+    }
+  ],
+  "relatedTools": [
+    "grout-calculator",
+    "backsplash-tile-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Tile Coverage Reference Chart",
+    "subtitle": "Tiles needed per 100 sq ft by tile size (no waste factor).",
+    "columns": [
+      "Tile Size",
+      "Tile Area (sq ft)",
+      "Tiles per 100 sq ft",
+      "Tiles per Box (approx)"
+    ],
+    "rows": [
+      [
+        "4\" × 4\"",
+        "0.11",
+        "900",
+        "80-100"
+      ],
+      [
+        "6\" × 6\"",
+        "0.25",
+        "400",
+        "44-50"
+      ],
+      [
+        "12\" × 12\"",
+        "1.00",
+        "100",
+        "10-14"
+      ],
+      [
+        "12\" × 24\"",
+        "2.00",
+        "50",
+        "6-8"
+      ],
+      [
+        "18\" × 18\"",
+        "2.25",
+        "45",
+        "5-6"
+      ],
+      [
+        "24\" × 24\"",
+        "4.00",
+        "25",
+        "3-4"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This tile calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This tile calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

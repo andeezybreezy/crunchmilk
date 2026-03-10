@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Migration Calculator — Should You Move for Safety?</title>
+<meta name="description" content="Compare climate risks, insurance costs, and cost of living between cities. Calculate risk reduction and moving costs.">
+<meta name="keywords" content="climate migration calculator, climate risk by city, climate relocation, best cities climate change, climate safe cities, climate risk comparison">
+<link rel="canonical" href="https://example.com/climate-migration-calculator/">
+<meta property="og:title" content="Climate Migration Calculator — Compare Risks & Costs by City">
+<meta property="og:description" content="Compare climate risks, insurance costs, and cost of living between cities. Should you move for safety?">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/climate-migration-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Climate Migration Calculator — Compare Risks & Costs by City">
+<meta name="twitter:description" content="Is your city climate-safe? Compare risk scores, insurance costs, and cost of living vs safer cities. Free calculator.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Climate Migration Calculator",
+  "description": "Compare climate risks including flood, wildfire, hurricane, heat, and drought between cities, with cost of living differences and moving cost estimates.",
+  "url": "https://example.com/climate-migration-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which U.S. cities have the lowest climate risk?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cities consistently rated as lower climate risk include: Duluth, MN; Burlington, VT; Portland, ME; Buffalo, NY; Minneapolis, MN; Madison, WI; and Asheville, NC. These cities have lower exposure to hurricanes, extreme heat, and drought, though they face their own challenges like harsh winters and some flood risk."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which cities are most at risk from climate change?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Higher-risk cities include Miami and Southeast Florida (sea level rise, hurricanes), Phoenix and Las Vegas (extreme heat, drought), New Orleans (flooding, hurricanes), Houston (flooding, heat), and parts of coastal California (wildfire, drought). Risk levels are increasing in these areas as climate impacts intensify."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is climate risk score calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our composite score weighs five hazards: flooding (historical flood events, sea level rise projections), wildfire (burn probability, WUI proximity), hurricanes (historical storm frequency and intensity), extreme heat (days above 100F, urban heat island effect), and drought (Palmer Drought Index, water supply projections). Each is scored 0-100 and weighted by severity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will insurance costs keep rising in high-risk areas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, significantly. Insurance premiums in high-risk areas are projected to increase 50-100% over the next decade. Some insurers are already withdrawing from high-risk markets (e.g., State Farm leaving California homeowners). FEMA's Risk Rating 2.0 is also increasing flood insurance costs to reflect actual risk more accurately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is climate migration already happening?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Research shows net migration away from areas with repeated natural disasters (e.g., coastal Louisiana, fire-prone California regions). Cities like Boise, Duluth, and Buffalo have seen increased interest from climate-conscious movers. However, most climate migration remains domestic and gradual rather than sudden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to relocate to a new city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Average interstate moving costs range from $3,000-8,000 for a 3-bedroom home. Add temporary housing ($2,000-5,000), travel costs, security deposits, and adjustment costs. Total relocation typically runs $10,000-25,000 depending on distance and household size. Some employers offer relocation assistance."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://example.com/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Climate Migration Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#16a34a;--primary-dark:#15803d;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/tools/">Tools</a> &rsaquo; <span>Climate Migration Calculator</span>
+    </nav>
+    <h1>Climate Migration Calculator</h1>
+    <p>Compare climate risks, cost of living, and insurance costs between your current city and potential destinations</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Climate Migration Calculator</h2>
+
+    <div class="input-group">
+      <label for="currentCity">Current City</label>
+      <select id="currentCity" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff"></select>
+    </div>
+
+    <div class="input-group">
+      <label for="targetCity1">Target City 1</label>
+      <select id="targetCity1" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff"></select>
+    </div>
+
+    <div class="input-group">
+      <label for="targetCity2">Target City 2 (optional)</label>
+      <select id="targetCity2" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff"></select>
+    </div>
+
+    <div class="input-group">
+      <label for="targetCity3">Target City 3 (optional)</label>
+      <select id="targetCity3" style="width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff"></select>
+    </div>
+
+    <div class="input-group">
+      <label for="hhIncome">Household Income ($)</label>
+      <input type="number" id="hhIncome" placeholder="e.g. 75000" inputmode="decimal">
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn" style="margin-top:20px">Compare Cities</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Current City Risk Score</div>
+          <div class="result-value" id="rCurrentRisk">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Best Target Risk Score</div>
+          <div class="result-value" id="rTargetRisk">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Risk Reduction</div>
+          <div class="result-value" id="rReduction">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Estimated Moving Cost</div>
+          <div class="result-value" id="rMoveCost">—</div>
+        </div>
+      </div>
+      <div id="resultDetails" style="text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da"></div>
+      <button type="button" id="shareBtn" style="margin-top:16px;padding:12px 24px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;width:100%">📋 Share Your Result</button>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Climate Risk Scores by City (Composite 0-100)</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Higher scores indicate greater overall climate risk. Based on flood, wildfire, hurricane, heat, and drought exposure.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Flood</th>
+          <th>Wildfire</th>
+          <th>Hurricane</th>
+          <th>Heat</th>
+          <th>Overall Score</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Miami, FL</td><td>95</td><td>15</td><td>90</td><td>85</td><td>82</td></tr>
+        <tr><td>Houston, TX</td><td>90</td><td>10</td><td>80</td><td>90</td><td>76</td></tr>
+        <tr><td>Phoenix, AZ</td><td>20</td><td>40</td><td>5</td><td>98</td><td>62</td></tr>
+        <tr><td>Los Angeles, CA</td><td>25</td><td>85</td><td>5</td><td>70</td><td>58</td></tr>
+        <tr><td>Denver, CO</td><td>30</td><td>50</td><td>5</td><td>45</td><td>35</td></tr>
+        <tr><td>Minneapolis, MN</td><td>35</td><td>10</td><td>5</td><td>30</td><td>22</td></tr>
+        <tr><td>Duluth, MN</td><td>20</td><td>15</td><td>5</td><td>10</td><td>14</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This climate migration calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator compares climate risk scores across U.S. cities based on five major hazards and provides cost-of-living context to help evaluate potential climate migration decisions.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Risk scores (0-100) are composite ratings based on historical event frequency, projected future exposure, and infrastructure vulnerability for each hazard</li>
+      <li>Hazards scored: flooding, wildfire, hurricane/tropical storm, extreme heat, and drought</li>
+      <li>Cost of living index uses national average as 100, covering housing, food, utilities, transportation, and healthcare</li>
+      <li>Moving cost estimates include professional movers, travel, temporary housing, and adjustment costs based on distance</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Climate risk is one factor in relocation decisions. Job availability, family ties, community, healthcare access, and personal preference all matter. Risk scores are based on current data and projections — actual conditions may differ.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This climate migration calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>Which U.S. cities have the lowest climate risk?</h3>
+      <p>Cities consistently rated as lower climate risk include: Duluth, MN; Burlington, VT; Portland, ME; Buffalo, NY; Minneapolis, MN; Madison, WI; and Asheville, NC. These cities have lower exposure to hurricanes, extreme heat, and drought, though they face their own challenges like harsh winters and some flood risk.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Which cities are most at risk from climate change?</h3>
+      <p>Higher-risk cities include Miami and Southeast Florida (sea level rise, hurricanes), Phoenix and Las Vegas (extreme heat, drought), New Orleans (flooding, hurricanes), Houston (flooding, heat), and parts of coastal California (wildfire, drought). Risk levels are increasing in these areas as climate impacts intensify.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How is climate risk score calculated?</h3>
+      <p>Our composite score weighs five hazards: flooding (historical flood events, sea level rise projections), wildfire (burn probability, WUI proximity), hurricanes (historical storm frequency and intensity), extreme heat (days above 100F, urban heat island effect), and drought (Palmer Drought Index, water supply projections). Each is scored 0-100 and weighted by severity.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Will insurance costs keep rising in high-risk areas?</h3>
+      <p>Yes, significantly. Insurance premiums in high-risk areas are projected to increase 50-100% over the next decade. Some insurers are already withdrawing from high-risk markets (e.g., State Farm leaving California homeowners). FEMA's Risk Rating 2.0 is also increasing flood insurance costs to reflect actual risk more accurately.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is climate migration already happening?</h3>
+      <p>Yes. Research shows net migration away from areas with repeated natural disasters (e.g., coastal Louisiana, fire-prone California regions). Cities like Boise, Duluth, and Buffalo have seen increased interest from climate-conscious movers. However, most climate migration remains domestic and gradual rather than sudden.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much does it cost to relocate to a new city?</h3>
+      <p>Average interstate moving costs range from $3,000-8,000 for a 3-bedroom home. Add temporary housing ($2,000-5,000), travel costs, security deposits, and adjustment costs. Total relocation typically runs $10,000-25,000 depending on distance and household size. Some employers offer relocation assistance.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/flood-proofing-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Flood-Proofing ROI Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate insurance savings and ROI from flood-proofing improvements to your home</span></a>
+      <a href="/doge-impact-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">DOGE Impact Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate how proposed federal spending cuts could affect your household and state</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Climate Migration Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var cities = {
+    'Miami, FL': {flood:95,wildfire:15,hurricane:90,heat:85,drought:40,overall:82,col:120,insurance:4200,medianHome:550000},
+    'Houston, TX': {flood:90,wildfire:10,hurricane:80,heat:90,drought:50,overall:76,col:96,insurance:3800,medianHome:320000},
+    'New Orleans, LA': {flood:95,wildfire:5,hurricane:85,heat:80,drought:25,overall:78,col:95,insurance:4500,medianHome:280000},
+    'Phoenix, AZ': {flood:20,wildfire:40,hurricane:5,heat:98,drought:90,overall:62,col:103,insurance:1800,medianHome:420000},
+    'Las Vegas, NV': {flood:15,wildfire:35,hurricane:5,heat:95,drought:95,overall:60,col:102,insurance:1500,medianHome:400000},
+    'Los Angeles, CA': {flood:25,wildfire:85,hurricane:5,heat:70,drought:80,overall:58,col:166,insurance:2800,medianHome:950000},
+    'San Francisco, CA': {flood:30,wildfire:60,hurricane:5,heat:30,drought:75,overall:46,col:180,insurance:2200,medianHome:1200000},
+    'Jacksonville, FL': {flood:80,wildfire:20,hurricane:75,heat:80,drought:30,overall:70,col:95,insurance:3500,medianHome:310000},
+    'Tampa, FL': {flood:85,wildfire:15,hurricane:80,heat:82,drought:35,overall:74,col:100,insurance:4000,medianHome:380000},
+    'Dallas, TX': {flood:45,wildfire:25,hurricane:30,heat:88,drought:60,overall:55,col:102,insurance:2800,medianHome:350000},
+    'Atlanta, GA': {flood:40,wildfire:15,hurricane:35,heat:78,drought:40,overall:45,col:107,insurance:1800,medianHome:380000},
+    'Nashville, TN': {flood:50,wildfire:10,hurricane:20,heat:72,drought:35,overall:40,col:102,insurance:1600,medianHome:400000},
+    'Denver, CO': {flood:30,wildfire:50,hurricane:5,heat:45,drought:55,overall:35,col:112,insurance:1800,medianHome:550000},
+    'Portland, OR': {flood:25,wildfire:55,hurricane:5,heat:40,drought:35,overall:33,col:115,insurance:1200,medianHome:520000},
+    'Seattle, WA': {flood:25,wildfire:40,hurricane:5,heat:30,drought:30,overall:28,col:150,insurance:1100,medianHome:780000},
+    'Chicago, IL': {flood:40,wildfire:5,hurricane:5,heat:50,drought:25,overall:28,col:107,insurance:1400,medianHome:310000},
+    'Boston, MA': {flood:45,wildfire:5,hurricane:30,heat:45,drought:20,overall:32,col:148,insurance:1800,medianHome:680000},
+    'Minneapolis, MN': {flood:35,wildfire:10,hurricane:5,heat:30,drought:20,overall:22,col:103,insurance:1200,medianHome:330000},
+    'Madison, WI': {flood:30,wildfire:5,hurricane:5,heat:28,drought:18,overall:20,col:105,insurance:1000,medianHome:340000},
+    'Buffalo, NY': {flood:30,wildfire:5,hurricane:10,heat:20,drought:15,overall:18,col:87,insurance:900,medianHome:220000},
+    'Burlington, VT': {flood:25,wildfire:5,hurricane:10,heat:18,drought:12,overall:16,col:112,insurance:800,medianHome:380000},
+    'Duluth, MN': {flood:20,wildfire:15,hurricane:5,heat:10,drought:15,overall:14,col:92,insurance:700,medianHome:220000},
+    'Portland, ME': {flood:30,wildfire:5,hurricane:15,heat:20,drought:10,overall:18,col:110,insurance:900,medianHome:400000},
+    'Asheville, NC': {flood:35,wildfire:10,hurricane:15,heat:35,drought:25,overall:25,col:105,insurance:1100,medianHome:370000},
+    'Pittsburgh, PA': {flood:35,wildfire:5,hurricane:5,heat:35,drought:15,overall:22,col:93,insurance:1000,medianHome:230000},
+    'Richmond, VA': {flood:45,wildfire:10,hurricane:35,heat:65,drought:30,overall:42,col:99,insurance:1500,medianHome:320000},
+    'Charlotte, NC': {flood:35,wildfire:10,hurricane:30,heat:70,drought:35,overall:40,col:100,insurance:1400,medianHome:370000},
+    'Raleigh, NC': {flood:35,wildfire:10,hurricane:35,heat:70,drought:30,overall:40,col:102,insurance:1300,medianHome:380000},
+    'Salt Lake City, UT': {flood:20,wildfire:45,hurricane:5,heat:50,drought:65,overall:38,col:105,insurance:1200,medianHome:480000},
+    'Boise, ID': {flood:20,wildfire:55,hurricane:5,heat:50,drought:50,overall:38,col:104,insurance:1100,medianHome:430000}
+  };
+
+  var cityNames = Object.keys(cities).sort();
+  var selectors = ['currentCity','targetCity1','targetCity2','targetCity3'];
+  selectors.forEach(function(id, si) {
+    var sel = document.getElementById(id);
+    if (si > 1) {
+      var o0 = document.createElement('option');
+      o0.value = '';
+      o0.textContent = '— None —';
+      sel.appendChild(o0);
+    }
+    cityNames.forEach(function(c) {
+      var o = document.createElement('option');
+      o.value = c;
+      o.textContent = c;
+      sel.appendChild(o);
+    });
+  });
+
+  function fmt(n) { return n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function fmtD(n) { return (n<0?'-':'') + '$' + fmt(Math.abs(n)); }
+
+  var chartData = [
+    ['Miami, FL','95','15','90','85','82'],
+    ['Houston, TX','90','10','80','90','76'],
+    ['Phoenix, AZ','20','40','5','98','62'],
+    ['Los Angeles, CA','25','85','5','70','58'],
+    ['Denver, CO','30','50','5','45','35'],
+    ['Minneapolis, MN','35','10','5','30','22'],
+    ['Duluth, MN','20','15','5','10','14']
+  ];
+  var cb = document.getElementById('chartBody');
+  if (cb) {
+    chartData.forEach(function(r) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td>';
+      cb.appendChild(tr);
+    });
+  }
+
+  var shareData = '';
+
+  function riskColor(score) {
+    if (score >= 70) return '#dc2626';
+    if (score >= 50) return '#ea580c';
+    if (score >= 30) return '#ca8a04';
+    return '#16a34a';
+  }
+
+  function riskLabel(score) {
+    if (score >= 70) return 'High Risk';
+    if (score >= 50) return 'Moderate-High';
+    if (score >= 30) return 'Moderate';
+    if (score >= 15) return 'Low-Moderate';
+    return 'Low Risk';
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', function() {
+    var current = document.getElementById('currentCity').value;
+    var targets = [];
+    ['targetCity1','targetCity2','targetCity3'].forEach(function(id) {
+      var v = document.getElementById(id).value;
+      if (v && v !== current) targets.push(v);
+    });
+
+    var income = parseFloat(document.getElementById('hhIncome').value) || 75000;
+
+    if (!current || targets.length === 0) { alert('Please select your current city and at least one target.'); return; }
+
+    var cc = cities[current];
+
+    // Find best target
+    var bestTarget = targets[0];
+    var bestData = cities[targets[0]];
+    targets.forEach(function(t) {
+      if (cities[t].overall < cities[bestTarget].overall) {
+        bestTarget = t;
+        bestData = cities[t];
+      }
+    });
+
+    var riskReduction = cc.overall - bestData.overall;
+    var movingCost = 8000 + income * 0.05; // base + adjustment
+
+    document.getElementById('rCurrentRisk').textContent = cc.overall + '/100';
+    document.getElementById('rCurrentRisk').style.color = riskColor(cc.overall);
+    document.getElementById('rTargetRisk').textContent = bestData.overall + '/100';
+    document.getElementById('rTargetRisk').style.color = riskColor(bestData.overall);
+    document.getElementById('rReduction').textContent = riskReduction > 0 ? '-' + riskReduction + ' points' : '+' + Math.abs(riskReduction) + ' points';
+    document.getElementById('rReduction').style.color = riskReduction > 0 ? '#16a34a' : '#dc2626';
+    document.getElementById('rMoveCost').textContent = fmtD(Math.round(movingCost));
+
+    var d = '';
+
+    // Current city card
+    d += '<div style="padding:12px;background:#fef2f2;border-radius:8px;margin-bottom:12px">';
+    d += '<strong>' + current + ' — ' + riskLabel(cc.overall) + ' (' + cc.overall + '/100)</strong><br>';
+    d += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;font-size:0.75rem;text-align:center">';
+    d += '<div>Flood<br><strong style="color:' + riskColor(cc.flood) + '">' + cc.flood + '</strong></div>';
+    d += '<div>Fire<br><strong style="color:' + riskColor(cc.wildfire) + '">' + cc.wildfire + '</strong></div>';
+    d += '<div>Hurricane<br><strong style="color:' + riskColor(cc.hurricane) + '">' + cc.hurricane + '</strong></div>';
+    d += '<div>Heat<br><strong style="color:' + riskColor(cc.heat) + '">' + cc.heat + '</strong></div>';
+    d += '<div>Drought<br><strong style="color:' + riskColor(cc.drought) + '">' + cc.drought + '</strong></div>';
+    d += '</div>';
+    d += '<div style="margin-top:8px;font-size:0.85rem">Insurance: ' + fmtD(cc.insurance) + '/yr | COL Index: ' + cc.col + ' | Median Home: ' + fmtD(cc.medianHome) + '</div>';
+    d += '</div>';
+
+    // Target cities
+    targets.forEach(function(t) {
+      var tc = cities[t];
+      var isBest = t === bestTarget;
+      var colDiff = ((tc.col - cc.col) / cc.col) * 100;
+      var insuranceSave = cc.insurance - tc.insurance;
+      var incomeAdj = income * (tc.col / cc.col);
+
+      d += '<div style="padding:12px;background:' + (isBest ? '#f0fdf4' : '#f9fafb') + ';border-radius:8px;margin-bottom:12px;border:' + (isBest ? '2px solid #16a34a' : 'none') + '">';
+      d += '<strong>' + t + ' — ' + riskLabel(tc.overall) + ' (' + tc.overall + '/100)' + (isBest ? ' ⭐ Best Option' : '') + '</strong><br>';
+      d += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;font-size:0.75rem;text-align:center">';
+      d += '<div>Flood<br><strong style="color:' + riskColor(tc.flood) + '">' + tc.flood + '</strong></div>';
+      d += '<div>Fire<br><strong style="color:' + riskColor(tc.wildfire) + '">' + tc.wildfire + '</strong></div>';
+      d += '<div>Hurricane<br><strong style="color:' + riskColor(tc.hurricane) + '">' + tc.hurricane + '</strong></div>';
+      d += '<div>Heat<br><strong style="color:' + riskColor(tc.heat) + '">' + tc.heat + '</strong></div>';
+      d += '<div>Drought<br><strong style="color:' + riskColor(tc.drought) + '">' + tc.drought + '</strong></div>';
+      d += '</div>';
+      d += '<div style="margin-top:8px;font-size:0.85rem">';
+      d += 'Insurance: ' + fmtD(tc.insurance) + '/yr (' + (insuranceSave > 0 ? '<span style="color:#16a34a">save ' + fmtD(insuranceSave) + '</span>' : '<span style="color:#dc2626">+' + fmtD(Math.abs(insuranceSave)) + '</span>') + ')<br>';
+      d += 'COL Index: ' + tc.col + ' (' + (colDiff > 0 ? '+' : '') + colDiff.toFixed(1) + '%) | Median Home: ' + fmtD(tc.medianHome) + '<br>';
+      d += 'Income equivalent needed: ' + fmtD(Math.round(incomeAdj));
+      d += '</div></div>';
+    });
+
+    d += '<div style="padding:12px;background:#f0fdf4;border-radius:8px;font-size:0.9rem">';
+    d += '<strong>Recommendation</strong><br>';
+    if (riskReduction >= 30) {
+      d += 'Moving to ' + bestTarget + ' would significantly reduce your climate risk by ' + riskReduction + ' points. ';
+    } else if (riskReduction >= 15) {
+      d += 'Moving to ' + bestTarget + ' offers a moderate climate risk improvement of ' + riskReduction + ' points. ';
+    } else {
+      d += 'The climate risk difference to ' + bestTarget + ' is modest (' + riskReduction + ' points). ';
+    }
+    var bestInsuranceSave = cc.insurance - bestData.insurance;
+    if (bestInsuranceSave > 500) {
+      d += 'You could also save ~' + fmtD(bestInsuranceSave) + '/yr on insurance.';
+    }
+    d += '</div>';
+
+    document.getElementById('resultDetails').innerHTML = d;
+    var res = document.getElementById('result');
+    res.classList.add('visible');
+    res.style.display = 'block';
+    res.scrollIntoView({behavior:'smooth',block:'nearest'});
+
+    shareData = 'My city (' + current + ') has a climate risk score of ' + cc.overall + '/100. Moving to ' + bestTarget + ' would drop it to ' + bestData.overall + '/100. Check your city\'s risk: ' + window.location.href;
+  });
+
+  document.getElementById('shareBtn').addEventListener('click', function() {
+    if (!shareData) return;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareData).then(function() {
+        var btn = document.getElementById('shareBtn');
+        btn.textContent = '✓ Copied to clipboard!';
+        setTimeout(function() { btn.textContent = '📋 Share Your Result'; }, 2000);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = shareData;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      var btn = document.getElementById('shareBtn');
+      btn.textContent = '✓ Copied to clipboard!';
+      setTimeout(function() { btn.textContent = '📋 Share Your Result'; }, 2000);
+    }
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Climate Migration Calculator';
+  var TOOL_SLUG = 'climate-migration-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: '', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

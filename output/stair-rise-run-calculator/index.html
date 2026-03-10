@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stair Rise & Run Calculator — Code-Compliant Step Dimensions</title>
+<meta name="description" content="Calculate stair rise, run, and number of steps to meet building code. Enter total height to get code-compliant stair dimensions.">
+<meta name="keywords" content="stair rise run calculator, stair calculator, step calculator, stair dimensions, stair building code, staircase calculator">
+<link rel="canonical" href="https://example.com/stair-rise-run-calculator/">
+<meta property="og:title" content="Stair Rise & Run Calculator — Code-Compliant Step Dimensions">
+<meta property="og:description" content="Calculate code-compliant stair rise and run dimensions. Enter total height and get step count, riser height, tread depth, and stringer length.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/stair-rise-run-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stair Rise & Run Calculator — Code-Compliant Step Dimensions">
+<meta name="twitter:description" content="Free stair rise & run calculator. Enter total height to get code-compliant dimensions for risers, treads, stringers, and headroom.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stair Rise & Run Calculator",
+  "description": "Calculate stair rise and run dimensions including number of steps, riser height, tread depth, stringer length, and building code compliance based on total floor-to-floor height.",
+  "url": "https://example.com/stair-rise-run-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the ideal stair rise and run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The ideal residential stair has a 7\" to 7.5\" rise and 10\" to 11\" run. The classic comfort rule is that rise + run should equal 17\" to 18\". A 7\" rise with 11\" run (total 18\") is widely considered the most comfortable combination."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the maximum riser height allowed by code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The IRC (International Residential Code) allows a maximum riser height of 7.75\" (7-3/4\"). The minimum tread depth is 10\". Some states and municipalities have stricter requirements — California, for example, limits risers to 7.5\" in some cases."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate stringer length?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stringer length is the hypotenuse of the stair triangle: √(total rise² + total run²). For example, with a 108\" total rise and 147\" total run, the stringer length is √(108² + 147²) = √(11,664 + 21,609) = √33,273 ≈ 182.4\" or about 15.2 feet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What angle should stairs be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Residential stairs should be between 30° and 37° for comfortable use. The ideal angle is about 33-34°. Steeper than 37° feels unsafe; shallower than 30° wastes floor space. Code-compliant stairs (7.75\" rise, 10\" run) result in about 37.8°."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many steps for a 9-foot ceiling?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 9-foot ceiling typically requires 14-15 risers. With a 9' ceiling, total rise is about 108-110\" (including floor/ceiling thickness). At 7.5\" per riser, that's 14-15 risers with 13-14 treads, requiring about 12 feet of horizontal run."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do all risers need to be the same height?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, building code requires all risers to be uniform within 3/8\" of each other. The largest and smallest riser in a flight cannot differ by more than 3/8\". This is a safety requirement — uneven risers are a leading cause of stair falls."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Construction Calculators",
+      "item": "https://example.com/construction-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Stair Rise & Run Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0891b2;--primary-dark:#0e7490;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/construction-calculators/">Construction Calculators</a> &rsaquo; <span>Stair Rise & Run Calculator</span>
+    </nav>
+    <h1>Stair Rise & Run Calculator</h1>
+    <p>Calculate stair dimensions that meet building code for rise, run, and headroom</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Stair Rise &amp; Run Calculator</h2>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:16px">Calculate code-compliant stair dimensions from total floor-to-floor height.</p>
+
+    <div class="input-group">
+      <label for="totalRise">Total Rise — Floor to Floor (inches)</label>
+      <div class="input-row">
+        <input type="number" id="totalRise" placeholder="e.g. 108" value="108" step="0.25" inputmode="decimal">
+      </div>
+      <span style="font-size:0.8rem;color:var(--text-light)">Standard 9' ceiling = ~108" total rise</span>
+    </div>
+
+    <div class="input-group">
+      <label for="desiredRise">Desired Riser Height (inches)</label>
+      <div class="input-row">
+        <input type="number" id="desiredRise" placeholder="e.g. 7.5" value="7.5" step="0.125" inputmode="decimal">
+      </div>
+      <span style="font-size:0.8rem;color:var(--text-light)">Code max: 7.75" — Comfortable: 7" to 7.5"</span>
+    </div>
+
+    <div class="input-group">
+      <label for="treadDepth">Tread Depth / Run (inches)</label>
+      <div class="input-row">
+        <input type="number" id="treadDepth" placeholder="e.g. 10.5" value="10.5" step="0.25" inputmode="decimal">
+      </div>
+      <span style="font-size:0.8rem;color:var(--text-light)">Code min: 10" — Comfortable: 10" to 11"</span>
+    </div>
+
+    <div class="input-group">
+      <label for="stairWidth">Stair Width (inches)</label>
+      <div class="input-row">
+        <input type="number" id="stairWidth" placeholder="e.g. 36" value="36" step="1" inputmode="decimal">
+      </div>
+      <span style="font-size:0.8rem;color:var(--text-light)">Code min: 36" clear width</span>
+    </div>
+
+    <div class="input-group">
+      <label for="noseOverhang">Nosing Overhang (inches)</label>
+      <div class="input-row">
+        <input type="number" id="noseOverhang" placeholder="e.g. 1" value="1" step="0.125" inputmode="decimal">
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Stairs</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Number of Risers</div>
+          <div class="result-value" id="rRisers">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Actual Rise</div>
+          <div class="result-value" id="rActualRise">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Number of Treads</div>
+          <div class="result-value" id="rTreads">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Total Run</div>
+          <div class="result-value" id="rTotalRun">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Stringer Length</div>
+          <div class="result-value" id="rStringer">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Stair Angle</div>
+          <div class="result-value" id="rAngle">—</div>
+        </div>
+      </div>
+      <div id="codeCheck" style="margin-top:16px;padding:12px;border-radius:8px;font-size:0.9rem"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Stair Dimensions by Total Rise</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Using 7.5" target rise and 10.5" run</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Total Rise</th>
+          <th>Risers</th>
+          <th>Actual Rise</th>
+          <th>Total Run</th>
+          <th>Stringer</th>
+          <th>Angle</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>36" (3')</td><td>5</td><td>7.20"</td><td>42"</td><td>55.3"</td><td>40.6°</td></tr>
+        <tr><td>72" (6')</td><td>10</td><td>7.20"</td><td>94.5"</td><td>118.8"</td><td>37.3°</td></tr>
+        <tr><td>96" (8')</td><td>13</td><td>7.38"</td><td>126"</td><td>158.4"</td><td>37.3°</td></tr>
+        <tr><td>108" (9')</td><td>14</td><td>7.71"</td><td>136.5"</td><td>174.1"</td><td>38.4°</td></tr>
+        <tr><td>118" (9'10")</td><td>16</td><td>7.38"</td><td>157.5"</td><td>196.9"</td><td>36.8°</td></tr>
+        <tr><td>132" (11')</td><td>18</td><td>7.33"</td><td>178.5"</td><td>222.0"</td><td>36.5°</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This stair rise & run calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator determines code-compliant stair dimensions by dividing total floor-to-floor height by desired riser height, then checking against IRC building code requirements.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Number of risers = total rise ÷ desired riser height (rounded to nearest whole number)</li>
+      <li>Actual riser height = total rise ÷ number of risers</li>
+      <li>Number of treads = number of risers − 1 (the floor counts as the last tread)</li>
+      <li>Total run = number of treads × tread depth</li>
+      <li>Stringer length = √(total rise² + total run²) — the hypotenuse</li>
+      <li>Comfort rule: rise + run should be between 17" and 18" for optimal comfort</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">IRC 2021 code limits: max riser height 7.75", min tread depth 10", min width 36" clear, min headroom 6'8". All risers must be uniform within 3/8" of each other. Local codes may be stricter — always verify with your building department.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This stair rise & run calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is the ideal stair rise and run?</h3>
+      <p>The ideal residential stair has a 7" to 7.5" rise and 10" to 11" run. The classic comfort rule is that rise + run should equal 17" to 18". A 7" rise with 11" run (total 18") is widely considered the most comfortable combination.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the maximum riser height allowed by code?</h3>
+      <p>The IRC (International Residential Code) allows a maximum riser height of 7.75" (7-3/4"). The minimum tread depth is 10". Some states and municipalities have stricter requirements — California, for example, limits risers to 7.5" in some cases.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I calculate stringer length?</h3>
+      <p>Stringer length is the hypotenuse of the stair triangle: √(total rise² + total run²). For example, with a 108" total rise and 147" total run, the stringer length is √(108² + 147²) = √(11,664 + 21,609) = √33,273 ≈ 182.4" or about 15.2 feet.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What angle should stairs be?</h3>
+      <p>Residential stairs should be between 30° and 37° for comfortable use. The ideal angle is about 33-34°. Steeper than 37° feels unsafe; shallower than 30° wastes floor space. Code-compliant stairs (7.75" rise, 10" run) result in about 37.8°.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How many steps for a 9-foot ceiling?</h3>
+      <p>A 9-foot ceiling typically requires 14-15 risers. With a 9' ceiling, total rise is about 108-110" (including floor/ceiling thickness). At 7.5" per riser, that's 14-15 risers with 13-14 treads, requiring about 12 feet of horizontal run.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do all risers need to be the same height?</h3>
+      <p>Yes, building code requires all risers to be uniform within 3/8" of each other. The largest and smallest riser in a flight cannot differ by more than 3/8". This is a safety requirement — uneven risers are a leading cause of stair falls.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/concrete-slab-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Slab Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete volume and bags for slabs, patios, and driveways</span></a>
+      <a href="/deck-board-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Deck Board Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate deck boards, screws, and joists for your deck</span></a>
+      <a href="/concrete-footing-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Footing Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete for rectangular and round footings</span></a>
+      <a href="/sonotube-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Sonotube Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete for Sonotube cardboard forms</span></a>
+      <a href="/concrete-block-fill-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Block Fill Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate concrete fill for CMU block walls and cores</span></a>
+      <a href="/concrete-bag-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Concrete Bag Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how many bags of concrete you need for any project</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Stair Rise & Run Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function fmt(n, d) {
+    if (typeof d === 'undefined') d = 2;
+    var parts = n.toFixed(d).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
+  var totalRiseEl = document.getElementById('totalRise');
+  var desiredRiseEl = document.getElementById('desiredRise');
+  var treadEl = document.getElementById('treadDepth');
+  var widthEl = document.getElementById('stairWidth');
+  var noseEl = document.getElementById('noseOverhang');
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  var chartData = [
+    ['36" (3\')', '5', '7.20"', '42"', '55.3"', '40.6°'],
+    ['72" (6\')', '10', '7.20"', '94.5"', '118.8"', '37.3°'],
+    ['96" (8\')', '13', '7.38"', '126"', '158.4"', '37.3°'],
+    ['108" (9\')', '14', '7.71"', '136.5"', '174.1"', '38.4°'],
+    ['118" (9\'10")', '16', '7.38"', '157.5"', '196.9"', '36.8°'],
+    ['132" (11\')', '18', '7.33"', '178.5"', '222.0"', '36.5°']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function getVal(el) { var v = parseFloat(el.value); return isNaN(v) ? 0 : v; }
+
+  function calculate() {
+    var totalRise = getVal(totalRiseEl);
+    var desiredRise = getVal(desiredRiseEl);
+    var treadDepth = getVal(treadEl);
+    var stairWidth = getVal(widthEl);
+    var nosing = getVal(noseEl);
+
+    if (totalRise <= 0 || desiredRise <= 0 || treadDepth <= 0) return;
+
+    // Calculate number of risers (round to nearest whole)
+    var numRisers = Math.round(totalRise / desiredRise);
+    if (numRisers < 1) numRisers = 1;
+
+    var actualRise = totalRise / numRisers;
+    var numTreads = numRisers - 1;
+    var totalRun = numTreads * treadDepth;
+
+    // Stringer length (hypotenuse)
+    var stringerLen = Math.sqrt(totalRise * totalRise + totalRun * totalRun);
+
+    // Angle in degrees
+    var angleRad = Math.atan2(totalRise, totalRun);
+    var angleDeg = angleRad * (180 / Math.PI);
+
+    // Rise + run comfort check
+    var riseRunSum = actualRise + treadDepth;
+
+    document.getElementById('rRisers').textContent = numRisers;
+    document.getElementById('rActualRise').textContent = fmt(actualRise, 2) + '"';
+    document.getElementById('rTreads').textContent = numTreads;
+    document.getElementById('rTotalRun').textContent = fmt(totalRun, 1) + '" (' + fmt(totalRun / 12, 1) + ' ft)';
+    document.getElementById('rStringer').textContent = fmt(stringerLen, 1) + '" (' + fmt(stringerLen / 12, 1) + ' ft)';
+    document.getElementById('rAngle').textContent = fmt(angleDeg, 1) + '°';
+
+    // Code compliance check
+    var issues = [];
+    var passes = [];
+
+    if (actualRise > 7.75) {
+      issues.push('Riser height ' + fmt(actualRise, 2) + '" exceeds code max of 7.75"');
+    } else {
+      passes.push('Riser height ' + fmt(actualRise, 2) + '" is within code max (7.75")');
+    }
+
+    if (treadDepth < 10) {
+      issues.push('Tread depth ' + fmt(treadDepth, 1) + '" is below code min of 10"');
+    } else {
+      passes.push('Tread depth ' + fmt(treadDepth, 1) + '" meets code min (10")');
+    }
+
+    if (stairWidth < 36) {
+      issues.push('Width ' + fmt(stairWidth, 0) + '" is below code min of 36"');
+    } else {
+      passes.push('Width ' + fmt(stairWidth, 0) + '" meets code min (36")');
+    }
+
+    if (riseRunSum >= 17 && riseRunSum <= 18) {
+      passes.push('Rise + Run = ' + fmt(riseRunSum, 1) + '" (ideal comfort range: 17-18")');
+    } else {
+      issues.push('Rise + Run = ' + fmt(riseRunSum, 1) + '" (outside ideal 17-18" comfort range)');
+    }
+
+    var codeDiv = document.getElementById('codeCheck');
+    var html = '';
+    if (issues.length === 0) {
+      html += '<div style="background:#dcfce7;padding:12px;border-radius:8px;border-left:4px solid #16a34a;margin-bottom:8px">';
+      html += '<strong style="color:#16a34a">&#10004; All Code Checks Pass</strong></div>';
+    } else {
+      html += '<div style="background:#fef2f2;padding:12px;border-radius:8px;border-left:4px solid #dc2626;margin-bottom:8px">';
+      html += '<strong style="color:#dc2626">&#10008; Code Issues Found</strong><br>';
+      issues.forEach(function(i) { html += '• ' + i + '<br>'; });
+      html += '</div>';
+    }
+    if (passes.length > 0) {
+      html += '<div style="background:#f0fdf4;padding:10px;border-radius:8px;font-size:0.85rem">';
+      passes.forEach(function(p) { html += '&#10004; ' + p + '<br>'; });
+      html += '</div>';
+    }
+    codeDiv.innerHTML = html;
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+  }
+
+  calcBtn.addEventListener('click', function() {
+    calculate();
+    if (resultEl.classList.contains('visible')) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  [totalRiseEl, desiredRiseEl, treadEl, widthEl, noseEl].forEach(function(inp) {
+    if (inp) {
+      inp.addEventListener('input', calculate);
+      inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+    }
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Stair Rise & Run Calculator';
+  var TOOL_SLUG = 'stair-rise-run-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'construction', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

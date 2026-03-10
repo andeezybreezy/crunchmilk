@@ -1,0 +1,133 @@
+{
+  "slug": "tankless-water-heater-calculator",
+  "toolName": "Tankless Water Heater Calculator",
+  "tagline": "Size the right tankless water heater based on flow rate, temperature rise, and fixtures",
+  "title": "Tankless Water Heater Calculator — BTU & Flow Rate Sizing",
+  "metaDescription": "Size a tankless water heater by flow rate, temperature rise, and fixtures. Get BTU requirements for gas or electric on-demand heaters.",
+  "keywords": "tankless water heater calculator, tankless water heater sizing, GPM calculator, BTU water heater, on demand water heater size",
+  "domain": "example.com",
+  "primaryColor": "#0284c7",
+  "primaryDarkColor": "#0369a1",
+  "ogTitle": "Tankless Water Heater Calculator — BTU & Flow Rate Sizing",
+  "ogDescription": "Calculate the right tankless water heater size. Enter fixtures and climate for GPM flow rate, BTU, and model recommendations.",
+  "twitterDescription": "Free tankless water heater sizing calculator. Enter your fixtures and groundwater temp to get the right GPM and BTU requirements.",
+  "jsonLdDescription": "Calculate tankless water heater sizing requirements including GPM flow rate, BTU output, and temperature rise based on simultaneous fixture usage and groundwater temperature.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Tankless Water Heater Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Size the right on-demand water heater for your home.</p>\n\n    <div class=\"input-group\">\n      <label for=\"groundTemp\">Groundwater Temperature (°F)</label>\n      <select id=\"groundTemp\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"40\">40°F (Northern US — cold climate)</option>\n        <option value=\"50\" selected>50°F (Mid-Atlantic / Midwest)</option>\n        <option value=\"57\">57°F (Southern US)</option>\n        <option value=\"62\">62°F (Deep South / Southwest)</option>\n        <option value=\"70\">70°F (Hawaii / South Florida)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"targetTemp\">Desired Hot Water Temperature (°F)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"targetTemp\" placeholder=\"e.g. 120\" value=\"120\" step=\"5\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Simultaneous Fixtures (check all that run at once)</label>\n      <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px\">\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"2.5\" checked> Shower (2.5 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"2.5\"> 2nd Shower (2.5 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"1.5\" checked> Kitchen Faucet (1.5 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"2.0\"> Dishwasher (2.0 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"1.0\"> Bathroom Faucet (1.0 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"2.0\"> Washing Machine (2.0 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"4.0\"> Bathtub (4.0 GPM)</label>\n        <label style=\"display:flex;align-items:center;gap:6px;font-size:0.9rem\"><input type=\"checkbox\" class=\"fixture\" value=\"0.5\"> Low-Flow Faucet (0.5 GPM)</label>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fuelType\">Fuel Type</label>\n      <select id=\"fuelType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"gas\" selected>Natural Gas / Propane</option>\n        <option value=\"electric\">Electric</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Required Flow Rate</div>\n          <div class=\"result-value\" id=\"rGPM\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Temperature Rise</div>\n          <div class=\"result-value\" id=\"rTempRise\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">BTU Required</div>\n          <div class=\"result-value\" id=\"rBTU\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Size</div>\n          <div class=\"result-value\" id=\"rSize\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Gas Line Size</div>\n          <div class=\"result-value\" id=\"rGasLine\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Electrical Req.</div>\n          <div class=\"result-value\" id=\"rElectric\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator sizes tankless water heaters by determining the total GPM demand from simultaneous fixtures and the temperature rise needed to heat groundwater to your desired temperature.",
+    "rules": [
+      "Flow rate (GPM) = sum of all simultaneously running fixture flow rates",
+      "Temperature rise = desired hot water temp − incoming groundwater temp",
+      "BTU required = flow rate (GPM) × temperature rise × 8.33 (weight of water) × 60 min ÷ efficiency",
+      "Gas units are rated by BTU output (typically 150,000–199,000 BTU for whole-house)",
+      "Electric units are rated by kW (typically 18–36 kW for whole-house)"
+    ],
+    "outro": "Gas tankless heaters require proper venting (direct vent or power vent) and adequate gas line sizing (typically 3/4\" minimum). Electric units need dedicated circuits (usually 2-3 circuits at 40-60 amps each). Always check local codes and have a licensed plumber install."
+  },
+  "faq": [
+    {
+      "question": "What size tankless water heater do I need for a family of 4?",
+      "answer": "A family of 4 typically needs 7-10 GPM with a gas unit rated at 150,000-199,000 BTU. This handles 2 showers and a faucet simultaneously. In cold climates (40°F groundwater), you may need the higher end. Electric units need 24-36 kW for equivalent performance."
+    },
+    {
+      "question": "Gas vs electric tankless: which is better?",
+      "answer": "Gas tankless heaters deliver higher flow rates (8-11 GPM) and handle more simultaneous fixtures. Electric units are simpler to install, have no venting requirements, and are more efficient (99% vs 80-97%), but deliver lower flow rates (3-8 GPM) and require significant electrical upgrades."
+    },
+    {
+      "question": "What is temperature rise and why does it matter?",
+      "answer": "Temperature rise is the difference between incoming cold water and your desired hot water temp. In Minnesota (40°F groundwater, 120°F desired), you need an 80°F rise. In Florida (70°F groundwater), only a 50°F rise. Higher rise means lower flow rate from the same unit."
+    },
+    {
+      "question": "Can a tankless water heater replace a 50-gallon tank?",
+      "answer": "Yes, but sizing matters. A 50-gallon tank delivers about 60-80 gallons in the first hour. A properly sized tankless unit provides unlimited hot water but at a fixed flow rate. A 199,000 BTU gas unit can match or exceed a 50-gallon tank for most households."
+    },
+    {
+      "question": "How much does a tankless water heater save?",
+      "answer": "Tankless heaters save 8-34% on energy costs depending on hot water usage. Homes using less than 41 gallons/day save 24-34%. Homes using 86+ gallons/day save 8-14%. Annual savings are typically $75-$150. The units last 20+ years vs 10-15 for tank heaters."
+    },
+    {
+      "question": "Do I need to upgrade my gas line for tankless?",
+      "answer": "Usually yes. Tank heaters use 40,000-50,000 BTU on a 1/2\" gas line. Tankless units need 150,000-199,000 BTU, requiring a 3/4\" line minimum (often 1\" for long runs). A plumber must verify gas line capacity, meter size, and regulator before installation."
+    }
+  ],
+  "relatedTools": [
+    "solar-panel-calculator",
+    "concrete-slab-calculator",
+    "paver-calculator",
+    "deck-board-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Tankless Water Heater Sizing Guide",
+    "subtitle": "Gas units at 120°F target temperature",
+    "columns": [
+      "Groundwater",
+      "Temp Rise",
+      "Max GPM @150K BTU",
+      "Max GPM @199K BTU",
+      "Fixtures"
+    ],
+    "rows": [
+      [
+        "40°F (North)",
+        "80°F",
+        "3.6 GPM",
+        "4.8 GPM",
+        "1 shower + 1 faucet"
+      ],
+      [
+        "50°F (Mid)",
+        "70°F",
+        "4.1 GPM",
+        "5.5 GPM",
+        "2 showers"
+      ],
+      [
+        "57°F (South)",
+        "63°F",
+        "4.6 GPM",
+        "6.1 GPM",
+        "2 showers + faucet"
+      ],
+      [
+        "62°F (Deep S)",
+        "58°F",
+        "5.0 GPM",
+        "6.6 GPM",
+        "2 showers + faucet"
+      ],
+      [
+        "70°F (Hawaii)",
+        "50°F",
+        "5.8 GPM",
+        "7.7 GPM",
+        "3 showers"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This tankless water heater calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This tankless water heater calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

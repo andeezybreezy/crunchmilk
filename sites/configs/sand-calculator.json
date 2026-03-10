@@ -1,0 +1,134 @@
+{
+  "slug": "sand-calculator",
+  "toolName": "Sand Calculator",
+  "tagline": "Calculate sand volume, weight, and bags for any project",
+  "title": "Sand Calculator — How Much Sand Do I Need? (Tons, Yards & Bags)",
+  "metaDescription": "Calculate tons, cubic yards, and bags of sand needed. Supports play sand, masonry sand, and fill sand with weight and cost estimates.",
+  "keywords": "sand calculator, how much sand do I need, sand tonnage calculator, sandbox sand calculator, masonry sand calculator, sand volume calculator",
+  "domain": "example.com",
+  "primaryColor": "#d4a373",
+  "primaryDarkColor": "#b8885c",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Sand Calculator</h2>\n\n    <div class=\"presets\" style=\"margin-top:0;margin-bottom:20px\">\n      <h3>Quick Presets</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Area Input Method</label>\n      <div class=\"unit-toggle\" role=\"group\" id=\"areaToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"rect\" aria-pressed=\"true\">Length &times; Width</button>\n        <button type=\"button\" data-mode=\"circle\" aria-pressed=\"false\">Circle</button>\n        <button type=\"button\" data-mode=\"sqft\" aria-pressed=\"false\">Square Footage</button>\n      </div>\n    </div>\n\n    <div id=\"rectInputs\">\n      <div class=\"input-group\">\n        <label for=\"lengthFt\">Length (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"lengthFt\" placeholder=\"e.g. 10\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"widthFt\">Width (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"widthFt\" placeholder=\"e.g. 10\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"circleInputs\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"diaFt\">Diameter (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"diaFt\" placeholder=\"e.g. 8\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"sqftInput\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"areaSqft\">Total Area (square feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"areaSqft\" placeholder=\"e.g. 100\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"depthIn\">Depth (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"depthIn\" placeholder=\"e.g. 4\" value=\"4\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Sandbox: 6-12\" &bull; Paver base: 1\" &bull; Fill/leveling: 2-4\"</div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"sandType\">Sand Type</label>\n      <div class=\"input-row\">\n        <select id=\"sandType\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"2700\" selected>All-Purpose / Fill Sand (2,700 lbs/yd³)</option>\n          <option value=\"2500\">Play Sand (2,500 lbs/yd³)</option>\n          <option value=\"2800\">Masonry / Concrete Sand (2,800 lbs/yd³)</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"priceTon\">Price per Ton ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"priceTon\" value=\"30\" inputmode=\"decimal\" step=\"any\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Bulk: $20-$45/ton &bull; 50-lb bags: $4-$6 each</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Sand Needed</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cubic Yards</div>\n          <div class=\"result-value\" id=\"rYards\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Tons</div>\n          <div class=\"result-value\" id=\"rTons\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Calculating sand is a volume-to-weight conversion. Measure your area, choose a depth, and this calculator handles the rest — including weight by sand type.",
+    "rules": [
+      "Volume: Area (sq ft) &times; Depth (inches) / 12 = cubic feet. Divide by 27 for cubic yards",
+      "Weight varies by type: play sand ~2,500 lbs/yd&sup3;, fill sand ~2,700 lbs/yd&sup3;, masonry sand ~2,800 lbs/yd&sup3;",
+      "A 50-lb bag of sand contains about 0.5 cubic feet. One cubic yard = approximately 54 bags of 50-lb sand"
+    ],
+    "outro": "For sandboxes, use clean play sand rated for children — it is washed and screened to remove dust and debris. For paver bases, use coarse masonry sand (concrete sand). Fill sand is the cheapest option for grading and leveling."
+  },
+  "faq": [
+    {
+      "question": "How much sand do I need for a sandbox?",
+      "answer": "For a 10' x 10' sandbox at 8 inches deep, you need about 2.5 cubic yards or 3.1 tons of play sand. That is roughly 124 bags of 50-lb play sand. A 6' x 6' sandbox at 6 inches needs about 0.67 cubic yards — around 33 bags."
+    },
+    {
+      "question": "How much does a cubic yard of sand weigh?",
+      "answer": "Dry sand weighs 2,500-2,800 lbs per cubic yard depending on the type. Play sand: ~2,500 lbs (1.25 tons). All-purpose: ~2,700 lbs (1.35 tons). Masonry sand: ~2,800 lbs (1.4 tons). Wet sand can weigh 20-30% more."
+    },
+    {
+      "question": "How many 50-lb bags of sand are in a cubic yard?",
+      "answer": "Approximately 54 bags of 50-lb sand equal one cubic yard. A 50-lb bag contains about 0.5 cubic feet, and there are 27 cubic feet in a cubic yard (27 / 0.5 = 54). For large projects, bulk delivery is much cheaper."
+    },
+    {
+      "question": "What kind of sand do I use under pavers?",
+      "answer": "Use coarse concrete sand (also called masonry sand or C-33 sand) for paver bedding. Apply a 1-inch layer over compacted gravel base. Do not use play sand or beach sand — they are too fine and will wash out. Some contractors prefer polymeric sand for joints."
+    },
+    {
+      "question": "How deep should sand be in a sandbox?",
+      "answer": "A sandbox should have at least 6 inches of sand, ideally 8-12 inches for good play depth. For a fall zone under play equipment, you need 9-12 inches minimum per safety standards. Always use play-grade sand that is non-toxic and dust-free."
+    },
+    {
+      "question": "How much does sand cost?",
+      "answer": "Bulk sand: $20-$45 per ton delivered. 50-lb bags: $4-$6 each ($160-$324 per ton). Play sand is typically the most expensive type. Delivery fees range from $50-$150 depending on distance and quantity. Bulk is 3-5x cheaper than bagged for large projects."
+    }
+  ],
+  "relatedTools": [
+    "gravel-calculator",
+    "cubic-yards-calculator",
+    "fill-dirt-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Sand Volume & Weight Reference",
+    "subtitle": "Based on all-purpose sand at 2,700 lbs/yd³.",
+    "columns": [
+      "Area (sq ft)",
+      "4\" Deep (yd³)",
+      "4\" Deep (tons)",
+      "8\" Deep (yd³)",
+      "50-lb Bags (4\")"
+    ],
+    "rows": [
+      [
+        "36 (6x6)",
+        "0.44",
+        "0.60",
+        "0.89",
+        "24"
+      ],
+      [
+        "64 (8x8)",
+        "0.79",
+        "1.07",
+        "1.58",
+        "43"
+      ],
+      [
+        "100 (10x10)",
+        "1.23",
+        "1.67",
+        "2.47",
+        "67"
+      ],
+      [
+        "200",
+        "2.47",
+        "3.33",
+        "4.94",
+        "133"
+      ],
+      [
+        "500",
+        "6.17",
+        "8.33",
+        "12.35",
+        "333"
+      ],
+      [
+        "1,000",
+        "12.35",
+        "16.67",
+        "24.69",
+        "667"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This sand calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This sand calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

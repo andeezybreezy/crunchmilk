@@ -1,0 +1,134 @@
+{
+  "slug": "gravel-calculator",
+  "toolName": "Gravel Calculator",
+  "tagline": "Calculate gravel volume, weight, and cost by type",
+  "title": "Gravel Calculator — How Much Gravel Do I Need? (Tons & Yards)",
+  "metaDescription": "Calculate tons and cubic yards of gravel for driveways, paths, and landscaping. Supports pea gravel, crushed stone, and river rock with cost estimates.",
+  "keywords": "gravel calculator, how much gravel do I need, gravel tonnage calculator, crushed stone calculator, pea gravel calculator, gravel driveway calculator",
+  "domain": "example.com",
+  "primaryColor": "#78716c",
+  "primaryDarkColor": "#57534e",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Gravel Calculator</h2>\n\n    <div class=\"presets\" style=\"margin-top:0;margin-bottom:20px\">\n      <h3>Quick Presets</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Area Input Method</label>\n      <div class=\"unit-toggle\" role=\"group\" id=\"areaToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"rect\" aria-pressed=\"true\">Length &times; Width</button>\n        <button type=\"button\" data-mode=\"sqft\" aria-pressed=\"false\">Square Footage</button>\n      </div>\n    </div>\n\n    <div id=\"rectInputs\">\n      <div class=\"input-group\">\n        <label for=\"lengthFt\">Length (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"lengthFt\" placeholder=\"e.g. 40\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"widthFt\">Width (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"widthFt\" placeholder=\"e.g. 10\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"sqftInput\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"areaSqft\">Total Area (square feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"areaSqft\" placeholder=\"e.g. 400\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"depthIn\">Depth</label>\n      <div class=\"input-row\">\n        <select id=\"depthIn\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"1\">1 inch — Light decorative</option>\n          <option value=\"2\">2 inches — Walkways / paths</option>\n          <option value=\"3\">3 inches — Patios / light traffic</option>\n          <option value=\"4\" selected>4 inches — Driveways (standard)</option>\n          <option value=\"6\">6 inches — Heavy traffic base</option>\n          <option value=\"custom\">Custom...</option>\n        </select>\n      </div>\n      <div id=\"customDepthWrap\" style=\"display:none;margin-top:8px\">\n        <input type=\"number\" id=\"customDepth\" placeholder=\"Depth in inches\" inputmode=\"decimal\" step=\"any\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"gravelType\">Gravel Type</label>\n      <div class=\"input-row\">\n        <select id=\"gravelType\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"2800\" selected>Crushed Stone / Gravel (2,800 lbs/yd³)</option>\n          <option value=\"2600\">Pea Gravel (2,600 lbs/yd³)</option>\n          <option value=\"2700\">Crushed Limestone (2,700 lbs/yd³)</option>\n          <option value=\"3000\">River Rock (3,000 lbs/yd³)</option>\n          <option value=\"2500\">Lava Rock (2,500 lbs/yd³)</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"priceTon\">Price per Ton ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"priceTon\" value=\"50\" inputmode=\"decimal\" step=\"any\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Crushed stone: $30-$60/ton &bull; Pea gravel: $25-$50/ton &bull; River rock: $50-$150/ton</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Gravel Needed</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cubic Yards</div>\n          <div class=\"result-value\" id=\"rYards\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Tons</div>\n          <div class=\"result-value\" id=\"rTons\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Gravel is sold by the ton or cubic yard. Knowing the volume and weight helps you order the right amount and estimate delivery costs.",
+    "rules": [
+      "Volume: Area (sq ft) &times; Depth (inches) / 12 = cubic feet. Divide by 27 for cubic yards",
+      "Weight varies by type: crushed stone ~2,800 lbs/yd&sup3;, pea gravel ~2,600 lbs/yd&sup3;, river rock ~3,000 lbs/yd&sup3;",
+      "For driveways, use 4-6 inches of gravel. Compact in 2-inch lifts for best results"
+    ],
+    "outro": "Always use landscape fabric under decorative gravel to prevent weed growth. For driveways, layer different sizes: larger crushed stone as a base (4\"), then a finer top layer (2\"). Compact each layer before adding the next."
+  },
+  "faq": [
+    {
+      "question": "How much does a ton of gravel cover?",
+      "answer": "One ton of gravel covers approximately 80 square feet at 4 inches deep, 108 sq ft at 3 inches, or 160 sq ft at 2 inches. Coverage varies slightly by gravel type and size — smaller stones pack more tightly and cover slightly less area."
+    },
+    {
+      "question": "How much gravel do I need for a driveway?",
+      "answer": "A 10' x 40' driveway at 4 inches deep requires about 4.9 cubic yards or roughly 7 tons of gravel. For a proper gravel driveway, plan for 4-6 inches total depth in multiple layers: 3-4 inches of #57 stone base topped with 2 inches of finer gravel."
+    },
+    {
+      "question": "What type of gravel is best for driveways?",
+      "answer": "Crushed stone (#57 or #411) is best for driveways — angular pieces interlock and compact well. Top with a finer crusher run (#21A) for a smooth surface. Avoid round pea gravel for driveways — it shifts under tires and does not compact. River rock is decorative only."
+    },
+    {
+      "question": "How much does a cubic yard of gravel weigh?",
+      "answer": "Crushed stone: ~2,800 lbs (1.4 tons). Pea gravel: ~2,600 lbs (1.3 tons). River rock: ~3,000 lbs (1.5 tons). Lava rock: ~2,500 lbs (1.25 tons). Wet gravel can weigh 10-15% more. A dump truck typically carries 12-15 tons."
+    },
+    {
+      "question": "Should I put landscape fabric under gravel?",
+      "answer": "Yes, always use heavy-duty landscape fabric under decorative gravel and pathways. It prevents weed growth and stops gravel from sinking into the soil. Use commercial-grade fabric (not cheap weed barrier) and overlap seams by 6 inches. For driveways, geotextile fabric is even better."
+    },
+    {
+      "question": "How deep should gravel be for a patio or walkway?",
+      "answer": "Walkways: 2-3 inches of compacted gravel over landscape fabric. Patios: 3-4 inches. Use a finer gravel (#89 or pea gravel) for the surface and a coarser base layer for drainage. Edge with steel, aluminum, or stone edging to keep gravel contained."
+    }
+  ],
+  "relatedTools": [
+    "sand-calculator",
+    "fill-dirt-calculator",
+    "cubic-yards-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Gravel Coverage Reference (Crushed Stone)",
+    "subtitle": "Cubic yards and tons by area and depth. Based on 2,800 lbs/yd³.",
+    "columns": [
+      "Area (sq ft)",
+      "2\" Deep (yd³)",
+      "4\" Deep (yd³)",
+      "4\" Deep (tons)",
+      "6\" Deep (tons)"
+    ],
+    "rows": [
+      [
+        "100",
+        "0.62",
+        "1.23",
+        "1.73",
+        "2.59"
+      ],
+      [
+        "200",
+        "1.23",
+        "2.47",
+        "3.46",
+        "5.19"
+      ],
+      [
+        "400",
+        "2.47",
+        "4.94",
+        "6.91",
+        "10.37"
+      ],
+      [
+        "500",
+        "3.09",
+        "6.17",
+        "8.64",
+        "12.96"
+      ],
+      [
+        "1,000",
+        "6.17",
+        "12.35",
+        "17.28",
+        "25.93"
+      ],
+      [
+        "2,000",
+        "12.35",
+        "24.69",
+        "34.57",
+        "51.85"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This gravel calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This gravel calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

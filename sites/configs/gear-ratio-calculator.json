@@ -1,0 +1,132 @@
+{
+  "slug": "gear-ratio-calculator",
+  "toolName": "Gear Ratio Calculator",
+  "tagline": "Calculate drivetrain gear ratios, RPM at speed, and final drive ratios",
+  "title": "Gear Ratio Calculator — Drivetrain RPM & Final Drive",
+  "metaDescription": "Calculate overall gear ratio, RPM at speed, and wheel torque. Enter transmission gear ratio, final drive ratio, and tire size.",
+  "keywords": "gear ratio calculator, final drive ratio, RPM at speed calculator, drivetrain calculator, transmission gear ratio",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Gear Ratio Calculator — Drivetrain RPM & Final Drive",
+  "ogDescription": "Calculate overall gear ratio, engine RPM at any speed, and wheel torque from transmission and final drive ratios.",
+  "twitterDescription": "Calculate drivetrain gear ratios, RPM at speed, and wheel torque for any vehicle setup.",
+  "jsonLdDescription": "Calculate overall drivetrain gear ratio, engine RPM at speed, and wheel torque from transmission ratio, final drive ratio, and tire size.",
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Gear Ratio Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"transGear\">Transmission Gear Ratio</label>\n    <input type=\"number\" id=\"transGear\" value=\"3.55\" min=\"0.1\" step=\"0.01\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"finalDrive\">Final Drive (Axle) Ratio</label>\n    <input type=\"number\" id=\"finalDrive\" value=\"3.73\" min=\"0.1\" step=\"0.01\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"tireDiam\">Tire Diameter (inches)</label>\n    <input type=\"number\" id=\"tireDiam\" value=\"26.5\" min=\"10\" step=\"0.1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"vehicleSpeed\">Vehicle Speed (MPH)</label>\n    <input type=\"number\" id=\"vehicleSpeed\" value=\"60\" min=\"0\" step=\"5\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"engineTorque\">Engine Torque (lb-ft, optional)</label>\n    <input type=\"number\" id=\"engineTorque\" value=\"300\" min=\"0\" step=\"5\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Gear Ratio</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Overall Gear Ratio</div>\n        <div class=\"result-value\" id=\"overallRatio\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">RPM at Speed</div>\n        <div class=\"result-value\" id=\"rpmAtSpeed\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Wheel Torque</div>\n        <div class=\"result-value\" id=\"wheelTorque\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Wheel Force</div>\n        <div class=\"result-value\" id=\"wheelForce\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Speed at 1,000 RPM</div>\n        <div class=\"result-value\" id=\"speedAt1k\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Speed at Redline (6500)</div>\n        <div class=\"result-value\" id=\"speedAtRedline\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "howItWorks": {
+    "intro": "The overall gear ratio determines how many times the engine rotates for each wheel rotation, affecting acceleration, top speed, and cruising RPM.",
+    "rules": [
+      "Overall ratio = transmission gear ratio × final drive ratio",
+      "RPM at speed = (speed × overall ratio × 336) ÷ tire diameter",
+      "Wheel torque = engine torque × overall ratio",
+      "Wheel force (lbs) = wheel torque ÷ (tire radius in feet)",
+      "Speed at given RPM = (RPM × tire diameter) ÷ (overall ratio × 336)"
+    ],
+    "outro": "Lower (numerically higher) gears provide more torque multiplication for acceleration. Higher (numerically lower) gears like overdrive reduce RPM for fuel economy at highway speeds."
+  },
+  "faq": [
+    {
+      "question": "What is a final drive ratio?",
+      "answer": "The final drive ratio is the gear reduction in the differential (rear axle or transaxle). Common ratios range from 2.73 (economy) to 4.56 (performance/towing). A 3.73 axle means the driveshaft turns 3.73 times for each wheel rotation."
+    },
+    {
+      "question": "How does gear ratio affect acceleration vs top speed?",
+      "answer": "Higher numerical ratios (like 4.10) multiply torque more, giving better acceleration but higher RPM at cruising speed. Lower ratios (like 2.73) give lower RPM and better fuel economy but slower acceleration."
+    },
+    {
+      "question": "What is the 336 constant in the RPM formula?",
+      "answer": "The 336 constant comes from unit conversion: (miles/hour to inches/minute). Specifically, 5280 feet × 12 inches ÷ 60 minutes ÷ π ≈ 336.13. It converts linear speed to rotational speed accounting for tire circumference."
+    },
+    {
+      "question": "How do I find my vehicle's gear ratios?",
+      "answer": "Check your owner's manual, the RPO sticker (GM vehicles), or the door jamb sticker. You can also look up your VIN online. Common axle codes are stamped on the differential cover or tag."
+    }
+  ],
+  "relatedTools": [
+    "tire-size-calculator",
+    "hp-to-torque-calculator",
+    "turbo-boost-calculator",
+    "cost-per-mile-calculator",
+    "fuel-cost-trip-calculator",
+    "towing-capacity-calculator",
+    "drag-strip-calculator",
+    "towing-payload-calculator"
+  ],
+  "chart": {
+    "title": "RPM at 60 MPH by Gear & Axle Ratio",
+    "subtitle": "Assumes 26.5\" tire diameter, top gear shown",
+    "columns": [
+      "Trans Gear",
+      "Axle 3.08",
+      "Axle 3.42",
+      "Axle 3.73",
+      "Axle 4.10"
+    ],
+    "rows": [
+      [
+        "0.63 (6th OD)",
+        "1,465",
+        "1,627",
+        "1,774",
+        "1,950"
+      ],
+      [
+        "0.70 (5th OD)",
+        "1,627",
+        "1,808",
+        "1,971",
+        "2,167"
+      ],
+      [
+        "0.75 (4th OD)",
+        "1,743",
+        "1,937",
+        "2,112",
+        "2,322"
+      ],
+      [
+        "1.00 (3rd/Direct)",
+        "2,325",
+        "2,582",
+        "2,816",
+        "3,095"
+      ],
+      [
+        "1.50 (2nd)",
+        "3,487",
+        "3,874",
+        "4,224",
+        "4,643"
+      ],
+      [
+        "2.50 (1st)",
+        "5,812",
+        "6,456",
+        "7,040",
+        "7,738"
+      ]
+    ]
+  },
+  "category": "automotive",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This gear ratio calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This gear ratio calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

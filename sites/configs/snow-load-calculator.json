@@ -1,0 +1,115 @@
+{
+  "slug": "snow-load-calculator",
+  "toolName": "Snow Load Calculator",
+  "tagline": "Calculate roof snow load and structural safety",
+  "title": "Snow Load Calculator — Roof Snow Weight & Structural Safety Check",
+  "metaDescription": "Calculate snow load on your roof by area, depth, and snow type. Compares to structural ratings and warns if load exceeds safe limits.",
+  "keywords": "snow load calculator, roof snow load, snow weight calculator, roof weight capacity, snow load psf",
+  "primaryColor": "#6366f1",
+  "primaryDarkColor": "#4f46e5",
+  "domain": "example.com",
+  "ogTitle": "Snow Load Calculator — Roof Snow Weight & Safety",
+  "ogDescription": "Calculate total snow load on your roof. Compares against typical roof ratings and warns when limits are exceeded.",
+  "twitterDescription": "Calculate roof snow load by depth and snow type. Includes structural safety comparison.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Snow Load Calculator",
+    "description": "Calculate snow load on roofs by area, depth, and snow type with structural safety comparison.",
+    "url": "https://example.com/snow-load-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate snow load on a roof?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Snow load (psf) = snow density (lb/cu ft) × depth (ft). Fresh snow is about 5 lb/cu ft, packed snow 15 lb/cu ft, wet snow 25 lb/cu ft, and ice 57 lb/cu ft. Multiply psf by roof area for total load."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much weight can a roof support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most residential roofs are designed for 20-40 psf ground snow load. In heavy snow regions, roofs may be rated for 60+ psf. Check your local building code for specific requirements. Older roofs may have lower ratings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does snow weigh per square foot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on snow type. One inch of fresh snow weighs about 0.4 psf. Packed snow is about 1.25 psf per inch. Wet heavy snow is about 2.1 psf per inch. Ice is about 4.7 psf per inch."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I remove snow from my roof?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Consider removing snow when depth exceeds 2 feet of packed snow or the load approaches 20 psf. Warning signs include: doors sticking, visible ceiling sagging, cracking sounds, or roof leak development."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does snow type matter for load calculations?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. Fresh powder weighs 5 lb/cu ft while wet snow weighs 25 lb/cu ft — five times heavier. 12 inches of wet snow puts the same load on your roof as 60 inches of fresh powder."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does roof pitch affect snow load?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Steeper roofs shed snow better but still experience loads. The building code reduces design snow load for pitches over 30°. A flat roof holds all snow while a 45° pitch may hold about 60% as much."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Snow Load Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"roofArea\">Roof Area (sq ft)</label>\n    <input type=\"number\" id=\"roofArea\" value=\"1500\" min=\"0\" step=\"10\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"snowDepth\">Snow Depth (inches)</label>\n    <input type=\"number\" id=\"snowDepth\" value=\"12\" min=\"0\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"snowType\">Snow Type</label>\n    <select id=\"snowType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"fresh\" selected>Fresh / Powder (~5 lb/cu ft)</option>\n      <option value=\"packed\">Packed / Settled (~15 lb/cu ft)</option>\n      <option value=\"wet\">Wet / Heavy (~25 lb/cu ft)</option>\n      <option value=\"ice\">Ice / Frozen (~57 lb/cu ft)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"roofRating\">Roof Snow Load Rating (psf)</label>\n    <input type=\"number\" id=\"roofRating\" value=\"30\" min=\"0\" step=\"5\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Snow Load</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Snow Load (psf)</div>\n        <div class=\"result-value\" id=\"loadPsf\" style=\"font-size:2rem\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Weight</div>\n        <div class=\"result-value\" id=\"totalWeight\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">% of Roof Rating</div>\n        <div class=\"result-value\" id=\"pctRating\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Status</div>\n        <div class=\"result-value\" id=\"status\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Snow Weight by Type & Depth</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Pounds per square foot (psf) for various snow depths and types.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Depth</th><th>Fresh Powder</th><th>Packed Snow</th><th>Wet Snow</th><th>Ice</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>6\"</td><td>2.5 psf</td><td>7.5 psf</td><td>12.5 psf</td><td>28.5 psf</td></tr>\n        <tr><td>12\"</td><td>5.0 psf</td><td>15.0 psf</td><td>25.0 psf</td><td>57.0 psf</td></tr>\n        <tr><td>18\"</td><td>7.5 psf</td><td>22.5 psf</td><td>37.5 psf</td><td>85.5 psf</td></tr>\n        <tr><td>24\"</td><td>10.0 psf</td><td>30.0 psf</td><td>50.0 psf</td><td>114.0 psf</td></tr>\n        <tr><td>36\"</td><td>15.0 psf</td><td>45.0 psf</td><td>75.0 psf</td><td>171.0 psf</td></tr>\n        <tr><td>48\"</td><td>20.0 psf</td><td>60.0 psf</td><td>100.0 psf</td><td>228.0 psf</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Snow Load Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">Snow load is calculated by multiplying the snow density by the depth, giving a weight per square foot (psf) value.</p>\n  <div style=\"background:#e0e7ff;border:2px solid #a5b4fc;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Load (psf) = Snow Density (lb/cu ft) × Depth (ft)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Fresh snow:</strong> ~5 lb/cu ft (~0.42 psf per inch)</li>\n    <li><strong>Packed snow:</strong> ~15 lb/cu ft (~1.25 psf per inch)</li>\n    <li><strong>Wet snow:</strong> ~25 lb/cu ft (~2.08 psf per inch)</li>\n    <li><strong>Ice:</strong> ~57 lb/cu ft (~4.75 psf per inch)</li>\n    <li>Total weight = psf × roof area in square feet</li>\n  </ul>\n  <p><em>Typical residential roofs are rated for 20-40 psf. Consult a structural engineer if snow load approaches your roof's rating.</em></p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How do you calculate snow load on a roof?</h3>\n    <p>Multiply snow density by depth in feet. Fresh snow (~5 lb/cu ft) at 12 inches deep = 5 × 1.0 = 5 psf. Then multiply psf by roof area for total weight. 5 psf × 1,500 sq ft = 7,500 lbs.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much weight can a roof support?</h3>\n    <p>Most residential roofs support 20-40 psf of snow load. Heavy-snow regions may require 60+ psf ratings. Check local building codes and your home's structural plans for the specific design load.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much does snow weigh per square foot?</h3>\n    <p>Per inch of depth: fresh powder ~0.4 psf, packed snow ~1.25 psf, wet snow ~2.1 psf, ice ~4.75 psf. One foot of packed snow weighs about 15 psf.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>When should I remove snow from my roof?</h3>\n    <p>Remove snow when loads approach your roof rating, typically at 2+ feet of packed snow. Warning signs include sticking doors, visible sagging, cracking sounds, and new leaks developing.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Does snow type matter for load calculations?</h3>\n    <p>Yes, enormously. Wet snow weighs 5× more than fresh powder. Twelve inches of wet snow (25 psf) creates the same load as 60 inches of fresh powder. Always identify the dominant snow type.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How does roof pitch affect snow load?</h3>\n    <p>Steeper roofs shed snow more effectively. Building codes reduce the design snow load for pitches above 30 degrees. Flat roofs retain all snow, while a 45-degree pitch may hold only about 60% as much.</p>\n  </div>\n</div>",
+  "category": "weather",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This snow load calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This snow load calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "wind-chill-calculator",
+    "heat-index-calculator",
+    "rainwater-harvesting-calculator",
+    "roof-pitch-calculator",
+    "shingle-calculator"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "slug": "bleed-calculator",
+  "toolName": "Bleed Calculator",
+  "tagline": "Calculate print bleed, trim, and safe zone dimensions for any print project",
+  "title": "Bleed Calculator — Print Bleed & Trim Size Calculator",
+  "metaDescription": "Calculate print bleed, trim, and safe area dimensions. Enter your finished size and bleed width to get full bleed document dimensions.",
+  "keywords": "bleed calculator, print bleed, trim size, safe zone, print margins, bleed area, document setup, print design",
+  "domain": "bleedcalculator.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Bleed Calculator — Print Bleed & Trim Size Calculator",
+  "ogDescription": "Calculate print bleed and trim dimensions for any project. Get document size with bleed, trim marks, and safe zone instantly.",
+  "twitterDescription": "Calculate print bleed, trim size, and safe zone for any print project. Works for business cards, flyers, posters, and more.",
+  "jsonLdDescription": "Calculator that computes print bleed dimensions, document size with bleed, trim area, and safe zone for professional print projects.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Print Bleed & Trim Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"trimWidth\">Finished Width (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"trimWidth\" placeholder=\"e.g. 8.5\" min=\"0.1\" step=\"0.01\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"trimHeight\">Finished Height (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"trimHeight\" placeholder=\"e.g. 11\" min=\"0.1\" step=\"0.01\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"bleedSize\">Bleed Size (inches)</label>\n      <div class=\"input-row\">\n        <select id=\"bleedSize\">\n          <option value=\"0.125\">0.125\" (1/8\" — standard)</option>\n          <option value=\"0.0625\">0.0625\" (1/16\")</option>\n          <option value=\"0.25\">0.25\" (1/4\")</option>\n          <option value=\"0.5\">0.5\" (1/2\")</option>\n          <option value=\"custom\">Custom</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"customBleedGroup\" style=\"display:none\">\n      <label for=\"customBleed\">Custom Bleed (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"customBleed\" placeholder=\"e.g. 0.25\" min=\"0.01\" step=\"0.01\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"safeMargin\">Safe Margin (inches)</label>\n      <div class=\"input-row\">\n        <select id=\"safeMargin\">\n          <option value=\"0.125\">0.125\" (1/8\" — standard)</option>\n          <option value=\"0.25\">0.25\" (1/4\")</option>\n          <option value=\"0.375\">0.375\" (3/8\")</option>\n          <option value=\"0.5\">0.5\" (1/2\")</option>\n        </select>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate Dimensions</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Document Size (with bleed)</div>\n          <div class=\"result-value\" id=\"docSize\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Trim Size (finished)</div>\n          <div class=\"result-value\" id=\"trimSize\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Safe Zone</div>\n          <div class=\"result-value\" id=\"safeZone\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Bleed Per Side</div>\n          <div class=\"result-value\" id=\"bleedPerSide\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Document (mm)</div>\n          <div class=\"result-value\" id=\"docMm\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Pixels at 300 DPI</div>\n          <div class=\"result-value\" id=\"docPixels\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Print bleed is the area beyond the trim edge where your design extends to prevent white edges after cutting. Professional printers require bleed on all projects with edge-to-edge printing.",
+    "rules": [
+      "Standard bleed is <strong>0.125\" (1/8 inch)</strong> on all four sides",
+      "Document size = trim size + (2 × bleed) for each dimension",
+      "Safe zone = trim size − (2 × safe margin) — keep important content inside this area",
+      "At <strong>300 DPI</strong>, multiply inches by 300 to get pixel dimensions for your design file"
+    ],
+    "outro": "Always extend background colors and images past the trim line into the bleed area. Never place text or logos outside the safe zone, as cutting tolerance can shift by 1/16\" or more."
+  },
+  "faq": [
+    {
+      "question": "What is print bleed and why do I need it?",
+      "answer": "Bleed is the extra area beyond the trim line where your design extends. When paper is cut after printing, the cutting machine has a tolerance of about 1/16\". Without bleed, you'd get thin white strips along the edges."
+    },
+    {
+      "question": "What is the standard bleed size?",
+      "answer": "The standard bleed for most commercial printing is 0.125\" (1/8 inch or 3mm) on all sides. Some large-format printers may require 0.25\" or more. Always check with your printer."
+    },
+    {
+      "question": "What is the safe zone?",
+      "answer": "The safe zone is the area inside the trim line where important content like text and logos should stay. This prevents them from being cut off due to cutting tolerance. Standard safe margin is 0.125\" inside the trim."
+    },
+    {
+      "question": "Do I need bleed for digital printing?",
+      "answer": "Digital prints that go to the edge of the paper still need bleed. Only designs with a white border on all sides can skip bleed, since the cutting tolerance won't affect the visible design."
+    },
+    {
+      "question": "How do I set up bleed in my design software?",
+      "answer": "In Adobe InDesign, set bleed in File > Document Setup. In Illustrator, set it in File > New Document. In Photoshop, add the bleed to your canvas dimensions manually. Always export as PDF with bleed marks."
+    }
+  ],
+  "relatedTools": [
+    "dpi-calculator",
+    "print-size-calculator",
+    "paper-weight-calculator",
+    "aspect-ratio-calculator"
+  ],
+  "chart": {
+    "title": "Common Print Sizes with Standard Bleed",
+    "subtitle": "Finished sizes and document dimensions with 0.125\" bleed on all sides.",
+    "columns": [
+      "Product",
+      "Trim Size",
+      "With Bleed",
+      "Pixels (300 DPI)"
+    ],
+    "rows": [
+      [
+        "Business Card",
+        "3.5\" × 2\"",
+        "3.75\" × 2.25\"",
+        "1125 × 675"
+      ],
+      [
+        "Postcard (4×6)",
+        "6\" × 4\"",
+        "6.25\" × 4.25\"",
+        "1875 × 1275"
+      ],
+      [
+        "Flyer (Letter)",
+        "8.5\" × 11\"",
+        "8.75\" × 11.25\"",
+        "2625 × 3375"
+      ],
+      [
+        "Poster (11×17)",
+        "11\" × 17\"",
+        "11.25\" × 17.25\"",
+        "3375 × 5175"
+      ],
+      [
+        "Brochure (Tri-fold)",
+        "8.5\" × 11\"",
+        "8.75\" × 11.25\"",
+        "2625 × 3375"
+      ],
+      [
+        "Booklet (5.5×8.5)",
+        "5.5\" × 8.5\"",
+        "5.75\" × 8.75\"",
+        "1725 × 2625"
+      ],
+      [
+        "Poster (18×24)",
+        "18\" × 24\"",
+        "18.25\" × 24.25\"",
+        "5475 × 7275"
+      ],
+      [
+        "Banner (2×6 ft)",
+        "24\" × 72\"",
+        "24.25\" × 72.25\"",
+        "7275 × 21675"
+      ]
+    ]
+  },
+  "category": "printing",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This bleed calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This bleed calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "roof-pitch-calculator",
+  "toolName": "Roof Pitch Calculator",
+  "tagline": "Convert between rise/run, pitch, and degrees instantly",
+  "title": "Roof Pitch Calculator — Convert Pitch, Angle & Rise/Run",
+  "metaDescription": "Calculate roof pitch from rise and run. Convert between X/12 pitch, degrees, and rise/run. Includes rafter multiplier and roof area factor.",
+  "keywords": "roof pitch calculator, roof angle calculator, roof slope calculator, rise and run calculator, pitch to degrees",
+  "primaryColor": "#b91c1c",
+  "primaryDarkColor": "#991b1b",
+  "domain": "example.com",
+  "ogTitle": "Roof Pitch Calculator — Pitch, Angle & Rise/Run Converter",
+  "ogDescription": "Convert between roof pitch, degrees, and rise/run. Includes rafter length multiplier and area factor chart.",
+  "twitterDescription": "Convert between roof pitch, degrees, and rise/run instantly. Includes rafter multiplier chart.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Roof Pitch Calculator",
+    "description": "Calculate roof pitch from rise and run. Convert between X/12 pitch, degrees, and rise/run with rafter multiplier.",
+    "url": "https://example.com/roof-pitch-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is roof pitch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Roof pitch is the slope of a roof expressed as a ratio of vertical rise to horizontal run. A 4/12 pitch means the roof rises 4 inches for every 12 inches of horizontal run. Pitch can also be expressed in degrees — a 4/12 pitch equals about 18.4 degrees."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate roof pitch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Measure the vertical rise and horizontal run in inches. Divide rise by run, then multiply by 12 to get the X/12 pitch. For example, a rise of 6 inches over a run of 18 inches gives 6/18 = 0.333, times 12 = 4/12 pitch. To get degrees, use arctan(rise/run)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a common roof pitch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most common roof pitches for residential construction are 4/12 through 9/12. A 4/12 pitch (18.4°) is the minimum recommended for standard asphalt shingles. Steeper pitches like 8/12 or 12/12 are common for colonial and Cape Cod style homes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a roof area multiplier?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The roof area multiplier (or pitch factor) converts flat footprint area to actual roof surface area. Multiply the building footprint by the multiplier to get actual roof area. For a 4/12 pitch the multiplier is 1.054; for 12/12 it is 1.414. The multiplier equals 1/cos(pitch angle)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the minimum pitch for shingles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most asphalt shingle manufacturers require a minimum 2/12 pitch (9.5°) with double underlayment, or 4/12 with standard underlayment. Below 2/12, a built-up or membrane roofing system is needed. Metal roofing can go as low as 1/2:12 to 3/12 depending on the profile."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert pitch to degrees?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To convert X/12 pitch to degrees, use: degrees = arctan(X/12) × (180/π). For example, a 6/12 pitch = arctan(6/12) = arctan(0.5) = 26.57 degrees. Conversely, to convert degrees to pitch: X = 12 × tan(degrees × π/180)."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Roof Pitch Calculator</h2>\n  <p style=\"margin-bottom:16px;color:var(--text-light)\">Enter any one value to calculate the others.</p>\n\n  <div class=\"input-group\">\n    <label>Method</label>\n    <div class=\"input-row\">\n      <select id=\"inputMethod\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"riserun\" selected>Rise &amp; Run</option>\n        <option value=\"pitch\">Pitch (X/12)</option>\n        <option value=\"degrees\">Angle (degrees)</option>\n      </select>\n    </div>\n  </div>\n\n  <div id=\"riseRunInputs\">\n    <div class=\"input-group\">\n      <label for=\"rise\">Rise (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"rise\" placeholder=\"e.g. 4\" step=\"0.25\" min=\"0\" inputmode=\"decimal\" value=\"4\">\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"run\">Run (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"run\" placeholder=\"e.g. 12\" step=\"0.25\" min=\"0\" inputmode=\"decimal\" value=\"12\">\n      </div>\n    </div>\n  </div>\n\n  <div id=\"pitchInput\" style=\"display:none\">\n    <div class=\"input-group\">\n      <label for=\"pitchVal\">Pitch (rise per 12\" run)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"pitchVal\" placeholder=\"e.g. 4\" step=\"0.25\" min=\"0\" inputmode=\"decimal\">\n        <span style=\"font-size:1.1rem;font-weight:600;color:var(--text-light);white-space:nowrap\">/ 12</span>\n      </div>\n    </div>\n  </div>\n\n  <div id=\"degreesInput\" style=\"display:none\">\n    <div class=\"input-group\">\n      <label for=\"degreesVal\">Angle (degrees)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"degreesVal\" placeholder=\"e.g. 18.43\" step=\"0.01\" min=\"0\" max=\"89.9\" inputmode=\"decimal\">\n      </div>\n    </div>\n  </div>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Pitch</div>\n        <div class=\"result-value\" id=\"outPitch\">4 / 12</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Angle</div>\n        <div class=\"result-value\" id=\"outDegrees\">18.43&deg;</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Rise per Foot</div>\n        <div class=\"result-value\" id=\"outRise\">4.00\"</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Rafter per Foot of Run</div>\n        <div class=\"result-value\" id=\"outRafter\">12.65\"</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Roof Area Multiplier</div>\n        <div class=\"result-value\" id=\"outMultiplier\">1.054</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Slope Percentage</div>\n        <div class=\"result-value\" id=\"outPercent\">33.3%</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">A 4/12 pitch is suitable for asphalt shingles with standard underlayment.</div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Roof Pitch Reference Chart</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Common roof pitches with corresponding angles, rafter lengths, and area multipliers.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Pitch</th><th>Degrees</th><th>Rise/Foot</th><th>Rafter/Foot</th><th>Area Multiplier</th><th>Slope %</th></tr></thead>\n      <tbody>\n        <tr><td>1/12</td><td>4.76&deg;</td><td>1\"</td><td>12.04\"</td><td>1.003</td><td>8.3%</td></tr>\n        <tr><td>2/12</td><td>9.46&deg;</td><td>2\"</td><td>12.17\"</td><td>1.014</td><td>16.7%</td></tr>\n        <tr><td>3/12</td><td>14.04&deg;</td><td>3\"</td><td>12.37\"</td><td>1.031</td><td>25.0%</td></tr>\n        <tr><td>4/12</td><td>18.43&deg;</td><td>4\"</td><td>12.65\"</td><td>1.054</td><td>33.3%</td></tr>\n        <tr><td>5/12</td><td>22.62&deg;</td><td>5\"</td><td>13.00\"</td><td>1.083</td><td>41.7%</td></tr>\n        <tr><td>6/12</td><td>26.57&deg;</td><td>6\"</td><td>13.42\"</td><td>1.118</td><td>50.0%</td></tr>\n        <tr><td>7/12</td><td>30.26&deg;</td><td>7\"</td><td>13.89\"</td><td>1.158</td><td>58.3%</td></tr>\n        <tr><td>8/12</td><td>33.69&deg;</td><td>8\"</td><td>14.42\"</td><td>1.202</td><td>66.7%</td></tr>\n        <tr><td>9/12</td><td>36.87&deg;</td><td>9\"</td><td>15.00\"</td><td>1.250</td><td>75.0%</td></tr>\n        <tr><td>10/12</td><td>39.81&deg;</td><td>10\"</td><td>15.62\"</td><td>1.302</td><td>83.3%</td></tr>\n        <tr><td>11/12</td><td>42.51&deg;</td><td>11\"</td><td>16.28\"</td><td>1.357</td><td>91.7%</td></tr>\n        <tr><td>12/12</td><td>45.00&deg;</td><td>12\"</td><td>16.97\"</td><td>1.414</td><td>100.0%</td></tr>\n        <tr><td>14/12</td><td>49.40&deg;</td><td>14\"</td><td>18.44\"</td><td>1.537</td><td>116.7%</td></tr>\n        <tr><td>16/12</td><td>53.13&deg;</td><td>16\"</td><td>20.00\"</td><td>1.667</td><td>133.3%</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How Roof Pitch Is Calculated</h2>\n  <p style=\"margin-bottom:12px\">Roof pitch describes the steepness of a roof. It is most commonly expressed as a ratio of rise to run in the format X/12, meaning X inches of vertical rise for every 12 inches of horizontal run.</p>\n  <div style=\"background:#fef2f2;border:2px solid #fecaca;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.2rem;font-weight:700;color:var(--primary)\">Pitch = Rise &divide; Run &times; 12</span>\n  </div>\n  <p style=\"margin-bottom:12px\"><strong>Key conversions:</strong></p>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Pitch to degrees:</strong> angle = arctan(rise / run)</li>\n    <li><strong>Degrees to pitch:</strong> X = 12 &times; tan(angle)</li>\n    <li><strong>Rafter length per foot:</strong> &radic;(12&sup2; + rise&sup2;)</li>\n    <li><strong>Area multiplier:</strong> 1 / cos(angle) &mdash; multiply flat area by this factor</li>\n    <li><strong>Slope percentage:</strong> (rise / run) &times; 100</li>\n  </ul>\n  <p><strong>Example:</strong> A roof with 6\" rise over 12\" run has a 6/12 pitch = 26.57&deg;. Rafter length per foot of run is 13.42\". Area multiplier is 1.118, so a 2,000 sq ft footprint has 2,236 sq ft of actual roof area.</p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\"><h3>What is roof pitch?</h3><p>Roof pitch is the slope of a roof expressed as a ratio of vertical rise to horizontal run. A 4/12 pitch means the roof rises 4 inches for every 12 inches of horizontal run. Pitch can also be expressed in degrees — a 4/12 pitch equals about 18.4 degrees.</p></div>\n  <div class=\"faq-item\"><h3>How do I calculate roof pitch?</h3><p>Measure the vertical rise and horizontal run in inches. Divide rise by run, then multiply by 12 to get the X/12 pitch. For example, a rise of 6 inches over a run of 18 inches gives 6/18 = 0.333, times 12 = 4/12 pitch. To get degrees, use arctan(rise/run).</p></div>\n  <div class=\"faq-item\"><h3>What is a common roof pitch?</h3><p>The most common residential roof pitches are 4/12 through 9/12. A 4/12 pitch (18.4°) is the minimum for standard asphalt shingle installation. Steeper pitches like 8/12 or 12/12 are common on colonial and Cape Cod style homes.</p></div>\n  <div class=\"faq-item\"><h3>What is a roof area multiplier?</h3><p>The roof area multiplier converts flat footprint area to actual roof surface area. It equals 1/cos(pitch angle). For a 4/12 pitch the multiplier is 1.054; for 12/12 (45°) it is 1.414. Multiply the building's footprint area by this factor to get the true roof area for materials ordering.</p></div>\n  <div class=\"faq-item\"><h3>What is the minimum pitch for shingles?</h3><p>Most asphalt shingle manufacturers require a minimum 2/12 pitch (9.5°) with double underlayment, or 4/12 with standard underlayment. Below 2/12, a built-up or membrane roofing system is needed. Metal roofing can go as low as 1/2:12 to 3/12 depending on the panel profile.</p></div>\n  <div class=\"faq-item\"><h3>How do I convert pitch to degrees?</h3><p>Use the formula: degrees = arctan(X/12) × (180/π). For example, a 6/12 pitch = arctan(0.5) = 26.57 degrees. To convert degrees to pitch: X = 12 × tan(degrees × π/180).</p></div>\n</div>",
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This roof pitch calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This roof pitch calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator",
+    "concrete-stair-calculator",
+    "retaining-wall-calculator"
+  ]
+}

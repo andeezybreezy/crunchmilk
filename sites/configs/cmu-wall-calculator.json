@@ -1,0 +1,140 @@
+{
+  "slug": "cmu-wall-calculator",
+  "toolName": "CMU Wall Calculator",
+  "tagline": "Calculate concrete masonry units, mortar, rebar, and fill for block walls",
+  "title": "CMU Wall Calculator — Block, Mortar & Fill Estimator",
+  "metaDescription": "Calculate CMU blocks, mortar bags, rebar, and grout fill for concrete block walls. Enter wall dimensions for instant material estimates.",
+  "keywords": "cmu wall calculator, concrete block calculator, cmu block estimator, block wall materials, mortar calculator, cinder block calculator",
+  "domain": "example.com",
+  "primaryColor": "#78716c",
+  "primaryDarkColor": "#57534e",
+  "ogTitle": "CMU Wall Calculator — Block, Mortar & Fill Estimator",
+  "ogDescription": "Calculate exactly how many CMU blocks, bags of mortar, and rebar you need for your block wall project. Free instant estimates.",
+  "twitterDescription": "Free CMU wall calculator. Enter wall length, height, and block size to get block count, mortar bags, rebar, and grout fill estimates.",
+  "jsonLdDescription": "Calculate concrete masonry unit quantities including block count, mortar bags, rebar requirements, and grout fill for CMU block wall construction projects.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>CMU Wall Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate blocks, mortar, rebar, and grout fill for concrete block walls.</p>\n\n    <div class=\"input-group\">\n      <label for=\"wallLength\">Wall Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"wallLength\" placeholder=\"e.g. 40\" value=\"40\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wallHeight\">Wall Height (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 8\" value=\"8\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"blockSize\">Block Size</label>\n      <select id=\"blockSize\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"8\">8\" × 8\" × 16\" (standard)</option>\n        <option value=\"12\">12\" × 8\" × 16\"</option>\n        <option value=\"6\">6\" × 8\" × 16\"</option>\n        <option value=\"4\">4\" × 8\" × 16\"</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fillCores\">Fill Cores with Grout?</label>\n      <select id=\"fillCores\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"all\">Yes — All cores (structural)</option>\n        <option value=\"rebar\">Only rebar cells (every 4')</option>\n        <option value=\"none\">No fill</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"blockPrice\">Price per Block ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"blockPrice\" placeholder=\"e.g. 2.25\" value=\"2.25\" step=\"0.05\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Materials</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Blocks Needed</div>\n          <div class=\"result-value\" id=\"rBlocks\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Mortar Bags (80lb)</div>\n          <div class=\"result-value\" id=\"rMortar\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Grout Fill</div>\n          <div class=\"result-value\" id=\"rGrout\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Rebar (#4)</div>\n          <div class=\"result-value\" id=\"rRebar\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Wall Area</div>\n          <div class=\"result-value\" id=\"rArea\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Block Cost</div>\n          <div class=\"result-value\" id=\"rCost\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates CMU (concrete masonry unit) quantities based on wall dimensions, using the standard 8\" × 16\" face area per block including mortar joints (actual block is 7⅝\" × 15⅝\").",
+    "rules": [
+      "Blocks per square foot: 1.125 blocks/sq ft (based on 8\" × 16\" nominal face with 3/8\" mortar joints)",
+      "Mortar: approximately 8.5 blocks per 80lb bag of Type S mortar (standard for structural walls)",
+      "Grout fill: 0.5 cubic feet per 8\" block core (each standard block has 2 cores)",
+      "Rebar: vertical #4 bars every 48\" on center, horizontal bond beam every 48\" vertically",
+      "5% waste factor added to block count for breakage and cuts"
+    ],
+    "outro": "Material quantities are estimates. Actual needs depend on openings (doors/windows), corners, pilasters, and bond pattern. Always consult local building codes for structural reinforcement requirements."
+  },
+  "faq": [
+    {
+      "question": "How many CMU blocks do I need per square foot?",
+      "answer": "You need approximately 1.125 standard CMU blocks (8\" × 8\" × 16\") per square foot of wall area. This accounts for the 3/8\" mortar joints. For a simple estimate, multiply wall area in square feet by 1.125, then add 5% for waste."
+    },
+    {
+      "question": "Do all CMU walls need to be filled with grout?",
+      "answer": "Not always. Non-structural partition walls may not require grout fill. However, structural walls, retaining walls, and walls in seismic zones typically require all cores to be grouted. At minimum, cells containing rebar must be filled. Check your local building code."
+    },
+    {
+      "question": "What type of mortar should I use for CMU walls?",
+      "answer": "Type S mortar is standard for structural CMU walls and below-grade applications. It has a compressive strength of 1,800 PSI. Type N can be used for non-structural above-grade walls. Type M (2,500 PSI) is used for below-grade and high-load applications."
+    },
+    {
+      "question": "How much does a CMU block wall cost per square foot?",
+      "answer": "A basic CMU block wall costs $10-$17 per square foot for materials only (blocks, mortar, rebar, grout). Installed cost with labor ranges from $15-$30 per square foot depending on wall height, reinforcement, and regional labor rates."
+    },
+    {
+      "question": "What size CMU block should I use?",
+      "answer": "8\" wide blocks are standard for most residential and commercial walls. 12\" blocks are used for tall retaining walls and commercial foundations. 6\" blocks work for non-load-bearing interior partitions. 4\" blocks are used for veneer and decorative applications only."
+    },
+    {
+      "question": "Do I need a footing for a CMU block wall?",
+      "answer": "Yes, all CMU walls need a concrete footing. The standard rule is the footing should be twice the width of the wall and at least 8\" deep. For an 8\" block wall, use a 16\" wide × 8\" deep footing minimum. Footings must extend below the frost line."
+    }
+  ],
+  "relatedTools": [
+    "concrete-calculator",
+    "rebar-calculator",
+    "retaining-wall-calculator",
+    "brick-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator"
+  ],
+  "chart": {
+    "title": "CMU Wall Material Estimates by Wall Size",
+    "subtitle": "8\" standard blocks, all cores grouted, includes 5% waste",
+    "columns": [
+      "Wall Size",
+      "Blocks",
+      "Mortar (bags)",
+      "Grout (cu ft)",
+      "Rebar (ft)"
+    ],
+    "rows": [
+      [
+        "20' × 4'",
+        "95",
+        "12",
+        "47",
+        "52"
+      ],
+      [
+        "30' × 6'",
+        "209",
+        "25",
+        "104",
+        "98"
+      ],
+      [
+        "40' × 8'",
+        "378",
+        "45",
+        "189",
+        "168"
+      ],
+      [
+        "50' × 8'",
+        "473",
+        "56",
+        "236",
+        "200"
+      ],
+      [
+        "60' × 10'",
+        "709",
+        "84",
+        "354",
+        "310"
+      ],
+      [
+        "80' × 8'",
+        "756",
+        "89",
+        "378",
+        "320"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This cmu wall calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This cmu wall calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

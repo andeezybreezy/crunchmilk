@@ -1,0 +1,113 @@
+{
+  "slug": "electricity-cost-calculator",
+  "toolName": "Electricity Cost Calculator",
+  "tagline": "Calculate how much your appliances cost to run",
+  "title": "Electricity Cost Calculator",
+  "metaDescription": "Calculate electricity cost for any appliance. Enter watts and hours to see daily, monthly, and yearly costs. Includes presets for common appliances.",
+  "keywords": "electricity cost calculator, appliance cost calculator, energy cost calculator, how much does it cost to run, kWh calculator",
+  "primaryColor": "#f59e0b",
+  "primaryDarkColor": "#d97706",
+  "domain": "example.com",
+  "ogTitle": "Electricity Cost Calculator — Appliance Running Costs",
+  "ogDescription": "Calculate how much any appliance costs to run per day, month, and year based on wattage and usage hours.",
+  "twitterDescription": "Calculate electricity cost for any appliance by wattage and hours of use per day.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Electricity Cost Calculator",
+    "description": "Calculate electricity running costs for any appliance with daily, weekly, monthly, and yearly breakdowns.",
+    "url": "https://example.com/electricity-cost-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate electricity cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiply wattage by hours of use, divide by 1000 to get kWh, then multiply by your electricity rate. For example: 1500W × 8 hours ÷ 1000 = 12 kWh × $0.15 = $1.80 per day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does it cost to run an air conditioner?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A typical window AC (1,200W) running 8 hours/day costs about $1.44/day or $43/month at $0.15/kWh. Central AC (3,500W) running 8 hours costs about $4.20/day or $126/month."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a kilowatt-hour (kWh)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A kWh is the unit of energy used by electricity companies for billing. It equals 1,000 watts used for one hour. A 100-watt light bulb running for 10 hours uses 1 kWh."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the average electricity rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The US average is about $0.15/kWh but varies widely by state: Hawaii is highest at ~$0.35/kWh, Louisiana lowest at ~$0.10/kWh. Check your utility bill for your exact rate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What appliances use the most electricity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The biggest energy users are HVAC systems (3,000-5,000W), electric water heaters (4,500W), clothes dryers (5,000W), ovens (2,500W), and space heaters (1,500W). However, total cost also depends on usage hours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I reduce my electricity bill?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use LED bulbs (90% less than incandescent), set AC to 78°F, run major appliances during off-peak hours, unplug idle electronics, use a smart power strip, and ensure proper insulation."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Electricity Cost Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"watts\">Appliance Wattage (W)</label>\n    <input type=\"number\" id=\"watts\" value=\"1500\" min=\"0\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"hoursPerDay\">Hours Used per Day</label>\n    <input type=\"number\" id=\"hoursPerDay\" value=\"8\" min=\"0\" max=\"24\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"rate\">Electricity Rate ($/kWh)</label>\n    <input type=\"number\" id=\"rate\" value=\"0.15\" min=\"0\" step=\"0.01\" inputmode=\"decimal\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"addBtn\">Add to Running Total</button>\n\n  <div class=\"result visible\" id=\"result\" role=\"status\" aria-live=\"polite\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Cost</div>\n        <div class=\"result-value\" id=\"dailyCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily kWh</div>\n        <div class=\"result-value\" id=\"dailyKwh\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly</div>\n        <div class=\"result-value\" id=\"weeklyCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly (30 days)</div>\n        <div class=\"result-value\" id=\"monthlyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Yearly Cost</div>\n        <div class=\"result-value\" id=\"yearlyCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Yearly kWh</div>\n        <div class=\"result-value\" id=\"yearlyKwh\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n\n  <div class=\"presets\">\n    <h3>Common Appliance Presets</h3>\n    <div class=\"preset-grid\" id=\"presetGrid\"></div>\n  </div>\n</div>\n\n<div class=\"calc-card\" id=\"totalCard\" style=\"display:none\">\n  <div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:16px\">\n    <h2>Appliance Running Total</h2>\n    <button type=\"button\" id=\"clearBtn\" style=\"padding:8px 16px;background:#fee2e2;color:#991b1b;border:2px solid #fecaca;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600\">Clear All</button>\n  </div>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\" id=\"totalTable\">\n      <thead><tr><th>Appliance</th><th>Watts</th><th>Hrs/Day</th><th>$/Month</th><th></th></tr></thead>\n      <tbody id=\"totalBody\"></tbody>\n    </table>\n  </div>\n  <div style=\"margin-top:16px;padding-top:16px;border-top:2px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px\">\n    <div>\n      <span style=\"font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px\">Total Monthly Cost</span>\n      <div style=\"font-size:1.6rem;font-weight:800;color:var(--primary)\" id=\"grandMonthly\">$0.00</div>\n    </div>\n    <div>\n      <span style=\"font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px\">Total Yearly Cost</span>\n      <div style=\"font-size:1.6rem;font-weight:800;color:var(--primary)\" id=\"grandYearly\">$0.00</div>\n    </div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Common Appliance Wattage & Cost Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Costs based on $0.15/kWh average rate and typical daily usage.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Appliance</th><th>Watts</th><th>Typical Hours/Day</th><th>Monthly Cost</th><th>Yearly Cost</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Central AC</td><td>3,500</td><td>8</td><td>$126.00</td><td>$1,533.00</td></tr>\n        <tr><td>Space Heater</td><td>1,500</td><td>8</td><td>$54.00</td><td>$657.00</td></tr>\n        <tr><td>Electric Water Heater</td><td>4,500</td><td>3</td><td>$60.75</td><td>$739.13</td></tr>\n        <tr><td>Clothes Dryer</td><td>5,000</td><td>1</td><td>$22.50</td><td>$273.75</td></tr>\n        <tr><td>Refrigerator</td><td>150</td><td>24</td><td>$16.20</td><td>$197.10</td></tr>\n        <tr><td>TV (55\" LED)</td><td>80</td><td>5</td><td>$1.80</td><td>$21.90</td></tr>\n        <tr><td>Desktop Computer</td><td>200</td><td>8</td><td>$7.20</td><td>$87.60</td></tr>\n        <tr><td>LED Light Bulb (10W)</td><td>10</td><td>8</td><td>$0.36</td><td>$4.38</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Electricity Cost Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator converts appliance wattage and usage hours into kilowatt-hours, then multiplies by your electricity rate.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fde68a;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Cost = (Watts × Hours ÷ 1000) × $/kWh</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>kWh</strong> = Watts × Hours ÷ 1,000 (the unit your utility charges)</li>\n    <li>Monthly = daily cost × 30 days</li>\n    <li>Add multiple appliances to see your total running cost</li>\n    <li>Check your utility bill for your exact $/kWh rate</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How do you calculate electricity cost?</h3>\n    <p>Multiply wattage by hours of use, divide by 1,000 to get kWh, then multiply by your electricity rate. Example: 1,500W space heater × 8 hours ÷ 1,000 = 12 kWh × $0.15 = $1.80/day.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much does it cost to run an air conditioner?</h3>\n    <p>A window AC (1,200W) running 8 hours/day costs about $1.44/day or $43/month. Central AC (3,500W) for 8 hours costs $4.20/day or $126/month at $0.15/kWh.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is a kilowatt-hour (kWh)?</h3>\n    <p>A kWh equals 1,000 watts used for one hour. It is the standard billing unit for electricity. A 100W bulb running 10 hours or a 1,000W microwave running 1 hour both use 1 kWh.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is the average electricity rate?</h3>\n    <p>The US average is about $0.15/kWh but varies by state from ~$0.10 (Louisiana) to ~$0.35 (Hawaii). Check your utility bill for the exact rate, which may include tiered pricing.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What appliances use the most electricity?</h3>\n    <p>HVAC systems, water heaters, clothes dryers, and ovens draw the most watts. However, always-on devices like refrigerators and electronics on standby add up significantly over time.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How can I reduce my electricity bill?</h3>\n    <p>Switch to LED bulbs, use a programmable thermostat, run heavy appliances during off-peak hours, unplug vampire loads, air-seal your home, and consider Energy Star rated appliances when replacing old ones.</p>\n  </div>\n</div>",
+  "category": "energy",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This electricity cost calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This electricity cost calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "solar-panel-calculator",
+    "battery-bank-calculator",
+    "btu-calculator"
+  ]
+}

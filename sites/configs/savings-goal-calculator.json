@@ -1,0 +1,142 @@
+{
+  "slug": "savings-goal-calculator",
+  "toolName": "Savings Goal Calculator",
+  "tagline": "Plan how to reach your savings goal with monthly contributions",
+  "title": "Savings Goal Calculator — How Long to Reach Your Savings Goal",
+  "metaDescription": "Calculate how long to reach your savings goal or how much to save monthly. Includes interest earnings and a month-by-month savings schedule.",
+  "keywords": "savings goal calculator, savings plan calculator, how much to save, monthly savings calculator, savings timeline, savings interest calculator",
+  "domain": "example.com",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "ogTitle": "Savings Goal Calculator — Plan Your Savings Timeline",
+  "ogDescription": "Find out how long to reach your savings goal or how much to save each month. Includes interest and monthly breakdowns.",
+  "twitterDescription": "Calculate how long to reach your savings goal or find the right monthly contribution.",
+  "jsonLdDescription": "Calculate your savings timeline with monthly contributions and interest, or find the monthly amount needed to reach a savings goal.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Savings Goal Calculator</h2>\n\n    <div class=\"input-group\">\n      <label>What do you want to find?</label>\n      <div class=\"unit-toggle\" role=\"group\" aria-label=\"Calculation mode\" id=\"modeToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"time\" aria-pressed=\"true\">Time to Goal</button>\n        <button type=\"button\" data-mode=\"payment\" aria-pressed=\"false\">Monthly Amount</button>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"goalAmount\">Savings Goal ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"goalAmount\" placeholder=\"e.g. 10000\" inputmode=\"decimal\" aria-label=\"Savings goal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"currentSavings\">Current Savings ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"currentSavings\" placeholder=\"0\" value=\"0\" inputmode=\"decimal\" aria-label=\"Current savings\">\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"monthlyGroup\">\n      <label for=\"monthlyContrib\">Monthly Contribution ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"monthlyContrib\" placeholder=\"e.g. 500\" inputmode=\"decimal\" aria-label=\"Monthly contribution\">\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"timelineGroup\" style=\"display:none\">\n      <label for=\"timeline\">Timeline (months)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"timeline\" placeholder=\"e.g. 24\" inputmode=\"numeric\" aria-label=\"Timeline in months\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"interestRate\">Annual Interest Rate (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"interestRate\" value=\"4.5\" inputmode=\"decimal\" step=\"0.1\" aria-label=\"Annual interest rate\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\" id=\"mainLabel\">Months to Goal</div><div class=\"result-value\" id=\"mainResult\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Target Date</div><div class=\"result-value\" id=\"targetDate\">—</div></div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Total Contributions</div><div class=\"result-value\" id=\"totalContrib\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Interest Earned</div><div class=\"result-value\" id=\"interestEarned\">—</div></div>\n      </div>\n    </div>\n\n    <div class=\"result\" id=\"scheduleResult\" style=\"margin-top:12px\">\n      <h3 style=\"margin:0 0 8px\">Savings Schedule</h3>\n      <div style=\"max-height:300px;overflow-y:auto\">\n        <table class=\"result-table\" style=\"width:100%;border-collapse:collapse\">\n          <thead><tr><th style=\"text-align:left;padding:6px\">Month</th><th style=\"text-align:right;padding:6px\">Contribution</th><th style=\"text-align:right;padding:6px\">Interest</th><th style=\"text-align:right;padding:6px\">Balance</th></tr></thead>\n          <tbody id=\"scheduleBody\"></tbody>\n        </table>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator helps you plan your savings by determining either how long it takes to reach a goal with fixed monthly contributions, or how much you need to save each month to reach a goal by a certain date.",
+    "rules": [
+      "<strong>Future Value</strong> = P(1+r)^n + PMT × [(1+r)^n - 1] / r",
+      "P = current savings, PMT = monthly contribution, r = monthly interest rate, n = number of months",
+      "Interest compounds <strong>monthly</strong> on your total balance",
+      "Higher interest rates and earlier starts dramatically reduce the time or amount needed"
+    ],
+    "outro": "Even small monthly contributions add up significantly over time thanks to compound interest. Starting early is the single most impactful decision for reaching savings goals."
+  },
+  "faq": [
+    {
+      "question": "How long will it take to save $10,000?",
+      "answer": "It depends on your monthly contribution and interest rate. Saving $500/month with no interest takes 20 months. With a 4.5% APY savings account, it takes about 19 months. Use this calculator to find the exact timeline for your specific situation."
+    },
+    {
+      "question": "How much should I save each month?",
+      "answer": "A common guideline is to save at least 20% of your after-tax income (the 50/30/20 rule). However, the right amount depends on your goals, timeline, and financial situation. Use 'Monthly Amount' mode to find the exact contribution needed for your specific goal and timeline."
+    },
+    {
+      "question": "What interest rate should I use?",
+      "answer": "For a high-yield savings account, use 4-5% APY (rates as of 2024). For a regular savings account, use 0.5-1%. For certificates of deposit (CDs), rates vary by term but typically range from 4-5%. Money market accounts offer similar rates to high-yield savings."
+    },
+    {
+      "question": "Does this calculator account for taxes on interest?",
+      "answer": "No, this calculator shows gross interest earned. Interest on savings accounts is taxable as ordinary income. Your actual after-tax return will be lower depending on your tax bracket. For a rough estimate, multiply the interest earned by (1 - your tax rate)."
+    },
+    {
+      "question": "What is compound interest?",
+      "answer": "Compound interest is interest earned on both your initial deposit and previously earned interest. Monthly compounding means each month's interest is calculated on your total balance including past interest. This creates exponential growth over time — the longer you save, the more powerful the compounding effect."
+    },
+    {
+      "question": "Should I pay off debt or save?",
+      "answer": "Generally, prioritize high-interest debt (credit cards at 20%+) over savings that earn 4-5%. However, keep at least a small emergency fund ($500-$1,000) before aggressive debt payoff. For lower-interest debt (student loans, mortgages), a balanced approach of saving and paying debt often works best."
+    }
+  ],
+  "chart": {
+    "title": "Monthly Savings to Reach Goals",
+    "subtitle": "Monthly contribution needed at 4.5% APY with $0 starting balance",
+    "columns": [
+      "Goal",
+      "12 Months",
+      "24 Months",
+      "36 Months",
+      "60 Months"
+    ],
+    "rows": [
+      [
+        "$1,000",
+        "$82",
+        "$40",
+        "$26",
+        "$15"
+      ],
+      [
+        "$2,500",
+        "$204",
+        "$100",
+        "$65",
+        "$37"
+      ],
+      [
+        "$5,000",
+        "$408",
+        "$200",
+        "$130",
+        "$74"
+      ],
+      [
+        "$10,000",
+        "$815",
+        "$400",
+        "$260",
+        "$148"
+      ],
+      [
+        "$15,000",
+        "$1,223",
+        "$599",
+        "$390",
+        "$222"
+      ],
+      [
+        "$20,000",
+        "$1,630",
+        "$799",
+        "$520",
+        "$296"
+      ],
+      [
+        "$25,000",
+        "$2,038",
+        "$999",
+        "$650",
+        "$370"
+      ],
+      [
+        "$50,000",
+        "$4,076",
+        "$1,998",
+        "$1,300",
+        "$740"
+      ]
+    ]
+  },
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This savings goal calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This savings goal calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

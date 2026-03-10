@@ -1,0 +1,161 @@
+{
+  "slug": "rv-propane-calculator",
+  "toolName": "RV Propane Calculator",
+  "tagline": "Estimate daily propane usage and days per tank for your RV",
+  "title": "RV Propane Calculator — Daily Usage, Days per Tank & Cost",
+  "metaDescription": "Calculate RV propane usage by appliance. Estimate daily consumption, days per tank, and cost for furnace, fridge, stove, water heater, and generator.",
+  "keywords": "rv propane calculator, rv propane usage, propane tank calculator, rv fuel cost, how long does rv propane last, rv propane consumption",
+  "domain": "example.com",
+  "primaryColor": "#ea580c",
+  "primaryDarkColor": "#c2410c",
+  "ogTitle": "RV Propane Calculator — Usage & Tank Life",
+  "ogDescription": "Calculate RV propane consumption by appliance. Estimate daily usage, days per tank, and cost per day.",
+  "twitterDescription": "Calculate RV propane usage and days per tank for all your appliances.",
+  "jsonLdDescription": "Calculate RV propane consumption by appliance including furnace, fridge, stove, water heater, and generator. Estimates daily usage, days per tank, and cost.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>RV Propane Calculator</h2>\n\n    <p style=\"color:#666; margin-bottom:16px;\">Check the appliances you're running and enter hours per day for each.</p>\n\n    <div class=\"input-group\">\n      <label><input type=\"checkbox\" id=\"chkFurnace\" checked> Furnace</label>\n      <label for=\"hrsFurnace\" style=\"font-size:0.9rem;\">Hours per day</label>\n      <input type=\"number\" id=\"hrsFurnace\" value=\"8\" min=\"0\" max=\"24\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label><input type=\"checkbox\" id=\"chkFridge\" checked> Refrigerator (propane mode)</label>\n      <label for=\"hrsFridge\" style=\"font-size:0.9rem;\">Hours per day</label>\n      <input type=\"number\" id=\"hrsFridge\" value=\"24\" min=\"0\" max=\"24\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label><input type=\"checkbox\" id=\"chkStove\" checked> Stove / Oven</label>\n      <label for=\"hrsStove\" style=\"font-size:0.9rem;\">Hours per day</label>\n      <input type=\"number\" id=\"hrsStove\" value=\"1\" min=\"0\" max=\"24\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label><input type=\"checkbox\" id=\"chkWaterHeater\" checked> Water Heater</label>\n      <label for=\"hrsWaterHeater\" style=\"font-size:0.9rem;\">Hours per day</label>\n      <input type=\"number\" id=\"hrsWaterHeater\" value=\"2\" min=\"0\" max=\"24\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label><input type=\"checkbox\" id=\"chkGenerator\"> Propane Generator</label>\n      <label for=\"hrsGenerator\" style=\"font-size:0.9rem;\">Hours per day</label>\n      <input type=\"number\" id=\"hrsGenerator\" value=\"0\" min=\"0\" max=\"24\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"tankSize\">Tank Size</label>\n      <select id=\"tankSize\">\n        <option value=\"4.7\">20 lb tank (4.7 gallons)</option>\n        <option value=\"7.1\" selected>30 lb tank (7.1 gallons)</option>\n        <option value=\"9.4\">40 lb tank (9.4 gallons)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"numTanks\">Number of Tanks</label>\n      <select id=\"numTanks\">\n        <option value=\"1\">1</option>\n        <option value=\"2\" selected>2</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"propanePrice\">Propane Price ($/gallon)</label>\n      <input type=\"number\" id=\"propanePrice\" value=\"3.50\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Usage</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Daily Usage</div>\n          <div class=\"result-value\" id=\"dailyUsage\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Days per Tank(s)</div>\n          <div class=\"result-value\" id=\"daysPerTank\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost per Day</div>\n          <div class=\"result-value\" id=\"costPerDay\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost per Week</div>\n          <div class=\"result-value\" id=\"costPerWeek\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Daily BTU Usage</div>\n          <div class=\"result-value\" id=\"dailyBTU\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Biggest Consumer</div>\n          <div class=\"result-value\" id=\"biggest\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "RV propane consumption depends on which appliances are running and for how long. Each appliance has a BTU rating that determines its fuel draw.",
+    "rules": [
+      "Each appliance consumes propane based on its <strong>BTU/hour rating</strong>",
+      "Propane contains <strong>91,500 BTU per gallon</strong>",
+      "Daily gallons = total BTU/hour × hours / 91,500 BTU per gallon"
+    ],
+    "outro": "The furnace is typically the biggest propane consumer in cold weather. Running on electric hookups when available saves significant propane. Consider a catalytic heater as a more efficient alternative to the furnace."
+  },
+  "faq": [
+    {
+      "question": "How long does a 20 lb propane tank last in an RV?",
+      "answer": "A 20 lb tank holds 4.7 gallons of propane. With moderate usage (furnace 8 hrs, fridge 24 hrs, stove 1 hr, water heater 2 hrs), it lasts about 3-5 days. In warm weather with just fridge and cooking, it can last 2-3 weeks. In cold weather with heavy furnace use, it might only last 2 days."
+    },
+    {
+      "question": "How long does a 30 lb propane tank last in an RV?",
+      "answer": "A 30 lb tank holds 7.1 gallons. With moderate usage, expect 5-8 days. With light usage (no furnace), it can last 3-4 weeks. Many RVs have two 30 lb tanks for a combined 14.2 gallons, which doubles these estimates."
+    },
+    {
+      "question": "What uses the most propane in an RV?",
+      "answer": "The furnace is by far the biggest consumer at 30,000-40,000 BTU/hr. Running a furnace for 8 hours uses as much propane as running a fridge for nearly a week. The water heater is the second biggest consumer. The fridge in propane mode is very efficient at only 1,500 BTU/hr."
+    },
+    {
+      "question": "How many BTU per gallon of propane?",
+      "answer": "One gallon of propane contains 91,500 BTU of energy. One pound of propane contains about 21,600 BTU. A 20 lb tank holds about 4.7 gallons (429,450 BTU total), and a 30 lb tank holds about 7.1 gallons (649,650 BTU total)."
+    },
+    {
+      "question": "How can I reduce propane usage in my RV?",
+      "answer": "Use electric hookups when available for fridge and water heater. Use a portable electric space heater instead of the furnace. Cook with an electric cooktop or outdoor grill. Insulate windows and doors. Use a tank blanket in cold weather. A catalytic heater uses 50-75% less propane than a forced air furnace."
+    },
+    {
+      "question": "Should I run my RV fridge on propane or electric?",
+      "answer": "Use electric when you have hookups or a generator running — it's essentially free and works better in hot weather. Use propane when boondocking. The propane fridge uses only 1,500 BTU/hr (about 0.4 gallons per day), so it's very efficient and won't drain your tanks quickly."
+    }
+  ],
+  "chart": {
+    "title": "RV Appliance Propane Consumption",
+    "subtitle": "Typical BTU ratings and estimated daily propane usage.",
+    "columns": [
+      "Appliance",
+      "BTU/hour",
+      "Typical Hours/Day",
+      "Gallons/Day",
+      "Cost/Day ($3.50)"
+    ],
+    "rows": [
+      [
+        "Furnace",
+        "30,000",
+        "8",
+        "2.62",
+        "$9.18"
+      ],
+      [
+        "Furnace (small)",
+        "20,000",
+        "8",
+        "1.75",
+        "$6.12"
+      ],
+      [
+        "Water Heater (6 gal)",
+        "12,000",
+        "2",
+        "0.26",
+        "$0.92"
+      ],
+      [
+        "Water Heater (10 gal)",
+        "16,000",
+        "2",
+        "0.35",
+        "$1.22"
+      ],
+      [
+        "Stove Burner",
+        "9,000",
+        "1",
+        "0.10",
+        "$0.34"
+      ],
+      [
+        "Oven",
+        "12,000",
+        "0.5",
+        "0.07",
+        "$0.23"
+      ],
+      [
+        "Fridge (propane)",
+        "1,500",
+        "24",
+        "0.39",
+        "$1.37"
+      ],
+      [
+        "Catalytic Heater",
+        "6,000",
+        "8",
+        "0.52",
+        "$1.83"
+      ],
+      [
+        "Propane Generator",
+        "60,000",
+        "4",
+        "2.62",
+        "$9.18"
+      ],
+      [
+        "All (moderate use)",
+        "—",
+        "—",
+        "~3.4",
+        "~$11.80"
+      ]
+    ]
+  },
+  "category": "rv",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This rv propane calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This rv propane calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "fuel-cost-trip-calculator",
+    "generator-sizing-calculator",
+    "battery-bank-calculator"
+  ]
+}

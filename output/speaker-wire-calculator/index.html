@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speaker Wire Calculator — Gauge, Resistance & Signal Loss</title>
+<meta name="description" content="Calculate speaker wire gauge, resistance, and signal loss. Enter impedance, run length, and gauge to check if your wiring passes the 5% rule.">
+<meta name="keywords" content="speaker wire calculator, speaker wire gauge, speaker cable resistance, signal loss calculator, speaker impedance, AWG calculator">
+<link rel="canonical" href="https://example.com/speaker-wire-calculator/">
+<meta property="og:title" content="Speaker Wire Calculator — Gauge & Signal Loss">
+<meta property="og:description" content="Calculate speaker wire resistance and signal loss by gauge, impedance, and cable run length.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/speaker-wire-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Speaker Wire Calculator — Gauge & Signal Loss">
+<meta name="twitter:description" content="Calculate speaker wire gauge, resistance, and signal loss for your setup.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Speaker Wire Calculator",
+  "description": "Calculate speaker wire resistance and signal loss percentage based on wire gauge, speaker impedance, and cable run length.",
+  "url": "https://example.com/speaker-wire-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What gauge speaker wire do I need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For runs under 25 feet with 8-ohm speakers, 16 AWG is sufficient. For 25-50 foot runs, use 14 AWG. For runs over 50 feet or 4-ohm speakers, use 12 AWG. When in doubt, go one gauge thicker — wire is cheap, signal loss is not."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the 5% rule for speaker wire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The total resistance of your speaker wire should be less than 5% of the speaker's impedance. For 8-ohm speakers, max wire resistance is 0.4 ohms. For 4-ohm speakers, it's only 0.2 ohms. This ensures less than 0.5 dB of signal loss, which is barely audible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does thicker speaker wire sound better?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Thicker wire (lower AWG number) has lower resistance, which means less signal loss. However, for short runs (under 15 feet) with 8-ohm speakers, the difference between 14 and 12 AWG is inaudible. The improvement matters more with long runs and low-impedance speakers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is the total wire length doubled?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Speaker wire carries the signal from the amplifier to the speaker and back — it's a complete circuit. A 25-foot run means 50 feet of total wire the signal must travel through, so the total resistance is based on double the run length."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does speaker wire affect bass response?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, in extreme cases. Wire resistance effectively reduces damping factor, which controls how tightly the amplifier can grip the speaker cone. This primarily affects bass tightness. With proper gauge wire (following the 5% rule), bass impact is not noticeably affected."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is expensive speaker wire worth it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For most setups, no. Standard oxygen-free copper (OFC) wire in the correct gauge performs identically to expensive boutique cables. The gauge and length matter far more than the brand. Spend your budget on thicker wire rather than fancier wire."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Audio & Music Calculators",
+      "item": "https://example.com/audio-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Speaker Wire Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#475569;--primary-dark:#334155;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/audio-calculators/">Audio & Music Calculators</a> &rsaquo; <span>Speaker Wire Calculator</span>
+    </nav>
+    <h1>Speaker Wire Calculator</h1>
+    <p>Find the right wire gauge for your speaker setup with signal loss analysis</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Speaker Wire Calculator</h2>
+
+    <div class="input-group">
+      <label for="impedance">Speaker Impedance (ohms)</label>
+      <select id="impedance">
+        <option value="4">4 ohms</option>
+        <option value="6">6 ohms</option>
+        <option value="8" selected>8 ohms</option>
+        <option value="16">16 ohms</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="wireLength">Wire Run Length (one way, feet)</label>
+      <input type="number" id="wireLength" placeholder="e.g. 25" value="25" inputmode="decimal">
+    </div>
+
+    <div class="input-group">
+      <label for="wireGauge">Wire Gauge (AWG)</label>
+      <select id="wireGauge">
+        <option value="12">12 AWG</option>
+        <option value="14" selected>14 AWG</option>
+        <option value="16">16 AWG</option>
+        <option value="18">18 AWG</option>
+      </select>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Total Wire Resistance</div>
+          <div class="result-value" id="resistance">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Signal Loss</div>
+          <div class="result-value" id="signalLoss">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Pass / Fail (5% rule)</div>
+          <div class="result-value" id="passFail">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Power Loss (at 100W)</div>
+          <div class="result-value" id="powerLoss">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Recommended Gauge</div>
+          <div class="result-value" id="recommended">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">dB Loss</div>
+          <div class="result-value" id="dbLoss">—</div>
+        </div>
+      </div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Maximum Speaker Wire Run Length (5% Rule)</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Maximum one-way run in feet before exceeding 5% signal loss.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Wire Gauge</th>
+          <th>Ohms/ft</th>
+          <th>4 ohm Max</th>
+          <th>6 ohm Max</th>
+          <th>8 ohm Max</th>
+          <th>16 ohm Max</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>12 AWG</td><td>0.00162</td><td>62 ft</td><td>93 ft</td><td>123 ft</td><td>247 ft</td></tr>
+        <tr><td>14 AWG</td><td>0.00257</td><td>39 ft</td><td>58 ft</td><td>78 ft</td><td>156 ft</td></tr>
+        <tr><td>16 AWG</td><td>0.00409</td><td>24 ft</td><td>37 ft</td><td>49 ft</td><td>98 ft</td></tr>
+        <tr><td>18 AWG</td><td>0.00651</td><td>15 ft</td><td>23 ft</td><td>31 ft</td><td>61 ft</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This speaker wire calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Speaker wire has resistance that causes signal loss between your amplifier and speakers. The goal is to keep total wire resistance below 5% of the speaker impedance.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Total wire length is <strong>2× the run</strong> (signal travels out and back)</li>
+      <li>Wire resistance (ohms) = resistance per foot × total length</li>
+      <li>Signal loss % = wire resistance / (speaker impedance + wire resistance) × 100</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">The 5% rule means wire resistance should be less than 5% of speaker impedance. For 8-ohm speakers, max wire resistance is 0.4 ohms. Lower impedance speakers (4 ohm) are more sensitive to wire resistance.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This speaker wire calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What gauge speaker wire do I need?</h3>
+      <p>For runs under 25 feet with 8-ohm speakers, 16 AWG is sufficient. For 25-50 foot runs, use 14 AWG. For runs over 50 feet or 4-ohm speakers, use 12 AWG. When in doubt, go one gauge thicker — wire is cheap, signal loss is not.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the 5% rule for speaker wire?</h3>
+      <p>The total resistance of your speaker wire should be less than 5% of the speaker's impedance. For 8-ohm speakers, max wire resistance is 0.4 ohms. For 4-ohm speakers, it's only 0.2 ohms. This ensures less than 0.5 dB of signal loss, which is barely audible.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does thicker speaker wire sound better?</h3>
+      <p>Thicker wire (lower AWG number) has lower resistance, which means less signal loss. However, for short runs (under 15 feet) with 8-ohm speakers, the difference between 14 and 12 AWG is inaudible. The improvement matters more with long runs and low-impedance speakers.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Why is the total wire length doubled?</h3>
+      <p>Speaker wire carries the signal from the amplifier to the speaker and back — it's a complete circuit. A 25-foot run means 50 feet of total wire the signal must travel through, so the total resistance is based on double the run length.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does speaker wire affect bass response?</h3>
+      <p>Yes, in extreme cases. Wire resistance effectively reduces damping factor, which controls how tightly the amplifier can grip the speaker cone. This primarily affects bass tightness. With proper gauge wire (following the 5% rule), bass impact is not noticeably affected.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is expensive speaker wire worth it?</h3>
+      <p>For most setups, no. Standard oxygen-free copper (OFC) wire in the correct gauge performs identically to expensive boutique cables. The gauge and length matter far more than the brand. Spend your budget on thicker wire rather than fancier wire.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/bpm-tap-tempo/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">BPM Tap Tempo</strong><span style="font-size:0.8rem;color:var(--text-light)">Tap to the beat to find the BPM of any song instantly</span></a>
+      <a href="/delay-time-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Delay Time Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate delay, reverb, and echo times synced to your BPM</span></a>
+      <a href="/wire-size-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Wire Size Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find the right wire gauge for any circuit based on NEC ampacity and voltage drop</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Speaker Wire Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // Resistance per foot (ohms) for copper wire by AWG
+  var resistancePerFoot = {
+    '12': 0.00162,
+    '14': 0.00257,
+    '16': 0.00409,
+    '18': 0.00651
+  };
+
+  function calculate() {
+    var impedance = parseFloat(document.getElementById('impedance').value);
+    var runLength = parseFloat(document.getElementById('wireLength').value);
+    var gauge = document.getElementById('wireGauge').value;
+
+    if (isNaN(runLength) || runLength <= 0) return;
+
+    var rPerFoot = resistancePerFoot[gauge];
+    // Total wire length = 2× run (out and back)
+    var totalLength = runLength * 2;
+    var totalResistance = rPerFoot * totalLength;
+
+    // Signal loss percentage
+    var signalLossPct = (totalResistance / (impedance + totalResistance)) * 100;
+
+    // Power loss at 100W
+    var powerLoss = signalLossPct; // Same percentage applies to power
+
+    // dB loss: 10 * log10(1 - loss fraction)
+    var lossFraction = totalResistance / (impedance + totalResistance);
+    var dbLoss = -10 * Math.log10(1 - lossFraction);
+
+    // Pass/fail at 5%
+    var maxResistance = impedance * 0.05;
+    var pass = totalResistance <= maxResistance;
+
+    // Find recommended gauge
+    var recommended = gauge;
+    var gauges = ['18', '16', '14', '12'];
+    for (var i = 0; i < gauges.length; i++) {
+      var testR = resistancePerFoot[gauges[i]] * totalLength;
+      if (testR <= maxResistance) {
+        recommended = gauges[i];
+        break;
+      }
+    }
+    // If even 12 AWG doesn't pass
+    if (resistancePerFoot['12'] * totalLength > maxResistance) {
+      recommended = '10 AWG or thicker';
+    }
+
+    document.getElementById('resistance').textContent = totalResistance.toFixed(4) + ' \u03A9';
+    document.getElementById('signalLoss').textContent = signalLossPct.toFixed(2) + '%';
+    document.getElementById('passFail').textContent = pass ? '\u2705 PASS' : '\u274C FAIL';
+    document.getElementById('passFail').style.color = pass ? '#16a34a' : '#dc2626';
+    document.getElementById('powerLoss').textContent = powerLoss.toFixed(2) + ' W lost';
+    document.getElementById('recommended').textContent = recommended + ' AWG';
+    document.getElementById('dbLoss').textContent = dbLoss.toFixed(3) + ' dB';
+
+    var tip = '';
+    if (pass) {
+      tip = gauge + ' AWG is suitable for this run. Signal loss of ' + signalLossPct.toFixed(2) + '% is within the 5% threshold (max ' + maxResistance.toFixed(3) + ' \u03A9).';
+    } else {
+      tip = gauge + ' AWG has too much resistance for this run. Upgrade to ' + recommended + ' AWG to stay within the 5% rule. Max allowable resistance: ' + maxResistance.toFixed(3) + ' \u03A9.';
+    }
+    document.getElementById('resultTip').textContent = tip;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+  document.getElementById('wireLength').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') calculate();
+  });
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Speaker Wire Calculator';
+  var TOOL_SLUG = 'speaker-wire-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'audio', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

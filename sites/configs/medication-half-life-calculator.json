@@ -1,0 +1,153 @@
+{
+  "slug": "medication-half-life-calculator",
+  "toolName": "Medication Half-Life Calculator",
+  "tagline": "Calculate how medication levels decrease over time",
+  "title": "Medication Half-Life Calculator — Drug Decay & Elimination Time",
+  "metaDescription": "Calculate medication remaining in your body over time. Enter dose and half-life to see drug levels, elimination time, and decay curve.",
+  "keywords": "medication half-life calculator, drug half-life, medication elimination, drug decay calculator, how long does medication last, half-life formula",
+  "domain": "example.com",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "ogTitle": "Medication Half-Life Calculator — Drug Elimination Time",
+  "ogDescription": "Calculate how medication levels decrease over time using half-life decay formulas.",
+  "twitterDescription": "Calculate medication remaining in your body and elimination time using half-life.",
+  "jsonLdDescription": "Calculate medication levels remaining in the body over time based on dose, half-life, and elapsed time using exponential decay formulas.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Medication Half-Life Calculator</h2>\n    <p class=\"disclaimer\" style=\"background:#faf5ff;border:1px solid #a78bfa;border-radius:8px;padding:12px;margin-bottom:16px;font-size:0.9rem;color:#5b21b6;\"><strong>Disclaimer:</strong> For educational purposes only. Consult your healthcare provider for medical advice.</p>\n\n    <div class=\"input-group\">\n      <label for=\"presetMed\">Common Medication (optional)</label>\n      <select id=\"presetMed\"><option value=\"\">Custom — enter below</option><option value=\"2.5\">Acetaminophen (Tylenol) — 2.5 hr</option><option value=\"2\">Ibuprofen (Advil) — 2 hr</option><option value=\"5\">Caffeine — 5 hr</option><option value=\"1.5\">Melatonin — 1.5 hr</option><option value=\"3.5\">Aspirin — 3.5 hr</option><option value=\"6\">Naproxen (Aleve) — 6 hr</option><option value=\"12\">Omeprazole (Prilosec) — 12 hr</option><option value=\"36\">Fluoxetine (Prozac) — 36 hr</option></select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"initDose\">Initial Dose (mg)</label>\n      <input type=\"number\" id=\"initDose\" placeholder=\"e.g. 500\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"halfLife\">Half-Life (hours)</label>\n      <input type=\"number\" id=\"halfLife\" placeholder=\"e.g. 2.5\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"elapsed\">Time Elapsed (hours)</label>\n      <input type=\"number\" id=\"elapsed\" placeholder=\"e.g. 8\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Amount Remaining</div><div class=\"result-value\" id=\"remaining\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">% Eliminated</div><div class=\"result-value\" id=\"eliminated\">—</div></div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Half-Lives Elapsed</div><div class=\"result-value\" id=\"halvesElapsed\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Time to ~97% Eliminated</div><div class=\"result-value\" id=\"clearTime\">—</div></div>\n      </div>\n      <div id=\"decayTable\" style=\"margin-top:16px;\"></div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "A medication's half-life is the time it takes for the amount of drug in your body to decrease by half. This follows an exponential decay pattern.",
+    "rules": [
+      "<strong>Formula:</strong> Remaining = Initial Dose × (0.5)^(time ÷ half-life)",
+      "After <strong>1 half-life:</strong> 50% remains; after <strong>2:</strong> 25%; after <strong>3:</strong> 12.5%; after <strong>4:</strong> 6.25%; after <strong>5:</strong> 3.125%",
+      "A drug is considered effectively eliminated after <strong>5 half-lives</strong> (~97% gone)",
+      "Multiple doses can lead to drug accumulation until <strong>steady state</strong> is reached (~5 half-lives of regular dosing)"
+    ],
+    "outro": "Half-life is affected by liver function, kidney function, age, body composition, and drug interactions. The values used here are population averages. Individual half-lives may vary significantly."
+  },
+  "faq": [
+    {
+      "question": "What is a medication half-life?",
+      "answer": "Half-life is the time it takes for the concentration of a medication in your body to decrease by 50%. For example, if you take 500 mg of a drug with a 2-hour half-life, after 2 hours approximately 250 mg remains, after 4 hours about 125 mg remains, and so on."
+    },
+    {
+      "question": "How long until a medication is completely out of my system?",
+      "answer": "A drug is considered effectively eliminated after about 5 half-lives, when approximately 97% has been cleared. For acetaminophen (half-life ~2.5 hours), that's about 12.5 hours. For fluoxetine (half-life ~36 hours), it takes about 7.5 days."
+    },
+    {
+      "question": "Why do some medications last longer than others?",
+      "answer": "Half-life depends on how quickly your body metabolizes and excretes the drug. Factors include the drug's chemical properties, liver metabolism speed, kidney filtration rate, and whether the drug is stored in fat tissue. Longer half-lives mean longer-lasting effects."
+    },
+    {
+      "question": "What is steady state?",
+      "answer": "When you take a medication regularly, it accumulates until the amount eliminated per dose interval equals the dose taken. This balance is called steady state and is reached after approximately 5 half-lives of regular dosing. At steady state, drug levels remain relatively constant."
+    },
+    {
+      "question": "Does half-life determine how often I take medication?",
+      "answer": "Yes, partially. Medications with short half-lives (like ibuprofen at 2 hours) need to be taken more frequently to maintain effective levels. Drugs with long half-lives (like fluoxetine at 36 hours) can be taken once daily. Dosing schedules also consider the therapeutic window."
+    },
+    {
+      "question": "Can half-life vary between people?",
+      "answer": "Yes, significantly. Liver disease, kidney disease, age (elderly and neonates metabolize drugs differently), obesity, genetics, and drug interactions all affect half-life. Smokers metabolize some drugs faster. The values shown are population averages."
+    }
+  ],
+  "chart": {
+    "title": "Common Medication Half-Lives",
+    "subtitle": "Average half-lives for common over-the-counter and prescription medications",
+    "columns": [
+      "Medication",
+      "Half-Life",
+      "Time to ~97% Eliminated",
+      "Typical Dose"
+    ],
+    "rows": [
+      [
+        "Acetaminophen (Tylenol)",
+        "2–3 hours",
+        "12–15 hours",
+        "500–1000 mg"
+      ],
+      [
+        "Ibuprofen (Advil/Motrin)",
+        "2 hours",
+        "10 hours",
+        "200–400 mg"
+      ],
+      [
+        "Caffeine",
+        "5 hours",
+        "25 hours",
+        "80–200 mg"
+      ],
+      [
+        "Melatonin",
+        "1–2 hours",
+        "5–10 hours",
+        "0.5–5 mg"
+      ],
+      [
+        "Aspirin",
+        "3–5 hours",
+        "15–25 hours",
+        "325–650 mg"
+      ],
+      [
+        "Naproxen (Aleve)",
+        "12–17 hours",
+        "60–85 hours",
+        "220–440 mg"
+      ],
+      [
+        "Diphenhydramine (Benadryl)",
+        "4–8 hours",
+        "20–40 hours",
+        "25–50 mg"
+      ],
+      [
+        "Omeprazole (Prilosec)",
+        "1–1.5 hours",
+        "5–7.5 hours",
+        "20–40 mg"
+      ],
+      [
+        "Fluoxetine (Prozac)",
+        "24–72 hours",
+        "5–15 days",
+        "20–80 mg"
+      ],
+      [
+        "Amoxicillin",
+        "1–1.5 hours",
+        "5–7.5 hours",
+        "250–500 mg"
+      ]
+    ]
+  },
+  "category": "niche-health",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This medication half-life calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This medication half-life calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "iv-drip-rate-calculator",
+    "pediatric-dosing-calculator",
+    "wound-dressing-calculator",
+    "postpartum-recovery-calculator",
+    "dilution-calculator"
+  ]
+}

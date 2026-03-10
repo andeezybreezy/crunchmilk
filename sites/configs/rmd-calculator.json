@@ -1,0 +1,138 @@
+{
+  "slug": "rmd-calculator",
+  "toolName": "RMD Calculator",
+  "tagline": "Calculate your required minimum distribution from IRAs and 401(k)s using IRS life expectancy tables",
+  "title": "RMD Calculator — Required Minimum Distribution for IRA & 401(k)",
+  "metaDescription": "Calculate your required minimum distribution (RMD) from IRA or 401(k) accounts using official IRS Uniform Lifetime Tables.",
+  "keywords": "RMD calculator, required minimum distribution, IRA RMD, 401k RMD, IRS life expectancy table, RMD amount, retirement distribution calculator",
+  "domain": "example.com",
+  "primaryColor": "#0d9488",
+  "primaryDarkColor": "#0f766e",
+  "ogTitle": "RMD Calculator — Required Minimum Distribution for IRA & 401(k)",
+  "ogDescription": "Calculate your required minimum distribution using IRS Uniform Lifetime Tables. Works for traditional IRA, 401(k), 403(b), and other retirement accounts.",
+  "twitterDescription": "Calculate your IRA or 401(k) required minimum distribution. Uses official IRS life expectancy tables. Free RMD calculator.",
+  "jsonLdDescription": "Calculate required minimum distributions from traditional IRA, 401(k), 403(b), and other tax-deferred retirement accounts using official IRS Uniform Lifetime Table factors, with tax impact estimates and multi-year projections.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>RMD Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate your required minimum distribution using IRS life expectancy tables.</p>\n\n    <div class=\"input-group\">\n      <label for=\"accountBalance\">Account Balance as of Dec 31 ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"accountBalance\" placeholder=\"e.g. 500000\" inputmode=\"decimal\" step=\"1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"age\">Your Age This Year</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"age\" placeholder=\"e.g. 75\" inputmode=\"decimal\" step=\"1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"accountType\">Account Type</label>\n      <select id=\"accountType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"traditional_ira\">Traditional IRA</option>\n        <option value=\"401k\">401(k) / 403(b)</option>\n        <option value=\"inherited_ira\">Inherited IRA</option>\n        <option value=\"sep_ira\">SEP IRA</option>\n        <option value=\"simple_ira\">SIMPLE IRA</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"spouseAge\">Spouse's Age (if sole beneficiary & 10+ years younger)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"spouseAge\" placeholder=\"Leave blank if N/A\" inputmode=\"decimal\" step=\"1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"taxRate\">Estimated Tax Bracket (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"taxRate\" placeholder=\"e.g. 22\" value=\"22\" inputmode=\"decimal\" step=\"1\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate RMD</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Required Minimum Distribution</div>\n          <div class=\"result-value\" id=\"rRmd\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Life Expectancy Factor</div>\n          <div class=\"result-value\" id=\"rFactor\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Estimated Tax on RMD</div>\n          <div class=\"result-value\" id=\"rTax\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">After-Tax Amount</div>\n          <div class=\"result-value\" id=\"rAfterTax\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Monthly Equivalent</div>\n          <div class=\"result-value\" id=\"rMonthly\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">RMD Deadline</div>\n          <div class=\"result-value\" id=\"rDeadline\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Required Minimum Distributions (RMDs) are mandatory annual withdrawals from tax-deferred retirement accounts. This calculator uses the IRS Uniform Lifetime Table to determine your distribution amount: RMD = Account Balance / Life Expectancy Factor.",
+    "rules": [
+      "RMD = Prior year-end account balance ÷ IRS life expectancy factor for your age",
+      "RMDs begin at age 73 (for those born 1951-1959) or age 75 (born 1960+) under SECURE 2.0",
+      "If your sole beneficiary is a spouse 10+ years younger, use the Joint Life Expectancy Table for a smaller RMD",
+      "Failure to take your full RMD results in a 25% penalty (reduced from 50% by SECURE 2.0) on the shortfall"
+    ],
+    "outro": "RMDs are taxed as ordinary income. Strategic planning — including Roth conversions before RMD age, qualified charitable distributions (QCDs), and timing withdrawals across tax years — can significantly reduce the lifetime tax impact of RMDs."
+  },
+  "faq": [
+    {
+      "question": "When do I have to start taking RMDs?",
+      "answer": "Under SECURE 2.0: if born 1951-1959, RMDs begin at age 73. If born 1960 or later, RMDs begin at age 75. Your first RMD can be delayed until April 1 of the year after you reach the applicable age, but you will then need to take two RMDs that year (the delayed first one plus the current year's). Roth IRAs have no RMDs during the owner's lifetime."
+    },
+    {
+      "question": "How is the RMD calculated?",
+      "answer": "RMD = December 31 account balance of the prior year ÷ IRS life expectancy factor. For example, at age 75 the Uniform Lifetime Table factor is 24.6. If your account balance was $500,000, your RMD would be $500,000 / 24.6 = $20,325. The factor decreases each year, so RMDs as a percentage of your account grow over time."
+    },
+    {
+      "question": "What is the penalty for missing an RMD?",
+      "answer": "SECURE 2.0 reduced the penalty from 50% to 25% of the shortfall (the amount you should have withdrawn but did not). If you correct the error in a timely manner, the penalty drops to 10%. If you miss an RMD, file Form 5329 with your tax return and request a penalty waiver — the IRS frequently grants waivers for reasonable cause."
+    },
+    {
+      "question": "Can I reduce my RMDs?",
+      "answer": "Several strategies: (1) Roth conversions before RMD age reduce the traditional IRA balance. (2) Qualified Charitable Distributions (QCDs) satisfy your RMD while excluding up to $105,000 from taxable income. (3) If still working, 401(k) funds at your current employer may be exempt from RMDs. (4) Consider the timing of large Roth conversions to manage the tax impact."
+    }
+  ],
+  "relatedTools": [
+    "roth-conversion-calculator",
+    "estate-tax-calculator",
+    "non-compete-checker",
+    "gig-worker-tax-calculator",
+    "remote-work-tax-calculator",
+    "digital-asset-inheritance-calculator",
+    "cta-filing-calculator",
+    "retirement-savings-calculator"
+  ],
+  "chart": {
+    "title": "IRS Uniform Lifetime Table (Selected Ages)",
+    "subtitle": "Life expectancy factors for RMD calculation (updated 2024)",
+    "columns": [
+      "Age",
+      "Factor",
+      "RMD % of Balance",
+      "RMD on $500K",
+      "RMD on $1M"
+    ],
+    "rows": [
+      [
+        "73",
+        "26.5",
+        "3.77%",
+        "$18,868",
+        "$37,736"
+      ],
+      [
+        "75",
+        "24.6",
+        "4.07%",
+        "$20,325",
+        "$40,650"
+      ],
+      [
+        "78",
+        "22.0",
+        "4.55%",
+        "$22,727",
+        "$45,455"
+      ],
+      [
+        "80",
+        "20.2",
+        "4.95%",
+        "$24,752",
+        "$49,505"
+      ],
+      [
+        "85",
+        "16.0",
+        "6.25%",
+        "$31,250",
+        "$62,500"
+      ],
+      [
+        "90",
+        "12.2",
+        "8.20%",
+        "$40,984",
+        "$81,967"
+      ],
+      [
+        "95",
+        "8.9",
+        "11.24%",
+        "$56,180",
+        "$112,360"
+      ]
+    ]
+  },
+  "category": "legal-regulatory",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This rmd calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This rmd calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

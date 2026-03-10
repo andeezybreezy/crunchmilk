@@ -1,0 +1,142 @@
+{
+  "slug": "wildfire-risk-calculator-or",
+  "toolName": "Wildfire Risk Calculator — Oregon",
+  "tagline": "Assess your property's wildfire risk score based on vegetation, terrain, and climate factors — Oregon specific rates and rules",
+  "title": "Wildfire Risk Calculator for Oregon (OR) — 2026",
+  "metaDescription": "Wildfire Risk Calculator for Oregon. State-specific rates, limits, and rules for OR. Free calculator, no signup.",
+  "keywords": "wildfire risk calculator, wildfire risk score, property fire risk assessment, wildfire defensible space, fire hazard zone calculator, oregon, or",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Wildfire Risk Calculator for Oregon (OR) — 2026",
+  "ogDescription": "Wildfire Risk Calculator for Oregon. State-specific rates, limits, and rules for OR. Free calculator, no signup.",
+  "twitterDescription": "Wildfire Risk Calculator for Oregon. State-specific rates, limits, and rules for OR. Free calculator, no signup.",
+  "jsonLdDescription": "Calculate wildfire risk for any property based on vegetation type, terrain slope, climate zone, defensible space, and building materials to generate a comprehensive risk score.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Wildfire Risk Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"vegType\">Surrounding Vegetation</label>\n      <select id=\"vegType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Irrigated lawn / minimal vegetation</option>\n        <option value=\"2\">Hardwood forest / green landscape</option>\n        <option value=\"3\" selected>Mixed brush and grass</option>\n        <option value=\"4\">Dense chaparral / dry brush</option>\n        <option value=\"5\">Dense conifer forest / eucalyptus</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"slopeGrade\">Terrain Slope</label>\n      <select id=\"slopeGrade\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Flat (0-5%)</option>\n        <option value=\"2\" selected>Gentle slope (5-15%)</option>\n        <option value=\"3\">Moderate slope (15-30%)</option>\n        <option value=\"4\">Steep slope (30-50%)</option>\n        <option value=\"5\">Very steep (50%+)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"climateZone\">Climate Zone</label>\n      <select id=\"climateZone\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Humid / high rainfall (>40 in/yr)</option>\n        <option value=\"2\">Moderate rainfall (20-40 in/yr)</option>\n        <option value=\"3\" selected>Semi-arid (10-20 in/yr)</option>\n        <option value=\"4\">Arid / drought-prone (<10 in/yr)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"defSpace\">Defensible Space (feet cleared)</label>\n      <input type=\"number\" id=\"defSpace\" value=\"30\" min=\"0\" max=\"200\" step=\"5\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roofType\">Roof Material</label>\n      <select id=\"roofType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Class A (metal, tile, concrete)</option>\n        <option value=\"2\" selected>Class B (composite shingle)</option>\n        <option value=\"3\">Class C (plywood, untreated shake)</option>\n        <option value=\"4\">Unrated / wood shake</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"accessRoad\">Road Access</label>\n      <select id=\"accessRoad\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Multiple paved routes</option>\n        <option value=\"2\" selected>Single paved road</option>\n        <option value=\"3\">Single narrow/unpaved road</option>\n        <option value=\"4\">Dead-end / limited access</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Risk Score</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Overall Risk Score</div>\n          <div class=\"result-value\" id=\"rScore\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Risk Level</div>\n          <div class=\"result-value\" id=\"rLevel\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Vegetation Risk</div>\n          <div class=\"result-value\" id=\"rVeg\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Terrain Risk</div>\n          <div class=\"result-value\" id=\"rTerrain\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Structural Vulnerability</div>\n          <div class=\"result-value\" id=\"rStruct\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Est. Insurance Impact</div>\n          <div class=\"result-value\" id=\"rInsurance\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator generates a composite wildfire risk score (0-100) by weighting six key factors that determine a property's vulnerability to wildfire damage.",
+    "rules": [
+      "Vegetation type contributes 30% of the score — dense dry brush and conifers score highest risk",
+      "Terrain slope contributes 20% — fire travels faster uphill, doubling speed for every 20% increase in slope",
+      "Climate zone contributes 15% — arid and drought-prone regions have higher ignition and spread risk",
+      "Defensible space contributes 15% — CAL FIRE recommends 100 feet of defensible space in high-risk zones",
+      "Roof material contributes 10% — ember exposure is the leading cause of structure ignition during wildfires",
+      "Road access contributes 10% — affects both evacuation safety and firefighter response time"
+    ],
+    "outro": "This is an educational risk estimate. For official risk assessments, consult your local fire department, CAL FIRE hazard maps, or a certified wildfire risk assessor. Insurance companies use proprietary models that may weight factors differently."
+  },
+  "faq": [
+    {
+      "question": "How does Oregon handle this differently?",
+      "answer": "Oregon has its own specific rules, rates, and limits that may differ significantly from federal guidelines or other states. This calculator uses Oregon-specific data where available. Always verify with a local professional for important decisions."
+    },
+    {
+      "question": "What is a good wildfire risk score?",
+      "answer": "Scores under 30 indicate low risk, 30-50 moderate risk, 50-70 high risk, and above 70 extreme risk. Most properties in wildland-urban interface areas score 40-70. The goal is to reduce controllable factors like defensible space and building materials."
+    },
+    {
+      "question": "How much defensible space do I need?",
+      "answer": "CAL FIRE requires 100 feet of defensible space around structures in State Responsibility Areas. Zone 1 (0-30 feet) should be lean, clean, and green with no combustible material. Zone 2 (30-100 feet) should have reduced and spaced vegetation. Some communities require up to 200 feet."
+    },
+    {
+      "question": "Does wildfire risk affect my insurance?",
+      "answer": "Yes, significantly. Homes in high-risk areas may face premiums 2-5x higher than low-risk homes, or may be dropped by insurers entirely. California's FAIR Plan provides last-resort coverage. Demonstrating defensible space and fire-resistant materials can help reduce premiums."
+    },
+    {
+      "question": "What roof material is best for wildfire?",
+      "answer": "Class A rated roofing (metal, concrete tile, clay tile, slate) offers the best fire protection. Asphalt composition shingles are Class A or B. Wood shake and shingle roofs are the most vulnerable. Replacing a wood shake roof is one of the most impactful mitigation steps."
+    },
+    {
+      "question": "How does slope affect wildfire spread?",
+      "answer": "Fire moves faster uphill because flames preheat upslope fuels. For every 10-degree increase in slope, fire spread rate roughly doubles. A fire on a 30% slope can move 2-4 times faster than on flat ground. Homes on ridgetops and steep hillsides face elevated risk from below."
+    }
+  ],
+  "relatedTools": [
+    "wildfire-risk-calculator",
+    "home-resilience-calculator",
+    "hurricane-insurance-calculator",
+    "solar-payback-calculator",
+    "flood-zone-calculator",
+    "heat-dome-safety-calculator",
+    "drought-well-calculator",
+    "fire-calculator"
+  ],
+  "chart": {
+    "title": "Wildfire Risk Factors & Impact",
+    "subtitle": "How different factors contribute to overall wildfire risk",
+    "columns": [
+      "Risk Factor",
+      "Weight",
+      "Low Risk",
+      "High Risk",
+      "Mitigation"
+    ],
+    "rows": [
+      [
+        "Vegetation",
+        "30%",
+        "Irrigated lawn",
+        "Dense dry brush",
+        "Create defensible space"
+      ],
+      [
+        "Terrain Slope",
+        "20%",
+        "Flat ground",
+        "Steep hillside (50%+)",
+        "Terrain modification limited"
+      ],
+      [
+        "Climate/Drought",
+        "15%",
+        "Humid >40in rain",
+        "Arid <10in rain",
+        "Irrigation, fire breaks"
+      ],
+      [
+        "Defensible Space",
+        "15%",
+        "100+ feet cleared",
+        "No clearing",
+        "Clear brush, thin trees"
+      ],
+      [
+        "Roof Material",
+        "10%",
+        "Metal/tile (Class A)",
+        "Wood shake",
+        "Replace roof material"
+      ],
+      [
+        "Road Access",
+        "10%",
+        "Multiple paved routes",
+        "Dead-end road",
+        "Community planning"
+      ]
+    ]
+  },
+  "category": "climate",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This wildfire risk calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This wildfire risk calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "canonicalUrl": "https://example.com/wildfire-risk-calculator-or/"
+}

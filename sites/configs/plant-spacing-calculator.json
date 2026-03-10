@@ -1,0 +1,135 @@
+{
+  "slug": "plant-spacing-calculator",
+  "toolName": "Plant Spacing Calculator",
+  "tagline": "Calculate how many plants fit in a bed with grid or offset spacing",
+  "title": "Plant Spacing Calculator — Grid Layout & Plant Count",
+  "metaDescription": "Calculate how many plants fit in your garden bed with square grid or triangular offset spacing. Get plant count and layout.",
+  "keywords": "plant spacing calculator, garden plant calculator, how many plants fit, plant grid calculator, garden layout planner",
+  "domain": "example.com",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "ogTitle": "Plant Spacing Calculator — Grid Layout & Plant Count",
+  "ogDescription": "Calculate how many plants fit in your garden using square or triangular spacing. Plan efficient garden layouts.",
+  "twitterDescription": "Calculate plant count for any garden area with square grid or offset triangular spacing.",
+  "jsonLdDescription": "Calculate how many plants fit in a garden bed using square grid or triangular offset spacing patterns with precise plant counts.",
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Plant Spacing Calculator</h2>\n\n  <div class=\"input-row\">\n    <div class=\"input-group\">\n      <label for=\"areaLength\">Bed Length (feet)</label>\n      <input type=\"number\" id=\"areaLength\" value=\"10\" min=\"1\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\">\n      <label for=\"areaWidth\">Bed Width (feet)</label>\n      <input type=\"number\" id=\"areaWidth\" value=\"5\" min=\"1\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"plantSpacing\">Plant Spacing (inches, center to center)</label>\n    <input type=\"number\" id=\"plantSpacing\" value=\"12\" min=\"1\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pattern\">Spacing Pattern</label>\n    <select id=\"pattern\">\n      <option value=\"square\" selected>Square Grid</option>\n      <option value=\"triangle\">Triangular (Offset) — fits ~15% more</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"edgeBuffer\">Edge Buffer (inches from bed edge)</label>\n    <input type=\"number\" id=\"edgeBuffer\" value=\"3\" min=\"0\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Plants</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Plants</div>\n        <div class=\"result-value\" id=\"totalPlants\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Plants Per Sq Ft</div>\n        <div class=\"result-value\" id=\"plantsPerSqFt\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Rows</div>\n        <div class=\"result-value\" id=\"numRows\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Columns (per row)</div>\n        <div class=\"result-value\" id=\"numCols\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Usable Area</div>\n        <div class=\"result-value\" id=\"usableArea\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Sq Ft Per Plant</div>\n        <div class=\"result-value\" id=\"sqFtPerPlant\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "howItWorks": {
+    "intro": "The calculator determines how many plants fit in a rectangular area based on the spacing pattern and any edge buffer.",
+    "rules": [
+      "Square grid: plants in evenly spaced rows and columns",
+      "Triangular offset: alternating rows are shifted by half the spacing, fitting ~15% more plants",
+      "Rows along width = (usable width ÷ spacing) + 1",
+      "Columns along length = (usable length ÷ spacing) + 1",
+      "Edge buffer reduces the usable planting area from each side"
+    ],
+    "outro": "Triangular (offset) spacing is more efficient and gives each plant equal distance from all neighbors. It is ideal for groundcovers, perennial beds, and dense plantings."
+  },
+  "faq": [
+    {
+      "question": "What is triangular spacing?",
+      "answer": "In triangular (or offset/staggered) spacing, every other row is shifted by half the plant spacing. This creates equilateral triangles between plants, giving each plant equal distance from all its neighbors and fitting about 15% more plants per area."
+    },
+    {
+      "question": "How do I know what spacing to use?",
+      "answer": "Check the plant tag or seed packet for the recommended spacing. This is the mature spread of the plant. Common examples: 12\" for most perennials, 18-24\" for shrubs, 6\" for groundcovers, and 36\" for large shrubs."
+    },
+    {
+      "question": "Should I leave space at the edge?",
+      "answer": "Yes. A 3-6 inch buffer from the bed edge keeps plants from hanging over borders and allows air circulation. For raised beds with walls, half the plant spacing as a buffer ensures plants don't crowd the edge."
+    },
+    {
+      "question": "How do I convert between spacing and plants per square foot?",
+      "answer": "For square spacing: plants per sq ft = 144 ÷ (spacing in inches)². For 12\" spacing: 144/144 = 1 plant per sq ft. For 6\" spacing: 144/36 = 4 plants per sq ft."
+    }
+  ],
+  "relatedTools": [
+    "seed-spacing-calculator",
+    "raised-bed-soil-calculator",
+    "fertilizer-calculator",
+    "compost-calculator"
+  ],
+  "chart": {
+    "title": "Plants Per Square Foot by Spacing",
+    "subtitle": "Square grid pattern",
+    "columns": [
+      "Spacing",
+      "Plants/Sq Ft",
+      "Sq Ft/Plant",
+      "In 4×8 Bed",
+      "In 4×4 Bed"
+    ],
+    "rows": [
+      [
+        "4\"",
+        "9.0",
+        "0.11",
+        "288",
+        "144"
+      ],
+      [
+        "6\"",
+        "4.0",
+        "0.25",
+        "128",
+        "64"
+      ],
+      [
+        "9\"",
+        "1.8",
+        "0.56",
+        "57",
+        "29"
+      ],
+      [
+        "12\"",
+        "1.0",
+        "1.00",
+        "32",
+        "16"
+      ],
+      [
+        "18\"",
+        "0.44",
+        "2.25",
+        "14",
+        "7"
+      ],
+      [
+        "24\"",
+        "0.25",
+        "4.00",
+        "8",
+        "4"
+      ],
+      [
+        "36\"",
+        "0.11",
+        "9.00",
+        "4",
+        "2"
+      ]
+    ]
+  },
+  "category": "gardening",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This plant spacing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This plant spacing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

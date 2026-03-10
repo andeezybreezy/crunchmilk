@@ -1,0 +1,118 @@
+{
+  "slug": "break-even-calculator",
+  "toolName": "Break-Even Calculator",
+  "tagline": "Find how many units you need to sell to cover your costs",
+  "title": "Break-Even Calculator — Units, Revenue & Contribution Margin",
+  "metaDescription": "Free break-even calculator. Enter fixed costs, variable cost, and selling price to find break-even units, revenue, and contribution margin.",
+  "keywords": "break even calculator, break even point calculator, break even analysis, contribution margin calculator, break even units",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "domain": "example.com",
+  "ogTitle": "Break-Even Calculator — Find Your Break-Even Point",
+  "ogDescription": "Calculate break-even units and revenue. Enter fixed costs, variable cost per unit, and selling price to see your break-even point.",
+  "twitterDescription": "Calculate break-even units and revenue from fixed costs, variable cost, and selling price.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Break-Even Calculator",
+    "description": "Calculate break-even units and revenue. Enter fixed costs, variable cost per unit, and selling price.",
+    "url": "https://example.com/break-even-calculator/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a break-even point?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The break-even point is the number of units you must sell for total revenue to equal total costs — meaning zero profit and zero loss. Beyond this point, every additional unit sold generates profit. Below it, the business operates at a loss."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate the break-even point?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Break-Even Units = Fixed Costs / (Selling Price per Unit - Variable Cost per Unit). The denominator is called the contribution margin per unit. For example, with $10,000 fixed costs, $25 selling price, and $10 variable cost, break-even = 10,000 / (25 - 10) = 667 units."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is contribution margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Contribution margin is the selling price minus the variable cost per unit. It represents how much each unit sold contributes toward covering fixed costs and generating profit. A higher contribution margin means fewer units needed to break even."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are fixed costs vs variable costs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fixed costs stay the same regardless of how many units you sell — rent, salaries, insurance, loan payments. Variable costs change with each unit produced — raw materials, packaging, shipping, sales commissions. Break-even analysis requires separating these two types."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I lower my break-even point?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Three ways: reduce fixed costs (renegotiate rent, cut overhead), reduce variable costs per unit (cheaper materials, better efficiency), or increase selling price. Each approach has tradeoffs — raising prices too much can reduce demand, while cutting costs can affect quality."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is break-even analysis important?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Break-even analysis helps you set realistic sales targets, price products correctly, evaluate new business ideas, decide whether to launch a product, and understand how changes in costs or prices affect profitability. It is a fundamental tool for business planning and decision-making."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Break-Even Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"fixedCosts\">Fixed Costs ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"fixedCosts\" value=\"10000\" min=\"0\" step=\"100\" inputmode=\"decimal\">\n    </div>\n    <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Rent, salaries, insurance, loan payments, etc.</div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"variableCost\">Variable Cost per Unit ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"variableCost\" value=\"10\" min=\"0\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n    <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Materials, packaging, shipping per unit</div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"sellingPrice\">Selling Price per Unit ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"sellingPrice\" value=\"25\" min=\"0\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Break-Even</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Break-Even Units</div>\n        <div class=\"result-value\" id=\"breakEvenUnits\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Break-Even Revenue</div>\n        <div class=\"result-value\" id=\"breakEvenRevenue\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Contribution Margin</div>\n        <div class=\"result-value\" id=\"contribMargin\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Contribution Margin %</div>\n        <div class=\"result-value\" id=\"contribMarginPct\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Markup %</div>\n        <div class=\"result-value\" id=\"markupPct\">—</div>\n      </div>\n    </div>\n  </div>\n\n  <div id=\"profitTableWrap\" style=\"display:none;margin-top:20px\">\n    <h3 style=\"margin-bottom:12px\">Profit / Loss at Different Sales Levels</h3>\n    <div style=\"overflow-x:auto\">\n      <table class=\"chart-table\">\n        <thead>\n          <tr>\n            <th>Units Sold</th>\n            <th>Revenue</th>\n            <th>Total Costs</th>\n            <th>Profit / Loss</th>\n          </tr>\n        </thead>\n        <tbody id=\"profitTableBody\"></tbody>\n      </table>\n    </div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Break-Even Quick Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">How fixed costs and contribution margin affect break-even units.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr>\n          <th>Fixed Costs</th>\n          <th>CM $5</th>\n          <th>CM $10</th>\n          <th>CM $15</th>\n          <th>CM $20</th>\n          <th>CM $25</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>$5,000</td><td>1,000</td><td>500</td><td>334</td><td>250</td><td>200</td></tr>\n        <tr><td>$10,000</td><td>2,000</td><td>1,000</td><td>667</td><td>500</td><td>400</td></tr>\n        <tr><td>$25,000</td><td>5,000</td><td>2,500</td><td>1,667</td><td>1,250</td><td>1,000</td></tr>\n        <tr><td>$50,000</td><td>10,000</td><td>5,000</td><td>3,334</td><td>2,500</td><td>2,000</td></tr>\n        <tr><td>$100,000</td><td>20,000</td><td>10,000</td><td>6,667</td><td>5,000</td><td>4,000</td></tr>\n      </tbody>\n    </table>\n  </div>\n  <p style=\"font-size:0.8rem;color:var(--text-light);margin-top:8px\">CM = Contribution Margin per unit (Selling Price − Variable Cost). Values shown are break-even units needed.</p>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate the Break-Even Point</h2>\n  <p style=\"margin-bottom:12px\">Break-even analysis tells you exactly how many units you need to sell to cover all your costs — the point where revenue equals total expenses.</p>\n  <div style=\"background:#eff6ff;border:2px solid #bfdbfe;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Fixed costs</strong> — expenses that stay the same (rent, salaries, insurance)</li>\n    <li><strong>Variable cost</strong> — cost per unit (materials, shipping, packaging)</li>\n    <li><strong>Contribution margin</strong> = Selling Price − Variable Cost per unit</li>\n    <li><strong>Break-even revenue</strong> = Break-even units × Selling price</li>\n  </ul>\n  <p style=\"padding:12px;background:#f5f5f5;border-radius:8px;font-family:monospace\"><strong>Example:</strong> $10,000 fixed costs, $10 variable cost, $25 price → $10,000 ÷ $15 = <strong>667 units</strong> ($16,675 revenue)</p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n\n  <div class=\"faq-item\">\n    <h3>What is a break-even point?</h3>\n    <p>The break-even point is the number of units you must sell for total revenue to equal total costs, resulting in zero profit and zero loss. Every unit sold beyond the break-even point generates profit. Below this point, the business operates at a loss.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do you calculate the break-even point?</h3>\n    <p>Break-Even Units = Fixed Costs / (Selling Price per Unit − Variable Cost per Unit). The denominator is the contribution margin per unit. For example, with $10,000 fixed costs, $25 price, and $10 variable cost: 10,000 / (25 − 10) = 667 units.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is contribution margin?</h3>\n    <p>Contribution margin is the selling price minus the variable cost per unit. It represents how much each unit contributes toward covering fixed costs and generating profit. A higher contribution margin means fewer units are needed to break even.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What are fixed costs vs variable costs?</h3>\n    <p>Fixed costs remain the same regardless of output — rent, salaries, insurance, and loan payments. Variable costs change with each unit produced — raw materials, packaging, shipping, and sales commissions. Accurately categorizing these is essential for break-even analysis.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How can I lower my break-even point?</h3>\n    <p>Three strategies: reduce fixed costs (renegotiate rent, reduce overhead), lower variable costs per unit (cheaper materials, better efficiency), or increase your selling price. Each has tradeoffs — raising prices can reduce demand, while cutting costs may affect quality.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>Why is break-even analysis important?</h3>\n    <p>Break-even analysis helps you set realistic sales targets, price products correctly, evaluate new business ideas, decide whether to launch a product, and understand how cost or price changes affect profitability. It is fundamental to business planning and investment decisions.</p>\n  </div>\n</div>",
+  "category": "finance",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This break-even calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This break-even calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "fire-calculator",
+    "debt-snowball-calculator",
+    "debt-avalanche-calculator",
+    "cap-rate-calculator",
+    "rental-property-roi-calculator",
+    "cash-on-cash-return-calculator",
+    "freelance-rate-calculator",
+    "markup-calculator"
+  ]
+}

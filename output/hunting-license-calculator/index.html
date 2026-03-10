@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hunting License Calculator — License Fees by State</title>
+<meta name="description" content="Calculate hunting and fishing license fees by state. Compare resident vs non-resident costs for hunting, fishing, and combination licenses.">
+<meta name="keywords" content="hunting license cost, hunting license fee calculator, fishing license cost, non-resident hunting license, state hunting license price, combination license fee">
+<link rel="canonical" href="https://example.com/hunting-license-calculator/">
+<meta property="og:title" content="Hunting License Calculator — License Fees by State">
+<meta property="og:description" content="Look up hunting and fishing license fees by state, resident vs non-resident.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/hunting-license-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hunting License Calculator — License Fees by State">
+<meta name="twitter:description" content="Calculate hunting and fishing license fees by state with resident and non-resident pricing.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Hunting License Calculator",
+  "description": "Calculate hunting and fishing license fees by state with resident and non-resident pricing, including combination licenses and special permits.",
+  "url": "https://example.com/hunting-license-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does a hunting license cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Resident hunting licenses typically cost $10-$50 depending on the state. Non-resident licenses are significantly more expensive, ranging from $75 to over $300. Additional tags for specific species are extra."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the federal duck stamp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Federal Migratory Bird Hunting and Conservation Stamp (duck stamp) costs $25 and is required for all waterfowl hunters aged 16 and older. Revenue goes directly to wetland habitat acquisition. You need this in addition to your state waterfowl stamp."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a separate tag for deer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. In most states, you need a base hunting license plus a deer tag or permit. Some states include one deer tag with the license, but many charge separately. Antlerless tags, muzzleloader tags, and archery tags may be additional."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I establish residency for hunting licenses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most states require 6-12 months of continuous residency, a state driver's license, and/or voter registration. Military personnel stationed in a state often qualify for resident rates. Residency fraud is a serious offense in every state."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I buy a license online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most states now offer online license purchasing through their wildlife agency website. Some charge a small convenience fee ($1-$5). You can usually print a temporary license immediately and receive the physical card by mail."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do children need a hunting license?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Requirements vary by state. Many states offer free or reduced licenses for youth under 16. Some states require hunter education certification for all first-time buyers regardless of age. Most require adult supervision for minors."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Firearms & Hunting Calculators",
+      "item": "https://example.com/firearms-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Hunting License Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#65a30d;--primary-dark:#4d7c0f;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/firearms-calculators/">Firearms & Hunting Calculators</a> &rsaquo; <span>Hunting License Calculator</span>
+    </nav>
+    <h1>Hunting License Calculator</h1>
+    <p>Look up hunting and fishing license fees by state</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Hunting License Calculator</h2>
+
+    <div class="input-group">
+      <label for="hlState">State</label>
+      <select id="hlState"><option value="">Select state...</option></select>
+    </div>
+
+    <div class="input-group">
+      <label for="residency">Residency Status</label>
+      <select id="residency">
+        <option value="resident">Resident</option>
+        <option value="nonresident">Non-Resident</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="licenseType">License Type</label>
+      <select id="licenseType">
+        <option value="hunting">Hunting Only</option>
+        <option value="fishing">Fishing Only</option>
+        <option value="combo">Hunting + Fishing Combo</option>
+        <option value="deer">Deer Tag</option>
+        <option value="turkey">Turkey Tag</option>
+        <option value="waterfowl">Waterfowl Stamp</option>
+      </select>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Look Up Fees</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">License Fee</div><div class="result-value" id="licenseFee">—</div></div>
+        <div class="result-item"><div class="result-label">License Type</div><div class="result-value" id="licenseLabel">—</div></div>
+      </div>
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">Federal Duck Stamp (if waterfowl)</div><div class="result-value" id="duckStamp">—</div></div>
+        <div class="result-item"><div class="result-label">Estimated Total</div><div class="result-value" id="totalCost">—</div></div>
+      </div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Hunting License Fees by State</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Resident vs non-resident base hunting license</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Resident Hunting</th>
+          <th>Non-Res Hunting</th>
+          <th>Resident Fishing</th>
+          <th>Non-Res Fishing</th>
+          <th>Resident Combo</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Texas</td><td>$25</td><td>$315</td><td>$30</td><td>$58</td><td>$47</td></tr>
+        <tr><td>Colorado</td><td>$35</td><td>$379</td><td>$35</td><td>$97</td><td>$58</td></tr>
+        <tr><td>Montana</td><td>$18</td><td>$260</td><td>$20</td><td>$86</td><td>$33</td></tr>
+        <tr><td>Wisconsin</td><td>$20</td><td>$160</td><td>$20</td><td>$50</td><td>$35</td></tr>
+        <tr><td>Georgia</td><td>$15</td><td>$170</td><td>$15</td><td>$50</td><td>$25</td></tr>
+        <tr><td>Pennsylvania</td><td>$21</td><td>$101</td><td>$23</td><td>$53</td><td>$39</td></tr>
+        <tr><td>Michigan</td><td>$11</td><td>$151</td><td>$26</td><td>$76</td><td>$36</td></tr>
+        <tr><td>Missouri</td><td>$12</td><td>$225</td><td>$12</td><td>$42</td><td>$22</td></tr>
+        <tr><td>Alabama</td><td>$17</td><td>$315</td><td>$13</td><td>$53</td><td>$27</td></tr>
+        <tr><td>Oregon</td><td>$30</td><td>$168</td><td>$33</td><td>$98</td><td>$56</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This hunting license calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Every state requires hunters and anglers to purchase licenses before heading afield. Fees fund conservation and wildlife management programs.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Resident vs non-resident:</strong> non-resident licenses typically cost 3–10x more than resident licenses</li>
+      <li><strong>Hunting license:</strong> required base license for all game hunting in the state</li>
+      <li><strong>Species tags:</strong> deer, elk, turkey, and other big game require separate tags on top of the base license</li>
+      <li><strong>Waterfowl:</strong> requires a state waterfowl stamp plus a federal duck stamp ($25)</li>
+      <li><strong>Combo licenses:</strong> hunting + fishing bundles often save 10–20% vs buying separately</li>
+      <li>Most licenses are valid for one year from date of purchase or for the calendar/fiscal year</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Prices shown are base state fees. Additional habitat stamps, access fees, or HIP registration may be required. Always check your state wildlife agency for current pricing before purchasing.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This hunting license calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How much does a hunting license cost?</h3>
+      <p>Resident hunting licenses typically cost $10-$50 depending on the state. Non-resident licenses are significantly more expensive, ranging from $75 to over $300. Additional tags for specific species are extra.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the federal duck stamp?</h3>
+      <p>The Federal Migratory Bird Hunting and Conservation Stamp (duck stamp) costs $25 and is required for all waterfowl hunters aged 16 and older. Revenue goes directly to wetland habitat acquisition. You need this in addition to your state waterfowl stamp.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do I need a separate tag for deer?</h3>
+      <p>Yes. In most states, you need a base hunting license plus a deer tag or permit. Some states include one deer tag with the license, but many charge separately. Antlerless tags, muzzleloader tags, and archery tags may be additional.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I establish residency for hunting licenses?</h3>
+      <p>Most states require 6-12 months of continuous residency, a state driver's license, and/or voter registration. Military personnel stationed in a state often qualify for resident rates. Residency fraud is a serious offense in every state.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I buy a license online?</h3>
+      <p>Most states now offer online license purchasing through their wildlife agency website. Some charge a small convenience fee ($1-$5). You can usually print a temporary license immediately and receive the physical card by mail.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do children need a hunting license?</h3>
+      <p>Requirements vary by state. Many states offer free or reduced licenses for youth under 16. Some states require hunter education certification for all first-time buyers regardless of age. Most require adult supervision for minors.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/bullet-drop-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Bullet Drop Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate bullet trajectory, drop, and holdover from 100 to 1000 yards</span></a>
+      <a href="/reloading-cost-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Reloading Cost Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate your cost per round and savings vs. factory ammo</span></a>
+      <a href="/draw-odds-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Draw Odds Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your hunting tag draw odds based on applicants, tags, and bonus points</span></a>
+      <a href="/deer-processing-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Deer Processing Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate boneless meat yield, cut breakdown, and freezer space from your deer harvest</span></a>
+      <a href="/turkey-season-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Turkey Season Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find turkey hunting season dates and bag limits by state</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Hunting License Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var states = [
+    'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia',
+    'Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland',
+    'Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey',
+    'New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina',
+    'South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+  ];
+
+  // [res_hunting, nonres_hunting, res_fishing, nonres_fishing, res_combo, res_deer, nonres_deer, res_turkey, nonres_turkey, res_waterfowl, nonres_waterfowl]
+  var fees = {
+    'Alabama':      [17,315,13,53,27,33,385,16,100,11,11],
+    'Alaska':       [25,160,25,145,48,30,800,10,60,5,5],
+    'Arizona':      [37,160,37,55,57,45,300,22,85,7,7],
+    'Arkansas':     [10,350,11,50,19,25,250,10,60,7,7],
+    'California':   [53,183,52,142,90,33,300,24,55,10,10],
+    'Colorado':     [35,379,35,97,58,43,414,21,101,5,5],
+    'Connecticut':  [19,91,22,55,32,19,91,8,40,15,15],
+    'Delaware':     [22,110,12,40,30,20,80,10,40,6,6],
+    'Florida':      [17,152,17,47,33,5,152,5,125,3,3],
+    'Georgia':      [15,170,15,50,25,20,250,15,80,5,5],
+    'Hawaii':       [10,105,5,25,15,0,0,0,0,0,0],
+    'Idaho':        [14,155,26,98,33,32,402,20,80,10,10],
+    'Illinois':     [12,57,15,32,24,15,120,15,57,5,5],
+    'Indiana':      [17,80,17,35,25,24,150,15,80,7,7],
+    'Iowa':         [19,131,19,49,33,28,252,22,100,8,8],
+    'Kansas':       [25,97,25,50,43,40,340,20,60,8,8],
+    'Kentucky':     [27,195,20,55,40,35,275,30,65,5,5],
+    'Louisiana':    [15,300,10,60,23,25,300,12,80,6,6],
+    'Maine':        [26,115,25,64,43,30,115,20,70,8,8],
+    'Maryland':     [25,130,21,55,38,17,150,15,60,9,9],
+    'Massachusetts':[28,65,28,38,47,5,65,5,32,5,5],
+    'Michigan':     [11,151,26,76,36,20,200,15,80,11,11],
+    'Minnesota':    [22,153,22,45,35,30,180,23,80,8,8],
+    'Mississippi':  [15,300,8,40,20,25,300,10,70,5,5],
+    'Missouri':     [12,225,12,42,22,11,225,17,95,5,5],
+    'Montana':      [18,260,20,86,33,25,540,15,145,10,10],
+    'Nebraska':     [18,111,26,67,38,30,241,25,125,5,5],
+    'Nevada':       [33,142,33,80,54,30,240,15,60,10,10],
+    'New Hampshire':[13,103,25,53,33,12,103,12,50,5,5],
+    'New Jersey':   [27,138,23,51,43,28,160,22,90,5,5],
+    'New Mexico':   [15,290,15,56,25,32,310,20,100,5,5],
+    'New York':     [22,100,25,50,40,22,100,10,65,5,5],
+    'North Carolina':[20,80,15,40,30,24,250,10,55,5,5],
+    'North Dakota': [20,107,18,45,30,30,220,15,80,7,7],
+    'Ohio':         [19,127,19,40,31,24,147,23,90,11,11],
+    'Oklahoma':     [25,225,20,55,42,26,276,16,90,8,8],
+    'Oregon':       [30,168,33,98,56,32,418,25,90,9,9],
+    'Pennsylvania': [21,101,23,53,39,22,102,22,102,5,5],
+    'Rhode Island': [18,40,18,35,33,7,28,5,18,5,5],
+    'South Carolina':[12,200,10,35,21,12,200,10,75,5,5],
+    'South Dakota': [28,117,28,64,48,40,284,20,75,5,5],
+    'Tennessee':    [28,226,28,50,44,31,226,20,75,8,8],
+    'Texas':        [25,315,30,58,47,11,315,15,126,7,7],
+    'Utah':         [26,65,26,75,42,40,263,30,65,8,8],
+    'Vermont':      [28,102,28,54,50,28,102,8,25,8,8],
+    'Virginia':     [23,110,23,47,39,23,230,20,80,6,6],
+    'Washington':   [37,180,30,85,55,42,397,26,85,8,8],
+    'West Virginia':[19,119,19,37,29,30,178,15,60,5,5],
+    'Wisconsin':    [20,160,20,50,35,24,160,15,60,7,7],
+    'Wyoming':      [22,285,14,92,28,46,352,20,90,8,8]
+  };
+
+  var typeIndex = {
+    'hunting':    [0,1],
+    'fishing':    [2,3],
+    'combo':      [4,4],
+    'deer':       [5,6],
+    'turkey':     [7,8],
+    'waterfowl':  [9,10]
+  };
+
+  var typeLabels = {
+    'hunting': 'Hunting License',
+    'fishing': 'Fishing License',
+    'combo': 'Hunting + Fishing Combo',
+    'deer': 'Deer Tag',
+    'turkey': 'Turkey Tag',
+    'waterfowl': 'Waterfowl Stamp'
+  };
+
+  var sel = document.getElementById('hlState');
+  states.forEach(function(s) {
+    var o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+
+  var chartData = [
+    ['Texas','$25','$315','$30','$58','$47'],
+    ['Colorado','$35','$379','$35','$97','$58'],
+    ['Montana','$18','$260','$20','$86','$33'],
+    ['Wisconsin','$20','$160','$20','$50','$35'],
+    ['Georgia','$15','$170','$15','$50','$25'],
+    ['Pennsylvania','$21','$101','$23','$53','$39'],
+    ['Michigan','$11','$151','$26','$76','$36'],
+    ['Missouri','$12','$225','$12','$42','$22'],
+    ['Alabama','$17','$315','$13','$53','$27'],
+    ['Oregon','$30','$168','$33','$98','$56']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+  function calculate() {
+    var state = document.getElementById('hlState').value;
+    var residency = document.getElementById('residency').value;
+    var licType = document.getElementById('licenseType').value;
+
+    if (!state) return;
+
+    var data = fees[state];
+    if (!data) return;
+
+    var indices = typeIndex[licType];
+    var isResident = residency === 'resident';
+    var fee = data[isResident ? indices[0] : indices[1]];
+
+    // For combo, non-resident just gets both individual
+    if (licType === 'combo' && !isResident) {
+      fee = data[1] + data[3]; // nonres hunt + nonres fish
+    }
+
+    var duckStamp = 0;
+    if (licType === 'waterfowl') {
+      duckStamp = 25;
+    }
+    var total = fee + duckStamp;
+
+    document.getElementById('licenseFee').textContent = fmt(fee);
+    document.getElementById('licenseLabel').textContent = typeLabels[licType] + ' (' + (isResident ? 'Resident' : 'Non-Resident') + ')';
+    document.getElementById('duckStamp').textContent = licType === 'waterfowl' ? '$25 (required)' : 'N/A';
+    document.getElementById('totalCost').textContent = fmt(total);
+
+    var tip = (isResident ? 'Resident' : 'Non-resident') + ' ' + typeLabels[licType].toLowerCase() + ' in ' + state + ': ' + fmt(fee) + '. ';
+    if (!isResident) {
+      var resFee = data[indices[0]];
+      tip += 'Residents pay ' + fmt(resFee) + ' — non-residents pay ' + fmt(fee - resFee) + ' more. ';
+    }
+    tip += 'Additional stamps or permits may be required. Check state wildlife agency for current prices.';
+    document.getElementById('resultTip').textContent = tip;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Hunting License Calculator';
+  var TOOL_SLUG = 'hunting-license-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'firearms', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

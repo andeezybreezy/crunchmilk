@@ -1,0 +1,140 @@
+{
+  "slug": "shingle-calculator",
+  "toolName": "Shingle Calculator",
+  "tagline": "Calculate roofing shingles, underlayment, and nails needed for your roof",
+  "title": "Shingle Calculator — Roofing Bundles & Material Estimator",
+  "metaDescription": "Calculate shingle bundles, underlayment rolls, and nails for your roof. Enter roof dimensions and pitch for accurate material estimates.",
+  "keywords": "shingle calculator, roofing shingle calculator, how many shingles do I need, roof shingle estimator, bundles of shingles calculator",
+  "domain": "example.com",
+  "primaryColor": "#b45309",
+  "primaryDarkColor": "#92400e",
+  "ogTitle": "Shingle Calculator — Roofing Bundles & Material Estimator",
+  "ogDescription": "Calculate how many bundles of shingles you need for your roof. Get underlayment, ridge caps, and nail estimates instantly.",
+  "twitterDescription": "Free shingle calculator. Enter roof area and pitch to get bundles, underlayment, nails, and ridge cap estimates for your roofing project.",
+  "jsonLdDescription": "Calculate the number of shingle bundles, underlayment rolls, ridge cap pieces, and nails needed for a roofing project based on roof area, pitch, and waste factor.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Shingle Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate shingle bundles and materials for your roofing project.</p>\n\n    <div class=\"input-group\">\n      <label for=\"roofLength\">Roof Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roofLength\" placeholder=\"e.g. 60\" value=\"60\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roofWidth\">Roof Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"roofWidth\" placeholder=\"e.g. 30\" value=\"30\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roofPitch\">Roof Pitch</label>\n      <select id=\"roofPitch\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"1.0\">Flat (0/12)</option>\n        <option value=\"1.003\">Low (1/12)</option>\n        <option value=\"1.014\">2/12</option>\n        <option value=\"1.031\">3/12</option>\n        <option value=\"1.054\" selected>4/12 (common)</option>\n        <option value=\"1.083\">5/12</option>\n        <option value=\"1.118\">6/12</option>\n        <option value=\"1.158\">7/12</option>\n        <option value=\"1.202\">8/12</option>\n        <option value=\"1.25\">9/12</option>\n        <option value=\"1.302\">10/12</option>\n        <option value=\"1.357\">11/12</option>\n        <option value=\"1.414\">12/12 (steep)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wasteFactor\">Waste Factor (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"wasteFactor\" placeholder=\"e.g. 10\" value=\"10\" step=\"1\" min=\"5\" max=\"25\" inputmode=\"numeric\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">10% for simple roofs, 15% for complex, 20%+ for hip roofs</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ridgeLength\">Ridge &amp; Hip Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"ridgeLength\" placeholder=\"e.g. 60\" value=\"60\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"shinglePrice\">Price per Bundle ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"shinglePrice\" placeholder=\"e.g. 35\" value=\"35\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Shingles</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Shingle Bundles</div>\n          <div class=\"result-value\" id=\"rBundles\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Roofing Squares</div>\n          <div class=\"result-value\" id=\"rSquares\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Underlayment Rolls</div>\n          <div class=\"result-value\" id=\"rUnderlayment\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Ridge Cap Bundles</div>\n          <div class=\"result-value\" id=\"rRidge\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Nails (lbs)</div>\n          <div class=\"result-value\" id=\"rNails\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Estimated Cost</div>\n          <div class=\"result-value\" id=\"rCost\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates roofing shingle quantities by converting your roof footprint to actual roof area using the pitch multiplier, then dividing by coverage per bundle.",
+    "rules": [
+      "Actual roof area = footprint area × pitch multiplier (accounts for slope)",
+      "Roofing squares = actual area ÷ 100 (one 'square' = 100 sq ft)",
+      "Bundles = squares × 3 (most 3-tab and architectural shingles: 3 bundles per square)",
+      "Underlayment: 1 roll of #15 felt covers ~400 sq ft; synthetic covers ~1,000 sq ft",
+      "Ridge caps: approximately 35 linear feet per bundle of ridge cap shingles"
+    ],
+    "outro": "Complex roof shapes with many valleys, dormers, and hips require higher waste factors (15-20%). Starter strips and drip edge are not included in this estimate. Always verify measurements on-site before ordering."
+  },
+  "faq": [
+    {
+      "question": "How many bundles of shingles do I need per square?",
+      "answer": "Most shingles require 3 bundles per square (100 sq ft). Some heavier architectural shingles may require 4 or 5 bundles per square — check the manufacturer's specifications on the bundle wrapper for exact coverage."
+    },
+    {
+      "question": "How do I measure my roof from the ground?",
+      "answer": "Measure the footprint (length × width) of your home and multiply by the pitch factor. You can estimate pitch by measuring 12 inches horizontally from a rafter in the attic and noting how many inches it rises. Alternatively, use satellite imagery tools for a rough area estimate."
+    },
+    {
+      "question": "What waste factor should I use?",
+      "answer": "Use 10% for simple gable roofs with few penetrations. Use 15% for roofs with valleys, dormers, or multiple planes. Use 20% or more for complex hip roofs or roofs with many skylights and vent pipes."
+    },
+    {
+      "question": "How many nails do I need per shingle?",
+      "answer": "Standard application requires 4 nails per shingle (about 320 nails per square). In high-wind zones (110+ mph), use 6 nails per shingle (480 per square). Use 1.25\" galvanized roofing nails for new decking or 1.75\" for re-roofing over existing shingles."
+    },
+    {
+      "question": "What is the difference between 3-tab and architectural shingles?",
+      "answer": "3-tab shingles are flat, uniform, and less expensive ($25-$30/bundle). Architectural (dimensional) shingles are thicker, have a textured appearance, last 25-50 years vs 15-20 years, and cost $30-$50/bundle. Most new installations use architectural shingles."
+    },
+    {
+      "question": "Do I need underlayment under shingles?",
+      "answer": "Yes, underlayment is required by building code under all asphalt shingles. Use synthetic underlayment for best performance, or #15 felt as a budget option. In cold climates, ice and water shield membrane is required along eaves for at least the first 3 feet."
+    }
+  ],
+  "relatedTools": [
+    "roofing-calculator",
+    "gutter-calculator",
+    "soffit-calculator",
+    "fascia-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator"
+  ],
+  "chart": {
+    "title": "Shingle Bundles by Roof Size",
+    "subtitle": "4/12 pitch, 10% waste factor, 3 bundles per square",
+    "columns": [
+      "Roof Footprint",
+      "Actual Area",
+      "Squares",
+      "Bundles",
+      "Est. Cost"
+    ],
+    "rows": [
+      [
+        "1,000 sq ft",
+        "1,054 sq ft",
+        "11",
+        "33",
+        "$1,155"
+      ],
+      [
+        "1,500 sq ft",
+        "1,581 sq ft",
+        "16",
+        "48",
+        "$1,680"
+      ],
+      [
+        "2,000 sq ft",
+        "2,108 sq ft",
+        "22",
+        "66",
+        "$2,310"
+      ],
+      [
+        "2,500 sq ft",
+        "2,635 sq ft",
+        "27",
+        "81",
+        "$2,835"
+      ],
+      [
+        "3,000 sq ft",
+        "3,162 sq ft",
+        "33",
+        "99",
+        "$3,465"
+      ],
+      [
+        "3,500 sq ft",
+        "3,689 sq ft",
+        "38",
+        "114",
+        "$3,990"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This shingle calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This shingle calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

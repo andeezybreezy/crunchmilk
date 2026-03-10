@@ -1,0 +1,107 @@
+{
+  "slug": "wall-framing-calculator",
+  "toolName": "Wall Framing Calculator",
+  "tagline": "Calculate studs, plates, and headers for any wall layout",
+  "title": "Wall Framing Calculator — Studs, Plates & Headers",
+  "metaDescription": "Calculate wall framing materials: studs, plates, and headers. Enter wall length, stud spacing, and openings for a complete cut list.",
+  "keywords": "wall framing calculator, stud calculator, framing calculator, wall stud calculator, header size calculator",
+  "primaryColor": "#78350f",
+  "primaryDarkColor": "#451a03",
+  "domain": "example.com",
+  "ogTitle": "Wall Framing Calculator — Studs, Plates & Headers",
+  "ogDescription": "Calculate wall framing: studs, top/bottom plates, and headers for doors and windows. Full material list.",
+  "twitterDescription": "Calculate wall framing materials including studs, plates, and headers for any wall layout.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Wall Framing Calculator",
+    "description": "Calculate wall framing materials: studs, plates, and headers for doors and windows.",
+    "url": "https://example.com/wall-framing-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many studs do I need for a wall?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For 16\" on-center spacing: multiply wall length in feet by 0.75, then add 1 for the end. Add 2 king studs and 2 jack studs per opening, plus cripple studs above and below windows. A typical rule of thumb is 1 stud per linear foot plus 10-15% for waste and extras."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between 16\" and 24\" on-center framing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "16\" OC (on-center) means studs are spaced 16 inches apart center-to-center, which is standard for load-bearing walls and most residential construction. 24\" OC spacing uses fewer studs and is allowed for non-load-bearing interior walls and some energy-efficient designs (Advanced Framing / OVE)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are king studs and jack studs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "King studs run full height from bottom plate to top plate on each side of an opening. Jack studs (trimmers) are shorter studs that support the header — they run from the bottom plate up to the bottom of the header. Each opening requires 2 king studs and 2 jack studs (one of each per side)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I size a header?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Header size depends on the opening width and load above. General guidelines: up to 4 ft opening = double 2×6, up to 6 ft = double 2×8, up to 8 ft = double 2×10, up to 10 ft = double 2×12. For load-bearing walls with significant loads above, consult an engineer or local code span tables."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do I need a double top plate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The double top plate ties wall sections together and distributes loads from above. The second plate overlaps joints in the first plate and connects intersecting walls. Some advanced framing techniques use a single top plate with metal connector plates at joints, but double top plate is standard practice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many plates do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard wall framing uses 3 plates per wall run: 1 bottom (sole) plate and 2 top plates (double top plate). Total plate length = wall length × 3. For a 20-foot wall, you need 60 linear feet of plate material. Use treated lumber for the bottom plate on concrete slabs."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Wall Framing Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"wallLength\">Wall Length (feet)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"wallLength\" placeholder=\"e.g. 20\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"20\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wallHeight\">Wall Height (feet)</label>\n    <div class=\"input-row\">\n      <select id=\"wallHeight\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"8\" selected>8 ft (standard)</option>\n        <option value=\"9\">9 ft</option>\n        <option value=\"10\">10 ft</option>\n        <option value=\"12\">12 ft</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"studSpacing\">Stud Spacing</label>\n    <div class=\"input-row\">\n      <select id=\"studSpacing\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"16\" selected>16\" OC (standard)</option>\n        <option value=\"24\">24\" OC (non-bearing / advanced)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"corners\">Corner / Intersection Posts</label>\n    <div class=\"input-row\">\n      <select id=\"corners\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"0\">None</option>\n        <option value=\"1\">1 corner / intersection</option>\n        <option value=\"2\" selected>2 corners</option>\n        <option value=\"3\">3 corners / intersections</option>\n        <option value=\"4\">4</option>\n      </select>\n    </div>\n  </div>\n\n  <h3 style=\"margin-top:20px;margin-bottom:12px\">Openings</h3>\n  <div id=\"openingsList\"></div>\n  <button type=\"button\" id=\"addDoorBtn\" class=\"convert-btn\" style=\"margin-right:8px;margin-bottom:8px\">+ Door (36\"&times;80\")</button>\n  <button type=\"button\" id=\"addWindowBtn\" class=\"convert-btn\" style=\"margin-bottom:8px\">+ Window (36\"&times;48\")</button>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Full Studs</div>\n        <div class=\"result-value\" id=\"outStuds\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">King Studs</div>\n        <div class=\"result-value\" id=\"outKing\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Jack Studs (trimmers)</div>\n        <div class=\"result-value\" id=\"outJack\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cripple Studs</div>\n        <div class=\"result-value\" id=\"outCripple\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Plates (linear ft)</div>\n        <div class=\"result-value\" id=\"outPlates\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Headers</div>\n        <div class=\"result-value\" id=\"outHeaders\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Studs (all types)</div>\n        <div class=\"result-value\" id=\"outTotalStuds\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Corner/Intersection Studs</div>\n        <div class=\"result-value\" id=\"outCornerStuds\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">Enter wall dimensions to calculate framing.</div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Header Sizing Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">General header sizes for load-bearing walls. Always verify with local building codes and engineering for specific conditions.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Opening Width</th><th>Header Size</th><th>Jack Studs Each Side</th><th>Notes</th></tr></thead>\n      <tbody>\n        <tr><td>Up to 4'</td><td>Double 2&times;6</td><td>1</td><td>Standard door/window</td></tr>\n        <tr><td>4' to 6'</td><td>Double 2&times;8</td><td>1</td><td>Wide window</td></tr>\n        <tr><td>6' to 8'</td><td>Double 2&times;10</td><td>2</td><td>Patio door / large window</td></tr>\n        <tr><td>8' to 10'</td><td>Double 2&times;12</td><td>2</td><td>Garage door (single)</td></tr>\n        <tr><td>10' to 12'</td><td>Engineered / LVL</td><td>2+</td><td>Engineer required</td></tr>\n        <tr><td>12'+</td><td>Steel or LVL beam</td><td>Per engineer</td><td>Engineer required</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How Wall Framing Is Calculated</h2>\n  <p style=\"margin-bottom:12px\">Wall framing calculations determine the number of studs, plates, and headers needed. Standard residential framing uses 2&times;4 or 2&times;6 studs at 16\" on-center.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fde68a;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Studs = (Wall Length &times; 12 &divide; Spacing) + 1 + Opening Extras</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Regular studs:</strong> wall length in inches &divide; spacing + 1</li>\n    <li><strong>Per opening:</strong> 2 king studs + 2 jack studs + cripple studs</li>\n    <li><strong>Cripples above:</strong> opening width &divide; spacing (above header and below sill for windows)</li>\n    <li><strong>Corner posts:</strong> 3 studs per corner or wall intersection</li>\n    <li><strong>Plates:</strong> wall length &times; 3 (1 bottom + 2 top)</li>\n    <li>Subtract studs displaced by openings from regular stud count</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\"><h3>How many studs do I need for a wall?</h3><p>For 16\" OC spacing: multiply wall length in feet by 0.75, then add 1 for the end. Add 2 king studs and 2 jack studs per opening, plus cripple studs. A common rule of thumb is about 1 stud per foot plus 10-15% for waste and extras.</p></div>\n  <div class=\"faq-item\"><h3>What is the difference between 16\" and 24\" on-center?</h3><p>16\" OC is standard for load-bearing walls and most residential construction. 24\" OC uses fewer studs and is allowed for non-load-bearing interior walls and some advanced framing (OVE) techniques in energy-efficient construction.</p></div>\n  <div class=\"faq-item\"><h3>What are king studs and jack studs?</h3><p>King studs run full height on each side of an opening. Jack studs (trimmers) support the header from below. Each opening needs 2 king studs and 2 jack studs (one of each per side).</p></div>\n  <div class=\"faq-item\"><h3>How do I size a header?</h3><p>Header size depends on opening width and load: up to 4 ft = double 2×6, up to 6 ft = double 2×8, up to 8 ft = double 2×10, up to 10 ft = double 2×12. Consult local codes for load-bearing walls.</p></div>\n  <div class=\"faq-item\"><h3>Why is a double top plate needed?</h3><p>The double top plate ties wall sections together and distributes loads. The second plate overlaps joints in the first and connects intersecting walls. Single top plates are used in some advanced framing with metal connectors at joints.</p></div>\n  <div class=\"faq-item\"><h3>How many plates do I need?</h3><p>Standard framing: 3 plates per wall (1 bottom + 2 top). Total plate length = wall length × 3. For a 20 ft wall, that is 60 linear feet. Use treated lumber for the bottom plate on concrete slabs.</p></div>\n</div>",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This wall framing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This wall framing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

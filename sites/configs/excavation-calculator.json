@@ -1,0 +1,140 @@
+{
+  "slug": "excavation-calculator",
+  "toolName": "Excavation Calculator",
+  "tagline": "Calculate excavation volume, dirt removal, and hauling costs for any dig project",
+  "title": "Excavation Calculator — Dirt Volume & Hauling Estimator",
+  "metaDescription": "Calculate excavation volume in cubic yards and truck loads. Enter length, width, and depth for dirt removal and hauling estimates.",
+  "keywords": "excavation calculator, dirt removal calculator, cubic yards calculator, excavation cost, how many truck loads, dig volume calculator",
+  "domain": "example.com",
+  "primaryColor": "#92400e",
+  "primaryDarkColor": "#78350f",
+  "ogTitle": "Excavation Calculator — Dirt Volume & Hauling Estimator",
+  "ogDescription": "Calculate excavation volume in cubic yards and estimate truck loads for dirt removal. Enter dimensions for instant volume and cost estimates.",
+  "twitterDescription": "Free excavation calculator. Enter length, width, and depth to calculate cubic yards, truck loads, and hauling costs for your dig project.",
+  "jsonLdDescription": "Calculate excavation volume in cubic yards, estimate dump truck loads needed for dirt removal, and factor in soil swell for accurate hauling estimates.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Excavation Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate dig volume and dirt hauling needs.</p>\n\n    <div class=\"input-group\">\n      <label for=\"excLength\">Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"excLength\" placeholder=\"e.g. 40\" value=\"40\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"excWidth\">Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"excWidth\" placeholder=\"e.g. 20\" value=\"20\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"excDepth\">Depth (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"excDepth\" placeholder=\"e.g. 3\" value=\"3\" step=\"0.25\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"soilType\">Soil Type</label>\n      <select id=\"soilType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"clay\">Clay (heavy, 1.5 tons/cu yd)</option>\n        <option value=\"loam\" selected>Loam / Topsoil (1.3 tons/cu yd)</option>\n        <option value=\"sand\">Sand (1.4 tons/cu yd)</option>\n        <option value=\"gravel\">Gravel (1.5 tons/cu yd)</option>\n        <option value=\"rock\">Rock / Hard Pan (1.8 tons/cu yd)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"truckSize\">Dump Truck Size</label>\n      <select id=\"truckSize\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"10\">Single axle (10 cu yd)</option>\n        <option value=\"14\" selected>Tandem axle (14 cu yd)</option>\n        <option value=\"18\">Tri-axle (18 cu yd)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"haulPrice\">Hauling Cost per Load ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"haulPrice\" placeholder=\"e.g. 350\" value=\"350\" step=\"25\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Excavation</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Bank Volume</div>\n          <div class=\"result-value\" id=\"rBank\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Swell Volume</div>\n          <div class=\"result-value\" id=\"rSwell\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Weight</div>\n          <div class=\"result-value\" id=\"rWeight\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Truck Loads</div>\n          <div class=\"result-value\" id=\"rLoads\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Hauling Cost</div>\n          <div class=\"result-value\" id=\"rHaulCost\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Excavation Area</div>\n          <div class=\"result-value\" id=\"rArea\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator computes excavation volume in bank (in-ground) cubic yards, then applies a swell factor to estimate the actual loose volume that needs to be hauled away.",
+    "rules": [
+      "Bank volume (cu yd) = length × width × depth ÷ 27 (volume in the ground)",
+      "Swell factor: soil expands 20-40% when excavated (clay: 30%, sand: 15%, rock: 40%)",
+      "Loose volume = bank volume × swell factor (this is what fills the trucks)",
+      "Truck loads = loose volume ÷ truck capacity (round up to whole loads)",
+      "Weight estimate: varies by soil type from 1.3 tons/cu yd (loam) to 1.8 tons/cu yd (rock)"
+    ],
+    "outro": "Always factor in swell when estimating hauling needs — 100 cubic yards in the ground becomes 120-140 cubic yards on a truck. Disposal fees ($5-$15 per ton at most landfills) are additional. Some soils may need environmental testing before disposal."
+  },
+  "faq": [
+    {
+      "question": "How many cubic yards is my excavation?",
+      "answer": "Cubic yards = length (ft) × width (ft) × depth (ft) ÷ 27. A 40×20×3 foot dig = 2,400 cu ft ÷ 27 = 88.9 bank cubic yards. After swell (25% typical), you'll have about 111 loose cubic yards to haul away."
+    },
+    {
+      "question": "What is swell factor in excavation?",
+      "answer": "Swell factor is how much soil expands when removed from the ground. Clay swells 30-40%, loam 20-30%, sand 10-15%, and rock 40-50%. This means 10 cubic yards in the ground becomes 13 cubic yards of loose soil on a truck."
+    },
+    {
+      "question": "How many truck loads to remove excavated dirt?",
+      "answer": "A standard tandem dump truck holds 10-14 cubic yards. For 100 loose cubic yards: 8-10 truck loads with a tandem. A tri-axle holds 16-18 cubic yards, reducing loads. Always calculate using loose (swell) volume, not bank volume."
+    },
+    {
+      "question": "How much does excavation cost per cubic yard?",
+      "answer": "Excavation costs $5-$15 per cubic yard for machine digging (mini excavator or backhoe). Hauling adds $15-$25 per cubic yard. Disposal fees add $5-$15 per ton. Total cost is typically $25-$50 per cubic yard including dig, haul, and disposal."
+    },
+    {
+      "question": "Do I need a permit to excavate?",
+      "answer": "Most jurisdictions require a permit for excavations deeper than 4 feet, any digging near property lines, or any dig that could affect neighboring structures. Always call 811 (Call Before You Dig) at least 3 days before any excavation to locate underground utilities."
+    },
+    {
+      "question": "Can I keep the excavated dirt on my property?",
+      "answer": "Yes, if you have space for it. Excavated soil can be used for grading, fill, raised gardens, or berms. However, it will take up 20-40% more space than the hole due to swell. Clay soil is poor for fill; sandy loam is preferred. Some soils (near gas stations, industrial sites) may be contaminated."
+    }
+  ],
+  "relatedTools": [
+    "gravel-calculator",
+    "concrete-slab-calculator",
+    "post-hole-calculator",
+    "retaining-wall-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Excavation Volume by Dimensions",
+    "subtitle": "Loam soil, 25% swell factor, tandem truck (14 cu yd)",
+    "columns": [
+      "Dimensions (L×W×D)",
+      "Bank Cu Yd",
+      "Loose Cu Yd",
+      "Weight (tons)",
+      "Truck Loads"
+    ],
+    "rows": [
+      [
+        "10×10×2'",
+        "7.4",
+        "9.3",
+        "9.6",
+        "1"
+      ],
+      [
+        "20×20×3'",
+        "44.4",
+        "55.6",
+        "57.8",
+        "4"
+      ],
+      [
+        "30×20×3'",
+        "66.7",
+        "83.3",
+        "86.7",
+        "6"
+      ],
+      [
+        "40×20×3'",
+        "88.9",
+        "111.1",
+        "115.6",
+        "8"
+      ],
+      [
+        "50×30×4'",
+        "222.2",
+        "277.8",
+        "288.9",
+        "20"
+      ],
+      [
+        "60×40×4'",
+        "355.6",
+        "444.4",
+        "462.2",
+        "32"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This excavation calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This excavation calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

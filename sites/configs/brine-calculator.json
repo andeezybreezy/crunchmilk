@@ -1,0 +1,155 @@
+{
+  "slug": "brine-calculator",
+  "toolName": "Brine Calculator",
+  "tagline": "Calculate exact salt amounts for wet brine, dry brine, and equilibrium brining",
+  "title": "Brine Calculator",
+  "metaDescription": "Calculate exact brine salt amounts for turkey, chicken, and pork. Wet brine, dry brine, and equilibrium methods. Results in oz, grams, cups, and tbsp.",
+  "keywords": "brine calculator, turkey brine calculator, brine ratio, salt to water ratio, wet brine calculator, dry brine calculator",
+  "domain": "example.com",
+  "primaryColor": "#b91c1c",
+  "primaryDarkColor": "#991b1b",
+  "ogTitle": "Brine Calculator — Perfect Brine Every Time",
+  "ogDescription": "Calculate exact salt amounts for brining turkey, chicken, pork, and more. Wet, dry, and equilibrium methods.",
+  "twitterDescription": "Calculate exact brine salt amounts for any meat. Wet, dry, and equilibrium methods.",
+  "jsonLdDescription": "Calculate salt-to-water ratios for wet brine, dry brine, and equilibrium brining methods.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Brine Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"brineMethod\">Brine Method</label>\n      <div class=\"input-row\">\n        <select id=\"brineMethod\" aria-label=\"Brine method\">\n          <option value=\"wet\">Wet Brine</option>\n          <option value=\"dry\">Dry Brine</option>\n          <option value=\"equilibrium\">Equilibrium Brine</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"waterGroup\">\n      <label for=\"waterAmount\">Water Volume</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"waterAmount\" placeholder=\"e.g. 1\" step=\"0.25\" inputmode=\"decimal\" aria-label=\"Water amount\">\n        <div class=\"unit-toggle\" role=\"group\" aria-label=\"Volume unit\">\n          <button type=\"button\" class=\"active\" data-unit=\"gal\" aria-pressed=\"true\">Gallons</button>\n          <button type=\"button\" data-unit=\"L\" aria-pressed=\"false\">Liters</button>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"meatWeightGroup\" style=\"display:none;\">\n      <label for=\"meatWeight\">Meat Weight (lbs)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"meatWeight\" placeholder=\"e.g. 12\" step=\"0.5\" inputmode=\"decimal\" aria-label=\"Meat weight in pounds\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"brinePct\">Brine Concentration (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"brinePct\" value=\"5\" min=\"1\" max=\"26\" step=\"0.5\" inputmode=\"decimal\" aria-label=\"Brine percentage\">\n        <span style=\"color:#666;font-size:0.85rem;margin-left:8px;\">3-5% mild &bull; 5-8% standard &bull; 8-10% strong</span>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label><input type=\"checkbox\" id=\"addSugar\"> Add sugar (equal to salt amount)</label>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate Brine</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <h3>Brine Recipe</h3>\n      <div id=\"brineOutput\"></div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n\n    <div class=\"presets\">\n      <h3>Presets by Meat Type</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Brining uses salt to season meat deeply and retain moisture during cooking. The salt concentration determines how quickly and intensely the meat is seasoned.",
+    "rules": [
+      "<strong>Wet brine formula:</strong> salt (g) = water weight (g) × brine% ÷ (100 − brine%)",
+      "<strong>Dry brine:</strong> apply 0.5% of meat weight in salt, refrigerate uncovered 12-48 hours",
+      "<strong>Equilibrium brine:</strong> salt = (water weight + meat weight) × desired salt % (usually 1.5-2%)"
+    ],
+    "outro": "Always use non-iodized salt (kosher or sea salt) for brining. Different salt types have different densities — this calculator provides weight measurements for accuracy. Rinse wet-brined meat before cooking."
+  },
+  "faq": [
+    {
+      "question": "What is the difference between wet and dry brine?",
+      "answer": "Wet brine submerges meat in salt water, drawing moisture in through osmosis. Dry brine coats meat with salt and lets it sit uncovered in the fridge — the salt draws out moisture, dissolves, and is reabsorbed. Dry brining gives crispier skin and more concentrated flavor with less hassle."
+    },
+    {
+      "question": "What percentage brine should I use?",
+      "answer": "For poultry, 5-8% is standard. For pork, 5-6% works well. For a mild brine (chicken breasts, fish), use 3-5%. Higher concentrations (8-10%) work for shorter brining times. Never exceed 10% for overnight brines or the meat may become overly salty."
+    },
+    {
+      "question": "How long should I brine?",
+      "answer": "Turkey: 12-24 hours. Whole chicken: 4-12 hours. Chicken breasts: 1-2 hours. Pork chops: 2-4 hours. Pork shoulder: 12-24 hours. Fish fillets: 30-60 minutes. When in doubt, shorter is safer — you can always brine longer next time."
+    },
+    {
+      "question": "What is equilibrium brining?",
+      "answer": "Equilibrium brining calculates salt based on the combined weight of meat AND water. You use a lower salt percentage (1.5-2%) but can leave the meat in the brine for days without it becoming too salty. It's more precise and nearly foolproof."
+    },
+    {
+      "question": "Should I add sugar to my brine?",
+      "answer": "Sugar is optional but recommended for poultry and pork. It balances the saltiness, promotes browning, and adds a subtle sweetness. Use brown sugar for richer flavor. The general rule is equal parts salt and sugar, but you can adjust to taste."
+    },
+    {
+      "question": "Does the type of salt matter?",
+      "answer": "Yes. Different salts have different densities. 1 cup of table salt weighs about 285g, while 1 cup of Morton kosher salt weighs about 135g, and 1 cup of Diamond Crystal weighs about 110g. This calculator gives weight measurements to avoid confusion."
+    }
+  ],
+  "chart": {
+    "title": "Brining Guide by Meat Type",
+    "subtitle": "Recommended brine concentrations and times.",
+    "columns": [
+      "Meat",
+      "Brine %",
+      "Time",
+      "Method"
+    ],
+    "rows": [
+      [
+        "Whole Turkey (12-16 lbs)",
+        "5-8%",
+        "12-24 hours",
+        "Wet or dry"
+      ],
+      [
+        "Turkey Breast",
+        "5-6%",
+        "6-12 hours",
+        "Wet or dry"
+      ],
+      [
+        "Whole Chicken",
+        "5-6%",
+        "4-12 hours",
+        "Wet or dry"
+      ],
+      [
+        "Chicken Breasts",
+        "3-5%",
+        "1-2 hours",
+        "Wet"
+      ],
+      [
+        "Chicken Thighs",
+        "5%",
+        "2-4 hours",
+        "Wet or dry"
+      ],
+      [
+        "Pork Chops",
+        "5-6%",
+        "2-4 hours",
+        "Wet"
+      ],
+      [
+        "Pork Tenderloin",
+        "5%",
+        "2-4 hours",
+        "Wet"
+      ],
+      [
+        "Pork Shoulder",
+        "5-6%",
+        "12-24 hours",
+        "Wet or dry"
+      ],
+      [
+        "Salmon Fillet",
+        "3-5%",
+        "30-60 min",
+        "Wet"
+      ],
+      [
+        "Shrimp",
+        "3%",
+        "15-30 min",
+        "Wet"
+      ]
+    ]
+  },
+  "category": "cooking",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This brine calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This brine calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "air-fryer-calculator",
+    "convection-oven-calculator",
+    "slow-cooker-converter",
+    "pressure-cooker-converter",
+    "sous-vide-calculator",
+    "recipe-scaling-calculator",
+    "bakers-percentage-calculator",
+    "bread-hydration-calculator"
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "slug": "depth-of-field-calculator",
+  "toolName": "Depth of Field Calculator",
+  "tagline": "Calculate near focus, far focus, and hyperfocal distance for any lens",
+  "title": "Depth of Field Calculator — DoF, Hyperfocal Distance & Focus Range",
+  "metaDescription": "Calculate depth of field, hyperfocal distance, and focus range for any lens. Enter focal length, aperture, and distance. Free DoF calculator.",
+  "keywords": "depth of field calculator, DoF calculator, hyperfocal distance, aperture depth of field, focus distance calculator, photography calculator",
+  "domain": "example.com",
+  "primaryColor": "#1e40af",
+  "primaryDarkColor": "#1e3a8a",
+  "ogTitle": "Depth of Field Calculator — DoF & Hyperfocal Distance",
+  "ogDescription": "Calculate depth of field, hyperfocal distance, and focus range for any camera lens and sensor size.",
+  "twitterDescription": "Calculate depth of field and hyperfocal distance for any camera lens.",
+  "jsonLdDescription": "Calculate depth of field, near focus, far focus, and hyperfocal distance based on focal length, aperture, subject distance, and sensor size.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Depth of Field Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"focalLength\">Focal Length (mm)</label>\n      <input type=\"number\" id=\"focalLength\" placeholder=\"e.g. 50\" value=\"50\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"aperture\">Aperture (f-stop)</label>\n      <select id=\"aperture\">\n        <option value=\"1.4\">f/1.4</option>\n        <option value=\"1.8\">f/1.8</option>\n        <option value=\"2\">f/2</option>\n        <option value=\"2.8\" selected>f/2.8</option>\n        <option value=\"4\">f/4</option>\n        <option value=\"5.6\">f/5.6</option>\n        <option value=\"8\">f/8</option>\n        <option value=\"11\">f/11</option>\n        <option value=\"16\">f/16</option>\n        <option value=\"22\">f/22</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"distance\">Distance to Subject</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"distance\" placeholder=\"e.g. 10\" value=\"10\" inputmode=\"decimal\">\n        <div class=\"unit-toggle\" role=\"group\" aria-label=\"Distance unit\">\n          <button type=\"button\" class=\"active\" data-unit=\"ft\" aria-pressed=\"true\">Feet</button>\n          <button type=\"button\" data-unit=\"m\" aria-pressed=\"false\">Meters</button>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"sensorSize\">Sensor Size</label>\n      <select id=\"sensorSize\">\n        <option value=\"ff\" selected>Full Frame (36×24mm)</option>\n        <option value=\"apsc\">APS-C (23.5×15.6mm)</option>\n        <option value=\"mft\">Micro Four Thirds (17.3×13mm)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate DoF</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Depth of Field</div>\n          <div class=\"result-value\" id=\"totalDof\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Hyperfocal Distance</div>\n          <div class=\"result-value\" id=\"hyperfocal\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Near Focus Limit</div>\n          <div class=\"result-value\" id=\"nearFocus\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Far Focus Limit</div>\n          <div class=\"result-value\" id=\"farFocus\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Depth of field (DoF) is the range of distance in a photo that appears acceptably sharp. It depends on focal length, aperture, subject distance, and sensor size.",
+    "rules": [
+      "<strong>Wider apertures</strong> (lower f-numbers like f/1.4) create shallower DoF — great for portraits",
+      "<strong>Longer focal lengths</strong> compress the background and create shallower DoF at the same distance",
+      "<strong>Closer subjects</strong> have shallower DoF — macro photography has extremely thin focus planes"
+    ],
+    "outro": "The hyperfocal distance is the closest focus distance at which everything from half that distance to infinity is acceptably sharp — essential for landscape photography."
+  },
+  "faq": [
+    {
+      "question": "What is depth of field in photography?",
+      "answer": "Depth of field (DoF) is the distance range between the nearest and farthest objects in a photo that appear acceptably sharp. A shallow DoF means only a thin slice is in focus (like a portrait with blurred background), while a deep DoF means most of the scene is sharp (like a landscape)."
+    },
+    {
+      "question": "What is the circle of confusion?",
+      "answer": "The circle of confusion (CoC) is the largest blur circle that the human eye perceives as a point. It varies by sensor size: 0.03mm for full frame, 0.02mm for APS-C, and 0.015mm for Micro Four Thirds. Smaller sensors have stricter CoC values because they require more enlargement for the same print size."
+    },
+    {
+      "question": "What is hyperfocal distance?",
+      "answer": "The hyperfocal distance is the focus distance that maximizes depth of field. When you focus at the hyperfocal distance, everything from half that distance to infinity will be acceptably sharp. Landscape photographers use this technique to get the sharpest possible images from foreground to horizon."
+    },
+    {
+      "question": "How does aperture affect depth of field?",
+      "answer": "Wider apertures (smaller f-numbers like f/1.4 or f/2) create shallower depth of field, isolating your subject from the background. Narrower apertures (larger f-numbers like f/11 or f/16) create deeper depth of field, keeping more of the scene in focus. Most lenses are sharpest around f/5.6 to f/8."
+    },
+    {
+      "question": "Does sensor size affect depth of field?",
+      "answer": "Yes. Larger sensors produce shallower depth of field at the same field of view. A full frame camera at 50mm f/2.8 has shallower DoF than an APS-C camera at 35mm f/2.8 (equivalent field of view). This is why full frame cameras are preferred for portrait photography."
+    },
+    {
+      "question": "How do I get maximum sharpness in landscape photos?",
+      "answer": "Focus at the hyperfocal distance for your lens and aperture. Use f/8 to f/11 for the best balance of DoF and lens sharpness (avoiding diffraction). Use a tripod and mirror lock-up or electronic shutter to eliminate camera shake."
+    }
+  ],
+  "chart": {
+    "title": "Depth of Field Quick Reference — 50mm Lens, Full Frame",
+    "subtitle": "Subject distance = 10 feet. Shows total DoF range.",
+    "columns": [
+      "Aperture",
+      "Near Focus",
+      "Far Focus",
+      "Total DoF",
+      "Hyperfocal"
+    ],
+    "rows": [
+      [
+        "f/1.4",
+        "9.76 ft",
+        "10.25 ft",
+        "0.49 ft",
+        "195 ft"
+      ],
+      [
+        "f/1.8",
+        "9.69 ft",
+        "10.32 ft",
+        "0.63 ft",
+        "152 ft"
+      ],
+      [
+        "f/2.8",
+        "9.52 ft",
+        "10.52 ft",
+        "1.00 ft",
+        "97 ft"
+      ],
+      [
+        "f/4",
+        "9.32 ft",
+        "10.76 ft",
+        "1.44 ft",
+        "68 ft"
+      ],
+      [
+        "f/5.6",
+        "9.07 ft",
+        "11.09 ft",
+        "2.02 ft",
+        "49 ft"
+      ],
+      [
+        "f/8",
+        "8.71 ft",
+        "11.63 ft",
+        "2.92 ft",
+        "34 ft"
+      ],
+      [
+        "f/11",
+        "8.28 ft",
+        "12.41 ft",
+        "4.13 ft",
+        "25 ft"
+      ],
+      [
+        "f/16",
+        "7.72 ft",
+        "13.63 ft",
+        "5.91 ft",
+        "17 ft"
+      ],
+      [
+        "f/22",
+        "7.11 ft",
+        "15.42 ft",
+        "8.31 ft",
+        "13 ft"
+      ]
+    ]
+  },
+  "category": "photography",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This depth of field calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This depth of field calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "print-size-calculator",
+    "aspect-ratio-calculator",
+    "dpi-calculator"
+  ]
+}

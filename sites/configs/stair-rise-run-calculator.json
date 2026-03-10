@@ -1,0 +1,148 @@
+{
+  "slug": "stair-rise-run-calculator",
+  "toolName": "Stair Rise & Run Calculator",
+  "tagline": "Calculate stair dimensions that meet building code for rise, run, and headroom",
+  "title": "Stair Rise & Run Calculator — Code-Compliant Step Dimensions",
+  "metaDescription": "Calculate stair rise, run, and number of steps to meet building code. Enter total height to get code-compliant stair dimensions.",
+  "keywords": "stair rise run calculator, stair calculator, step calculator, stair dimensions, stair building code, staircase calculator",
+  "domain": "example.com",
+  "primaryColor": "#0891b2",
+  "primaryDarkColor": "#0e7490",
+  "ogTitle": "Stair Rise & Run Calculator — Code-Compliant Step Dimensions",
+  "ogDescription": "Calculate code-compliant stair rise and run dimensions. Enter total height and get step count, riser height, tread depth, and stringer length.",
+  "twitterDescription": "Free stair rise & run calculator. Enter total height to get code-compliant dimensions for risers, treads, stringers, and headroom.",
+  "jsonLdDescription": "Calculate stair rise and run dimensions including number of steps, riser height, tread depth, stringer length, and building code compliance based on total floor-to-floor height.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Stair Rise &amp; Run Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate code-compliant stair dimensions from total floor-to-floor height.</p>\n\n    <div class=\"input-group\">\n      <label for=\"totalRise\">Total Rise — Floor to Floor (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"totalRise\" placeholder=\"e.g. 108\" value=\"108\" step=\"0.25\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Standard 9' ceiling = ~108\" total rise</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"desiredRise\">Desired Riser Height (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"desiredRise\" placeholder=\"e.g. 7.5\" value=\"7.5\" step=\"0.125\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Code max: 7.75\" — Comfortable: 7\" to 7.5\"</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"treadDepth\">Tread Depth / Run (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"treadDepth\" placeholder=\"e.g. 10.5\" value=\"10.5\" step=\"0.25\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Code min: 10\" — Comfortable: 10\" to 11\"</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"stairWidth\">Stair Width (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"stairWidth\" placeholder=\"e.g. 36\" value=\"36\" step=\"1\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Code min: 36\" clear width</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"noseOverhang\">Nosing Overhang (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"noseOverhang\" placeholder=\"e.g. 1\" value=\"1\" step=\"0.125\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Stairs</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Number of Risers</div>\n          <div class=\"result-value\" id=\"rRisers\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Actual Rise</div>\n          <div class=\"result-value\" id=\"rActualRise\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Number of Treads</div>\n          <div class=\"result-value\" id=\"rTreads\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Run</div>\n          <div class=\"result-value\" id=\"rTotalRun\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Stringer Length</div>\n          <div class=\"result-value\" id=\"rStringer\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Stair Angle</div>\n          <div class=\"result-value\" id=\"rAngle\">—</div>\n        </div>\n      </div>\n      <div id=\"codeCheck\" style=\"margin-top:16px;padding:12px;border-radius:8px;font-size:0.9rem\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator determines code-compliant stair dimensions by dividing total floor-to-floor height by desired riser height, then checking against IRC building code requirements.",
+    "rules": [
+      "Number of risers = total rise ÷ desired riser height (rounded to nearest whole number)",
+      "Actual riser height = total rise ÷ number of risers",
+      "Number of treads = number of risers − 1 (the floor counts as the last tread)",
+      "Total run = number of treads × tread depth",
+      "Stringer length = √(total rise² + total run²) — the hypotenuse",
+      "Comfort rule: rise + run should be between 17\" and 18\" for optimal comfort"
+    ],
+    "outro": "IRC 2021 code limits: max riser height 7.75\", min tread depth 10\", min width 36\" clear, min headroom 6'8\". All risers must be uniform within 3/8\" of each other. Local codes may be stricter — always verify with your building department."
+  },
+  "faq": [
+    {
+      "question": "What is the ideal stair rise and run?",
+      "answer": "The ideal residential stair has a 7\" to 7.5\" rise and 10\" to 11\" run. The classic comfort rule is that rise + run should equal 17\" to 18\". A 7\" rise with 11\" run (total 18\") is widely considered the most comfortable combination."
+    },
+    {
+      "question": "What is the maximum riser height allowed by code?",
+      "answer": "The IRC (International Residential Code) allows a maximum riser height of 7.75\" (7-3/4\"). The minimum tread depth is 10\". Some states and municipalities have stricter requirements — California, for example, limits risers to 7.5\" in some cases."
+    },
+    {
+      "question": "How do I calculate stringer length?",
+      "answer": "Stringer length is the hypotenuse of the stair triangle: √(total rise² + total run²). For example, with a 108\" total rise and 147\" total run, the stringer length is √(108² + 147²) = √(11,664 + 21,609) = √33,273 ≈ 182.4\" or about 15.2 feet."
+    },
+    {
+      "question": "What angle should stairs be?",
+      "answer": "Residential stairs should be between 30° and 37° for comfortable use. The ideal angle is about 33-34°. Steeper than 37° feels unsafe; shallower than 30° wastes floor space. Code-compliant stairs (7.75\" rise, 10\" run) result in about 37.8°."
+    },
+    {
+      "question": "How many steps for a 9-foot ceiling?",
+      "answer": "A 9-foot ceiling typically requires 14-15 risers. With a 9' ceiling, total rise is about 108-110\" (including floor/ceiling thickness). At 7.5\" per riser, that's 14-15 risers with 13-14 treads, requiring about 12 feet of horizontal run."
+    },
+    {
+      "question": "Do all risers need to be the same height?",
+      "answer": "Yes, building code requires all risers to be uniform within 3/8\" of each other. The largest and smallest riser in a flight cannot differ by more than 3/8\". This is a safety requirement — uneven risers are a leading cause of stair falls."
+    }
+  ],
+  "relatedTools": [
+    "concrete-calculator",
+    "lumber-calculator",
+    "concrete-slab-calculator",
+    "deck-board-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Stair Dimensions by Total Rise",
+    "subtitle": "Using 7.5\" target rise and 10.5\" run",
+    "columns": [
+      "Total Rise",
+      "Risers",
+      "Actual Rise",
+      "Total Run",
+      "Stringer",
+      "Angle"
+    ],
+    "rows": [
+      [
+        "36\" (3')",
+        "5",
+        "7.20\"",
+        "42\"",
+        "55.3\"",
+        "40.6°"
+      ],
+      [
+        "72\" (6')",
+        "10",
+        "7.20\"",
+        "94.5\"",
+        "118.8\"",
+        "37.3°"
+      ],
+      [
+        "96\" (8')",
+        "13",
+        "7.38\"",
+        "126\"",
+        "158.4\"",
+        "37.3°"
+      ],
+      [
+        "108\" (9')",
+        "14",
+        "7.71\"",
+        "136.5\"",
+        "174.1\"",
+        "38.4°"
+      ],
+      [
+        "118\" (9'10\")",
+        "16",
+        "7.38\"",
+        "157.5\"",
+        "196.9\"",
+        "36.8°"
+      ],
+      [
+        "132\" (11')",
+        "18",
+        "7.33\"",
+        "178.5\"",
+        "222.0\"",
+        "36.5°"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This stair rise & run calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This stair rise & run calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

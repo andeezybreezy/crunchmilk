@@ -1,0 +1,148 @@
+{
+  "slug": "remote-salary-calculator",
+  "toolName": "Remote Work Salary Calculator",
+  "tagline": "Calculate location-adjusted salary for remote work based on cost of living differences",
+  "title": "Remote Salary Calculator — Location-Adjusted Pay for Remote Workers",
+  "metaDescription": "Calculate your remote work salary adjustment based on cost of living. See what your pay should be when working from a different city.",
+  "keywords": "remote salary calculator, remote work pay adjustment, location adjusted salary, cost of living salary calculator, remote work salary comparison",
+  "domain": "example.com",
+  "primaryColor": "#2563eb",
+  "primaryDarkColor": "#1d4ed8",
+  "ogTitle": "Remote Salary Calculator — Location-Adjusted Remote Pay",
+  "ogDescription": "Calculate what your salary should be when working remotely from a different city, adjusted for cost of living differences.",
+  "twitterDescription": "What should your remote salary be? Calculate location-adjusted pay based on cost of living differences between cities.",
+  "jsonLdDescription": "Calculate location-adjusted salary for remote workers using cost of living index comparison between employer city and your actual location.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Remote Salary Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"baseSalary\">Base Salary (employer's city rate) ($)</label>\n      <input type=\"number\" id=\"baseSalary\" value=\"120000\" min=\"0\" step=\"1000\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"employerCity\">Employer / HQ City</label>\n      <select id=\"employerCity\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"sf\" selected>San Francisco, CA</option>\n        <option value=\"nyc\">New York City, NY</option>\n        <option value=\"sea\">Seattle, WA</option>\n        <option value=\"bos\">Boston, MA</option>\n        <option value=\"la\">Los Angeles, CA</option>\n        <option value=\"den\">Denver, CO</option>\n        <option value=\"chi\">Chicago, IL</option>\n        <option value=\"aus\">Austin, TX</option>\n        <option value=\"atl\">Atlanta, GA</option>\n        <option value=\"mia\">Miami, FL</option>\n        <option value=\"dal\">Dallas, TX</option>\n        <option value=\"nat\">National Average</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"remoteCity\">Your Remote Location</label>\n      <select id=\"remoteCity\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"sf\">San Francisco, CA</option>\n        <option value=\"nyc\">New York City, NY</option>\n        <option value=\"sea\">Seattle, WA</option>\n        <option value=\"bos\">Boston, MA</option>\n        <option value=\"la\">Los Angeles, CA</option>\n        <option value=\"den\" selected>Denver, CO</option>\n        <option value=\"chi\">Chicago, IL</option>\n        <option value=\"aus\">Austin, TX</option>\n        <option value=\"atl\">Atlanta, GA</option>\n        <option value=\"mia\">Miami, FL</option>\n        <option value=\"nas\">Nashville, TN</option>\n        <option value=\"dal\">Dallas, TX</option>\n        <option value=\"hou\">Houston, TX</option>\n        <option value=\"phx\">Phoenix, AZ</option>\n        <option value=\"ral\">Raleigh, NC</option>\n        <option value=\"min\">Minneapolis, MN</option>\n        <option value=\"det\">Detroit, MI</option>\n        <option value=\"slc\">Salt Lake City, UT</option>\n        <option value=\"por\">Portland, OR</option>\n        <option value=\"nat\">National Average</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"adjustPct\">Employer Adjustment Policy</label>\n      <select id=\"adjustPct\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1.0\">Full COL adjustment (100%)</option>\n        <option value=\"0.75\" selected>Partial adjustment (75%)</option>\n        <option value=\"0.5\">Moderate adjustment (50%)</option>\n        <option value=\"0\">No adjustment (same pay everywhere)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Adjusted Salary</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Adjusted Remote Salary</div>\n          <div class=\"result-value\" id=\"rAdjusted\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Salary Change</div>\n          <div class=\"result-value\" id=\"rChange\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">COL Difference</div>\n          <div class=\"result-value\" id=\"rCOLDiff\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Purchasing Power Change</div>\n          <div class=\"result-value\" id=\"rPurchasing\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Housing Savings (monthly)</div>\n          <div class=\"result-value\" id=\"rHousingSave\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Effective Hourly Rate</div>\n          <div class=\"result-value\" id=\"rHourly\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator adjusts a base salary using the ratio of cost of living indices between the employer's city and your remote location, factoring in the employer's adjustment policy.",
+    "rules": [
+      "Adjusted salary = base_salary × (1 - adjustment_pct × (1 - target_col / employer_col))",
+      "Full (100%) adjustment: salary is fully scaled to local cost of living",
+      "Partial (75%) adjustment: most common policy — splits the COL difference between employer and employee",
+      "No adjustment: increasingly common at companies like Basecamp that pay the same regardless of location",
+      "Purchasing power is calculated by comparing the adjusted salary's buying power in your city vs the base salary in the employer city"
+    ],
+    "outro": "Salary adjustment policies vary widely. Some companies use tiers (e.g., Google: SF, NYC, Denver tiers) rather than continuous adjustments. State income tax differences can significantly affect take-home pay beyond COL adjustments."
+  },
+  "faq": [
+    {
+      "question": "Do remote companies pay less for cheaper cities?",
+      "answer": "It depends on the company. About 60% of companies adjust pay by location (like Google, Meta, Stripe). About 25% pay the same regardless of location (like Basecamp, GitLab). Some use regional tiers rather than city-specific rates. The trend is moving toward less adjustment as the remote talent market becomes more competitive."
+    },
+    {
+      "question": "How much does a remote salary get cut for a cheaper city?",
+      "answer": "Typical adjustments range from 10-25% when moving from a high-cost city like SF or NYC to a mid-range city. Moving from SF to Denver might see a 15-20% cut with full adjustment. Companies with partial adjustment policies (75%) would cut only 11-15% in this scenario."
+    },
+    {
+      "question": "Is it worth taking a pay cut to move to a cheaper city?",
+      "answer": "Often yes. If your salary drops 15% but your cost of living drops 30%, your purchasing power actually increases. The key is whether the salary adjustment percentage is less than the COL difference. Moving from SF ($120K) to Austin ($102K adjusted) with 40% lower housing costs is usually a net win."
+    },
+    {
+      "question": "Do I need to tell my employer where I work remotely?",
+      "answer": "Yes, in most cases. Employers need your location for tax withholding, worker's compensation, and compliance with state labor laws. Working from a different state can create tax nexus issues for your employer. Many companies require pre-approval for relocations."
+    },
+    {
+      "question": "How do state taxes affect remote work salary?",
+      "answer": "Moving from California (13.3% top rate) to Texas (0%) effectively gives you a 5-10% raise even without a salary change. However, some states like New York have 'convenience of the employer' rules that may tax you even if you work remotely from another state."
+    }
+  ],
+  "relatedTools": [
+    "col-comparison-calculator",
+    "interstate-migration-calculator",
+    "remote-work-tax-calculator",
+    "digital-nomad-visa-calculator",
+    "retirement-location-calculator",
+    "hourly-to-salary-calculator"
+  ],
+  "chart": {
+    "title": "Remote Salary Adjustments by City",
+    "subtitle": "Example: $120K San Francisco base salary adjusted by location",
+    "columns": [
+      "Remote Location",
+      "COL Index",
+      "Full Adjustment",
+      "75% Adjustment",
+      "No Adjustment"
+    ],
+    "rows": [
+      [
+        "San Francisco (base)",
+        "179",
+        "$120,000",
+        "$120,000",
+        "$120,000"
+      ],
+      [
+        "New York City",
+        "187",
+        "$125,400",
+        "$123,500",
+        "$120,000"
+      ],
+      [
+        "Seattle",
+        "149",
+        "$99,900",
+        "$104,900",
+        "$120,000"
+      ],
+      [
+        "Denver",
+        "128",
+        "$85,800",
+        "$94,400",
+        "$120,000"
+      ],
+      [
+        "Austin",
+        "111",
+        "$74,400",
+        "$85,800",
+        "$120,000"
+      ],
+      [
+        "Atlanta",
+        "102",
+        "$68,400",
+        "$81,300",
+        "$120,000"
+      ],
+      [
+        "Houston",
+        "94",
+        "$63,000",
+        "$77,300",
+        "$120,000"
+      ],
+      [
+        "Detroit",
+        "89",
+        "$59,700",
+        "$74,800",
+        "$120,000"
+      ]
+    ]
+  },
+  "category": "demographics",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This remote work salary calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This remote work salary calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

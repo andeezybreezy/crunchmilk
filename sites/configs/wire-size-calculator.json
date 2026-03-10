@@ -1,0 +1,139 @@
+{
+  "slug": "wire-size-calculator",
+  "toolName": "Wire Size Calculator",
+  "tagline": "Find the right wire gauge for any circuit based on NEC ampacity and voltage drop",
+  "title": "Wire Size Calculator — NEC Ampacity & Voltage Drop Sizing",
+  "metaDescription": "Find the correct wire gauge for your circuit. Enter amps, distance, and voltage to get NEC-compliant wire size with ampacity and conduit recommendations.",
+  "keywords": "wire size calculator, wire gauge calculator, NEC wire sizing, electrical wire calculator, ampacity chart, what size wire do I need",
+  "domain": "example.com",
+  "primaryColor": "#ca8a04",
+  "primaryDarkColor": "#a16207",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Wire Size Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"voltage\">System Voltage</label>\n      <select id=\"voltage\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"120\">120V</option>\n        <option value=\"208\">208V</option>\n        <option value=\"240\" selected>240V</option>\n        <option value=\"277\">277V</option>\n        <option value=\"480\">480V</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"phase\">Phase</label>\n      <select id=\"phase\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"single\" selected>Single Phase</option>\n        <option value=\"three\">Three Phase</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"amperage\">Load Amperage</label>\n      <input type=\"number\" id=\"amperage\" placeholder=\"e.g. 30\" inputmode=\"decimal\" step=\"any\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"distance\">One-Way Distance (feet)</label>\n      <input type=\"number\" id=\"distance\" placeholder=\"e.g. 150\" inputmode=\"decimal\" step=\"any\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"conductor\">Conductor Material</label>\n      <select id=\"conductor\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"copper\" selected>Copper</option>\n        <option value=\"aluminum\">Aluminum</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"maxDrop\">Maximum Voltage Drop (%)</label>\n      <select id=\"maxDrop\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"2\">2% (Sensitive equipment)</option>\n        <option value=\"3\" selected>3% (NEC branch circuit)</option>\n        <option value=\"5\">5% (NEC total feeder + branch)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Find Wire Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Wire</div>\n          <div class=\"result-value\" id=\"rWire\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Ampacity Rating</div>\n          <div class=\"result-value\" id=\"rAmpacity\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Actual Voltage Drop</div>\n          <div class=\"result-value\" id=\"rActualDrop\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Conduit Size</div>\n          <div class=\"result-value\" id=\"rConduit\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Wire sizing requires balancing two NEC requirements: the wire must handle the current (ampacity) and keep voltage drop within acceptable limits. The larger of the two determines the final wire size.",
+    "rules": [
+      "First, determine the minimum wire gauge from NEC ampacity tables (Table 310.16) based on the load current",
+      "Then calculate the minimum gauge needed for voltage drop using: CM = (2 × K × I × L) / VD_max",
+      "Use the larger of the two wire sizes — ampacity and voltage drop must both be satisfied"
+    ],
+    "outro": "For long wire runs, voltage drop typically requires a larger wire than ampacity alone. This calculator checks both and gives you the correct size for your specific installation."
+  },
+  "faq": [
+    {
+      "question": "What size wire do I need for a 30 amp circuit?",
+      "answer": "For a 30-amp circuit, NEC requires a minimum of 10 AWG copper or 8 AWG aluminum wire. However, if the wire run is longer than about 100 feet, you may need to upsize to 8 AWG or 6 AWG copper to keep voltage drop under 3%. Always check both ampacity and voltage drop."
+    },
+    {
+      "question": "How does distance affect wire size?",
+      "answer": "Longer wire runs create more voltage drop, which may require a larger wire gauge. A 12 AWG wire might work fine for 20 amps at 50 feet, but at 150 feet you might need 8 AWG to stay within NEC voltage drop limits. Distance is the most common reason for upsizing wire."
+    },
+    {
+      "question": "What is the difference between copper and aluminum wire sizing?",
+      "answer": "Aluminum has higher resistance than copper, so it requires larger gauges for the same ampacity. For example, a 100-amp service needs 3 AWG copper but 1 AWG aluminum. Aluminum is cheaper per foot but the larger conduit and connectors can offset savings."
+    },
+    {
+      "question": "What is the NEC 80% rule for wire sizing?",
+      "answer": "NEC 210.19(A)(1) requires that conductors for continuous loads (running 3+ hours) be rated for 125% of the load. This effectively means using only 80% of the wire's ampacity. A 20A continuous load requires wire rated for at least 25A."
+    },
+    {
+      "question": "What conduit size do I need for my wire?",
+      "answer": "Conduit size depends on the number and size of wires inside. NEC limits fill to 40% of conduit area for 3 or more wires. For a typical 3-conductor run of 10 AWG THHN, 1/2-inch EMT conduit works. This calculator provides conduit recommendations based on your wire size."
+    },
+    {
+      "question": "Should I use THHN or Romex (NM-B) wire?",
+      "answer": "THHN is individual conductors pulled through conduit — used in commercial work, outdoor runs, and exposed locations. Romex (NM-B) is a cable with multiple conductors in a sheath — used in residential wall and attic runs. THHN has higher ampacity ratings than NM-B at the same gauge."
+    }
+  ],
+  "relatedTools": [
+    "voltage-drop-calculator",
+    "conduit-fill-calculator",
+    "breaker-sizing-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "NEC Copper Wire Ampacity & Sizing Reference",
+    "subtitle": "Ampacity ratings (THHN 75°C) and typical max distance at 3% drop, 240V.",
+    "columns": [
+      "Wire Gauge",
+      "Ampacity (Cu)",
+      "Ampacity (Al)",
+      "Max Ft @ 20A/3%"
+    ],
+    "rows": [
+      [
+        "14 AWG",
+        "15A",
+        "—",
+        "64 ft"
+      ],
+      [
+        "12 AWG",
+        "20A",
+        "15A",
+        "101 ft"
+      ],
+      [
+        "10 AWG",
+        "30A",
+        "25A",
+        "161 ft"
+      ],
+      [
+        "8 AWG",
+        "40A",
+        "30A",
+        "256 ft"
+      ],
+      [
+        "6 AWG",
+        "55A",
+        "40A",
+        "407 ft"
+      ],
+      [
+        "4 AWG",
+        "70A",
+        "55A",
+        "647 ft"
+      ],
+      [
+        "2 AWG",
+        "95A",
+        "75A",
+        "1029 ft"
+      ],
+      [
+        "1/0 AWG",
+        "125A",
+        "100A",
+        "1637 ft"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This wire size calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This wire size calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

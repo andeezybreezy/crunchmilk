@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garden Soil Volume Calculator — Beds & Amendments</title>
+<meta name="description" content="Calculate how much soil, compost, or mulch you need for raised beds and garden areas. Get volume in cubic feet, cubic yards, and bags.">
+<meta name="keywords" content="garden soil calculator, raised bed soil volume, cubic yards of soil, how much soil do I need, garden bed soil calculator, compost volume calculator">
+<link rel="canonical" href="https://example.com/garden-soil-volume-calculator/">
+<meta property="og:title" content="Garden Soil Volume Calculator — Beds & Amendments">
+<meta property="og:description" content="Calculate soil volume needed for raised beds, garden plots, and amendments.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/garden-soil-volume-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garden Soil Volume Calculator — Beds & Amendments">
+<meta name="twitter:description" content="Calculate how much soil, compost, or mulch you need for garden beds. Get cubic yards and bag counts.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Garden Soil Volume Calculator",
+  "description": "Calculate the volume of soil, compost, or mulch needed for raised garden beds, in-ground plots, and container gardens in cubic feet, cubic yards, and bags.",
+  "url": "https://example.com/garden-soil-volume-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How deep should a raised bed be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most vegetables need 8-12 inches of soil depth. Root vegetables like carrots need 12+ inches. Shallow herbs and lettuce can grow in 6 inches. For raised beds on concrete or poor soil, 12-18 inches is recommended."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does garden soil weigh?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Garden soil weighs approximately 75-100 pounds per cubic foot when dry, and up to 110 pounds when wet. A cubic yard of soil weighs roughly 2,000-2,400 pounds (1-1.2 tons). Compost is lighter at about 40-60 lbs/cu ft."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I fill a raised bed entirely with soil?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For deep beds (18+ inches), you can use the 'lasagna method' — fill the bottom third with logs, branches, and leaves, the middle third with compost and organic matter, and the top third with quality garden soil. This saves money and improves drainage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it cheaper to buy soil in bulk or bags?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bulk soil (delivered by the cubic yard) is typically $30-$60 per cubic yard. Bagged soil costs $5-$10 per cubic foot, or $135-$270 per cubic yard. Bulk is much cheaper for larger projects but requires delivery access."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does soil settle after filling a raised bed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "New soil typically settles 10-20% in the first year. Plan to overfill by that amount, or top off with compost after the first growing season. Soil that has been screened and amended tends to settle less."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Agriculture Calculators",
+      "item": "https://example.com/agriculture-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Garden Soil Volume Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#15803d;--primary-dark:#166534;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/agriculture-calculators/">Agriculture Calculators</a> &rsaquo; <span>Garden Soil Volume Calculator</span>
+    </nav>
+    <h1>Garden Soil Volume Calculator</h1>
+    <p>Calculate soil needed for garden beds and amendments</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Garden Soil Volume Calculator</h2>
+
+    <div class="input-group">
+      <label for="bedShape">Bed Shape</label>
+      <select id="bedShape">
+        <option value="rectangular">Rectangular</option>
+        <option value="circular">Circular</option>
+        <option value="lshaped">L-Shaped</option>
+      </select>
+    </div>
+
+    <div id="rectInputs">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="bedLength">Length (ft)</label>
+          <input type="number" id="bedLength" placeholder="e.g. 8" step="0.5" inputmode="decimal">
+        </div>
+        <div class="input-group">
+          <label for="bedWidth">Width (ft)</label>
+          <input type="number" id="bedWidth" placeholder="e.g. 4" step="0.5" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+
+    <div id="circInputs" style="display:none;">
+      <div class="input-group">
+        <label for="bedDiameter">Diameter (ft)</label>
+        <input type="number" id="bedDiameter" placeholder="e.g. 6" step="0.5" inputmode="decimal">
+      </div>
+    </div>
+
+    <div id="lInputs" style="display:none;">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="lLength1">Long Side Length (ft)</label>
+          <input type="number" id="lLength1" placeholder="e.g. 10" step="0.5" inputmode="decimal">
+        </div>
+        <div class="input-group">
+          <label for="lWidth1">Long Side Width (ft)</label>
+          <input type="number" id="lWidth1" placeholder="e.g. 4" step="0.5" inputmode="decimal">
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="lLength2">Short Side Length (ft)</label>
+          <input type="number" id="lLength2" placeholder="e.g. 6" step="0.5" inputmode="decimal">
+        </div>
+        <div class="input-group">
+          <label for="lWidth2">Short Side Width (ft)</label>
+          <input type="number" id="lWidth2" placeholder="e.g. 4" step="0.5" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label for="bedDepth">Depth (inches)</label>
+        <input type="number" id="bedDepth" placeholder="e.g. 12" step="1" inputmode="numeric">
+      </div>
+      <div class="input-group">
+        <label for="soilType">Material</label>
+        <select id="soilType">
+          <option value="soil">Garden Soil</option>
+          <option value="compost">Compost</option>
+          <option value="mulch">Mulch</option>
+          <option value="gravel">Gravel</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Volume</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">Cubic Feet</div><div class="result-value" id="cubicFeet">—</div></div>
+        <div class="result-item"><div class="result-label">Cubic Yards</div><div class="result-value" id="cubicYards">—</div></div>
+      </div>
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">Bags (1 cu ft)</div><div class="result-value" id="bags1">—</div></div>
+        <div class="result-item"><div class="result-label">Bags (2 cu ft)</div><div class="result-value" id="bags2">—</div></div>
+      </div>
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">Estimated Weight</div><div class="result-value" id="weight">—</div></div>
+        <div class="result-item"><div class="result-label">Estimated Cost</div><div class="result-value" id="estCost">—</div></div>
+      </div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Soil Volume for Common Bed Sizes</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Cubic feet and cubic yards at different depths</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Bed Size</th>
+          <th>6" Deep</th>
+          <th>8" Deep</th>
+          <th>10" Deep</th>
+          <th>12" Deep</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>4×4 ft</td><td>8 cu ft</td><td>10.7 cu ft</td><td>13.3 cu ft</td><td>16 cu ft</td></tr>
+        <tr><td>4×8 ft</td><td>16 cu ft</td><td>21.3 cu ft</td><td>26.7 cu ft</td><td>32 cu ft</td></tr>
+        <tr><td>4×12 ft</td><td>24 cu ft</td><td>32 cu ft</td><td>40 cu ft</td><td>48 cu ft</td></tr>
+        <tr><td>3×6 ft</td><td>9 cu ft</td><td>12 cu ft</td><td>15 cu ft</td><td>18 cu ft</td></tr>
+        <tr><td>6×6 ft</td><td>18 cu ft</td><td>24 cu ft</td><td>30 cu ft</td><td>36 cu ft</td></tr>
+        <tr><td>2×8 ft</td><td>8 cu ft</td><td>10.7 cu ft</td><td>13.3 cu ft</td><td>16 cu ft</td></tr>
+        <tr><td>3×8 ft</td><td>12 cu ft</td><td>16 cu ft</td><td>20 cu ft</td><td>24 cu ft</td></tr>
+        <tr><td>5×10 ft</td><td>25 cu ft</td><td>33.3 cu ft</td><td>41.7 cu ft</td><td>50 cu ft</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This garden soil volume calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator determines the volume of soil or amendment needed to fill a garden bed based on its dimensions.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Rectangular beds:</strong> Volume = Length x Width x Depth</li>
+      <li><strong>Circular beds:</strong> Volume = π x (Diameter/2)² x Depth</li>
+      <li><strong>L-shaped beds:</strong> calculated as two overlapping rectangles minus the overlap</li>
+      <li><strong>Depth conversion:</strong> inches are converted to feet (÷ 12) for cubic foot calculations</li>
+      <li><strong>Cubic yards:</strong> divide cubic feet by 27 — this is the standard bulk delivery unit</li>
+      <li>Add 10% extra for settling, especially with raised beds that will compact over the first season</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Buying in bulk (by the cubic yard) is usually cheaper than bags for amounts over 1 cubic yard. A standard pickup truck bed holds about 2 cubic yards of soil.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This garden soil volume calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How deep should a raised bed be?</h3>
+      <p>Most vegetables need 8-12 inches of soil depth. Root vegetables like carrots need 12+ inches. Shallow herbs and lettuce can grow in 6 inches. For raised beds on concrete or poor soil, 12-18 inches is recommended.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much does garden soil weigh?</h3>
+      <p>Garden soil weighs approximately 75-100 pounds per cubic foot when dry, and up to 110 pounds when wet. A cubic yard of soil weighs roughly 2,000-2,400 pounds (1-1.2 tons). Compost is lighter at about 40-60 lbs/cu ft.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Should I fill a raised bed entirely with soil?</h3>
+      <p>For deep beds (18+ inches), you can use the 'lasagna method' — fill the bottom third with logs, branches, and leaves, the middle third with compost and organic matter, and the top third with quality garden soil. This saves money and improves drainage.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is it cheaper to buy soil in bulk or bags?</h3>
+      <p>Bulk soil (delivered by the cubic yard) is typically $30-$60 per cubic yard. Bagged soil costs $5-$10 per cubic foot, or $135-$270 per cubic yard. Bulk is much cheaper for larger projects but requires delivery access.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much does soil settle after filling a raised bed?</h3>
+      <p>New soil typically settles 10-20% in the first year. Plan to overfill by that amount, or top off with compost after the first growing season. Soil that has been screened and amended tends to settle less.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/composting-ratio-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Composting Ratio Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Balance your compost pile's carbon-to-nitrogen ratio for faster decomposition</span></a>
+      <a href="/seed-starting-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Seed Starting Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find your seed starting dates indoors, transplant dates, and direct sow dates by zone or frost date</span></a>
+      <a href="/raised-bed-soil-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Raised Bed Soil Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate soil volume needed for raised garden beds</span></a>
+      <a href="/chicken-egg-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Chicken Egg Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate egg production by flock size, breed type, and season with feed cost analysis</span></a>
+      <a href="/beehive-yield-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Beehive Yield Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate honey production, jar counts, revenue, and wax yield from your hives</span></a>
+      <a href="/goat-milk-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Goat Milk Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate daily, weekly, and monthly milk production by breed and lactation stage</span></a>
+      <a href="/food-preservation-jar-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Food Preservation Jar Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate jars, lids, processing time, and canner loads for home canning</span></a>
+      <a href="/mulch-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Mulch Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate mulch volume and bags for any landscaping project</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Garden Soil Volume Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var shapeEl = document.getElementById('bedShape');
+  var rectInputs = document.getElementById('rectInputs');
+  var circInputs = document.getElementById('circInputs');
+  var lInputs = document.getElementById('lInputs');
+
+  shapeEl.addEventListener('change', function() {
+    rectInputs.style.display = shapeEl.value === 'rectangular' ? '' : 'none';
+    circInputs.style.display = shapeEl.value === 'circular' ? '' : 'none';
+    lInputs.style.display = shapeEl.value === 'lshaped' ? '' : 'none';
+  });
+
+  // Weight per cubic foot in lbs (dry)
+  var weightPerCuFt = { soil: 85, compost: 50, mulch: 25, gravel: 100 };
+  // Cost per cubic foot (bagged, approximate)
+  var costPerCuFt = { soil: 5, compost: 6, mulch: 3.5, gravel: 4 };
+
+  var chartData = [
+    ['4x4 ft','8 cu ft','10.7 cu ft','13.3 cu ft','16 cu ft'],
+    ['4x8 ft','16 cu ft','21.3 cu ft','26.7 cu ft','32 cu ft'],
+    ['4x12 ft','24 cu ft','32 cu ft','40 cu ft','48 cu ft'],
+    ['3x6 ft','9 cu ft','12 cu ft','15 cu ft','18 cu ft'],
+    ['6x6 ft','18 cu ft','24 cu ft','30 cu ft','36 cu ft'],
+    ['2x8 ft','8 cu ft','10.7 cu ft','13.3 cu ft','16 cu ft'],
+    ['3x8 ft','12 cu ft','16 cu ft','20 cu ft','24 cu ft'],
+    ['5x10 ft','25 cu ft','33.3 cu ft','41.7 cu ft','50 cu ft']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function getVal(id) { var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+
+  function calculate() {
+    var shape = shapeEl.value;
+    var depthIn = getVal('bedDepth');
+    var material = document.getElementById('soilType').value;
+
+    if (depthIn <= 0) return;
+
+    var depthFt = depthIn / 12;
+    var areaSqFt = 0;
+
+    if (shape === 'rectangular') {
+      var len = getVal('bedLength');
+      var wid = getVal('bedWidth');
+      if (len <= 0 || wid <= 0) return;
+      areaSqFt = len * wid;
+    } else if (shape === 'circular') {
+      var diam = getVal('bedDiameter');
+      if (diam <= 0) return;
+      var radius = diam / 2;
+      areaSqFt = Math.PI * radius * radius;
+    } else if (shape === 'lshaped') {
+      var l1 = getVal('lLength1');
+      var w1 = getVal('lWidth1');
+      var l2 = getVal('lLength2');
+      var w2 = getVal('lWidth2');
+      if (l1 <= 0 || w1 <= 0 || l2 <= 0 || w2 <= 0) return;
+      areaSqFt = (l1 * w1) + (l2 * w2);
+    }
+
+    var cubicFeet = areaSqFt * depthFt;
+    var cubicYards = cubicFeet / 27;
+
+    var bags1 = Math.ceil(cubicFeet);
+    var bags2 = Math.ceil(cubicFeet / 2);
+
+    var weightLbs = cubicFeet * weightPerCuFt[material];
+    var costBagged = cubicFeet * costPerCuFt[material];
+    var costBulk = cubicYards * 45; // ~$45/cu yd average bulk
+
+    document.getElementById('cubicFeet').textContent = cubicFeet.toFixed(1) + ' cu ft';
+    document.getElementById('cubicYards').textContent = cubicYards.toFixed(2) + ' cu yd';
+    document.getElementById('bags1').textContent = bags1 + ' bags';
+    document.getElementById('bags2').textContent = bags2 + ' bags';
+    document.getElementById('weight').textContent = Math.round(weightLbs).toLocaleString() + ' lbs (' + (weightLbs / 2000).toFixed(1) + ' tons)';
+
+    var costStr = 'Bagged: ~$' + Math.round(costBagged).toLocaleString();
+    if (cubicYards >= 1) {
+      costStr += ' | Bulk: ~$' + Math.round(costBulk).toLocaleString();
+    }
+    document.getElementById('estCost').textContent = costStr;
+
+    var tip = 'You need ' + cubicFeet.toFixed(1) + ' cubic feet (' + cubicYards.toFixed(2) + ' cu yd) of ' + material + '. ';
+    if (cubicYards >= 1) {
+      tip += 'At this volume, buying in bulk will save significantly over bagged. ';
+    }
+    tip += 'Add 10-15% extra for settling.';
+    document.getElementById('resultTip').textContent = tip;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Garden Soil Volume Calculator';
+  var TOOL_SLUG = 'garden-soil-volume-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'agriculture', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

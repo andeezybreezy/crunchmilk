@@ -1,0 +1,141 @@
+{
+  "slug": "pipe-sizing-calculator",
+  "toolName": "Pipe Sizing Calculator",
+  "tagline": "Size water supply pipes by fixture units, flow rate, and material",
+  "title": "Pipe Sizing Calculator — Water Supply Pipe Diameter & Flow",
+  "metaDescription": "Calculate the right water supply pipe size. Enter fixture units or GPM, pipe length, and material to get diameter, velocity, and pressure loss.",
+  "keywords": "pipe sizing calculator, water pipe size calculator, plumbing pipe sizing, fixture unit calculator, pipe diameter calculator, water flow calculator",
+  "domain": "example.com",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Pipe Sizing Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"inputMethod\">Input Method</label>\n      <select id=\"inputMethod\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"fixture\" selected>Fixture Units (WSFU)</option>\n        <option value=\"gpm\">Direct GPM</option>\n      </select>\n    </div>\n\n    <div id=\"fixtureWrap\">\n      <div class=\"input-group\">\n        <label for=\"fixtureUnits\">Total Water Supply Fixture Units</label>\n        <input type=\"number\" id=\"fixtureUnits\" placeholder=\"e.g. 15\" inputmode=\"decimal\" step=\"any\">\n        <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Toilet=2.2, Lavatory=0.5, Shower=1.4, Kitchen sink=1.0, Bathtub=1.4, Hose bib=2.5</div>\n      </div>\n    </div>\n\n    <div id=\"gpmWrap\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"flowGPM\">Flow Rate (GPM)</label>\n        <input type=\"number\" id=\"flowGPM\" placeholder=\"e.g. 12\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"pipeLength\">Pipe Length (feet)</label>\n      <input type=\"number\" id=\"pipeLength\" placeholder=\"e.g. 75\" inputmode=\"decimal\" step=\"any\">\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Include equivalent length for fittings (add ~50% to straight length)</div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"material\">Pipe Material</label>\n      <select id=\"material\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"copper\" selected>Copper (Type L)</option>\n        <option value=\"pex\">PEX</option>\n        <option value=\"cpvc\">CPVC</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"supplyPressure\">Supply Pressure (PSI)</label>\n      <input type=\"number\" id=\"supplyPressure\" value=\"60\" inputmode=\"decimal\" step=\"any\">\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Typical residential: 40-80 PSI</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Pipe Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Pipe</div>\n          <div class=\"result-value\" id=\"rPipe\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Flow Velocity</div>\n          <div class=\"result-value\" id=\"rVelocity\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Flow Rate</div>\n          <div class=\"result-value\" id=\"rGPM\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Pressure Loss</div>\n          <div class=\"result-value\" id=\"rPressure\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Water supply pipe sizing ensures adequate flow and pressure at every fixture. Undersized pipes cause low pressure; oversized pipes waste money and can cause stagnant water.",
+    "rules": [
+      "Convert fixture units to estimated GPM demand using IPC/UPC tables. Not all fixtures run simultaneously — diversity factors reduce peak demand",
+      "Pipe velocity should stay between 2-8 ft/sec. Under 2 ft/sec risks sediment buildup; over 8 ft/sec causes noise and pipe erosion",
+      "Pressure loss through pipe is proportional to length, flow rate, and pipe roughness. Fittings (elbows, tees, valves) add equivalent length — typically 50% of straight run"
+    ],
+    "outro": "Pipe material affects sizing due to different internal diameters. PEX has slightly smaller ID than copper at the same nominal size, which means higher friction loss. CPVC falls between the two."
+  },
+  "faq": [
+    {
+      "question": "What size water supply pipe do I need for my house?",
+      "answer": "Most homes use a 3/4-inch main supply line from the meter to the house, with 1/2-inch branches to individual fixtures. Larger homes (3+ bathrooms) may need a 1-inch main line. The right size depends on the number of fixtures, pipe length, and supply pressure."
+    },
+    {
+      "question": "What are fixture units in plumbing?",
+      "answer": "Water Supply Fixture Units (WSFU) represent the probable demand of a plumbing fixture. Common values: toilet = 2.2, lavatory = 0.5, shower = 1.4, kitchen sink = 1.0, bathtub = 1.4, washing machine = 1.4, hose bib = 2.5. Add up all fixture units to determine total demand."
+    },
+    {
+      "question": "What is the maximum water velocity allowed in pipes?",
+      "answer": "Most codes and best practices limit velocity to 8 ft/sec for cold water and 5 ft/sec for hot water. Higher velocities cause water hammer, pipe erosion, and noise. The ideal range is 4-6 ft/sec, which balances flow capacity against noise and pipe longevity."
+    },
+    {
+      "question": "Is PEX the same size as copper pipe?",
+      "answer": "PEX and copper use the same nominal sizes (1/2\", 3/4\", 1\") but PEX has a slightly smaller internal diameter due to thicker walls. A 3/4\" PEX pipe has an ID of about 0.671\" vs 0.785\" for Type L copper. This means PEX has slightly more friction loss for the same flow rate."
+    },
+    {
+      "question": "How does supply pressure affect pipe sizing?",
+      "answer": "Lower supply pressure requires larger pipes to deliver adequate flow. If your supply is under 40 PSI, consider upsizing by one nominal size. Pressure is lost through friction as water travels through pipe — long runs and many fittings reduce pressure at the fixtures."
+    },
+    {
+      "question": "How many fixtures can a 3/4-inch pipe supply?",
+      "answer": "A 3/4-inch copper pipe can supply about 15-20 fixture units at typical residential pressures (40-60 PSI) and lengths under 100 feet. That covers a typical 2-bathroom house. For 3+ bathrooms or long runs, a 1-inch pipe provides more capacity and better pressure."
+    }
+  ],
+  "relatedTools": [
+    "drain-pipe-slope-calculator",
+    "water-heater-sizing-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Water Supply Pipe Capacity Reference",
+    "subtitle": "Maximum GPM and fixture units by pipe size (copper Type L, 60 PSI).",
+    "columns": [
+      "Pipe Size",
+      "ID (inches)",
+      "Max GPM @ 8 fps",
+      "Typical WSFU",
+      "Use"
+    ],
+    "rows": [
+      [
+        "3/8\"",
+        "0.430",
+        "3.5",
+        "1-2",
+        "Single fixture (lavatory)"
+      ],
+      [
+        "1/2\"",
+        "0.545",
+        "5.5",
+        "3-5",
+        "Individual fixture branches"
+      ],
+      [
+        "3/4\"",
+        "0.785",
+        "11.5",
+        "8-20",
+        "Branch lines, small mains"
+      ],
+      [
+        "1\"",
+        "1.025",
+        "20",
+        "20-40",
+        "Main supply line"
+      ],
+      [
+        "1-1/4\"",
+        "1.265",
+        "30",
+        "40-75",
+        "Large home main"
+      ],
+      [
+        "1-1/2\"",
+        "1.505",
+        "43",
+        "75-150",
+        "Multi-family, commercial"
+      ],
+      [
+        "2\"",
+        "1.985",
+        "75",
+        "150+",
+        "Large commercial"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This pipe sizing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This pipe sizing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

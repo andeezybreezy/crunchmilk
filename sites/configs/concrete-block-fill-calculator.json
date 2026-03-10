@@ -1,0 +1,113 @@
+{
+  "slug": "concrete-block-fill-calculator",
+  "toolName": "Concrete Block Fill Calculator",
+  "tagline": "Calculate concrete fill for CMU block walls and cores",
+  "title": "Concrete Block Fill Calculator — Core Fill Volume for CMU Walls",
+  "metaDescription": "Calculate concrete or grout needed to fill CMU block cores. Enter wall dimensions or block count for cubic yards and bag estimates.",
+  "keywords": "concrete block fill calculator, CMU fill calculator, block wall grout calculator, how much concrete to fill blocks, core fill calculator, block wall concrete",
+  "domain": "example.com",
+  "primaryColor": "#78716c",
+  "primaryDarkColor": "#57534e",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Concrete Block Fill Calculator</h2>\n\n    <div class=\"presets\" style=\"margin-top:0;margin-bottom:20px\">\n      <h3>Quick Presets</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Input Method</label>\n      <div class=\"unit-toggle\" role=\"group\" id=\"modeToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"wall\" aria-pressed=\"true\">Wall Dimensions</button>\n        <button type=\"button\" data-mode=\"count\" aria-pressed=\"false\">Block Count</button>\n      </div>\n    </div>\n\n    <div id=\"wallInputs\">\n      <div class=\"input-group\">\n        <label for=\"wallLength\">Wall Length (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"wallLength\" placeholder=\"e.g. 40\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"wallHeight\">Wall Height (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 8\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"countInputs\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"blockCount\">Number of Blocks</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"blockCount\" placeholder=\"e.g. 200\" inputmode=\"numeric\" min=\"1\" step=\"1\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"blockSize\">Block Size</label>\n      <div class=\"input-row\">\n        <select id=\"blockSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"8\" selected>8\" CMU (standard)</option>\n          <option value=\"10\">10\" CMU</option>\n          <option value=\"12\">12\" CMU</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fillPercent\">Fill Percentage</label>\n      <div class=\"input-row\">\n        <select id=\"fillPercent\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"100\" selected>100% — Full grouting (all cores)</option>\n          <option value=\"50\">50% — Every other core</option>\n          <option value=\"25\">25% — Rebar cells only</option>\n        </select>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Fill Needed</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cubic Yards</div>\n          <div class=\"result-value\" id=\"rYards\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Blocks</div>\n          <div class=\"result-value\" id=\"rBlocks\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "CMU (concrete masonry unit) blocks have hollow cores that are often filled with concrete or grout for structural strength. The fill volume depends on the block size and how many cores you fill.",
+    "rules": [
+      "A standard 8&times;8&times;16 CMU block has a core volume of about 0.0069 cubic yards (0.187 cu ft). 10\" and 12\" blocks have proportionally larger cores",
+      "Wall dimensions method: 1.125 blocks per square foot of wall face (accounting for mortar joints)",
+      "Full grouting fills every core. Partial grouting fills only cells containing rebar — check your structural engineer's specs"
+    ],
+    "outro": "Use fine grout (not standard concrete) for filling block cores — it flows better into the narrow cells. For walls with rebar, vibrate or rod the grout to eliminate voids around the steel."
+  },
+  "faq": [
+    {
+      "question": "How much concrete to fill a cinder block?",
+      "answer": "A standard 8x8x16 CMU block requires about 0.187 cubic feet (0.0069 cubic yards) of fill per block. That's roughly 1 bag of 80-lb concrete mix per 3 blocks. A 10\" block needs about 0.25 cu ft and a 12\" block needs about 0.31 cu ft per block."
+    },
+    {
+      "question": "Should I fill all the cores in a block wall?",
+      "answer": "It depends on the wall's purpose and local code. Retaining walls and structural walls typically require full grouting (all cores). Non-structural walls may only need grouting in cells with rebar (every 32-48 inches). Always check your building code and engineer specs."
+    },
+    {
+      "question": "What's the difference between grout and concrete for block fill?",
+      "answer": "Grout is a fluid concrete mix designed to flow into narrow block cores. It has smaller aggregate (pea gravel) and more water than standard concrete. Use fine grout for cells under 4 inches wide and coarse grout for larger cells. Standard concrete does not flow well enough for block filling."
+    },
+    {
+      "question": "How many blocks are in a square foot of wall?",
+      "answer": "About 1.125 standard 8x8x16 blocks per square foot of wall face, accounting for 3/8-inch mortar joints. A 100-square-foot wall (10' long x 10' high) needs approximately 113 blocks."
+    },
+    {
+      "question": "Do I need to fill blocks with concrete for a retaining wall?",
+      "answer": "Yes. Retaining walls under load must be fully grouted with rebar for structural integrity. Typical retaining walls require #4 or #5 rebar every 24-48 inches vertically and horizontally, with all rebar cells fully grouted. Unfilled retaining walls can fail dangerously."
+    },
+    {
+      "question": "How much does it cost to fill block walls?",
+      "answer": "Grout costs about $5-8 per 80-lb bag (DIY) or $3-5 per square foot of wall face for professional grouting. For a 100-block wall with full grouting, expect to use about 35-40 bags of 80-lb grout mix at roughly $200-300 in material."
+    }
+  ],
+  "relatedTools": [
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator",
+    "concrete-stair-calculator",
+    "retaining-wall-calculator",
+    "rebar-calculator"
+  ],
+  "chart": {
+    "title": "Block Core Fill Volume Reference",
+    "subtitle": "Fill needed per block and per 100 blocks by CMU size.",
+    "columns": [
+      "Block Size",
+      "Cu Ft / Block",
+      "Cu Yd / Block",
+      "Cu Yd / 100 Blocks",
+      "80-lb Bags / 100 Blocks"
+    ],
+    "rows": [
+      [
+        "8\" CMU",
+        "0.187",
+        "0.0069",
+        "0.69",
+        "34"
+      ],
+      [
+        "10\" CMU",
+        "0.250",
+        "0.0093",
+        "0.93",
+        "45"
+      ],
+      [
+        "12\" CMU",
+        "0.312",
+        "0.0116",
+        "1.16",
+        "56"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This concrete block fill calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This concrete block fill calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

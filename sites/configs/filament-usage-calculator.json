@@ -1,0 +1,150 @@
+{
+  "slug": "filament-usage-calculator",
+  "toolName": "Filament Usage Calculator",
+  "tagline": "Estimate filament length, weight, and cost for your 3D print",
+  "title": "Filament Usage Calculator — 3D Print Filament Weight & Length",
+  "metaDescription": "Estimate 3D printing filament usage by print dimensions and infill. Calculate filament length, weight, and cost for PLA, ABS, and PETG.",
+  "keywords": "filament usage calculator, 3d print filament calculator, filament weight calculator, infill calculator, filament length estimator",
+  "domain": "example.com",
+  "primaryColor": "#f59e0b",
+  "primaryDarkColor": "#d97706",
+  "ogTitle": "Filament Usage Calculator — Estimate Filament for 3D Prints",
+  "ogDescription": "Estimate filament length, weight, and cost based on print dimensions, infill percentage, and filament type.",
+  "twitterDescription": "Estimate 3D print filament usage by dimensions and infill percentage.",
+  "jsonLdDescription": "Calculate 3D printing filament usage including length in meters, weight in grams, and cost based on print dimensions and infill settings.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Filament Usage Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"filamentDiameter\">Filament Diameter</label>\n      <select id=\"filamentDiameter\">\n        <option value=\"1.75\" selected>1.75 mm</option>\n        <option value=\"2.85\">2.85 mm</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"filamentType\">Filament Type</label>\n      <select id=\"filamentType\">\n        <option value=\"1.24\" selected>PLA (1.24 g/cm³)</option>\n        <option value=\"1.04\">ABS (1.04 g/cm³)</option>\n        <option value=\"1.27\">PETG (1.27 g/cm³)</option>\n        <option value=\"1.10\">TPU (1.10 g/cm³)</option>\n        <option value=\"1.14\">Nylon (1.14 g/cm³)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printWidth\">Print Width (mm)</label>\n      <input type=\"number\" id=\"printWidth\" placeholder=\"e.g. 50\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printDepth\">Print Depth (mm)</label>\n      <input type=\"number\" id=\"printDepth\" placeholder=\"e.g. 50\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printHeight\">Print Height (mm)</label>\n      <input type=\"number\" id=\"printHeight\" placeholder=\"e.g. 30\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"infill\">Infill Percentage (%)</label>\n      <input type=\"number\" id=\"infill\" value=\"20\" min=\"0\" max=\"100\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wallThickness\">Wall Thickness (mm)</label>\n      <input type=\"number\" id=\"wallThickness\" value=\"1.2\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"spoolCost\">Filament Cost per kg ($)</label>\n      <input type=\"number\" id=\"spoolCost\" value=\"25\" inputmode=\"decimal\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Usage</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Filament Weight</div>\n          <div class=\"result-value\" id=\"weight\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Filament Length</div>\n          <div class=\"result-value\" id=\"length\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Material Cost</div>\n          <div class=\"result-value\" id=\"cost\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Print Volume</div>\n          <div class=\"result-value\" id=\"volume\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates filament usage based on the bounding box of your print, infill percentage, and wall thickness. It provides a reasonable approximation before slicing.",
+    "rules": [
+      "The <strong>outer shell volume</strong> is calculated from wall thickness around the perimeter",
+      "The <strong>infill volume</strong> is the remaining interior space multiplied by infill percentage",
+      "Total plastic volume is converted to filament weight using material density, and to length using filament diameter"
+    ],
+    "outro": "For precise estimates, always check your slicer software. This calculator gives a quick ballpark to help you decide if you have enough filament on the spool before committing to a print."
+  },
+  "faq": [
+    {
+      "question": "How accurate is this filament calculator?",
+      "answer": "This provides a rough estimate based on a rectangular bounding box approximation. Actual usage depends on model geometry, support structures, skirts, and brims. Your slicer software (Cura, PrusaSlicer) gives precise estimates after slicing. This tool is best for quick checks."
+    },
+    {
+      "question": "What infill percentage should I use?",
+      "answer": "For decorative items, 10-15% infill is fine. For functional parts, 20-40% provides good strength. For structural or load-bearing parts, use 50-100%. Higher infill uses more filament and takes longer to print but produces stronger parts."
+    },
+    {
+      "question": "What is the difference between 1.75mm and 2.85mm filament?",
+      "answer": "These are the two standard filament diameters. 1.75mm is more common and used by most consumer printers. 2.85mm (sometimes labeled 3mm) is used by some brands like Ultimaker and LulzBot. The print results are similar; it's just a matter of what your printer accepts."
+    },
+    {
+      "question": "How much filament is on a standard spool?",
+      "answer": "A standard spool contains 1 kg of filament. For 1.75mm PLA, that's approximately 330 meters of filament. For 2.85mm PLA, it's about 120 meters per kg. Some brands sell 0.5 kg or 2 kg spools."
+    },
+    {
+      "question": "Which filament type uses the most material?",
+      "answer": "Denser filaments weigh more for the same volume. PETG (1.27 g/cm³) and PLA (1.24 g/cm³) are the densest common types. ABS (1.04 g/cm³) is lighter, so a 1 kg spool of ABS gives you more printed volume than 1 kg of PLA."
+    },
+    {
+      "question": "How does wall thickness affect filament usage?",
+      "answer": "Thicker walls use more filament but create stronger parts. Standard wall thickness is 1.2mm (3 perimeters at 0.4mm nozzle). For strong functional parts, use 2.0-2.4mm walls. Thin-wall vases and decorative prints might use just 0.4-0.8mm."
+    }
+  ],
+  "chart": {
+    "title": "Filament Usage Reference — 1.75mm PLA",
+    "subtitle": "Estimates for common print sizes at 20% infill, 1.2mm walls.",
+    "columns": [
+      "Print Size (mm)",
+      "Weight",
+      "Length",
+      "Cost ($25/kg)"
+    ],
+    "rows": [
+      [
+        "20 × 20 × 20",
+        "~5 g",
+        "~2 m",
+        "$0.13"
+      ],
+      [
+        "30 × 30 × 30",
+        "~12 g",
+        "~5 m",
+        "$0.30"
+      ],
+      [
+        "50 × 50 × 30",
+        "~28 g",
+        "~11 m",
+        "$0.70"
+      ],
+      [
+        "50 × 50 × 50",
+        "~38 g",
+        "~15 m",
+        "$0.95"
+      ],
+      [
+        "80 × 80 × 50",
+        "~72 g",
+        "~29 m",
+        "$1.80"
+      ],
+      [
+        "100 × 100 × 50",
+        "~100 g",
+        "~40 m",
+        "$2.50"
+      ],
+      [
+        "100 × 100 × 100",
+        "~170 g",
+        "~68 m",
+        "$4.25"
+      ],
+      [
+        "150 × 150 × 100",
+        "~340 g",
+        "~137 m",
+        "$8.50"
+      ],
+      [
+        "200 × 200 × 100",
+        "~560 g",
+        "~226 m",
+        "$14.00"
+      ],
+      [
+        "200 × 200 × 200",
+        "~1000 g",
+        "~403 m",
+        "$25.00"
+      ]
+    ]
+  },
+  "category": "3d-printing",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This filament usage calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This filament usage calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "3d-print-cost-calculator",
+    "epoxy-resin-calculator",
+    "electricity-cost-calculator"
+  ]
+}

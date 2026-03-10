@@ -1,0 +1,153 @@
+{
+  "slug": "prompt-cost-calculator",
+  "toolName": "AI Prompt Cost Calculator",
+  "tagline": "Estimate the cost of API calls to GPT-4o, Claude, Gemini, and other LLMs by token usage",
+  "title": "AI Prompt Cost Calculator — LLM API Pricing Estimator",
+  "metaDescription": "Calculate AI API costs per prompt for GPT-4o, Claude, Gemini, and Llama. Estimate tokens, cost per request, and monthly spend.",
+  "keywords": "ai prompt cost calculator, llm api pricing, gpt-4o cost calculator, claude api pricing, token cost estimator, ai api cost comparison",
+  "domain": "example.com",
+  "primaryColor": "#6366f1",
+  "primaryDarkColor": "#4f46e5",
+  "ogTitle": "AI Prompt Cost Calculator — LLM API Pricing Estimator",
+  "ogDescription": "Calculate AI API costs per prompt across GPT-4o, Claude, Gemini, and more. Estimate monthly spend by usage.",
+  "twitterDescription": "How much do AI API calls really cost? Compare GPT-4o, Claude, Gemini pricing per prompt. Free calculator.",
+  "jsonLdDescription": "Calculate the cost of AI API calls across major LLM providers including OpenAI GPT-4o, Anthropic Claude, Google Gemini, and Meta Llama. Estimate tokens, per-request cost, and monthly spend.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>AI Prompt Cost Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"inputMethod\">Input Method</label>\n      <select id=\"inputMethod\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"text\">Paste text (auto-estimate tokens)</option>\n        <option value=\"tokens\">Enter token count directly</option>\n      </select>\n    </div>\n\n    <div id=\"textInput\">\n      <div class=\"input-group\">\n        <label for=\"promptText\">Prompt Text</label>\n        <textarea id=\"promptText\" rows=\"4\" placeholder=\"Paste your prompt here to estimate token count...\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;font-family:inherit;resize:vertical\"></textarea>\n        <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Characters: <span id=\"charCount\">0</span> | Words: <span id=\"wordCount\">0</span> | Est. tokens: <span id=\"tokenEst\">0</span></div>\n      </div>\n    </div>\n\n    <div id=\"tokenInput\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"inputTokens\">Input Tokens</label>\n        <input type=\"number\" id=\"inputTokens\" placeholder=\"1000\" value=\"1000\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n      <div class=\"input-group\">\n        <label for=\"outputTokens\">Expected Output Tokens</label>\n        <input type=\"number\" id=\"outputTokens\" placeholder=\"500\" value=\"500\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div class=\"input-group\">\n        <label for=\"requestsPerDay\">Requests per Day</label>\n        <input type=\"number\" id=\"requestsPerDay\" placeholder=\"100\" value=\"100\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"model\">Model</label>\n      <select id=\"model\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"gpt4o\">GPT-4o</option>\n        <option value=\"gpt4o_mini\">GPT-4o Mini</option>\n        <option value=\"claude_opus\">Claude Opus 4</option>\n        <option value=\"claude_sonnet\" selected>Claude Sonnet 4</option>\n        <option value=\"claude_haiku\">Claude Haiku 3.5</option>\n        <option value=\"gemini_pro\">Gemini 2.5 Pro</option>\n        <option value=\"gemini_flash\">Gemini 2.5 Flash</option>\n        <option value=\"llama\">Llama 4 (hosted)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Cost</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost per Request</div>\n          <div class=\"result-value\" id=\"rPerRequest\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Daily Cost</div>\n          <div class=\"result-value\" id=\"rDaily\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Monthly Cost (30 days)</div>\n          <div class=\"result-value\" id=\"rMonthly\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Tokens/Request</div>\n          <div class=\"result-value\" id=\"rTokens\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates the cost of AI API calls based on the number of input and output tokens and the selected model's pricing. Token counts are estimated at roughly 1 token per 4 characters of English text.",
+    "rules": [
+      "Token estimation: ~1 token per 4 characters or ~1.3 tokens per word for English text",
+      "Cost = (input tokens × input price per token) + (output tokens × output price per token)",
+      "Pricing is per 1 million tokens and varies significantly by model",
+      "Output tokens typically cost 2-5x more than input tokens"
+    ],
+    "outro": "AI API costs can add up quickly at scale. Strategies to reduce costs include: using smaller models for simple tasks (Haiku/GPT-4o Mini), caching common responses, optimizing prompt length, and batching requests. Many providers offer volume discounts and committed-use pricing."
+  },
+  "faq": [
+    {
+      "question": "What is a token in AI?",
+      "answer": "A token is roughly 4 characters or 0.75 words in English. The word 'hamburger' is 3 tokens. A typical paragraph is about 100 tokens. Most models have context windows of 128K-200K tokens. Both your prompt (input) and the AI's response (output) count toward your cost."
+    },
+    {
+      "question": "Which AI model is cheapest?",
+      "answer": "For basic tasks, GPT-4o Mini and Claude Haiku offer the lowest costs at under $1 per million tokens. Gemini Flash is also very affordable. For complex reasoning, Claude Sonnet and GPT-4o offer the best value. Opus and frontier models are most expensive but highest quality."
+    },
+    {
+      "question": "Why are output tokens more expensive than input tokens?",
+      "answer": "Output token generation requires more compute than processing input. Each output token requires a full forward pass through the model, while input tokens can be processed in parallel. Output pricing is typically 3-5x higher than input pricing, so shorter prompts for longer outputs cost relatively more."
+    },
+    {
+      "question": "How can I reduce AI API costs?",
+      "answer": "Key strategies: use the smallest model that meets quality needs, cache frequently requested responses, keep prompts concise, set max_tokens to limit output length, use streaming to detect early when a response is off-track, batch API calls when possible, and consider fine-tuning a smaller model for specific tasks."
+    },
+    {
+      "question": "How accurate are token estimates from character count?",
+      "answer": "The 4-characters-per-token estimate is roughly accurate for English text. Code tends to use more tokens per character. Non-English languages (especially CJK) may use 1-2 characters per token. For precise counts, use the model provider's tokenizer (e.g., OpenAI's tiktoken or Anthropic's token counter)."
+    },
+    {
+      "question": "How much does it cost to process a full document with AI?",
+      "answer": "A typical page of text is about 250-300 words (~400 tokens). A 10-page document is ~4,000 tokens. Processing it with Claude Sonnet would cost about $0.012 in input tokens. A 100-page report (~40,000 tokens) would cost about $0.12 input + output costs. Books and large datasets can run $1-$10+."
+    }
+  ],
+  "relatedTools": [
+    "token-counter",
+    "ai-content-detector",
+    "ai-job-displacement-calculator",
+    "ai-vs-human-rate-calculator",
+    "automation-timeline-calculator",
+    "ai-detection-score-calculator",
+    "budget-calculator",
+    "electricity-cost-calculator"
+  ],
+  "chart": {
+    "title": "AI Model Pricing Comparison (per 1M Tokens, 2026)",
+    "subtitle": "Prices reflect standard API pricing. Volume discounts and batch pricing may be available.",
+    "columns": [
+      "Model",
+      "Input $/1M",
+      "Output $/1M",
+      "Context Window",
+      "Best For"
+    ],
+    "rows": [
+      [
+        "GPT-4o",
+        "$2.50",
+        "$10.00",
+        "128K",
+        "General purpose"
+      ],
+      [
+        "GPT-4o Mini",
+        "$0.15",
+        "$0.60",
+        "128K",
+        "Simple tasks"
+      ],
+      [
+        "Claude Opus 4",
+        "$15.00",
+        "$75.00",
+        "200K",
+        "Complex reasoning"
+      ],
+      [
+        "Claude Sonnet 4",
+        "$3.00",
+        "$15.00",
+        "200K",
+        "Best value"
+      ],
+      [
+        "Claude Haiku 3.5",
+        "$0.80",
+        "$4.00",
+        "200K",
+        "Fast & cheap"
+      ],
+      [
+        "Gemini 2.5 Pro",
+        "$1.25",
+        "$10.00",
+        "1M",
+        "Long context"
+      ],
+      [
+        "Gemini 2.5 Flash",
+        "$0.15",
+        "$0.60",
+        "1M",
+        "Budget option"
+      ],
+      [
+        "Llama 4 (hosted)",
+        "$0.20",
+        "$0.80",
+        "128K",
+        "Open source"
+      ]
+    ]
+  },
+  "category": "ai-automation",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This ai prompt cost calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This ai prompt cost calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

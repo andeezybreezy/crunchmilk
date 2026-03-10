@@ -1,0 +1,157 @@
+{
+  "slug": "conduit-fill-calculator",
+  "toolName": "Conduit Fill Calculator",
+  "tagline": "Check NEC conduit fill percentages for any combination of wires",
+  "title": "Conduit Fill Calculator — NEC Chapter 9 Compliance Check",
+  "metaDescription": "Calculate conduit fill percentage per NEC code. Enter conduit type, size, and wire count to check if your pull meets the 40% fill limit.",
+  "keywords": "conduit fill calculator, NEC conduit fill, conduit size calculator, EMT fill chart, wire fill calculator, how many wires in conduit",
+  "domain": "example.com",
+  "primaryColor": "#ca8a04",
+  "primaryDarkColor": "#a16207",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Conduit Fill Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"conduitType\">Conduit Type</label>\n      <select id=\"conduitType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"EMT\" selected>EMT (Electrical Metallic Tubing)</option>\n        <option value=\"PVC40\">PVC Schedule 40</option>\n        <option value=\"PVC80\">PVC Schedule 80</option>\n        <option value=\"RMC\">RMC (Rigid Metal Conduit)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"conduitSize\">Conduit Trade Size</label>\n      <select id=\"conduitSize\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"0.5\">1/2\"</option>\n        <option value=\"0.75\" selected>3/4\"</option>\n        <option value=\"1\">1\"</option>\n        <option value=\"1.25\">1-1/4\"</option>\n        <option value=\"1.5\">1-1/2\"</option>\n        <option value=\"2\">2\"</option>\n        <option value=\"2.5\">2-1/2\"</option>\n        <option value=\"3\">3\"</option>\n        <option value=\"3.5\">3-1/2\"</option>\n        <option value=\"4\">4\"</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wireGauge\">Wire Gauge (THHN/THWN)</label>\n      <select id=\"wireGauge\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"14\" selected>14 AWG</option>\n        <option value=\"12\">12 AWG</option>\n        <option value=\"10\">10 AWG</option>\n        <option value=\"8\">8 AWG</option>\n        <option value=\"6\">6 AWG</option>\n        <option value=\"4\">4 AWG</option>\n        <option value=\"3\">3 AWG</option>\n        <option value=\"2\">2 AWG</option>\n        <option value=\"1\">1 AWG</option>\n        <option value=\"1/0\">1/0 AWG</option>\n        <option value=\"2/0\">2/0 AWG</option>\n        <option value=\"3/0\">3/0 AWG</option>\n        <option value=\"4/0\">4/0 AWG</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"numWires\">Number of Conductors</label>\n      <input type=\"number\" id=\"numWires\" value=\"3\" min=\"1\" inputmode=\"numeric\">\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Include all current-carrying and ground conductors</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Check Conduit Fill</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Fill Percentage</div>\n          <div class=\"result-value\" id=\"rFillPct\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">NEC Compliance</div>\n          <div class=\"result-value\" id=\"rStatus\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max Wires Allowed</div>\n          <div class=\"result-value\" id=\"rMaxWires\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Suggested Conduit</div>\n          <div class=\"result-value\" id=\"rSuggested\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "NEC Chapter 9 limits how much of a conduit's internal area can be filled with wires to prevent overheating and allow easy pulling.",
+    "rules": [
+      "1 wire: 53% fill allowed. 2 wires: 31% fill. 3 or more wires: 40% fill. These percentages are from NEC Chapter 9 Table 1",
+      "Wire areas come from NEC Chapter 9 Table 5 for THHN/THWN insulated conductors, which include the insulation thickness",
+      "Conduit internal areas vary by type — EMT, PVC Schedule 40, PVC Schedule 80, and rigid metal each have different inside diameters"
+    ],
+    "outro": "Overfilling conduit makes wire pulls difficult and traps heat, which reduces ampacity. Always check fill before starting a conduit run to avoid costly rework."
+  },
+  "faq": [
+    {
+      "question": "What is the NEC 40% conduit fill rule?",
+      "answer": "When three or more conductors are in a conduit, NEC Chapter 9 Table 1 limits total wire area to 40% of the conduit's internal area. For one conductor it's 53%, and for two conductors it's 31%. These limits ensure wires can dissipate heat and be pulled without damage."
+    },
+    {
+      "question": "How many 12 AWG THHN wires fit in 3/4-inch EMT?",
+      "answer": "Up to 16 conductors of 12 AWG THHN can fit in 3/4-inch EMT conduit while staying within the 40% fill limit. Each 12 AWG THHN wire has an area of 0.0133 sq inches, and 3/4-inch EMT has 0.213 sq inches of usable fill area."
+    },
+    {
+      "question": "Does the ground wire count toward conduit fill?",
+      "answer": "Yes, equipment grounding conductors count toward conduit fill calculations. Every conductor inside the conduit — hot, neutral, and ground — takes up space and must be included in the fill calculation."
+    },
+    {
+      "question": "What is the difference between EMT and rigid conduit for fill?",
+      "answer": "EMT (thin-wall) has a larger internal diameter than rigid metal conduit (RMC) of the same trade size, so it allows more wires. For example, 3/4-inch EMT has 0.533 sq in total area while 3/4-inch RMC has 0.549 sq in. Always use the correct table for your conduit type."
+    },
+    {
+      "question": "Can I mix wire sizes in one conduit?",
+      "answer": "Yes, you can mix wire sizes. Calculate the total area of all conductors and compare it to the conduit's allowed fill area. This calculator uses a single wire size, but for mixed sizes, add up individual wire areas from NEC Chapter 9 Table 5."
+    },
+    {
+      "question": "What happens if I exceed NEC conduit fill limits?",
+      "answer": "Overfilled conduit causes heat buildup that reduces wire ampacity, makes pulling difficult (risking insulation damage), and violates NEC code. An inspector will require you to either upsize the conduit or split wires into multiple conduits."
+    }
+  ],
+  "relatedTools": [
+    "voltage-drop-calculator",
+    "wire-size-calculator",
+    "breaker-sizing-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator"
+  ],
+  "chart": {
+    "title": "Maximum THHN Conductors in EMT Conduit (40% Fill)",
+    "subtitle": "Number of same-size THHN wires allowed per NEC.",
+    "columns": [
+      "Wire Size",
+      "1/2\" EMT",
+      "3/4\" EMT",
+      "1\" EMT",
+      "1-1/4\" EMT",
+      "2\" EMT"
+    ],
+    "rows": [
+      [
+        "14 AWG",
+        "12",
+        "22",
+        "35",
+        "61",
+        "99"
+      ],
+      [
+        "12 AWG",
+        "9",
+        "16",
+        "26",
+        "45",
+        "73"
+      ],
+      [
+        "10 AWG",
+        "5",
+        "10",
+        "16",
+        "28",
+        "46"
+      ],
+      [
+        "8 AWG",
+        "3",
+        "6",
+        "9",
+        "16",
+        "26"
+      ],
+      [
+        "6 AWG",
+        "2",
+        "4",
+        "6",
+        "11",
+        "18"
+      ],
+      [
+        "4 AWG",
+        "1",
+        "2",
+        "4",
+        "7",
+        "11"
+      ],
+      [
+        "2 AWG",
+        "1",
+        "1",
+        "3",
+        "5",
+        "8"
+      ],
+      [
+        "1/0 AWG",
+        "—",
+        "1",
+        "2",
+        "3",
+        "5"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This conduit fill calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This conduit fill calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

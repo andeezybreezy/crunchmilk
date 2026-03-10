@@ -1,0 +1,139 @@
+{
+  "slug": "duct-sizing-calculator",
+  "toolName": "Duct Sizing Calculator",
+  "tagline": "Calculate round and rectangular duct sizes based on CFM and velocity",
+  "title": "Duct Sizing Calculator — Round & Rectangular Duct Sizes by CFM",
+  "metaDescription": "Size HVAC ducts by CFM airflow. Get round duct diameter, equivalent rectangular sizes, and friction loss for any duct run.",
+  "keywords": "duct sizing calculator, duct size chart, CFM duct calculator, HVAC duct sizing, round duct size, rectangular duct equivalent",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Duct Sizing Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"cfmMethod\">Airflow Input Method</label>\n      <select id=\"cfmMethod\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"direct\" selected>Enter CFM directly</option>\n        <option value=\"roomsize\">Calculate from room size</option>\n      </select>\n    </div>\n\n    <div id=\"cfmDirectWrap\">\n      <div class=\"input-group\">\n        <label for=\"cfm\">Airflow (CFM)</label>\n        <input type=\"number\" id=\"cfm\" placeholder=\"e.g. 400\" inputmode=\"decimal\" step=\"any\">\n        <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Typical: 1 CFM per sq ft of floor area, or 400 CFM per ton of AC</div>\n      </div>\n    </div>\n\n    <div id=\"cfmRoomWrap\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"roomSqFt\">Room Size (sq ft)</label>\n        <input type=\"number\" id=\"roomSqFt\" placeholder=\"e.g. 300\" inputmode=\"decimal\" step=\"any\">\n        <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Assumes ~1 CFM per sq ft for standard residential</div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ductType\">Duct Shape</label>\n      <select id=\"ductType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"round\" selected>Round</option>\n        <option value=\"rectangular\">Rectangular</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"maxVelocity\">Maximum Air Velocity (FPM)</label>\n      <select id=\"maxVelocity\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"600\">600 FPM (bedroom, low noise)</option>\n        <option value=\"700\">700 FPM (residential branch)</option>\n        <option value=\"900\" selected>900 FPM (residential trunk)</option>\n        <option value=\"1200\">1,200 FPM (commercial)</option>\n        <option value=\"1500\">1,500 FPM (industrial)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Duct Size</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Round Duct Diameter</div>\n          <div class=\"result-value\" id=\"rRound\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Actual Velocity</div>\n          <div class=\"result-value\" id=\"rVelocity\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Rectangular Equivalent</div>\n          <div class=\"result-value\" id=\"rRect\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Duct Area</div>\n          <div class=\"result-value\" id=\"rArea\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Duct sizing balances airflow delivery against noise and friction. Undersized ducts create noise and starve rooms of air; oversized ducts waste material and space.",
+    "rules": [
+      "Calculate required cross-sectional area: Area (sq ft) = CFM ÷ Velocity (FPM). For a round duct: Diameter = √(4 × Area / π)",
+      "Residential trunk ducts typically use 700-900 FPM velocity. Branch ducts to bedrooms should stay under 600 FPM to minimize noise",
+      "Rectangular ducts are sized to match the equivalent round duct area, using the formula: equivalent diameter = 1.3 × (a×b)^0.625 / (a+b)^0.25"
+    ],
+    "outro": "Standard round duct sizes increase in 2-inch increments (6, 8, 10, 12 inches, etc.). This calculator rounds up to the next standard size to ensure adequate airflow."
+  },
+  "faq": [
+    {
+      "question": "How do I calculate CFM for a room?",
+      "answer": "The simplest method is 1 CFM per square foot of floor area. A 300 sq ft room needs about 300 CFM. More precisely, divide your AC tonnage by the number of rooms: a 3-ton system (1,200 CFM total) serving 8 rooms averages 150 CFM per room. Adjust up for kitchens and sunny rooms."
+    },
+    {
+      "question": "What size duct do I need for 400 CFM?",
+      "answer": "At 900 FPM velocity (residential trunk), 400 CFM needs about 0.44 sq ft of duct area, which is a 9-inch round duct (round up to 10-inch standard). At 600 FPM (low noise), you'd need a 12-inch round duct. Lower velocity means larger duct but less noise."
+    },
+    {
+      "question": "What is the recommended air velocity for residential ducts?",
+      "answer": "Main trunks: 700-900 FPM. Branch ducts: 600-700 FPM. Near bedrooms: under 600 FPM for quiet operation. Flex duct should be sized for even lower velocity due to higher friction. Commercial systems can run 1,200-1,500 FPM."
+    },
+    {
+      "question": "How do I convert round duct size to rectangular?",
+      "answer": "Match the cross-sectional area. A 10-inch round duct (78.5 sq in) can be replaced with an 8\" × 12\" rectangular duct (96 sq in) or a 10\" × 10\" duct (100 sq in). Rectangular ducts should maintain an aspect ratio under 4:1 for efficient airflow."
+    },
+    {
+      "question": "Does flex duct need to be sized larger than rigid duct?",
+      "answer": "Yes. Flex duct has significantly higher friction loss than smooth rigid duct, especially when not pulled taut. Size flex duct one size larger (e.g., use 8-inch flex where 6-inch rigid would work) and keep runs as short and straight as possible."
+    },
+    {
+      "question": "How many CFM per ton of air conditioning?",
+      "answer": "The standard rule is 400 CFM per ton of cooling. A 3-ton AC system needs 1,200 CFM total airflow through the duct system. The supply and return duct trunks must each be sized for this total CFM."
+    }
+  ],
+  "relatedTools": [
+    "btu-calculator",
+    "mini-split-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Round Duct Size by CFM and Velocity",
+    "subtitle": "Standard round duct diameter needed for given CFM.",
+    "columns": [
+      "CFM",
+      "600 FPM",
+      "900 FPM",
+      "1200 FPM"
+    ],
+    "rows": [
+      [
+        "100",
+        "6\"",
+        "4\"",
+        "4\""
+      ],
+      [
+        "200",
+        "8\"",
+        "6\"",
+        "6\""
+      ],
+      [
+        "400",
+        "12\"",
+        "10\"",
+        "8\""
+      ],
+      [
+        "600",
+        "14\"",
+        "12\"",
+        "10\""
+      ],
+      [
+        "800",
+        "16\"",
+        "12\"",
+        "12\""
+      ],
+      [
+        "1,000",
+        "18\"",
+        "14\"",
+        "12\""
+      ],
+      [
+        "1,200",
+        "20\"",
+        "16\"",
+        "14\""
+      ],
+      [
+        "1,600",
+        "22\"",
+        "18\"",
+        "16\""
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This duct sizing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This duct sizing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

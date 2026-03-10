@@ -1,0 +1,136 @@
+{
+  "slug": "draw-odds-calculator",
+  "toolName": "Draw Odds Calculator",
+  "tagline": "Estimate your hunting tag draw odds based on applicants, tags, and bonus points",
+  "title": "Draw Odds Calculator — Hunting Tag Draw Probability Estimator",
+  "metaDescription": "Estimate your hunting tag draw odds by applicant pool, available tags, and bonus or preference points. See expected years to draw.",
+  "keywords": "draw odds calculator, hunting tag odds, bonus point calculator, preference point calculator, elk draw odds, hunting draw probability",
+  "domain": "example.com",
+  "primaryColor": "#15803d",
+  "primaryDarkColor": "#116932",
+  "ogTitle": "Draw Odds Calculator — Hunting Tag Draw Probability",
+  "ogDescription": "Estimate hunting tag draw odds based on applicant numbers, available tags, and your bonus or preference points.",
+  "twitterDescription": "Estimate your hunting tag draw odds with bonus and preference point systems.",
+  "jsonLdDescription": "Calculate estimated hunting tag draw odds based on total applicants, available tags, and bonus or preference point levels.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Draw Odds Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"totalApplicants\">Total Applicants</label>\n      <input type=\"number\" id=\"totalApplicants\" placeholder=\"e.g. 5000\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"totalTags\">Total Tags Available</label>\n      <input type=\"number\" id=\"totalTags\" placeholder=\"e.g. 200\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"yourPoints\">Your Bonus/Preference Points</label>\n      <input type=\"number\" id=\"yourPoints\" value=\"0\" min=\"0\" max=\"30\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"pointSystem\">Point System Type</label>\n      <select id=\"pointSystem\">\n        <option value=\"preference\">Preference Points (drawn in order)</option>\n        <option value=\"bonus\">Bonus Points (weighted random)</option>\n        <option value=\"random\">Random Draw (no points)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Odds</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Your Estimated Draw Odds</div>\n          <div class=\"result-value\" id=\"drawOdds\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Expected Years to Draw</div>\n          <div class=\"result-value\" id=\"yearsToDraw\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Base Random Odds</div>\n          <div class=\"result-value\" id=\"baseOdds\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Point Advantage</div>\n          <div class=\"result-value\" id=\"pointAdvantage\">—</div>\n        </div>\n      </div>\n\n      <h3 style=\"margin-top:1.25rem;margin-bottom:0.75rem;\">Odds by Point Level</h3>\n      <div class=\"table-wrap\">\n        <table class=\"chart-table\">\n          <thead><tr><th>Points</th><th>Draw Odds</th><th>Expected Years</th></tr></thead>\n          <tbody id=\"oddsBody\"></tbody>\n        </table>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates hunting tag draw odds under three common point systems used by state wildlife agencies. The math varies significantly depending on whether the state uses preference points, bonus points, or a purely random draw.",
+    "rules": [
+      "<strong>Preference points</strong>: Applicants with the most points are drawn first before anyone with fewer points. Your odds are near 100% once you reach the threshold.",
+      "<strong>Bonus points</strong>: Each point adds a weighted entry. An applicant with 5 points gets 6 chances (points + 1 base) vs. 1 chance for a zero-point applicant.",
+      "<strong>Random draw</strong>: Every applicant has equal odds regardless of points. Odds = tags ÷ applicants."
+    ],
+    "outro": "Real draw systems are more complex — many states split tags between preference pools and random pools, or use squared bonus points. These estimates give a useful approximation. Check your state wildlife agency for exact draw statistics."
+  },
+  "faq": [
+    {
+      "question": "What is the difference between preference points and bonus points?",
+      "answer": "Preference points guarantee that higher-point applicants draw before lower-point applicants. You essentially wait in line. Bonus points improve your odds proportionally but don't guarantee anything — they increase your chances in a weighted random drawing."
+    },
+    {
+      "question": "How do bonus points improve my odds?",
+      "answer": "With bonus points, each point gives you an additional entry in the draw pool. If you have 5 bonus points, you get 6 entries (5 points + 1 base). If the average applicant has 2 points (3 entries), your odds are roughly double theirs."
+    },
+    {
+      "question": "How many years will it take to draw a tag?",
+      "answer": "The expected years to draw equals roughly 1 divided by your draw odds percentage. At 10% odds per year, expect about 10 years on average. With preference points, it's more predictable — you simply need to accumulate enough points to reach the draw threshold."
+    },
+    {
+      "question": "Do my odds get better each year I don't draw?",
+      "answer": "Only if the state uses bonus or preference points that accumulate when you're unsuccessful. In a pure random draw, your odds reset to the same level each year. With bonus points, each additional point slightly improves your weighted chances."
+    },
+    {
+      "question": "What are squared bonus points?",
+      "answer": "Some states like Colorado use a squared bonus point system where your entries equal (points + 1) squared. So 5 points gives you 36 entries instead of 6. This dramatically favors applicants who have accumulated more points."
+    },
+    {
+      "question": "Should I apply for harder or easier units?",
+      "answer": "It depends on your goals. Trophy units have far fewer tags and more applicants, meaning much longer waits. General units may have 20-50% draw odds. Many hunters balance a long-term trophy application with short-term general unit hunts."
+    }
+  ],
+  "chart": {
+    "title": "Example Draw Odds by State and Species",
+    "subtitle": "Representative odds for popular hunts. Actual odds vary by unit and year.",
+    "columns": [
+      "Hunt",
+      "Applicants",
+      "Tags",
+      "Approx. Odds (0 pts)",
+      "Point System"
+    ],
+    "rows": [
+      [
+        "Colorado Elk (2nd season)",
+        "45,000",
+        "12,000",
+        "~25%",
+        "Weighted bonus"
+      ],
+      [
+        "Wyoming Moose",
+        "15,000",
+        "350",
+        "~2%",
+        "Preference"
+      ],
+      [
+        "Montana Elk (general)",
+        "Open",
+        "OTC",
+        "100%",
+        "None"
+      ],
+      [
+        "Arizona Strip Mule Deer",
+        "8,000",
+        "100",
+        "~1.2%",
+        "Bonus"
+      ],
+      [
+        "Nevada Desert Bighorn",
+        "12,000",
+        "30",
+        "~0.25%",
+        "Squared bonus"
+      ],
+      [
+        "Iowa Whitetail (shotgun)",
+        "25,000",
+        "9,000",
+        "~36%",
+        "Preference"
+      ]
+    ]
+  },
+  "category": "firearms",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This draw odds calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This draw odds calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "bullet-drop-calculator",
+    "hunting-license-calculator",
+    "deer-processing-calculator",
+    "reloading-cost-calculator",
+    "effective-range-calculator",
+    "turkey-season-calculator"
+  ]
+}

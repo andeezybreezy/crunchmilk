@@ -1,0 +1,113 @@
+{
+  "slug": "dog-food-calculator",
+  "toolName": "Dog Food Calculator",
+  "tagline": "Calculate your dog's daily food and calorie needs",
+  "title": "Dog Food Calculator — Daily Calories, Cups & Portions by Weight",
+  "metaDescription": "Calculate how much to feed your dog daily. Enter weight, age, and activity level to get calories, cups of dry food, cans of wet food, or raw portions.",
+  "keywords": "dog food calculator, how much to feed my dog, dog calorie calculator, puppy food calculator, dog feeding guide",
+  "primaryColor": "#ea580c",
+  "primaryDarkColor": "#c2410c",
+  "domain": "example.com",
+  "ogTitle": "Dog Food Calculator — Daily Calories & Portion Sizes",
+  "ogDescription": "Calculate your dog's daily calorie needs and food portions based on weight, age, and activity level.",
+  "twitterDescription": "Calculate how much to feed your dog daily based on weight, age, and activity level.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Dog Food Calculator",
+    "description": "Calculate daily calorie needs and food portions for dogs based on weight, age, and activity level.",
+    "url": "https://example.com/dog-food-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many calories does my dog need per day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Calculate RER (Resting Energy Requirement) as 70 × (body weight in kg)^0.75, then multiply by an activity factor: 1.0-1.2 for sedentary, 1.4-1.6 for moderate, 1.6-2.0 for active dogs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many cups of dog food per day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Divide daily calories by your food's calorie density (typically 350 cal/cup for dry food). A 50-lb moderately active dog needs about 1,000 calories, or roughly 3 cups of standard dry food."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much should I feed my puppy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Puppies need about twice the calories per pound as adult dogs. Use a factor of 2.0-3.0 times RER. Feed puppies 3-4 times daily until 6 months, then transition to twice daily."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much raw food should I feed my dog?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A general guideline is 2-3% of body weight per day for raw feeding. Active dogs may need up to 4%. Raw food averages about 30-40 calories per ounce depending on protein and fat content."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I feed my dog once or twice a day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most veterinarians recommend feeding adult dogs twice daily. Puppies under 6 months should eat 3-4 times daily. Senior dogs may benefit from 2-3 smaller meals to aid digestion."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I know if I'm feeding my dog enough?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Monitor body condition: you should be able to feel ribs but not see them. An ideal weight dog has a visible waist from above and a tucked abdomen from the side. Adjust portions based on weight changes."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Dog Food Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"dogWeight\">Dog's Weight</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"dogWeight\" placeholder=\"e.g. 50\" step=\"0.5\" min=\"1\" inputmode=\"decimal\" value=\"50\">\n      <select id=\"weightUnit\" style=\"flex:0 0 auto;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"lbs\" selected>lbs</option>\n        <option value=\"kg\">kg</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"ageGroup\">Life Stage</label>\n    <select id=\"ageGroup\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"puppy\">Puppy (under 1 year)</option>\n      <option value=\"adult\" selected>Adult (1-7 years)</option>\n      <option value=\"senior\">Senior (7+ years)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"activityLevel\">Activity Level</label>\n    <select id=\"activityLevel\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"low\">Low (couch potato, mostly indoor)</option>\n      <option value=\"moderate\" selected>Moderate (daily walks, some play)</option>\n      <option value=\"high\">High (working dog, very active)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"foodType\">Food Type</label>\n    <select id=\"foodType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"dry\" selected>Dry Kibble</option>\n      <option value=\"wet\">Wet / Canned</option>\n      <option value=\"raw\">Raw Diet</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Food Needs</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Calories (MER)</div>\n        <div class=\"result-value\" id=\"dailyCal\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Resting Energy (RER)</div>\n        <div class=\"result-value\" id=\"rerCal\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Food Amount</div>\n        <div class=\"result-value\" id=\"foodAmount\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Per Meal (2 meals/day)</div>\n        <div class=\"result-value\" id=\"perMeal\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n\n  <div class=\"presets\">\n    <h3>Quick Dog Sizes</h3>\n    <div class=\"preset-grid\" id=\"presetGrid\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Daily Calorie Guide by Dog Weight</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Dog Weight</th><th>RER (kcal)</th><th>Low Activity</th><th>Moderate</th><th>High Activity</th><th>Puppy</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>10 lbs (4.5 kg)</td><td>218</td><td>262</td><td>327</td><td>393</td><td>436</td></tr>\n        <tr><td>20 lbs (9 kg)</td><td>366</td><td>440</td><td>549</td><td>659</td><td>732</td></tr>\n        <tr><td>30 lbs (14 kg)</td><td>497</td><td>597</td><td>746</td><td>896</td><td>995</td></tr>\n        <tr><td>50 lbs (23 kg)</td><td>726</td><td>871</td><td>1089</td><td>1307</td><td>1452</td></tr>\n        <tr><td>70 lbs (32 kg)</td><td>933</td><td>1119</td><td>1399</td><td>1679</td><td>1866</td></tr>\n        <tr><td>90 lbs (41 kg)</td><td>1124</td><td>1349</td><td>1686</td><td>2024</td><td>2249</td></tr>\n        <tr><td>110 lbs (50 kg)</td><td>1305</td><td>1566</td><td>1957</td><td>2349</td><td>2610</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Dog Food Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator uses the veterinary standard formula for estimating a dog's daily energy needs.</p>\n  <div style=\"background:#fff7ed;border:2px solid #fed7aa;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">RER = 70 × (weight in kg)<sup>0.75</sup></span><br>\n    <span style=\"font-size:1rem;font-weight:600;color:var(--text-light)\">MER = RER × Activity Factor</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>RER</strong> = Resting Energy Requirement (base metabolic needs)</li>\n    <li><strong>MER</strong> = Maintenance Energy Requirement (adjusted for activity)</li>\n    <li>Activity factors: Low 1.2, Moderate 1.5, High 1.8, Puppy 2.0, Senior 1.2</li>\n    <li>Dry food averages ~350 cal/cup, wet food ~250 cal/13oz can, raw ~35 cal/oz</li>\n  </ul>\n  <p><em>Always consult your veterinarian for specific dietary recommendations, especially for puppies, seniors, or dogs with health conditions.</em></p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How many calories does my dog need per day?</h3>\n    <p>Start with the RER formula: 70 × (body weight in kg)^0.75. Then multiply by an activity factor — 1.2 for low activity, 1.5 for moderate, 1.8 for high activity, or 2.0 for growing puppies.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many cups of dog food per day?</h3>\n    <p>Divide daily calories by your food's caloric density. Standard dry kibble averages about 350 calories per cup. A 50-lb moderately active dog needing ~1,089 calories would eat about 3.1 cups daily.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much should I feed my puppy?</h3>\n    <p>Puppies need roughly 2× the calories per pound of an adult dog. Use a multiplier of 2.0 on the RER. Feed 3-4 times daily until 6 months old, then reduce to twice daily.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much raw food should I feed my dog?</h3>\n    <p>A common guideline is 2-3% of body weight daily for adult dogs, or 5-8% for puppies. Raw food averages about 30-40 calories per ounce depending on the protein and fat content of the mix.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Should I feed my dog once or twice a day?</h3>\n    <p>Most vets recommend twice daily for adult dogs. Puppies under 6 months should eat 3-4 times daily. Senior dogs often do better with 2-3 smaller meals to ease digestion.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How do I know if I'm feeding my dog enough?</h3>\n    <p>Check body condition regularly: you should feel ribs easily without seeing them. From above, the dog should have a visible waist. Adjust portions every 2-4 weeks based on weight trends.</p>\n  </div>\n</div>",
+  "category": "pet",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This dog food calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This dog food calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "aquarium-volume-calculator",
+    "fish-tank-stocking-calculator",
+    "meat-per-person-calculator"
+  ]
+}

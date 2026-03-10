@@ -1,0 +1,148 @@
+{
+  "slug": "wood-movement-calculator",
+  "toolName": "Wood Movement Calculator",
+  "tagline": "Calculate wood expansion and contraction by species, width, and humidity change",
+  "title": "Wood Movement Calculator — Expansion & Contraction Estimator",
+  "metaDescription": "Calculate wood expansion and contraction by species and humidity. Enter width, species, and moisture change for movement estimate.",
+  "keywords": "wood movement calculator, wood expansion, wood contraction, wood shrinkage, dimensional change, humidity wood, wood species coefficient",
+  "domain": "woodmovementcalculator.com",
+  "primaryColor": "#92400e",
+  "primaryDarkColor": "#78350f",
+  "ogTitle": "Wood Movement Calculator — Expansion & Contraction by Species",
+  "ogDescription": "Calculate how much wood moves with humidity changes. Enter species, width, and moisture change to estimate dimensional change.",
+  "twitterDescription": "Calculate wood expansion and contraction by species and humidity change. Essential for woodworking joints, tabletops, and panels.",
+  "jsonLdDescription": "Wood movement calculator that estimates dimensional change based on species-specific coefficients, board width, and moisture content change using the formula: width × coefficient × moisture change.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Wood Movement Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"species\">Wood Species</label>\n      <div class=\"input-row\">\n        <select id=\"species\">\n          <option value=\"red-oak\">Red Oak</option>\n          <option value=\"white-oak\">White Oak</option>\n          <option value=\"hard-maple\">Hard Maple</option>\n          <option value=\"cherry\">Cherry</option>\n          <option value=\"walnut\">Black Walnut</option>\n          <option value=\"white-pine\">White Pine</option>\n          <option value=\"douglas-fir\">Douglas Fir</option>\n          <option value=\"poplar\">Poplar / Tulipwood</option>\n          <option value=\"ash\">White Ash</option>\n          <option value=\"mahogany\">Genuine Mahogany</option>\n          <option value=\"teak\">Teak</option>\n          <option value=\"cedar\">Western Red Cedar</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"boardWidth\">Board Width (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"boardWidth\" placeholder=\"e.g. 12\" min=\"0.1\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"grainDir\">Grain Direction</label>\n      <div class=\"input-row\">\n        <select id=\"grainDir\">\n          <option value=\"tangential\">Tangential (flat-sawn) — most movement</option>\n          <option value=\"radial\">Radial (quarter-sawn) — less movement</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"mcStart\">Starting Moisture Content (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"mcStart\" placeholder=\"e.g. 8\" min=\"0\" max=\"30\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"mcEnd\">Ending Moisture Content (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"mcEnd\" placeholder=\"e.g. 12\" min=\"0\" max=\"30\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate Movement</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Dimensional Change</div>\n          <div class=\"result-value\" id=\"dimChange\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">New Width</div>\n          <div class=\"result-value\" id=\"newWidth\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Change (mm)</div>\n          <div class=\"result-value\" id=\"changeMm\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Direction</div>\n          <div class=\"result-value\" id=\"direction\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Wood expands when it absorbs moisture and contracts when it dries. The amount of movement depends on the species, grain orientation, board width, and the magnitude of moisture content change.",
+    "rules": [
+      "Formula: <strong>Movement = Width × Coefficient × (MC_end − MC_start)</strong>",
+      "Tangential (flat-sawn) movement is roughly <strong>twice</strong> that of radial (quarter-sawn)",
+      "Movement only occurs below the <strong>fiber saturation point (~28% MC)</strong> — above that, wood dimensions are stable",
+      "Most indoor wood stabilizes at <strong>6-10% MC</strong>; seasonal swings of 3-5% MC are common"
+    ],
+    "outro": "Always account for wood movement in designs over 6 inches wide. Use breadboard ends, elongated screw holes, and floating panels to allow for seasonal expansion and contraction."
+  },
+  "faq": [
+    {
+      "question": "How is wood movement calculated?",
+      "answer": "Movement = Board Width × Species Coefficient × Change in Moisture Content. Each species has a unique coefficient for tangential (flat-sawn) and radial (quarter-sawn) movement, expressed as percentage change per 1% MC change."
+    },
+    {
+      "question": "What is the difference between tangential and radial movement?",
+      "answer": "Tangential movement occurs across the growth rings (flat-sawn boards) and is typically 1.5-2× greater than radial movement (across the radius, quarter-sawn boards). Quarter-sawn lumber is more dimensionally stable."
+    },
+    {
+      "question": "What moisture content should I expect indoors?",
+      "answer": "In heated homes, wood typically stabilizes at 6-8% MC in winter and 8-12% MC in summer, depending on climate and HVAC. Desert climates may see 4-6%, while humid coastal areas may reach 12-14%."
+    },
+    {
+      "question": "Does wood move along its length?",
+      "answer": "Longitudinal movement (along the grain) is negligible — about 0.1% over the full MC range. This is why wood movement is only a concern across the width, not the length."
+    },
+    {
+      "question": "How can I reduce wood movement?",
+      "answer": "Use quarter-sawn lumber, apply finish to all surfaces (including ends), choose stable species (teak, mahogany, cedar), or use engineered wood (plywood, MDF). Acclimate lumber to your shop's humidity before building."
+    }
+  ],
+  "relatedTools": [
+    "dovetail-calculator",
+    "board-foot-calculator",
+    "lumber-calculator",
+    "plywood-calculator"
+  ],
+  "chart": {
+    "title": "Movement Coefficients by Species",
+    "subtitle": "Dimensional change coefficient per 1% moisture content change.",
+    "columns": [
+      "Species",
+      "Tangential",
+      "Radial",
+      "T/R Ratio"
+    ],
+    "rows": [
+      [
+        "Red Oak",
+        "0.00369",
+        "0.00158",
+        "2.33"
+      ],
+      [
+        "White Oak",
+        "0.00365",
+        "0.00180",
+        "2.03"
+      ],
+      [
+        "Hard Maple",
+        "0.00353",
+        "0.00165",
+        "2.14"
+      ],
+      [
+        "Cherry",
+        "0.00274",
+        "0.00126",
+        "2.17"
+      ],
+      [
+        "Black Walnut",
+        "0.00274",
+        "0.00190",
+        "1.44"
+      ],
+      [
+        "White Pine",
+        "0.00216",
+        "0.00071",
+        "3.04"
+      ],
+      [
+        "Douglas Fir",
+        "0.00267",
+        "0.00168",
+        "1.59"
+      ],
+      [
+        "Mahogany",
+        "0.00170",
+        "0.00125",
+        "1.36"
+      ],
+      [
+        "Teak",
+        "0.00155",
+        "0.00105",
+        "1.48"
+      ],
+      [
+        "Western Red Cedar",
+        "0.00166",
+        "0.00081",
+        "2.05"
+      ]
+    ]
+  },
+  "category": "woodworking",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This wood movement calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This wood movement calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

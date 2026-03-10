@@ -1,0 +1,146 @@
+{
+  "slug": "shed-material-calculator",
+  "toolName": "Shed Material Calculator",
+  "tagline": "Calculate lumber, sheathing, roofing, and hardware for building a shed",
+  "title": "Shed Material Calculator — Lumber & Materials List",
+  "metaDescription": "Calculate shed building materials: framing lumber, sheathing, roofing, siding, and hardware. Enter shed dimensions for a complete materials list.",
+  "keywords": "shed material calculator, shed building calculator, shed lumber calculator, shed cost estimator, how much lumber for a shed",
+  "domain": "example.com",
+  "primaryColor": "#b45309",
+  "primaryDarkColor": "#92400e",
+  "ogTitle": "Shed Material Calculator — Lumber & Materials List",
+  "ogDescription": "Calculate all materials needed to build a shed: framing lumber, floor and roof sheathing, roofing, siding, and hardware for any size shed.",
+  "twitterDescription": "Free shed material calculator. Enter your shed dimensions to get a complete lumber and materials list for your shed building project.",
+  "jsonLdDescription": "Calculate shed building materials including framing lumber, floor sheathing, wall and roof sheathing, roofing shingles, siding, and hardware based on shed dimensions.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Shed Material Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Get a complete materials list for your shed build.</p>\n\n    <div class=\"input-group\">\n      <label for=\"shedLength\">Shed Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"shedLength\" placeholder=\"e.g. 12\" value=\"12\" step=\"2\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"shedWidth\">Shed Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"shedWidth\" placeholder=\"e.g. 10\" value=\"10\" step=\"2\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wallHeight\">Wall Height (feet)</label>\n      <select id=\"wallHeight\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"7\">7 ft (low profile)</option>\n        <option value=\"8\" selected>8 ft (standard)</option>\n        <option value=\"9\">9 ft (tall)</option>\n        <option value=\"10\">10 ft (extra tall)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roofStyle\">Roof Style</label>\n      <select id=\"roofStyle\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"gable\" selected>Gable (two slopes)</option>\n        <option value=\"lean\">Lean-to / Shed (single slope)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roofPitch\">Roof Pitch</label>\n      <select id=\"roofPitch\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"4\">4/12 (low)</option>\n        <option value=\"6\" selected>6/12 (standard)</option>\n        <option value=\"8\">8/12 (steep)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"numDoorsShed\">Number of Doors</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"numDoorsShed\" placeholder=\"e.g. 1\" value=\"1\" step=\"1\" min=\"0\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"numWindowsShed\">Number of Windows</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"numWindowsShed\" placeholder=\"e.g. 1\" value=\"1\" step=\"1\" min=\"0\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Materials</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Wall Studs (2x4x8)</div>\n          <div class=\"result-value\" id=\"rStuds\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Floor Joists (2x6)</div>\n          <div class=\"result-value\" id=\"rJoists\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Rafters (2x6)</div>\n          <div class=\"result-value\" id=\"rRafters\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Floor Sheathing (4x8)</div>\n          <div class=\"result-value\" id=\"rFloorSheath\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Roof Sheathing (4x8)</div>\n          <div class=\"result-value\" id=\"rRoofSheath\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Wall Sheathing (4x8)</div>\n          <div class=\"result-value\" id=\"rWallSheath\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Roofing Shingles</div>\n          <div class=\"result-value\" id=\"rShingles\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Siding (4x8 sheets)</div>\n          <div class=\"result-value\" id=\"rSiding\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates shed building materials by computing framing, sheathing, roofing, and siding quantities based on your shed dimensions and roof style.",
+    "rules": [
+      "Wall studs: perimeter / 16\" OC spacing + corners + door/window framing (king studs, jacks, headers, cripples)",
+      "Floor joists: (shed length / 16\" OC) + 1 rim joists on each end",
+      "Rafters: (shed length / 24\" OC) + 1 per side (gable) or one slope (lean-to)",
+      "Floor sheathing: floor area / 32 sq ft per 4x8 sheet (rounded up)",
+      "Roof area: length x rafter length (adjusted for pitch), with 1 ft overhang per side",
+      "Shingles: 3 bundles per 100 sq ft (1 square) of roof area + 10% waste"
+    ],
+    "outro": "This estimate covers basic framing and sheathing. Add trim lumber (1x4, 1x6), drip edge, roofing felt, nails/screws, door hardware, and paint/stain separately. For sheds on concrete slabs, omit floor joists and floor sheathing."
+  },
+  "faq": [
+    {
+      "question": "How much lumber do I need for a 10x12 shed?",
+      "answer": "A basic 10x12 gable-roof shed needs approximately: 50-55 wall studs (2x4), 10 floor joists (2x6x10), 12 rafters (2x6), 4 sheets of floor plywood, 6-7 sheets of roof sheathing, 8 sheets of wall sheathing, 6 bundles of shingles, and miscellaneous plates, headers, and trim."
+    },
+    {
+      "question": "What is the cheapest shed size to build?",
+      "answer": "The most efficient sizes use standard lumber lengths without waste: 8x8, 8x10, 8x12, 10x12, or 12x12. An 8x10 shed is the sweet spot for cost vs. space — materials cost $800-$1,500 for a basic build. Stick to dimensions divisible by 4 for efficient sheathing use."
+    },
+    {
+      "question": "Do I need a permit to build a shed?",
+      "answer": "Most jurisdictions require permits for sheds over 100-200 sq ft, but rules vary widely. Many areas allow sheds under 120 sq ft without a permit if they are on blocks (not permanent foundation). Check local zoning for setback requirements from property lines."
+    },
+    {
+      "question": "What type of foundation for a shed?",
+      "answer": "Options from simplest to most robust: gravel pad (cheapest, good drainage), concrete blocks on gravel, skids/runners (pressure-treated 4x6), deck blocks with beams, and concrete slab (most expensive but most permanent). For sheds under 200 sq ft, a gravel pad with concrete blocks works well."
+    },
+    {
+      "question": "How many shingles for a shed roof?",
+      "answer": "Calculate roof area (length x rafter length x 2 for gable), then divide by 100 to get squares. Each square needs 3 bundles. A 10x12 shed with 6/12 pitch has about 155 sq ft of roof area = 1.55 squares = 5 bundles (with waste). Add 1 bundle for ridge cap and starter strip."
+    },
+    {
+      "question": "Should I build or buy a shed?",
+      "answer": "Building a 10x12 shed costs $1,000-$2,500 in materials (DIY labor). Buying a prefab kit: $1,500-$4,000. Buying pre-built delivered: $2,500-$6,000+. Building saves 30-50% but requires tools and skill. Custom-built sheds offer better quality framing and can be designed to match your home."
+    }
+  ],
+  "relatedTools": [
+    "lumber-calculator",
+    "concrete-calculator",
+    "roofing-calculator",
+    "drywall-calculator",
+    "deck-board-calculator",
+    "fence-calculator"
+  ],
+  "chart": {
+    "title": "Shed Materials by Common Sizes",
+    "subtitle": "Gable roof, 6/12 pitch, 8 ft walls, 1 door, 1 window",
+    "columns": [
+      "Shed Size",
+      "Studs",
+      "Floor Joists",
+      "Rafters",
+      "Sheathing Sheets",
+      "Shingle Bundles"
+    ],
+    "rows": [
+      [
+        "8x8",
+        "38",
+        "7",
+        "9",
+        "14",
+        "4"
+      ],
+      [
+        "8x10",
+        "42",
+        "7",
+        "11",
+        "16",
+        "5"
+      ],
+      [
+        "8x12",
+        "46",
+        "7",
+        "13",
+        "18",
+        "5"
+      ],
+      [
+        "10x12",
+        "50",
+        "10",
+        "13",
+        "21",
+        "6"
+      ],
+      [
+        "12x16",
+        "62",
+        "13",
+        "17",
+        "30",
+        "9"
+      ],
+      [
+        "12x20",
+        "70",
+        "13",
+        "21",
+        "36",
+        "11"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This shed material calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This shed material calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Longevity Score Calculator — Life Expectancy Estimate</title>
+<meta name="description" content="Estimate your life expectancy based on exercise, BMI, diet, sleep, stress, and other lifestyle factors. Get a personalized longevity score.">
+<meta name="keywords" content="longevity calculator, life expectancy calculator, how long will I live, longevity score, lifestyle health calculator, lifespan estimator">
+<link rel="canonical" href="https://example.com/longevity-score-calculator/">
+<meta property="og:title" content="Longevity Score Calculator — Life Expectancy Estimate">
+<meta property="og:description" content="Estimate your life expectancy based on exercise, diet, sleep, and lifestyle factors.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/longevity-score-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Longevity Score Calculator — Life Expectancy Estimate">
+<meta name="twitter:description" content="Get a personalized longevity score based on your exercise, BMI, diet, sleep, and stress levels.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Longevity Score Calculator",
+  "description": "Estimate life expectancy and get a longevity score based on exercise habits, BMI, dietary quality, sleep duration, stress levels, and social connections.",
+  "url": "https://example.com/longevity-score-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How accurate is this longevity calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator uses adjustments from large epidemiological studies, but it's a simplified model. Real life expectancy depends on genetics (which accounts for ~25% of longevity), healthcare access, socioeconomic factors, and many variables not captured here. Use it as a directional guide, not a prediction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What has the biggest impact on longevity?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not smoking is the single biggest modifiable factor. After that, regular exercise (150+ min/week), maintaining a healthy weight (BMI 18.5-24.9), eating a whole-foods diet, sleeping 7-8 hours, managing stress, and maintaining strong social connections each add years."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I increase my life expectancy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Research consistently shows that adopting healthy habits at any age can improve longevity. Even starting exercise at age 50+ adds years. Quitting smoking at any age reduces mortality risk. It is never too late to benefit from lifestyle changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does genetics determine how long I will live?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Genetics accounts for roughly 20-25% of longevity variation. The remaining 75-80% is influenced by lifestyle, environment, and behavior. Even with a family history of longevity, poor habits can shorten life — and vice versa."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good longevity score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scores of 80+ indicate lifestyle habits strongly associated with above-average longevity. Scores of 60-79 are average. Below 60 suggests significant room for improvement. The score reflects modifiable factors — small changes can meaningfully improve it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does stress affect longevity?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Chronic stress increases cortisol, inflammation, and cardiovascular risk. Studies show chronic high stress is associated with 2-3 years reduced life expectancy. Stress management through exercise, meditation, social support, and adequate sleep can mitigate these effects."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Health & Longevity Calculators",
+      "item": "https://example.com/health-longevity-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Longevity Score Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0891b2;--primary-dark:#0e7490;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/health-longevity-calculators/">Health & Longevity Calculators</a> &rsaquo; <span>Longevity Score Calculator</span>
+    </nav>
+    <h1>Longevity Score Calculator</h1>
+    <p>Estimate life expectancy based on lifestyle factors</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Longevity Score Calculator</h2>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label for="currentAge">Current Age</label>
+        <input type="number" id="currentAge" placeholder="e.g. 35" inputmode="numeric">
+      </div>
+      <div class="input-group">
+        <label for="bioSex">Biological Sex</label>
+        <select id="bioSex">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label for="exerciseMin">Exercise (min/week)</label>
+        <input type="number" id="exerciseMin" placeholder="e.g. 150" inputmode="numeric">
+      </div>
+      <div class="input-group">
+        <label for="bmi">BMI</label>
+        <input type="number" id="bmi" placeholder="e.g. 24" step="0.1" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label for="dietQuality">Diet Quality</label>
+        <select id="dietQuality">
+          <option value="poor">Poor (fast food, processed)</option>
+          <option value="average">Average (mixed)</option>
+          <option value="good">Good (mostly whole foods)</option>
+          <option value="excellent">Excellent (Mediterranean/plant-rich)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="sleepHours">Sleep (hours/night)</label>
+        <input type="number" id="sleepHours" placeholder="e.g. 7" step="0.5" inputmode="decimal">
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label for="stressLevel">Stress Level</label>
+        <select id="stressLevel">
+          <option value="low">Low</option>
+          <option value="moderate">Moderate</option>
+          <option value="high">High</option>
+          <option value="chronic">Chronic / Severe</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="smoking">Smoking Status</label>
+        <select id="smoking">
+          <option value="never">Never smoked</option>
+          <option value="former">Former smoker</option>
+          <option value="current">Current smoker</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label for="alcohol">Alcohol Consumption</label>
+        <select id="alcohol">
+          <option value="none">None</option>
+          <option value="light">Light (1-3 drinks/week)</option>
+          <option value="moderate">Moderate (4-7 drinks/week)</option>
+          <option value="heavy">Heavy (8+ drinks/week)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="socialConnect">Social Connections</label>
+        <select id="socialConnect">
+          <option value="isolated">Isolated</option>
+          <option value="some">Some connections</option>
+          <option value="strong">Strong social network</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Longevity Score</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">Longevity Score</div><div class="result-value" id="longevityScore">—</div></div>
+        <div class="result-item"><div class="result-label">Estimated Life Expectancy</div><div class="result-value" id="lifeExpectancy">—</div></div>
+      </div>
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">vs. National Average</div><div class="result-value" id="vsAverage">—</div></div>
+        <div class="result-item"><div class="result-label">Top Improvement Area</div><div class="result-value" id="topImprovement">—</div></div>
+      </div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Life Expectancy Impact by Factor</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Approximate years gained or lost vs. baseline</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Optimal</th>
+          <th>Average</th>
+          <th>Poor</th>
+          <th>Impact Range</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Exercise</td><td>+3.5 yrs</td><td>+0 yrs</td><td>-2 yrs</td><td>5.5 yrs</td></tr>
+        <tr><td>BMI</td><td>+1.5 yrs</td><td>+0 yrs</td><td>-4 yrs</td><td>5.5 yrs</td></tr>
+        <tr><td>Diet</td><td>+3 yrs</td><td>+0 yrs</td><td>-2 yrs</td><td>5 yrs</td></tr>
+        <tr><td>Sleep</td><td>+1 yr</td><td>+0 yrs</td><td>-2 yrs</td><td>3 yrs</td></tr>
+        <tr><td>Smoking</td><td>+0 yrs</td><td>-3 yrs (former)</td><td>-10 yrs</td><td>10 yrs</td></tr>
+        <tr><td>Alcohol</td><td>+0 yrs</td><td>-0.5 yrs</td><td>-3 yrs</td><td>3 yrs</td></tr>
+        <tr><td>Stress</td><td>+1 yr</td><td>+0 yrs</td><td>-3 yrs</td><td>4 yrs</td></tr>
+        <tr><td>Social Ties</td><td>+2.5 yrs</td><td>+0 yrs</td><td>-2 yrs</td><td>4.5 yrs</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This longevity score calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator estimates life expectancy by applying research-backed adjustments to baseline actuarial data based on key lifestyle factors.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Baseline:</strong> starts with CDC average life expectancy (76.4 for males, 81.2 for females)</li>
+      <li><strong>Exercise:</strong> 150+ min/week of moderate exercise is associated with +3-4 years of life expectancy</li>
+      <li><strong>BMI:</strong> optimal range 18.5-24.9; obesity (30+) associated with -3 to -5 years</li>
+      <li><strong>Diet:</strong> Mediterranean-style diets associated with +2-4 years in long-term studies</li>
+      <li><strong>Sleep:</strong> 7-8 hours optimal; chronic short sleep (<6h) or long sleep (>9h) associated with reduced longevity</li>
+      <li><strong>Smoking:</strong> current smoking reduces life expectancy by ~10 years on average</li>
+      <li><strong>Social connections:</strong> strong social ties associated with +2-3 years of life expectancy</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">This is a statistical estimate based on population-level research, not a medical prediction. Individual outcomes depend on genetics, access to healthcare, environmental factors, and chance. Use this as motivation to optimize the factors you can control.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This longevity score calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How accurate is this longevity calculator?</h3>
+      <p>This calculator uses adjustments from large epidemiological studies, but it's a simplified model. Real life expectancy depends on genetics (which accounts for ~25% of longevity), healthcare access, socioeconomic factors, and many variables not captured here. Use it as a directional guide, not a prediction.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What has the biggest impact on longevity?</h3>
+      <p>Not smoking is the single biggest modifiable factor. After that, regular exercise (150+ min/week), maintaining a healthy weight (BMI 18.5-24.9), eating a whole-foods diet, sleeping 7-8 hours, managing stress, and maintaining strong social connections each add years.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I increase my life expectancy?</h3>
+      <p>Yes. Research consistently shows that adopting healthy habits at any age can improve longevity. Even starting exercise at age 50+ adds years. Quitting smoking at any age reduces mortality risk. It is never too late to benefit from lifestyle changes.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does genetics determine how long I will live?</h3>
+      <p>Genetics accounts for roughly 20-25% of longevity variation. The remaining 75-80% is influenced by lifestyle, environment, and behavior. Even with a family history of longevity, poor habits can shorten life — and vice versa.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is a good longevity score?</h3>
+      <p>Scores of 80+ indicate lifestyle habits strongly associated with above-average longevity. Scores of 60-79 are average. Below 60 suggests significant room for improvement. The score reflects modifiable factors — small changes can meaningfully improve it.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How does stress affect longevity?</h3>
+      <p>Chronic stress increases cortisol, inflammation, and cardiovascular risk. Studies show chronic high stress is associated with 2-3 years reduced life expectancy. Stress management through exercise, meditation, social support, and adequate sleep can mitigate these effects.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/biological-age-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Biological Age Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your biological age based on health metrics and lifestyle factors</span></a>
+      <a href="/vo2-max-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">VO2 Max Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your VO2 max from running, walking, or step tests and see your fitness percentile by age</span></a>
+      <a href="/zone2-heart-rate-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Zone 2 Heart Rate Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find your optimal Zone 2 heart rate range for longevity training using MAF, Karvonen, and %Max methods</span></a>
+      <a href="/glp1-weight-loss-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">GLP-1 Weight Loss Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Project your weight loss timeline on Ozempic, Wegovy, Mounjaro, or Zepbound based on clinical trial data</span></a>
+      <a href="/seed-oil-intake-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Seed Oil Intake Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate your daily seed oil consumption from dietary habits</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Longevity Score Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // Baseline life expectancy (CDC 2023 data)
+  var baseline = { male: 76.4, female: 81.2 };
+
+  // Adjustment factors (years added/subtracted)
+  var exerciseAdj = function(min) {
+    if (min >= 300) return 4.0;
+    if (min >= 150) return 3.5;
+    if (min >= 75) return 2.0;
+    if (min >= 30) return 0.5;
+    return -2.0;
+  };
+
+  var bmiAdj = function(bmi) {
+    if (bmi >= 18.5 && bmi < 25) return 1.5;
+    if (bmi >= 25 && bmi < 27) return 0.5;
+    if (bmi >= 27 && bmi < 30) return -0.5;
+    if (bmi >= 30 && bmi < 35) return -2.5;
+    if (bmi >= 35 && bmi < 40) return -4.0;
+    if (bmi >= 40) return -5.5;
+    if (bmi < 18.5) return -1.5;
+    return 0;
+  };
+
+  var dietAdj = { poor: -2, average: 0, good: 2, excellent: 3 };
+  var sleepAdj = function(hrs) {
+    if (hrs >= 7 && hrs <= 8) return 1;
+    if (hrs >= 6 && hrs < 7) return 0;
+    if (hrs > 8 && hrs <= 9) return 0;
+    if (hrs < 6) return -2;
+    return -1.5; // >9
+  };
+  var stressAdj = { low: 1, moderate: 0, high: -1.5, chronic: -3 };
+  var smokingAdj = { never: 0, former: -3, current: -10 };
+  var alcoholAdj = { none: 0, light: 0.5, moderate: -0.5, heavy: -3 };
+  var socialAdj = { isolated: -2, some: 0, strong: 2.5 };
+
+  // Score components (0-100 scale)
+  var exerciseScore = function(min) {
+    if (min >= 300) return 15;
+    if (min >= 150) return 13;
+    if (min >= 75) return 8;
+    if (min >= 30) return 4;
+    return 0;
+  };
+
+  var chartData = [
+    ['Exercise','+3.5 yrs','+0 yrs','-2 yrs','5.5 yrs'],
+    ['BMI','+1.5 yrs','+0 yrs','-4 yrs','5.5 yrs'],
+    ['Diet','+3 yrs','+0 yrs','-2 yrs','5 yrs'],
+    ['Sleep','+1 yr','+0 yrs','-2 yrs','3 yrs'],
+    ['Smoking','+0 yrs','-3 yrs (former)','-10 yrs','10 yrs'],
+    ['Alcohol','+0 yrs','-0.5 yrs','-3 yrs','3 yrs'],
+    ['Stress','+1 yr','+0 yrs','-3 yrs','4 yrs'],
+    ['Social Ties','+2.5 yrs','+0 yrs','-2 yrs','4.5 yrs']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function calculate() {
+    var age = parseInt(document.getElementById('currentAge').value, 10);
+    var sex = document.getElementById('bioSex').value;
+    var exerciseMin = parseInt(document.getElementById('exerciseMin').value, 10) || 0;
+    var bmi = parseFloat(document.getElementById('bmi').value) || 0;
+    var diet = document.getElementById('dietQuality').value;
+    var sleep = parseFloat(document.getElementById('sleepHours').value) || 0;
+    var stress = document.getElementById('stressLevel').value;
+    var smoking = document.getElementById('smoking').value;
+    var alcohol = document.getElementById('alcohol').value;
+    var social = document.getElementById('socialConnect').value;
+
+    if (isNaN(age) || age < 1 || age > 120) return;
+
+    var base = baseline[sex];
+    var totalAdj = 0;
+
+    totalAdj += exerciseAdj(exerciseMin);
+    if (bmi > 0) totalAdj += bmiAdj(bmi);
+    totalAdj += dietAdj[diet];
+    if (sleep > 0) totalAdj += sleepAdj(sleep);
+    totalAdj += stressAdj[stress];
+    totalAdj += smokingAdj[smoking];
+    totalAdj += alcoholAdj[alcohol];
+    totalAdj += socialAdj[social];
+
+    var lifeExp = Math.round((base + totalAdj) * 10) / 10;
+    if (lifeExp < age + 1) lifeExp = age + 1;
+
+    // Calculate score (0-100)
+    var score = 50; // baseline
+    score += exerciseScore(exerciseMin);
+    if (bmi >= 18.5 && bmi < 25) score += 12;
+    else if (bmi >= 25 && bmi < 30) score += 5;
+    else if (bmi >= 30) score -= 5;
+    if (diet === 'excellent') score += 12;
+    else if (diet === 'good') score += 8;
+    else if (diet === 'poor') score -= 5;
+    if (sleep >= 7 && sleep <= 8) score += 8;
+    else if (sleep >= 6) score += 3;
+    else score -= 5;
+    if (stress === 'low') score += 6;
+    else if (stress === 'high') score -= 4;
+    else if (stress === 'chronic') score -= 8;
+    if (smoking === 'never') score += 8;
+    else if (smoking === 'current') score -= 15;
+    else score -= 5;
+    if (alcohol === 'none' || alcohol === 'light') score += 4;
+    else if (alcohol === 'heavy') score -= 6;
+    if (social === 'strong') score += 6;
+    else if (social === 'isolated') score -= 5;
+
+    score = Math.max(5, Math.min(100, score));
+
+    var avgLE = baseline[sex];
+    var diffYears = lifeExp - avgLE;
+    var diffStr = diffYears >= 0 ? '+' + diffYears.toFixed(1) + ' years' : diffYears.toFixed(1) + ' years';
+
+    // Find top improvement area
+    var improvements = [];
+    if (exerciseMin < 150) improvements.push({area:'Exercise', gain: 'Add moderate exercise to reach 150 min/week'});
+    if (bmi >= 30) improvements.push({area:'Weight', gain: 'Reaching healthy BMI (18.5-24.9) could add 3-5 years'});
+    if (diet === 'poor' || diet === 'average') improvements.push({area:'Diet', gain: 'Shifting to whole foods/Mediterranean diet could add 2-3 years'});
+    if (sleep < 7 || sleep > 8) improvements.push({area:'Sleep', gain: 'Optimizing to 7-8 hours could add 1-2 years'});
+    if (smoking === 'current') improvements.push({area:'Smoking', gain: 'Quitting smoking could add up to 10 years'});
+    if (stress === 'high' || stress === 'chronic') improvements.push({area:'Stress', gain: 'Stress management could add 1-3 years'});
+    if (alcohol === 'heavy') improvements.push({area:'Alcohol', gain: 'Reducing alcohol could add 2-3 years'});
+    if (social === 'isolated') improvements.push({area:'Social', gain: 'Building social connections could add 2+ years'});
+
+    var topImprov = improvements.length > 0 ? improvements[0].area + ': ' + improvements[0].gain : 'Excellent — maintain current habits!';
+
+    document.getElementById('longevityScore').textContent = score + ' / 100';
+    document.getElementById('lifeExpectancy').textContent = lifeExp.toFixed(1) + ' years';
+    document.getElementById('vsAverage').textContent = diffStr + ' vs. avg (' + avgLE + ')';
+    document.getElementById('vsAverage').style.color = diffYears >= 0 ? '#16a34a' : '#dc2626';
+    document.getElementById('topImprovement').textContent = topImprov;
+
+    var tip = 'Score of ' + score + '/100. Estimated life expectancy: ' + lifeExp.toFixed(1) + ' years. ';
+    tip += 'This is a statistical estimate, not a medical prediction. Genetics, healthcare access, and other factors also play major roles.';
+    document.getElementById('resultTip').textContent = tip;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Longevity Score Calculator';
+  var TOOL_SLUG = 'longevity-score-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'health-longevity', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

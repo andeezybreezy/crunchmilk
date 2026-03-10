@@ -1,0 +1,117 @@
+{
+  "slug": "food-preservation-jar-calculator",
+  "toolName": "Food Preservation Jar Calculator",
+  "tagline": "Calculate jars, lids, processing time, and canner loads for home canning",
+  "title": "Food Preservation Jar Calculator — Jars, Lids & Canner Loads",
+  "metaDescription": "Calculate jars needed for canning tomatoes, pickles, jam, salsa, and peaches. Get lid counts, processing times, and canner loads.",
+  "keywords": "canning jar calculator, food preservation calculator, how many jars do I need, home canning calculator, Mason jar calculator",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "domain": "example.com",
+  "ogTitle": "Food Preservation Jar Calculator — Canning Jars & Supplies",
+  "ogDescription": "Calculate how many jars, lids, and canner loads you need for home canning tomatoes, pickles, jam, salsa, peaches, and more.",
+  "twitterDescription": "Calculate jars, lids, processing time, and canner loads for home canning any produce type.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Food Preservation Jar Calculator",
+    "description": "Calculate jars, lids, processing times, and canner loads for home food preservation and canning.",
+    "url": "https://example.com/food-preservation-jar-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many pounds of tomatoes per quart jar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You need about 3 pounds of tomatoes to fill one quart jar, or about 1.5 pounds per pint. A bushel of tomatoes (53 lbs) yields approximately 15-18 quart jars of whole or crushed tomatoes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many jars fit in a canner?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A standard water bath canner holds 7 quart jars or 9 pint jars per load. A pressure canner typically holds 7 quart jars or 18-20 pint jars (double stacked). Half-pint jars can often be double stacked too."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long do I process canned tomatoes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tomatoes in a water bath canner need 45 minutes for quarts and 35 minutes for pints (with added acid). In a pressure canner, process at 10 PSI for 25 minutes (quarts) or 15 minutes (pints)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many cucumbers for a pint of pickles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "About 1.5 pounds of cucumbers (5-6 small pickling cucumbers) fills one pint jar. For quarts, you need about 2.5-3 lbs. A bushel of cucumbers yields about 24 quart jars of pickles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much fruit for a batch of jam?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most jam recipes use 4-5 cups of crushed fruit (about 2-3 lbs) to make 6-8 half-pint jars. Strawberry jam uses about 2 lbs per batch. Processing time is 10 minutes in a water bath canner."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need new lids every time I can?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, always use new flat lids for canning — the sealing compound is designed for one use. Screw bands can be reused if not rusted or dented. Never reuse lids as they may not seal properly."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Food Preservation Jar Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"produceType\">Produce Type</label>\n    <select id=\"produceType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"tomatoes\" selected>Tomatoes</option>\n      <option value=\"pickles\">Pickles (Cucumbers)</option>\n      <option value=\"jam\">Jam / Preserves</option>\n      <option value=\"salsa\">Salsa</option>\n      <option value=\"peaches\">Peaches</option>\n      <option value=\"applesauce\">Applesauce</option>\n      <option value=\"greenbeans\">Green Beans</option>\n      <option value=\"corn\">Corn</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"quantity\">Quantity of Produce (lbs)</label>\n    <input type=\"number\" id=\"quantity\" value=\"20\" min=\"1\" max=\"10000\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"jarSize\">Jar Size</label>\n    <select id=\"jarSize\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"halfpint\">Half-Pint (8 oz)</option>\n      <option value=\"pint\" selected>Pint (16 oz)</option>\n      <option value=\"quart\">Quart (32 oz)</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Jars Needed</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Jars Needed</div>\n        <div class=\"result-value\" id=\"jarsNeeded\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Lids & Bands</div>\n        <div class=\"result-value\" id=\"lidsNeeded\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Processing Time</div>\n        <div class=\"result-value\" id=\"processTime\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Canner Loads</div>\n        <div class=\"result-value\" id=\"cannerLoads\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Produce Yield per Jar</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Produce</th><th>Lbs per Pint</th><th>Lbs per Quart</th><th>Processing (Quart)</th><th>Method</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Tomatoes</td><td>1.5</td><td>3.0</td><td>45 min</td><td>Water bath</td></tr>\n        <tr><td>Pickles</td><td>1.5</td><td>2.5</td><td>15 min</td><td>Water bath</td></tr>\n        <tr><td>Jam</td><td>0.5</td><td>1.0</td><td>15 min</td><td>Water bath</td></tr>\n        <tr><td>Salsa</td><td>1.5</td><td>3.0</td><td>20 min</td><td>Water bath</td></tr>\n        <tr><td>Peaches</td><td>1.0</td><td>2.5</td><td>30 min</td><td>Water bath</td></tr>\n        <tr><td>Green Beans</td><td>1.0</td><td>2.0</td><td>25 min</td><td>Pressure</td></tr>\n        <tr><td>Corn</td><td>2.0</td><td>4.0</td><td>85 min</td><td>Pressure</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Food Preservation Jar Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator uses standard USDA yield ratios to estimate how many jars your produce will fill.</p>\n  <div style=\"background:#fee2e2;border:2px solid #fca5a5;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Jars = Produce (lbs) ÷ Lbs per Jar</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Tomatoes:</strong> ~3 lbs per quart, 1.5 lbs per pint</li>\n    <li><strong>Pickles:</strong> ~2.5 lbs per quart, 1.5 lbs per pint</li>\n    <li><strong>Jam:</strong> ~1 lb per quart, 0.5 lbs per half-pint</li>\n    <li><strong>Canner capacity:</strong> 7 quarts or 9 pints per water bath load</li>\n    <li><strong>New lids required:</strong> One new flat lid per jar, bands reusable</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How many pounds of tomatoes per quart?</h3>\n    <p>About 3 pounds of tomatoes fill one quart jar, or 1.5 pounds per pint. A bushel (53 lbs) yields roughly 15-18 quart jars of whole, crushed, or stewed tomatoes.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many jars fit in a canner?</h3>\n    <p>A standard water bath canner holds 7 quart jars or 9 pint jars per load. Pressure canners hold similar counts. Half-pint jars can be double-stacked in most canners to process more per load.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How long do I process canned tomatoes?</h3>\n    <p>In a water bath canner, process quarts for 45 minutes and pints for 35 minutes (with added lemon juice or citric acid). Add 5 minutes if you are above 1,000 ft elevation.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many cucumbers for a pint of pickles?</h3>\n    <p>About 1.5 pounds of small pickling cucumbers fill one pint jar, or 2.5-3 lbs per quart. Pack cucumbers tightly and fill with hot brine. Process in a water bath canner for 10-15 minutes.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much fruit for a batch of jam?</h3>\n    <p>Most jam recipes use 2-3 lbs of fruit (4-5 cups crushed) to produce 6-8 half-pint jars. Each half-pint uses about 0.3-0.5 lbs of fruit. Process in a water bath for 10 minutes.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Do I need new lids every time?</h3>\n    <p>Yes, always use new flat lids for each canning session. The sealing compound is single-use. Screw bands can be reused if they are in good condition. Never reuse flat lids as they may fail to seal.</p>\n  </div>\n</div>",
+  "category": "agriculture",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This food preservation jar calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This food preservation jar calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "chicken-egg-calculator",
+    "garden-soil-volume-calculator",
+    "composting-ratio-calculator",
+    "beehive-yield-calculator",
+    "goat-milk-calculator",
+    "seed-starting-calculator",
+    "recipe-scaling-calculator"
+  ]
+}

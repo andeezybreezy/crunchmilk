@@ -1,0 +1,131 @@
+{
+  "slug": "backsplash-tile-calculator",
+  "toolName": "Backsplash Tile Calculator",
+  "tagline": "Calculate kitchen backsplash tile, boxes, and cost",
+  "title": "Backsplash Tile Calculator — Kitchen Tile Sq Ft, Tiles & Cost",
+  "metaDescription": "Calculate backsplash tile for your kitchen. Enter countertop length, height, subtract outlets — get tiles, boxes, and cost.",
+  "keywords": "backsplash tile calculator, kitchen backsplash calculator, backsplash square footage, how much backsplash tile, backsplash tile cost",
+  "domain": "example.com",
+  "primaryColor": "#0e7490",
+  "primaryDarkColor": "#155e75",
+  "ogTitle": "Backsplash Tile Calculator — Kitchen Tile Estimator",
+  "ogDescription": "Calculate backsplash tile for your kitchen. Enter countertop length and height, get tiles, boxes, and cost.",
+  "twitterDescription": "Calculate kitchen backsplash tile. Enter countertop length and backsplash height for instant tile estimates.",
+  "jsonLdDescription": "Calculate kitchen backsplash tile quantities including square footage, tile count, boxes, and cost with outlet deductions.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Backsplash Tile Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"counterLength\">Total Countertop Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"counterLength\" placeholder=\"e.g. 12\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Measure all sections of countertop that get a backsplash</div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"bsHeight\">Backsplash Height</label>\n      <div class=\"input-row\">\n        <select id=\"bsHeight\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"4\">4&Prime; &mdash; Standard minimal</option>\n          <option value=\"6\">6&Prime; &mdash; Short backsplash</option>\n          <option value=\"18\" selected>18&Prime; &mdash; Standard (counter to upper cabinets)</option>\n          <option value=\"24\">24&Prime; &mdash; Extended</option>\n          <option value=\"36\">36&Prime; &mdash; Full height to cabinets</option>\n          <option value=\"custom\">Custom...</option>\n        </select>\n      </div>\n      <div id=\"customHeightWrap\" style=\"display:none;margin-top:8px\">\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"customHeight\" placeholder=\"Height in inches\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"tileSize\">Tile Size</label>\n      <div class=\"input-row\">\n        <select id=\"tileSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"3x6\" selected>3&Prime; &times; 6&Prime; (subway tile)</option>\n          <option value=\"4x4\">4&Prime; &times; 4&Prime;</option>\n          <option value=\"4x12\">4&Prime; &times; 12&Prime;</option>\n          <option value=\"6x6\">6&Prime; &times; 6&Prime;</option>\n          <option value=\"3x12\">3&Prime; &times; 12&Prime;</option>\n          <option value=\"2x4\">2&Prime; &times; 4&Prime; (mini subway)</option>\n          <option value=\"custom\">Custom...</option>\n        </select>\n      </div>\n      <div id=\"customTileWrap\" style=\"display:none;margin-top:8px\">\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"customTileW\" placeholder=\"Width (inches)\" inputmode=\"decimal\" step=\"any\" style=\"flex:1\">\n          <input type=\"number\" id=\"customTileH\" placeholder=\"Height (inches)\" inputmode=\"decimal\" step=\"any\" style=\"flex:1\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Deductions (subtract from area)</label>\n      <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px\">\n        <div>\n          <div style=\"font-size:0.8rem;color:var(--text-light);margin-bottom:4px\">Outlets / switches</div>\n          <input type=\"number\" id=\"numOutlets\" placeholder=\"0\" inputmode=\"numeric\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n        </div>\n        <div>\n          <div style=\"font-size:0.8rem;color:var(--text-light);margin-bottom:4px\">Windows (sq ft each)</div>\n          <input type=\"number\" id=\"windowSqft\" placeholder=\"0\" inputmode=\"decimal\" step=\"any\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wastePct\">Waste Factor</label>\n      <div class=\"input-row\">\n        <select id=\"wastePct\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"10\" selected>10% &mdash; Standard</option>\n          <option value=\"15\">15% &mdash; Pattern / diagonal</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"tilePrice\">Price per Sq Ft (optional)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"tilePrice\" placeholder=\"e.g. 8.00\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Subway tile: $3-$8 &bull; Glass: $8-$20 &bull; Natural stone: $10-$30/sq ft</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Backsplash Tile</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Tiles</div>\n          <div class=\"result-value\" id=\"rTiles\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Boxes</div>\n          <div class=\"result-value\" id=\"rBoxes\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "To calculate backsplash tile, multiply your countertop length by the backsplash height, subtract any openings (outlets, windows), then divide by tile size and add waste.",
+    "rules": [
+      "Measure the total length of countertop that gets a backsplash — include all sections (behind sink, stove, etc.)",
+      "Choose your backsplash height: 4\" for minimal, 18\" for standard (counter to upper cabinets), 36\" for full height",
+      "Subtract openings like outlets (~0.1 sq ft each) and windows, then add 10-15% waste for cuts at edges and corners"
+    ],
+    "outro": "Subway tile (3×6) is the most popular backsplash choice for its classic look and affordable price. Consider tile orientation: horizontal subway is traditional, while vertical (stacked) or herringbone patterns add visual interest but require more cuts. Budget for matching trim pieces at edges and inside corners."
+  },
+  "faq": [
+    {
+      "question": "How much tile do I need for a kitchen backsplash?",
+      "answer": "The average kitchen backsplash is 25-35 square feet. Measure your total countertop length (typically 8-15 feet), multiply by the backsplash height (usually 18 inches or 1.5 feet), subtract outlets and windows, and add 10% for waste. A typical 12-foot countertop with 18\" backsplash needs about 18 sq ft plus waste."
+    },
+    {
+      "question": "What's the most popular backsplash tile size?",
+      "answer": "The 3×6 inch subway tile is by far the most popular backsplash tile. It's affordable ($3-$8 per sq ft), timeless, and works with virtually any kitchen style. Other popular sizes include 4×12 elongated subway, 2×4 mini subway, and 4×4 square tiles. Larger tiles like 6×6 mean fewer grout lines and easier maintenance."
+    },
+    {
+      "question": "How much does a backsplash cost?",
+      "answer": "A typical kitchen backsplash (25-35 sq ft) costs $200-$1,000 for materials and $300-$700 for professional installation. Subway tile runs $3-$8/sq ft, glass tile $8-$20/sq ft, and natural stone $10-$30/sq ft. DIY installation is very achievable for backsplashes and saves $300-$700 in labor costs."
+    },
+    {
+      "question": "How many subway tiles come in a box?",
+      "answer": "A typical box of 3×6 subway tiles contains 80-100 tiles, covering about 10-12.5 square feet. A box of 4×12 tiles contains about 30-40 tiles (10-13 sq ft). Always check the box label for exact coverage. For a standard kitchen backsplash (30 sq ft), you'll need about 3 boxes of subway tile."
+    },
+    {
+      "question": "Do I tile behind the stove?",
+      "answer": "Yes, tiling behind the stove is highly recommended. This area gets the most splatter from cooking and is the hardest to clean if it's just painted drywall. If you have a range hood, tile from the countertop up to and behind the hood. For a full range wall, extend tile from counter to ceiling or to the bottom of the hood."
+    },
+    {
+      "question": "Can I install a backsplash myself?",
+      "answer": "Yes, backsplash installation is one of the most popular DIY tile projects. The area is small, at a comfortable working height, and doesn't bear weight. You'll need thin-set mortar, a notched trowel, tile spacers, a tile cutter (manual snap cutter works for subway tile), grout, and caulk. Budget a weekend for most backsplash projects."
+    }
+  ],
+  "relatedTools": [
+    "tile-calculator",
+    "grout-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Backsplash Tile Coverage Reference",
+    "subtitle": "Tiles needed for common backsplash sizes (with 10% waste).",
+    "columns": [
+      "Counter Length",
+      "18\" Height (sq ft)",
+      "Tiles (3×6 subway)",
+      "Boxes (~80/box)"
+    ],
+    "rows": [
+      [
+        "6 ft",
+        "9.0",
+        "80",
+        "1"
+      ],
+      [
+        "8 ft",
+        "12.0",
+        "106",
+        "2"
+      ],
+      [
+        "10 ft",
+        "15.0",
+        "132",
+        "2"
+      ],
+      [
+        "12 ft",
+        "18.0",
+        "158",
+        "2"
+      ],
+      [
+        "15 ft",
+        "22.5",
+        "198",
+        "3"
+      ],
+      [
+        "20 ft",
+        "30.0",
+        "264",
+        "4"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This backsplash tile calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This backsplash tile calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

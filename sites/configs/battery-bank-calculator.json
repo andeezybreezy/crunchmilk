@@ -1,0 +1,137 @@
+{
+  "slug": "battery-bank-calculator",
+  "toolName": "Battery Bank Calculator",
+  "tagline": "Size your off-grid battery bank by daily load, voltage, and days of autonomy",
+  "title": "Battery Bank Calculator — Off-Grid Battery Bank Sizing Tool",
+  "metaDescription": "Calculate off-grid battery bank size in amp-hours. Factor in daily watt-hours, system voltage, depth of discharge, and days of autonomy.",
+  "keywords": "battery bank calculator, off-grid battery sizing, battery bank size calculator, amp hour calculator, battery bank design, solar battery bank, days of autonomy calculator",
+  "domain": "example.com",
+  "primaryColor": "#f59e0b",
+  "primaryDarkColor": "#d97706",
+  "ogTitle": "Battery Bank Calculator — Off-Grid Battery Bank Sizing Tool",
+  "ogDescription": "Size your off-grid battery bank correctly. Calculate amp-hours needed based on daily load, system voltage, depth of discharge, and autonomy days.",
+  "twitterDescription": "How big should your off-grid battery bank be? Calculate amp-hours needed from daily watt-hours, voltage, DoD, and days of autonomy.",
+  "jsonLdDescription": "Calculate off-grid battery bank capacity requirements including total amp-hours, number of batteries, wiring configuration, and estimated cost based on daily energy consumption, system voltage, depth of discharge, and desired days of autonomy.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Battery Bank Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Size your off-grid battery bank based on daily energy needs, system voltage, and desired days of autonomy.</p>\n\n    <div class=\"input-group\">\n      <label for=\"dailyWh\">Daily Energy Usage (Watt-hours)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"dailyWh\" placeholder=\"e.g. 3000\" value=\"3000\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Sum all appliance watts x hours of use. Average off-grid cabin: 2,000-5,000 Wh/day.</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"systemVoltage\">System Voltage</label>\n      <select id=\"systemVoltage\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"12\">12V (small systems, RVs, boats)</option>\n        <option value=\"24\" selected>24V (mid-size cabins)</option>\n        <option value=\"48\">48V (large off-grid homes)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"autonomyDays\">Days of Autonomy</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"autonomyDays\" placeholder=\"e.g. 3\" value=\"3\" inputmode=\"decimal\" step=\"0.5\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">How many cloudy/no-charge days to survive. Typical: 2-5 days.</span>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"batteryType\">Battery Type</label>\n      <select id=\"batteryType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"lifepo4\">LiFePO4 (Lithium Iron Phosphate)</option>\n        <option value=\"agm\">AGM Lead-Acid</option>\n        <option value=\"flooded\">Flooded Lead-Acid</option>\n        <option value=\"gel\">Gel Lead-Acid</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"batteryAh\">Individual Battery Capacity (Ah)</label>\n      <select id=\"batteryAh\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"100\">100 Ah</option>\n        <option value=\"200\" selected>200 Ah</option>\n        <option value=\"300\">300 Ah</option>\n        <option value=\"400\">400 Ah</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"batteryVoltage\">Individual Battery Voltage</label>\n      <select id=\"batteryVoltage\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"12\" selected>12V</option>\n        <option value=\"6\">6V</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Battery Bank</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Ah Required</div>\n          <div class=\"result-value\" id=\"rAh\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total kWh Capacity</div>\n          <div class=\"result-value\" id=\"rKwh\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Batteries Needed</div>\n          <div class=\"result-value\" id=\"rCount\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Estimated Cost</div>\n          <div class=\"result-value\" id=\"rCost\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator sizes an off-grid battery bank using the standard formula: Total Ah = (Daily Wh x Days of Autonomy) / (System Voltage x Depth of Discharge). It then calculates the number of batteries needed in series and parallel configurations.",
+    "rules": [
+      "Total energy needed = daily watt-hours x days of autonomy",
+      "Required Ah at system voltage = total energy / system voltage / depth of discharge (DoD)",
+      "DoD varies by battery type: LiFePO4 = 80-90%, AGM = 50%, Flooded = 50%, Gel = 50%",
+      "Series strings raise voltage (e.g., two 12V in series = 24V); parallel strings add capacity",
+      "Total batteries = series batteries per string x parallel strings needed"
+    ],
+    "outro": "LiFePO4 batteries cost more upfront but last 3-5x longer than lead-acid (4,000+ cycles vs 500-800 cycles), making them cheaper per kWh over their lifetime. Always include a charge controller and fusing appropriate for your battery bank configuration."
+  },
+  "faq": [
+    {
+      "question": "What are days of autonomy?",
+      "answer": "Days of autonomy is how many days your battery bank can power your loads without any recharging (no sun, no generator). In sunny climates, 2-3 days is typical. Cloudy regions or winter use may need 4-5 days. More autonomy means a larger, more expensive battery bank but better reliability."
+    },
+    {
+      "question": "What depth of discharge should I use?",
+      "answer": "LiFePO4 batteries can safely discharge to 80-90% DoD regularly. Lead-acid batteries (AGM, flooded, gel) should only be discharged to 50% to preserve lifespan. Discharging lead-acid below 50% dramatically shortens battery life — from 800 cycles to under 200 cycles at 80% DoD."
+    },
+    {
+      "question": "Should I choose 12V, 24V, or 48V?",
+      "answer": "12V systems work for small loads under 2,000W (RVs, boats, small cabins). 24V systems suit mid-size off-grid cabins (2,000-5,000W). 48V is best for larger homes (5,000W+). Higher voltage means lower amperage for the same power, allowing smaller wire sizes and less energy loss over distance."
+    },
+    {
+      "question": "How long do off-grid batteries last?",
+      "answer": "LiFePO4 batteries last 10-15 years (4,000-6,000 cycles). Quality AGM batteries last 3-5 years (500-800 cycles). Flooded lead-acid batteries last 3-7 years with proper maintenance (800-1,200 cycles). Temperature, depth of discharge, and charging practices all affect lifespan."
+    },
+    {
+      "question": "What size solar array do I need to charge this battery bank?",
+      "answer": "A general rule is your solar array should produce 1.2-1.5x your daily watt-hour consumption to account for system losses and partial sun days. For a 3,000 Wh/day system, you need 3,600-4,500W of solar production, which in a 5 peak-sun-hour area means 720-900W of panels."
+    },
+    {
+      "question": "LiFePO4 vs lead-acid for off-grid — which is better?",
+      "answer": "LiFePO4 wins on almost every metric except upfront cost. Benefits include 80-90% usable capacity (vs 50% for lead-acid), 4,000+ cycle life, no maintenance, lighter weight, and flat discharge curve. A 200Ah LiFePO4 battery provides as much usable energy as a 400Ah lead-acid battery at half the weight."
+    }
+  ],
+  "relatedTools": [
+    "solar-payback-calculator",
+    "home-battery-calculator",
+    "generator-sizing-calculator",
+    "whole-home-generator-calculator",
+    "solar-panel-calculator",
+    "electricity-cost-calculator"
+  ],
+  "chart": {
+    "title": "Battery Type Comparison for Off-Grid Systems",
+    "subtitle": "Cost per usable kWh over battery lifetime",
+    "columns": [
+      "Battery Type",
+      "DoD",
+      "Cycle Life",
+      "Cost per Ah (12V)",
+      "Usable kWh per $1,000",
+      "Lifespan"
+    ],
+    "rows": [
+      [
+        "LiFePO4",
+        "80-90%",
+        "4,000-6,000",
+        "$0.40-$0.60",
+        "1.5-2.0 kWh",
+        "10-15 years"
+      ],
+      [
+        "AGM Lead-Acid",
+        "50%",
+        "500-800",
+        "$0.20-$0.35",
+        "0.7-1.0 kWh",
+        "3-5 years"
+      ],
+      [
+        "Flooded Lead-Acid",
+        "50%",
+        "800-1,200",
+        "$0.12-$0.20",
+        "1.0-1.5 kWh",
+        "3-7 years"
+      ],
+      [
+        "Gel Lead-Acid",
+        "50%",
+        "500-700",
+        "$0.25-$0.40",
+        "0.5-0.8 kWh",
+        "3-5 years"
+      ],
+      [
+        "Lithium NMC",
+        "80%",
+        "2,000-3,000",
+        "$0.35-$0.55",
+        "1.2-1.6 kWh",
+        "7-10 years"
+      ]
+    ]
+  },
+  "category": "energy",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This battery bank calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This battery bank calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "profit-margin-calculator",
+  "toolName": "Profit Margin Calculator",
+  "tagline": "Calculate gross and net profit margins for your business",
+  "title": "Profit Margin Calculator — Gross & Net Margin, Markup %",
+  "metaDescription": "Free profit margin calculator. Enter revenue and cost to find margin %, markup %, and profit. Three calculation modes with gross and net margin support.",
+  "keywords": "profit margin calculator, gross margin calculator, net margin calculator, markup calculator, profit percentage calculator",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "domain": "example.com",
+  "ogTitle": "Profit Margin Calculator — Margin %, Markup & Profit",
+  "ogDescription": "Calculate profit margin from revenue and cost. See margin %, markup %, and total profit. Three calculation modes.",
+  "twitterDescription": "Calculate profit margin, markup %, and profit from revenue and cost. Three calculation modes.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Profit Margin Calculator",
+    "description": "Calculate profit margin from revenue and cost. See gross margin, net margin, markup percentage, and total profit.",
+    "url": "https://example.com/profit-margin-calculator/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is profit margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Profit margin is the percentage of revenue that remains as profit after costs are deducted. It is calculated as (Revenue - Cost) / Revenue × 100. A 30% margin means 30 cents of every dollar earned is profit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between gross margin and net margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gross margin only considers the direct cost of goods sold (COGS). Net margin accounts for all expenses including COGS, operating expenses, taxes, and interest. Net margin is always lower than gross margin and gives a more complete picture of profitability."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate profit margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Profit Margin = (Revenue - Cost) / Revenue × 100. For example, if revenue is $100 and cost is $60, margin = ($100 - $60) / $100 × 100 = 40%. This means 40% of each sale is profit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good profit margin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It varies by industry. Software/SaaS: 70-90% gross margin. Consulting: 50-80%. Retail: 20-50%. Restaurants: 3-9% net margin. Manufacturing: 10-30%. A margin above the industry average is generally considered good."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between margin and markup?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Margin is profit as a percentage of selling price. Markup is profit as a percentage of cost. If you sell something for $100 that cost $60, margin is 40% but markup is 66.7%. Markup is always higher than margin for the same transaction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate revenue from margin and cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Revenue = Cost / (1 - Margin/100). For example, if cost is $60 and desired margin is 40%, revenue = $60 / (1 - 0.40) = $60 / 0.60 = $100."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Profit Margin Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"calcMode\">Calculation Mode</label>\n    <div class=\"input-row\">\n      <select id=\"calcMode\">\n        <option value=\"revCost\">Revenue + Cost → Margin</option>\n        <option value=\"revMargin\">Revenue + Margin → Cost</option>\n        <option value=\"costMargin\">Cost + Margin → Revenue</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\" id=\"revenueGroup\">\n    <label for=\"revenue\">Revenue ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"revenue\" value=\"100000\" min=\"0\" step=\"100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\" id=\"costGroup\">\n    <label for=\"cost\">Cost of Goods / Total Cost ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"cost\" value=\"60000\" min=\"0\" step=\"100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\" id=\"marginGroup\" style=\"display:none\">\n    <label for=\"marginInput\">Desired Margin (%)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"marginInput\" value=\"40\" min=\"0\" max=\"99.99\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"opExpenses\">Operating Expenses (optional, for net margin) ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"opExpenses\" value=\"0\" min=\"0\" step=\"100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Gross Profit</div>\n        <div class=\"result-value\" id=\"grossProfit\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Gross Margin</div>\n        <div class=\"result-value\" id=\"grossMargin\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Markup %</div>\n        <div class=\"result-value\" id=\"markupPct\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Revenue</div>\n        <div class=\"result-value\" id=\"resultRevenue\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost</div>\n        <div class=\"result-value\" id=\"resultCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Net Margin</div>\n        <div class=\"result-value\" id=\"netMargin\">—</div>\n      </div>\n    </div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Average Profit Margins by Industry</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Typical gross and net margins across common industries.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr>\n          <th>Industry</th>\n          <th>Gross Margin</th>\n          <th>Net Margin</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>Software / SaaS</td><td>70–90%</td><td>15–30%</td></tr>\n        <tr><td>Consulting</td><td>50–80%</td><td>15–25%</td></tr>\n        <tr><td>E-commerce</td><td>40–60%</td><td>5–15%</td></tr>\n        <tr><td>Retail (general)</td><td>25–50%</td><td>2–10%</td></tr>\n        <tr><td>Restaurants</td><td>55–65%</td><td>3–9%</td></tr>\n        <tr><td>Manufacturing</td><td>25–40%</td><td>5–15%</td></tr>\n        <tr><td>Construction</td><td>15–30%</td><td>3–8%</td></tr>\n        <tr><td>Grocery</td><td>25–30%</td><td>1–3%</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Profit Margin</h2>\n  <p style=\"margin-bottom:12px\">Profit margin measures how much of each dollar of revenue a business keeps as profit. It is one of the most important metrics for evaluating business health.</p>\n  <div style=\"background:#eff6ff;border:2px solid #bfdbfe;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Margin % = (Revenue − Cost) / Revenue × 100</span>\n  </div>\n  <p style=\"margin-bottom:12px\"><strong>Two types of margin:</strong></p>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Gross Margin</strong> = (Revenue − COGS) / Revenue — only direct costs</li>\n    <li><strong>Net Margin</strong> = (Revenue − All Expenses) / Revenue — includes overhead, taxes, etc.</li>\n    <li><strong>Markup</strong> = (Revenue − Cost) / Cost × 100 — profit relative to cost, not price</li>\n  </ul>\n  <p style=\"padding:12px;background:#f5f5f5;border-radius:8px;font-family:monospace\"><strong>Example:</strong> Revenue $100,000 − Cost $60,000 = Profit $40,000 → <strong>40% margin</strong>, <strong>66.7% markup</strong></p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n\n  <div class=\"faq-item\">\n    <h3>What is profit margin?</h3>\n    <p>Profit margin is the percentage of revenue that remains as profit after costs are deducted. A 40% profit margin means that for every dollar of revenue, $0.40 is profit. It is calculated as (Revenue − Cost) / Revenue × 100.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is the difference between gross margin and net margin?</h3>\n    <p>Gross margin only subtracts the direct cost of goods sold (COGS) from revenue. Net margin subtracts all expenses — including operating costs, taxes, interest, and overhead. Net margin is always lower than gross margin and gives the most complete picture of actual profitability.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do you calculate profit margin?</h3>\n    <p>Profit Margin = (Revenue − Cost) / Revenue × 100. For example, if revenue is $100,000 and cost is $60,000, the margin is ($100,000 − $60,000) / $100,000 × 100 = 40%.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is a good profit margin?</h3>\n    <p>It varies significantly by industry. Software companies often see 70–90% gross margins. Retail typically runs 25–50% gross. Restaurants average just 3–9% net margin. Any margin above your industry average is generally considered good. Improving margin over time is the key indicator of business health.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is the difference between margin and markup?</h3>\n    <p>Margin is profit as a percentage of the selling price (revenue). Markup is profit as a percentage of cost. Selling something for $100 that cost $60 gives a 40% margin but a 66.7% markup. Markup is always a higher number than margin for the same transaction.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do I calculate revenue from margin and cost?</h3>\n    <p>Revenue = Cost / (1 − Margin/100). For example, if cost is $60,000 and desired margin is 40%, revenue = $60,000 / (1 − 0.40) = $60,000 / 0.60 = $100,000.</p>\n  </div>\n</div>",
+  "category": "finance",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This profit margin calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This profit margin calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "fire-calculator",
+    "debt-snowball-calculator",
+    "debt-avalanche-calculator",
+    "cap-rate-calculator",
+    "rental-property-roi-calculator",
+    "cash-on-cash-return-calculator",
+    "freelance-rate-calculator",
+    "markup-calculator"
+  ]
+}

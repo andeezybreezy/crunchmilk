@@ -1,0 +1,139 @@
+{
+  "slug": "btu-calculator",
+  "toolName": "BTU Calculator",
+  "tagline": "Calculate heating and cooling BTUs needed for any room or space",
+  "title": "BTU Calculator — Heating & Cooling Load Sizing",
+  "metaDescription": "Calculate BTUs needed for heating and cooling any room. Enter dimensions, insulation, and climate to get furnace and AC tonnage recommendations.",
+  "keywords": "BTU calculator, heating BTU calculator, cooling BTU calculator, AC size calculator, furnace sizing, how many BTUs do I need",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>BTU Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"roomLength\">Room Length (feet)</label>\n      <input type=\"number\" id=\"roomLength\" placeholder=\"e.g. 20\" inputmode=\"decimal\" step=\"any\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roomWidth\">Room Width (feet)</label>\n      <input type=\"number\" id=\"roomWidth\" placeholder=\"e.g. 15\" inputmode=\"decimal\" step=\"any\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"ceilingHeight\">Ceiling Height (feet)</label>\n      <select id=\"ceilingHeight\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"8\" selected>8 ft (standard)</option>\n        <option value=\"9\">9 ft</option>\n        <option value=\"10\">10 ft</option>\n        <option value=\"12\">12 ft</option>\n        <option value=\"14\">14 ft (vaulted)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"insulation\">Insulation Quality</label>\n      <select id=\"insulation\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"poor\">Poor (old home, no insulation)</option>\n        <option value=\"average\" selected>Average (standard insulation)</option>\n        <option value=\"good\">Good (well-insulated, new construction)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"climate\">Climate Zone</label>\n      <select id=\"climate\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"hot\">Hot (South FL, TX, AZ, desert)</option>\n        <option value=\"warm\">Warm (SE US, mid-South)</option>\n        <option value=\"moderate\" selected>Moderate (mid-Atlantic, Pacific NW)</option>\n        <option value=\"cold\">Cold (Midwest, NE US)</option>\n        <option value=\"very-cold\">Very Cold (Northern US, mountain)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"sunExposure\">Sun Exposure</label>\n      <select id=\"sunExposure\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"shaded\">Heavily Shaded</option>\n        <option value=\"average\" selected>Average</option>\n        <option value=\"sunny\">Very Sunny (south/west facing)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"occupants\">Number of Occupants</label>\n      <input type=\"number\" id=\"occupants\" value=\"2\" min=\"1\" inputmode=\"numeric\">\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Each person adds ~600 BTU of heat</div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate BTUs</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cooling BTUs</div>\n          <div class=\"result-value\" id=\"rCooling\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Heating BTUs</div>\n          <div class=\"result-value\" id=\"rHeating\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\" style=\"margin-top:12px\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">AC Tonnage</div>\n          <div class=\"result-value\" id=\"rTonnage\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Furnace Size</div>\n          <div class=\"result-value\" id=\"rFurnace\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "BTU (British Thermal Unit) measures heating and cooling energy. Proper sizing prevents short-cycling (too big) or inability to maintain temperature (too small).",
+    "rules": [
+      "Base cooling load is approximately 20-25 BTU per square foot, adjusted for ceiling height, insulation, climate, sun exposure, and occupancy",
+      "Heating load is typically 30-60 BTU per square foot depending on climate zone and insulation quality",
+      "AC tonnage equals total cooling BTUs divided by 12,000. One ton of cooling = 12,000 BTU/hr"
+    ],
+    "outro": "This calculator provides estimates for initial sizing. A professional Manual J calculation considers all heat gain and loss factors for precise HVAC sizing. Oversized equipment wastes energy and causes humidity problems."
+  },
+  "faq": [
+    {
+      "question": "How many BTUs do I need per square foot?",
+      "answer": "For cooling, plan on 20 BTU per square foot as a baseline, adjusted for climate and insulation. For heating in cold climates, plan 40-60 BTU per square foot. Hot climates need more cooling BTUs, cold climates need more heating BTUs. These are estimates — a Manual J calculation is more precise."
+    },
+    {
+      "question": "What size AC do I need for a 1,500 sq ft house?",
+      "answer": "A 1,500 sq ft home in a moderate climate typically needs 30,000-36,000 BTU (2.5-3 tons) of cooling. In a hot climate like Arizona or Florida, you might need 36,000-42,000 BTU (3-3.5 tons). Insulation quality and sun exposure significantly affect the final number."
+    },
+    {
+      "question": "What happens if my AC is too big?",
+      "answer": "An oversized AC short-cycles — it cools the air quickly but shuts off before removing humidity. This causes clammy air, mold growth, higher energy bills, and premature compressor wear. Proper sizing runs longer at lower capacity to dehumidify effectively."
+    },
+    {
+      "question": "How do I convert BTUs to AC tonnage?",
+      "answer": "Divide total cooling BTUs by 12,000 to get tons. For example, 36,000 BTU ÷ 12,000 = 3 tons. Standard residential AC sizes are 1.5, 2, 2.5, 3, 3.5, 4, and 5 tons. Choose the closest standard size to your calculation."
+    },
+    {
+      "question": "What size furnace do I need?",
+      "answer": "Furnace output should match your heating BTU load. A 100,000 BTU furnace at 96% efficiency delivers 96,000 BTU of heat. Common residential sizes range from 40,000 to 120,000 BTU input. Standard furnace efficiency ratings (AFUE) range from 80% to 98%."
+    },
+    {
+      "question": "Does ceiling height affect BTU calculations?",
+      "answer": "Yes, significantly. Standard calculations assume 8-foot ceilings. A 10-foot ceiling has 25% more air volume, requiring roughly 20-25% more BTU capacity. Vaulted ceilings with 14+ foot peaks need even more, especially for heating since hot air rises."
+    }
+  ],
+  "relatedTools": [
+    "mini-split-calculator",
+    "duct-sizing-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Estimated Cooling BTUs by Room Size",
+    "subtitle": "Average insulation, moderate climate, 8-foot ceilings.",
+    "columns": [
+      "Room Size (sq ft)",
+      "Cooling BTU",
+      "AC Tonnage",
+      "Heating BTU (Cold)"
+    ],
+    "rows": [
+      [
+        "150",
+        "5,000",
+        "0.4 ton",
+        "7,500"
+      ],
+      [
+        "300",
+        "10,000",
+        "0.8 ton",
+        "15,000"
+      ],
+      [
+        "500",
+        "14,000",
+        "1.2 ton",
+        "25,000"
+      ],
+      [
+        "750",
+        "18,000",
+        "1.5 ton",
+        "37,500"
+      ],
+      [
+        "1,000",
+        "24,000",
+        "2.0 ton",
+        "50,000"
+      ],
+      [
+        "1,500",
+        "34,000",
+        "2.8 ton",
+        "75,000"
+      ],
+      [
+        "2,000",
+        "46,000",
+        "3.8 ton",
+        "100,000"
+      ],
+      [
+        "2,500",
+        "58,000",
+        "4.8 ton",
+        "125,000"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This btu calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This btu calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

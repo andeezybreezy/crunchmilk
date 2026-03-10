@@ -1,0 +1,145 @@
+{
+  "slug": "paint-calculator",
+  "toolName": "Paint Calculator",
+  "tagline": "Calculate gallons of paint for walls and ceilings with waste and cost",
+  "title": "Paint Calculator — How Many Gallons of Paint Do I Need?",
+  "metaDescription": "Calculate how many gallons of paint you need for any room. Enter dimensions, coats, and openings for an accurate estimate with cost breakdown.",
+  "keywords": "paint calculator, how much paint do I need, gallons of paint calculator, room paint calculator, wall paint estimator, paint coverage calculator",
+  "domain": "example.com",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "ogTitle": "Paint Calculator — How Many Gallons Do I Need?",
+  "ogDescription": "Calculate gallons of paint for walls and ceilings. Enter room dimensions and get an accurate materials estimate.",
+  "twitterDescription": "Calculate how many gallons of paint you need for any room. Free paint coverage calculator.",
+  "jsonLdDescription": "Calculate paint quantity in gallons for walls and ceilings based on room dimensions, number of coats, and paint coverage rate.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Paint Calculator</h2>\n    <div class=\"input-group\">\n      <label>Input Method</label>\n      <div class=\"unit-toggle\" role=\"group\" id=\"modeToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"room\" aria-pressed=\"true\">Room Dimensions</button>\n        <button type=\"button\" data-mode=\"area\" aria-pressed=\"false\">Wall Area</button>\n      </div>\n    </div>\n    <div id=\"roomInputs\">\n      <div class=\"input-group\">\n        <label for=\"roomLength\">Room Length (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"roomLength\" placeholder=\"e.g. 15\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"roomWidth\">Room Width (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"roomWidth\" placeholder=\"e.g. 12\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"wallHeight\">Wall Height (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 8\" value=\"8\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n    <div id=\"areaInputs\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"wallArea\">Total Wall Area (square feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"wallArea\" placeholder=\"e.g. 500\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"doorCount\">Number of Doors (subtract 21 sq ft each)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"doorCount\" value=\"1\" inputmode=\"numeric\" step=\"1\">\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"windowCount\">Number of Windows (subtract 15 sq ft each)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"windowCount\" value=\"2\" inputmode=\"numeric\" step=\"1\">\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"coats\">Number of Coats</label>\n      <div class=\"input-row\">\n        <select id=\"coats\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"1\">1 coat — Touch-up / same color</option>\n          <option value=\"2\" selected>2 coats — Standard</option>\n          <option value=\"3\">3 coats — Dark to light color change</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"coverage\">Paint Coverage (sq ft per gallon)</label>\n      <div class=\"input-row\">\n        <select id=\"coverage\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"250\">250 — Textured walls</option>\n          <option value=\"300\">300 — Rough / unprimed drywall</option>\n          <option value=\"350\" selected>350 — Standard interior</option>\n          <option value=\"400\">400 — Smooth, primed walls</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"paintCeiling\">Include Ceiling?</label>\n      <div class=\"input-row\">\n        <select id=\"paintCeiling\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"no\" selected>No — Walls only</option>\n          <option value=\"yes\">Yes — Include ceiling</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"priceGallon\">Price per Gallon ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"priceGallon\" value=\"35\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Budget: $20-$30 &bull; Mid-range: $30-$50 &bull; Premium: $50-$80</div>\n    </div>\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Paint</button>\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Gallons Needed</div>\n          <div class=\"result-value\" id=\"rGallons\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Estimated Cost</div>\n          <div class=\"result-value\" id=\"rCost\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Calculating paint quantity starts with finding your total paintable wall area, subtracting openings, then dividing by the paint's coverage rate per gallon.",
+    "rules": [
+      "Wall area = perimeter (2 &times; length + 2 &times; width) &times; height, minus doors (21 sq ft each) and windows (15 sq ft each)",
+      "One gallon of interior paint covers 350-400 sq ft on smooth walls; textured walls may drop to 250-300 sq ft",
+      "Always plan for 2 coats — the first coat seals the surface and the second provides full, even coverage"
+    ],
+    "outro": "This calculator rounds up to the nearest gallon. If you are close to a whole number, consider buying quarts to supplement. Most paint stores will tint quarts to match your gallon color. Keep leftover paint for future touch-ups."
+  },
+  "faq": [
+    {
+      "question": "How many square feet does a gallon of paint cover?",
+      "answer": "A gallon of interior paint covers 350-400 square feet on smooth, primed walls. Textured or porous surfaces reduce coverage to 250-300 square feet. Exterior paint typically covers 250-350 square feet per gallon depending on the surface texture."
+    },
+    {
+      "question": "Do I really need 2 coats of paint?",
+      "answer": "Yes, two coats are recommended for most projects. The first coat seals the surface and provides a base, while the second coat ensures uniform color and full coverage. You might get away with one coat if you are painting the exact same color over a well-prepared surface."
+    },
+    {
+      "question": "How much paint do I need for a 12x12 room?",
+      "answer": "A 12x12 room with 8-foot ceilings has about 384 square feet of wall area. After subtracting a door and two windows, that is roughly 333 square feet. At 350 sq ft/gallon with 2 coats, you need about 2 gallons for the walls, plus 1 gallon for the ceiling if painting it."
+    },
+    {
+      "question": "Should I buy paint in gallons or 5-gallon buckets?",
+      "answer": "If you need 3 or more gallons of the same color, a 5-gallon bucket is usually cheaper per gallon and ensures color consistency. For smaller jobs, individual gallons are fine. Always buy all your paint at once — even the same color code can vary slightly between batches."
+    },
+    {
+      "question": "How do I estimate paint for trim and baseboards?",
+      "answer": "Trim paint (doors, baseboards, crown molding) typically requires 1 quart per standard door (both sides plus frame) and about 1 quart per 100-150 linear feet of trim. A typical room with one door and standard baseboards needs about 1-2 quarts of trim paint."
+    },
+    {
+      "question": "What is the difference between flat, eggshell, and satin paint?",
+      "answer": "Flat/matte paint hides imperfections but is hard to clean — best for ceilings and low-traffic areas. Eggshell has a slight sheen and is washable — ideal for living rooms and bedrooms. Satin is more durable and moisture-resistant — best for kitchens, bathrooms, and trim."
+    }
+  ],
+  "relatedTools": [
+    "crown-molding-calculator",
+    "baseboard-calculator",
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator"
+  ],
+  "chart": {
+    "title": "Paint Coverage Quick Reference",
+    "subtitle": "Gallons needed for 2 coats at 350 sq ft/gallon coverage.",
+    "columns": [
+      "Room Size",
+      "Wall Area (sq ft)",
+      "After Openings",
+      "Gallons (2 coats)",
+      "With Ceiling"
+    ],
+    "rows": [
+      [
+        "10 x 10, 8' walls",
+        "320",
+        "284",
+        "2",
+        "3"
+      ],
+      [
+        "10 x 12, 8' walls",
+        "352",
+        "316",
+        "2",
+        "3"
+      ],
+      [
+        "12 x 12, 8' walls",
+        "384",
+        "348",
+        "2",
+        "3"
+      ],
+      [
+        "12 x 16, 8' walls",
+        "448",
+        "412",
+        "3",
+        "4"
+      ],
+      [
+        "14 x 16, 8' walls",
+        "480",
+        "444",
+        "3",
+        "4"
+      ],
+      [
+        "16 x 20, 8' walls",
+        "576",
+        "540",
+        "4",
+        "5"
+      ],
+      [
+        "20 x 20, 8' walls",
+        "640",
+        "604",
+        "4",
+        "6"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This paint calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This paint calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

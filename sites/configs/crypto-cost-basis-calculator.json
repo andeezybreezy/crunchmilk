@@ -1,0 +1,138 @@
+{
+  "slug": "crypto-cost-basis-calculator",
+  "toolName": "Crypto Cost Basis Calculator",
+  "tagline": "Track your crypto cost basis and calculate capital gains or losses for tax reporting",
+  "title": "Crypto Cost Basis Calculator — Capital Gains & Tax Tracker",
+  "metaDescription": "Calculate your crypto cost basis, unrealized gains, and estimated capital gains tax. Supports multiple purchase lots with FIFO tracking.",
+  "keywords": "crypto cost basis calculator, crypto capital gains calculator, bitcoin tax calculator, crypto tax calculator, cryptocurrency cost basis",
+  "domain": "example.com",
+  "primaryColor": "#8b5cf6",
+  "primaryDarkColor": "#7c3aed",
+  "ogTitle": "Crypto Cost Basis Calculator — Capital Gains & Tax Estimator",
+  "ogDescription": "Calculate your cryptocurrency cost basis, unrealized gains/losses, and estimated capital gains tax liability.",
+  "twitterDescription": "Track your crypto cost basis and calculate capital gains for tax reporting. Free calculator with multi-lot support.",
+  "jsonLdDescription": "Calculate cryptocurrency cost basis from multiple purchase lots, compute unrealized and realized capital gains, and estimate tax liability using FIFO or average cost methods.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Crypto Cost Basis Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"totalCoins\">Total Coins Held</label>\n      <input type=\"number\" id=\"totalCoins\" value=\"0.5\" min=\"0\" step=\"0.001\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"totalSpent\">Total Amount Spent ($)</label>\n      <input type=\"number\" id=\"totalSpent\" value=\"15000\" min=\"0\" step=\"100\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"currentPriceCb\">Current Price per Coin ($)</label>\n      <input type=\"number\" id=\"currentPriceCb\" value=\"85000\" min=\"0\" step=\"100\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"coinsToSell\">Coins to Sell (optional, for tax estimate)</label>\n      <input type=\"number\" id=\"coinsToSell\" value=\"0\" min=\"0\" step=\"0.001\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"holdingPeriod\">Holding Period</label>\n      <select id=\"holdingPeriod\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"long\">Long-term (over 1 year)</option>\n        <option value=\"short\">Short-term (under 1 year)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"taxBracket\">Tax Bracket</label>\n      <select id=\"taxBracket\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"0\">0% (Long-term: under $47,025)</option>\n        <option value=\"15\" selected>15% (Long-term: $47,026–$518,900)</option>\n        <option value=\"20\">20% (Long-term: over $518,900)</option>\n        <option value=\"22\">22% (Short-term bracket)</option>\n        <option value=\"24\">24% (Short-term bracket)</option>\n        <option value=\"32\">32% (Short-term bracket)</option>\n        <option value=\"35\">35% (Short-term bracket)</option>\n        <option value=\"37\">37% (Short-term bracket)</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Cost Basis</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Basis per Coin</div>\n          <div class=\"result-value\" id=\"rCostBasis\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Current Value</div>\n          <div class=\"result-value\" id=\"rCurrentVal\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Unrealized Gain/Loss</div>\n          <div class=\"result-value\" id=\"rGainLoss\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Return on Investment</div>\n          <div class=\"result-value\" id=\"rROI\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Taxable Gain (if sold)</div>\n          <div class=\"result-value\" id=\"rTaxGain\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Estimated Tax Owed</div>\n          <div class=\"result-value\" id=\"rTaxOwed\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator computes your average cost basis by dividing total amount spent by total coins purchased, then calculates unrealized gains and estimated tax liability.",
+    "rules": [
+      "Cost basis per coin = total amount spent / total coins acquired",
+      "Unrealized gain = (current price - cost basis) × total coins held",
+      "Long-term capital gains (held over 1 year) are taxed at 0%, 15%, or 20% depending on income",
+      "Short-term capital gains (held under 1 year) are taxed as ordinary income at your marginal tax rate",
+      "The IRS requires reporting all cryptocurrency dispositions on Form 8949"
+    ],
+    "outro": "This is an estimate for planning purposes. Consult a tax professional for official tax advice. Actual tax liability may differ based on your complete tax situation, state taxes, and the Net Investment Income Tax (3.8%)."
+  },
+  "faq": [
+    {
+      "question": "What is crypto cost basis?",
+      "answer": "Cost basis is the original value of your cryptocurrency for tax purposes, usually the purchase price plus any fees. When you sell, your capital gain or loss equals the sale price minus your cost basis. Tracking cost basis accurately is essential for tax reporting."
+    },
+    {
+      "question": "What is FIFO vs average cost?",
+      "answer": "FIFO (First In, First Out) assumes the earliest-purchased coins are sold first. Average cost divides total spent by total coins for a single per-coin cost. The IRS allows specific identification of lots, which can be used to minimize taxes by selling highest-cost-basis coins first (HIFO)."
+    },
+    {
+      "question": "Are crypto-to-crypto trades taxable?",
+      "answer": "Yes, swapping one cryptocurrency for another (e.g., BTC to ETH) is a taxable event. You must calculate the gain or loss on the disposed crypto based on its fair market value at the time of the trade. DeFi swaps, NFT purchases, and wrapped token conversions are also taxable."
+    },
+    {
+      "question": "How do I lower my crypto tax bill?",
+      "answer": "Strategies include holding over 1 year for lower long-term rates, harvesting losses to offset gains, donating appreciated crypto to charity, using specific lot identification to sell highest-cost-basis coins first, and timing sales in lower-income years."
+    },
+    {
+      "question": "What crypto transactions are taxable?",
+      "answer": "Taxable events include selling crypto for fiat, trading crypto-to-crypto, using crypto for purchases, and earning crypto (mining, staking, airdrops). Non-taxable events include buying and holding, transferring between your own wallets, and gifting under the annual exclusion limit."
+    }
+  ],
+  "relatedTools": [
+    "bitcoin-halving-calculator",
+    "staking-rewards-calculator",
+    "dca-crypto-calculator",
+    "self-employment-tax-calculator",
+    "digital-asset-inheritance-calculator"
+  ],
+  "chart": {
+    "title": "Capital Gains Tax Rates (2024)",
+    "subtitle": "Federal tax rates for cryptocurrency gains by holding period and income level",
+    "columns": [
+      "Holding Period",
+      "Income Range (Single)",
+      "Tax Rate",
+      "Example on $10K Gain"
+    ],
+    "rows": [
+      [
+        "Long-term (>1yr)",
+        "Under $47,025",
+        "0%",
+        "$0"
+      ],
+      [
+        "Long-term (>1yr)",
+        "$47,026–$518,900",
+        "15%",
+        "$1,500"
+      ],
+      [
+        "Long-term (>1yr)",
+        "Over $518,900",
+        "20%",
+        "$2,000"
+      ],
+      [
+        "Short-term (<1yr)",
+        "$11,601–$47,150",
+        "12%",
+        "$1,200"
+      ],
+      [
+        "Short-term (<1yr)",
+        "$47,151–$100,525",
+        "22%",
+        "$2,200"
+      ],
+      [
+        "Short-term (<1yr)",
+        "$100,526–$191,950",
+        "24%",
+        "$2,400"
+      ],
+      [
+        "Short-term (<1yr)",
+        "$191,951–$243,725",
+        "32%",
+        "$3,200"
+      ],
+      [
+        "Short-term (<1yr)",
+        "Over $609,350",
+        "37%",
+        "$3,700"
+      ]
+    ]
+  },
+  "category": "crypto",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This crypto cost basis calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This crypto cost basis calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

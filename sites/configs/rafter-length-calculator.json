@@ -1,0 +1,118 @@
+{
+  "slug": "rafter-length-calculator",
+  "toolName": "Rafter Length Calculator",
+  "tagline": "Calculate rafter length, ridge height, and birdsmouth cuts",
+  "title": "Rafter Length Calculator — Span, Pitch & Overhang to Rafter Length",
+  "metaDescription": "Calculate rafter length from roof span, pitch, and overhang. Includes ridge height, birdsmouth cut dimensions, and common rafter sizing.",
+  "keywords": "rafter length calculator, rafter calculator, roof rafter calculator, birdsmouth cut calculator, ridge height calculator",
+  "primaryColor": "#b91c1c",
+  "primaryDarkColor": "#991b1b",
+  "domain": "example.com",
+  "ogTitle": "Rafter Length Calculator — Roof Rafter Sizing Tool",
+  "ogDescription": "Calculate rafter length from span, pitch, and overhang. Includes ridge height and birdsmouth cut dimensions.",
+  "twitterDescription": "Calculate rafter length from span, pitch, and overhang with birdsmouth cut dimensions.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Rafter Length Calculator",
+    "description": "Calculate rafter length from roof span, pitch, and overhang. Includes ridge height and birdsmouth dimensions.",
+    "url": "https://example.com/rafter-length-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate rafter length?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Rafter length = (half the span) divided by cos(pitch angle), plus the overhang. For a 24-foot span with a 6/12 pitch and 12-inch overhang: run = 12 ft, angle = 26.57°, rafter = 12/cos(26.57°) = 13.42 ft + 1 ft overhang = 14.42 ft."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What size rafter do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Rafter size depends on span, spacing, pitch, and loads. General guidelines: 2×6 rafters for spans up to 10 ft at 16\" OC, 2×8 for spans up to 14 ft, 2×10 for spans up to 18 ft, and 2×12 for spans up to 22 ft. Always consult local building codes and span tables."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a birdsmouth cut?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A birdsmouth cut is a notch cut into the rafter where it sits on the wall plate. It consists of a seat cut (horizontal, rests on the plate) and a plumb cut (vertical, against the wall). The seat cut should not exceed one-third of the rafter depth."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate ridge board height?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ridge height = wall height + (run × pitch/12) - (half ridge board thickness × pitch/12). For a wall height of 8 ft with 12 ft run and 6/12 pitch: ridge = 8 + (12 × 0.5) - adjustment = approximately 14 ft from floor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the standard rafter overhang?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard rafter overhang (eave) is typically 12 to 24 inches. 12 inches is minimum for weather protection. 16-18 inches is common for residential construction. Wider overhangs (24\"+) provide better rain protection and shade but may require additional support."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need a ridge board or ridge beam?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A ridge board (typically 1× or 2× lumber) is a non-structural member that rafters attach to; the ceiling joists or collar ties resist the outward thrust. A ridge beam is a structural member that supports the rafter loads, needed when there are no ceiling joists or in cathedral ceilings. Ridge beams must be sized by an engineer."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Rafter Length Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"roofSpan\">Roof Span (ft) — building width</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"roofSpan\" placeholder=\"e.g. 24\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"24\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"roofPitch\">Roof Pitch (X / 12)</label>\n    <div class=\"input-row\">\n      <select id=\"roofPitch\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"3\">3/12 (14.0&deg;)</option>\n        <option value=\"4\" selected>4/12 (18.4&deg;)</option>\n        <option value=\"5\">5/12 (22.6&deg;)</option>\n        <option value=\"6\">6/12 (26.6&deg;)</option>\n        <option value=\"7\">7/12 (30.3&deg;)</option>\n        <option value=\"8\">8/12 (33.7&deg;)</option>\n        <option value=\"9\">9/12 (36.9&deg;)</option>\n        <option value=\"10\">10/12 (39.8&deg;)</option>\n        <option value=\"12\">12/12 (45.0&deg;)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"overhang\">Overhang / Eave (inches)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"overhang\" placeholder=\"e.g. 12\" step=\"1\" min=\"0\" inputmode=\"decimal\" value=\"12\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wallHeight\">Wall Height (ft, optional — for ridge height)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 8\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"8\">\n    </div>\n  </div>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Rafter Length (incl. overhang)</div>\n        <div class=\"result-value\" id=\"outRafterLen\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Rafter Length (no overhang)</div>\n        <div class=\"result-value\" id=\"outRafterNoOH\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Ridge Board Height (from floor)</div>\n        <div class=\"result-value\" id=\"outRidgeHeight\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Run (half span)</div>\n        <div class=\"result-value\" id=\"outRun\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Birdsmouth Seat Cut</div>\n        <div class=\"result-value\" id=\"outSeatCut\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Birdsmouth Plumb Cut</div>\n        <div class=\"result-value\" id=\"outPlumbCut\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">Enter values above to calculate rafter dimensions.</div>\n  </div>\n\n  <div class=\"presets\">\n    <h3>Recommended Rafter Size</h3>\n    <div id=\"rafterSizeRec\" style=\"padding:12px;background:#f5f5f5;border-radius:8px;font-size:1rem;line-height:1.6\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Common Rafter Sizes &amp; Maximum Spans</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Maximum spans for #2 grade lumber at 16\" OC with 20 PSF live load and 10 PSF dead load. Always verify with local codes.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Rafter Size</th><th>Actual Depth</th><th>Max Span (16\" OC)</th><th>Max Span (24\" OC)</th><th>Weight/LF</th></tr></thead>\n      <tbody>\n        <tr><td>2&times;6</td><td>5.5\"</td><td>10' 6\"</td><td>8' 6\"</td><td>2.0 lbs</td></tr>\n        <tr><td>2&times;8</td><td>7.25\"</td><td>14' 2\"</td><td>11' 6\"</td><td>2.6 lbs</td></tr>\n        <tr><td>2&times;10</td><td>9.25\"</td><td>18' 0\"</td><td>14' 8\"</td><td>3.4 lbs</td></tr>\n        <tr><td>2&times;12</td><td>11.25\"</td><td>22' 0\"</td><td>17' 10\"</td><td>4.1 lbs</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Rafter Length</h2>\n  <p style=\"margin-bottom:12px\">Rafter length is determined by the building span, roof pitch, and desired overhang. The run (horizontal distance) is half the span, and the rafter follows the hypotenuse of the triangle formed by the run and rise.</p>\n  <div style=\"background:#fef2f2;border:2px solid #fecaca;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Rafter = Run &divide; cos(pitch angle) + Overhang</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Run</strong> = Span &divide; 2 (half the building width)</li>\n    <li><strong>Pitch angle</strong> = arctan(pitch / 12)</li>\n    <li><strong>Rise</strong> = Run &times; pitch / 12</li>\n    <li><strong>Ridge height</strong> = Wall height + Rise</li>\n    <li><strong>Birdsmouth seat cut</strong> = wall plate width (typically 3.5\" for 2&times;4 wall)</li>\n    <li>The plumb cut depth should not exceed 1/3 of rafter depth</li>\n  </ul>\n  <p><strong>Example:</strong> 24 ft span, 6/12 pitch, 12\" overhang: Run = 12 ft, angle = 26.57&deg;, rafter = 12/cos(26.57&deg;) + 1 = 13.42 + 1 = 14.42 ft.</p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\"><h3>How do you calculate rafter length?</h3><p>Rafter length equals half the building span divided by the cosine of the pitch angle, plus the overhang. For a 24 ft span with 6/12 pitch and 12\" overhang: run = 12 ft, angle = 26.57°, rafter = 12/cos(26.57°) + 1 ft = 14.42 ft.</p></div>\n  <div class=\"faq-item\"><h3>What size rafter do I need?</h3><p>Rafter size depends on span, spacing, pitch, and snow/wind loads. General rules: 2×6 for spans up to 10 ft at 16\" OC, 2×8 for up to 14 ft, 2×10 for up to 18 ft, and 2×12 for up to 22 ft. Always consult local building codes and IRC span tables for your specific loads.</p></div>\n  <div class=\"faq-item\"><h3>What is a birdsmouth cut?</h3><p>A birdsmouth is a notch cut into the rafter where it sits on the top wall plate. It has two parts: the seat cut (horizontal, resting on the plate) and the plumb cut (vertical). The seat cut width typically matches the wall plate (3.5\" for a 2×4 wall). The notch depth should not exceed one-third of the rafter depth.</p></div>\n  <div class=\"faq-item\"><h3>How do you calculate ridge board height?</h3><p>Ridge height from the floor = wall height + (run × pitch ÷ 12). For an 8 ft wall with 12 ft run and 6/12 pitch: 8 + (12 × 0.5) = 14 ft. Subtract half the ridge board thickness for the actual rafter seat position at the ridge.</p></div>\n  <div class=\"faq-item\"><h3>What is the standard rafter overhang?</h3><p>Standard eave overhang is 12 to 24 inches. 12\" is minimum for weather protection, 16-18\" is most common for residential construction, and 24\"+ provides extra shade and rain protection but may need lookout support for wider overhangs.</p></div>\n  <div class=\"faq-item\"><h3>Do I need a ridge board or ridge beam?</h3><p>A ridge board is non-structural — rafters bear against it while ceiling joists resist outward thrust. A ridge beam is structural and supports rafter loads directly, required when there are no ceiling joists (vaulted/cathedral ceilings). Ridge beams must be engineered for the specific loads.</p></div>\n</div>",
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This rafter length calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This rafter length calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator",
+    "concrete-stair-calculator",
+    "retaining-wall-calculator"
+  ]
+}

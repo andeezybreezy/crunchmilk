@@ -1,0 +1,167 @@
+{
+  "slug": "meat-per-person-calculator",
+  "toolName": "Meat Per Person Calculator",
+  "tagline": "Calculate how much meat to buy for any gathering",
+  "title": "Meat Per Person Calculator",
+  "metaDescription": "Calculate how much meat to buy per person for BBQ, dinner parties, taco night, and more. Bone-in and boneless amounts with cost estimates.",
+  "keywords": "meat per person calculator, how much meat per person, BBQ meat calculator, meat for party calculator, pounds of meat per person",
+  "domain": "example.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Meat Per Person Calculator — How Much Meat to Buy",
+  "ogDescription": "Calculate how much meat to buy per person for any gathering. BBQ, dinner party, taco night, and more with cost estimates.",
+  "twitterDescription": "Calculate how much meat to buy per person for BBQ, dinner parties, and more.",
+  "jsonLdDescription": "Calculate how much meat to buy per person for BBQ parties, dinner parties, taco nights, and other gatherings.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Meat Per Person Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"meatType\">Type of Meat</label>\n      <div class=\"input-row\">\n        <select id=\"meatType\" aria-label=\"Type of meat\">\n          <option value=\"beef\">Beef</option>\n          <option value=\"pork\">Pork</option>\n          <option value=\"chicken\">Chicken</option>\n          <option value=\"ribs\">Ribs (pork or beef)</option>\n          <option value=\"lamb\">Lamb</option>\n          <option value=\"fish\">Fish / Seafood</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"boneType\">Bone-In or Boneless</label>\n      <div class=\"input-row\">\n        <select id=\"boneType\" aria-label=\"Bone in or boneless\">\n          <option value=\"bonein\">Bone-In</option>\n          <option value=\"boneless\">Boneless</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"guestCount\">Number of Guests</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"guestCount\" placeholder=\"e.g. 20\" min=\"1\" max=\"500\" inputmode=\"numeric\" aria-label=\"Number of guests\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"mealType\">Meal Type</label>\n      <div class=\"input-row\">\n        <select id=\"mealType\" aria-label=\"Meal type\">\n          <option value=\"main\">Meat is the Main Dish</option>\n          <option value=\"mixed\">Mixed Menu (multiple proteins or heavy sides)</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"pricePerLb\">Price per Pound (optional, for cost estimate)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"pricePerLb\" placeholder=\"e.g. 8.99\" step=\"0.01\" inputmode=\"decimal\" aria-label=\"Price per pound\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Meat Needed</div>\n          <div class=\"result-value\" id=\"totalMeat\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Per Person</div>\n          <div class=\"result-value\" id=\"perPerson\">—</div>\n        </div>\n      </div>\n      <div id=\"costEstimate\" style=\"margin-top:8px;\"></div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n\n    <div class=\"presets\">\n      <h3>Party Presets</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Estimating how much meat to buy depends on whether it's bone-in or boneless, the type of meal, and how many sides you're serving.",
+    "rules": [
+      "<strong>Bone-in meat:</strong> 0.75 to 1 lb per person",
+      "<strong>Boneless meat:</strong> 0.5 to 0.75 lb per person",
+      "<strong>Mixed menu:</strong> reduce by about 25-30% when serving multiple proteins or heavy sides"
+    ],
+    "outro": "These are guidelines for average appetites. For events with lots of hearty eaters or few side dishes, lean toward the higher end. For events with many side dishes, appetizers, and lighter eaters, lean lower."
+  },
+  "faq": [
+    {
+      "question": "How much meat per person for a BBQ?",
+      "answer": "For a BBQ where meat is the star, plan for 0.75-1 lb of boneless meat or 1-1.25 lbs of bone-in meat per person. If you're serving pulled pork, ribs, and brisket together, plan about 0.5 lb of each type per person (total around 1-1.5 lbs raw weight)."
+    },
+    {
+      "question": "How much chicken per person?",
+      "answer": "For bone-in chicken (thighs, drumsticks), plan 2-3 pieces or about 0.75-1 lb per person. For boneless chicken breasts, one breast (6-8 oz) per person is standard. For a chicken-only dinner, plan 0.5-0.75 lbs boneless or 0.75-1 lb bone-in per person."
+    },
+    {
+      "question": "How much meat for tacos?",
+      "answer": "For taco night, plan about 0.33-0.5 lbs of cooked meat per person (that's about 0.5-0.75 lbs raw). Each person typically eats 2-3 tacos with about 2 oz of meat per taco. For a crowd of 20, buy 10-15 lbs of raw meat."
+    },
+    {
+      "question": "How many burgers per person?",
+      "answer": "Plan for 1.5-2 burgers per adult. Standard burger patties are 0.25-0.33 lbs each, so plan about 0.5-0.67 lbs of ground beef per person. For big eaters, lean toward 0.75 lbs per person."
+    },
+    {
+      "question": "Does the amount change for ribs?",
+      "answer": "Ribs have a lot of bone. Plan for about 1-1.5 lbs of raw ribs per person (3-4 baby back ribs or 2-3 spare ribs). After cooking, ribs lose about 25-30% of their weight. If ribs are the main event, err on the higher side."
+    },
+    {
+      "question": "How do I account for cooking shrinkage?",
+      "answer": "Most meats shrink 25-30% during cooking due to moisture and fat loss. The per-person amounts in this calculator use raw (pre-cooked) weights, so shrinkage is already factored in. Buy based on the raw weight shown."
+    }
+  ],
+  "chart": {
+    "title": "Meat Per Person Quick Reference",
+    "subtitle": "Raw weight per person when meat is the main dish.",
+    "columns": [
+      "Meat",
+      "Bone-In",
+      "Boneless",
+      "Notes"
+    ],
+    "rows": [
+      [
+        "Beef Steak",
+        "0.75-1 lb",
+        "0.5-0.75 lb",
+        "Ribeye, T-bone, NY strip"
+      ],
+      [
+        "Beef Brisket",
+        "—",
+        "0.5-0.75 lb",
+        "50% yield after trimming/cooking"
+      ],
+      [
+        "Ground Beef (burgers)",
+        "—",
+        "0.5-0.67 lb",
+        "1.5-2 patties per person"
+      ],
+      [
+        "Pork Chops",
+        "0.75-1 lb",
+        "0.5-0.75 lb",
+        "1-2 chops per person"
+      ],
+      [
+        "Pulled Pork",
+        "—",
+        "0.5-0.75 lb",
+        "Raw pork shoulder, 50% yield"
+      ],
+      [
+        "Pork Ribs (baby back)",
+        "1-1.5 lb",
+        "—",
+        "3-4 ribs per person"
+      ],
+      [
+        "Pork Ribs (spare)",
+        "1-1.5 lb",
+        "—",
+        "2-3 ribs per person"
+      ],
+      [
+        "Chicken Breast",
+        "—",
+        "0.5-0.75 lb",
+        "1 breast per person"
+      ],
+      [
+        "Chicken Thighs",
+        "0.75-1 lb",
+        "0.5 lb",
+        "2-3 thighs per person"
+      ],
+      [
+        "Whole Chicken",
+        "1-1.25 lb",
+        "—",
+        "Includes carcass weight"
+      ],
+      [
+        "Lamb Chops",
+        "0.75-1 lb",
+        "—",
+        "3-4 chops per person"
+      ],
+      [
+        "Fish Fillet",
+        "—",
+        "0.5-0.75 lb",
+        "6-8 oz per person"
+      ]
+    ]
+  },
+  "category": "cooking",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This meat per person calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This meat per person calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "air-fryer-calculator",
+    "convection-oven-calculator",
+    "slow-cooker-converter",
+    "pressure-cooker-converter",
+    "sous-vide-calculator",
+    "recipe-scaling-calculator",
+    "bakers-percentage-calculator",
+    "bread-hydration-calculator"
+  ]
+}

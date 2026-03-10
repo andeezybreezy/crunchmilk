@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Towing & Payload Calculator — Truck Capacity & Tongue Weight Checker</title>
+<meta name="description" content="Check your truck's remaining payload and towing capacity. Enter GVWR, curb weight, and cargo to see if your setup is safe and legal.">
+<meta name="keywords" content="towing payload calculator, truck payload calculator, tongue weight calculator, towing capacity checker, GVWR calculator, truck towing safety">
+<link rel="canonical" href="https://example.com/towing-payload-calculator/">
+<meta property="og:title" content="Towing & Payload Calculator — Truck Capacity Checker">
+<meta property="og:description" content="Check remaining payload and towing capacity for your truck. Includes tongue weight safety checks.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/towing-payload-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Towing & Payload Calculator — Truck Capacity Checker">
+<meta name="twitter:description" content="Check your truck's payload and towing capacity with safety warnings.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Towing & Payload Calculator",
+  "description": "Calculate remaining truck payload and towing capacity with tongue weight safety checks and pass/fail warnings.",
+  "url": "https://example.com/towing-payload-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is GVWR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GVWR (Gross Vehicle Weight Rating) is the maximum total weight your vehicle can safely carry, including its own weight, passengers, cargo, and tongue weight from a trailer. It's set by the manufacturer and printed on the driver's door jamb sticker. Exceeding GVWR is both unsafe and illegal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is GCWR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GCWR (Gross Combined Weight Rating) is the maximum total weight of the fully loaded vehicle plus the fully loaded trailer. This includes everything: vehicle, passengers, cargo, trailer, and trailer cargo. It's found in the owner's manual."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does tongue weight matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Too little tongue weight (under 10%) causes trailer sway which can lead to loss of control. Too much tongue weight (over 15%) overloads the rear axle, causing poor steering and braking. Proper tongue weight keeps the trailer stable and balanced."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does tongue weight count toward payload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely. Tongue weight is part of your payload. If your truck has 1,800 lbs of payload capacity and you have 400 lbs of passengers and cargo, your maximum tongue weight is 1,400 lbs. Many people overlook this and exceed their GVWR."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I exceed my towing capacity with a weight distribution hitch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A weight distribution hitch redistributes tongue weight across all axles for better handling, but it does not increase your GVWR, GCWR, or towing rating. You must stay within all manufacturer-rated limits regardless of hitch type."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I find my truck's actual curb weight?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The most accurate method is to weigh your empty vehicle at a truck scale (CAT scale). The manufacturer's listed curb weight is for a base configuration — dealer-installed accessories, bed liners, toolboxes, and aftermarket bumpers all add weight that reduces your payload."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Automotive Calculators",
+      "item": "https://example.com/automotive-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Towing & Payload Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#6b7280;--primary-dark:#4b5563;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/automotive-calculators/">Automotive Calculators</a> &rsaquo; <span>Towing & Payload Calculator</span>
+    </nav>
+    <h1>Towing & Payload Calculator</h1>
+    <p>Check if your truck can safely handle the load — payload, towing, and tongue weight</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Towing & Payload Calculator</h2>
+
+    <div class="input-group">
+      <label for="gvwr">GVWR — Gross Vehicle Weight Rating (lbs)</label>
+      <input type="number" id="gvwr" placeholder="e.g. 7200" inputmode="numeric">
+      <div class="input-hint">Found on driver's door sticker</div>
+    </div>
+
+    <div class="input-group">
+      <label for="curbWeight">Curb Weight (lbs)</label>
+      <input type="number" id="curbWeight" placeholder="e.g. 5400" inputmode="numeric">
+      <div class="input-hint">Empty vehicle, full fluids, no passengers</div>
+    </div>
+
+    <div class="input-group">
+      <label for="gcwr">GCWR — Gross Combined Weight Rating (lbs, optional)</label>
+      <input type="number" id="gcwr" placeholder="e.g. 15000" inputmode="numeric">
+      <div class="input-hint">Vehicle + trailer combined max. Check owner's manual.</div>
+    </div>
+
+    <div class="input-group">
+      <label for="passengers">Passengers + Cargo Weight (lbs)</label>
+      <input type="number" id="passengers" placeholder="e.g. 400" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label for="tongueWeight">Tongue Weight (lbs)</label>
+      <input type="number" id="tongueWeight" placeholder="e.g. 600" inputmode="numeric">
+      <div class="input-hint">Should be 10-15% of total trailer weight</div>
+    </div>
+
+    <div class="input-group">
+      <label for="trailerWeight">Total Trailer Weight (lbs)</label>
+      <input type="number" id="trailerWeight" placeholder="e.g. 5000" inputmode="numeric">
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Check Capacity</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Max Payload Capacity</div>
+          <div class="result-value" id="maxPayload">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Remaining Payload</div>
+          <div class="result-value" id="remainPayload">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Current GVW</div>
+          <div class="result-value" id="currentGVW">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Tongue Weight Check</div>
+          <div class="result-value" id="tongueCheck">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Towing Capacity Remaining</div>
+          <div class="result-value" id="towRemain">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Combined Weight Check</div>
+          <div class="result-value" id="gcwrCheck">—</div>
+        </div>
+      </div>
+
+      <div id="warnings" style="margin-top:1rem;"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Common Truck Payload &amp; Towing Ratings</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Approximate values for base models. Actual ratings vary by configuration.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Truck</th>
+          <th>GVWR</th>
+          <th>Curb Weight</th>
+          <th>Payload</th>
+          <th>Max Towing</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Ford F-150 (3.5 EB)</td><td>7,050 lbs</td><td>4,700 lbs</td><td>2,350 lbs</td><td>13,200 lbs</td></tr>
+        <tr><td>Ram 1500 (5.7 Hemi)</td><td>6,900 lbs</td><td>5,000 lbs</td><td>1,900 lbs</td><td>12,750 lbs</td></tr>
+        <tr><td>Chevy Silverado 1500</td><td>7,200 lbs</td><td>4,800 lbs</td><td>2,400 lbs</td><td>13,300 lbs</td></tr>
+        <tr><td>Toyota Tundra</td><td>7,000 lbs</td><td>5,200 lbs</td><td>1,800 lbs</td><td>12,000 lbs</td></tr>
+        <tr><td>Ford F-250 (7.3 gas)</td><td>10,000 lbs</td><td>6,500 lbs</td><td>3,500 lbs</td><td>15,000 lbs</td></tr>
+        <tr><td>Ram 2500 (6.7 diesel)</td><td>10,000 lbs</td><td>6,800 lbs</td><td>3,200 lbs</td><td>20,000 lbs</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This towing & payload calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Safe towing requires checking multiple weight limits. Exceeding any single rating can cause dangerous handling, brake failure, or structural damage — and voids your warranty and insurance coverage.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Payload capacity</strong> = GVWR minus curb weight. This includes passengers, cargo, AND tongue weight.</li>
+      <li><strong>Tongue weight</strong> should be 10-15% of total trailer weight for conventional hitches, 15-25% for fifth-wheel.</li>
+      <li><strong>Combined weight</strong> (vehicle + trailer) must not exceed GCWR.</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Always verify your specific vehicle's ratings on the driver's door sticker and owner's manual. Ratings vary by cab style, bed length, axle ratio, engine, and option packages — even within the same truck model.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This towing & payload calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is GVWR?</h3>
+      <p>GVWR (Gross Vehicle Weight Rating) is the maximum total weight your vehicle can safely carry, including its own weight, passengers, cargo, and tongue weight from a trailer. It's set by the manufacturer and printed on the driver's door jamb sticker. Exceeding GVWR is both unsafe and illegal.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is GCWR?</h3>
+      <p>GCWR (Gross Combined Weight Rating) is the maximum total weight of the fully loaded vehicle plus the fully loaded trailer. This includes everything: vehicle, passengers, cargo, trailer, and trailer cargo. It's found in the owner's manual.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Why does tongue weight matter?</h3>
+      <p>Too little tongue weight (under 10%) causes trailer sway which can lead to loss of control. Too much tongue weight (over 15%) overloads the rear axle, causing poor steering and braking. Proper tongue weight keeps the trailer stable and balanced.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does tongue weight count toward payload?</h3>
+      <p>Yes, absolutely. Tongue weight is part of your payload. If your truck has 1,800 lbs of payload capacity and you have 400 lbs of passengers and cargo, your maximum tongue weight is 1,400 lbs. Many people overlook this and exceed their GVWR.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I exceed my towing capacity with a weight distribution hitch?</h3>
+      <p>No. A weight distribution hitch redistributes tongue weight across all axles for better handling, but it does not increase your GVWR, GCWR, or towing rating. You must stay within all manufacturer-rated limits regardless of hitch type.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I find my truck's actual curb weight?</h3>
+      <p>The most accurate method is to weigh your empty vehicle at a truck scale (CAT scale). The manufacturer's listed curb weight is for a base configuration — dealer-installed accessories, bed liners, toolboxes, and aftermarket bumpers all add weight that reduces your payload.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/cost-per-mile-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Cost Per Mile Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate the true cost of driving per mile including all expenses</span></a>
+      <a href="/tire-size-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Tire Size Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Compare tire sizes and calculate speedometer error</span></a>
+      <a href="/gear-ratio-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Gear Ratio Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate drivetrain gear ratios, RPM at speed, and final drive ratios</span></a>
+      <a href="/fuel-cost-trip-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Fuel Cost Trip Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate road trip fuel cost by distance, MPG, and gas price</span></a>
+      <a href="/towing-capacity-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Towing Capacity Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate towing weight, tongue weight, and payload margins</span></a>
+      <a href="/hp-to-torque-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">HP to Torque Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Convert between horsepower, torque, and RPM instantly</span></a>
+      <a href="/turbo-boost-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Turbo Boost Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate horsepower gains from turbo or supercharger boost pressure</span></a>
+      <a href="/drag-strip-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Drag Strip Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate quarter-mile ET and trap speed from vehicle weight and horsepower</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Towing & Payload Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function calculate() {
+    var gvwr = parseFloat(document.getElementById('gvwr').value);
+    var curb = parseFloat(document.getElementById('curbWeight').value);
+    var gcwr = parseFloat(document.getElementById('gcwr').value) || 0;
+    var passengers = parseFloat(document.getElementById('passengers').value) || 0;
+    var tongue = parseFloat(document.getElementById('tongueWeight').value) || 0;
+    var trailer = parseFloat(document.getElementById('trailerWeight').value) || 0;
+
+    if (isNaN(gvwr) || isNaN(curb) || gvwr <= 0 || curb <= 0) return;
+
+    var maxPayload = gvwr - curb;
+    var usedPayload = passengers + tongue;
+    var remainPayload = maxPayload - usedPayload;
+    var currentGVW = curb + usedPayload;
+
+    document.getElementById('maxPayload').textContent = maxPayload.toLocaleString() + ' lbs';
+    document.getElementById('remainPayload').textContent = remainPayload.toLocaleString() + ' lbs';
+    document.getElementById('currentGVW').textContent = currentGVW.toLocaleString() + ' lbs';
+
+    // Tongue weight check
+    var tongueCheckEl = document.getElementById('tongueCheck');
+    if (trailer > 0 && tongue > 0) {
+      var tonguePct = (tongue / trailer) * 100;
+      if (tonguePct >= 10 && tonguePct <= 15) {
+        tongueCheckEl.textContent = tonguePct.toFixed(1) + '% — GOOD';
+        tongueCheckEl.style.color = '#16a34a';
+      } else if (tonguePct < 10) {
+        tongueCheckEl.textContent = tonguePct.toFixed(1) + '% — TOO LOW (risk of sway)';
+        tongueCheckEl.style.color = '#dc2626';
+      } else {
+        tongueCheckEl.textContent = tonguePct.toFixed(1) + '% — HIGH (heavy on rear axle)';
+        tongueCheckEl.style.color = '#d97706';
+      }
+    } else {
+      tongueCheckEl.textContent = '—';
+      tongueCheckEl.style.color = '';
+    }
+
+    // Towing / GCWR check
+    var towRemainEl = document.getElementById('towRemain');
+    var gcwrCheckEl = document.getElementById('gcwrCheck');
+    if (gcwr > 0) {
+      var combinedWeight = currentGVW + trailer;
+      var towRemain = gcwr - combinedWeight;
+      towRemainEl.textContent = towRemain.toLocaleString() + ' lbs';
+      if (combinedWeight <= gcwr) {
+        gcwrCheckEl.textContent = 'PASS (' + combinedWeight.toLocaleString() + ' / ' + gcwr.toLocaleString() + ' lbs)';
+        gcwrCheckEl.style.color = '#16a34a';
+      } else {
+        gcwrCheckEl.textContent = 'OVER by ' + Math.abs(towRemain).toLocaleString() + ' lbs';
+        gcwrCheckEl.style.color = '#dc2626';
+      }
+    } else {
+      towRemainEl.textContent = 'Enter GCWR';
+      gcwrCheckEl.textContent = '—';
+      gcwrCheckEl.style.color = '';
+    }
+
+    // Warnings
+    var warnings = [];
+    if (remainPayload < 0) {
+      warnings.push('<strong style="color:#dc2626;">WARNING: Payload exceeded by ' + Math.abs(remainPayload).toLocaleString() + ' lbs. Over GVWR — unsafe and illegal.</strong>');
+    }
+    if (gcwr > 0 && (currentGVW + trailer) > gcwr) {
+      warnings.push('<strong style="color:#dc2626;">WARNING: Combined weight exceeds GCWR. Reduce trailer weight or cargo.</strong>');
+    }
+    if (trailer > 0 && tongue > 0 && (tongue / trailer) < 0.10) {
+      warnings.push('<strong style="color:#d97706;">CAUTION: Tongue weight is below 10%. Increase tongue weight to reduce trailer sway risk.</strong>');
+    }
+    if (remainPayload >= 0 && remainPayload < 200) {
+      warnings.push('<strong style="color:#d97706;">NOTE: Very little payload margin remaining. Add fuel weight, accessories, etc.</strong>');
+    }
+
+    var warningsEl = document.getElementById('warnings');
+    warningsEl.innerHTML = warnings.length > 0 ? warnings.join('<br>') : '<strong style="color:#16a34a;">All checks passed.</strong>';
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+
+  var inputs = document.querySelectorAll('.calc-card input');
+  inputs.forEach(function(inp) {
+    inp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') calculate();
+    });
+  });
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Towing & Payload Calculator';
+  var TOOL_SLUG = 'towing-payload-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'automotive', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

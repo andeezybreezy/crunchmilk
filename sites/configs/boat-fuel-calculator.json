@@ -1,0 +1,161 @@
+{
+  "slug": "boat-fuel-calculator",
+  "toolName": "Boat Fuel Calculator",
+  "tagline": "Estimate fuel consumption, trip cost, and range for any boat",
+  "title": "Boat Fuel Calculator — Fuel Usage, Trip Cost & Range Estimator",
+  "metaDescription": "Calculate boat fuel consumption by engine HP, trip distance, and speed. Estimates gallons needed, trip time, cost, and safety reserve.",
+  "keywords": "boat fuel calculator, boat fuel consumption, marine fuel calculator, boat trip cost, gallons per hour boat, boat range calculator",
+  "domain": "example.com",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "ogTitle": "Boat Fuel Calculator — Trip Fuel & Cost Estimator",
+  "ogDescription": "Estimate boat fuel consumption, trip time, cost, and safety reserve for any engine and trip distance.",
+  "twitterDescription": "Calculate boat fuel consumption and trip costs by HP, distance, and speed.",
+  "jsonLdDescription": "Calculate boat fuel consumption in gallons per hour based on engine horsepower, trip distance, speed, and fuel type. Includes cost estimate and safety reserve.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Boat Fuel Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"engineHP\">Engine Horsepower</label>\n      <input type=\"number\" id=\"engineHP\" placeholder=\"e.g. 150\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"numEngines\">Number of Engines</label>\n      <select id=\"numEngines\">\n        <option value=\"1\" selected>1</option>\n        <option value=\"2\">2</option>\n        <option value=\"3\">3</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fuelType\">Fuel Type</label>\n      <select id=\"fuelType\">\n        <option value=\"gas\" selected>Gasoline (0.10 GPH/HP)</option>\n        <option value=\"diesel\">Diesel (0.055 GPH/HP)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"throttle\">Throttle Setting</label>\n      <select id=\"throttle\">\n        <option value=\"0.5\">Idle / Trolling (~50%)</option>\n        <option value=\"0.65\">Cruising (~65%)</option>\n        <option value=\"0.75\" selected>Moderate (~75%)</option>\n        <option value=\"1.0\">Wide Open Throttle (100%)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"distance\">Trip Distance (nautical miles)</label>\n      <input type=\"number\" id=\"distance\" placeholder=\"e.g. 30\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"speed\">Cruising Speed (knots)</label>\n      <input type=\"number\" id=\"speed\" placeholder=\"e.g. 20\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fuelPrice\">Fuel Price ($/gallon)</label>\n      <input type=\"number\" id=\"fuelPrice\" value=\"4.50\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Fuel</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Fuel Needed</div>\n          <div class=\"result-value\" id=\"fuelNeeded\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">With 10% Reserve</div>\n          <div class=\"result-value\" id=\"fuelReserve\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Trip Time</div>\n          <div class=\"result-value\" id=\"tripTime\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Fuel Cost</div>\n          <div class=\"result-value\" id=\"fuelCost\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Gallons per Hour</div>\n          <div class=\"result-value\" id=\"gph\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Nautical MPG</div>\n          <div class=\"result-value\" id=\"nmpg\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Boat fuel consumption depends on engine horsepower, fuel type, and throttle setting. The standard rule of thumb uses a simple HP-based formula.",
+    "rules": [
+      "<strong>Gasoline engines:</strong> GPH = HP × 0.10 at full throttle",
+      "<strong>Diesel engines:</strong> GPH = HP × 0.055 at full throttle",
+      "Fuel needed = GPH × (distance / speed). Always add a <strong>10% safety reserve</strong>"
+    ],
+    "outro": "These are estimates based on rule-of-thumb calculations. Actual consumption varies with hull design, load, sea conditions, and engine efficiency. Always carry more fuel than calculated, especially offshore."
+  },
+  "faq": [
+    {
+      "question": "How do I calculate boat fuel consumption?",
+      "answer": "For gasoline engines, multiply HP by 0.10 to get gallons per hour at full throttle. For diesel, multiply by 0.055. Then multiply GPH by the number of hours your trip will take (distance / speed). Always add a 10% safety reserve."
+    },
+    {
+      "question": "How much fuel does a 150 HP outboard use?",
+      "answer": "A 150 HP gasoline outboard at full throttle uses about 15 gallons per hour (150 × 0.10). At cruising speed (75% throttle), consumption drops to about 11.25 GPH. At trolling speed (50%), it's about 7.5 GPH."
+    },
+    {
+      "question": "What is the 1/3 fuel rule for boats?",
+      "answer": "The rule of thirds says: use 1/3 of your fuel to go out, 1/3 to come back, and keep 1/3 in reserve. This calculator uses a 10% reserve which is the minimum — the 1/3 rule is more conservative and recommended for offshore trips or unfamiliar waters."
+    },
+    {
+      "question": "How far can a boat go on a tank of gas?",
+      "answer": "Range = tank capacity × nautical MPG. For example, a boat with a 100-gallon tank getting 2 NMPG has a range of 200 nautical miles. At 75% throttle with a 150HP engine, that's about 100 gallons / 11.25 GPH × 20 knots = 178 nm."
+    },
+    {
+      "question": "Does speed affect fuel consumption?",
+      "answer": "Yes, dramatically. Most boats have a sweet spot around 60-75% throttle where fuel efficiency is best. At wide open throttle, fuel consumption can increase 50-100% while speed only increases 20-30%. Planing hulls are most efficient at or just above planing speed."
+    },
+    {
+      "question": "Is diesel more fuel efficient than gas for boats?",
+      "answer": "Yes. Diesel engines use roughly 55% less fuel per HP than gasoline engines (0.055 vs 0.10 GPH/HP). Diesel fuel also has more energy per gallon. However, diesel engines cost more upfront. For boats used frequently or over long distances, diesel saves significantly on fuel costs."
+    }
+  ],
+  "chart": {
+    "title": "Boat Fuel Consumption by Engine HP (Gasoline, 75% Throttle)",
+    "subtitle": "Estimated GPH and range at cruising speed.",
+    "columns": [
+      "Engine HP",
+      "GPH",
+      "At 20 kts (NMPG)",
+      "30-gal Range",
+      "50-gal Range"
+    ],
+    "rows": [
+      [
+        "40 HP",
+        "3.0",
+        "6.7",
+        "200 nm",
+        "333 nm"
+      ],
+      [
+        "75 HP",
+        "5.6",
+        "3.6",
+        "107 nm",
+        "179 nm"
+      ],
+      [
+        "115 HP",
+        "8.6",
+        "2.3",
+        "70 nm",
+        "116 nm"
+      ],
+      [
+        "150 HP",
+        "11.3",
+        "1.8",
+        "53 nm",
+        "89 nm"
+      ],
+      [
+        "200 HP",
+        "15.0",
+        "1.3",
+        "40 nm",
+        "67 nm"
+      ],
+      [
+        "250 HP",
+        "18.8",
+        "1.1",
+        "32 nm",
+        "53 nm"
+      ],
+      [
+        "300 HP",
+        "22.5",
+        "0.9",
+        "27 nm",
+        "44 nm"
+      ],
+      [
+        "350 HP",
+        "26.3",
+        "0.8",
+        "23 nm",
+        "38 nm"
+      ],
+      [
+        "Twin 150 HP",
+        "22.5",
+        "0.9",
+        "27 nm",
+        "44 nm"
+      ],
+      [
+        "Twin 250 HP",
+        "37.5",
+        "0.5",
+        "16 nm",
+        "27 nm"
+      ]
+    ]
+  },
+  "category": "marine",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This boat fuel calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This boat fuel calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "propeller-calculator",
+    "fuel-cost-trip-calculator",
+    "towing-capacity-calculator"
+  ]
+}

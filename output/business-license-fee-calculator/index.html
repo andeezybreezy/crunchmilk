@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business License Fee Calculator — Permit Costs by State</title>
+<meta name="description" content="Estimate business license and permit fees by state and business type. See filing costs for LLCs, corporations, sole proprietorships, and more.">
+<meta name="keywords" content="business license fee calculator, LLC filing fee, business permit cost, state business license, corporation filing fee, business registration cost">
+<link rel="canonical" href="https://example.com/business-license-fee-calculator/">
+<meta property="og:title" content="Business License Fee Calculator — Permit Costs by State">
+<meta property="og:description" content="Estimate business license and permit fees by state and business type.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/business-license-fee-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Business License Fee Calculator — Permit Costs by State">
+<meta name="twitter:description" content="Calculate business license and permit fees by state for LLCs, corporations, and more.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Business License Fee Calculator",
+  "description": "Estimate business license filing fees, annual renewal costs, and permit requirements by state and business entity type.",
+  "url": "https://example.com/business-license-fee-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does it cost to start an LLC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LLC formation fees range from $40 (Kentucky) to $500 (Massachusetts). Most states charge between $50 and $200. Add annual report fees of $0-$300 per year depending on the state. Total first-year costs are typically $100-$800 for state fees alone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do sole proprietorships need a business license?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sole proprietorships generally don't need state-level formation filings, but most cities and counties require a general business license. If you use a name other than your own, you'll also need a DBA (Doing Business As) filing, typically $10-$100."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an annual report fee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most states require businesses to file an annual or biennial report to keep their registration current. Fees range from $0 (some states for certain entities) to $800+. Failing to file can result in administrative dissolution of your business."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are business license fees tax deductible?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Business license fees, filing fees, and annual report fees are generally deductible as ordinary business expenses on your tax return. Keep receipts for all government fees paid."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a federal business license?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no general federal business license. However, certain industries require federal permits — alcohol, tobacco, firearms, aviation, mining, and broadcasting, among others. Most small businesses only need state and local licenses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often do business licenses need to be renewed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most business licenses require annual renewal. Some states and cities offer multi-year options. Annual report deadlines vary by state — some are on a fixed date, others are based on your formation anniversary."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Legal Calculators",
+      "item": "https://example.com/legal-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Business License Fee Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0369a1;--primary-dark:#075985;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/legal-calculators/">Legal Calculators</a> &rsaquo; <span>Business License Fee Calculator</span>
+    </nav>
+    <h1>Business License Fee Calculator</h1>
+    <p>Estimate business license and permit fees by state and type</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Business License Fee Calculator</h2>
+
+    <div class="input-group">
+      <label for="blState">State</label>
+      <select id="blState"><option value="">Select state...</option></select>
+    </div>
+
+    <div class="input-group">
+      <label for="entityType">Business Entity Type</label>
+      <select id="entityType">
+        <option value="llc">LLC</option>
+        <option value="corporation">Corporation</option>
+        <option value="sole_proprietorship">Sole Proprietorship</option>
+        <option value="partnership">Partnership</option>
+        <option value="nonprofit">Nonprofit</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="annualRevenue">Estimated Annual Revenue ($)</label>
+      <input type="number" id="annualRevenue" placeholder="e.g. 100000" inputmode="numeric">
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Estimate Fees</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">State Filing Fee</div><div class="result-value" id="filingFee">—</div></div>
+        <div class="result-item"><div class="result-label">Annual Report/Renewal</div><div class="result-value" id="annualFee">—</div></div>
+      </div>
+      <div class="result-row">
+        <div class="result-item"><div class="result-label">Business License Fee</div><div class="result-value" id="licenseFee">—</div></div>
+        <div class="result-item"><div class="result-label">Estimated Total Year 1</div><div class="result-value" id="totalCost">—</div></div>
+      </div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>LLC Filing Fees by State</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Initial formation fee and annual report cost</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>LLC Filing Fee</th>
+          <th>Annual Report</th>
+          <th>Corp Filing Fee</th>
+          <th>Corp Annual Report</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>California</td><td>$70</td><td>$800</td><td>$100</td><td>$25</td></tr>
+        <tr><td>Texas</td><td>$300</td><td>$0</td><td>$300</td><td>$0</td></tr>
+        <tr><td>New York</td><td>$200</td><td>$9</td><td>$125</td><td>$9</td></tr>
+        <tr><td>Florida</td><td>$125</td><td>$139</td><td>$70</td><td>$150</td></tr>
+        <tr><td>Illinois</td><td>$150</td><td>$75</td><td>$150</td><td>$75</td></tr>
+        <tr><td>Delaware</td><td>$90</td><td>$300</td><td>$89</td><td>$225</td></tr>
+        <tr><td>Nevada</td><td>$75</td><td>$350</td><td>$75</td><td>$350</td></tr>
+        <tr><td>Ohio</td><td>$99</td><td>$0</td><td>$99</td><td>$0</td></tr>
+        <tr><td>Georgia</td><td>$100</td><td>$50</td><td>$100</td><td>$50</td></tr>
+        <tr><td>Wyoming</td><td>$100</td><td>$60</td><td>$100</td><td>$50</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This business license fee calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Starting a business requires various licenses and permits, each with its own fee structure that varies by state and entity type.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>State filing fee:</strong> one-time cost to register your business entity with the state (typically $50–$500)</li>
+      <li><strong>Annual report:</strong> most states require yearly filings with fees ranging from $0 to $800</li>
+      <li><strong>Business license:</strong> general license required by most cities/counties, often based on revenue</li>
+      <li><strong>Entity type matters:</strong> LLCs and corporations cost more to form than sole proprietorships</li>
+      <li>Additional permits (health, zoning, professional) may be required depending on your industry</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">These are state-level estimates. Most businesses also need city or county licenses. Budget 10-20% above these estimates for additional permits and professional filing assistance.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This business license fee calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How much does it cost to start an LLC?</h3>
+      <p>LLC formation fees range from $40 (Kentucky) to $500 (Massachusetts). Most states charge between $50 and $200. Add annual report fees of $0-$300 per year depending on the state. Total first-year costs are typically $100-$800 for state fees alone.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do sole proprietorships need a business license?</h3>
+      <p>Sole proprietorships generally don't need state-level formation filings, but most cities and counties require a general business license. If you use a name other than your own, you'll also need a DBA (Doing Business As) filing, typically $10-$100.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is an annual report fee?</h3>
+      <p>Most states require businesses to file an annual or biennial report to keep their registration current. Fees range from $0 (some states for certain entities) to $800+. Failing to file can result in administrative dissolution of your business.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Are business license fees tax deductible?</h3>
+      <p>Yes. Business license fees, filing fees, and annual report fees are generally deductible as ordinary business expenses on your tax return. Keep receipts for all government fees paid.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do I need a federal business license?</h3>
+      <p>There is no general federal business license. However, certain industries require federal permits — alcohol, tobacco, firearms, aviation, mining, and broadcasting, among others. Most small businesses only need state and local licenses.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How often do business licenses need to be renewed?</h3>
+      <p>Most business licenses require annual renewal. Some states and cities offer multi-year options. Annual report deadlines vary by state — some are on a fixed date, others are based on your formation anniversary.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/small-claims-limit-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Small Claims Limit Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find your state's small claims court limit and filing fees</span></a>
+      <a href="/notary-fee-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Notary Fee Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate notarization fees by state and document type</span></a>
+      <a href="/bail-bond-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Bail Bond Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate bond premiums and compare bail options</span></a>
+      <a href="/statute-of-limitations-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Statute of Limitations Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Check filing deadlines for lawsuits by state and case type</span></a>
+      <a href="/child-support-estimator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Child Support Estimator</strong><span style="font-size:0.8rem;color:var(--text-light)">Estimate monthly child support based on income and custody</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Business License Fee Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var states = [
+    'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia',
+    'Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland',
+    'Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey',
+    'New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina',
+    'South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+  ];
+
+  // [llc_filing, llc_annual, corp_filing, corp_annual, sole_prop_dba, partnership_filing, nonprofit_filing]
+  var stateData = {
+    'Alabama':[236,0,236,0,30,236,236],'Alaska':[250,100,250,100,25,250,250],
+    'Arizona':[50,0,60,45,5,50,50],'Arkansas':[45,150,45,150,25,45,45],
+    'California':[70,800,100,25,20,70,30],'Colorado':[50,10,50,10,20,50,50],
+    'Connecticut':[120,80,250,150,15,120,50],'Delaware':[90,300,89,225,25,200,90],
+    'Florida':[125,139,70,150,10,125,70],'Georgia':[100,50,100,50,10,100,100],
+    'Hawaii':[50,15,50,15,25,50,25],'Idaho':[100,0,100,0,25,100,30],
+    'Illinois':[150,75,150,75,10,150,50],'Indiana':[95,31,95,31,25,95,30],
+    'Iowa':[50,60,50,60,10,50,20],'Kansas':[160,55,90,55,10,160,25],
+    'Kentucky':[40,15,50,15,20,40,8],'Louisiana':[100,35,75,35,15,100,75],
+    'Maine':[175,85,145,85,25,175,40],'Maryland':[100,300,120,300,25,100,170],
+    'Massachusetts':[500,500,275,125,25,500,35],'Michigan':[50,25,60,25,10,50,20],
+    'Minnesota':[155,0,160,0,20,155,70],'Mississippi':[50,0,50,25,10,50,50],
+    'Missouri':[50,0,58,0,15,50,25],'Montana':[70,20,70,20,10,70,20],
+    'Nebraska':[105,10,60,26,15,105,10],'Nevada':[75,350,75,350,25,75,75],
+    'New Hampshire':[100,100,100,100,15,100,25],'New Jersey':[125,75,125,75,10,125,75],
+    'New Mexico':[50,0,100,25,20,50,25],'New York':[200,9,125,9,25,200,75],
+    'North Carolina':[125,200,125,200,10,125,60],'North Dakota':[135,50,100,25,10,135,40],
+    'Ohio':[99,0,99,0,25,99,99],'Oklahoma':[100,25,50,25,10,100,25],
+    'Oregon':[100,100,100,100,20,100,50],'Pennsylvania':[125,70,125,70,10,125,125],
+    'Rhode Island':[150,50,230,50,20,150,25],'South Carolina':[110,0,135,0,10,110,25],
+    'South Dakota':[150,50,150,50,10,150,30],'Tennessee':[300,300,100,20,15,300,100],
+    'Texas':[300,0,300,0,15,300,25],'Utah':[54,20,70,15,10,54,30],
+    'Vermont':[125,35,125,45,20,125,20],'Virginia':[100,50,75,25,10,100,75],
+    'Washington':[200,60,180,60,15,200,30],'West Virginia':[100,25,50,25,15,100,25],
+    'Wisconsin':[130,25,100,25,15,130,35],'Wyoming':[100,60,100,50,10,100,25]
+  };
+
+  var entityIndex = { 'llc': [0,1], 'corporation': [2,3], 'sole_proprietorship': [4,-1], 'partnership': [5,1], 'nonprofit': [6,3] };
+
+  var sel = document.getElementById('blState');
+  states.forEach(function(s) {
+    var o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+
+  var chartData = [
+    ['California','$70','$800','$100','$25'],
+    ['Texas','$300','$0','$300','$0'],
+    ['New York','$200','$9','$125','$9'],
+    ['Florida','$125','$139','$70','$150'],
+    ['Illinois','$150','$75','$150','$75'],
+    ['Delaware','$90','$300','$89','$225'],
+    ['Nevada','$75','$350','$75','$350'],
+    ['Ohio','$99','$0','$99','$0'],
+    ['Georgia','$100','$50','$100','$50'],
+    ['Wyoming','$100','$60','$100','$50']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row.join('</td><td>') + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+  function calculate() {
+    var state = document.getElementById('blState').value;
+    var entity = document.getElementById('entityType').value;
+    var revenue = parseFloat(document.getElementById('annualRevenue').value) || 0;
+
+    if (!state) return;
+
+    var data = stateData[state];
+    if (!data) return;
+
+    var indices = entityIndex[entity];
+    var filing = data[indices[0]];
+    var annual = indices[1] >= 0 ? data[indices[1]] : 0;
+
+    // Business license fee estimate based on revenue
+    var licenseFee = 0;
+    if (revenue > 0) {
+      if (revenue <= 25000) licenseFee = 50;
+      else if (revenue <= 50000) licenseFee = 75;
+      else if (revenue <= 100000) licenseFee = 150;
+      else if (revenue <= 250000) licenseFee = 250;
+      else if (revenue <= 500000) licenseFee = 400;
+      else if (revenue <= 1000000) licenseFee = 600;
+      else licenseFee = 600 + Math.floor((revenue - 1000000) / 500000) * 200;
+    }
+
+    var total = filing + annual + licenseFee;
+
+    document.getElementById('filingFee').textContent = fmt(filing);
+    document.getElementById('annualFee').textContent = annual > 0 ? fmt(annual) + '/yr' : 'None required';
+    document.getElementById('licenseFee').textContent = licenseFee > 0 ? fmt(licenseFee) + ' (est.)' : 'Varies by city';
+    document.getElementById('totalCost').textContent = fmt(total);
+
+    var entityLabel = entity.replace(/_/g, ' ');
+    entityLabel = entityLabel.charAt(0).toUpperCase() + entityLabel.slice(1);
+    var tip = entityLabel + ' in ' + state + ': ' + fmt(filing) + ' filing + ' + fmt(annual) + ' annual report. ';
+    tip += 'City/county business licenses and industry-specific permits are additional.';
+    document.getElementById('resultTip').textContent = tip;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Business License Fee Calculator';
+  var TOOL_SLUG = 'business-license-fee-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'legal', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bug Out Bag Calculator — Itemized Survival Checklist & Weight Planner</title>
+<meta name="description" content="Plan your bug-out bag with an itemized checklist by category. Calculate total weight, items per person, and gear for 24hr to 7-day scenarios.">
+<meta name="keywords" content="bug out bag calculator, bug out bag checklist, survival bag weight, emergency bag planner, 72 hour bag, BOB calculator, prepper bag list">
+<link rel="canonical" href="https://example.com/bug-out-bag-calculator/">
+<meta property="og:title" content="Bug Out Bag Calculator — Survival Checklist & Weight Planner">
+<meta property="og:description" content="Plan your bug-out bag with itemized checklists, weight targets, and gear lists for any scenario.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/bug-out-bag-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bug Out Bag Calculator — Survival Checklist & Weight Planner">
+<meta name="twitter:description" content="Build the perfect bug-out bag with itemized checklists and weight calculations.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Bug Out Bag Calculator",
+  "description": "Calculate bug-out bag contents with itemized checklists, weight targets, and gear recommendations for 24-hour to 7-day emergency scenarios.",
+  "url": "https://example.com/bug-out-bag-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How heavy should a bug-out bag be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A standard 72-hour bug-out bag should weigh 15-25% of your body weight. For a 170 lb person, that is 25-42 lbs. Heavier bags slow you down and increase injury risk. If your bag exceeds 25% of body weight, prioritize cutting water weight by carrying a filter instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the most important items in a bug-out bag?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The top priorities are water and water purification, food, shelter (tarp or emergency blanket), fire-starting tools, first aid kit, and a knife or multi-tool. These cover the core survival needs of hydration, nutrition, protection from elements, and injury treatment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much water should I carry in a bug-out bag?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plan for 1 gallon (8.3 lbs) per person per day minimum. For a 72-hour bag, that is 3 gallons (25 lbs) per person. Since water is extremely heavy, most preppers carry 1 day of water plus a portable water filter to resupply from natural sources."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a 24-hour and 72-hour bag?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 24-hour bag (also called a get-home bag) contains just enough to survive one day and get to safety. A 72-hour bag is the standard emergency preparedness recommendation — enough supplies for 3 days until help arrives or you reach your destination."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I pack differently for cold vs hot climates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Cold climates require extra insulation layers, a warmer sleeping bag, hand warmers, and fire-starting redundancy. Hot climates require extra water (up to 1.5 gal/person/day), sun protection, electrolyte packets, and lighter clothing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often should I update my bug-out bag?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Review your bag every 6 months. Rotate food and water, check battery-powered items, update medications, swap seasonal clothing, and verify that everything still works. Many preppers do this at daylight saving time changes as a reminder."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Survival & Preparedness Calculators",
+      "item": "https://example.com/survival-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Bug Out Bag Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#78350f;--primary-dark:#6b2f0d;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/survival-calculators/">Survival & Preparedness Calculators</a> &rsaquo; <span>Bug Out Bag Calculator</span>
+    </nav>
+    <h1>Bug Out Bag Calculator</h1>
+    <p>Build the perfect bug-out bag with an itemized checklist and weight targets</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Bug Out Bag Calculator</h2>
+
+    <div class="input-group">
+      <label for="people">Number of People</label>
+      <div class="input-row">
+        <input type="number" id="people" value="2" min="1" max="10" inputmode="numeric" aria-label="Number of people">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="duration">Duration</label>
+      <div class="input-row">
+        <select id="duration" aria-label="Duration">
+          <option value="1">24 Hours</option>
+          <option value="3" selected>72 Hours (3 Days)</option>
+          <option value="7">7 Days</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="climate">Climate</label>
+      <div class="input-row">
+        <select id="climate" aria-label="Climate">
+          <option value="hot">Hot / Arid</option>
+          <option value="temperate" selected>Temperate</option>
+          <option value="cold">Cold / Winter</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="bodyWeight">Body Weight (lbs, for weight target)</label>
+      <div class="input-row">
+        <input type="number" id="bodyWeight" value="170" min="80" max="400" inputmode="numeric" aria-label="Body weight in pounds">
+      </div>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Build Bug Out Bag</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Total Weight</div>
+          <div class="result-value" id="totalWeight">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Weight Per Person</div>
+          <div class="result-value" id="perPerson">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Target Range (15–25% body wt)</div>
+          <div class="result-value" id="targetRange">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Status</div>
+          <div class="result-value" id="weightStatus">—</div>
+        </div>
+      </div>
+      <div id="checklist" style="margin-top:1rem;text-align:left;"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Bug Out Bag Weight Reference by Category</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Approximate weight ranges for a single-person 72-hour bag.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Weight Range</th>
+          <th>Key Items</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Water</td><td>8 – 25 lbs</td><td>Bottles, filter, purification tabs</td><td>Critical</td></tr>
+        <tr><td>Food</td><td>3 – 6 lbs</td><td>Energy bars, freeze-dried meals, jerky</td><td>Critical</td></tr>
+        <tr><td>Shelter</td><td>2 – 5 lbs</td><td>Tarp, emergency blanket, cordage</td><td>High</td></tr>
+        <tr><td>Clothing</td><td>2 – 7 lbs</td><td>Extra socks, rain layer, base layer</td><td>High</td></tr>
+        <tr><td>Fire</td><td>0.5 – 1 lb</td><td>Lighter, ferro rod, tinder</td><td>High</td></tr>
+        <tr><td>First Aid</td><td>1 – 2 lbs</td><td>Bandages, meds, tourniquet</td><td>Critical</td></tr>
+        <tr><td>Tools</td><td>1 – 3 lbs</td><td>Knife, multi-tool, duct tape</td><td>High</td></tr>
+        <tr><td>Navigation</td><td>0.5 – 1 lb</td><td>Compass, maps, whistle</td><td>Medium</td></tr>
+        <tr><td>Communication</td><td>0.5 – 1 lb</td><td>Radio, phone charger, batteries</td><td>Medium</td></tr>
+        <tr><td>Hygiene</td><td>0.5 – 1 lb</td><td>Toilet paper, soap, sanitizer</td><td>Low</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This bug out bag calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">A bug-out bag (BOB) is a portable kit containing essential survival items to sustain you for a set period during an emergency evacuation. This calculator builds an itemized checklist based on your scenario.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Water: <strong>1 gallon per person per day</strong> (minimum) — water is the heaviest category</li>
+      <li>Food: <strong>2,000 calories per person per day</strong> from lightweight, shelf-stable options</li>
+      <li>A 72-hour bag should weigh <strong>15–25% of your body weight</strong> for comfortable carry</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">The calculator adjusts recommendations based on duration, climate, and group size. Cold climates add insulation gear weight, while hot climates increase water needs. Always customize based on your specific situation and fitness level.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This bug out bag calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How heavy should a bug-out bag be?</h3>
+      <p>A standard 72-hour bug-out bag should weigh 15-25% of your body weight. For a 170 lb person, that is 25-42 lbs. Heavier bags slow you down and increase injury risk. If your bag exceeds 25% of body weight, prioritize cutting water weight by carrying a filter instead.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What are the most important items in a bug-out bag?</h3>
+      <p>The top priorities are water and water purification, food, shelter (tarp or emergency blanket), fire-starting tools, first aid kit, and a knife or multi-tool. These cover the core survival needs of hydration, nutrition, protection from elements, and injury treatment.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much water should I carry in a bug-out bag?</h3>
+      <p>Plan for 1 gallon (8.3 lbs) per person per day minimum. For a 72-hour bag, that is 3 gallons (25 lbs) per person. Since water is extremely heavy, most preppers carry 1 day of water plus a portable water filter to resupply from natural sources.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the difference between a 24-hour and 72-hour bag?</h3>
+      <p>A 24-hour bag (also called a get-home bag) contains just enough to survive one day and get to safety. A 72-hour bag is the standard emergency preparedness recommendation — enough supplies for 3 days until help arrives or you reach your destination.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Should I pack differently for cold vs hot climates?</h3>
+      <p>Yes. Cold climates require extra insulation layers, a warmer sleeping bag, hand warmers, and fire-starting redundancy. Hot climates require extra water (up to 1.5 gal/person/day), sun protection, electrolyte packets, and lighter clothing.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How often should I update my bug-out bag?</h3>
+      <p>Review your bag every 6 months. Rotate food and water, check battery-powered items, update medications, swap seasonal clothing, and verify that everything still works. Many preppers do this at daylight saving time changes as a reminder.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/water-storage-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Water Storage Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how much emergency water your household needs to store</span></a>
+      <a href="/emergency-food-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Emergency Food Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Plan your emergency food storage by calories, cost, and shelf space</span></a>
+      <a href="/generator-runtime-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Generator Runtime Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how long your generator will run on a tank of fuel</span></a>
+      <a href="/calorie-storage-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Calorie Storage Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Plan long-term calorie storage with a balanced food supply and cost estimates</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Bug Out Bag Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var ITEMS = {
+    water: [
+      { name: 'Water bottles (1L each)', perPersonDay: 3.78, weightEach: 2.2, unit: 'bottles' },
+      { name: 'Water purification tablets', perPerson: 1, weight: 0.1, unit: 'pack', minDuration: 1 },
+      { name: 'Portable water filter', perGroup: 1, weight: 0.75, unit: 'filter', minDuration: 3 }
+    ],
+    food: [
+      { name: 'Energy/granola bars', perPersonDay: 4, weightEach: 0.15, unit: 'bars' },
+      { name: 'Freeze-dried meals', perPersonDay: 2, weightEach: 0.35, unit: 'pouches', minDuration: 3 },
+      { name: 'Jerky/dried meat', perPersonDay: 1, weightEach: 0.2, unit: 'packs' },
+      { name: 'Trail mix bags', perPersonDay: 1, weightEach: 0.25, unit: 'bags' }
+    ],
+    shelter: [
+      { name: 'Emergency mylar blanket', perPerson: 1, weight: 0.2, unit: 'ea' },
+      { name: 'Tarp (8x10)', perGroup: 1, weight: 1.5, unit: 'tarp' },
+      { name: 'Paracord (50 ft)', perGroup: 1, weight: 0.5, unit: 'hank' },
+      { name: 'Sleeping bag (compact)', perPerson: 1, weight: 2.0, unit: 'ea', minDuration: 3 }
+    ],
+    fire: [
+      { name: 'Lighter', perPerson: 1, weight: 0.1, unit: 'ea' },
+      { name: 'Ferro rod', perGroup: 1, weight: 0.2, unit: 'ea' },
+      { name: 'Waterproof matches', perGroup: 1, weight: 0.15, unit: 'box' },
+      { name: 'Tinder (cotton balls/vaseline)', perGroup: 1, weight: 0.1, unit: 'bag' }
+    ],
+    firstAid: [
+      { name: 'First aid kit', perGroup: 1, weight: 1.0, unit: 'kit' },
+      { name: 'Medications (personal)', perPerson: 1, weight: 0.25, unit: 'bag' },
+      { name: 'Tourniquet', perGroup: 1, weight: 0.2, unit: 'ea' },
+      { name: 'Moleskin / blister kit', perGroup: 1, weight: 0.1, unit: 'pack' }
+    ],
+    tools: [
+      { name: 'Fixed-blade knife', perGroup: 1, weight: 0.75, unit: 'ea' },
+      { name: 'Multi-tool', perPerson: 1, weight: 0.5, unit: 'ea' },
+      { name: 'Flashlight/headlamp', perPerson: 1, weight: 0.4, unit: 'ea' },
+      { name: 'Duct tape (small roll)', perGroup: 1, weight: 0.25, unit: 'roll' },
+      { name: 'Compass', perGroup: 1, weight: 0.15, unit: 'ea' },
+      { name: 'Whistle', perPerson: 1, weight: 0.05, unit: 'ea' }
+    ]
+  };
+
+  var CLIMATE_EXTRAS = {
+    hot: [
+      { name: 'Extra water (1L per person per day)', perPersonDay: 1, weightEach: 2.2, unit: 'bottles' },
+      { name: 'Electrolyte packets', perPersonDay: 2, weightEach: 0.02, unit: 'packets' },
+      { name: 'Sun hat / bandana', perPerson: 1, weight: 0.15, unit: 'ea' },
+      { name: 'Sunscreen', perGroup: 1, weight: 0.3, unit: 'bottle' }
+    ],
+    cold: [
+      { name: 'Insulated base layer', perPerson: 1, weight: 0.75, unit: 'set' },
+      { name: 'Warm hat and gloves', perPerson: 1, weight: 0.3, unit: 'set' },
+      { name: 'Hand warmers (pairs)', perPersonDay: 2, weightEach: 0.1, unit: 'pairs' },
+      { name: 'Heavier sleeping bag', perPerson: 1, weight: 1.5, unit: 'ea', note: 'adds to base sleeping bag' }
+    ],
+    temperate: []
+  };
+
+  function calculate() {
+    var people = parseInt(document.getElementById('people').value) || 2;
+    var days = parseInt(document.getElementById('duration').value) || 3;
+    var climate = document.getElementById('climate').value;
+    var bodyWeight = parseInt(document.getElementById('bodyWeight').value) || 170;
+
+    var totalWeight = 0;
+    var html = '';
+
+    function processCategory(title, items) {
+      var catWeight = 0;
+      var lines = [];
+
+      items.forEach(function(item) {
+        if (item.minDuration && days < item.minDuration) return;
+
+        var qty = 0;
+        var w = 0;
+
+        if (item.perPersonDay) {
+          qty = Math.ceil(item.perPersonDay * people * days);
+          w = qty * (item.weightEach || 0);
+        } else if (item.perPerson) {
+          qty = item.perPerson * people;
+          w = qty * (item.weight || 0);
+        } else if (item.perGroup) {
+          qty = item.perGroup;
+          w = qty * (item.weight || 0);
+        }
+
+        catWeight += w;
+        lines.push('\u2610 ' + item.name + ' \u2014 Qty: ' + qty + ' ' + item.unit + ' (' + w.toFixed(1) + ' lbs)');
+      });
+
+      totalWeight += catWeight;
+      html += '<div style="margin-bottom:1rem;">';
+      html += '<strong>' + title + '</strong> (' + catWeight.toFixed(1) + ' lbs)<br>';
+      html += lines.join('<br>');
+      html += '</div>';
+    }
+
+    processCategory('Water', ITEMS.water);
+    processCategory('Food', ITEMS.food);
+    processCategory('Shelter', ITEMS.shelter);
+    processCategory('Fire', ITEMS.fire);
+    processCategory('First Aid', ITEMS.firstAid);
+    processCategory('Tools', ITEMS.tools);
+
+    if (CLIMATE_EXTRAS[climate] && CLIMATE_EXTRAS[climate].length > 0) {
+      processCategory('Climate Gear (' + climate.charAt(0).toUpperCase() + climate.slice(1) + ')', CLIMATE_EXTRAS[climate]);
+    }
+
+    var perPerson = totalWeight / people;
+    var targetLow = bodyWeight * 0.15;
+    var targetHigh = bodyWeight * 0.25;
+
+    document.getElementById('totalWeight').textContent = totalWeight.toFixed(1) + ' lbs';
+    document.getElementById('perPerson').textContent = perPerson.toFixed(1) + ' lbs';
+    document.getElementById('targetRange').textContent = targetLow.toFixed(0) + ' – ' + targetHigh.toFixed(0) + ' lbs';
+
+    var statusEl = document.getElementById('weightStatus');
+    if (perPerson <= targetHigh) {
+      statusEl.textContent = 'Good — within target';
+      statusEl.style.color = '#16a34a';
+    } else if (perPerson <= targetHigh * 1.25) {
+      statusEl.textContent = 'Heavy — consider trimming';
+      statusEl.style.color = '#f59e0b';
+    } else {
+      statusEl.textContent = 'Too heavy — add water filter, reduce carried water';
+      statusEl.style.color = '#dc2626';
+    }
+
+    document.getElementById('checklist').innerHTML = html;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Bug Out Bag Calculator';
+  var TOOL_SLUG = 'bug-out-bag-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'survival', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

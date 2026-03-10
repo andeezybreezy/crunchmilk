@@ -1,0 +1,142 @@
+{
+  "slug": "propane-tank-runtime-calculator",
+  "toolName": "Propane Tank Runtime Calculator",
+  "tagline": "Calculate how long your propane tank will last based on BTU consumption",
+  "title": "Propane Tank Runtime Calculator — How Long Will My Propane Last?",
+  "metaDescription": "Calculate propane tank runtime by BTU usage. Enter tank size and appliance BTU rating to find how many hours your propane will last.",
+  "keywords": "propane tank runtime, propane calculator, how long will propane last, BTU calculator, propane usage, tank runtime, propane burn rate",
+  "domain": "propaneruntimecalculator.com",
+  "primaryColor": "#dc2626",
+  "primaryDarkColor": "#b91c1c",
+  "ogTitle": "Propane Tank Runtime Calculator — Hours of Fuel Remaining",
+  "ogDescription": "Calculate how long your propane tank will last. Enter tank size and BTU usage to find runtime in hours and days.",
+  "twitterDescription": "Calculate propane tank runtime by BTU usage. Find out how many hours your tank will last for grills, heaters, generators, and more.",
+  "jsonLdDescription": "Propane tank runtime calculator that estimates hours of fuel remaining based on tank size, fill level, and appliance BTU consumption rate. Uses 91,502 BTU per gallon of propane.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Propane Tank Runtime Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"tankSize\">Tank Size</label>\n      <div class=\"input-row\">\n        <select id=\"tankSize\">\n          <option value=\"1\">1 lb (disposable camping)</option>\n          <option value=\"4.7\">20 lb (standard grill)</option>\n          <option value=\"10\">40 lb</option>\n          <option value=\"25\">100 lb</option>\n          <option value=\"120\">500 gallon</option>\n          <option value=\"240\">1,000 gallon</option>\n          <option value=\"custom\">Custom gallons</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"customTankGroup\" style=\"display:none\">\n      <label for=\"customGallons\">Custom Tank (gallons)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"customGallons\" placeholder=\"e.g. 50\" min=\"0.1\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fillLevel\">Fill Level (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"fillLevel\" placeholder=\"80\" value=\"80\" min=\"1\" max=\"100\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"btuUsage\">Appliance BTU Rating</label>\n      <div class=\"input-row\">\n        <select id=\"btuUsage\">\n          <option value=\"10000\">10,000 BTU (small space heater)</option>\n          <option value=\"20000\">20,000 BTU (wall heater)</option>\n          <option value=\"30000\">30,000 BTU (medium grill)</option>\n          <option value=\"40000\">40,000 BTU (large grill / furnace)</option>\n          <option value=\"60000\">60,000 BTU (furnace)</option>\n          <option value=\"75000\">75,000 BTU (large furnace)</option>\n          <option value=\"100000\">100,000 BTU (commercial)</option>\n          <option value=\"custom\">Custom BTU/hr</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"customBtuGroup\" style=\"display:none\">\n      <label for=\"customBtu\">Custom BTU/hour</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"customBtu\" placeholder=\"e.g. 45000\" min=\"1\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate Runtime</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Runtime</div>\n          <div class=\"result-value\" id=\"runtime\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Usable Propane</div>\n          <div class=\"result-value\" id=\"usable\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total BTU Available</div>\n          <div class=\"result-value\" id=\"totalBtu\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Burn Rate</div>\n          <div class=\"result-value\" id=\"burnRate\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Days (8 hrs/day use)</div>\n          <div class=\"result-value\" id=\"days\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost/Hour (at $2.50/gal)</div>\n          <div class=\"result-value\" id=\"costHr\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Propane contains 91,502 BTU per gallon. By dividing the total BTUs available in your tank by your appliance's BTU consumption rate, you get the total runtime in hours.",
+    "rules": [
+      "1 gallon of propane = <strong>91,502 BTU</strong>",
+      "Runtime (hours) = <strong>(Tank gallons × Fill % × 91,502) / BTU per hour</strong>",
+      "A standard 20 lb grill tank holds <strong>4.7 gallons</strong> of propane",
+      "Large tanks are typically filled to <strong>80%</strong> capacity for safety (thermal expansion)"
+    ],
+    "outro": "Actual runtime varies with temperature (propane is less efficient in cold weather), altitude, and appliance efficiency. These calculations assume sea level and moderate temperatures."
+  },
+  "faq": [
+    {
+      "question": "How many BTU are in a gallon of propane?",
+      "answer": "One gallon of propane contains 91,502 BTU. One pound of propane contains approximately 21,548 BTU. A standard 20 lb tank holds about 4.7 gallons, giving it about 430,000 BTU total."
+    },
+    {
+      "question": "How long does a 20 lb propane tank last on a grill?",
+      "answer": "At medium heat (about 30,000 BTU), a full 20 lb tank lasts about 14 hours. At full blast (60,000 BTU), it lasts about 7 hours. Actual time depends on how many burners you use and your heat setting."
+    },
+    {
+      "question": "Why are tanks only filled to 80%?",
+      "answer": "Propane expands as temperature rises. The 20% headspace allows for thermal expansion without creating dangerous pressure. This 80% rule is a safety standard enforced by law."
+    },
+    {
+      "question": "Does cold weather affect propane runtime?",
+      "answer": "Yes. In cold weather, propane pressure drops and the tank may not deliver fuel as efficiently. Below 0°F, a nearly empty tank may not produce enough pressure to run appliances. Runtime itself isn't reduced, but delivery can be affected."
+    },
+    {
+      "question": "How do I know my appliance's BTU rating?",
+      "answer": "Check the appliance's data plate (usually on the back or bottom), the owner's manual, or the manufacturer's website. BTU ratings are listed as BTU/hr and represent maximum input."
+    }
+  ],
+  "relatedTools": [
+    "btu-calculator",
+    "heating-cost-calculator",
+    "generator-fuel-calculator",
+    "septic-tank-calculator",
+    "well-pump-pressure-calculator",
+    "grain-bin-calculator",
+    "irrigation-drip-calculator",
+    "cattle-fencing-calculator"
+  ],
+  "chart": {
+    "title": "Propane Tank Runtime by Appliance",
+    "subtitle": "Estimated hours of runtime for common tank sizes at 80% fill.",
+    "columns": [
+      "Tank Size",
+      "Gallons",
+      "10K BTU",
+      "30K BTU",
+      "60K BTU"
+    ],
+    "rows": [
+      [
+        "1 lb cylinder",
+        "0.24",
+        "2.2 hrs",
+        "0.7 hrs",
+        "0.4 hrs"
+      ],
+      [
+        "20 lb (grill)",
+        "4.7",
+        "34.4 hrs",
+        "14.3 hrs",
+        "7.2 hrs"
+      ],
+      [
+        "30 lb",
+        "7.1",
+        "51.9 hrs",
+        "21.7 hrs",
+        "10.8 hrs"
+      ],
+      [
+        "40 lb",
+        "9.4",
+        "68.8 hrs",
+        "28.7 hrs",
+        "14.3 hrs"
+      ],
+      [
+        "100 lb",
+        "23.6",
+        "172.7 hrs",
+        "72.0 hrs",
+        "36.0 hrs"
+      ],
+      [
+        "500 gallon",
+        "400",
+        "2,928 hrs",
+        "1,220 hrs",
+        "610 hrs"
+      ],
+      [
+        "1,000 gallon",
+        "800",
+        "5,856 hrs",
+        "2,440 hrs",
+        "1,220 hrs"
+      ]
+    ]
+  },
+  "category": "trades-industrial",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This propane tank runtime calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This propane tank runtime calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

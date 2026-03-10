@@ -1,0 +1,138 @@
+{
+  "slug": "concrete-stairs-calculator",
+  "toolName": "Concrete Stairs Calculator",
+  "tagline": "Calculate concrete volume, bags, and rebar for poured concrete steps",
+  "title": "Concrete Stairs Calculator — Volume, Bags & Rebar Estimate",
+  "metaDescription": "Calculate concrete volume in cubic feet and yards for poured stairs. Enter step count, dimensions, and width for bags, rebar, and cost estimates.",
+  "keywords": "concrete stairs calculator, concrete steps calculator, how much concrete for stairs, concrete volume stairs, poured concrete steps, stair concrete calculator",
+  "domain": "example.com",
+  "primaryColor": "#6b7280",
+  "primaryDarkColor": "#4b5563",
+  "ogTitle": "Concrete Stairs Calculator — Volume, Bags & Rebar",
+  "ogDescription": "Calculate concrete volume for poured stairs. Enter dimensions to get cubic yards, bag counts, and rebar needs.",
+  "twitterDescription": "Calculate how much concrete you need for poured stairs. Free concrete stairs calculator.",
+  "jsonLdDescription": "Calculate concrete volume, bag counts, and rebar requirements for poured concrete stairs and steps.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Concrete Stairs Calculator</h2>\n    <div class=\"input-group\">\n      <label for=\"numSteps\">Number of Steps</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"numSteps\" placeholder=\"e.g. 5\" inputmode=\"numeric\" step=\"1\">\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"riserHeight\">Riser Height (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"riserHeight\" placeholder=\"e.g. 7.5\" value=\"7.5\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Code max: 7.75\" &bull; Typical: 7-7.5\"</div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"treadDepth\">Tread Depth (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"treadDepth\" placeholder=\"e.g. 11\" value=\"11\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Code min: 10\" &bull; Typical: 11-12\"</div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"stairWidth\">Stair Width (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"stairWidth\" placeholder=\"e.g. 48\" value=\"48\" inputmode=\"decimal\" step=\"any\">\n      </div>\n      <div style=\"font-size:0.8rem;color:var(--text-light);margin-top:4px\">Code min: 36\" &bull; Common: 48-60\"</div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"hasPlatform\">Landing / Platform at Top?</label>\n      <div class=\"input-row\">\n        <select id=\"hasPlatform\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"no\" selected>No landing</option>\n          <option value=\"36\">36\" deep landing</option>\n          <option value=\"48\">48\" deep landing</option>\n          <option value=\"60\">60\" deep landing</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"input-group\">\n      <label for=\"wastePercent\">Waste / Overage (%)</label>\n      <div class=\"input-row\">\n        <select id=\"wastePercent\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"5\">5% — Minimal</option>\n          <option value=\"10\" selected>10% — Standard</option>\n          <option value=\"15\">15% — Extra safety</option>\n        </select>\n      </div>\n    </div>\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Concrete</button>\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Concrete Volume</div>\n          <div class=\"result-value\" id=\"rVolume\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">80 lb Bags</div>\n          <div class=\"result-value\" id=\"rBags\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Concrete stair volume is calculated by summing the volume of each step. Each step is essentially a rectangular block that gets progressively taller from top to bottom because the concrete is a solid mass, not individual floating steps.",
+    "rules": [
+      "Each step adds a rectangular volume: tread depth &times; riser height &times; stair width, on top of the solid concrete below it",
+      "The bottom step has the full height of all risers combined, making it the largest single volume component",
+      "One 80 lb bag of concrete mix yields approximately 0.6 cubic feet of concrete when mixed"
+    ],
+    "outro": "For stairs with more than 3 steps, consider ordering ready-mix concrete from a truck rather than mixing bags. A typical 5-step staircase requires about 1 cubic yard, which is 45 bags — mixing that many bags by hand is extremely labor-intensive."
+  },
+  "faq": [
+    {
+      "question": "How do I calculate concrete volume for stairs?",
+      "answer": "Sum the volume of each step as a rectangular block. Step 1 (bottom) has volume = width x tread depth x (risers x riser height). Step 2 = width x tread depth x ((risers-1) x riser height). Continue subtracting one riser height for each step up. Add all steps together for total volume."
+    },
+    {
+      "question": "How many bags of concrete for 3 steps?",
+      "answer": "A typical 3-step staircase (48 inches wide, 7.5-inch risers, 11-inch treads) requires about 12-15 bags of 80 lb concrete mix (approximately 0.5 cubic yards). The exact amount depends on your specific dimensions. Use the calculator above for a precise estimate."
+    },
+    {
+      "question": "Should I use bags or ready-mix concrete for stairs?",
+      "answer": "For 1-3 steps, bags are practical (10-20 bags). For 4+ steps, ready-mix from a concrete truck is much easier and produces a more consistent result. The break-even point is around 1 cubic yard — above that, ready-mix is both cheaper and faster than mixing bags."
+    },
+    {
+      "question": "Do concrete stairs need rebar?",
+      "answer": "Yes. Concrete stairs should be reinforced with #4 rebar (1/2 inch) running horizontally every 12 inches across the width and vertically through the risers. A welded wire mesh (6x6 W1.4) can supplement the rebar. Rebar prevents cracking from settling, temperature changes, and load stress."
+    },
+    {
+      "question": "How long before I can use concrete stairs?",
+      "answer": "Wait at least 24 hours before walking on new concrete stairs, 3-7 days before removing forms, and 28 days for full cure before heavy use. Keep the concrete moist during the first week by spraying with water or covering with plastic. Do not apply deicing salts during the first winter."
+    },
+    {
+      "question": "What concrete mix should I use for stairs?",
+      "answer": "Use a standard 4,000 PSI concrete mix for exterior stairs. For freeze-thaw climates, use air-entrained concrete (5-7% air content). A 5,000 PSI mix provides extra durability for high-traffic areas. Avoid fast-setting mixes for stairs as they do not allow enough working time to finish the surface."
+    }
+  ],
+  "relatedTools": [
+    "deck-stair-calculator",
+    "asphalt-calculator"
+  ],
+  "chart": {
+    "title": "Concrete Stair Volume Reference",
+    "subtitle": "For 48\"-wide stairs with 7.5\" risers and 11\" treads, including 10% waste.",
+    "columns": [
+      "Steps",
+      "Total Rise",
+      "Cu Ft",
+      "Cu Yd",
+      "80 lb Bags",
+      "60 lb Bags"
+    ],
+    "rows": [
+      [
+        "2",
+        "15\"",
+        "4.6",
+        "0.17",
+        "8",
+        "11"
+      ],
+      [
+        "3",
+        "22.5\"",
+        "10.3",
+        "0.38",
+        "19",
+        "25"
+      ],
+      [
+        "4",
+        "30\"",
+        "18.3",
+        "0.68",
+        "34",
+        "45"
+      ],
+      [
+        "5",
+        "37.5\"",
+        "28.7",
+        "1.06",
+        "53",
+        "70"
+      ],
+      [
+        "6",
+        "45\"",
+        "41.3",
+        "1.53",
+        "76",
+        "101"
+      ],
+      [
+        "7",
+        "52.5\"",
+        "56.1",
+        "2.08",
+        "103",
+        "137"
+      ]
+    ]
+  },
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This concrete stairs calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This concrete stairs calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

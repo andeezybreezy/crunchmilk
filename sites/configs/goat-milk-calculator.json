@@ -1,0 +1,117 @@
+{
+  "slug": "goat-milk-calculator",
+  "toolName": "Goat Milk Calculator",
+  "tagline": "Estimate daily, weekly, and monthly milk production by breed and lactation stage",
+  "title": "Goat Milk Calculator — Production, Cheese Yield & Soap Batches",
+  "metaDescription": "Calculate goat milk production by breed and lactation stage. Get daily and monthly gallons, cheese yield, and soap batch estimates.",
+  "keywords": "goat milk calculator, goat milk production, how much milk does a goat give, dairy goat calculator, goat cheese yield, Nigerian Dwarf milk",
+  "primaryColor": "#92400e",
+  "primaryDarkColor": "#78350f",
+  "domain": "example.com",
+  "ogTitle": "Goat Milk Calculator — Milk, Cheese & Soap Production",
+  "ogDescription": "Estimate goat milk production by breed and lactation stage with cheese yield and soap batch calculations.",
+  "twitterDescription": "Calculate dairy goat milk production, cheese yield, and soap batches by breed and lactation stage.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Goat Milk Calculator",
+    "description": "Calculate dairy goat milk production by breed and lactation stage with cheese yield and goat milk soap batch estimates.",
+    "url": "https://example.com/goat-milk-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much milk does a goat produce per day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Saanen goats produce 1-1.5 gallons per day at peak. Alpine and LaMancha average 0.75-1 gallon. Nubian goats give 0.5-0.75 gallons of rich, high-butterfat milk. Nigerian Dwarf goats produce 1-2 quarts per day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long is a goat's lactation cycle?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A typical goat lactation cycle is 10 months (305 days). Production peaks at 4-6 weeks after kidding, then gradually declines. Some does can be milked through without rebreeding for extended lactation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much cheese does a gallon of goat milk make?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "One gallon of goat milk yields approximately 1 pound of hard cheese or 1.5-2 pounds of soft cheese (chevre). Goat milk has slightly less casein than cow milk, so cheese yields are a bit lower."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What goat breed produces the most milk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Saanen goats are the top producers at 1-1.5 gallons per day. Alpine and LaMancha goats are close behind. For small homesteads, Nigerian Dwarf goats produce the most milk relative to their size with high butterfat."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much goat milk for a batch of soap?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A typical goat milk soap recipe uses about 10-12 ounces (1.25-1.5 cups) of goat milk per pound of oils, which makes about 4-6 bars. One gallon of milk makes roughly 8-10 batches of soap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When does goat milk production peak?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Milk production peaks at 4-6 weeks after kidding, then gradually declines over the 10-month lactation. Production drops faster after month 7. First-fresheners produce about 70-80% of mature doe production."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Goat Milk Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"doeCount\">Number of Does (milking)</label>\n    <input type=\"number\" id=\"doeCount\" value=\"3\" min=\"1\" max=\"1000\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"breed\">Breed</label>\n    <select id=\"breed\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"saanen\" selected>Saanen (1-1.5 gal/day)</option>\n      <option value=\"alpine\">Alpine (0.75-1 gal/day)</option>\n      <option value=\"lamancha\">LaMancha (0.75-1 gal/day)</option>\n      <option value=\"nubian\">Nubian (0.5-0.75 gal/day)</option>\n      <option value=\"nigerian\">Nigerian Dwarf (0.25-0.5 gal/day)</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"lactStage\">Lactation Stage</label>\n    <select id=\"lactStage\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"early\">Early (weeks 1-4) — ramping up</option>\n      <option value=\"peak\" selected>Peak (weeks 4-12) — highest output</option>\n      <option value=\"mid\">Mid (months 3-7) — steady decline</option>\n      <option value=\"late\">Late (months 7-10) — tapering off</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Production</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Production</div>\n        <div class=\"result-value\" id=\"dailyMilk\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly Production</div>\n        <div class=\"result-value\" id=\"weeklyMilk\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Production</div>\n        <div class=\"result-value\" id=\"monthlyMilk\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cheese Yield (monthly)</div>\n        <div class=\"result-value\" id=\"cheeseYield\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Soap Batches (monthly)</div>\n        <div class=\"result-value\" id=\"soapBatches\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Per Doe Daily</div>\n        <div class=\"result-value\" id=\"perDoe\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Milk Production by Breed</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Breed</th><th>Peak Gal/Day</th><th>Butterfat %</th><th>Lactation</th><th>Best For</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Saanen</td><td>1.0-1.5</td><td>3.5%</td><td>10 months</td><td>Volume production</td></tr>\n        <tr><td>Alpine</td><td>0.75-1.0</td><td>3.5%</td><td>10 months</td><td>Reliable, all-around</td></tr>\n        <tr><td>LaMancha</td><td>0.75-1.0</td><td>4.0%</td><td>10 months</td><td>Creamy milk, docile</td></tr>\n        <tr><td>Nubian</td><td>0.5-0.75</td><td>5.0%</td><td>10 months</td><td>Cheese making</td></tr>\n        <tr><td>Nigerian Dwarf</td><td>0.25-0.5</td><td>6.5%</td><td>10 months</td><td>Small farms, richest milk</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Goat Milk Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator estimates milk production based on breed averages and lactation curve adjustments.</p>\n  <div style=\"background:#fef3c7;border:2px solid #f59e0b;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Daily Milk = Does × Breed Avg × Lactation Factor</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Saanen:</strong> 1.25 gal/day peak, highest volume breed</li>\n    <li><strong>Nigerian Dwarf:</strong> 0.375 gal/day peak, highest butterfat (6.5%)</li>\n    <li><strong>Lactation curve:</strong> Early 80%, peak 100%, mid 75%, late 50%</li>\n    <li><strong>Cheese:</strong> ~1 lb hard cheese per gallon of milk</li>\n    <li><strong>Soap:</strong> ~10-12 oz milk per batch (4-6 bars)</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How much milk does a goat produce per day?</h3>\n    <p>Saanen goats lead at 1-1.5 gallons/day at peak. Alpine and LaMancha average 0.75-1 gallon. Nubian goats give 0.5-0.75 gallons of rich milk. Nigerian Dwarf goats produce 1-2 quarts daily.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How long is a goat's lactation cycle?</h3>\n    <p>A typical lactation is 10 months (305 days). Production peaks at 4-6 weeks after kidding and gradually declines. Some does can be milked through for extended lactation without rebreeding.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much cheese does a gallon of goat milk make?</h3>\n    <p>One gallon yields about 1 pound of hard cheese or 1.5-2 pounds of soft cheese like chevre. Higher-butterfat breeds (Nubian, Nigerian Dwarf) produce better cheese yields per gallon.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What goat breed produces the most milk?</h3>\n    <p>Saanens are the top producers at 1-1.5 gallons/day. For small homesteads, Nigerian Dwarfs offer the best milk-to-size ratio with the highest butterfat content (6.5%), ideal for cheese.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much goat milk for a batch of soap?</h3>\n    <p>A typical batch uses 10-12 ounces of goat milk per pound of oils, producing 4-6 bars. One gallon of milk can supply roughly 8-10 soap batches, making it a great use for surplus milk.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>When does goat milk production peak?</h3>\n    <p>Production peaks at 4-6 weeks after kidding. It holds relatively steady through month 3-4, then gradually declines. By month 7-10, production is about 40-60% of peak output.</p>\n  </div>\n</div>",
+  "category": "agriculture",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This goat milk calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This goat milk calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "chicken-egg-calculator",
+    "garden-soil-volume-calculator",
+    "composting-ratio-calculator",
+    "beehive-yield-calculator",
+    "food-preservation-jar-calculator",
+    "seed-starting-calculator",
+    "hay-bale-calculator"
+  ]
+}

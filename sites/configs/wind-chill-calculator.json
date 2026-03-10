@@ -1,0 +1,113 @@
+{
+  "slug": "wind-chill-calculator",
+  "toolName": "Wind Chill Calculator",
+  "tagline": "Calculate wind chill temperature and frostbite risk",
+  "title": "Wind Chill Calculator — NWS Wind Chill Index & Frostbite Time",
+  "metaDescription": "Calculate wind chill using the NWS formula. Enter temperature and wind speed to get wind chill, frostbite risk time, and danger level.",
+  "keywords": "wind chill calculator, wind chill factor, wind chill index, frostbite calculator, NWS wind chill formula",
+  "primaryColor": "#0369a1",
+  "primaryDarkColor": "#075985",
+  "domain": "example.com",
+  "ogTitle": "Wind Chill Calculator — Wind Chill Index & Frostbite Risk",
+  "ogDescription": "Calculate wind chill temperature and frostbite risk using the official NWS formula. Includes danger level assessment.",
+  "twitterDescription": "Calculate wind chill and frostbite risk with the official NWS formula. Enter temp and wind speed.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Wind Chill Calculator",
+    "description": "Calculate wind chill temperature and frostbite risk using the National Weather Service formula.",
+    "url": "https://example.com/wind-chill-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is wind chill?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Wind chill describes how cold it feels on exposed skin when wind is factored in. Moving air removes heat from your body faster than still air. A temperature of 20°F with 20 mph wind feels like 4°F."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is wind chill calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The NWS formula is: WC = 35.74 + 0.6215T - 35.75V^0.16 + 0.4275TV^0.16, where T is temperature in °F and V is wind speed in mph. This formula is valid for temps at or below 50°F and wind above 3 mph."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "At what wind chill is it dangerous?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Below -20°F wind chill, frostbite can occur in 30 minutes. Below -45°F, frostbite can occur in 10 minutes. Below -60°F, frostbite can happen in 5 minutes or less. Always cover exposed skin."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does wind chill affect pipes freezing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, wind chill does not lower the actual temperature of objects below the ambient air temperature. Pipes freeze based on actual air temperature, not wind chill. However, wind can speed up heat loss from poorly insulated pipes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the lowest wind chill ever recorded?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Wind chills below -100°F have been calculated. Mount Washington, NH recorded a wind chill of -103°F in 2004. Antarctica has seen even more extreme values with temperatures of -80°F and high winds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does humidity affect wind chill?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The current NWS wind chill formula does not account for humidity. However, moisture on skin can increase heat loss. The formula was updated in 2001 to use a model based on heat loss from exposed facial skin."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Wind Chill Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"temp\">Air Temperature</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"temp\" value=\"20\" step=\"1\" inputmode=\"numeric\">\n      <select id=\"tempUnit\" style=\"flex:0 0 auto;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"F\" selected>°F</option>\n        <option value=\"C\">°C</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wind\">Wind Speed</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"wind\" value=\"20\" step=\"1\" min=\"0\" inputmode=\"numeric\">\n      <select id=\"windUnit\" style=\"flex:0 0 auto;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"mph\" selected>mph</option>\n        <option value=\"kmh\">km/h</option>\n      </select>\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Wind Chill</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Wind Chill</div>\n        <div class=\"result-value\" id=\"windChill\" style=\"font-size:2.2rem\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Danger Level</div>\n        <div class=\"result-value\" id=\"dangerLevel\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Frostbite Risk</div>\n        <div class=\"result-value\" id=\"frostbite\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Wind Chill Chart (°F)</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Wind chill values in °F. Shaded cells indicate increasing frostbite danger.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\" style=\"font-size:0.8rem\">\n      <thead>\n        <tr><th>Temp \\ Wind</th><th>5</th><th>10</th><th>15</th><th>20</th><th>25</th><th>30</th><th>35</th><th>40</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>40°F</td><td>36</td><td>34</td><td>32</td><td>30</td><td>29</td><td>28</td><td>28</td><td>27</td></tr>\n        <tr><td>30°F</td><td>25</td><td>21</td><td>19</td><td>17</td><td>16</td><td>15</td><td>14</td><td>13</td></tr>\n        <tr><td>20°F</td><td>13</td><td>9</td><td>6</td><td>4</td><td>3</td><td>1</td><td>0</td><td>-1</td></tr>\n        <tr><td>10°F</td><td>1</td><td>-4</td><td>-7</td><td>-9</td><td>-11</td><td>-12</td><td>-14</td><td>-15</td></tr>\n        <tr><td>0°F</td><td>-11</td><td>-16</td><td>-19</td><td>-22</td><td>-24</td><td>-26</td><td>-27</td><td>-29</td></tr>\n        <tr style=\"background:#dbeafe\"><td>-10°F</td><td>-22</td><td>-28</td><td>-32</td><td>-35</td><td>-37</td><td>-39</td><td>-41</td><td>-43</td></tr>\n        <tr style=\"background:#bfdbfe\"><td>-20°F</td><td>-34</td><td>-41</td><td>-45</td><td>-48</td><td>-51</td><td>-53</td><td>-55</td><td>-57</td></tr>\n        <tr style=\"background:#93c5fd\"><td>-30°F</td><td>-46</td><td>-53</td><td>-58</td><td>-61</td><td>-64</td><td>-67</td><td>-69</td><td>-71</td></tr>\n        <tr style=\"background:#60a5fa\"><td>-40°F</td><td>-57</td><td>-66</td><td>-71</td><td>-74</td><td>-78</td><td>-80</td><td>-82</td><td>-84</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How Wind Chill Is Calculated</h2>\n  <p style=\"margin-bottom:12px\">This calculator uses the official National Weather Service wind chill formula, updated in 2001.</p>\n  <div style=\"background:#e0f2fe;border:2px solid #7dd3fc;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1rem;font-weight:700;color:var(--primary)\">WC = 35.74 + 0.6215T - 35.75V<sup>0.16</sup> + 0.4275TV<sup>0.16</sup></span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>T</strong> = Air temperature in °F</li>\n    <li><strong>V</strong> = Wind speed in mph</li>\n    <li>Valid for temperatures ≤ 50°F and wind speeds ≥ 3 mph</li>\n    <li>Based on heat loss from exposed facial skin in a walking scenario</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>What is wind chill?</h3>\n    <p>Wind chill is the perceived decrease in air temperature felt by the body due to the flow of air. Wind strips heat from exposed skin faster than calm air, making it feel colder than the actual temperature.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How is wind chill calculated?</h3>\n    <p>The NWS formula: WC = 35.74 + 0.6215T - 35.75V^0.16 + 0.4275TV^0.16, where T is °F and V is mph. Valid for temps at or below 50°F and wind speeds above 3 mph.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>At what wind chill is it dangerous?</h3>\n    <p>Frostbite risk increases dramatically below -20°F wind chill (30 min), becomes serious below -45°F (10 min), and is immediate below -60°F (5 min or less). Always cover all exposed skin in extreme cold.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Does wind chill affect pipes freezing?</h3>\n    <p>No. Wind chill only affects how cold it feels to living tissue. Objects cannot cool below the actual air temperature regardless of wind. However, wind does accelerate heat transfer from warm pipes.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is the lowest wind chill ever recorded?</h3>\n    <p>Mount Washington, NH recorded -103°F wind chill in January 2004. Antarctic research stations have recorded even more extreme effective values due to extremely low temperatures combined with high winds.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Does humidity affect wind chill?</h3>\n    <p>The NWS wind chill formula does not include humidity as a variable. It is based purely on temperature and wind speed, modeled on heat loss from exposed facial skin. Wet skin loses heat faster, but this is not captured in the index.</p>\n  </div>\n</div>",
+  "category": "weather",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This wind chill calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This wind chill calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "heat-index-calculator",
+    "snow-load-calculator",
+    "rainwater-harvesting-calculator"
+  ]
+}

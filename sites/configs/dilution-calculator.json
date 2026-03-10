@@ -1,0 +1,137 @@
+{
+  "slug": "dilution-calculator",
+  "toolName": "Dilution Calculator",
+  "tagline": "Calculate solution dilutions using the C1V1 = C2V2 formula",
+  "title": "Dilution Calculator — C1V1 = C2V2 Solution Dilution",
+  "metaDescription": "Calculate solution dilutions with C1V1=C2V2. Enter any three values to solve for the fourth. Works for any concentration unit.",
+  "keywords": "dilution calculator, c1v1 c2v2, solution dilution, dilution equation, concentration calculator, serial dilution, chemistry calculator",
+  "domain": "dilutioncalculator.org",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "ogTitle": "Dilution Calculator — C1V1 = C2V2 Solver",
+  "ogDescription": "Solve dilution problems with C1V1 = C2V2. Enter three known values and calculate the fourth instantly.",
+  "twitterDescription": "Calculate solution dilutions using C1V1=C2V2. Enter any three values and solve for the missing one. Free chemistry tool.",
+  "jsonLdDescription": "Solution dilution calculator using the C1V1 = C2V2 equation. Enter initial concentration, initial volume, final concentration, or final volume to solve for the unknown.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>C1V1 = C2V2 Dilution Calculator</h2>\n    <p style=\"margin-bottom:1rem;color:#666;font-size:0.95rem;\">Leave one field blank to solve for it.</p>\n\n    <div class=\"input-group\">\n      <label for=\"c1\">C1 — Initial Concentration</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"c1\" placeholder=\"e.g. 12\" min=\"0\" step=\"any\" inputmode=\"decimal\">\n        <select id=\"c1Unit\" style=\"max-width:100px\">\n          <option value=\"M\">M</option>\n          <option value=\"mM\">mM</option>\n          <option value=\"%\">%</option>\n          <option value=\"mg/mL\">mg/mL</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"v1\">V1 — Initial Volume (to take)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"v1\" placeholder=\"Solve for this?\" min=\"0\" step=\"any\" inputmode=\"decimal\">\n        <select id=\"v1Unit\" style=\"max-width:100px\">\n          <option value=\"mL\">mL</option>\n          <option value=\"L\">L</option>\n          <option value=\"µL\">µL</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"c2\">C2 — Final Concentration</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"c2\" placeholder=\"e.g. 1\" min=\"0\" step=\"any\" inputmode=\"decimal\">\n        <select id=\"c2Unit\" style=\"max-width:100px\">\n          <option value=\"M\">M</option>\n          <option value=\"mM\">mM</option>\n          <option value=\"%\">%</option>\n          <option value=\"mg/mL\">mg/mL</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"v2\">V2 — Final Volume (total)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"v2\" placeholder=\"e.g. 500\" min=\"0\" step=\"any\" inputmode=\"decimal\">\n        <select id=\"v2Unit\" style=\"max-width:100px\">\n          <option value=\"mL\">mL</option>\n          <option value=\"L\">L</option>\n          <option value=\"µL\">µL</option>\n        </select>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Solved Value</div>\n          <div class=\"result-value\" id=\"solvedValue\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Solvent to Add</div>\n          <div class=\"result-value\" id=\"solventAdd\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Dilution Factor</div>\n          <div class=\"result-value\" id=\"dilutionFactor\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Equation Check</div>\n          <div class=\"result-value\" id=\"eqCheck\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "The dilution equation C1V1 = C2V2 relates the concentration and volume of a solution before and after dilution. Since the amount of solute stays constant, the product of concentration and volume must be equal.",
+    "rules": [
+      "<strong>C1V1 = C2V2</strong> where C = concentration, V = volume; subscript 1 = initial (stock), subscript 2 = final (diluted)",
+      "Leave exactly <strong>one field blank</strong> and the calculator solves for it",
+      "Concentration units must match (both in M, mM, %, etc.) — the calculator assumes same units for C1 and C2",
+      "Solvent to add = V2 − V1 (the amount of diluent, usually water, to add to your aliquot)"
+    ],
+    "outro": "This equation works for any dilution where the solute is fully dissolved and the volumes are additive. For serial dilutions, apply the formula repeatedly at each step."
+  },
+  "faq": [
+    {
+      "question": "What does C1V1 = C2V2 mean?",
+      "answer": "It means the amount of solute before dilution equals the amount after dilution. C1 is the stock concentration, V1 is the volume you take from the stock, C2 is your desired final concentration, and V2 is the total final volume."
+    },
+    {
+      "question": "How do I use this for a serial dilution?",
+      "answer": "For serial dilutions, apply C1V1 = C2V2 at each step. For a 1:10 serial dilution, take 1 mL of each solution and add 9 mL of diluent. The concentration drops by 10× at each step."
+    },
+    {
+      "question": "Do the concentration units need to match?",
+      "answer": "Yes, C1 and C2 must be in the same units (both M, both mM, both %, etc.). The volume units for V1 and V2 must also match. The calculator handles unit conversion for volumes."
+    },
+    {
+      "question": "What if my final concentration is higher than my stock?",
+      "answer": "That would require concentration (evaporation), not dilution. C1V1 = C2V2 only works when C2 < C1. You cannot dilute a solution to make it more concentrated."
+    },
+    {
+      "question": "Can I use this for diluting acids?",
+      "answer": "Yes, the math works the same. Always remember to add acid to water (not water to acid) for safety. The heat of mixing can cause splattering if water is added to concentrated acid."
+    }
+  ],
+  "relatedTools": [
+    "molarity-calculator",
+    "ph-calculator",
+    "percent-solution-calculator",
+    "pool-chemical-calculator",
+    "alcohol-dilution-calculator"
+  ],
+  "chart": {
+    "title": "Common Lab Dilution Examples",
+    "subtitle": "Typical dilution scenarios using C1V1 = C2V2.",
+    "columns": [
+      "Stock (C1)",
+      "Desired (C2)",
+      "Final Vol (V2)",
+      "Volume to Take (V1)"
+    ],
+    "rows": [
+      [
+        "12 M HCl",
+        "1 M",
+        "500 mL",
+        "41.7 mL"
+      ],
+      [
+        "10 M NaOH",
+        "0.1 M",
+        "1 L",
+        "10 mL"
+      ],
+      [
+        "18 M H₂SO₄",
+        "2 M",
+        "250 mL",
+        "27.8 mL"
+      ],
+      [
+        "100 mg/mL",
+        "1 mg/mL",
+        "100 mL",
+        "1 mL"
+      ],
+      [
+        "70% Ethanol",
+        "10%",
+        "500 mL",
+        "71.4 mL"
+      ],
+      [
+        "5 M NaCl",
+        "0.15 M",
+        "1 L",
+        "30 mL"
+      ],
+      [
+        "1 M Tris",
+        "50 mM",
+        "200 mL",
+        "10 mL"
+      ],
+      [
+        "10× PBS",
+        "1×",
+        "1 L",
+        "100 mL"
+      ]
+    ]
+  },
+  "category": "science",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This dilution calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This dilution calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

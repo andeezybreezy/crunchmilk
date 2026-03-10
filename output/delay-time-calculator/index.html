@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delay Time Calculator — Sync Delay & Reverb to BPM</title>
+<meta name="description" content="Calculate delay times in milliseconds for any BPM. Get whole, half, quarter, eighth, sixteenth, dotted, and triplet note values.">
+<meta name="keywords" content="delay time calculator, bpm to ms, delay time bpm, reverb time calculator, echo timing, music production calculator">
+<link rel="canonical" href="https://example.com/delay-time-calculator/">
+<meta property="og:title" content="Delay Time Calculator — BPM to Milliseconds">
+<meta property="og:description" content="Calculate delay and reverb times in milliseconds for any BPM. All note values including dotted and triplet.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/delay-time-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Delay Time Calculator — BPM to Milliseconds">
+<meta name="twitter:description" content="Calculate delay times in milliseconds synced to any BPM.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Delay Time Calculator",
+  "description": "Calculate delay and reverb times in milliseconds for all note values at any BPM. Includes whole, half, quarter, eighth, sixteenth, dotted, and triplet times.",
+  "url": "https://example.com/delay-time-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I calculate delay time from BPM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Divide 60,000 by the BPM to get the quarter note delay in milliseconds. For example, at 120 BPM: 60,000 / 120 = 500ms per quarter note. Then multiply or divide for other note values: half note = 1000ms, eighth note = 250ms, sixteenth note = 125ms."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What delay time sounds best?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dotted eighth note delay is the most popular for guitars and vocals — it creates a rhythmic bounce without cluttering the mix. For ambient textures, try quarter or half note delays. For percussive effects, try sixteenth note delays. The best delay time is always synced to the song's BPM."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a dotted note delay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A dotted note is 1.5 times the length of the normal note. A dotted eighth note at 120 BPM is 375ms (250ms × 1.5). Dotted delays create a three-against-two polyrhythmic feel that is very popular in modern music production, especially for guitar and synth leads."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a triplet delay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A triplet note is 2/3 the length of the normal note. A triplet quarter note at 120 BPM is 333ms (500ms × 2/3). Triplet delays create a waltz-like, rolling feel. They're common in shuffle grooves and some EDM subgenres."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should reverb pre-delay be synced to BPM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, syncing reverb pre-delay to a musical value (typically a 16th or 32nd note) helps the reverb sit rhythmically in the mix. At 120 BPM, a 16th note pre-delay of 125ms works well for vocals, while a 32nd note (62ms) suits faster material."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I use tap tempo to find BPM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click the TAP button in time with the beat of your song. Tap at least 4 times for an accurate reading. The tool calculates the average interval between taps and converts it to BPM, which then populates the delay time table automatically."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Audio & Music Calculators",
+      "item": "https://example.com/audio-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Delay Time Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#7c3aed;--primary-dark:#6d28d9;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/audio-calculators/">Audio & Music Calculators</a> &rsaquo; <span>Delay Time Calculator</span>
+    </nav>
+    <h1>Delay Time Calculator</h1>
+    <p>Calculate delay, reverb, and echo times synced to your BPM</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Delay Time Calculator</h2>
+
+    <div class="input-group">
+      <label for="bpmInput">BPM (Beats Per Minute)</label>
+      <input type="number" id="bpmInput" placeholder="e.g. 120" value="120" inputmode="decimal">
+    </div>
+
+    <div class="input-group" style="text-align:center;">
+      <label>Or Tap Tempo</label>
+      <button type="button" class="convert-btn" id="tapBtn" style="padding:12px 32px;">TAP</button>
+      <button type="button" id="resetTap" style="background:none; border:none; color:var(--primary); cursor:pointer; text-decoration:underline; font-size:0.9rem; margin-left:8px;">Reset</button>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Delay Times</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">BPM</div>
+          <div class="result-value" id="bpmDisplay">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Quarter Note (ms)</div>
+          <div class="result-value" id="quarterMs">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="delayTable" style="display:none; margin-top:16px;">
+      <table class="chart-table" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Note Value</th>
+            <th>Normal (ms)</th>
+            <th>Dotted (ms)</th>
+            <th>Triplet (ms)</th>
+          </tr>
+        </thead>
+        <tbody id="delayTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="result-tip" id="resultTip" style="margin-top:12px;"></div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Delay Times at Common BPMs (Quarter Note)</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Quarter note delay in milliseconds for popular tempos.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>BPM</th>
+          <th>Whole (ms)</th>
+          <th>Half (ms)</th>
+          <th>Quarter (ms)</th>
+          <th>8th (ms)</th>
+          <th>16th (ms)</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>80</td><td>3000</td><td>1500</td><td>750</td><td>375</td><td>188</td></tr>
+        <tr><td>90</td><td>2667</td><td>1333</td><td>667</td><td>333</td><td>167</td></tr>
+        <tr><td>100</td><td>2400</td><td>1200</td><td>600</td><td>300</td><td>150</td></tr>
+        <tr><td>110</td><td>2182</td><td>1091</td><td>545</td><td>273</td><td>136</td></tr>
+        <tr><td>120</td><td>2000</td><td>1000</td><td>500</td><td>250</td><td>125</td></tr>
+        <tr><td>128</td><td>1875</td><td>938</td><td>469</td><td>234</td><td>117</td></tr>
+        <tr><td>130</td><td>1846</td><td>923</td><td>462</td><td>231</td><td>115</td></tr>
+        <tr><td>140</td><td>1714</td><td>857</td><td>429</td><td>214</td><td>107</td></tr>
+        <tr><td>150</td><td>1600</td><td>800</td><td>400</td><td>200</td><td>100</td></tr>
+        <tr><td>160</td><td>1500</td><td>750</td><td>375</td><td>188</td><td>94</td></tr>
+        <tr><td>170</td><td>1412</td><td>706</td><td>353</td><td>176</td><td>88</td></tr>
+        <tr><td>180</td><td>1333</td><td>667</td><td>333</td><td>167</td><td>83</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This delay time calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Syncing delay and reverb times to your song's BPM creates a cleaner, more musical mix. This calculator gives you exact millisecond values for all note divisions.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li><strong>Quarter note ms = 60,000 / BPM</strong> — this is the foundation for all other note values</li>
+      <li><strong>Dotted notes</strong> are 1.5× the normal value — they create a bouncy, swing-like feel</li>
+      <li><strong>Triplet notes</strong> are 2/3 of the normal value — they create a waltz-like feel</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Set your delay plugin to the millisecond value from this chart. Many producers use dotted eighth note delays for a classic ping-pong effect, or triplet sixteenths for a rapid flutter.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This delay time calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How do I calculate delay time from BPM?</h3>
+      <p>Divide 60,000 by the BPM to get the quarter note delay in milliseconds. For example, at 120 BPM: 60,000 / 120 = 500ms per quarter note. Then multiply or divide for other note values: half note = 1000ms, eighth note = 250ms, sixteenth note = 125ms.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What delay time sounds best?</h3>
+      <p>Dotted eighth note delay is the most popular for guitars and vocals — it creates a rhythmic bounce without cluttering the mix. For ambient textures, try quarter or half note delays. For percussive effects, try sixteenth note delays. The best delay time is always synced to the song's BPM.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is a dotted note delay?</h3>
+      <p>A dotted note is 1.5 times the length of the normal note. A dotted eighth note at 120 BPM is 375ms (250ms × 1.5). Dotted delays create a three-against-two polyrhythmic feel that is very popular in modern music production, especially for guitar and synth leads.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is a triplet delay?</h3>
+      <p>A triplet note is 2/3 the length of the normal note. A triplet quarter note at 120 BPM is 333ms (500ms × 2/3). Triplet delays create a waltz-like, rolling feel. They're common in shuffle grooves and some EDM subgenres.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Should reverb pre-delay be synced to BPM?</h3>
+      <p>Yes, syncing reverb pre-delay to a musical value (typically a 16th or 32nd note) helps the reverb sit rhythmically in the mix. At 120 BPM, a 16th note pre-delay of 125ms works well for vocals, while a 32nd note (62ms) suits faster material.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I use tap tempo to find BPM?</h3>
+      <p>Click the TAP button in time with the beat of your song. Tap at least 4 times for an accurate reading. The tool calculates the average interval between taps and converts it to BPM, which then populates the delay time table automatically.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/bpm-tap-tempo/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">BPM Tap Tempo</strong><span style="font-size:0.8rem;color:var(--text-light)">Tap to the beat to find the BPM of any song instantly</span></a>
+      <a href="/speaker-wire-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Speaker Wire Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find the right wire gauge for your speaker setup with signal loss analysis</span></a>
+      <a href="/dpi-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">DPI Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate DPI/PPI for print resolution from image dimensions and print size</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Delay Time Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var taps = [];
+
+  // Tap tempo
+  function handleTap() {
+    var now = Date.now();
+    if (taps.length > 0 && (now - taps[taps.length - 1]) > 3000) {
+      taps = [];
+    }
+    taps.push(now);
+
+    if (taps.length >= 2) {
+      var intervals = [];
+      for (var i = 1; i < taps.length; i++) {
+        intervals.push(taps[i] - taps[i - 1]);
+      }
+      var avg = intervals.reduce(function(a, b) { return a + b; }, 0) / intervals.length;
+      var bpm = Math.round(60000 / avg);
+      document.getElementById('bpmInput').value = bpm;
+      calculate();
+    }
+  }
+
+  document.getElementById('tapBtn').addEventListener('click', handleTap);
+  document.getElementById('resetTap').addEventListener('click', function() {
+    taps = [];
+  });
+
+  // Allow spacebar for tap
+  document.addEventListener('keydown', function(e) {
+    if ((e.key === ' ' || e.key === 'Spacebar') && document.activeElement.id !== 'bpmInput') {
+      e.preventDefault();
+      handleTap();
+    }
+  });
+
+  var noteValues = [
+    { name: 'Whole Note', multiplier: 4 },
+    { name: 'Half Note', multiplier: 2 },
+    { name: 'Quarter Note', multiplier: 1 },
+    { name: 'Eighth Note', multiplier: 0.5 },
+    { name: 'Sixteenth Note', multiplier: 0.25 },
+    { name: 'Thirty-Second Note', multiplier: 0.125 }
+  ];
+
+  function calculate() {
+    var bpm = parseFloat(document.getElementById('bpmInput').value);
+    if (isNaN(bpm) || bpm <= 0) return;
+
+    var quarterMs = 60000 / bpm;
+
+    document.getElementById('bpmDisplay').textContent = Math.round(bpm) + ' BPM';
+    document.getElementById('quarterMs').textContent = quarterMs.toFixed(1) + ' ms';
+
+    // Build delay table
+    var tbody = document.getElementById('delayTableBody');
+    tbody.innerHTML = '';
+
+    for (var i = 0; i < noteValues.length; i++) {
+      var nv = noteValues[i];
+      var normal = quarterMs * nv.multiplier;
+      var dotted = normal * 1.5;
+      var triplet = normal * (2 / 3);
+
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + nv.name + '</td>' +
+        '<td>' + normal.toFixed(1) + '</td>' +
+        '<td>' + dotted.toFixed(1) + '</td>' +
+        '<td>' + triplet.toFixed(1) + '</td>';
+      tbody.appendChild(tr);
+    }
+
+    document.getElementById('delayTable').style.display = '';
+
+    var tip = 'Popular choices: dotted 8th = ' + (quarterMs * 0.5 * 1.5).toFixed(0) + 'ms (rhythmic bounce), triplet 16th = ' + (quarterMs * 0.25 * (2 / 3)).toFixed(0) + 'ms (rapid flutter).';
+    document.getElementById('resultTip').textContent = tip;
+
+    var resultEl = document.getElementById('result');
+    resultEl.classList.add('visible');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', calculate);
+  document.getElementById('bpmInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') calculate();
+  });
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Delay Time Calculator';
+  var TOOL_SLUG = 'delay-time-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'audio', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

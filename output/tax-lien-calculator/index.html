@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Lien Calculator — Estimate Returns on Tax Lien Certificates</title>
+<meta name="description" content="Calculate tax lien certificate returns by state. See total interest earned, annualized ROI, and compare rates across all 50 states. Free calculator.">
+<meta name="keywords" content="tax lien calculator, tax lien interest rate, tax lien certificate return, tax lien investing calculator, tax lien ROI, state tax lien rates">
+<link rel="canonical" href="https://example.com/tax-lien-calculator/">
+<meta property="og:title" content="Tax Lien Calculator — Estimate Returns on Tax Lien Certificates">
+<meta property="og:description" content="Calculate potential returns on tax lien certificates. Compare state-by-state interest rates and redemption periods.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/tax-lien-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tax Lien Calculator — Estimate Returns on Tax Lien Certificates">
+<meta name="twitter:description" content="Calculate tax lien certificate returns by state. See interest earned and annualized ROI. Free calculator.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Tax Lien Calculator",
+  "description": "Calculate potential returns on tax lien certificates including total interest, annualized ROI, and state-by-state rate comparisons.",
+  "url": "https://example.com/tax-lien-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a tax lien certificate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A tax lien certificate is a claim against a property for unpaid property taxes. When a homeowner doesn't pay taxes, the county sells the lien to investors at auction. The investor pays the back taxes and earns interest (set by state law) when the owner eventually pays off the debt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What interest rates can I earn on tax liens?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Statutory rates vary widely by state, from 8% in Oklahoma to as high as 36% in some cases. Florida and Illinois offer 18%, Iowa offers 24%, and Texas imposes a 25-50% penalty. However, auction competition may lower your effective rate — some states use bid-down-the-interest auctions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if the property owner doesn't redeem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If the owner doesn't pay within the redemption period (6-36 months depending on the state), you can begin foreclosure proceedings to acquire the property. This can be very profitable if the property is worth more than your investment, but it also carries risks and legal costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much money do I need to start investing in tax liens?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can start with as little as a few hundred dollars. Tax liens range from under $100 for vacant lots to tens of thousands for developed properties. Many investors start with $2,000-$5,000 to build a small portfolio. Some counties now offer online auctions, making it easier to participate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the risks of tax lien investing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Key risks include: properties with environmental contamination, structural issues, or code violations; liens on worthless land; bankruptcy filings that delay redemption; and competition at auctions that compresses returns. Always research properties before bidding and budget for potential foreclosure costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between tax liens and tax deeds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With tax liens, you buy the debt and earn interest — the owner keeps the property unless they fail to redeem. With tax deeds, you buy the property itself at auction (typically at a discount). Tax liens offer predictable interest returns; tax deeds offer potential property equity but more complexity."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Niche Finance Calculators",
+      "item": "https://example.com/niche-finance-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Tax Lien Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#059669;--primary-dark:#047857;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/niche-finance-calculators/">Niche Finance Calculators</a> &rsaquo; <span>Tax Lien Calculator</span>
+    </nav>
+    <h1>Tax Lien Calculator</h1>
+    <p>Calculate your potential return on tax lien certificates by state, interest rate, and redemption period</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Tax Lien Calculator</h2>
+
+    <div class="input-group">
+      <label for="state">State</label>
+      <div class="input-row">
+        <select id="state" style="flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer">
+          <option value="custom">Custom Rate</option>
+          <option value="AZ">Arizona — 16%</option>
+          <option value="CO">Colorado — 9-12%</option>
+          <option value="FL">Florida — 18%</option>
+          <option value="IL">Illinois — 18%</option>
+          <option value="IN">Indiana — 10-15%</option>
+          <option value="IA">Iowa — 24%</option>
+          <option value="KY">Kentucky — 12%</option>
+          <option value="MD">Maryland — 6-24%</option>
+          <option value="MS">Mississippi — 18%</option>
+          <option value="MO">Missouri — 10%</option>
+          <option value="MT">Montana — 10%</option>
+          <option value="NE">Nebraska — 14%</option>
+          <option value="NJ">New Jersey — 18%</option>
+          <option value="ND">North Dakota — 9-12%</option>
+          <option value="OH">Ohio — 18%</option>
+          <option value="OK">Oklahoma — 8%</option>
+          <option value="SC">South Carolina — 12%</option>
+          <option value="SD">South Dakota — 12%</option>
+          <option value="TX">Texas — 25-50% (penalty)</option>
+          <option value="VT">Vermont — 12%</option>
+          <option value="WV">West Virginia — 12%</option>
+          <option value="WY">Wyoming — 15%</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="lienAmount">Lien Amount ($)</label>
+      <div class="input-row">
+        <input type="number" id="lienAmount" placeholder="e.g. 5000" inputmode="decimal" step="any">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="interestRate">Annual Interest Rate (%)</label>
+      <div class="input-row">
+        <input type="number" id="interestRate" placeholder="e.g. 18" inputmode="decimal" step="any">
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">Statutory rate varies by state (8-36%)</div>
+    </div>
+
+    <div class="input-group">
+      <label for="redemptionPeriod">Redemption Period (months)</label>
+      <div class="input-row">
+        <input type="number" id="redemptionPeriod" placeholder="e.g. 12" value="12" inputmode="decimal" step="1">
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">Typical: 6-36 months depending on state</div>
+    </div>
+
+    <div class="input-group">
+      <label for="purchasePremium">Premium Over Lien (if any, $)</label>
+      <div class="input-row">
+        <input type="number" id="purchasePremium" placeholder="0" value="0" inputmode="decimal" step="any">
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-light);margin-top:4px">Amount paid above face value at auction</div>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Calculate Return</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Total Return if Redeemed</div>
+          <div class="result-value" id="rReturn">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Interest Earned</div>
+          <div class="result-value" id="rInterest">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Annualized Return</div>
+          <div class="result-value" id="rAnnual">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">ROI on Cash Invested</div>
+          <div class="result-value" id="rROI">—</div>
+        </div>
+      </div>
+      <div id="resultDetails" style="text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>State-by-State Tax Lien Interest Rates</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Statutory interest rates and redemption periods for major tax lien states.</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Interest Rate</th>
+          <th>Redemption Period</th>
+          <th>Auction Type</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Arizona</td><td>16%</td><td>3 years</td><td>Bid down interest</td></tr>
+        <tr><td>Florida</td><td>18% (max)</td><td>2 years</td><td>Bid down interest</td></tr>
+        <tr><td>Illinois</td><td>18%/6 mo</td><td>2-3 years</td><td>Bid up premium</td></tr>
+        <tr><td>Indiana</td><td>10-15%</td><td>1 year</td><td>Bid down interest</td></tr>
+        <tr><td>Iowa</td><td>24%</td><td>1 year 9 mo</td><td>Bid up premium</td></tr>
+        <tr><td>New Jersey</td><td>18% (max)</td><td>2 years</td><td>Bid down interest / premium</td></tr>
+        <tr><td>Texas</td><td>25-50% penalty</td><td>6 mo-2 years</td><td>Bid up premium</td></tr>
+        <tr><td>Ohio</td><td>18%</td><td>1 year</td><td>Bid down interest</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This tax lien calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">Tax lien certificates are issued by counties when property owners fail to pay their property taxes. Investors buy these liens at auction and earn statutory interest rates when the owner redeems (pays off) the lien.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>You pay the delinquent tax amount (plus any auction premium) and receive a certificate</li>
+      <li>The property owner must repay the lien plus statutory interest within the redemption period</li>
+      <li>If the owner doesn't redeem, you may be able to foreclose and acquire the property</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">Tax lien investing offers fixed, above-market returns backed by real property. However, risks include properties with environmental issues, liens that aren't redeemed (requiring foreclosure), and competition at auctions that can reduce effective returns. Always research properties before bidding.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This tax lien calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What is a tax lien certificate?</h3>
+      <p>A tax lien certificate is a claim against a property for unpaid property taxes. When a homeowner doesn't pay taxes, the county sells the lien to investors at auction. The investor pays the back taxes and earns interest (set by state law) when the owner eventually pays off the debt.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What interest rates can I earn on tax liens?</h3>
+      <p>Statutory rates vary widely by state, from 8% in Oklahoma to as high as 36% in some cases. Florida and Illinois offer 18%, Iowa offers 24%, and Texas imposes a 25-50% penalty. However, auction competition may lower your effective rate — some states use bid-down-the-interest auctions.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What happens if the property owner doesn't redeem?</h3>
+      <p>If the owner doesn't pay within the redemption period (6-36 months depending on the state), you can begin foreclosure proceedings to acquire the property. This can be very profitable if the property is worth more than your investment, but it also carries risks and legal costs.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much money do I need to start investing in tax liens?</h3>
+      <p>You can start with as little as a few hundred dollars. Tax liens range from under $100 for vacant lots to tens of thousands for developed properties. Many investors start with $2,000-$5,000 to build a small portfolio. Some counties now offer online auctions, making it easier to participate.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What are the risks of tax lien investing?</h3>
+      <p>Key risks include: properties with environmental contamination, structural issues, or code violations; liens on worthless land; bankruptcy filings that delay redemption; and competition at auctions that compresses returns. Always research properties before bidding and budget for potential foreclosure costs.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the difference between tax liens and tax deeds?</h3>
+      <p>With tax liens, you buy the debt and earn interest — the owner keeps the property unless they fail to redeem. With tax deeds, you buy the property itself at auction (typically at a discount). Tax liens offer predictable interest returns; tax deeds offer potential property equity but more complexity.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/seller-financing-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Seller Financing Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate monthly payments, total interest, and balloon amounts for seller-financed deals</span></a>
+      <a href="/rental-property-roi-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Rental Property ROI Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate cash flow, cash-on-cash return, and total ROI for rentals</span></a>
+      <a href="/roth-conversion-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Roth Conversion Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Compare converting to Roth IRA vs keeping traditional IRA</span></a>
+      <a href="/house-hacking-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">House Hacking Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">See how renting out units can slash your housing costs to zero — or even turn a profit</span></a>
+      <a href="/airbnb-vs-rental-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Airbnb vs. Long-Term Rental Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Compare short-term Airbnb income against long-term rental profits to find your best strategy</span></a>
+      <a href="/wholesale-assignment-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Wholesale Assignment Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate your maximum allowable offer and assignment fee for wholesale real estate deals</span></a>
+      <a href="/per-diem-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Per Diem Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate GSA per diem rates for travel reimbursement</span></a>
+      <a href="/cap-rate-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Cap Rate Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate capitalization rate for any investment property</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Tax Lien Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function fmt(n, d) {
+    if (typeof d === 'undefined') d = 2;
+    var parts = n.toFixed(d).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+
+  function fmtDollars(n) {
+    var sign = n < 0 ? '-' : '';
+    return sign + '$' + fmt(Math.abs(n), 0).replace(/\..*/, '');
+  }
+
+  // State data: [rate%, redemptionMonths]
+  var stateData = {
+    'AZ': [16, 36], 'CO': [10, 36], 'FL': [18, 24], 'IL': [18, 36],
+    'IN': [12, 12], 'IA': [24, 21], 'KY': [12, 12], 'MD': [12, 6],
+    'MS': [18, 24], 'MO': [10, 12], 'MT': [10, 36], 'NE': [14, 36],
+    'NJ': [18, 24], 'ND': [10, 36], 'OH': [18, 12], 'OK': [8, 12],
+    'SC': [12, 12], 'SD': [12, 48], 'TX': [25, 6], 'VT': [12, 12],
+    'WV': [12, 18], 'WY': [15, 48]
+  };
+
+  // DOM refs
+  var stateSelect = document.getElementById('state');
+  var lienAmount = document.getElementById('lienAmount');
+  var interestRate = document.getElementById('interestRate');
+  var redemptionPeriod = document.getElementById('redemptionPeriod');
+  var purchasePremium = document.getElementById('purchasePremium');
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+  var rReturn = document.getElementById('rReturn');
+  var rInterest = document.getElementById('rInterest');
+  var rAnnual = document.getElementById('rAnnual');
+  var rROI = document.getElementById('rROI');
+  var resultDetails = document.getElementById('resultDetails');
+
+  // Chart
+  var chartData = [
+    ['Arizona', '16%', '3 years', 'Bid down interest'],
+    ['Florida', '18% (max)', '2 years', 'Bid down interest'],
+    ['Illinois', '18%/6 mo', '2-3 years', 'Bid up premium'],
+    ['Indiana', '10-15%', '1 year', 'Bid down interest'],
+    ['Iowa', '24%', '1 year 9 mo', 'Bid up premium'],
+    ['New Jersey', '18% (max)', '2 years', 'Bid down interest / premium'],
+    ['Texas', '25-50% penalty', '6 mo-2 years', 'Bid up premium'],
+    ['Ohio', '18%', '1 year', 'Bid down interest']
+  ];
+  var chartBody = document.getElementById('chartBody');
+  if (chartBody) {
+    chartData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + row[0] + '</td><td>' + row[1] + '</td><td>' + row[2] + '</td><td>' + row[3] + '</td>';
+      chartBody.appendChild(tr);
+    });
+  }
+
+  // Auto-fill rate/period when state changes
+  stateSelect.addEventListener('change', function() {
+    var st = stateSelect.value;
+    if (st !== 'custom' && stateData[st]) {
+      interestRate.value = stateData[st][0];
+      redemptionPeriod.value = stateData[st][1];
+    }
+    calculate();
+  });
+
+  function getVal(el) {
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  function calculate() {
+    var lien = getVal(lienAmount);
+    var rate = getVal(interestRate);
+    var months = getVal(redemptionPeriod);
+    var premium = getVal(purchasePremium);
+
+    if (lien <= 0) { hideResult(); return; }
+
+    var totalInvested = lien + premium;
+    var interestEarned = lien * (rate / 100) * (months / 12);
+    var totalReturn = lien + interestEarned;
+    var profit = interestEarned - premium; // premium reduces profit
+    var roiPct = totalInvested > 0 ? (profit / totalInvested) * 100 : 0;
+    var annualizedReturn = months > 0 ? (roiPct / months) * 12 : 0;
+
+    rReturn.textContent = fmtDollars(totalReturn);
+    rInterest.textContent = fmtDollars(interestEarned);
+    rInterest.style.color = '#059669';
+    rAnnual.textContent = fmt(annualizedReturn, 1) + '%';
+    rROI.textContent = fmt(roiPct, 1) + '%';
+
+    var d = '';
+    d += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;font-size:0.9rem">';
+    d += '<div><strong>Lien Amount</strong><br>' + fmtDollars(lien) + '</div>';
+    d += '<div><strong>Premium Paid</strong><br>' + fmtDollars(premium) + '</div>';
+    d += '<div><strong>Total Cash Invested</strong><br>' + fmtDollars(totalInvested) + '</div>';
+    d += '<div><strong>Hold Period</strong><br>' + fmt(months, 0) + ' months</div>';
+    d += '<div><strong>Interest Earned</strong><br>' + fmtDollars(interestEarned) + '</div>';
+    d += '<div><strong>Net Profit</strong><br><span style="color:' + (profit >= 0 ? '#059669' : '#dc2626') + '">' + fmtDollars(profit) + '</span></div>';
+    d += '</div>';
+
+    // Comparison to other investments
+    d += '<div style="margin-top:16px;padding-top:16px;border-top:1px solid #c8d0da">';
+    d += '<strong style="font-size:0.95rem">Comparison to Other Investments</strong>';
+    d += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem;margin-top:8px">';
+
+    var comparisons = [
+      ['This Tax Lien', annualizedReturn],
+      ['High-Yield Savings', 4.5],
+      ['10-Year Treasury', 4.2],
+      ['S&P 500 Average', 10.0],
+      ['Corporate Bonds', 5.5],
+      ['CDs (1-year)', 4.8]
+    ];
+    comparisons.forEach(function(c) {
+      var isThis = c[0] === 'This Tax Lien';
+      d += '<div style="padding:8px;background:' + (isThis ? '#ecfdf5' : '#f9fafb') + ';border-radius:6px;' + (isThis ? 'font-weight:600;' : '') + '">';
+      d += c[0] + ': ' + fmt(c[1], 1) + '%/yr';
+      d += '</div>';
+    });
+    d += '</div></div>';
+
+    // Risk assessment
+    d += '<div style="margin-top:16px;padding:12px;border-radius:8px;font-size:0.9rem;';
+    if (annualizedReturn >= 15) {
+      d += 'background:#ecfdf5;color:#065f46"><strong>High Potential Return.</strong> ';
+      d += 'At ' + fmt(annualizedReturn, 1) + '% annualized, this lien offers strong returns. Verify the property condition and title before investing.';
+    } else if (annualizedReturn >= 8) {
+      d += 'background:#fffbeb;color:#92400e"><strong>Moderate Return.</strong> ';
+      d += 'At ' + fmt(annualizedReturn, 1) + '% annualized, this is competitive with stock market averages. Solid for a secured investment.';
+    } else {
+      d += 'background:#fef2f2;color:#991b1b"><strong>Low Return.</strong> ';
+      d += 'At ' + fmt(annualizedReturn, 1) + '% annualized, consider whether the illiquidity and effort justify this over simpler fixed-income options.';
+    }
+    d += '</div>';
+
+    resultDetails.innerHTML = d;
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+  }
+
+  function hideResult() {
+    resultEl.classList.remove('visible');
+    resultEl.style.display = 'none';
+  }
+
+  calcBtn.addEventListener('click', function() {
+    calculate();
+    if (resultEl.classList.contains('visible')) {
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+
+  var inputs = [lienAmount, interestRate, redemptionPeriod, purchasePremium];
+  inputs.forEach(function(inp) {
+    if (inp) {
+      inp.addEventListener('input', calculate);
+      inp.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') calculate();
+      });
+    }
+  });
+
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Tax Lien Calculator';
+  var TOOL_SLUG = 'tax-lien-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'niche-finance', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

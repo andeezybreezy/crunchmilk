@@ -1,0 +1,188 @@
+{
+  "slug": "delay-time-calculator",
+  "toolName": "Delay Time Calculator",
+  "tagline": "Calculate delay, reverb, and echo times synced to your BPM",
+  "title": "Delay Time Calculator — Sync Delay & Reverb to BPM",
+  "metaDescription": "Calculate delay times in milliseconds for any BPM. Get whole, half, quarter, eighth, sixteenth, dotted, and triplet note values.",
+  "keywords": "delay time calculator, bpm to ms, delay time bpm, reverb time calculator, echo timing, music production calculator",
+  "domain": "example.com",
+  "primaryColor": "#7c3aed",
+  "primaryDarkColor": "#6d28d9",
+  "ogTitle": "Delay Time Calculator — BPM to Milliseconds",
+  "ogDescription": "Calculate delay and reverb times in milliseconds for any BPM. All note values including dotted and triplet.",
+  "twitterDescription": "Calculate delay times in milliseconds synced to any BPM.",
+  "jsonLdDescription": "Calculate delay and reverb times in milliseconds for all note values at any BPM. Includes whole, half, quarter, eighth, sixteenth, dotted, and triplet times.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Delay Time Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"bpmInput\">BPM (Beats Per Minute)</label>\n      <input type=\"number\" id=\"bpmInput\" placeholder=\"e.g. 120\" value=\"120\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\" style=\"text-align:center;\">\n      <label>Or Tap Tempo</label>\n      <button type=\"button\" class=\"convert-btn\" id=\"tapBtn\" style=\"padding:12px 32px;\">TAP</button>\n      <button type=\"button\" id=\"resetTap\" style=\"background:none; border:none; color:var(--primary); cursor:pointer; text-decoration:underline; font-size:0.9rem; margin-left:8px;\">Reset</button>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Delay Times</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">BPM</div>\n          <div class=\"result-value\" id=\"bpmDisplay\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Quarter Note (ms)</div>\n          <div class=\"result-value\" id=\"quarterMs\">—</div>\n        </div>\n      </div>\n    </div>\n\n    <div id=\"delayTable\" style=\"display:none; margin-top:16px;\">\n      <table class=\"chart-table\" style=\"width:100%;\">\n        <thead>\n          <tr>\n            <th>Note Value</th>\n            <th>Normal (ms)</th>\n            <th>Dotted (ms)</th>\n            <th>Triplet (ms)</th>\n          </tr>\n        </thead>\n        <tbody id=\"delayTableBody\"></tbody>\n      </table>\n    </div>\n\n    <div class=\"result-tip\" id=\"resultTip\" style=\"margin-top:12px;\"></div>\n  </div>",
+  "howItWorks": {
+    "intro": "Syncing delay and reverb times to your song's BPM creates a cleaner, more musical mix. This calculator gives you exact millisecond values for all note divisions.",
+    "rules": [
+      "<strong>Quarter note ms = 60,000 / BPM</strong> — this is the foundation for all other note values",
+      "<strong>Dotted notes</strong> are 1.5× the normal value — they create a bouncy, swing-like feel",
+      "<strong>Triplet notes</strong> are 2/3 of the normal value — they create a waltz-like feel"
+    ],
+    "outro": "Set your delay plugin to the millisecond value from this chart. Many producers use dotted eighth note delays for a classic ping-pong effect, or triplet sixteenths for a rapid flutter."
+  },
+  "faq": [
+    {
+      "question": "How do I calculate delay time from BPM?",
+      "answer": "Divide 60,000 by the BPM to get the quarter note delay in milliseconds. For example, at 120 BPM: 60,000 / 120 = 500ms per quarter note. Then multiply or divide for other note values: half note = 1000ms, eighth note = 250ms, sixteenth note = 125ms."
+    },
+    {
+      "question": "What delay time sounds best?",
+      "answer": "Dotted eighth note delay is the most popular for guitars and vocals — it creates a rhythmic bounce without cluttering the mix. For ambient textures, try quarter or half note delays. For percussive effects, try sixteenth note delays. The best delay time is always synced to the song's BPM."
+    },
+    {
+      "question": "What is a dotted note delay?",
+      "answer": "A dotted note is 1.5 times the length of the normal note. A dotted eighth note at 120 BPM is 375ms (250ms × 1.5). Dotted delays create a three-against-two polyrhythmic feel that is very popular in modern music production, especially for guitar and synth leads."
+    },
+    {
+      "question": "What is a triplet delay?",
+      "answer": "A triplet note is 2/3 the length of the normal note. A triplet quarter note at 120 BPM is 333ms (500ms × 2/3). Triplet delays create a waltz-like, rolling feel. They're common in shuffle grooves and some EDM subgenres."
+    },
+    {
+      "question": "Should reverb pre-delay be synced to BPM?",
+      "answer": "Yes, syncing reverb pre-delay to a musical value (typically a 16th or 32nd note) helps the reverb sit rhythmically in the mix. At 120 BPM, a 16th note pre-delay of 125ms works well for vocals, while a 32nd note (62ms) suits faster material."
+    },
+    {
+      "question": "How do I use tap tempo to find BPM?",
+      "answer": "Click the TAP button in time with the beat of your song. Tap at least 4 times for an accurate reading. The tool calculates the average interval between taps and converts it to BPM, which then populates the delay time table automatically."
+    }
+  ],
+  "chart": {
+    "title": "Delay Times at Common BPMs (Quarter Note)",
+    "subtitle": "Quarter note delay in milliseconds for popular tempos.",
+    "columns": [
+      "BPM",
+      "Whole (ms)",
+      "Half (ms)",
+      "Quarter (ms)",
+      "8th (ms)",
+      "16th (ms)"
+    ],
+    "rows": [
+      [
+        "80",
+        "3000",
+        "1500",
+        "750",
+        "375",
+        "188"
+      ],
+      [
+        "90",
+        "2667",
+        "1333",
+        "667",
+        "333",
+        "167"
+      ],
+      [
+        "100",
+        "2400",
+        "1200",
+        "600",
+        "300",
+        "150"
+      ],
+      [
+        "110",
+        "2182",
+        "1091",
+        "545",
+        "273",
+        "136"
+      ],
+      [
+        "120",
+        "2000",
+        "1000",
+        "500",
+        "250",
+        "125"
+      ],
+      [
+        "128",
+        "1875",
+        "938",
+        "469",
+        "234",
+        "117"
+      ],
+      [
+        "130",
+        "1846",
+        "923",
+        "462",
+        "231",
+        "115"
+      ],
+      [
+        "140",
+        "1714",
+        "857",
+        "429",
+        "214",
+        "107"
+      ],
+      [
+        "150",
+        "1600",
+        "800",
+        "400",
+        "200",
+        "100"
+      ],
+      [
+        "160",
+        "1500",
+        "750",
+        "375",
+        "188",
+        "94"
+      ],
+      [
+        "170",
+        "1412",
+        "706",
+        "353",
+        "176",
+        "88"
+      ],
+      [
+        "180",
+        "1333",
+        "667",
+        "333",
+        "167",
+        "83"
+      ]
+    ]
+  },
+  "category": "audio",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This delay time calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This delay time calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "bpm-tap-tempo",
+    "speaker-wire-calculator",
+    "dpi-calculator"
+  ]
+}

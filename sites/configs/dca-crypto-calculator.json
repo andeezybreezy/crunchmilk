@@ -1,0 +1,144 @@
+{
+  "slug": "dca-crypto-calculator",
+  "toolName": "DCA Crypto Calculator",
+  "tagline": "Calculate returns from dollar-cost averaging into Bitcoin or Ethereum vs lump sum investing",
+  "title": "DCA Crypto Calculator",
+  "metaDescription": "Calculate DCA returns for Bitcoin and Ethereum. Compare dollar-cost averaging vs lump sum investing with ROI, average cost basis, and total returns.",
+  "keywords": "dca crypto calculator, dollar cost averaging bitcoin, dca bitcoin calculator, dca ethereum calculator, crypto investment calculator, bitcoin dca returns, crypto lump sum vs dca",
+  "domain": "example.com",
+  "primaryColor": "#f59e0b",
+  "primaryDarkColor": "#d97706",
+  "ogTitle": "DCA Crypto Calculator — Dollar-Cost Averaging vs Lump Sum",
+  "ogDescription": "Calculate your DCA returns for Bitcoin and Ethereum. Compare dollar-cost averaging vs lump sum with ROI and cost basis analysis.",
+  "twitterDescription": "Dollar-cost averaging into crypto? Calculate your returns, average cost basis, and compare vs lump sum. Free DCA calculator for Bitcoin & Ethereum.",
+  "jsonLdDescription": "Calculate dollar-cost averaging returns for Bitcoin and Ethereum including total invested, current portfolio value, ROI percentage, average cost basis, and comparison against lump sum investing strategy.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>DCA Crypto Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Model dollar-cost averaging into Bitcoin or Ethereum. Enter your prices to compare DCA vs lump sum returns.</p>\n\n    <div class=\"input-group\">\n      <label for=\"crypto\">Cryptocurrency</label>\n      <select id=\"crypto\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"bitcoin\">Bitcoin (BTC)</option>\n        <option value=\"ethereum\">Ethereum (ETH)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"dcaAmount\">Investment Per Period ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"dcaAmount\" placeholder=\"e.g. 200\" inputmode=\"decimal\" step=\"any\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"frequency\">Frequency</label>\n      <select id=\"frequency\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"daily\">Daily</option>\n        <option value=\"weekly\" selected>Weekly</option>\n        <option value=\"biweekly\">Bi-Weekly</option>\n        <option value=\"monthly\">Monthly</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"periods\">Number of Periods</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"periods\" placeholder=\"e.g. 52 (1 year weekly)\" value=\"52\" inputmode=\"decimal\" step=\"1\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\" id=\"periodNote\">52 weeks = 1 year</span>\n    </div>\n\n    <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n      <div class=\"input-group\">\n        <label for=\"startPrice\" style=\"font-size:0.85rem\">Price at Start ($)</label>\n        <input type=\"number\" id=\"startPrice\" placeholder=\"e.g. 42000\" inputmode=\"decimal\" step=\"any\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem\">\n      </div>\n      <div class=\"input-group\">\n        <label for=\"endPrice\" style=\"font-size:0.85rem\">Current / End Price ($)</label>\n        <input type=\"number\" id=\"endPrice\" placeholder=\"e.g. 95000\" inputmode=\"decimal\" step=\"any\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"volatility\">Price Path Volatility</label>\n      <select id=\"volatility\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"low\">Low (steady uptrend)</option>\n        <option value=\"medium\" selected>Medium (typical crypto — dips and rallies)</option>\n        <option value=\"high\">High (major crash then recovery)</option>\n      </select>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Affects the simulated price path between start and end — DCA benefits more in volatile markets.</span>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate DCA Returns</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Invested</div>\n          <div class=\"result-value\" id=\"rInvested\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Current Value (DCA)</div>\n          <div class=\"result-value\" id=\"rValue\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">DCA ROI</div>\n          <div class=\"result-value\" id=\"rROI\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Avg Cost Basis</div>\n          <div class=\"result-value\" id=\"rBasis\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Dollar-cost averaging (DCA) means investing a fixed amount at regular intervals regardless of price. This calculator simulates DCA vs lump sum using a modeled price path between your start and end prices, showing how volatility affects the average cost basis.",
+    "rules": [
+      "DCA total coins = sum of (investment amount / price at each period) across all periods",
+      "Average cost basis = total invested / total coins acquired",
+      "Lump sum comparison: investing the entire amount at the start price",
+      "DCA tends to outperform lump sum in volatile or declining markets and underperform in steadily rising markets"
+    ],
+    "outro": "Since we cannot fetch live historical prices, this calculator models a price path between your start and end prices with your selected volatility level. In reality, crypto prices follow unpredictable paths. The key insight of DCA is that it reduces timing risk — you buy more when prices are low and less when prices are high, naturally averaging your entry price."
+  },
+  "faq": [
+    {
+      "question": "Is DCA better than lump sum for crypto?",
+      "answer": "It depends on market conditions. In steadily rising markets, lump sum typically wins because you get the lowest price on day one. In volatile or declining markets, DCA wins because you accumulate more coins at lower prices. For crypto — which is extremely volatile — DCA is often recommended because it reduces the risk of buying at a local peak."
+    },
+    {
+      "question": "What is the best DCA frequency for Bitcoin?",
+      "answer": "Research shows weekly and daily DCA produce similar results for Bitcoin over multi-year periods. Weekly is the most popular frequency because it balances cost basis optimization with simplicity. Monthly works but misses some volatility benefits. The most important factor is consistency — sticking with your plan regardless of market conditions."
+    },
+    {
+      "question": "How much should I DCA into crypto?",
+      "answer": "Only invest what you can afford to lose entirely. A common guideline is 1-5% of your investment portfolio in crypto. For DCA, choose an amount you can sustain for at least 1-2 years without needing to stop. Consistency matters more than amount — $50/week for 2 years beats $500/week for 2 months."
+    },
+    {
+      "question": "What is cost basis and why does it matter?",
+      "answer": "Cost basis is your average purchase price per coin. It determines your profit/loss and tax liability when you sell. DCA typically produces a lower cost basis than buying at a single point in time because you naturally buy more coins when prices dip. A lower cost basis means more profit when the price rises above it."
+    },
+    {
+      "question": "Should I stop DCA when crypto prices crash?",
+      "answer": "Counterintuitively, no — crashes are when DCA works best. By continuing to invest at lower prices, you dramatically reduce your average cost basis. When prices eventually recover, those cheap coins produce outsized returns. The entire point of DCA is removing emotion from investing. However, never invest money you need for essentials."
+    },
+    {
+      "question": "Is DCA the same as recurring buys on exchanges?",
+      "answer": "Yes, most major exchanges (Coinbase, Kraken, Gemini, etc.) offer automated recurring buy features that implement DCA automatically. Set your amount, frequency, and cryptocurrency, and the exchange executes purchases on schedule. Fees vary — check if your exchange charges extra for recurring buys vs manual limit orders."
+    }
+  ],
+  "relatedTools": [
+    "investment-return-calculator",
+    "compound-interest-calculator",
+    "bitcoin-halving-calculator",
+    "crypto-cost-basis-calculator",
+    "staking-rewards-calculator",
+    "dividend-reinvestment-calculator"
+  ],
+  "chart": {
+    "title": "DCA vs Lump Sum — Bitcoin Historical Scenarios",
+    "subtitle": "Hypothetical $200/week investment over 52 weeks (various market conditions)",
+    "columns": [
+      "Scenario",
+      "Start Price",
+      "End Price",
+      "DCA ROI",
+      "Lump Sum ROI",
+      "DCA Advantage"
+    ],
+    "rows": [
+      [
+        "2023 Recovery",
+        "$16,500",
+        "$42,000",
+        "+112%",
+        "+155%",
+        "Lump sum wins"
+      ],
+      [
+        "2024 Bull Run",
+        "$42,000",
+        "$95,000",
+        "+85%",
+        "+126%",
+        "Lump sum wins"
+      ],
+      [
+        "2022 Bear Market",
+        "$47,000",
+        "$16,500",
+        "-42%",
+        "-65%",
+        "DCA loses less"
+      ],
+      [
+        "2021 Volatile Year",
+        "$29,000",
+        "$46,000",
+        "+68%",
+        "+59%",
+        "DCA wins"
+      ],
+      [
+        "Flat + Volatile",
+        "$60,000",
+        "$62,000",
+        "+15%",
+        "+3%",
+        "DCA wins significantly"
+      ],
+      [
+        "Crash & Recovery",
+        "$60,000",
+        "$60,000",
+        "+22%",
+        "0%",
+        "DCA wins significantly"
+      ]
+    ]
+  },
+  "category": "crypto",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This dca crypto calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This dca crypto calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

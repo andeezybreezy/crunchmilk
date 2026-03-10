@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retirement Location Calculator — Cost & Quality of Life Comparison</title>
+<meta name="description" content="Compare retirement locations by cost of living, state taxes, healthcare access, and climate. Calculate how far your savings go in each city.">
+<meta name="keywords" content="retirement location calculator, best places to retire, retirement cost comparison, retire cheap, retirement city comparison, retirement cost of living">
+<link rel="canonical" href="https://example.com/retirement-location-calculator/">
+<meta property="og:title" content="Retirement Location Calculator — Compare Where to Retire">
+<meta property="og:description" content="Compare retirement destinations by cost of living, taxes, healthcare, and climate. See how far your nest egg goes in each location.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example.com/retirement-location-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Retirement Location Calculator — Compare Where to Retire">
+<meta name="twitter:description" content="Where should you retire? Compare locations by cost, taxes, healthcare access, and climate. Free retirement planning calculator.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Retirement Location Calculator",
+  "description": "Compare retirement locations across the US by cost of living, state tax burden on retirement income, healthcare access scores, and climate preferences to find the best place to retire.",
+  "url": "https://example.com/retirement-location-calculator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What states don't tax retirement income?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "States with no income tax (and thus no retirement income tax): Alaska, Florida, Nevada, South Dakota, Tennessee, Texas, Washington, Wyoming. Additional states that exempt most retirement income: Illinois, Iowa, Mississippi, Pennsylvania. Many other states offer partial exemptions for Social Security and pensions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the cheapest place to retire in the US?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The cheapest major retirement destinations include San Antonio TX, Knoxville TN, Tucson AZ, Savannah GA, and Fort Myers FL. These combine low housing costs, no or low state income tax, reasonable healthcare, and retiree-friendly amenities. Small towns in the South and Midwest can be even cheaper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much do I need to retire comfortably?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The general guideline is 25x your annual expenses (the 4% rule). If you need $50,000/year, aim for $1.25 million. In low-cost areas, you might need only $35,000-40,000/year ($875K-$1M), while high-cost areas might require $80,000-100,000+/year ($2M-$2.5M+). Social Security and pensions reduce the savings needed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I consider property taxes when choosing a retirement location?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. Property tax rates vary from 0.3% (Hawaii) to 2.2% (New Jersey) of assessed value. On a $400,000 home, that's $1,200 vs $8,800/year. Many states offer homestead exemptions or senior freezes that can reduce property taxes significantly for retirees."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is healthcare access important for retirement location?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Critical. Access to Medicare-accepting doctors, specialists, and hospitals varies significantly by location. University towns and mid-size cities often have excellent healthcare. Rural areas may require long drives for specialist care. Check Medicare Advantage plan availability and ratings in prospective locations."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://example.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Demographics & Relocation Calculators",
+      "item": "https://example.com/demographics-calculators/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Retirement Location Calculator"
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#0d9488;--primary-dark:#0f766e;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+header p{font-size:0.95rem;opacity:0.9}
+.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
+main{padding:24px 0 40px}
+
+/* Calculator Card */
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.input-group{margin-bottom:18px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-row{display:flex;gap:12px;align-items:center}
+.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
+.input-row input:focus{outline:none;border-color:var(--primary)}
+.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.unit-toggle button.active{background:var(--primary);color:#fff}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
+.convert-btn:hover{background:var(--primary-dark)}
+.convert-btn:active{transform:scale(0.98)}
+
+/* Result */
+.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
+.result.visible{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
+.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result-item{padding:12px 0}
+.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+
+/* Presets */
+.presets{margin-top:24px}
+.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
+.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+
+/* Reference Chart */
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.chart-section h2{font-size:1.25rem;margin-bottom:16px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-table tr:last-child td{border-bottom:none}
+.chart-table tr:hover td{background:#fff7ed}
+
+/* FAQ */
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.faq-section h2{font-size:1.25rem;margin-bottom:16px}
+.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
+.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+
+/* Breadcrumb */
+.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb span{opacity:0.9}
+
+/* Info Sections */
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.info-section h2{font-size:1.25rem;margin-bottom:16px}
+.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section ul{margin-left:20px;margin-bottom:12px}
+.info-section li{margin-bottom:6px}
+
+/* Last Updated */
+.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+
+/* Embed Code */
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
+.embed-section h2{font-size:1.25rem;margin-bottom:12px}
+.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
+.embed-copy-btn:hover{background:var(--primary-dark)}
+
+/* Footer */
+footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* Share Bar */
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar.visible{display:block}
+.share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn:hover{opacity:0.85}
+.share-btn-x{background:#000}
+.share-btn-fb{background:#1877f2}
+.share-btn-reddit{background:#ff4500}
+.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-download{background:var(--primary)}
+.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.email-capture{margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px;border:1px solid var(--border)}
+.email-capture p{font-size:0.85rem;color:var(--text-light);margin-bottom:8px}
+.email-capture-row{display:flex;gap:8px}
+.email-capture input[type="email"]{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-size:0.9rem}
+.email-capture button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:0.85rem;white-space:nowrap}
+
+/* Print */
+@media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.email-capture,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+
+/* Mobile */
+@media(max-width:480px){
+  header h1{font-size:1.3rem}
+  .calc-card{padding:20px 16px}
+  .result-row{gap:20px}
+  .result-value{font-size:1.6rem}
+  .preset-grid{grid-template-columns:1fr 1fr}
+  .input-row{flex-wrap:wrap}
+  .input-row input{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/demographics-calculators/">Demographics & Relocation Calculators</a> &rsaquo; <span>Retirement Location Calculator</span>
+    </nav>
+    <h1>Retirement Location Calculator</h1>
+    <p>Compare retirement locations by cost of living, taxes, healthcare, and climate</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- Ad Slot: Top -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+
+  <!-- Calculator -->
+  <div class="calc-card">
+    <h2>Retirement Location Calculator</h2>
+
+    <div class="input-group">
+      <label for="retIncome">Annual Retirement Income ($)</label>
+      <input type="number" id="retIncome" value="60000" min="0" step="1000" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label for="savings">Total Retirement Savings ($)</label>
+      <input type="number" id="savings" value="750000" min="0" step="10000" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label for="retCity1">Location A</label>
+      <select id="retCity1" style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff">
+        <option value="scottsdale">Scottsdale, AZ</option>
+        <option value="sarasota" selected>Sarasota, FL</option>
+        <option value="asheville">Asheville, NC</option>
+        <option value="sanantonio">San Antonio, TX</option>
+        <option value="boise">Boise, ID</option>
+        <option value="charleston">Charleston, SC</option>
+        <option value="lasvegas">Las Vegas, NV</option>
+        <option value="savannah">Savannah, GA</option>
+        <option value="stgeorge">St. George, UT</option>
+        <option value="fortmyers">Fort Myers, FL</option>
+        <option value="tucson">Tucson, AZ</option>
+        <option value="knoxville">Knoxville, TN</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="retCity2">Location B</label>
+      <select id="retCity2" style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff">
+        <option value="scottsdale">Scottsdale, AZ</option>
+        <option value="sarasota">Sarasota, FL</option>
+        <option value="asheville" selected>Asheville, NC</option>
+        <option value="sanantonio">San Antonio, TX</option>
+        <option value="boise">Boise, ID</option>
+        <option value="charleston">Charleston, SC</option>
+        <option value="lasvegas">Las Vegas, NV</option>
+        <option value="savannah">Savannah, GA</option>
+        <option value="stgeorge">St. George, UT</option>
+        <option value="fortmyers">Fort Myers, FL</option>
+        <option value="tucson">Tucson, AZ</option>
+        <option value="knoxville">Knoxville, TN</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="climatePref">Climate Preference</label>
+      <select id="climatePref" style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff">
+        <option value="warm">Warm year-round (no snow)</option>
+        <option value="mild" selected>Mild four seasons</option>
+        <option value="dry">Hot and dry (desert)</option>
+        <option value="any">No preference</option>
+      </select>
+    </div>
+
+    <button type="button" class="convert-btn" id="calcBtn">Compare Locations</button>
+
+    <div class="result" id="result" role="status" aria-live="polite">
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label" id="rCity1Label">Location A — Annual Cost</div>
+          <div class="result-value" id="rCost1">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label" id="rCity2Label">Location B — Annual Cost</div>
+          <div class="result-value" id="rCost2">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">A — State Tax on Retirement Income</div>
+          <div class="result-value" id="rTax1">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">B — State Tax on Retirement Income</div>
+          <div class="result-value" id="rTax2">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">A — Savings Last (years)</div>
+          <div class="result-value" id="rYears1">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">B — Savings Last (years)</div>
+          <div class="result-value" id="rYears2">—</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-item">
+          <div class="result-label">Annual Savings Difference</div>
+          <div class="result-value" id="rDiff">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Recommended</div>
+          <div class="result-value" id="rRec">—</div>
+        </div>
+      </div>
+      <div class="result-tip" id="resultTip"></div>
+    </div>
+  </div>
+
+  <!-- Ad Slot: Middle -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- Last Updated -->
+    <div class="last-updated">Last updated: 2026-03-10</div>
+
+  <!-- Reference Chart -->
+    <div class="chart-section">
+    <h2>Top Retirement Destinations Compared</h2>
+    <p style="font-size:0.9rem;color:var(--text-light);margin-bottom:16px">Cost of living, taxes, and quality factors for popular retirement cities</p>
+    <div style="overflow-x:auto">
+    <table class="chart-table">
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>COL Index</th>
+          <th>State Income Tax</th>
+          <th>Avg Home Price</th>
+          <th>Healthcare Score</th>
+          <th>Climate</th>
+        </tr>
+      </thead>
+      <tbody id="chartBody">
+        <tr><td>Sarasota, FL</td><td>108</td><td>None</td><td>$420K</td><td>Good</td><td>Warm/humid</td></tr>
+        <tr><td>Scottsdale, AZ</td><td>118</td><td>2.5% flat</td><td>$620K</td><td>Excellent</td><td>Hot/dry</td></tr>
+        <tr><td>Asheville, NC</td><td>105</td><td>4.5%</td><td>$380K</td><td>Good</td><td>Mild 4-season</td></tr>
+        <tr><td>San Antonio, TX</td><td>88</td><td>None</td><td>$280K</td><td>Good</td><td>Warm</td></tr>
+        <tr><td>Charleston, SC</td><td>112</td><td>6.5%</td><td>$430K</td><td>Good</td><td>Mild/warm</td></tr>
+        <tr><td>Las Vegas, NV</td><td>102</td><td>None</td><td>$380K</td><td>Fair</td><td>Hot/dry</td></tr>
+        <tr><td>Boise, ID</td><td>108</td><td>5.8%</td><td>$440K</td><td>Good</td><td>4-season</td></tr>
+        <tr><td>Knoxville, TN</td><td>86</td><td>None</td><td>$310K</td><td>Fair</td><td>Mild 4-season</td></tr>
+        <tr><td>Tucson, AZ</td><td>94</td><td>2.5% flat</td><td>$300K</td><td>Good</td><td>Hot/dry</td></tr>
+        <tr><td>Fort Myers, FL</td><td>100</td><td>None</td><td>$350K</td><td>Good</td><td>Warm/humid</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- How We Calculate This -->
+    <div class="info-section">
+    <h2>How We Calculate This</h2>
+    <p style="margin-bottom:12px">This retirement location calculator uses established formulas and industry-standard data to provide accurate estimates.</p>
+    <ul>
+      <li>Enter your specific values into the calculator fields above</li>
+      <li>Our algorithm applies the relevant formulas using your inputs</li>
+      <li>Results are calculated instantly in your browser — nothing is sent to a server</li>
+      <li>Review the detailed breakdown to understand how each factor affects your result</li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.</p>
+  </div>
+
+  <!-- How It Works -->
+    <div class="calc-card">
+    <h2>How to Convert Oven Recipes to Air Fryer</h2>
+    <p style="margin-bottom:12px">This calculator compares two retirement locations by estimating annual living costs including housing, food, healthcare, utilities, and state taxes on retirement income.</p>
+    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
+    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
+      <li>Annual cost is estimated using the city's cost-of-living index applied to a baseline retirement budget</li>
+      <li>State taxes on retirement income vary widely — some states exempt Social Security and/or pension income</li>
+      <li>Healthcare access scores factor in doctors per capita, hospital proximity, and Medicare Advantage plan availability</li>
+      <li>Savings longevity = total savings / (annual expenses - annual income), assuming 4% annual withdrawal rate</li>
+      <li>Climate match scores are assigned based on your stated preference</li>
+    </ul>
+    <p style="font-size:0.9rem;color:var(--text-light)">This is a planning tool for comparison purposes. Individual costs vary based on lifestyle, health needs, housing choices, and personal spending patterns. Visit prospective locations and consult a financial advisor before making retirement relocation decisions.</p>
+  </div>
+
+  <!-- When Would You Use This -->
+    <div class="info-section">
+    <h2>When Would You Use This Calculator?</h2>
+    <p style="margin-bottom:12px">This retirement location calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.</p>
+    <ul>
+      <li>When you need a quick estimate before committing to a purchase or project</li>
+      <li>When comparing different options or scenarios side by side</li>
+      <li>When planning a budget and need to understand potential costs</li>
+      <li>When you want to verify a quote or estimate you've received from a professional</li>
+      <li>When teaching or learning about the concepts behind these calculations</li>
+    </ul>
+  </div>
+
+  <!-- Ad Slot: Before FAQ -->
+  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+
+  <!-- FAQ -->
+    <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>What states don't tax retirement income?</h3>
+      <p>States with no income tax (and thus no retirement income tax): Alaska, Florida, Nevada, South Dakota, Tennessee, Texas, Washington, Wyoming. Additional states that exempt most retirement income: Illinois, Iowa, Mississippi, Pennsylvania. Many other states offer partial exemptions for Social Security and pensions.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is the cheapest place to retire in the US?</h3>
+      <p>The cheapest major retirement destinations include San Antonio TX, Knoxville TN, Tucson AZ, Savannah GA, and Fort Myers FL. These combine low housing costs, no or low state income tax, reasonable healthcare, and retiree-friendly amenities. Small towns in the South and Midwest can be even cheaper.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How much do I need to retire comfortably?</h3>
+      <p>The general guideline is 25x your annual expenses (the 4% rule). If you need $50,000/year, aim for $1.25 million. In low-cost areas, you might need only $35,000-40,000/year ($875K-$1M), while high-cost areas might require $80,000-100,000+/year ($2M-$2.5M+). Social Security and pensions reduce the savings needed.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Should I consider property taxes when choosing a retirement location?</h3>
+      <p>Absolutely. Property tax rates vary from 0.3% (Hawaii) to 2.2% (New Jersey) of assessed value. On a $400,000 home, that's $1,200 vs $8,800/year. Many states offer homestead exemptions or senior freezes that can reduce property taxes significantly for retirees.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is healthcare access important for retirement location?</h3>
+      <p>Critical. Access to Medicare-accepting doctors, specialists, and hospitals varies significantly by location. University towns and mid-size cities often have excellent healthcare. Rural areas may require long drives for specialist care. Check Medicare Advantage plan availability and ratings in prospective locations.</p>
+    </div>
+
+  </div>
+
+  <!-- Embed Code -->
+  
+
+  <!-- Related Tools -->
+    <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
+    <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
+    <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <a href="/col-comparison-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Cost of Living Comparison Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Compare cost of living between cities using housing, food, transport, healthcare, and utility indices</span></a>
+      <a href="/interstate-migration-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Interstate Migration Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate the cost and tax impact of moving between states</span></a>
+      <a href="/remote-salary-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Remote Work Salary Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate location-adjusted salary for remote work based on cost of living differences</span></a>
+      <a href="/remote-work-tax-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Remote Work Tax Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find out which states you owe taxes to when working remotely across state lines</span></a>
+      <a href="/digital-nomad-visa-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Digital Nomad Visa Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Check your eligibility for 30+ countries with digital nomad visas based on income and nationality</span></a>
+      <a href="/retirement-savings-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Retirement Savings Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Project your retirement savings growth and see if you are on track</span></a>
+      <a href="/budget-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Budget Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Apply the 50/30/20 budget rule to your income</span></a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Retirement Location Calculator. Free tool — no signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // City data: col index, state tax rate on retirement income, housing index, healthcare score (1-5), climate type
+  var cities = {
+    scottsdale:  { name: 'Scottsdale, AZ',    col: 118, tax: 0.025, health: 5, climate: 'dry' },
+    sarasota:    { name: 'Sarasota, FL',       col: 108, tax: 0,     health: 4, climate: 'warm' },
+    asheville:   { name: 'Asheville, NC',      col: 105, tax: 0.045, health: 4, climate: 'mild' },
+    sanantonio:  { name: 'San Antonio, TX',    col: 88,  tax: 0,     health: 4, climate: 'warm' },
+    boise:       { name: 'Boise, ID',          col: 108, tax: 0.058, health: 4, climate: 'mild' },
+    charleston:  { name: 'Charleston, SC',     col: 112, tax: 0.065, health: 4, climate: 'warm' },
+    lasvegas:    { name: 'Las Vegas, NV',      col: 102, tax: 0,     health: 3, climate: 'dry' },
+    savannah:    { name: 'Savannah, GA',       col: 96,  tax: 0.055, health: 3, climate: 'warm' },
+    stgeorge:    { name: 'St. George, UT',     col: 100, tax: 0.0465,health: 3, climate: 'dry' },
+    fortmyers:   { name: 'Fort Myers, FL',     col: 100, tax: 0,     health: 4, climate: 'warm' },
+    tucson:      { name: 'Tucson, AZ',         col: 94,  tax: 0.025, health: 4, climate: 'dry' },
+    knoxville:   { name: 'Knoxville, TN',      col: 86,  tax: 0,     health: 3, climate: 'mild' }
+  };
+
+  var retIncome = document.getElementById('retIncome');
+  var savings = document.getElementById('savings');
+  var retCity1 = document.getElementById('retCity1');
+  var retCity2 = document.getElementById('retCity2');
+  var climatePref = document.getElementById('climatePref');
+  var calcBtn = document.getElementById('calcBtn');
+  var result = document.getElementById('result');
+
+  function calcCity(city, income, totalSavings) {
+    // Baseline retirement spending at national average = $48,000/yr
+    var baseSpend = 48000;
+    var annualCost = Math.round(baseSpend * (city.col / 100));
+    var taxAmount = Math.round(income * city.tax);
+    var totalAnnual = annualCost + taxAmount;
+    var deficit = totalAnnual - income;
+    var yearsLast = deficit > 0 ? totalSavings / deficit : 99;
+    return { annualCost: annualCost, tax: taxAmount, totalAnnual: totalAnnual, yearsLast: yearsLast };
+  }
+
+  function calculate() {
+    var income = parseFloat(retIncome.value);
+    var totalSav = parseFloat(savings.value);
+    var c1 = cities[retCity1.value];
+    var c2 = cities[retCity2.value];
+    var pref = climatePref.value;
+
+    if (!c1 || !c2 || isNaN(income) || isNaN(totalSav)) return;
+
+    var r1 = calcCity(c1, income, totalSav);
+    var r2 = calcCity(c2, income, totalSav);
+
+    document.getElementById('rCity1Label').textContent = c1.name + ' — Annual Cost';
+    document.getElementById('rCity2Label').textContent = c2.name + ' — Annual Cost';
+
+    document.getElementById('rCost1').textContent = '$' + r1.totalAnnual.toLocaleString() + '/yr';
+    document.getElementById('rCost2').textContent = '$' + r2.totalAnnual.toLocaleString() + '/yr';
+
+    document.getElementById('rTax1').textContent = c1.tax === 0 ? 'None ($0)' : (c1.tax * 100).toFixed(1) + '% ($' + r1.tax.toLocaleString() + '/yr)';
+    document.getElementById('rTax2').textContent = c2.tax === 0 ? 'None ($0)' : (c2.tax * 100).toFixed(1) + '% ($' + r2.tax.toLocaleString() + '/yr)';
+
+    document.getElementById('rYears1').textContent = r1.yearsLast >= 99 ? 'Indefinitely' : r1.yearsLast.toFixed(1) + ' years';
+    document.getElementById('rYears2').textContent = r2.yearsLast >= 99 ? 'Indefinitely' : r2.yearsLast.toFixed(1) + ' years';
+
+    var diff = r1.totalAnnual - r2.totalAnnual;
+    var cheaper = diff > 0 ? c2.name : c1.name;
+    document.getElementById('rDiff').textContent = '$' + Math.abs(diff).toLocaleString() + '/yr — ' + cheaper + ' is cheaper';
+    document.getElementById('rDiff').style.color = '#0369a1';
+
+    // Recommendation based on cost + climate match
+    var score1 = 0, score2 = 0;
+    if (r1.totalAnnual < r2.totalAnnual) score1 += 2; else score2 += 2;
+    if (pref !== 'any') {
+      if (c1.climate === pref) score1 += 1;
+      if (c2.climate === pref) score2 += 1;
+    }
+    if (c1.health > c2.health) score1 += 1; else if (c2.health > c1.health) score2 += 1;
+
+    var rec = score1 >= score2 ? c1.name : c2.name;
+    document.getElementById('rRec').textContent = rec;
+
+    var tenYearDiff = Math.abs(diff) * 10;
+    document.getElementById('resultTip').textContent = 'Over 10 years, choosing ' + cheaper + ' saves ~$' + tenYearDiff.toLocaleString() + ' vs ' + (diff > 0 ? c1.name : c2.name) + '. Factor in healthcare access, proximity to family, and personal preferences.';
+
+    result.classList.add('visible');
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  [retIncome, savings, retCity1, retCity2, climatePref].forEach(function(el) {
+    el.addEventListener('change', calculate);
+    el.addEventListener('input', calculate);
+  });
+
+  calculate();
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var TOOL_NAME = 'Retirement Location Calculator';
+  var TOOL_SLUG = 'retirement-location-calculator';
+  var DOMAIN = 'example.com';
+  var BASE_URL = 'https://' + DOMAIN + '/' + TOOL_SLUG + '/';
+  var IS_EMOTIONAL = false;
+
+  // --- Shareable URL with params ---
+  function getShareUrl() {
+    var inputs = document.querySelectorAll('.calc-card input, .calc-card select');
+    var params = [];
+    inputs.forEach(function(el) {
+      if (el.id && el.value) {
+        params.push(encodeURIComponent(el.id) + '=' + encodeURIComponent(el.value));
+      }
+    });
+    return BASE_URL + (params.length ? '?' + params.join('&') : '');
+  }
+
+  // --- Restore inputs from URL params ---
+  function restoreFromUrl() {
+    var search = window.location.search;
+    if (!search) return;
+    var params = new URLSearchParams(search);
+    params.forEach(function(value, key) {
+      var el = document.getElementById(key);
+      if (el) {
+        el.value = value;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    // Auto-calculate after restoring
+    var btn = document.querySelector('.convert-btn');
+    if (btn) setTimeout(function() { btn.click(); }, 200);
+  }
+
+  // --- Get result text for sharing ---
+  function getResultText() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return TOOL_NAME + ' — check your result';
+    var values = resultEl.querySelectorAll('.result-value');
+    var labels = resultEl.querySelectorAll('.result-label');
+    var lines = [];
+    for (var i = 0; i < values.length && i < labels.length; i++) {
+      var label = labels[i].textContent.trim();
+      var value = values[i].textContent.trim();
+      if (value && value !== '—') lines.push(label + ': ' + value);
+    }
+    return lines.length > 0 ? lines.join(' | ') : TOOL_NAME;
+  }
+
+  // --- Build share bar HTML ---
+  function buildShareBar() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    // Check if share bar already exists
+    if (document.getElementById('shareBar')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'shareBar';
+    bar.className = 'share-bar';
+
+    var html = '';
+
+    // Emotional CTA for top emotional tools
+    if (IS_EMOTIONAL) {
+      html += '<div class="share-cta">You need to share this. Tag someone who should see their number.</div>';
+    }
+
+    // Comparison placeholder (populated by tool-specific JS)
+    html += '<div id="shareComparison" class="share-comparison" style="display:none"></div>';
+
+    // Share buttons
+    html += '<div class="share-buttons">';
+    html += '<button class="share-btn share-btn-x" data-share="x" title="Share on X">𝕏 Share</button>';
+    html += '<button class="share-btn share-btn-fb" data-share="fb" title="Share on Facebook">f Share</button>';
+    html += '<button class="share-btn share-btn-reddit" data-share="reddit" title="Share on Reddit">↗ Reddit</button>';
+    html += '<button class="share-btn share-btn-copy" data-share="copy" title="Copy result">📋 Copy Result</button>';
+    html += '<button class="share-btn share-btn-download" data-share="download" title="Download result image">⬇ Download Image</button>';
+    html += '</div>';
+
+    // Email capture
+    html += '<div class="email-capture">';
+    html += '<p>Get your result emailed + get notified when the data behind this calculator changes.</p>';
+    html += '<div class="email-capture-row">';
+    html += '<input type="email" id="emailCapture" placeholder="your@email.com" aria-label="Email address">';
+    html += '<button type="button" id="emailSubmit">Email My Result</button>';
+    html += '</div>';
+    html += '<div id="emailStatus" style="font-size:0.8rem;margin-top:6px;color:var(--text-light)"></div>';
+    html += '</div>';
+
+    bar.innerHTML = html;
+    resultEl.appendChild(bar);
+
+    // Event listeners
+    bar.querySelectorAll('[data-share]').forEach(function(btn) {
+      btn.addEventListener('click', handleShare);
+    });
+
+    var emailBtn = document.getElementById('emailSubmit');
+    if (emailBtn) emailBtn.addEventListener('click', handleEmail);
+  }
+
+  // --- Handle share button clicks ---
+  function handleShare(e) {
+    var type = e.currentTarget.getAttribute('data-share');
+    var text = getResultText();
+    var url = getShareUrl();
+
+    switch (type) {
+      case 'x':
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        break;
+      case 'fb':
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
+        break;
+      case 'reddit':
+        window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(TOOL_NAME + ' — ' + text), '_blank');
+        break;
+      case 'copy':
+        var copyText = TOOL_NAME + '\n' + text + '\n' + url;
+        navigator.clipboard.writeText(copyText).then(function() {
+          e.currentTarget.textContent = '✓ Copied!';
+          setTimeout(function() { e.currentTarget.textContent = '📋 Copy Result'; }, 2000);
+        });
+        break;
+      case 'download':
+        generateResultImage(text);
+        break;
+    }
+  }
+
+  // --- Generate shareable result image with Canvas ---
+  function generateResultImage(text) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    var ctx = canvas.getContext('2d');
+
+    // Background
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 630);
+
+    // White card
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, 40, 40, 1120, 550, 20);
+    ctx.fill();
+
+    // Tool name
+    ctx.fillStyle = primary;
+    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 80, 110);
+
+    // Result lines
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
+    var lines = text.split(' | ');
+    var y = 200;
+    lines.forEach(function(line) {
+      if (y < 480) {
+        ctx.fillText(line, 80, y);
+        y += 70;
+      }
+    });
+
+    // URL footer
+    ctx.fillStyle = '#999';
+    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(BASE_URL, 80, 550);
+
+    // Download
+    var link = document.createElement('a');
+    link.download = TOOL_SLUG + '-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // --- Email capture ---
+  function handleEmail() {
+    var emailEl = document.getElementById('emailCapture');
+    var statusEl = document.getElementById('emailStatus');
+    var email = emailEl ? emailEl.value.trim() : '';
+    if (!email || !email.includes('@')) {
+      if (statusEl) statusEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    // Store locally (would connect to backend in production)
+    var subs = JSON.parse(localStorage.getItem('toolSubscribers') || '[]');
+    subs.push({ email: email, tool: TOOL_SLUG, category: 'demographics', date: new Date().toISOString() });
+    localStorage.setItem('toolSubscribers', JSON.stringify(subs));
+    if (statusEl) {
+      statusEl.textContent = '✓ We\'ll email your result and notify you when data changes.';
+      statusEl.style.color = '#16a34a';
+    }
+    if (emailEl) emailEl.value = '';
+  }
+
+  // --- Show share bar when result is visible ---
+  function observeResult() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var observer = new MutationObserver(function() {
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        buildShareBar();
+        var bar = document.getElementById('shareBar');
+        if (bar) bar.classList.add('visible');
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  // --- Comparison data (can be overridden by tool-specific JS) ---
+  window._setShareComparison = function(html) {
+    var el = document.getElementById('shareComparison');
+    if (el) {
+      el.innerHTML = html;
+      el.style.display = 'block';
+    }
+  };
+
+  // Init
+  restoreFromUrl();
+  observeResult();
+})();
+
+</script>
+
+</body>
+</html>

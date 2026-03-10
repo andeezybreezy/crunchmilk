@@ -1,0 +1,124 @@
+{
+  "slug": "speaker-wire-calculator",
+  "toolName": "Speaker Wire Calculator",
+  "tagline": "Find the right wire gauge for your speaker setup with signal loss analysis",
+  "title": "Speaker Wire Calculator — Gauge, Resistance & Signal Loss",
+  "metaDescription": "Calculate speaker wire gauge, resistance, and signal loss. Enter impedance, run length, and gauge to check if your wiring passes the 5% rule.",
+  "keywords": "speaker wire calculator, speaker wire gauge, speaker cable resistance, signal loss calculator, speaker impedance, AWG calculator",
+  "domain": "example.com",
+  "primaryColor": "#475569",
+  "primaryDarkColor": "#334155",
+  "ogTitle": "Speaker Wire Calculator — Gauge & Signal Loss",
+  "ogDescription": "Calculate speaker wire resistance and signal loss by gauge, impedance, and cable run length.",
+  "twitterDescription": "Calculate speaker wire gauge, resistance, and signal loss for your setup.",
+  "jsonLdDescription": "Calculate speaker wire resistance and signal loss percentage based on wire gauge, speaker impedance, and cable run length.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Speaker Wire Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"impedance\">Speaker Impedance (ohms)</label>\n      <select id=\"impedance\">\n        <option value=\"4\">4 ohms</option>\n        <option value=\"6\">6 ohms</option>\n        <option value=\"8\" selected>8 ohms</option>\n        <option value=\"16\">16 ohms</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wireLength\">Wire Run Length (one way, feet)</label>\n      <input type=\"number\" id=\"wireLength\" placeholder=\"e.g. 25\" value=\"25\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wireGauge\">Wire Gauge (AWG)</label>\n      <select id=\"wireGauge\">\n        <option value=\"12\">12 AWG</option>\n        <option value=\"14\" selected>14 AWG</option>\n        <option value=\"16\">16 AWG</option>\n        <option value=\"18\">18 AWG</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Wire Resistance</div>\n          <div class=\"result-value\" id=\"resistance\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Signal Loss</div>\n          <div class=\"result-value\" id=\"signalLoss\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Pass / Fail (5% rule)</div>\n          <div class=\"result-value\" id=\"passFail\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Power Loss (at 100W)</div>\n          <div class=\"result-value\" id=\"powerLoss\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Recommended Gauge</div>\n          <div class=\"result-value\" id=\"recommended\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">dB Loss</div>\n          <div class=\"result-value\" id=\"dbLoss\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Speaker wire has resistance that causes signal loss between your amplifier and speakers. The goal is to keep total wire resistance below 5% of the speaker impedance.",
+    "rules": [
+      "Total wire length is <strong>2× the run</strong> (signal travels out and back)",
+      "Wire resistance (ohms) = resistance per foot × total length",
+      "Signal loss % = wire resistance / (speaker impedance + wire resistance) × 100"
+    ],
+    "outro": "The 5% rule means wire resistance should be less than 5% of speaker impedance. For 8-ohm speakers, max wire resistance is 0.4 ohms. Lower impedance speakers (4 ohm) are more sensitive to wire resistance."
+  },
+  "faq": [
+    {
+      "question": "What gauge speaker wire do I need?",
+      "answer": "For runs under 25 feet with 8-ohm speakers, 16 AWG is sufficient. For 25-50 foot runs, use 14 AWG. For runs over 50 feet or 4-ohm speakers, use 12 AWG. When in doubt, go one gauge thicker — wire is cheap, signal loss is not."
+    },
+    {
+      "question": "What is the 5% rule for speaker wire?",
+      "answer": "The total resistance of your speaker wire should be less than 5% of the speaker's impedance. For 8-ohm speakers, max wire resistance is 0.4 ohms. For 4-ohm speakers, it's only 0.2 ohms. This ensures less than 0.5 dB of signal loss, which is barely audible."
+    },
+    {
+      "question": "Does thicker speaker wire sound better?",
+      "answer": "Thicker wire (lower AWG number) has lower resistance, which means less signal loss. However, for short runs (under 15 feet) with 8-ohm speakers, the difference between 14 and 12 AWG is inaudible. The improvement matters more with long runs and low-impedance speakers."
+    },
+    {
+      "question": "Why is the total wire length doubled?",
+      "answer": "Speaker wire carries the signal from the amplifier to the speaker and back — it's a complete circuit. A 25-foot run means 50 feet of total wire the signal must travel through, so the total resistance is based on double the run length."
+    },
+    {
+      "question": "Does speaker wire affect bass response?",
+      "answer": "Yes, in extreme cases. Wire resistance effectively reduces damping factor, which controls how tightly the amplifier can grip the speaker cone. This primarily affects bass tightness. With proper gauge wire (following the 5% rule), bass impact is not noticeably affected."
+    },
+    {
+      "question": "Is expensive speaker wire worth it?",
+      "answer": "For most setups, no. Standard oxygen-free copper (OFC) wire in the correct gauge performs identically to expensive boutique cables. The gauge and length matter far more than the brand. Spend your budget on thicker wire rather than fancier wire."
+    }
+  ],
+  "chart": {
+    "title": "Maximum Speaker Wire Run Length (5% Rule)",
+    "subtitle": "Maximum one-way run in feet before exceeding 5% signal loss.",
+    "columns": [
+      "Wire Gauge",
+      "Ohms/ft",
+      "4 ohm Max",
+      "6 ohm Max",
+      "8 ohm Max",
+      "16 ohm Max"
+    ],
+    "rows": [
+      [
+        "12 AWG",
+        "0.00162",
+        "62 ft",
+        "93 ft",
+        "123 ft",
+        "247 ft"
+      ],
+      [
+        "14 AWG",
+        "0.00257",
+        "39 ft",
+        "58 ft",
+        "78 ft",
+        "156 ft"
+      ],
+      [
+        "16 AWG",
+        "0.00409",
+        "24 ft",
+        "37 ft",
+        "49 ft",
+        "98 ft"
+      ],
+      [
+        "18 AWG",
+        "0.00651",
+        "15 ft",
+        "23 ft",
+        "31 ft",
+        "61 ft"
+      ]
+    ]
+  },
+  "category": "audio",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This speaker wire calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This speaker wire calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "bpm-tap-tempo",
+    "delay-time-calculator",
+    "wire-size-calculator"
+  ]
+}

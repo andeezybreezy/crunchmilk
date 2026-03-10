@@ -1,0 +1,140 @@
+{
+  "slug": "irrigation-drip-calculator",
+  "toolName": "Drip Irrigation Calculator",
+  "tagline": "Calculate drip irrigation flow rate, emitter spacing, and water usage",
+  "title": "Drip Irrigation Calculator — Flow Rate & Emitter Spacing",
+  "metaDescription": "Calculate drip irrigation flow rate, emitter spacing, and run time. Enter zone area, soil type, and plant spacing for a plan.",
+  "keywords": "drip irrigation calculator, emitter spacing, drip flow rate, irrigation run time, GPH calculator, drip line spacing, water usage",
+  "domain": "dripcalculator.com",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "ogTitle": "Drip Irrigation Calculator — Flow Rate & Emitter Spacing",
+  "ogDescription": "Calculate drip irrigation flow rate, emitter spacing, and run time for your garden or landscape. Customized by soil type and plant needs.",
+  "twitterDescription": "Calculate drip irrigation flow rate, emitter spacing, and daily run time. Customized for your soil type and garden layout.",
+  "jsonLdDescription": "Drip irrigation calculator that computes emitter flow rate, spacing, number of emitters, total GPH, and recommended run time based on zone area, soil type, and plant water requirements.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Drip Irrigation Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"zoneLength\">Zone Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"zoneLength\" placeholder=\"e.g. 50\" min=\"1\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"zoneWidth\">Zone Width (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"zoneWidth\" placeholder=\"e.g. 4\" min=\"1\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"soilType\">Soil Type</label>\n      <div class=\"input-row\">\n        <select id=\"soilType\">\n          <option value=\"sandy\">Sandy (fast drainage)</option>\n          <option value=\"loam\" selected>Loam (moderate drainage)</option>\n          <option value=\"clay\">Clay (slow drainage)</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"emitterGPH\">Emitter Flow Rate (GPH)</label>\n      <div class=\"input-row\">\n        <select id=\"emitterGPH\">\n          <option value=\"0.5\">0.5 GPH</option>\n          <option value=\"1\" selected>1.0 GPH</option>\n          <option value=\"2\">2.0 GPH</option>\n          <option value=\"4\">4.0 GPH</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"weeklyNeed\">Weekly Water Need (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"weeklyNeed\" placeholder=\"e.g. 1\" min=\"0.1\" step=\"0.1\" value=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate Irrigation Plan</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Emitter Spacing</div>\n          <div class=\"result-value\" id=\"emitterSpacing\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Row Spacing</div>\n          <div class=\"result-value\" id=\"rowSpacing\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Emitters</div>\n          <div class=\"result-value\" id=\"totalEmitters\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Flow Rate</div>\n          <div class=\"result-value\" id=\"totalFlow\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Run Time / Session</div>\n          <div class=\"result-value\" id=\"runTime\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Weekly Water Usage</div>\n          <div class=\"result-value\" id=\"weeklyUsage\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Drip irrigation delivers water slowly and directly to plant roots, reducing waste by 30-50% compared to sprinklers. Proper emitter spacing and run time depend on soil type, flow rate, and plant water needs.",
+    "rules": [
+      "Emitter spacing depends on soil type: <strong>12\" for sand, 18\" for loam, 24\" for clay</strong>",
+      "Row spacing: <strong>12\" for sand, 18\" for loam, 24\" for clay</strong> (matches wetting pattern width)",
+      "Run time = <strong>(Weekly need × Area × 0.623) / (Total GPH × watering days)</strong>",
+      "0.623 gallons = 1 inch of water over 1 sq ft"
+    ],
+    "outro": "Water in the early morning (4-8 AM) to minimize evaporation. Split long run times into two sessions to prevent runoff, especially on slopes and clay soils."
+  },
+  "faq": [
+    {
+      "question": "How far apart should drip emitters be?",
+      "answer": "Spacing depends on soil type. Sandy soil: 12 inches (water drains straight down). Loam: 18 inches (moderate spread). Clay: 24 inches (water spreads widely). These spacings ensure overlapping wetting patterns."
+    },
+    {
+      "question": "What GPH emitter should I use?",
+      "answer": "0.5-1.0 GPH for flowers and small plants in clay or loam. 1.0-2.0 GPH for vegetables and shrubs. 2.0-4.0 GPH for trees and large shrubs. Lower flow rates work better in clay to prevent runoff."
+    },
+    {
+      "question": "How long should I run drip irrigation?",
+      "answer": "Run time varies by setup. A typical vegetable garden needs about 30-60 minutes per session, 3 times per week. The calculator determines exact run time based on your specific emitter count and flow rate."
+    },
+    {
+      "question": "How much water does drip irrigation use?",
+      "answer": "Drip irrigation uses 20-50% less water than sprinklers because it delivers water directly to roots with minimal evaporation. A typical 200 sq ft garden zone uses about 120 gallons per week for 1 inch of water."
+    },
+    {
+      "question": "Can I run too many emitters on one zone?",
+      "answer": "Yes. Your water supply has a maximum flow rate (GPM). Total zone GPH should not exceed your supply. A typical residential spigot provides 3-5 GPM (180-300 GPH). Divide large areas into multiple zones."
+    }
+  ],
+  "relatedTools": [
+    "rainwater-harvesting-calculator",
+    "water-usage-calculator",
+    "lawn-irrigation-calculator",
+    "septic-tank-calculator",
+    "well-pump-pressure-calculator",
+    "grain-bin-calculator",
+    "cattle-fencing-calculator",
+    "hay-bale-calculator"
+  ],
+  "chart": {
+    "title": "Emitter Spacing by Soil Type",
+    "subtitle": "Recommended emitter and row spacing based on soil type and emitter flow rate.",
+    "columns": [
+      "Soil Type",
+      "Emitter Spacing",
+      "Row Spacing",
+      "Wetting Diameter"
+    ],
+    "rows": [
+      [
+        "Sand (0.5 GPH)",
+        "6\"",
+        "10\"",
+        "8-12\""
+      ],
+      [
+        "Sand (1.0 GPH)",
+        "12\"",
+        "12\"",
+        "12-18\""
+      ],
+      [
+        "Loam (0.5 GPH)",
+        "12\"",
+        "14\"",
+        "14-18\""
+      ],
+      [
+        "Loam (1.0 GPH)",
+        "18\"",
+        "18\"",
+        "18-24\""
+      ],
+      [
+        "Loam (2.0 GPH)",
+        "18\"",
+        "20\"",
+        "24-30\""
+      ],
+      [
+        "Clay (0.5 GPH)",
+        "18\"",
+        "18\"",
+        "18-24\""
+      ],
+      [
+        "Clay (1.0 GPH)",
+        "24\"",
+        "24\"",
+        "24-36\""
+      ],
+      [
+        "Clay (2.0 GPH)",
+        "24\"",
+        "26\"",
+        "30-42\""
+      ]
+    ]
+  },
+  "category": "trades-industrial",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This drip irrigation calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This drip irrigation calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "slug": "welding-rod-calculator",
+  "toolName": "Welding Rod Calculator",
+  "tagline": "Calculate welding rod and electrode quantities for any weld joint",
+  "title": "Welding Rod Calculator — Electrode Quantity Estimator",
+  "metaDescription": "Calculate welding rod quantities for fillet and butt welds. Enter weld dimensions, joint type, and rod size to get electrode counts and weight.",
+  "keywords": "welding rod calculator, welding electrode calculator, how many welding rods, weld metal calculator, filler metal calculator, stick welding calculator",
+  "domain": "example.com",
+  "primaryColor": "#ea580c",
+  "primaryDarkColor": "#c2410c",
+  "ogTitle": "Welding Rod Calculator — Electrode Quantity Estimator",
+  "ogDescription": "Calculate how many welding rods you need for fillet and groove welds. Enter joint dimensions, rod type, and weld length for accurate estimates.",
+  "twitterDescription": "Free welding rod calculator. Enter weld joint dimensions and rod size to calculate how many electrodes you need for your welding project.",
+  "jsonLdDescription": "Calculate welding rod and electrode quantities for fillet welds and groove welds based on weld length, joint dimensions, rod diameter, and deposition efficiency.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Welding Rod Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate welding electrode quantities for your project.</p>\n\n    <div class=\"input-group\">\n      <label for=\"jointType\">Joint / Weld Type</label>\n      <select id=\"jointType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"fillet\" selected>Fillet Weld (T-joint, lap, corner)</option>\n        <option value=\"butt_v\">V-Groove Butt Weld (60°)</option>\n        <option value=\"butt_square\">Square Butt Weld (no groove)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"weldLength\">Total Weld Length (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"weldLength\" placeholder=\"e.g. 48\" value=\"48\" step=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"weldSize\">Weld / Leg Size (inches)</label>\n      <select id=\"weldSize\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"0.125\">1/8\" (3 mm)</option>\n        <option value=\"0.1875\">3/16\" (5 mm)</option>\n        <option value=\"0.25\" selected>1/4\" (6 mm)</option>\n        <option value=\"0.3125\">5/16\" (8 mm)</option>\n        <option value=\"0.375\">3/8\" (10 mm)</option>\n        <option value=\"0.5\">1/2\" (13 mm)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"plateThickness\">Plate Thickness (inches, for butt welds)</label>\n      <select id=\"plateThickness\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"0.125\">1/8\"</option>\n        <option value=\"0.1875\">3/16\"</option>\n        <option value=\"0.25\" selected>1/4\"</option>\n        <option value=\"0.375\">3/8\"</option>\n        <option value=\"0.5\">1/2\"</option>\n        <option value=\"0.75\">3/4\"</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"rodSize\">Electrode / Rod Diameter</label>\n      <select id=\"rodSize\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"0.09375\">3/32\" (E6013, E7018)</option>\n        <option value=\"0.125\" selected>1/8\" (E6011, E6013, E7018)</option>\n        <option value=\"0.15625\">5/32\" (E7018, E6010)</option>\n        <option value=\"0.1875\">3/16\" (E7018)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"rodType\">Rod Type</label>\n      <select id=\"rodType\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"6011\">E6011 (all-position, DC)</option>\n        <option value=\"6013\">E6013 (light duty, AC/DC)</option>\n        <option value=\"7018\" selected>E7018 (low hydrogen, strongest)</option>\n        <option value=\"7024\">E7024 (flat/horizontal, high deposition)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wastePctWeld\">Waste / Stub Loss (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"wastePctWeld\" placeholder=\"e.g. 25\" value=\"25\" step=\"5\" inputmode=\"decimal\">\n      </div>\n      <span style=\"font-size:0.8rem;color:var(--text-light)\">Typical 20-30%: includes stub ends, spatter, and rework</span>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Rods</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Rods Needed</div>\n          <div class=\"result-value\" id=\"rRods\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Weld Metal (lbs)</div>\n          <div class=\"result-value\" id=\"rWeight\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Electrodes (lbs)</div>\n          <div class=\"result-value\" id=\"rElectrodes\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Weld Volume</div>\n          <div class=\"result-value\" id=\"rVolume\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cross-Section Area</div>\n          <div class=\"result-value\" id=\"rCrossSection\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Number of Passes</div>\n          <div class=\"result-value\" id=\"rPasses\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "This calculator estimates welding electrode quantities by computing the cross-sectional area of the weld joint, then determining the volume of filler metal needed and dividing by the deposition per rod.",
+    "rules": [
+      "Fillet weld cross-section area = 0.5 x leg x leg (triangle)",
+      "V-groove butt weld area = plate thickness x groove width + reinforcement cap",
+      "Weld metal volume (cu in) = cross-section area x weld length",
+      "Weld metal weight = volume x 0.283 lb/cu in (steel density)",
+      "Deposition efficiency: E6011 = 60%, E7018 = 65%, E7024 = 70%",
+      "Rods = weld metal weight / (rod weight x deposition efficiency) x (1 + waste%)"
+    ],
+    "outro": "These are theoretical estimates. Actual rod consumption varies with welder skill, position (overhead uses more), fit-up quality, and number of passes. Always order 10-20% more than calculated. E7018 rods must be stored in a rod oven (250-300°F) to prevent moisture absorption."
+  },
+  "faq": [
+    {
+      "question": "How many welding rods per pound?",
+      "answer": "Approximate rods per pound: 3/32\" rods = 35-40/lb, 1/8\" rods = 18-22/lb, 5/32\" rods = 11-14/lb, 3/16\" rods = 7-9/lb. A standard 10 lb box of 1/8\" E7018 contains about 190-200 rods. Rod count varies by manufacturer and coating thickness."
+    },
+    {
+      "question": "What is the best all-around welding rod?",
+      "answer": "E7018 (low hydrogen) is the most versatile structural rod — strongest, smoothest arc, minimal spatter. E6011 is best for dirty/rusty metal and all positions. E6013 is easiest for beginners. For thin metal, use 3/32\" or 1/8\". For thick metal (3/8\"+), use 5/32\" or 3/16\"."
+    },
+    {
+      "question": "How do I calculate weld metal needed?",
+      "answer": "Determine the weld cross-section area (fillet: 0.5 x leg^2; V-groove: plate thickness x groove opening). Multiply by weld length for volume. Multiply by steel density (0.283 lb/cu in) for weight. Divide by rod deposition rate and add 20-30% for waste."
+    },
+    {
+      "question": "What rod size for what thickness?",
+      "answer": "Rule of thumb: rod diameter should not exceed plate thickness. 3/32\" rod for 1/16-3/32\" metal, 1/8\" for 1/8-3/16\", 5/32\" for 1/4-3/8\", 3/16\" for 3/8\" and thicker. For the root pass on thicker material, use one size smaller than for fill passes."
+    },
+    {
+      "question": "What is deposition efficiency?",
+      "answer": "Deposition efficiency is the percentage of electrode weight that ends up as weld metal. Stick welding (SMAW): 60-70%. MIG (GMAW): 90-95%. Flux-core (FCAW): 80-85%. TIG (GTAW): 95-99%. Higher efficiency means less waste and fewer electrode changes."
+    },
+    {
+      "question": "How many passes for a given weld size?",
+      "answer": "A single pass deposits about 1/4\" leg fillet or 3/16\" root fill. A 1/4\" fillet = 1 pass, 3/8\" = 2-3 passes, 1/2\" = 3-5 passes. V-groove butt welds: root pass + fill passes + cap pass. More passes means more rods but better quality and less distortion."
+    }
+  ],
+  "relatedTools": [
+    "concrete-calculator",
+    "rebar-calculator",
+    "lumber-calculator",
+    "drywall-calculator",
+    "gravel-calculator",
+    "fence-calculator"
+  ],
+  "chart": {
+    "title": "Filler Metal Weight per Foot of Weld",
+    "subtitle": "Fillet weld, steel, in pounds per linear foot",
+    "columns": [
+      "Leg Size",
+      "Area (sq in)",
+      "Wt/Foot (lbs)",
+      "Rods/Foot (1/8\")",
+      "Passes"
+    ],
+    "rows": [
+      [
+        "1/8\"",
+        "0.0078",
+        "0.027",
+        "0.5",
+        "1"
+      ],
+      [
+        "3/16\"",
+        "0.0176",
+        "0.060",
+        "1.1",
+        "1"
+      ],
+      [
+        "1/4\"",
+        "0.0313",
+        "0.106",
+        "2.0",
+        "1"
+      ],
+      [
+        "5/16\"",
+        "0.0488",
+        "0.166",
+        "3.1",
+        "2"
+      ],
+      [
+        "3/8\"",
+        "0.0703",
+        "0.239",
+        "4.5",
+        "2-3"
+      ],
+      [
+        "1/2\"",
+        "0.125",
+        "0.425",
+        "7.9",
+        "3-5"
+      ]
+    ]
+  },
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This welding rod calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This welding rod calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}

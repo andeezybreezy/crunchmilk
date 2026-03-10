@@ -1,0 +1,118 @@
+{
+  "slug": "grain-bin-calculator",
+  "toolName": "Grain Bin Calculator",
+  "tagline": "Calculate grain bin capacity in bushels, tons, and cubic feet by grain type",
+  "title": "Grain Bin Calculator — Bushels, Tons & Cubic Feet by Grain Type",
+  "metaDescription": "Calculate grain bin capacity in bushels, tons, and cubic feet for corn, wheat, soybeans, and oats. Enter bin diameter and height.",
+  "keywords": "grain bin calculator, bushel calculator, grain storage capacity, bin size calculator, corn storage calculator, grain bin bushels",
+  "primaryColor": "#b45309",
+  "primaryDarkColor": "#92400e",
+  "domain": "example.com",
+  "ogTitle": "Grain Bin Calculator — Bushels, Tons & Storage Capacity",
+  "ogDescription": "Calculate grain bin storage capacity in bushels, tons, and cubic feet for corn, wheat, soybeans, and oats.",
+  "twitterDescription": "Calculate grain bin capacity in bushels and tons for corn, wheat, soybeans, and oats.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Grain Bin Calculator",
+    "description": "Calculate grain bin storage capacity in bushels, tons, and cubic feet for multiple grain types.",
+    "url": "https://example.com/grain-bin-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate grain bin bushels?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Calculate the cylinder volume: π × radius² × height (all in feet) to get cubic feet. Then multiply by the packing factor for your grain type: corn uses 0.8 bushels per cubic foot (1 bushel = 1.25 cu ft)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many bushels fit in a grain bin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A 24-foot diameter by 18-foot tall bin holds about 5,655 bushels of corn. The formula is: π × (diameter/2)² × height × 0.8 bushels per cubic foot for corn."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the test weight for different grains?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Standard test weights: Corn = 56 lbs/bushel, Wheat = 60 lbs/bushel, Soybeans = 60 lbs/bushel, Oats = 32 lbs/bushel. These are used to convert bushels to tons."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert bushels to tons?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiply bushels by the test weight per bushel, then divide by 2,000 for short tons. For corn: bushels × 56 ÷ 2,000. For wheat: bushels × 60 ÷ 2,000."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does peak grain height affect capacity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. When grain is loaded from center, it forms a cone (peak) that adds about 15-20% of one ring's capacity. This calculator uses the eave height; actual capacity is slightly more when grain is peaked."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What size grain bin do I need for my farm?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Plan for your average yield per acre times your acres. A 1,000-acre corn farm yielding 180 bu/acre produces 180,000 bushels. You would need approximately 3-4 large bins (48 ft × 18 ft rings) to store a full crop."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Grain Bin Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"binDiameter\">Bin Diameter (ft)</label>\n    <input type=\"number\" id=\"binDiameter\" value=\"24\" min=\"6\" max=\"150\" step=\"1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"binHeight\">Bin Height / Eave Height (ft)</label>\n    <input type=\"number\" id=\"binHeight\" value=\"18\" min=\"4\" max=\"100\" step=\"1\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"grainType\">Grain Type</label>\n    <select id=\"grainType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"corn\" selected>Corn (56 lbs/bu)</option>\n      <option value=\"wheat\">Wheat (60 lbs/bu)</option>\n      <option value=\"soybeans\">Soybeans (60 lbs/bu)</option>\n      <option value=\"oats\">Oats (32 lbs/bu)</option>\n    </select>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Capacity</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Capacity (Bushels)</div>\n        <div class=\"result-value\" id=\"bushels\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weight (Tons)</div>\n        <div class=\"result-value\" id=\"tons\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Volume (Cubic Feet)</div>\n        <div class=\"result-value\" id=\"cubicFeet\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Test Weight</div>\n        <div class=\"result-value\" id=\"testWeight\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Common Grain Bin Capacities (Corn)</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Diameter</th><th>Height</th><th>Cubic Feet</th><th>Bushels (Corn)</th><th>Tons (Corn)</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>18 ft</td><td>16 ft</td><td>4,072</td><td>3,257</td><td>91</td></tr>\n        <tr><td>21 ft</td><td>18 ft</td><td>6,234</td><td>4,987</td><td>140</td></tr>\n        <tr><td>24 ft</td><td>18 ft</td><td>8,143</td><td>6,514</td><td>182</td></tr>\n        <tr><td>30 ft</td><td>21 ft</td><td>14,844</td><td>11,875</td><td>333</td></tr>\n        <tr><td>36 ft</td><td>24 ft</td><td>24,429</td><td>19,543</td><td>547</td></tr>\n        <tr><td>48 ft</td><td>24 ft</td><td>43,429</td><td>34,743</td><td>973</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Grain Bin Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator uses the cylinder volume formula along with grain-specific packing factors to determine bin capacity.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fbbf24;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Bushels = π × r² × h × 0.8 (for corn)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Volume:</strong> π × (diameter/2)² × height = cubic feet</li>\n    <li><strong>Corn:</strong> 0.80 bu/cu ft, 56 lbs/bu</li>\n    <li><strong>Wheat:</strong> 0.80 bu/cu ft, 60 lbs/bu</li>\n    <li><strong>Soybeans:</strong> 0.80 bu/cu ft, 60 lbs/bu</li>\n    <li><strong>Oats:</strong> 0.80 bu/cu ft, 32 lbs/bu</li>\n    <li><strong>Tons:</strong> Bushels × test weight ÷ 2,000</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How do you calculate grain bin bushels?</h3>\n    <p>Calculate the cylinder volume in cubic feet (π × radius² × height), then multiply by the packing factor of 0.8 bushels per cubic foot. One bushel equals 1.25 cubic feet regardless of grain type.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How many bushels fit in a grain bin?</h3>\n    <p>A 24-foot diameter by 18-foot tall bin holds about 5,800-6,500 bushels of grain. Capacity depends on how full the bin is and whether the grain is peaked or leveled at the eave height.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is the test weight for different grains?</h3>\n    <p>Standard test weights are: corn at 56 lbs/bushel, wheat and soybeans at 60 lbs/bushel, and oats at 32 lbs/bushel. These weights are used to convert bushel volume to weight in tons.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How do you convert bushels to tons?</h3>\n    <p>Multiply the number of bushels by the grain's test weight (lbs per bushel), then divide by 2,000 to get short tons. For example, 1,000 bushels of corn = 1,000 × 56 ÷ 2,000 = 28 tons.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Does peak grain height affect capacity?</h3>\n    <p>Yes, when grain is loaded from the center it forms a cone that adds extra capacity above the eave line. This can add 15-20% more storage. This calculator uses eave height for conservative estimates.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What size grain bin do I need for my farm?</h3>\n    <p>Multiply your average yield per acre by total acres to get total bushels needed. A 1,000-acre corn farm at 180 bu/acre produces 180,000 bushels and would need multiple large bins for full storage.</p>\n  </div>\n</div>",
+  "category": "trades-industrial",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This grain bin calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This grain bin calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "septic-tank-calculator",
+    "well-pump-pressure-calculator",
+    "irrigation-drip-calculator",
+    "cattle-fencing-calculator",
+    "hay-bale-calculator",
+    "diesel-tank-sizing-calculator",
+    "propane-tank-runtime-calculator",
+    "mobile-home-tiedown-calculator"
+  ]
+}

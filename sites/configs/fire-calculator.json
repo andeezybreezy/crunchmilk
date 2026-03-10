@@ -1,0 +1,119 @@
+{
+  "slug": "fire-calculator",
+  "toolName": "FIRE Calculator",
+  "tagline": "Find your Financial Independence, Retire Early number",
+  "title": "FIRE Calculator — Financial Independence Retire Early Planner",
+  "metaDescription": "Calculate your FIRE number, years to financial independence, and Coast FIRE amount. Free FIRE calculator with savings progress tracking.",
+  "keywords": "FIRE calculator, financial independence calculator, retire early calculator, FIRE number, Coast FIRE calculator, safe withdrawal rate",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "domain": "example.com",
+  "ogTitle": "FIRE Calculator — Plan Your Financial Independence",
+  "ogDescription": "Calculate your FIRE number, years to financial independence, Coast FIRE amount, and projected FIRE date.",
+  "twitterDescription": "Calculate your FIRE number and years to financial independence. Includes Coast FIRE and savings progress.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FIRE Calculator",
+    "description": "Calculate your FIRE number, years to financial independence, Coast FIRE amount, and projected FIRE date.",
+    "url": "https://example.com/fire-calculator/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the FIRE movement?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FIRE stands for Financial Independence, Retire Early. It is a movement focused on extreme savings and investment to accumulate enough wealth that you can live off investment returns and no longer need to work for money. The goal is financial freedom, not necessarily never working again."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate your FIRE number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your FIRE number equals your annual expenses divided by your safe withdrawal rate. With the standard 4% withdrawal rate, your FIRE number is 25 times your annual expenses. For example, if you spend $40,000 per year, your FIRE number is $1,000,000."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the 4% rule?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 4% rule states that you can withdraw 4% of your portfolio in the first year of retirement, then adjust for inflation each year, and your money should last at least 30 years. It comes from the Trinity Study. Some prefer a more conservative 3.5% or 3% rate for longer retirements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Coast FIRE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Coast FIRE is the amount you need saved now so that, with no additional contributions, your investments will grow to your full FIRE number by a traditional retirement age (e.g., 65). Once you reach Coast FIRE, you only need to earn enough to cover current expenses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a realistic savings rate for FIRE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most FIRE practitioners save 50–70% of their income. At a 50% savings rate with typical market returns, you can reach FIRE in roughly 17 years. At 70%, it drops to about 8.5 years. The average American savings rate is around 5–8%, which is far too low for early retirement."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the different types of FIRE?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Lean FIRE targets minimal expenses (typically under $40,000/year). Regular FIRE covers a comfortable middle-class lifestyle. Fat FIRE aims for $100,000+ in annual spending. Barista FIRE means reaching partial independence and working part-time for benefits. Coast FIRE means having enough invested that growth alone will fund retirement."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>FIRE Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"annualExpenses\">Annual Expenses ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"annualExpenses\" value=\"40000\" min=\"0\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"currentSavings\">Current Savings / Investments ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"currentSavings\" value=\"50000\" min=\"0\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"annualSavings\">Annual Savings ($)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"annualSavings\" value=\"30000\" min=\"0\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"expectedReturn\">Expected Annual Return (%)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"expectedReturn\" value=\"7\" min=\"0\" max=\"30\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"withdrawalRate\">Safe Withdrawal Rate (%)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"withdrawalRate\" value=\"4\" min=\"1\" max=\"10\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"currentAge\">Current Age (optional, for Coast FIRE)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"currentAge\" value=\"30\" min=\"18\" max=\"80\" step=\"1\" inputmode=\"numeric\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"retirementAge\">Traditional Retirement Age</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"retirementAge\" value=\"65\" min=\"30\" max=\"80\" step=\"1\" inputmode=\"numeric\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate FIRE</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">FIRE Number</div>\n        <div class=\"result-value\" id=\"fireNumber\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Years to FIRE</div>\n        <div class=\"result-value\" id=\"yearsToFire\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">FIRE Date</div>\n        <div class=\"result-value\" id=\"fireDate\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Savings Progress</div>\n        <div class=\"result-value\" id=\"savingsProgress\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Coast FIRE Number</div>\n        <div class=\"result-value\" id=\"coastFire\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Coast FIRE Status</div>\n        <div class=\"result-value\" id=\"coastStatus\">—</div>\n      </div>\n    </div>\n    <div id=\"progressBarWrap\" style=\"margin-top:16px;display:none\">\n      <div style=\"background:#e5e7eb;border-radius:8px;height:24px;overflow:hidden\">\n        <div id=\"progressBar\" style=\"height:100%;background:var(--primary);border-radius:8px;transition:width 0.5s ease;min-width:2%\"></div>\n      </div>\n      <div style=\"display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-light);margin-top:4px\">\n        <span>$0</span>\n        <span id=\"progressLabel\"></span>\n      </div>\n    </div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Years to FIRE by Savings Rate</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Assumes 7% annual return and 4% safe withdrawal rate. Starting from $0.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr>\n          <th>Savings Rate</th>\n          <th>Years to FIRE</th>\n          <th>FIRE Type</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr><td>10%</td><td>51 years</td><td>Traditional retirement</td></tr>\n        <tr><td>20%</td><td>37 years</td><td>Standard timeline</td></tr>\n        <tr><td>30%</td><td>28 years</td><td>Early start helps</td></tr>\n        <tr><td>40%</td><td>22 years</td><td>Lean FIRE possible</td></tr>\n        <tr><td>50%</td><td>17 years</td><td>FIRE sweet spot</td></tr>\n        <tr><td>60%</td><td>12.5 years</td><td>Aggressive FIRE</td></tr>\n        <tr><td>70%</td><td>8.5 years</td><td>Very aggressive</td></tr>\n        <tr><td>80%</td><td>5.5 years</td><td>Extreme FIRE</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the FIRE Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">FIRE (Financial Independence, Retire Early) planning starts with one key number: your <strong>FIRE number</strong> — the total amount you need invested to live off returns indefinitely.</p>\n  <div style=\"background:#ecfdf5;border:2px solid #a7f3d0;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">FIRE Number = Annual Expenses ÷ Safe Withdrawal Rate</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li>With a <strong>4% withdrawal rate</strong>, your FIRE number is 25× annual expenses</li>\n    <li>With a <strong>3.5% rate</strong>, it is approximately 28.6× annual expenses</li>\n    <li><strong>Years to FIRE</strong> is calculated by projecting savings growth with compound returns until you reach your FIRE number</li>\n    <li><strong>Coast FIRE</strong> = FIRE Number ÷ (1 + return)^(years to traditional retirement)</li>\n  </ul>\n  <p style=\"margin-bottom:12px\"><strong>Example:</strong> $40,000/year expenses with 4% withdrawal rate:</p>\n  <p style=\"padding:12px;background:#f5f5f5;border-radius:8px;font-family:monospace\">FIRE Number = $40,000 ÷ 0.04 = <strong>$1,000,000</strong></p>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n\n  <div class=\"faq-item\">\n    <h3>What is the FIRE movement?</h3>\n    <p>FIRE stands for Financial Independence, Retire Early. It is a movement focused on extreme savings and investment to accumulate enough wealth that you can live off investment returns and no longer need to work for money. The goal is financial freedom — many FIRE practitioners continue working on projects they enjoy, just without the financial pressure.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>How do you calculate your FIRE number?</h3>\n    <p>Your FIRE number equals your annual expenses divided by your safe withdrawal rate. With the standard 4% withdrawal rate, your FIRE number is 25 times your annual expenses. For example, if you spend $40,000 per year, your FIRE number is $1,000,000. If you spend $60,000, it is $1,500,000.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is the 4% rule?</h3>\n    <p>The 4% rule comes from the Trinity Study, which found that withdrawing 4% of your portfolio in year one (then adjusting for inflation each year) gives you a very high probability of your money lasting at least 30 years. Some prefer a more conservative 3.5% or 3% rate for retirements longer than 30 years.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is Coast FIRE?</h3>\n    <p>Coast FIRE is the amount you need saved now so that, with no additional contributions, your investments will grow to your full FIRE number by a traditional retirement age (e.g., 65). Once you reach Coast FIRE, you only need to earn enough to cover current living expenses — you can stop saving for retirement entirely.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What is a realistic savings rate for FIRE?</h3>\n    <p>Most FIRE practitioners save 50–70% of their income. At a 50% savings rate with typical market returns, you can reach FIRE in roughly 17 years. At 70%, it drops to about 8.5 years. The key levers are increasing income, decreasing expenses, and starting as early as possible to maximize compound growth.</p>\n  </div>\n\n  <div class=\"faq-item\">\n    <h3>What are the different types of FIRE?</h3>\n    <p>Lean FIRE targets minimal expenses (typically under $40,000/year). Regular FIRE covers a comfortable middle-class lifestyle. Fat FIRE aims for $100,000+ in annual spending. Barista FIRE means reaching partial independence and working part-time for health benefits. Coast FIRE means having enough invested that growth alone will fund traditional retirement.</p>\n  </div>\n</div>",
+  "category": "finance",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This fire calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This fire calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "debt-snowball-calculator",
+    "debt-avalanche-calculator",
+    "cap-rate-calculator",
+    "rental-property-roi-calculator",
+    "cash-on-cash-return-calculator",
+    "freelance-rate-calculator",
+    "markup-calculator",
+    "profit-margin-calculator"
+  ],
+  "embeddable": true
+}

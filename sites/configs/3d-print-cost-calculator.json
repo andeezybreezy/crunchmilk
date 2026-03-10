@@ -1,0 +1,183 @@
+{
+  "slug": "3d-print-cost-calculator",
+  "toolName": "3D Print Cost Calculator",
+  "tagline": "Calculate the true cost of any 3D print including materials, electricity, and markup",
+  "title": "3D Print Cost Calculator — Material, Electricity & Pricing Tool",
+  "metaDescription": "Calculate 3D printing costs including filament, electricity, and depreciation. Set markup for selling prints. Free 3D print pricing tool.",
+  "keywords": "3d print cost calculator, 3d printing cost, filament cost calculator, 3d print pricing, how much does 3d printing cost",
+  "domain": "example.com",
+  "primaryColor": "#f59e0b",
+  "primaryDarkColor": "#d97706",
+  "ogTitle": "3D Print Cost Calculator — True Cost & Pricing",
+  "ogDescription": "Calculate the real cost of 3D prints including filament, electricity, depreciation, and markup for selling.",
+  "twitterDescription": "Calculate 3D printing costs with filament, electricity, and profit markup.",
+  "jsonLdDescription": "Calculate 3D printing costs including filament material, electricity, printer depreciation, and markup percentage for pricing prints to sell.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>3D Print Cost Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"filamentUsed\">Filament Used (grams)</label>\n      <input type=\"number\" id=\"filamentUsed\" placeholder=\"e.g. 50\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"filamentCost\">Filament Cost per kg ($)</label>\n      <input type=\"number\" id=\"filamentCost\" value=\"25\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printTime\">Print Time (hours)</label>\n      <input type=\"number\" id=\"printTime\" placeholder=\"e.g. 4\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"electricRate\">Electricity Rate ($/kWh)</label>\n      <input type=\"number\" id=\"electricRate\" value=\"0.12\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printerWattage\">Printer Wattage (W)</label>\n      <input type=\"number\" id=\"printerWattage\" value=\"200\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printerCost\">Printer Cost ($, for depreciation)</label>\n      <input type=\"number\" id=\"printerCost\" value=\"300\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"printerLife\">Printer Lifespan (hours)</label>\n      <input type=\"number\" id=\"printerLife\" value=\"2000\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"markup\">Markup % (for selling)</label>\n      <input type=\"number\" id=\"markup\" value=\"100\" min=\"0\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Cost</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Cost</div>\n          <div class=\"result-value\" id=\"totalCost\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Suggested Sell Price</div>\n          <div class=\"result-value\" id=\"sellPrice\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Material Cost</div>\n          <div class=\"result-value\" id=\"materialCost\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Electricity Cost</div>\n          <div class=\"result-value\" id=\"electricCost\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Depreciation Cost</div>\n          <div class=\"result-value\" id=\"depreciationCost\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Profit at Markup</div>\n          <div class=\"result-value\" id=\"profit\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "The true cost of a 3D print includes more than just filament. This calculator accounts for all major cost factors to give you an accurate per-print cost.",
+    "rules": [
+      "<strong>Material cost:</strong> filament weight (g) × cost per gram from your spool price",
+      "<strong>Electricity:</strong> printer wattage × print time × your electricity rate",
+      "<strong>Depreciation:</strong> printer cost spread over its estimated lifespan in print hours"
+    ],
+    "outro": "Add your desired markup percentage to set a fair selling price. Most sellers use 100-300% markup depending on complexity and market. Don't forget to factor in design time and post-processing labor."
+  },
+  "faq": [
+    {
+      "question": "How much does filament cost per 3D print?",
+      "answer": "At $25/kg for PLA filament, a typical small print using 30g of material costs about $0.75 in filament. Medium prints (100g) cost about $2.50, and large prints (300g+) can cost $7.50 or more. Specialty filaments like PETG, ABS, or carbon fiber cost more per kg."
+    },
+    {
+      "question": "How much electricity does a 3D printer use?",
+      "answer": "Most FDM 3D printers draw 100-300 watts. A typical 200W printer running for 4 hours at $0.12/kWh costs about $0.10 in electricity. Electricity is usually the smallest cost component — material and time are much bigger factors."
+    },
+    {
+      "question": "How should I price 3D prints to sell?",
+      "answer": "Calculate your total cost (material + electricity + depreciation + labor) and apply a markup of 100-300%. Simple prints might use 100% markup, while complex or custom designs can command 200-400%. Factor in design time, post-processing (sanding, painting), and shipping costs."
+    },
+    {
+      "question": "How do I find the filament weight for my print?",
+      "answer": "Your slicer software (Cura, PrusaSlicer, etc.) estimates filament weight before printing. It's shown in the print summary along with print time and filament length. For more accuracy, weigh the finished print on a kitchen scale."
+    },
+    {
+      "question": "What is printer depreciation?",
+      "answer": "Depreciation spreads the cost of your printer across its useful life. If a $300 printer lasts 2,000 print hours, each hour costs $0.15 in depreciation. This accounts for wear, maintenance, and eventual replacement — an often-overlooked cost in pricing."
+    },
+    {
+      "question": "Does print speed affect cost?",
+      "answer": "Yes. Faster prints use less electricity and depreciation time but may sacrifice quality. A print that takes 4 hours instead of 8 saves roughly half the electricity and depreciation costs, though material usage stays the same."
+    }
+  ],
+  "chart": {
+    "title": "3D Print Cost Examples",
+    "subtitle": "Based on $25/kg PLA, 200W printer, $0.12/kWh, $300 printer over 2000 hours.",
+    "columns": [
+      "Print",
+      "Weight",
+      "Time",
+      "Material",
+      "Electric",
+      "Deprec.",
+      "Total"
+    ],
+    "rows": [
+      [
+        "Phone Stand",
+        "25g",
+        "1.5 hr",
+        "$0.63",
+        "$0.04",
+        "$0.23",
+        "$0.89"
+      ],
+      [
+        "Cable Clip (x4)",
+        "12g",
+        "0.5 hr",
+        "$0.30",
+        "$0.01",
+        "$0.08",
+        "$0.39"
+      ],
+      [
+        "Vase (spiral)",
+        "80g",
+        "3 hr",
+        "$2.00",
+        "$0.07",
+        "$0.45",
+        "$2.52"
+      ],
+      [
+        "Figurine (detailed)",
+        "50g",
+        "6 hr",
+        "$1.25",
+        "$0.14",
+        "$0.90",
+        "$2.29"
+      ],
+      [
+        "Enclosure Box",
+        "120g",
+        "5 hr",
+        "$3.00",
+        "$0.12",
+        "$0.75",
+        "$3.87"
+      ],
+      [
+        "Gear Set",
+        "45g",
+        "4 hr",
+        "$1.13",
+        "$0.10",
+        "$0.60",
+        "$1.83"
+      ],
+      [
+        "Headphone Stand",
+        "150g",
+        "8 hr",
+        "$3.75",
+        "$0.19",
+        "$1.20",
+        "$5.14"
+      ],
+      [
+        "Cosplay Helmet",
+        "400g",
+        "24 hr",
+        "$10.00",
+        "$0.58",
+        "$3.60",
+        "$14.18"
+      ],
+      [
+        "Lithophane",
+        "60g",
+        "5 hr",
+        "$1.50",
+        "$0.12",
+        "$0.75",
+        "$2.37"
+      ],
+      [
+        "Chess Set",
+        "300g",
+        "18 hr",
+        "$7.50",
+        "$0.43",
+        "$2.70",
+        "$10.63"
+      ]
+    ]
+  },
+  "category": "3d-printing",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This 3d print cost calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This 3d print cost calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "filament-usage-calculator",
+    "epoxy-resin-calculator",
+    "electricity-cost-calculator"
+  ]
+}

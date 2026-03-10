@@ -1,0 +1,167 @@
+{
+  "slug": "tip-calculator",
+  "toolName": "Tip Calculator",
+  "tagline": "Calculate tips and split bills among any number of people",
+  "title": "Tip Calculator — Calculate Tip Amount & Split Bills Easily",
+  "metaDescription": "Calculate tip amount, total bill, and per-person split for any group size. Choose preset tip percentages or enter a custom amount.",
+  "keywords": "tip calculator, bill splitter, restaurant tip calculator, how much to tip, split bill calculator, gratuity calculator",
+  "domain": "example.com",
+  "primaryColor": "#059669",
+  "primaryDarkColor": "#047857",
+  "ogTitle": "Tip Calculator — Split Bills & Calculate Tips",
+  "ogDescription": "Calculate tips and split bills among any number of people. Preset and custom tip percentages.",
+  "twitterDescription": "Calculate tips and split bills among any group size instantly.",
+  "jsonLdDescription": "Calculate restaurant tips, total bills, and per-person splits for any group size with preset or custom tip percentages.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Tip Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"billAmount\">Bill Amount ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"billAmount\" placeholder=\"e.g. 85.50\" inputmode=\"decimal\" step=\"0.01\" aria-label=\"Bill amount\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Tip Percentage</label>\n      <div class=\"unit-toggle\" role=\"group\" aria-label=\"Tip percentage\" id=\"tipToggle\" style=\"flex-wrap:wrap;gap:4px\">\n        <button type=\"button\" data-tip=\"15\" aria-pressed=\"false\">15%</button>\n        <button type=\"button\" data-tip=\"18\" aria-pressed=\"false\">18%</button>\n        <button type=\"button\" class=\"active\" data-tip=\"20\" aria-pressed=\"true\">20%</button>\n        <button type=\"button\" data-tip=\"25\" aria-pressed=\"false\">25%</button>\n        <button type=\"button\" data-tip=\"custom\" aria-pressed=\"false\">Custom</button>\n      </div>\n    </div>\n\n    <div class=\"input-group\" id=\"customTipGroup\" style=\"display:none\">\n      <label for=\"customTip\">Custom Tip (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"customTip\" placeholder=\"e.g. 22\" inputmode=\"decimal\" step=\"0.1\" aria-label=\"Custom tip percentage\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"numPeople\">Number of People</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"numPeople\" value=\"1\" min=\"1\" inputmode=\"numeric\" aria-label=\"Number of people\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Tip</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Tip Amount</div><div class=\"result-value\" id=\"tipAmount\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Total Bill</div><div class=\"result-value\" id=\"totalBill\">—</div></div>\n      </div>\n      <div class=\"result-row\" id=\"perPersonRow\">\n        <div class=\"result-item\"><div class=\"result-label\">Tip per Person</div><div class=\"result-value\" id=\"tipPerson\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Total per Person</div><div class=\"result-value\" id=\"totalPerson\">—</div></div>\n      </div>\n    </div>\n\n    <div class=\"result\" id=\"compareResult\" style=\"margin-top:12px\">\n      <h3 style=\"margin:0 0 8px\">Compare Tip Percentages</h3>\n      <table class=\"result-table\" id=\"compareTable\" style=\"width:100%;border-collapse:collapse\">\n        <thead><tr><th style=\"text-align:left;padding:6px\">Tip %</th><th style=\"text-align:right;padding:6px\">Tip</th><th style=\"text-align:right;padding:6px\">Total</th><th style=\"text-align:right;padding:6px\">Per Person</th></tr></thead>\n        <tbody id=\"compareBody\"></tbody>\n      </table>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Calculating a tip is simple math, but splitting bills among a group can get tricky. This calculator handles everything from basic tips to multi-person splits.",
+    "rules": [
+      "<strong>Tip Amount</strong> = Bill × (Tip Percentage ÷ 100)",
+      "<strong>Total Bill</strong> = Bill Amount + Tip Amount",
+      "<strong>Per Person</strong> = Total Bill ÷ Number of People",
+      "Common tip rates: 15% (acceptable), 18% (standard), 20% (good), 25% (excellent)"
+    ],
+    "outro": "In the United States, 15-20% is standard for sit-down restaurant service. For exceptional service, 25% or more is appropriate. Tip on the pre-tax bill amount, not the after-tax total."
+  },
+  "faq": [
+    {
+      "question": "How much should I tip at a restaurant?",
+      "answer": "In the US, 15-20% is standard for sit-down dining. 15% is considered acceptable for average service, 18% is common for good service, and 20%+ is appropriate for excellent service. For counter service or takeout, 10-15% or a flat dollar amount is typical."
+    },
+    {
+      "question": "Should I tip on the pre-tax or post-tax amount?",
+      "answer": "Traditionally, you tip on the pre-tax bill amount. However, tipping on the total (including tax) has become increasingly common and the difference is usually small. For example, on a $50 bill with 8% tax, the difference between tipping 20% pre-tax ($10) vs post-tax ($10.80) is just 80 cents."
+    },
+    {
+      "question": "How do I split a bill evenly among a group?",
+      "answer": "Add the tip to the total bill, then divide by the number of people. For example, a $100 bill with 20% tip = $120 total ÷ 4 people = $30 per person. This calculator does this automatically."
+    },
+    {
+      "question": "What if the service was bad — do I still have to tip?",
+      "answer": "Tipping is not legally required but is customary. For poor service, 10-15% is considered acceptable. If the issue was with the food (not the server), remember that your server doesn't cook the food. It's appropriate to speak with a manager about food issues separately."
+    },
+    {
+      "question": "How much do you tip for delivery?",
+      "answer": "For food delivery, 15-20% is standard, with a minimum of $3-5 for small orders. For large orders, bad weather, or long distances, consider tipping more. For grocery or large item delivery, $5-10 or 15-20% is appropriate."
+    },
+    {
+      "question": "Is tipping different in other countries?",
+      "answer": "Yes, tipping customs vary widely. In Japan and South Korea, tipping is uncommon and can be seen as rude. In many European countries, a service charge is included in the bill. In Canada, Australia, and the UK, 10-15% is typical. Always research local customs when traveling."
+    }
+  ],
+  "chart": {
+    "title": "Tip Amount Reference Chart",
+    "subtitle": "Tip amounts at common percentages for various bill sizes",
+    "columns": [
+      "Bill Amount",
+      "15% Tip",
+      "18% Tip",
+      "20% Tip",
+      "25% Tip"
+    ],
+    "rows": [
+      [
+        "$20",
+        "$3.00",
+        "$3.60",
+        "$4.00",
+        "$5.00"
+      ],
+      [
+        "$30",
+        "$4.50",
+        "$5.40",
+        "$6.00",
+        "$7.50"
+      ],
+      [
+        "$40",
+        "$6.00",
+        "$7.20",
+        "$8.00",
+        "$10.00"
+      ],
+      [
+        "$50",
+        "$7.50",
+        "$9.00",
+        "$10.00",
+        "$12.50"
+      ],
+      [
+        "$75",
+        "$11.25",
+        "$13.50",
+        "$15.00",
+        "$18.75"
+      ],
+      [
+        "$100",
+        "$15.00",
+        "$18.00",
+        "$20.00",
+        "$25.00"
+      ],
+      [
+        "$125",
+        "$18.75",
+        "$22.50",
+        "$25.00",
+        "$31.25"
+      ],
+      [
+        "$150",
+        "$22.50",
+        "$27.00",
+        "$30.00",
+        "$37.50"
+      ],
+      [
+        "$200",
+        "$30.00",
+        "$36.00",
+        "$40.00",
+        "$50.00"
+      ],
+      [
+        "$300",
+        "$45.00",
+        "$54.00",
+        "$60.00",
+        "$75.00"
+      ]
+    ]
+  },
+  "category": "finance",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This tip calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This tip calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "fire-calculator",
+    "debt-snowball-calculator",
+    "debt-avalanche-calculator",
+    "cap-rate-calculator",
+    "rental-property-roi-calculator",
+    "cash-on-cash-return-calculator",
+    "freelance-rate-calculator",
+    "markup-calculator"
+  ]
+}

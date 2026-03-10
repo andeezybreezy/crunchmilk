@@ -1,0 +1,118 @@
+{
+  "slug": "retaining-wall-calculator",
+  "toolName": "Retaining Wall Calculator",
+  "tagline": "Calculate blocks, backfill, and materials for retaining walls",
+  "title": "Retaining Wall Calculator — Blocks, Backfill & Cost",
+  "metaDescription": "Calculate retaining wall materials: blocks, cap blocks, gravel backfill, base gravel, and adhesive. Enter wall length, height, and block type.",
+  "keywords": "retaining wall calculator, retaining wall blocks, retaining wall cost, how many blocks for retaining wall, backfill calculator",
+  "primaryColor": "#78716c",
+  "primaryDarkColor": "#57534e",
+  "domain": "example.com",
+  "ogTitle": "Retaining Wall Calculator — Blocks, Backfill & Cost",
+  "ogDescription": "Calculate blocks, cap blocks, gravel backfill, and adhesive for your retaining wall project with cost estimates.",
+  "twitterDescription": "Calculate retaining wall materials: blocks, cap blocks, gravel backfill, base gravel, and adhesive tubes.",
+  "jsonLdWeb": {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Retaining Wall Calculator",
+    "description": "Calculate blocks, cap blocks, gravel backfill, and adhesive for retaining wall projects.",
+    "url": "https://example.com/retaining-wall-calculator/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
+  "jsonLdFaq": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many retaining wall blocks do I need?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Divide the wall area (length × height) by the face area of one block. For 6\" gravity blocks, plan about 2.25 blocks per square foot. For 12\" reinforced blocks, plan about 1.125 blocks per square foot. Always add 5-10% for waste."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much gravel backfill do I need for a retaining wall?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A common rule is 1 cubic yard of gravel backfill per 12-15 linear feet of wall at 3 feet high. The backfill zone is typically 12 inches deep behind the wall. Our calculator uses wall dimensions and a 12-inch gravel zone to estimate cubic yards."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need base gravel for a retaining wall?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Every retaining wall needs a compacted gravel base at least 6 inches deep and extending 2 inches past each side of the block. This provides drainage and a level foundation. Use crushed angular gravel, not round river rock."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much adhesive do I need for retaining wall blocks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use landscape block adhesive on the cap row and every 2-3 courses on taller walls. One 10 oz tube covers roughly 20-25 linear feet. For cap blocks alone, divide the wall length by 20 for the number of tubes needed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What type of retaining wall block should I use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For walls under 2 feet, 6\" gravity blocks are sufficient. Walls 2-4 feet use 8\" gravity blocks. Walls over 4 feet typically require 12\" reinforced blocks with rebar and concrete fill. Always check local building codes for walls over 4 feet, as permits and engineering may be required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does a retaining wall cost per linear foot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Materials typically cost $15-$30 per square foot of wall face for gravity block walls and $25-$50 for reinforced walls. A 3-foot-high, 20-foot-long wall (60 sq ft) runs roughly $900-$1,800 in materials. Labor can double the total cost."
+        }
+      }
+    ]
+  },
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Retaining Wall Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"wallLength\">Wall Length (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"wallLength\" placeholder=\"e.g. 20\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"20\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wallHeight\">Wall Height (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 3\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"3\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"blockType\">Block Type</label>\n    <div class=\"input-row\">\n      <select id=\"blockType\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"6grav\" selected>6\" Gravity Block</option>\n        <option value=\"8grav\">8\" Gravity Block</option>\n        <option value=\"12reinf\">12\" Reinforced Block</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"blockPrice\">Block Price (each, optional $)</label>\n    <div class=\"input-row\">\n      <span style=\"font-size:1.2rem;font-weight:600;color:var(--text-light)\">$</span>\n      <input type=\"number\" id=\"blockPrice\" placeholder=\"e.g. 3.50\" step=\"0.01\" min=\"0\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Wall Blocks</div>\n        <div class=\"result-value\" id=\"outBlocks\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cap Blocks</div>\n        <div class=\"result-value\" id=\"outCaps\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Adhesive Tubes</div>\n        <div class=\"result-value\" id=\"outAdhesive\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Backfill Gravel (cu yd)</div>\n        <div class=\"result-value\" id=\"outBackfill\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Base Gravel (cu yd)</div>\n        <div class=\"result-value\" id=\"outBase\">—</div>\n      </div>\n      <div class=\"result-item\" id=\"costItem\" style=\"display:none\">\n        <div class=\"result-label\">Block Cost (est.)</div>\n        <div class=\"result-value\" id=\"outCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">Enter wall dimensions to calculate materials.</div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Retaining Wall Block Reference</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Block sizes, face coverage, and typical applications for common retaining wall blocks.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Block Type</th><th>Face Size (W&times;H)</th><th>Blocks/Sq Ft</th><th>Weight (ea)</th><th>Max Gravity Height</th></tr></thead>\n      <tbody>\n        <tr><td>6\" Gravity</td><td>18\"&times;6\"</td><td>1.33</td><td>~30 lb</td><td>2 ft</td></tr>\n        <tr><td>8\" Gravity</td><td>18\"&times;8\"</td><td>1.00</td><td>~45 lb</td><td>4 ft</td></tr>\n        <tr><td>12\" Reinforced</td><td>18\"&times;8\"</td><td>1.00</td><td>~80 lb</td><td>6+ ft (engineered)</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Retaining Wall Materials</h2>\n  <p style=\"margin-bottom:12px\">The calculator determines blocks needed from wall area and block face size, then estimates backfill gravel, base gravel, cap blocks, and adhesive.</p>\n  <div style=\"background:#f5f5f4;border:2px solid #d6d3d1;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Blocks = (Wall Length &times; Height) &times; Blocks/SqFt &times; 1.05</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Wall blocks:</strong> face area divided by single block face area, plus 5% waste</li>\n    <li><strong>Cap blocks:</strong> wall length &divide; cap block length (~18\" = 1.5 ft)</li>\n    <li><strong>Backfill gravel:</strong> wall length &times; wall height &times; 1 ft depth &divide; 27 cu ft/yd</li>\n    <li><strong>Base gravel:</strong> wall length &times; block depth &times; 0.5 ft depth &divide; 27</li>\n    <li><strong>Adhesive:</strong> 1 tube per 20 linear feet for cap row</li>\n  </ul>\n</div>",
+  "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\"><h3>How many retaining wall blocks do I need?</h3><p>Divide the wall face area (length × height) by the face area of one block. For 6\" gravity blocks at 18\"×6\", that's about 1.33 blocks per sq ft. Add 5-10% for waste and cuts.</p></div>\n  <div class=\"faq-item\"><h3>How much gravel backfill do I need?</h3><p>Plan for a 12-inch gravel zone behind the wall. Multiply wall length × height × 1 ft, then divide by 27 to convert to cubic yards. For a 20 ft × 3 ft wall: 20 × 3 × 1 ÷ 27 = 2.2 cu yd.</p></div>\n  <div class=\"faq-item\"><h3>Do I need base gravel?</h3><p>Yes — a 6-inch compacted gravel base is essential. Use crushed angular gravel for stability. The base should extend 2 inches past each side of the block.</p></div>\n  <div class=\"faq-item\"><h3>How much adhesive do I need?</h3><p>One 10 oz tube of landscape block adhesive covers about 20 linear feet. Use it on the cap row and every 2-3 courses on taller walls.</p></div>\n  <div class=\"faq-item\"><h3>What block type should I use?</h3><p>6\" gravity blocks for walls under 2 ft, 8\" gravity blocks for 2-4 ft, and 12\" reinforced blocks for walls over 4 ft. Walls over 4 ft often require a building permit and engineering.</p></div>\n  <div class=\"faq-item\"><h3>How much does a retaining wall cost?</h3><p>Materials run $15-$30 per sq ft of wall face for gravity blocks and $25-$50 for reinforced. A 3 ft × 20 ft wall typically costs $900-$1,800 in materials alone.</p></div>\n</div>",
+  "category": "construction",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This retaining wall calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This retaining wall calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  },
+  "relatedTools": [
+    "concrete-slab-calculator",
+    "concrete-footing-calculator",
+    "sonotube-calculator",
+    "concrete-block-fill-calculator",
+    "concrete-bag-calculator",
+    "post-hole-concrete-calculator",
+    "concrete-stair-calculator",
+    "rebar-calculator"
+  ]
+}

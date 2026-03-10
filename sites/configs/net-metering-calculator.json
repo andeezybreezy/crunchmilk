@@ -1,0 +1,131 @@
+{
+  "slug": "net-metering-calculator",
+  "toolName": "Net Metering Calculator",
+  "tagline": "Calculate solar net metering savings based on your production, usage, and utility rates",
+  "title": "Net Metering Calculator — Solar Export Credit Savings",
+  "metaDescription": "Calculate net metering savings for your solar panels. See monthly credits, annual savings, and export value at your utility's rates.",
+  "keywords": "net metering calculator, solar net metering savings, solar export credits, net metering value, solar buyback rate, solar bill savings",
+  "domain": "example.com",
+  "primaryColor": "#eab308",
+  "primaryDarkColor": "#ca8a04",
+  "ogTitle": "Net Metering Calculator — Solar Export Credit Savings",
+  "ogDescription": "Calculate how much net metering saves you with solar panels. Model monthly credits based on your production and utility rates.",
+  "twitterDescription": "Calculate your solar net metering savings. See how much export credits reduce your electricity bill each month. Free calculator.",
+  "jsonLdDescription": "Calculate solar net metering savings by modeling electricity production, self-consumption, grid exports, and utility credit rates to estimate monthly and annual bill reductions from residential solar panels.",
+  "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Net Metering Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate your solar net metering savings and export credits.</p>\n\n    <div class=\"input-group\">\n      <label for=\"solarSize\">Solar System Size (kW)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"solarSize\" placeholder=\"e.g. 8\" value=\"8\" inputmode=\"decimal\" step=\"0.1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"sunHours\">Average Peak Sun Hours / Day</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"sunHours\" placeholder=\"e.g. 5\" value=\"5\" inputmode=\"decimal\" step=\"0.1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"monthlyUsage\">Monthly Electricity Usage (kWh)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"monthlyUsage\" placeholder=\"e.g. 900\" value=\"900\" inputmode=\"decimal\" step=\"1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"retailRate\">Retail Electricity Rate (¢/kWh)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"retailRate\" placeholder=\"e.g. 16\" value=\"16\" inputmode=\"decimal\" step=\"0.1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"exportRate\">Net Metering Export Rate (¢/kWh)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"exportRate\" placeholder=\"e.g. 12\" value=\"12\" inputmode=\"decimal\" step=\"0.1\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"selfConsume\">Self-Consumption Rate (%)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"selfConsume\" placeholder=\"e.g. 40\" value=\"40\" inputmode=\"decimal\" step=\"1\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Savings</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Monthly Solar Production</div>\n          <div class=\"result-value\" id=\"rProduction\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Monthly Export</div>\n          <div class=\"result-value\" id=\"rExport\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Self-Use Savings</div>\n          <div class=\"result-value\" id=\"rSelfSave\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Export Credits</div>\n          <div class=\"result-value\" id=\"rExportCredit\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Monthly Savings</div>\n          <div class=\"result-value\" id=\"rTotalMonthly\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Annual Savings</div>\n          <div class=\"result-value\" id=\"rAnnual\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
+  "howItWorks": {
+    "intro": "Net metering allows solar panel owners to send excess electricity back to the grid in exchange for credits on their utility bill. This calculator models your production, self-consumption, and export credits to estimate total savings.",
+    "rules": [
+      "Monthly solar production = system size (kW) × peak sun hours × 30 days × 0.80 efficiency factor",
+      "Self-consumed solar offsets electricity at the full retail rate (most valuable)",
+      "Exported solar earns credits at the net metering rate, which may be less than retail depending on your utility",
+      "Remaining usage after solar offset is purchased from the grid at the full retail rate"
+    ],
+    "outro": "Net metering policies vary significantly by state and utility. Some offer full retail rate credits (1:1 net metering), while others pay a lower avoided-cost or wholesale rate for exports. Check your utility's current net metering policy — many states are transitioning to less generous programs."
+  },
+  "faq": [
+    {
+      "question": "What is net metering?",
+      "answer": "Net metering is a billing arrangement where your utility credits you for excess solar electricity you send to the grid. When your panels produce more than you use (typically midday), the excess flows to the grid and your meter effectively runs backward. You use those credits when you need grid power (evenings, nights, cloudy days). Your bill reflects the net difference."
+    },
+    {
+      "question": "Is net metering being phased out?",
+      "answer": "Many states are transitioning away from full 1:1 net metering. California moved to NEM 3.0 in 2023, which significantly reduced export credits. Other states are considering similar changes. If you are considering solar, current net metering rates may be grandfathered for 10-20 years, making it advantageous to install sooner rather than later."
+    },
+    {
+      "question": "What is the difference between retail and export rates?",
+      "answer": "The retail rate is what you pay to buy electricity from the grid (e.g., 16¢/kWh). The export rate is what you earn for sending solar power to the grid. Under full net metering, these are equal. Under newer programs (like California NEM 3.0), the export rate may be only 4-8¢/kWh, making self-consumption and battery storage much more valuable."
+    },
+    {
+      "question": "How does a battery affect net metering savings?",
+      "answer": "A battery lets you store excess solar for evening use instead of exporting at a low rate. If your export rate is much lower than retail, a battery can save the difference (e.g., store at 5¢ export value, use at 16¢ retail value = 11¢/kWh gained). Batteries make the most financial sense when export rates are low relative to retail rates."
+    }
+  ],
+  "relatedTools": [
+    "solar-payback-calculator",
+    "home-battery-calculator",
+    "ev-vs-gas-calculator",
+    "tou-rate-calculator",
+    "whole-home-generator-calculator",
+    "energy-audit-calculator",
+    "solar-panel-calculator",
+    "electricity-cost-calculator"
+  ],
+  "chart": {
+    "title": "Net Metering Rates by State",
+    "subtitle": "Export credit rates compared to retail rates (2026)",
+    "columns": [
+      "State",
+      "Avg Retail Rate",
+      "Net Metering Rate",
+      "NM Type",
+      "Status"
+    ],
+    "rows": [
+      [
+        "California",
+        "32¢/kWh",
+        "5–8¢/kWh",
+        "NEM 3.0 (reduced)",
+        "Grandfathered NEM 2.0 better"
+      ],
+      [
+        "Texas",
+        "13¢/kWh",
+        "Varies by retailer",
+        "Market-based",
+        "Shop for best buyback"
+      ],
+      [
+        "Florida",
+        "14¢/kWh",
+        "14¢/kWh",
+        "Full retail 1:1",
+        "Good while it lasts"
+      ],
+      [
+        "New York",
+        "22¢/kWh",
+        "VDER credits",
+        "Value-based",
+        "Complex but decent"
+      ],
+      [
+        "Arizona",
+        "14¢/kWh",
+        "8–10¢/kWh",
+        "Reduced",
+        "Less generous than before"
+      ],
+      [
+        "Massachusetts",
+        "28¢/kWh",
+        "28¢/kWh",
+        "Full retail 1:1",
+        "Excellent for solar"
+      ]
+    ]
+  },
+  "category": "energy-independence",
+  "lastUpdated": "2026-03-10",
+  "howWeCalculate": {
+    "intro": "This net metering calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "steps": [
+      "Enter your specific values into the calculator fields above",
+      "Our algorithm applies the relevant formulas using your inputs",
+      "Results are calculated instantly in your browser — nothing is sent to a server",
+      "Review the detailed breakdown to understand how each factor affects your result"
+    ],
+    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+  },
+  "whenToUse": {
+    "intro": "This net metering calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "scenarios": [
+      "When you need a quick estimate before committing to a purchase or project",
+      "When comparing different options or scenarios side by side",
+      "When planning a budget and need to understand potential costs",
+      "When you want to verify a quote or estimate you've received from a professional",
+      "When teaching or learning about the concepts behind these calculations"
+    ]
+  }
+}
