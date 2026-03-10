@@ -176,20 +176,28 @@
   --font-display:'Bricolage Grotesque',Georgia,serif;
   --font-body:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
 }
-body{font-family:var(--font-body);background:var(--cream);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .container{max-width:960px;margin:0 auto;padding:0 24px}
 
 /* Noise */
 body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.025;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* Header */
-header{background:var(--navy);color:#fff;padding:20px 0 24px}
-.breadcrumb{font-size:0.75rem;margin-bottom:14px;opacity:0.5;letter-spacing:0.3px}
+/* Site Nav */
+.site-nav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.06)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;padding:10px 24px}
+.logo{display:flex;align-items:center;text-decoration:none;gap:10px}
+.logo-mark{width:28px;height:28px;background:var(--coral);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;color:#fff;font-weight:800;letter-spacing:-0.5px;transform:rotate(-2deg)}
+.logo-text{font-family:var(--font-display);font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-text span{color:var(--coral)}
+
+/* Page Header */
+.page-header{background:var(--navy);color:#fff;padding:0 0 24px}
+.breadcrumb{font-family:var(--font-body);font-size:0.75rem;margin-bottom:14px;opacity:0.5;letter-spacing:0.3px}
 .breadcrumb a{color:#fff;text-decoration:none}
 .breadcrumb a:hover{text-decoration:underline;opacity:1}
-header h1{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2;margin-bottom:6px}
-header p{font-size:0.9rem;opacity:0.6;font-weight:400}
-header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:16px;margin-left:24px;border-radius:2px}
+.page-header h1{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2;margin-bottom:6px}
+.page-header p{font-size:0.9rem;opacity:0.6;font-weight:400}
+.page-header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:16px;border-radius:2px}
 
 main{padding:28px 0 48px}
 .ad-slot{background:var(--cream-dark);border:1px dashed var(--border);padding:20px;text-align:center;color:var(--text-light);font-size:0.8rem;margin:20px 0;border-radius:var(--radius);font-weight:500}
@@ -228,9 +236,14 @@ main{padding:28px 0 48px}
 .related-hubs a:hover{border-color:var(--coral);color:var(--coral);background:var(--card)}
 
 /* Footer */
-footer{background:var(--navy);padding:28px 0;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.4)}
+footer{background:var(--navy);padding:36px 0;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.4)}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
 footer a:hover{color:#fff}
+.footer-inner{display:flex;flex-direction:column;align-items:center;gap:8px}
+.footer-brand{font-family:var(--font-display);font-weight:800;color:rgba(255,255,255,0.7);font-size:1rem;letter-spacing:-0.5px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:0.78rem}
+.footer-rule{width:40px;height:2px;background:var(--coral);opacity:0.4;border:none;margin:4px 0}
 
 @media(max-width:480px){
   header h1{font-size:1.4rem}
@@ -241,10 +254,19 @@ footer a:hover{color:#fff}
 </head>
 <body>
 
-<header>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">CM</div>
+      <div class="logo-text">Crunch<span>Milk</span></div>
+    </a>
+  </div>
+</nav>
+
+<header class="page-header">
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">CrunchMilk</a> &rsaquo; <span>Fitness & Health Calculators</span>
+      <a href="/">Home</a> &rsaquo; <span>Fitness & Health Calculators</span>
     </nav>
     <h1>Fitness & Health Calculators</h1>
     <p>Track macros, calculate body composition, and plan workouts</p>
@@ -317,9 +339,15 @@ footer a:hover{color:#fff}
 </main>
 
 <footer>
-  <div class="container">
+  <div class="container footer-inner">
+    <span class="footer-brand">CrunchMilk</span>
+    <hr class="footer-rule">
     <p>&copy; 2026 CrunchMilk &middot; No signup required.</p>
-    <p style="margin-top:4px"><a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">All Tools</a></p>
+    <div class="footer-links">
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/">All Tools</a>
+    </div>
   </div>
 </footer>
 
