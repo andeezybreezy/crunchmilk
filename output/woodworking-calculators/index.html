@@ -15,6 +15,9 @@
 <meta name="twitter:title" content="Woodworking Calculators — Free Online Tools">
 <meta name="twitter:description" content="Free woodworking calculators. 3 tools to help you calculate, estimate, and plan. No signup required.">
 <meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -64,38 +67,86 @@
 </script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--primary:#92400e;--primary-dark:#78350f;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
-.container{max-width:900px;margin:0 auto;padding:0 20px}
-header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
-header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
-header p{font-size:0.95rem;opacity:0.9}
-.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
+:root{
+  --coral:#E63946;
+  --coral-dark:#C1121F;
+  --primary:#92400e;
+  --primary-dark:#78350f;
+  --navy:#1D3557;
+  --navy-light:#264773;
+  --cream:#F5F0EB;
+  --cream-dark:#E8E0D8;
+  --card:#FFFFFF;
+  --text:#1C1917;
+  --text-mid:#57534E;
+  --text-light:#A8A29E;
+  --border:#D6D3D1;
+  --radius:8px;
+  --shadow:0 1px 3px rgba(28,25,23,0.06),0 4px 12px rgba(28,25,23,0.04);
+  --font-display:'Bricolage Grotesque',Georgia,serif;
+  --font-body:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Noise */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.025;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Header */
+header{background:var(--navy);color:#fff;padding:20px 0 24px}
+.breadcrumb{font-size:0.75rem;margin-bottom:14px;opacity:0.5;letter-spacing:0.3px}
 .breadcrumb a{color:#fff;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline}
-main{padding:24px 0 40px}
-.hub-intro{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.hub-intro h2{font-size:1.25rem;margin-bottom:12px}
-.hub-intro p{font-size:0.95rem;color:var(--text-light);line-height:1.7}
-.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
-.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
-.tool-card{display:block;padding:20px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:2px solid transparent;transition:border-color 0.2s,box-shadow 0.2s}
-.tool-card:hover{border-color:var(--primary);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
-.tool-card h3{font-size:1rem;margin-bottom:6px;color:var(--primary)}
-.tool-card p{font-size:0.85rem;color:var(--text-light);line-height:1.5}
-.hub-faq{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.hub-faq h2{font-size:1.25rem;margin-bottom:16px}
-.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.breadcrumb a:hover{text-decoration:underline;opacity:1}
+header h1{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2;margin-bottom:6px}
+header p{font-size:0.9rem;opacity:0.6;font-weight:400}
+header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:16px;margin-left:24px;border-radius:2px}
+
+main{padding:28px 0 48px}
+.ad-slot{background:var(--cream-dark);border:1px dashed var(--border);padding:20px;text-align:center;color:var(--text-light);font-size:0.8rem;margin:20px 0;border-radius:var(--radius);font-weight:500}
+
+/* Hub Intro */
+.hub-intro{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px;border:1px solid rgba(0,0,0,0.04)}
+.hub-intro h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:12px;font-weight:700;letter-spacing:-0.3px}
+.hub-intro p{font-size:0.9rem;color:var(--text-mid);line-height:1.7}
+
+/* Section header */
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--text)}
+.section-title{font-family:var(--font-display);font-size:1.2rem;font-weight:800;letter-spacing:-0.3px}
+.section-count{font-size:0.78rem;color:var(--text-light);font-weight:500}
+
+/* Tool Grid */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:28px}
+.tool-card{display:block;padding:20px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:1px solid rgba(0,0,0,0.04);transition:all 0.2s;position:relative;overflow:hidden}
+.tool-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--coral);transform:scaleY(0);transition:transform 0.2s;transform-origin:bottom}
+.tool-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(28,25,23,0.1);border-color:rgba(0,0,0,0.08)}
+.tool-card:hover::before{transform:scaleY(1)}
+.tool-card h3{font-family:var(--font-display);font-size:0.95rem;margin-bottom:6px;color:var(--navy);font-weight:700;letter-spacing:-0.2px}
+.tool-card p{font-size:0.82rem;color:var(--text-light);line-height:1.5}
+
+/* FAQ */
+.hub-faq{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px;border:1px solid rgba(0,0,0,0.04)}
+.hub-faq h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:16px;font-weight:700;letter-spacing:-0.3px}
+.faq-item{border-bottom:1px solid var(--cream-dark);padding:16px 0}
 .faq-item:last-child{border-bottom:none}
-.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px}
-.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
-.related-hubs{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.related-hubs h2{font-size:1.25rem;margin-bottom:12px}
-.related-hubs a{display:inline-block;margin:4px 8px 4px 0;padding:8px 16px;background:#f5f5f5;border-radius:20px;text-decoration:none;color:var(--text);font-size:0.85rem;border:1px solid var(--border);transition:all 0.2s}
-.related-hubs a:hover{border-color:var(--primary);background:#fff7ed}
-footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
-footer a{color:var(--text-light)}
-@media(max-width:480px){header h1{font-size:1.3rem}.tool-grid{grid-template-columns:1fr}}
+.faq-item h3{font-family:var(--font-display);font-size:0.92rem;font-weight:700;margin-bottom:6px;letter-spacing:-0.2px}
+.faq-item p{font-size:0.88rem;color:var(--text-mid);line-height:1.7}
+
+/* Related Hubs */
+.related-hubs{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px;border:1px solid rgba(0,0,0,0.04)}
+.related-hubs h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:14px;font-weight:700;letter-spacing:-0.3px}
+.related-hubs a{display:inline-block;margin:4px 6px 4px 0;padding:8px 16px;background:var(--cream);border-radius:4px;text-decoration:none;color:var(--text);font-size:0.82rem;font-weight:500;border:1px solid var(--border);transition:all 0.15s}
+.related-hubs a:hover{border-color:var(--coral);color:var(--coral);background:var(--card)}
+
+/* Footer */
+footer{background:var(--navy);padding:28px 0;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.4)}
+footer a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
+footer a:hover{color:#fff}
+
+@media(max-width:480px){
+  header h1{font-size:1.4rem}
+  .tool-grid{grid-template-columns:1fr}
+  .section-header{flex-direction:column;gap:4px}
+}
 </style>
 </head>
 <body>
@@ -103,7 +154,7 @@ footer a{color:var(--text-light)}
 <header>
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a> &rsaquo; <span>Woodworking Calculators</span>
+      <a href="/">CrunchMilk</a> &rsaquo; <span>Woodworking Calculators</span>
     </nav>
     <h1>Woodworking Calculators</h1>
     <p>Board feet, joinery, and wood movement calculations</p>
@@ -113,21 +164,24 @@ footer a{color:var(--text-light)}
 <main>
 <div class="container">
 
-  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+  <div class="ad-slot" aria-hidden="true">Ad Space &mdash; 728x90 Leaderboard</div>
 
   <div class="hub-intro">
     <h2>About These Calculators</h2>
     <p>Precision calculators for woodworkers. Calculate board footage, plan dovetail joints, and estimate wood movement across seasons.</p>
   </div>
 
-  <h2 style="font-size:1.25rem;margin-bottom:16px">All Woodworking Calculators (3 tools)</h2>
+  <div class="section-header">
+    <h2 class="section-title">Woodworking Calculators</h2>
+    <span class="section-count">3 tools</span>
+  </div>
   <div class="tool-grid">
     <a href="/board-foot-calculator/" class="tool-card"><h3>Board Foot Calculator</h3><p>Calculate board feet and lumber costs instantly</p></a>
     <a href="/wood-movement-calculator/" class="tool-card"><h3>Wood Movement Calculator</h3><p>Calculate wood expansion and contraction by species, width, and humidity change</p></a>
     <a href="/dovetail-calculator/" class="tool-card"><h3>Dovetail Joint Calculator</h3><p>Calculate dovetail joint spacing, pin and tail sizes for woodworking projects</p></a>
   </div>
 
-  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+  <div class="ad-slot" aria-hidden="true">Ad Space &mdash; 336x280 Rectangle</div>
 
   <div class="hub-faq">
     <h2>Frequently Asked Questions</h2>
@@ -139,7 +193,7 @@ footer a{color:var(--text-light)}
   </div>
 
   <div class="related-hubs">
-    <h2>Browse More Calculator Categories</h2>
+    <h2>More Categories</h2>
     <a href="/construction-calculators/">Construction Calculators</a>
     <a href="/cooking-calculators/">Cooking &amp; Recipe Calculators</a>
     <a href="/fitness-calculators/">Fitness &amp; Health Calculators</a>
@@ -159,8 +213,8 @@ footer a{color:var(--text-light)}
 
 <footer>
   <div class="container">
-    <p>&copy; 2026 CrunchMilk. No signup required.</p>
-    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+    <p>&copy; 2026 CrunchMilk &middot; No signup required.</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">All Tools</a></p>
   </div>
 </footer>
 

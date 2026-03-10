@@ -15,6 +15,9 @@
 <meta name="twitter:title" content="Solar Panel Payback Calculator for Louisiana (LA) — 2026">
 <meta name="twitter:description" content="Solar Panel Payback Calculator for Louisiana. State-specific rates, limits, and rules for LA. Free calculator, no signup.">
 <meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -122,116 +125,141 @@
 </script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--primary:#f59e0b;--primary-dark:#d97706;--bg:#fafaf9;--card:#ffffff;--text:#1a1a1a;--text-light:#555;--border:#e0e0e0;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,0.08)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
-.container{max-width:760px;margin:0 auto;padding:0 20px}
-header{background:var(--primary);color:#fff;padding:20px 0;text-align:center}
-header h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
-header p{font-size:0.95rem;opacity:0.9}
-.ad-slot{background:#f0f0f0;border:2px dashed #ccc;padding:20px;text-align:center;color:#999;font-size:0.85rem;margin:20px 0;border-radius:var(--radius)}
-main{padding:24px 0 40px}
+:root{
+  --coral:#E63946;
+  --coral-dark:#C1121F;
+  --primary:#f59e0b;
+  --primary-dark:#d97706;
+  --navy:#1D3557;
+  --cream:#F5F0EB;
+  --cream-dark:#E8E0D8;
+  --card:#FFFFFF;
+  --text:#1C1917;
+  --text-mid:#57534E;
+  --text-light:#A8A29E;
+  --border:#D6D3D1;
+  --radius:8px;
+  --shadow:0 1px 3px rgba(28,25,23,0.06),0 4px 12px rgba(28,25,23,0.04);
+  --font-display:'Bricolage Grotesque',Georgia,serif;
+  --font-body:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:760px;margin:0 auto;padding:0 24px}
+
+/* Noise */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.025;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Header */
+header{background:var(--navy);color:#fff;padding:20px 0 24px}
+header .container{position:relative}
+.breadcrumb{font-family:var(--font-body);font-size:0.75rem;margin-bottom:14px;opacity:0.5;letter-spacing:0.3px}
+.breadcrumb a{color:#fff;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline;opacity:1}
+.breadcrumb span{opacity:0.8}
+header h1{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2;margin-bottom:6px}
+header p{font-size:0.9rem;opacity:0.6;font-weight:400;max-width:500px}
+header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:16px;border-radius:2px}
+
+.ad-slot{background:var(--cream-dark);border:1px dashed var(--border);padding:20px;text-align:center;color:var(--text-light);font-size:0.8rem;margin:20px 0;border-radius:var(--radius);font-weight:500}
+main{padding:28px 0 48px}
 
 /* Calculator Card */
-.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.calc-card h2{font-size:1.25rem;margin-bottom:16px;color:var(--text)}
+.calc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;border:1px solid rgba(0,0,0,0.04);position:relative}
+.calc-card::before{content:'';position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,var(--primary),transparent)}
+.calc-card h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:18px;color:var(--text);font-weight:700;letter-spacing:-0.3px}
 .input-group{margin-bottom:18px}
-.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.9rem}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px}
 .input-row{display:flex;gap:12px;align-items:center}
-.input-row input{flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
-.input-row input:focus{outline:none;border-color:var(--primary)}
-.unit-toggle{display:flex;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
-.unit-toggle button{padding:10px 16px;border:none;background:#f5f5f5;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-light);transition:all 0.2s}
+.input-row input{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:1.05rem;font-family:var(--font-body);transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;background:#fff}
+.input-row input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(230,57,70,0.08)}
+.unit-toggle{display:flex;border-radius:6px;overflow:hidden;border:1.5px solid var(--border)}
+.unit-toggle button{padding:10px 16px;border:none;background:var(--cream);cursor:pointer;font-size:0.82rem;font-weight:600;color:var(--text-mid);transition:all 0.15s;font-family:var(--font-body)}
 .unit-toggle button.active{background:var(--primary);color:#fff}
-.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:8px}
-.convert-btn:hover{background:var(--primary-dark)}
-.convert-btn:active{transform:scale(0.98)}
+.convert-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.15s;margin-top:8px;font-family:var(--font-body);letter-spacing:0.2px}
+.convert-btn:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.convert-btn:active{transform:scale(0.98);box-shadow:none}
 
 /* Result */
-.result{display:none;background:#fff7ed;border:2px solid #fed7aa;border-radius:var(--radius);padding:24px;text-align:center;margin-top:20px}
-.result.visible{display:block;animation:fadeIn 0.3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.result-label{font-size:0.85rem;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
-.result-value{font-size:2rem;font-weight:800;color:var(--primary)}
-.result-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.result{display:none;background:var(--cream);border:1.5px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius);padding:24px;margin-top:20px}
+.result.visible{display:block;animation:resultIn 0.35s ease}
+@keyframes resultIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:0.72rem;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
+.result-value{font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--primary);letter-spacing:-1px;line-height:1.2}
+.result-row{display:flex;justify-content:flex-start;gap:48px;flex-wrap:wrap}
 .result-item{padding:12px 0}
-.result-tip{font-size:0.85rem;color:var(--text-light);margin-top:16px;padding-top:16px;border-top:1px solid #fed7aa}
+.result-tip{font-size:0.82rem;color:var(--text-mid);margin-top:16px;padding-top:16px;border-top:1px solid var(--border);line-height:1.6}
 
 /* Presets */
 .presets{margin-top:24px}
-.presets h3{font-size:1rem;margin-bottom:12px;color:var(--text)}
+.presets h3{font-family:var(--font-display);font-size:0.95rem;margin-bottom:12px;color:var(--text);font-weight:700}
 .preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.preset-btn{padding:10px 12px;background:#f5f5f5;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;text-align:left;transition:all 0.2s}
-.preset-btn:hover{border-color:var(--primary);background:#fff7ed}
-.preset-btn span{display:block;font-size:0.75rem;color:var(--text-light);margin-top:2px}
+.preset-btn{padding:10px 12px;background:var(--cream);border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:500;text-align:left;transition:all 0.15s;font-family:var(--font-body)}
+.preset-btn:hover{border-color:var(--primary);background:var(--card)}
+.preset-btn span{display:block;font-size:0.72rem;color:var(--text-light);margin-top:2px}
 
 /* Reference Chart */
-.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.chart-section h2{font-size:1.25rem;margin-bottom:16px}
-.chart-table{width:100%;border-collapse:collapse;font-size:0.9rem}
-.chart-table th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
-.chart-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.chart-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;border:1px solid rgba(0,0,0,0.04)}
+.chart-section h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:16px;font-weight:700;letter-spacing:-0.3px}
+.chart-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.chart-table th{background:var(--cream);padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-mid)}
+.chart-table td{padding:10px 12px;border-bottom:1px solid var(--cream-dark)}
 .chart-table tr:last-child td{border-bottom:none}
-.chart-table tr:hover td{background:#fff7ed}
+.chart-table tr:hover td{background:var(--cream)}
 
 /* FAQ */
-.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.faq-section h2{font-size:1.25rem;margin-bottom:16px}
-.faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+.faq-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;border:1px solid rgba(0,0,0,0.04)}
+.faq-section h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:16px;font-weight:700;letter-spacing:-0.3px}
+.faq-item{border-bottom:1px solid var(--cream-dark);padding:16px 0}
 .faq-item:last-child{border-bottom:none}
-.faq-item h3{font-size:0.95rem;font-weight:600;margin-bottom:6px;cursor:pointer}
-.faq-item p{font-size:0.9rem;color:var(--text-light);line-height:1.7}
-
-/* Breadcrumb */
-.breadcrumb{font-size:0.8rem;margin-bottom:12px;opacity:0.85}
-.breadcrumb a{color:#fff;text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline}
-.breadcrumb span{opacity:0.9}
+.faq-item h3{font-family:var(--font-display);font-size:0.92rem;font-weight:700;margin-bottom:6px;cursor:pointer;letter-spacing:-0.2px}
+.faq-item p{font-size:0.88rem;color:var(--text-mid);line-height:1.7}
 
 /* Info Sections */
-.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.info-section h2{font-size:1.25rem;margin-bottom:16px}
-.info-section p,.info-section li{font-size:0.9rem;color:var(--text-light);line-height:1.7}
+.info-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;border:1px solid rgba(0,0,0,0.04)}
+.info-section h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:16px;font-weight:700;letter-spacing:-0.3px}
+.info-section p,.info-section li{font-size:0.88rem;color:var(--text-mid);line-height:1.7}
 .info-section ul{margin-left:20px;margin-bottom:12px}
 .info-section li{margin-bottom:6px}
 
 /* Last Updated */
-.last-updated{font-size:0.78rem;color:var(--text-light);text-align:center;margin-bottom:16px;font-style:italic}
+.last-updated{font-size:0.72rem;color:var(--text-light);text-align:left;margin-bottom:16px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
 
 /* Embed Code */
-.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px}
-.embed-section h2{font-size:1.25rem;margin-bottom:12px}
-.embed-section p{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
-.embed-code{width:100%;padding:12px;font-family:monospace;font-size:0.8rem;border:2px solid var(--border);border-radius:8px;background:#f9fafb;resize:none;color:var(--text)}
-.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600}
-.embed-copy-btn:hover{background:var(--primary-dark)}
+.embed-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;border:1px solid rgba(0,0,0,0.04)}
+.embed-section h2{font-family:var(--font-display);font-size:1.15rem;margin-bottom:12px;font-weight:700}
+.embed-section p{font-size:0.82rem;color:var(--text-mid);margin-bottom:12px}
+.embed-code{width:100%;padding:12px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:0.78rem;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);resize:none;color:var(--text)}
+.embed-copy-btn{margin-top:8px;padding:8px 16px;background:var(--navy);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:600;font-family:var(--font-body);transition:background 0.15s}
+.embed-copy-btn:hover{background:var(--navy-light)}
 
 /* Footer */
-footer{background:#f5f5f5;padding:24px 0;text-align:center;font-size:0.8rem;color:var(--text-light);border-top:1px solid var(--border)}
-footer a{color:var(--text-light)}
+footer{background:var(--navy);padding:28px 0;text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.4)}
+footer a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
+footer a:hover{color:#fff}
 
 /* Share Bar */
-.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb}
+.share-bar{display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
 .share-bar.visible{display:block}
 .share-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s}
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer;text-decoration:none;color:#fff;transition:opacity 0.2s;font-family:var(--font-body)}
 .share-btn:hover{opacity:0.85}
 .share-btn-x{background:#000}
 .share-btn-fb{background:#1877f2}
 .share-btn-reddit{background:#ff4500}
-.share-btn-copy{background:#6b7280;color:#fff}
+.share-btn-copy{background:var(--text-mid);color:#fff}
 .share-btn-download{background:var(--primary)}
-.share-cta{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:12px}
-.share-comparison{font-size:0.88rem;color:var(--text);padding:12px 16px;background:#f0fdf4;border-radius:8px;border-left:4px solid #22c55e;margin-bottom:12px;line-height:1.6}
+.share-cta{font-family:var(--font-display);font-size:0.92rem;font-weight:700;color:var(--primary);margin-bottom:12px}
+.share-comparison{font-size:0.85rem;color:var(--text);padding:12px 16px;background:var(--cream);border-radius:6px;border-left:3px solid var(--coral);margin-bottom:12px;line-height:1.6}
 
 /* Print */
 @media print{.ad-slot,.convert-btn,.presets,header,footer,.share-bar,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
 
 /* Mobile */
 @media(max-width:480px){
-  header h1{font-size:1.3rem}
+  header h1{font-size:1.4rem}
   .calc-card{padding:20px 16px}
-  .result-row{gap:20px}
-  .result-value{font-size:1.6rem}
+  .result-row{gap:24px}
+  .result-value{font-size:1.8rem}
   .preset-grid{grid-template-columns:1fr 1fr}
   .input-row{flex-wrap:wrap}
   .input-row input{min-width:0}
@@ -243,7 +271,7 @@ footer a{color:var(--text-light)}
 <header>
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a> &rsaquo; <a href="/energy-independence-calculators/">Energy Independence Calculators</a> &rsaquo; <span>Solar Panel Payback Calculator — Louisiana</span>
+      <a href="/">CrunchMilk</a> &rsaquo; <a href="/energy-independence-calculators/">Energy Independence Calculators</a> &rsaquo; <span>Solar Panel Payback Calculator — Louisiana</span>
     </nav>
     <h1>Solar Panel Payback Calculator — Louisiana</h1>
     <p>Calculate how long solar panels take to pay for themselves and your 25-year return on investment — Louisiana specific rates and rules</p>
@@ -254,7 +282,7 @@ footer a{color:var(--text-light)}
 <div class="container">
 
   <!-- Ad Slot: Top -->
-  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+  <div class="ad-slot" aria-hidden="true">Ad Space &mdash; 728x90 Leaderboard</div>
 
   <!-- Calculator -->
   <div class="calc-card">
@@ -342,7 +370,7 @@ footer a{color:var(--text-light)}
   </div>
 
   <!-- Ad Slot: Middle -->
-  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+  <div class="ad-slot" aria-hidden="true">Ad Space &mdash; 336x280 Rectangle</div>
 
   <!-- Last Updated -->
     <div class="last-updated">Last updated: 2026-03-10</div>
@@ -415,7 +443,7 @@ footer a{color:var(--text-light)}
   </div>
 
   <!-- Ad Slot: Before FAQ -->
-  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+  <div class="ad-slot" aria-hidden="true">Ad Space &mdash; 336x280 Rectangle</div>
 
   <!-- FAQ -->
     <div class="faq-section">
@@ -481,8 +509,8 @@ footer a{color:var(--text-light)}
 
 <footer>
   <div class="container">
-    <p>&copy; 2026 Solar Panel Payback Calculator — Louisiana. Free tool — no signup required.</p>
-    <p style="margin-top:4px"><a href="/privacy/">Privacy Policy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">More Tools</a></p>
+    <p>&copy; 2026 CrunchMilk &middot; Solar Panel Payback Calculator — Louisiana</p>
+    <p style="margin-top:4px"><a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="/">All Tools</a></p>
   </div>
 </footer>
 
