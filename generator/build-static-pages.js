@@ -9,6 +9,9 @@ const OUTPUT_DIR = path.join(ROOT, 'output');
 const year = new Date().getFullYear();
 
 // Shared styles & components matching the site design system
+const ADSENSE = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4448238469960841"
+     crossorigin="anonymous"></script>`;
+
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">`;
@@ -89,6 +92,7 @@ function build404() {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page Not Found &mdash; CrunchMilk</title>
 <meta name="robots" content="noindex">
+${ADSENSE}
 ${FONTS}
 ${FAVICON}
 <style>
@@ -154,6 +158,7 @@ function buildPrivacy() {
 <meta name="description" content="CrunchMilk privacy policy. We don't collect personal data. All calculations run in your browser.">
 <link rel="canonical" href="https://crunchmilk.com/privacy/">
 <meta name="robots" content="noindex, follow">
+${ADSENSE}
 ${FONTS}
 ${FAVICON}
 <style>
@@ -226,6 +231,7 @@ function buildTerms() {
 <meta name="description" content="CrunchMilk terms of use. Free calculators provided as-is for informational purposes.">
 <link rel="canonical" href="https://crunchmilk.com/terms/">
 <meta name="robots" content="noindex, follow">
+${ADSENSE}
 ${FONTS}
 ${FAVICON}
 <style>
