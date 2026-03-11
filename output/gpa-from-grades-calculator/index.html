@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="creditsA">Credits with A</label>
-      <input type="number" id="creditsA" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="creditsA" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="creditsB">Credits with B</label>
-      <input type="number" id="creditsB" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="creditsB" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="creditsC">Credits with C</label>
-      <input type="number" id="creditsC" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="creditsC" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="creditsD">Credits with D</label>
-      <input type="number" id="creditsD" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="creditsD" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="creditsF">Credits with F</label>
-      <input type="number" id="creditsF" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="creditsF" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This gpa calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>GPA</strong> — GPA = Σ(Grade Points × Credits) / Total Credits — <em>Weighted average of grade points by credit hours.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Educational costs and financial aid vary by institution. Contact schools directly for current figures.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How is GPA calculated?</h3>
+      <p>Multiply each grade's point value by credits, sum them, then divide by total credits.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What GPA do I need for honors?</h3>
+      <p>Most schools require 3.5+ for cum laude, 3.7+ for magna cum laude, 3.9+ for summa cum laude.</p>
     </div>
 
   </div>
@@ -419,7 +419,8 @@ footer a:hover{color:#fff}
     var creditsF = parseFloat(document.getElementById('creditsF').value) || 0;
 
     // Calculation logic
-    var totalCredits = creditsA + creditsB + creditsC + creditsD + creditsF; var points = creditsA*4 + creditsB*3 + creditsC*2 + creditsD*1 + creditsF*0; var gpa = totalCredits > 0 ? points / totalCredits : 0; return {gpa: fmt(gpa,2), totalCredits: fmt(totalCredits,0)};
+    var totalCredits = creditsA + creditsB + creditsC + creditsD + creditsF; var points = creditsA*4 + creditsB*3 + creditsC*2 + creditsD*1 + creditsF*0; var gpa = totalCredits > 0 ? points / totalCredits : 0;     document.getElementById('gpa').textContent = fmt(gpa,2);
+    document.getElementById('totalCredits').textContent = fmt(totalCredits,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

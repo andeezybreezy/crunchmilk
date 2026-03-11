@@ -15,7 +15,9 @@
     var waterRate = parseFloat(document.getElementById('waterRate').value) || 0;
 
     // Calculation logic
-    var dailySavings = flushesDay * (currentGPF - newGPF); var annualSavings = dailySavings * 365; var costSavings = (annualSavings / 1000) * waterRate; return {dailySavings: fmt(dailySavings,1), annualSavings: fmt(annualSavings,0), costSavings: dollar(costSavings)};
+    var dailySavings = flushesDay * (currentGPF - newGPF); var annualSavings = dailySavings * 365; var costSavings = (annualSavings / 1000) * waterRate;     document.getElementById('dailySavings').textContent = fmt(dailySavings,1);
+    document.getElementById('annualSavings').textContent = fmt(annualSavings,0);
+    document.getElementById('costSavings').textContent = dollar(costSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

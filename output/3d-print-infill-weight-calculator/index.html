@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="volume">Part Volume (cm³)</label>
-      <input type="number" id="volume" value="undefined" min="1" max="5000" step="1" inputmode="decimal">
+      <input type="number" id="volume" value="" min="1" max="5000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="infill">Infill Percentage (%)</label>
-      <input type="number" id="infill" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="infill" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="wallThickness">Wall Shells</label>
-      <input type="number" id="wallThickness" value="undefined" min="1" max="8" step="1" inputmode="decimal">
+      <input type="number" id="wallThickness" value="" min="1" max="8" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This 3d print infill calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Estimated Weight</strong> — Weight = Volume × Density × (0.3 + Infill% × 0.7) — <em>Solid fraction increases with infill percentage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What infill percentage should I use?</h3>
+      <p>10-20% for decorative, 40-60% for functional, 100% for maximum strength.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How does infill affect strength?</h3>
+      <p>Strength increases rapidly up to 40% infill, with diminishing returns after.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var wallThickness = parseFloat(document.getElementById('wallThickness').value) || 0;
 
     // Calculation logic
-    var density = 1.24; var solidFraction = 0.3 + (infill / 100) * 0.7; var weight = volume * density * solidFraction; var filamentLength = weight / 3; var printTime = (volume * solidFraction) / 15; return {weight: fmt(weight,1), filamentLength: fmt(filamentLength,1), printTime: fmt(printTime,1)};
+    var density = 1.24; var solidFraction = 0.3 + (infill / 100) * 0.7; var weight = volume * density * solidFraction; var filamentLength = weight / 3; var printTime = (volume * solidFraction) / 15;     document.getElementById('weight').textContent = fmt(weight,1);
+    document.getElementById('filamentLength').textContent = fmt(filamentLength,1);
+    document.getElementById('printTime').textContent = fmt(printTime,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

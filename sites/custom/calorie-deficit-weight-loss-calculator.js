@@ -14,7 +14,9 @@
     var goalLbs = parseFloat(document.getElementById('goalLbs').value) || 0;
 
     // Calculation logic
-    var mult = {'Sedentary': 13, 'Lightly Active': 14.5, 'Moderately Active': 16, 'Very Active': 18}; var tdee = weight * (mult[activity] || 14.5); var deficitCal = goalLbs * 500; var target = Math.max(tdee - deficitCal, 1200); var weeks = 20 / goalLbs; return {tdee: fmt(tdee,0), target: fmt(target,0), weeks: fmt(weeks,0)};
+    var mult = {'Sedentary': 13, 'Lightly Active': 14.5, 'Moderately Active': 16, 'Very Active': 18}; var tdee = weight * (mult[activity] || 14.5); var deficitCal = goalLbs * 500; var target = Math.max(tdee - deficitCal, 1200); var weeks = 20 / goalLbs;     document.getElementById('tdee').textContent = fmt(tdee,0);
+    document.getElementById('target').textContent = fmt(target,0);
+    document.getElementById('weeks').textContent = fmt(weeks,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

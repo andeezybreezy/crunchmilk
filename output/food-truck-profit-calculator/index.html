@@ -300,31 +300,31 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="avgTicket">Average Ticket Price ($)</label>
-      <input type="number" id="avgTicket" value="undefined" min="3" max="50" step="0.5" inputmode="decimal">
+      <input type="number" id="avgTicket" value="" min="3" max="50" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="customersPerDay">Customers per Day</label>
-      <input type="number" id="customersPerDay" value="undefined" min="10" max="500" step="5" inputmode="decimal">
+      <input type="number" id="customersPerDay" value="" min="10" max="500" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="foodCostPct">Food Cost (%)</label>
-      <input type="number" id="foodCostPct" value="undefined" min="15" max="50" step="1" inputmode="decimal">
+      <input type="number" id="foodCostPct" value="" min="15" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="daysPerWeek">Days Open per Week</label>
-      <input type="number" id="daysPerWeek" value="undefined" min="1" max="7" step="1" inputmode="decimal">
+      <input type="number" id="daysPerWeek" value="" min="1" max="7" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="rent">Monthly Lot Fees / Rent ($)</label>
-      <input type="number" id="rent" value="undefined" min="0" max="5000" step="50" inputmode="decimal">
+      <input type="number" id="rent" value="" min="0" max="5000" step="50" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="laborDaily">Daily Labor Cost ($)</label>
-      <input type="number" id="laborDaily" value="undefined" min="0" max="1000" step="25" inputmode="decimal">
+      <input type="number" id="laborDaily" value="" min="0" max="1000" step="25" inputmode="decimal">
     </div>
   </div>
 
@@ -368,7 +368,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This food truck profit calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Daily Profit</strong> — Profit = Revenue - Food Cost - Labor - Fuel - Other Expenses — <em>Gross revenue minus all variable daily costs gives your daily operating profit.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -381,13 +381,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much can a food truck make per year?</h3>
+      <p>Successful food trucks gross $250,000-$500,000 annually. After all expenses, net profit is typically $50,000-$150,000.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a good food cost percentage for a food truck?</h3>
+      <p>Target 28-32% food cost. Below 25% may signal quality issues, above 35% squeezes margins too thin.</p>
     </div>
 
   </div>
@@ -442,7 +442,10 @@ footer a:hover{color:#fff}
     var laborDaily = parseFloat(document.getElementById('laborDaily').value) || 0;
 
     // Calculation logic
-    var dailyRevenue = avgTicket * customersPerDay; var dailyFoodCost = dailyRevenue * (foodCostPct / 100); var dailyFuel = 25; var dailyOther = 30; var dailyProfit = dailyRevenue - dailyFoodCost - laborDaily - dailyFuel - dailyOther; var monthlyDays = daysPerWeek * 4.33; var monthlyRevenue = dailyRevenue * monthlyDays; var monthlyProfit = (dailyProfit * monthlyDays) - rent; var annualProfit = monthlyProfit * 12; return {dailyRevenue: dollar(dailyRevenue), dailyProfit: dollar(dailyProfit), monthlyProfit: dollar(monthlyProfit), annualProfit: dollar(annualProfit)};
+    var dailyRevenue = avgTicket * customersPerDay; var dailyFoodCost = dailyRevenue * (foodCostPct / 100); var dailyFuel = 25; var dailyOther = 30; var dailyProfit = dailyRevenue - dailyFoodCost - laborDaily - dailyFuel - dailyOther; var monthlyDays = daysPerWeek * 4.33; var monthlyRevenue = dailyRevenue * monthlyDays; var monthlyProfit = (dailyProfit * monthlyDays) - rent; var annualProfit = monthlyProfit * 12;     document.getElementById('dailyRevenue').textContent = dollar(dailyRevenue);
+    document.getElementById('dailyProfit').textContent = dollar(dailyProfit);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('annualProfit').textContent = dollar(annualProfit);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

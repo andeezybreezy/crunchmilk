@@ -13,7 +13,9 @@
     var weight = parseFloat(document.getElementById('weight').value) || 0;
 
     // Calculation logic
-    var weightKg = weight * 0.453592; var wpk = ftp / weightKg; var level = wpk >= 5.5 ? 'World Class' : wpk >= 4.5 ? 'Cat 1/Pro' : wpk >= 3.7 ? 'Cat 2/3' : wpk >= 3.0 ? 'Cat 4/5' : wpk >= 2.5 ? 'Recreational' : 'Beginner'; var climbSpeed = (wpk * 2.5) - 1; return {wpk: fmt(wpk,2), level: level, climbSpeed: fmt(Math.max(climbSpeed,2),1)};
+    var weightKg = weight * 0.453592; var wpk = ftp / weightKg; var level = wpk >= 5.5 ? 'World Class' : wpk >= 4.5 ? 'Cat 1/Pro' : wpk >= 3.7 ? 'Cat 2/3' : wpk >= 3.0 ? 'Cat 4/5' : wpk >= 2.5 ? 'Recreational' : 'Beginner'; var climbSpeed = (wpk * 2.5) - 1;     document.getElementById('wpk').textContent = fmt(wpk,2);
+    document.getElementById('level').textContent = level;
+    document.getElementById('climbSpeed').textContent = fmt(Math.max(climbSpeed,2),1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

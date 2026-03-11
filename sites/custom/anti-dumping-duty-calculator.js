@@ -14,7 +14,9 @@
     var quantity = parseFloat(document.getElementById('quantity').value) || 0;
 
     // Calculation logic
-    var dumpingMargin = Math.max(((fairValue - exportPrice) / exportPrice) * 100, 0); var dutyPerUnit = Math.max(fairValue - exportPrice, 0); var totalDuty = dutyPerUnit * quantity; return {dumpingMargin: fmt(dumpingMargin,1), dutyPerUnit: dollar(dutyPerUnit), totalDuty: dollar(totalDuty)};
+    var dumpingMargin = Math.max(((fairValue - exportPrice) / exportPrice) * 100, 0); var dutyPerUnit = Math.max(fairValue - exportPrice, 0); var totalDuty = dutyPerUnit * quantity;     document.getElementById('dumpingMargin').textContent = fmt(dumpingMargin,1);
+    document.getElementById('dutyPerUnit').textContent = dollar(dutyPerUnit);
+    document.getElementById('totalDuty').textContent = dollar(totalDuty);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

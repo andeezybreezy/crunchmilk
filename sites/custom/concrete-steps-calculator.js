@@ -15,7 +15,9 @@
     var numSteps = parseFloat(document.getElementById('numSteps').value) || 0;
 
     // Calculation logic
-    var totalCuFt = 0; for (var i = 1; i <= numSteps; i++) { totalCuFt += width * (treadDepth/12) * (riserHeight/12 * i); } totalCuFt *= 1.1; var cuYd = totalCuFt / 27; var bags80 = Math.ceil(totalCuFt / 0.6); var cost = cuYd * 150; return {cuYd: fmt(cuYd,2), bags80: fmt(bags80,0), cost: dollar(cost)};
+    var totalCuFt = 0; for (var i = 1; i <= numSteps; i++) { totalCuFt += width * (treadDepth/12) * (riserHeight/12 * i); } totalCuFt *= 1.1; var cuYd = totalCuFt / 27; var bags80 = Math.ceil(totalCuFt / 0.6); var cost = cuYd * 150;     document.getElementById('cuYd').textContent = fmt(cuYd,2);
+    document.getElementById('bags80').textContent = fmt(bags80,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

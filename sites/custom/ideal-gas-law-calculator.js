@@ -14,7 +14,8 @@
     var temperature = parseFloat(document.getElementById('temperature').value) || 0;
 
     // Calculation logic
-    var R = 0.08206; var tempK = temperature + 273.15; var volume = (moles * R * tempK) / pressure; var volumeM3 = volume / 1000; return {volume: fmt(volume,3), volumeM3: fmt(volumeM3,5)};
+    var R = 0.08206; var tempK = temperature + 273.15; var volume = (moles * R * tempK) / pressure; var volumeM3 = volume / 1000;     document.getElementById('volume').textContent = fmt(volume,3);
+    document.getElementById('volumeM3').textContent = fmt(volumeM3,5);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

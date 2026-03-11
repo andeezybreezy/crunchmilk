@@ -411,7 +411,9 @@ footer a:hover{color:#fff}
     var length = parseFloat(document.getElementById('length').value) || 0;
 
     // Calculation logic
-    var dia=parseFloat(pipeDia); var area=Math.PI*Math.pow(dia/2/12,2); var frictionFactor=0.02; var headLoss=frictionFactor*length*8/(dia/12); var effectivePressure=Math.max(pressure-headLoss*0.433,5); var velocity=Math.sqrt(2*effectivePressure*144/62.4)*0.6; var flowCFS=velocity*area; var flowGPM=flowCFS*448.83; var dailyGal=flowGPM*60*24; return {flowGPM:fmt(flowGPM,1)+' GPM', velocity:fmt(velocity,1)+' ft/s', dailyGal:fmt(dailyGal,0)+' gal/day'};
+    var dia=parseFloat(pipeDia); var area=Math.PI*Math.pow(dia/2/12,2); var frictionFactor=0.02; var headLoss=frictionFactor*length*8/(dia/12); var effectivePressure=Math.max(pressure-headLoss*0.433,5); var velocity=Math.sqrt(2*effectivePressure*144/62.4)*0.6; var flowCFS=velocity*area; var flowGPM=flowCFS*448.83; var dailyGal=flowGPM*60*24;     document.getElementById('flowGPM').textContent = fmt(flowGPM,1)+' GPM';
+    document.getElementById('velocity').textContent = fmt(velocity,1)+' ft/s';
+    document.getElementById('dailyGal').textContent = fmt(dailyGal,0)+' gal/day';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

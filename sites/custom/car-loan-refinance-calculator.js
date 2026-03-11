@@ -16,7 +16,10 @@
     var newMonths = parseFloat(document.getElementById('newMonths').value) || 0;
 
     // Calculation logic
-    var cr = currentRate/100/12; var nr = newRate/100/12; var currentPayment = balance * cr / (1 - Math.pow(1+cr, -currentMonths)); var newPayment = balance * nr / (1 - Math.pow(1+nr, -newMonths)); var currentTotal = currentPayment * currentMonths; var newTotal = newPayment * newMonths; var totalSavings = currentTotal - newTotal; var monthlySavings = currentPayment - newPayment; return {currentPayment: dollar(currentPayment), newPayment: dollar(newPayment), monthlySavings: dollar(monthlySavings), totalSavings: dollar(totalSavings)};
+    var cr = currentRate/100/12; var nr = newRate/100/12; var currentPayment = balance * cr / (1 - Math.pow(1+cr, -currentMonths)); var newPayment = balance * nr / (1 - Math.pow(1+nr, -newMonths)); var currentTotal = currentPayment * currentMonths; var newTotal = newPayment * newMonths; var totalSavings = currentTotal - newTotal; var monthlySavings = currentPayment - newPayment;     document.getElementById('currentPayment').textContent = dollar(currentPayment);
+    document.getElementById('newPayment').textContent = dollar(newPayment);
+    document.getElementById('monthlySavings').textContent = dollar(monthlySavings);
+    document.getElementById('totalSavings').textContent = dollar(totalSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="hideSize">Hide Size (sq ft)</label>
-      <input type="number" id="hideSize" value="undefined" min="1" max="60" step="1" inputmode="decimal">
+      <input type="number" id="hideSize" value="" min="1" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="waste">Waste/Defect (%)</label>
-      <input type="number" id="waste" value="undefined" min="5" max="50" step="5" inputmode="decimal">
+      <input type="number" id="waste" value="" min="5" max="50" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pieceArea">Piece Size (sq inches)</label>
-      <input type="number" id="pieceArea" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="pieceArea" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This leather hide coverage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Usable Area</strong> — Usable = Hide Size × (1 - Waste%) — <em>Total hide minus defects and unusable edges.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much waste from a leather hide?</h3>
+      <p>Typically 20-30% waste from edges, belly, and defects.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What size hide do I need?</h3>
+      <p>A full cowhide is 40-55 sq ft, a half hide is 20-25 sq ft.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var pieceArea = parseFloat(document.getElementById('pieceArea').value) || 0;
 
     // Calculation logic
-    var usable = hideSize * (1 - waste/100); var pieceSqFt = pieceArea / 144; var pieces = Math.floor(usable / pieceSqFt); return {usable: fmt(usable,1), pieces: fmt(pieces,0)};
+    var usable = hideSize * (1 - waste/100); var pieceSqFt = pieceArea / 144; var pieces = Math.floor(usable / pieceSqFt);     document.getElementById('usable').textContent = fmt(usable,1);
+    document.getElementById('pieces').textContent = fmt(pieces,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="0.5" max="200" step="0.5" inputmode="decimal">
+      <input type="number" id="length" value="" min="0.5" max="200" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="0.5" max="100" step="0.5" inputmode="decimal">
+      <input type="number" id="width" value="" min="0.5" max="100" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="depth">Depth (inches)</label>
-      <input type="number" id="depth" value="undefined" min="1" max="48" step="1" inputmode="decimal">
+      <input type="number" id="depth" value="" min="1" max="48" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This soil volume calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Volume</strong> — Cu Yd = L × W × D/12 / 27 — <em>Dimensions to cubic yards.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does soil weigh?</h3>
+      <p>About 1.1 tons per cubic yard for topsoil.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How deep for a garden?</h3>
+      <p>6-8 inches for most gardens, 12+ for raised beds.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var depth = parseFloat(document.getElementById('depth').value) || 0;
 
     // Calculation logic
-    var cuFt = length * width * (depth/12); var cuYd = cuFt / 27; var tons = cuYd * 1.1; var cost = cuYd * 30; return {cuYd: fmt(cuYd,2), tons: fmt(tons,1), cost: dollar(cost)};
+    var cuFt = length * width * (depth/12); var cuYd = cuFt / 27; var tons = cuYd * 1.1; var cost = cuYd * 30;     document.getElementById('cuYd').textContent = fmt(cuYd,2);
+    document.getElementById('tons').textContent = fmt(tons,1);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

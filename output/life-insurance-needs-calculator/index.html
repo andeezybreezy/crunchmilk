@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="income">Annual Income ($)</label>
-      <input type="number" id="income" value="undefined" min="10000" max="1000000" step="5000" inputmode="decimal">
+      <input type="number" id="income" value="" min="10000" max="1000000" step="5000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="yearsReplace">Years to Replace Income</label>
-      <input type="number" id="yearsReplace" value="undefined" min="1" max="40" step="1" inputmode="decimal">
+      <input type="number" id="yearsReplace" value="" min="1" max="40" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="debt">Total Debts ($)</label>
-      <input type="number" id="debt" value="undefined" min="0" max="2000000" step="10000" inputmode="decimal">
+      <input type="number" id="debt" value="" min="0" max="2000000" step="10000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="education">Children's Education ($)</label>
-      <input type="number" id="education" value="undefined" min="0" max="1000000" step="10000" inputmode="decimal">
+      <input type="number" id="education" value="" min="0" max="1000000" step="10000" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="existing">Existing Coverage ($)</label>
-      <input type="number" id="existing" value="undefined" min="0" max="5000000" step="10000" inputmode="decimal">
+      <input type="number" id="existing" value="" min="0" max="5000000" step="10000" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This life insurance needs calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>DIME Method</strong> — Need = (Income × Years) + Debts + Education — <em>Sum of income replacement, debts, and education funding needs.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Insurance rates depend on many individual factors. Get personalized quotes from licensed providers.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much life insurance do I need?</h3>
+      <p>The DIME method: Debt + Income replacement + Mortgage + Education costs.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Term vs whole life?</h3>
+      <p>Term is cheaper and covers most needs. Whole life includes investment but costs 5-10x more.</p>
     </div>
 
   </div>
@@ -419,7 +419,8 @@ footer a:hover{color:#fff}
     var existing = parseFloat(document.getElementById('existing').value) || 0;
 
     // Calculation logic
-    var incomeReplace = income * yearsReplace; var totalNeed = incomeReplace + debt + education; var gap = Math.max(totalNeed - existing, 0); return {totalNeed: dollar(totalNeed), gap: dollar(gap)};
+    var incomeReplace = income * yearsReplace; var totalNeed = incomeReplace + debt + education; var gap = Math.max(totalNeed - existing, 0);     document.getElementById('totalNeed').textContent = dollar(totalNeed);
+    document.getElementById('gap').textContent = dollar(gap);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var ventilation = document.getElementById('ventilation').value;
 
     // Calculation logic
-    var rating = vocLevel <= 5 ? 'Excellent (zero/ultra-low VOC)' : vocLevel <= 50 ? 'Good (low VOC)' : vocLevel <= 150 ? 'Fair (medium VOC)' : 'Poor (high VOC)'; var baseWait = vocLevel <= 5 ? 1 : vocLevel <= 50 ? 3 : vocLevel <= 150 ? 7 : 14; var ventMult = {'Poor (no windows open)': 2, 'Moderate (1 window)': 1.5, 'Good (cross ventilation)': 1, 'Excellent (fans + windows)': 0.7}; var waitTime = Math.ceil(baseWait * (ventMult[ventilation] || 1)); var recommendation = vocLevel <= 50 ? 'Safe choice for nursery' : 'Consider a lower VOC option for baby safety'; return {rating: rating, waitTime: fmt(waitTime,0), recommendation: recommendation};
+    var rating = vocLevel <= 5 ? 'Excellent (zero/ultra-low VOC)' : vocLevel <= 50 ? 'Good (low VOC)' : vocLevel <= 150 ? 'Fair (medium VOC)' : 'Poor (high VOC)'; var baseWait = vocLevel <= 5 ? 1 : vocLevel <= 50 ? 3 : vocLevel <= 150 ? 7 : 14; var ventMult = {'Poor (no windows open)': 2, 'Moderate (1 window)': 1.5, 'Good (cross ventilation)': 1, 'Excellent (fans + windows)': 0.7}; var waitTime = Math.ceil(baseWait * (ventMult[ventilation] || 1)); var recommendation = vocLevel <= 50 ? 'Safe choice for nursery' : 'Consider a lower VOC option for baby safety';     document.getElementById('rating').textContent = rating;
+    document.getElementById('waitTime').textContent = fmt(waitTime,0);
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

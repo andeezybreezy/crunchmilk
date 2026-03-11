@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="carsPerDay">Cars per Day</label>
-      <input type="number" id="carsPerDay" value="undefined" min="10" max="500" step="10" inputmode="decimal">
+      <input type="number" id="carsPerDay" value="" min="10" max="500" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="avgTicket">Average Ticket ($)</label>
-      <input type="number" id="avgTicket" value="undefined" min="5" max="50" step="1" inputmode="decimal">
+      <input type="number" id="avgTicket" value="" min="5" max="50" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="operatingDays">Operating Days per Month</label>
-      <input type="number" id="operatingDays" value="undefined" min="20" max="31" step="1" inputmode="decimal">
+      <input type="number" id="operatingDays" value="" min="20" max="31" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="expensePct">Operating Expenses (%)</label>
-      <input type="number" id="expensePct" value="undefined" min="30" max="80" step="5" inputmode="decimal">
+      <input type="number" id="expensePct" value="" min="30" max="80" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This car wash revenue calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Profit</strong> — Profit = Cars × Avg Ticket × Days × (1 - Expense%) — <em>Revenue minus operating expenses.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does a car wash make?</h3>
+      <p>Express washes average $50k-200k+ annual profit depending on volume and location.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are the main expenses?</h3>
+      <p>Water, chemicals, equipment maintenance, labor, and rent make up 50-70% of revenue.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var expensePct = parseFloat(document.getElementById('expensePct').value) || 0;
 
     // Calculation logic
-    var monthlyRevenue = carsPerDay * avgTicket * operatingDays; var monthlyProfit = monthlyRevenue * (1 - expensePct/100); var annualProfit = monthlyProfit * 12; return {monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), annualProfit: dollar(annualProfit)};
+    var monthlyRevenue = carsPerDay * avgTicket * operatingDays; var monthlyProfit = monthlyRevenue * (1 - expensePct/100); var annualProfit = monthlyProfit * 12;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('annualProfit').textContent = dollar(annualProfit);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

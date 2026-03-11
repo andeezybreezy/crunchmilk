@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sweepSpeed">Sweep Speed (ms per channel)</label>
-      <input type="number" id="sweepSpeed" value="undefined" min="25" max="500" step="25" inputmode="decimal">
+      <input type="number" id="sweepSpeed" value="" min="25" max="500" step="25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="channelRange">Number of Channels</label>
-      <input type="number" id="channelRange" value="undefined" min="10" max="100" step="5" inputmode="decimal">
+      <input type="number" id="channelRange" value="" min="10" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bandType">Band</label>
-      <select id="bandType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="bandType"><option value="bandType" selected>bandType</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This spirit box sweep rate calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Sweep Time</strong> — Time = Speed (ms) × Channels / 1000 — <em>Total time to scan through all channels.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What sweep speed is best?</h3>
+      <p>75-150ms is common. Faster sweeps reduce radio bleed-through but may miss responses.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>AM or FM for spirit box?</h3>
+      <p>Both are used. FM has less static, AM may capture more anomalous audio.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var bandType = document.getElementById('bandType').value;
 
     // Calculation logic
-    var fullSweep = (sweepSpeed * channelRange) / 1000; var sweepsPerMinute = 60 / fullSweep; var recommendation = sweepSpeed < 75 ? 'Very fast - may miss responses' : sweepSpeed <= 150 ? 'Good balance of speed and clarity' : 'Slow sweep - easier to analyze but fewer passes'; return {fullSweep: fmt(fullSweep,1), sweepsPerMinute: fmt(sweepsPerMinute,1), recommendation: recommendation};
+    var fullSweep = (sweepSpeed * channelRange) / 1000; var sweepsPerMinute = 60 / fullSweep; var recommendation = sweepSpeed < 75 ? 'Very fast - may miss responses' : sweepSpeed <= 150 ? 'Good balance of speed and clarity' : 'Slow sweep - easier to analyze but fewer passes';     document.getElementById('fullSweep').textContent = fmt(fullSweep,1);
+    document.getElementById('sweepsPerMinute').textContent = fmt(sweepsPerMinute,1);
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

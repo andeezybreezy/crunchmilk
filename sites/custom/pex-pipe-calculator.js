@@ -14,7 +14,10 @@
     var homeRun = document.getElementById('homeRun').value;
 
     // Calculation logic
-    var totalPipe; var fittings; if(homeRun==='homerun'){totalPipe=fixtures*avgDistance; fittings=fixtures*2;}else{totalPipe=fixtures*avgDistance*0.6; fittings=fixtures*4;} totalPipe=totalPipe*1.1; var mainSize=fixtures>6?'1 inch':'3/4 inch'; var branchSize='1/2 inch'; return {totalPipe:fmt(totalPipe,0)+' ft', mainSize:mainSize, branchSize:branchSize, fittings:fittings+' fittings (approx)'};
+    var totalPipe; var fittings; if(homeRun==='homerun'){totalPipe=fixtures*avgDistance; fittings=fixtures*2;}else{totalPipe=fixtures*avgDistance*0.6; fittings=fixtures*4;} totalPipe=totalPipe*1.1; var mainSize=fixtures>6?'1 inch':'3/4 inch'; var branchSize='1/2 inch';     document.getElementById('totalPipe').textContent = fmt(totalPipe,0)+' ft';
+    document.getElementById('mainSize').textContent = mainSize;
+    document.getElementById('branchSize').textContent = branchSize;
+    document.getElementById('fittings').textContent = fittings+' fittings (approx)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

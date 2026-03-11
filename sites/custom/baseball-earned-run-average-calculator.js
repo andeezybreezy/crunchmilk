@@ -13,7 +13,8 @@
     var inningsPitched = parseFloat(document.getElementById('inningsPitched').value) || 0;
 
     // Calculation logic
-    var era = (earnedRuns / inningsPitched) * 9; var rating = era < 2.5 ? 'Elite' : era < 3.5 ? 'Excellent' : era < 4.0 ? 'Good' : era < 5.0 ? 'Average' : 'Below Average'; return {era: fmt(era,2), rating: rating};
+    var era = (earnedRuns / inningsPitched) * 9; var rating = era < 2.5 ? 'Elite' : era < 3.5 ? 'Excellent' : era < 4.0 ? 'Good' : era < 5.0 ? 'Average' : 'Below Average';     document.getElementById('era').textContent = fmt(era,2);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

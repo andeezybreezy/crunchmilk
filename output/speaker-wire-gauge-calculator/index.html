@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Wire Run Length (ft)</label>
-      <input type="number" id="distance" value="undefined" min="1" max="500" step="5" inputmode="decimal">
+      <input type="number" id="distance" value="" min="1" max="500" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="impedance">Speaker Impedance (ohms)</label>
-      <input type="number" id="impedance" value="undefined" min="2" max="16" step="2" inputmode="decimal">
+      <input type="number" id="impedance" value="" min="2" max="16" step="2" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="power">Amplifier Power (watts)</label>
-      <input type="number" id="power" value="undefined" min="10" max="2000" step="10" inputmode="decimal">
+      <input type="number" id="power" value="" min="10" max="2000" step="10" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This speaker wire gauge calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Signal Loss</strong> — Loss% = Wire Resistance / (Wire R + Speaker R) × 100 — <em>Proportion of power lost in the wire versus delivered to speaker.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does wire gauge matter for speakers?</h3>
+      <p>Yes, thicker wire (lower gauge) reduces signal loss over long runs.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When do I need 12 gauge?</h3>
+      <p>For runs over 50 feet with 8-ohm speakers, or 25+ feet with 4-ohm speakers.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var power = parseFloat(document.getElementById('power').value) || 0;
 
     // Calculation logic
-    var ratio = distance / impedance; var gauge = ratio > 50 ? 10 : ratio > 25 ? 12 : ratio > 12 ? 14 : 16; var resistance = {'10': 0.001, '12': 0.0016, '14': 0.0025, '16': 0.004}; var wireR = resistance[String(gauge)] * distance * 2; var maxLoss = (wireR / (wireR + impedance)) * 100; return {gauge: fmt(gauge,0), maxLoss: fmt(maxLoss,1)};
+    var ratio = distance / impedance; var gauge = ratio > 50 ? 10 : ratio > 25 ? 12 : ratio > 12 ? 14 : 16; var resistance = {'10': 0.001, '12': 0.0016, '14': 0.0025, '16': 0.004}; var wireR = resistance[String(gauge)] * distance * 2; var maxLoss = (wireR / (wireR + impedance)) * 100;     document.getElementById('gauge').textContent = fmt(gauge,0);
+    document.getElementById('maxLoss').textContent = fmt(maxLoss,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

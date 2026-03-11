@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Growing Area (sq ft)</label>
-      <input type="number" id="area" value="undefined" min="1" max="200" step="1" inputmode="decimal">
+      <input type="number" id="area" value="" min="1" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="plantType">Plant Type</label>
-      <select id="plantType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="plantType"><option value="Leafy Greens" selected>Leafy Greens</option><option value="Herbs">Herbs</option><option value="Vegetables">Vegetables</option><option value="Flowering/Fruiting">Flowering/Fruiting</option><option value="Seedlings">Seedlings</option><option value="plantType">plantType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="lightType">Light Type</label>
-      <select id="lightType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="lightType"><option value="LED" selected>LED</option><option value="HPS">HPS</option><option value="Fluorescent">Fluorescent</option><option value="CMH">CMH</option><option value="lightType">lightType</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This grow light coverage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Watts</strong> — Watts = Area × W/sqft × Light Type Efficiency — <em>Required wattage based on plant needs and light technology efficiency.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many watts per square foot?</h3>
+      <p>LED: 20-40W/sq ft depending on plant type. HPS needs 50% more wattage.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How high should grow lights be?</h3>
+      <p>Typically 12-24 inches above plants for LED, 24-36 inches for HPS.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var lightType = document.getElementById('lightType').value;
 
     // Calculation logic
-    var wpf = {'Leafy Greens': 20, 'Herbs': 25, 'Vegetables': 30, 'Flowering/Fruiting': 40, 'Seedlings': 15}; var eff = {'LED': 1, 'HPS': 1.5, 'Fluorescent': 2, 'CMH': 1.3}; var base = wpf[plantType] || 30; var mult = eff[lightType] || 1; var watts = area * base * mult; var monthlyCost = (watts / 1000) * 18 * 30 * 0.12; return {watts: fmt(watts,0), monthlyCost: dollar(monthlyCost)};
+    var wpf = {'Leafy Greens': 20, 'Herbs': 25, 'Vegetables': 30, 'Flowering/Fruiting': 40, 'Seedlings': 15}; var eff = {'LED': 1, 'HPS': 1.5, 'Fluorescent': 2, 'CMH': 1.3}; var base = wpf[plantType] || 30; var mult = eff[lightType] || 1; var watts = area * base * mult; var monthlyCost = (watts / 1000) * 18 * 30 * 0.12;     document.getElementById('watts').textContent = fmt(watts,0);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

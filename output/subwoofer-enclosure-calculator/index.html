@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="driverSize">Driver Size (inches)</label>
-      <select id="driverSize"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="driverSize"><option value="8" selected>8</option><option value="Sealed">Sealed</option><option value="Ported">Ported</option><option value="Bandpass">Bandpass</option><option value="driverSize">driverSize</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="enclosureType">Enclosure Type</label>
-      <select id="enclosureType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="enclosureType"><option value="enclosureType" selected>enclosureType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="drivers">Number of Drivers</label>
-      <input type="number" id="drivers" value="undefined" min="1" max="4" step="1" inputmode="decimal">
+      <input type="number" id="drivers" value="" min="1" max="4" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This subwoofer box volume calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Box Volume</strong> — Volume based on driver size × enclosure type × number of drivers — <em>Manufacturer specs determine optimal volume per driver.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Sealed vs ported box?</h3>
+      <p>Sealed: tighter bass, smaller box. Ported: louder, deeper bass, bigger box.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does box volume matter?</h3>
+      <p>Absolutely. Wrong volume changes frequency response, making bass boomy or thin.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var drivers = parseFloat(document.getElementById('drivers').value) || 0;
 
     // Calculation logic
-    var volumes = {'8': {'Sealed':0.35,'Ported':0.5,'Bandpass':0.7}, '10': {'Sealed':0.6,'Ported':1,'Bandpass':1.4}, '12': {'Sealed':1,'Ported':1.75,'Bandpass':2.5}, '15': {'Sealed':2,'Ported':3.5,'Bandpass':5}, '18': {'Sealed':3.5,'Ported':6,'Bandpass':8}}; var vol = volumes[driverSize][enclosureType] * drivers; var side = Math.pow(vol * 1728, 1/3); var dimensions = fmt(side,0) + ' x ' + fmt(side,0) + ' x ' + fmt(side,0) + ' inches (cube)'; var surfaceArea = 6 * side * side / 144; var woodSheets = Math.ceil(surfaceArea / 32); return {volume: fmt(vol,2), dimensions: dimensions, woodSheets: fmt(woodSheets,0)};
+    var volumes = {'8': {'Sealed':0.35,'Ported':0.5,'Bandpass':0.7}, '10': {'Sealed':0.6,'Ported':1,'Bandpass':1.4}, '12': {'Sealed':1,'Ported':1.75,'Bandpass':2.5}, '15': {'Sealed':2,'Ported':3.5,'Bandpass':5}, '18': {'Sealed':3.5,'Ported':6,'Bandpass':8}}; var vol = volumes[driverSize][enclosureType] * drivers; var side = Math.pow(vol * 1728, 1/3); var dimensions = fmt(side,0) + ' x ' + fmt(side,0) + ' x ' + fmt(side,0) + ' inches (cube)'; var surfaceArea = 6 * side * side / 144; var woodSheets = Math.ceil(surfaceArea / 32);     document.getElementById('volume').textContent = fmt(vol,2);
+    document.getElementById('dimensions').textContent = dimensions;
+    document.getElementById('woodSheets').textContent = fmt(woodSheets,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

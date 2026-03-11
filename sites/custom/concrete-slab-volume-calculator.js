@@ -15,7 +15,9 @@
     var pricePerYard = parseFloat(document.getElementById('pricePerYard').value) || 0;
 
     // Calculation logic
-    var cubicFeet = length * width * (thickness / 12); var cubicYards = cubicFeet / 27 * 1.1; var bags80 = Math.ceil(cubicFeet / 0.6); var cost = cubicYards * pricePerYard; return {cubicYards: fmt(cubicYards,2), bags80: fmt(bags80,0), cost: dollar(cost)};
+    var cubicFeet = length * width * (thickness / 12); var cubicYards = cubicFeet / 27 * 1.1; var bags80 = Math.ceil(cubicFeet / 0.6); var cost = cubicYards * pricePerYard;     document.getElementById('cubicYards').textContent = fmt(cubicYards,2);
+    document.getElementById('bags80').textContent = fmt(bags80,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

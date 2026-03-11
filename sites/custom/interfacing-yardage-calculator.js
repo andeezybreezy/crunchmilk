@@ -15,7 +15,8 @@
     var interfacingWidth = parseFloat(document.getElementById('interfacingWidth').value) || 0;
 
     // Calculation logic
-    var totalArea = pieces * avgLength * avgWidth * 1.1; var rows = Math.ceil(pieces * avgWidth / interfacingWidth); var linearInches = rows * avgLength; var yardage = Math.ceil(linearInches / 36 * 10) / 10; return {totalArea: fmt(totalArea,0), yardage: fmt(yardage,1)};
+    var totalArea = pieces * avgLength * avgWidth * 1.1; var rows = Math.ceil(pieces * avgWidth / interfacingWidth); var linearInches = rows * avgLength; var yardage = Math.ceil(linearInches / 36 * 10) / 10;     document.getElementById('totalArea').textContent = fmt(totalArea,0);
+    document.getElementById('yardage').textContent = fmt(yardage,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

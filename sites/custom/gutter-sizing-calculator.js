@@ -14,7 +14,9 @@
     var runLength = parseFloat(document.getElementById('runLength').value) || 0;
 
     // Calculation logic
-    var flowRate = roofArea * rainfall * 0.0104; var gutterSize = flowRate > 7.5 ? '6-inch K-style' : '5-inch K-style'; var downspoutSpacing = flowRate > 5 ? 30 : 40; var downspouts = Math.max(Math.ceil(runLength / downspoutSpacing), 1); return {gutterSize: gutterSize, downspouts: fmt(downspouts,0), flowRate: fmt(flowRate,1)};
+    var flowRate = roofArea * rainfall * 0.0104; var gutterSize = flowRate > 7.5 ? '6-inch K-style' : '5-inch K-style'; var downspoutSpacing = flowRate > 5 ? 30 : 40; var downspouts = Math.max(Math.ceil(runLength / downspoutSpacing), 1);     document.getElementById('gutterSize').textContent = gutterSize;
+    document.getElementById('downspouts').textContent = fmt(downspouts,0);
+    document.getElementById('flowRate').textContent = fmt(flowRate,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

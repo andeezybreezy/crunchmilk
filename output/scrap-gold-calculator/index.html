@@ -434,7 +434,10 @@ footer a:hover{color:#fff}
     var buyerPays = parseFloat(document.getElementById('buyerPays').value) || 0;
 
     // Calculation logic
-    var purityMap={24:0.999,22:0.917,18:0.750,14:0.583,10:0.417}; var purity=purityMap[karat]||0.583; var pureGrams=weight*purity; var pureOz=pureGrams/31.1035; var fullValue=pureOz*spotPrice; var expected=fullValue*(buyerPays/100); var perGram=expected/weight; return {pureGold:fmt(pureGrams,2)+' grams', fullValue:dollar(fullValue), expected:dollar(expected), perGram:dollar(perGram)+'/gram'};
+    var purityMap={24:0.999,22:0.917,18:0.750,14:0.583,10:0.417}; var purity=purityMap[karat]||0.583; var pureGrams=weight*purity; var pureOz=pureGrams/31.1035; var fullValue=pureOz*spotPrice; var expected=fullValue*(buyerPays/100); var perGram=expected/weight;     document.getElementById('pureGold').textContent = fmt(pureGrams,2)+' grams';
+    document.getElementById('fullValue').textContent = dollar(fullValue);
+    document.getElementById('expected').textContent = dollar(expected);
+    document.getElementById('perGram').textContent = dollar(perGram)+'/gram';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

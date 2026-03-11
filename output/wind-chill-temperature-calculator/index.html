@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="temp">Air Temperature (°F)</label>
-      <input type="number" id="temp" value="undefined" min="-50" max="50" step="1" inputmode="decimal">
+      <input type="number" id="temp" value="" min="-50" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="wind">Wind Speed (mph)</label>
-      <input type="number" id="wind" value="undefined" min="3" max="60" step="1" inputmode="decimal">
+      <input type="number" id="wind" value="" min="3" max="60" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This wind chill calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>NWS Wind Chill</strong> — WC = 35.74 + 0.6215T - 35.75V^0.16 + 0.4275TV^0.16 — <em>National Weather Service wind chill formula (T in °F, V in mph).</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is wind chill?</h3>
+      <p>The perceived temperature accounting for wind. Wind increases heat loss from exposed skin.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>At what wind chill is it dangerous?</h3>
+      <p>Below -20°F, frostbite can occur in 10-30 minutes on exposed skin.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var wind = parseFloat(document.getElementById('wind').value) || 0;
 
     // Calculation logic
-    var windChill = 35.74 + (0.6215 * temp) - (35.75 * Math.pow(wind, 0.16)) + (0.4275 * temp * Math.pow(wind, 0.16)); var danger = windChill < -40 ? 'Extreme - frostbite in <5 min' : windChill < -20 ? 'High - frostbite in 10-30 min' : windChill < 0 ? 'Moderate - dress in layers' : 'Low'; return {windChill: fmt(windChill,0), danger: danger};
+    var windChill = 35.74 + (0.6215 * temp) - (35.75 * Math.pow(wind, 0.16)) + (0.4275 * temp * Math.pow(wind, 0.16)); var danger = windChill < -40 ? 'Extreme - frostbite in <5 min' : windChill < -20 ? 'High - frostbite in 10-30 min' : windChill < 0 ? 'Moderate - dress in layers' : 'Low';     document.getElementById('windChill').textContent = fmt(windChill,0);
+    document.getElementById('danger').textContent = danger;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

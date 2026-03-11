@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="classes">Number of Classes</label>
-      <input type="number" id="classes" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="classes" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="filingType">Filing Type</label>
-      <select id="filingType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="filingType"><option value="TEAS Plus ($250/class)" selected>TEAS Plus ($250/class)</option><option value="filingType">filingType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="attorney">Use Attorney</label>
-      <select id="attorney"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="attorney"><option value="Yes" selected>Yes</option><option value="attorney">attorney</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This trademark filing cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Cost</strong> — Total = (Per Class Fee × Classes) + Attorney Fee — <em>Government filing fee plus optional legal representation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Laws vary by jurisdiction and change frequently. This is not legal advice — consult a licensed attorney.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does a trademark cost?</h3>
+      <p>USPTO filing is $250-350 per class. Attorney fees add $500-2000.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long does trademark registration take?</h3>
+      <p>Typically 8-12 months from filing to registration.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var attorney = document.getElementById('attorney').value;
 
     // Calculation logic
-    var perClass = filingType === 'TEAS Plus ($250/class)' ? 250 : 350; var filingFee = perClass * classes; var attorneyFee = attorney === 'Yes' ? 500 + (classes - 1) * 200 : 0; var totalCost = filingFee + attorneyFee; return {filingFee: dollar(filingFee), attorneyFee: dollar(attorneyFee), totalCost: dollar(totalCost)};
+    var perClass = filingType === 'TEAS Plus ($250/class)' ? 250 : 350; var filingFee = perClass * classes; var attorneyFee = attorney === 'Yes' ? 500 + (classes - 1) * 200 : 0; var totalCost = filingFee + attorneyFee;     document.getElementById('filingFee').textContent = dollar(filingFee);
+    document.getElementById('attorneyFee').textContent = dollar(attorneyFee);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

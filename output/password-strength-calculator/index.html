@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Password Length</label>
-      <input type="number" id="length" value="undefined" min="4" max="64" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="4" max="64" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="hasUpper">Uppercase Letters</label>
-      <select id="hasUpper"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="hasUpper"><option value="Yes" selected>Yes</option><option value="hasUpper">hasUpper</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="hasLower">Lowercase Letters</label>
-      <select id="hasLower"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="hasLower"><option value="Yes" selected>Yes</option><option value="hasLower">hasLower</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="hasNumbers">Numbers</label>
-      <select id="hasNumbers"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="hasNumbers"><option value="Yes" selected>Yes</option><option value="hasNumbers">hasNumbers</option><option value=", ">, </option></select>
     </div>
   </div>
     <div class="input-group">
       <label for="hasSymbols">Symbols</label>
-      <select id="hasSymbols"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="hasSymbols"><option value="Yes" selected>Yes</option><option value="hasSymbols">hasSymbols</option></select>
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This password strength calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Entropy</strong> — Entropy = log₂(Pool Size ^ Length) — <em>Bits of entropy based on character pool and password length.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What makes a strong password?</h3>
+      <p>12+ characters with mixed case, numbers, and symbols. Length matters most.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How fast can passwords be cracked?</h3>
+      <p>Modern GPUs can try 10 billion combinations per second against common hashes.</p>
     </div>
 
   </div>
@@ -425,7 +425,9 @@ footer a:hover{color:#fff}
     var hasSymbols = document.getElementById('hasSymbols').value;
 
     // Calculation logic
-    var pool = 0; pool += hasUpper === 'Yes' ? 26 : 0; pool += hasLower === 'Yes' ? 26 : 0; pool += hasNumbers === 'Yes' ? 10 : 0; pool += hasSymbols === 'Yes' ? 32 : 0; pool = Math.max(pool, 1); var entropy = Math.log2(Math.pow(pool, length)); var combinations = Math.pow(pool, length); var perSecond = 10000000000; var seconds = combinations / perSecond; var crackTime = seconds < 1 ? 'Instant' : seconds < 60 ? fmt(seconds,0) + ' seconds' : seconds < 3600 ? fmt(seconds/60,0) + ' minutes' : seconds < 86400 ? fmt(seconds/3600,0) + ' hours' : seconds < 31536000 ? fmt(seconds/86400,0) + ' days' : seconds < 3.15e10 ? fmt(seconds/31536000,0) + ' years' : fmt(seconds/31536000,0) + ' years'; var strength = entropy >= 80 ? 'Very Strong' : entropy >= 60 ? 'Strong' : entropy >= 40 ? 'Moderate' : entropy >= 28 ? 'Weak' : 'Very Weak'; return {entropy: fmt(entropy,0), crackTime: crackTime, strength: strength};
+    var pool = 0; pool += hasUpper === 'Yes' ? 26 : 0; pool += hasLower === 'Yes' ? 26 : 0; pool += hasNumbers === 'Yes' ? 10 : 0; pool += hasSymbols === 'Yes' ? 32 : 0; pool = Math.max(pool, 1); var entropy = Math.log2(Math.pow(pool, length)); var combinations = Math.pow(pool, length); var perSecond = 10000000000; var seconds = combinations / perSecond; var crackTime = seconds < 1 ? 'Instant' : seconds < 60 ? fmt(seconds,0) + ' seconds' : seconds < 3600 ? fmt(seconds/60,0) + ' minutes' : seconds < 86400 ? fmt(seconds/3600,0) + ' hours' : seconds < 31536000 ? fmt(seconds/86400,0) + ' days' : seconds < 3.15e10 ? fmt(seconds/31536000,0) + ' years' : fmt(seconds/31536000,0) + ' years'; var strength = entropy >= 80 ? 'Very Strong' : entropy >= 60 ? 'Strong' : entropy >= 40 ? 'Moderate' : entropy >= 28 ? 'Weak' : 'Very Weak';     document.getElementById('entropy').textContent = fmt(entropy,0);
+    document.getElementById('crackTime').textContent = crackTime;
+    document.getElementById('strength').textContent = strength;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

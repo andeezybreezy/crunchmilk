@@ -13,7 +13,9 @@
     var width = parseFloat(document.getElementById('width').value) || 0;
 
     // Calculation logic
-    var sqft = length * width; var sqm = sqft * 0.0929; var acres = sqft / 43560; return {sqft: fmt(sqft,1), sqm: fmt(sqm,1), acres: fmt(acres,4)};
+    var sqft = length * width; var sqm = sqft * 0.0929; var acres = sqft / 43560;     document.getElementById('sqft').textContent = fmt(sqft,1);
+    document.getElementById('sqm').textContent = fmt(sqm,1);
+    document.getElementById('acres').textContent = fmt(acres,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

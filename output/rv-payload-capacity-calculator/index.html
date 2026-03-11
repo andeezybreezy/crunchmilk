@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gvwr">GVWR (lbs)</label>
-      <input type="number" id="gvwr" value="undefined" min="3000" max="40000" step="500" inputmode="decimal">
+      <input type="number" id="gvwr" value="" min="3000" max="40000" step="500" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="dryWeight">Dry Weight / UVW (lbs)</label>
-      <input type="number" id="dryWeight" value="undefined" min="2000" max="35000" step="500" inputmode="decimal">
+      <input type="number" id="dryWeight" value="" min="2000" max="35000" step="500" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="passengers">Passengers</label>
-      <input type="number" id="passengers" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="passengers" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="waterGallons">Fresh Water (gallons)</label>
-      <input type="number" id="waterGallons" value="undefined" min="0" max="150" step="5" inputmode="decimal">
+      <input type="number" id="waterGallons" value="" min="0" max="150" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rv payload capacity calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Remaining Payload</strong> — Remaining = GVWR - Dry Weight - Passengers - Water — <em>Subtract fixed loads from total cargo capacity.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is CCC?</h3>
+      <p>Cargo Carrying Capacity = GVWR minus the dry weight of the RV.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much do water and passengers weigh?</h3>
+      <p>Water weighs 8.34 lbs/gallon. Passengers average 175 lbs each per RVIA standard.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var waterGallons = parseFloat(document.getElementById('waterGallons').value) || 0;
 
     // Calculation logic
-    var ccc = gvwr - dryWeight; var passengerWeight = passengers * 175; var waterWeight = waterGallons * 8.34; var remaining = ccc - passengerWeight - waterWeight; return {ccc: fmt(ccc,0), remaining: fmt(remaining,0)};
+    var ccc = gvwr - dryWeight; var passengerWeight = passengers * 175; var waterWeight = waterGallons * 8.34; var remaining = ccc - passengerWeight - waterWeight;     document.getElementById('ccc').textContent = fmt(ccc,0);
+    document.getElementById('remaining').textContent = fmt(remaining,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,8 @@
     var nearElectronics = document.getElementById('nearElectronics').value;
 
     // Calculation logic
-    var spike = reading - baseline; var significance; if (nearElectronics === 'Yes') significance = 'Likely electronic interference'; else if (spike > 5) significance = 'Significant unexplained spike'; else if (spike > 2) significance = 'Notable deviation - investigate'; else significance = 'Within normal range'; return {spike: fmt(spike,1), significance: significance};
+    var spike = reading - baseline; var significance; if (nearElectronics === 'Yes') significance = 'Likely electronic interference'; else if (spike > 5) significance = 'Significant unexplained spike'; else if (spike > 2) significance = 'Notable deviation - investigate'; else significance = 'Within normal range';     document.getElementById('spike').textContent = fmt(spike,1);
+    document.getElementById('significance').textContent = significance;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="targetPH">Target pH</label>
-      <input type="number" id="targetPH" value="undefined" min="1" max="14" step="0.1" inputmode="decimal">
+      <input type="number" id="targetPH" value="" min="1" max="14" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pKa">Buffer pKa</label>
-      <input type="number" id="pKa" value="undefined" min="1" max="14" step="0.1" inputmode="decimal">
+      <input type="number" id="pKa" value="" min="1" max="14" step="0.1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="totalConc">Total Buffer Concentration (M)</label>
-      <input type="number" id="totalConc" value="undefined" min="0.01" max="1" step="0.01" inputmode="decimal">
+      <input type="number" id="totalConc" value="" min="0.01" max="1" step="0.01" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="volume">Volume (mL)</label>
-      <input type="number" id="volume" value="undefined" min="10" max="10000" step="10" inputmode="decimal">
+      <input type="number" id="volume" value="" min="10" max="10000" step="10" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This ph buffer solution calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Henderson-Hasselbalch</strong> — pH = pKa + log([Base]/[Acid]) — <em>Fundamental equation for buffer pH calculation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the Henderson-Hasselbalch equation?</h3>
+      <p>pH = pKa + log([A-]/[HA]), relating pH to the ratio of conjugate base to weak acid.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is buffer capacity?</h3>
+      <p>Buffers work best within ±1 pH unit of the pKa value.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var volume = parseFloat(document.getElementById('volume').value) || 0;
 
     // Calculation logic
-    var ratio = Math.pow(10, targetPH - pKa); var totalMoles = totalConc * volume; var baseMoles = totalMoles * ratio / (1 + ratio); var acidMoles = totalMoles - baseMoles; return {ratio: fmt(ratio,2), baseMoles: fmt(baseMoles,2), acidMoles: fmt(acidMoles,2)};
+    var ratio = Math.pow(10, targetPH - pKa); var totalMoles = totalConc * volume; var baseMoles = totalMoles * ratio / (1 + ratio); var acidMoles = totalMoles - baseMoles;     document.getElementById('ratio').textContent = fmt(ratio,2);
+    document.getElementById('baseMoles').textContent = fmt(baseMoles,2);
+    document.getElementById('acidMoles').textContent = fmt(acidMoles,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

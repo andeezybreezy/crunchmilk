@@ -14,7 +14,8 @@
     var spf = parseFloat(document.getElementById('spf').value) || 0;
 
     // Calculation logic
-    var burnTimes = {'Type I (very fair)': 67, 'Type II (fair)': 100, 'Type III (medium)': 200, 'Type IV (olive)': 300, 'Type V (brown)': 400, 'Type VI (dark)': 500}; var base = burnTimes[skinType] || 100; var unprotected = base / uvIndex; var withSpf = spf > 0 ? unprotected * spf * 0.6 : unprotected; return {unprotected: fmt(unprotected,0), withSpf: fmt(Math.min(withSpf, 480),0)};
+    var burnTimes = {'Type I (very fair)': 67, 'Type II (fair)': 100, 'Type III (medium)': 200, 'Type IV (olive)': 300, 'Type V (brown)': 400, 'Type VI (dark)': 500}; var base = burnTimes[skinType] || 100; var unprotected = base / uvIndex; var withSpf = spf > 0 ? unprotected * spf * 0.6 : unprotected;     document.getElementById('unprotected').textContent = fmt(unprotected,0);
+    document.getElementById('withSpf').textContent = fmt(Math.min(withSpf, 480),0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Area to Treat (sq ft)</label>
-      <input type="number" id="area" value="undefined" min="50" max="50000" step="50" inputmode="decimal">
+      <input type="number" id="area" value="" min="50" max="50000" step="50" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="iceThickness">Ice Thickness</label>
-      <select id="iceThickness"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="iceThickness"><option value="Light frost" selected>Light frost</option><option value="Thin ice (< 1/4 inch)">Thin ice (< 1/4 inch)</option><option value="Moderate (1/4 - 1/2 inch)">Moderate (1/4 - 1/2 inch)</option><option value="Heavy (> 1/2 inch)">Heavy (> 1/2 inch)</option><option value="iceThickness">iceThickness</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="temperature">Temperature (°F)</label>
-      <input type="number" id="temperature" value="undefined" min="-20" max="35" step="5" inputmode="decimal">
+      <input type="number" id="temperature" value="" min="-20" max="35" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This snow removal salt calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Salt Amount</strong> — Lbs = (Area/100) × Rate × Temp Factor — <em>Area-based application rate adjusted for temperature.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much salt per square foot?</h3>
+      <p>About 2-4 lbs per 100 sq ft depending on ice thickness.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When is rock salt ineffective?</h3>
+      <p>Below 15°F. Use calcium or magnesium chloride for colder temperatures.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var temperature = parseFloat(document.getElementById('temperature').value) || 0;
 
     // Calculation logic
-    var rates = {'Light frost': 1, 'Thin ice (< 1/4 inch)': 2, 'Moderate (1/4 - 1/2 inch)': 3, 'Heavy (> 1/2 inch)': 4}; var rate = rates[iceThickness] || 2; var tempMult = temperature < 10 ? 1.5 : temperature < 20 ? 1.2 : 1; var saltLbs = (area / 100) * rate * tempMult; var bags50 = Math.ceil(saltLbs / 50); var type = temperature < 0 ? 'Calcium chloride (works to -25°F)' : temperature < 15 ? 'Magnesium chloride (works to 0°F)' : 'Rock salt (works to 15°F)'; return {saltLbs: fmt(saltLbs,0), bags50: fmt(bags50,0), type: type};
+    var rates = {'Light frost': 1, 'Thin ice (< 1/4 inch)': 2, 'Moderate (1/4 - 1/2 inch)': 3, 'Heavy (> 1/2 inch)': 4}; var rate = rates[iceThickness] || 2; var tempMult = temperature < 10 ? 1.5 : temperature < 20 ? 1.2 : 1; var saltLbs = (area / 100) * rate * tempMult; var bags50 = Math.ceil(saltLbs / 50); var type = temperature < 0 ? 'Calcium chloride (works to -25°F)' : temperature < 15 ? 'Magnesium chloride (works to 0°F)' : 'Rock salt (works to 15°F)';     document.getElementById('saltLbs').textContent = fmt(saltLbs,0);
+    document.getElementById('bags50').textContent = fmt(bags50,0);
+    document.getElementById('type').textContent = type;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

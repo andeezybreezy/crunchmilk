@@ -421,7 +421,10 @@ footer a:hover{color:#fff}
     var mixerCost = parseFloat(document.getElementById('mixerCost').value) || 0;
 
     // Calculation logic
-    var costPerOz=bottleCost/bottleOz; var spiritCost=costPerOz*ozPerDrink; var costPerDrink=spiritCost+mixerCost; var drinksPerBottle=Math.floor(bottleOz/ozPerDrink); var suggestedPrice=costPerDrink*4; var profitPerDrink=suggestedPrice-costPerDrink; return {costPerDrink:dollar(costPerDrink), drinksPerBottle:drinksPerBottle+' drinks', suggestedPrice:dollar(suggestedPrice), profitPerDrink:dollar(profitPerDrink)};
+    var costPerOz=bottleCost/bottleOz; var spiritCost=costPerOz*ozPerDrink; var costPerDrink=spiritCost+mixerCost; var drinksPerBottle=Math.floor(bottleOz/ozPerDrink); var suggestedPrice=costPerDrink*4; var profitPerDrink=suggestedPrice-costPerDrink;     document.getElementById('costPerDrink').textContent = dollar(costPerDrink);
+    document.getElementById('drinksPerBottle').textContent = drinksPerBottle+' drinks';
+    document.getElementById('suggestedPrice').textContent = dollar(suggestedPrice);
+    document.getElementById('profitPerDrink').textContent = dollar(profitPerDrink);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

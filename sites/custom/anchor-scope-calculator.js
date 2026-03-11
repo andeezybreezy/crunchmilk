@@ -15,7 +15,8 @@
     var scope = document.getElementById('scope').value;
 
     // Calculation logic
-    var totalDepth = depth + tide + bowHeight; var ratios = {'5:1 (calm)': 5, '7:1 (standard)': 7, '10:1 (storm)': 10}; var ratio = ratios[scope] || 7; var rodeLength = totalDepth * ratio; return {totalDepth: fmt(totalDepth,0), rodeLength: fmt(rodeLength,0)};
+    var totalDepth = depth + tide + bowHeight; var ratios = {'5:1 (calm)': 5, '7:1 (standard)': 7, '10:1 (storm)': 10}; var ratio = ratios[scope] || 7; var rodeLength = totalDepth * ratio;     document.getElementById('totalDepth').textContent = fmt(totalDepth,0);
+    document.getElementById('rodeLength').textContent = fmt(rodeLength,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

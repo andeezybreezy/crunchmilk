@@ -14,7 +14,8 @@
     var copingTools = document.getElementById('copingTools').value;
 
     // Calculation logic
-    var baseDays = {'Acute (hours)': 1, 'Short-term (days)': 7, 'Chronic (weeks/months)': 30}; var base = baseDays[duration] || 7; var severityMult = stressLevel / 5; var copingMult = {'Many (exercise, therapy, support)': 0.6, 'Some (1-2 methods)': 1, 'Few (limited resources)': 1.5}; var recoveryDays = Math.ceil(base * severityMult * (copingMult[copingTools] || 1)); var priority = stressLevel >= 7 ? 'Seek professional support, prioritize sleep and movement' : 'Focus on rest, social connection, and routine'; return {recoveryDays: fmt(recoveryDays,0), priority: priority};
+    var baseDays = {'Acute (hours)': 1, 'Short-term (days)': 7, 'Chronic (weeks/months)': 30}; var base = baseDays[duration] || 7; var severityMult = stressLevel / 5; var copingMult = {'Many (exercise, therapy, support)': 0.6, 'Some (1-2 methods)': 1, 'Few (limited resources)': 1.5}; var recoveryDays = Math.ceil(base * severityMult * (copingMult[copingTools] || 1)); var priority = stressLevel >= 7 ? 'Seek professional support, prioritize sleep and movement' : 'Focus on rest, social connection, and routine';     document.getElementById('recoveryDays').textContent = fmt(recoveryDays,0);
+    document.getElementById('priority').textContent = priority;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

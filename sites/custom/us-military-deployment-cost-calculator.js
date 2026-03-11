@@ -14,7 +14,11 @@
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var costs = {carrier: {daily: 6.5, personnel: 7500, name: 'Carrier Strike Group'}, brigade: {daily: 4.2, personnel: 5000, name: 'Army Brigade'}, air: {daily: 8.5, personnel: 2000, name: 'Air Wing'}, special: {daily: 1.8, personnel: 200, name: 'Special Operations'}, base: {daily: 2.5, personnel: 3000, name: 'Forward Base'}}; var regionMult = {mideast: 1.0, pacific: 0.85, europe: 0.75, africa: 0.9}; var c = costs[v.deployment]; var mult = regionMult[v.region]; var daily = c.daily * mult; var total = daily * v.days; var perSoldier = (daily * 1e6) / c.personnel; var taxpayerShare = (total * 1e6) / 150e6; return {dailyCost: '$' + daily.toFixed(1) + ' million/day', totalCost: '$' + total.toFixed(0) + ' million (' + (total / 1e3).toFixed(2) + ' billion)', personnel: c.personnel.toLocaleString() + ' service members', perSoldier: '$' + Math.round(perSoldier).toLocaleString() + '/person/day', taxpayerShare: '$' + taxpayerShare.toFixed(2) + ' per US taxpayer'};
+    var costs = {carrier: {daily: 6.5, personnel: 7500, name: 'Carrier Strike Group'}, brigade: {daily: 4.2, personnel: 5000, name: 'Army Brigade'}, air: {daily: 8.5, personnel: 2000, name: 'Air Wing'}, special: {daily: 1.8, personnel: 200, name: 'Special Operations'}, base: {daily: 2.5, personnel: 3000, name: 'Forward Base'}}; var regionMult = {mideast: 1.0, pacific: 0.85, europe: 0.75, africa: 0.9}; var c = costs[v.deployment]; var mult = regionMult[v.region]; var daily = c.daily * mult; var total = daily * v.days; var perSoldier = (daily * 1e6) / c.personnel; var taxpayerShare = (total * 1e6) / 150e6;     document.getElementById('dailyCost').textContent = '$' + daily.toFixed(1) + ' million/day';
+    document.getElementById('totalCost').textContent = '$' + total.toFixed(0) + ' million (' + (total / 1e3).toFixed(2) + ' billion)';
+    document.getElementById('personnel').textContent = c.personnel.toLocaleString() + ' service members';
+    document.getElementById('perSoldier').textContent = '$' + Math.round(perSoldier).toLocaleString() + '/person/day';
+    document.getElementById('taxpayerShare').textContent = '$' + taxpayerShare.toFixed(2) + ' per US taxpayer';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

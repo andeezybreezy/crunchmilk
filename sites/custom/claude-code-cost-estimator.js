@@ -17,7 +17,11 @@
     var model = document.getElementById('model').value;
 
     // Calculation logic
-    var pricing={haiku:{input:0.25,output:1.25},sonnet:{input:3,output:15},opus:{input:15,output:75}}; var p=pricing[model]; var monthlyPrompts=hoursPerDay*daysPerMonth*promptsPerHour; var totalIn=monthlyPrompts*avgInputTokens; var totalOut=monthlyPrompts*avgOutputTokens; var inCost=(totalIn/1000000)*p.input; var outCost=(totalOut/1000000)*p.output; var monthlyCost=inCost+outCost; var costPerHour=monthlyCost/(hoursPerDay*daysPerMonth); var costPerPrompt=monthlyCost/monthlyPrompts; return {monthlyPrompts:fmt(monthlyPrompts,0), monthlyTokens:fmt((totalIn+totalOut)/1000000,1)+'M', monthlyCost:dollar(monthlyCost), costPerHour:dollar(costPerHour), costPerPrompt:'$'+fmt(costPerPrompt,4)};
+    var pricing={haiku:{input:0.25,output:1.25},sonnet:{input:3,output:15},opus:{input:15,output:75}}; var p=pricing[model]; var monthlyPrompts=hoursPerDay*daysPerMonth*promptsPerHour; var totalIn=monthlyPrompts*avgInputTokens; var totalOut=monthlyPrompts*avgOutputTokens; var inCost=(totalIn/1000000)*p.input; var outCost=(totalOut/1000000)*p.output; var monthlyCost=inCost+outCost; var costPerHour=monthlyCost/(hoursPerDay*daysPerMonth); var costPerPrompt=monthlyCost/monthlyPrompts;     document.getElementById('monthlyPrompts').textContent = fmt(monthlyPrompts,0);
+    document.getElementById('monthlyTokens').textContent = fmt((totalIn+totalOut)/1000000,1)+'M';
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('costPerHour').textContent = dollar(costPerHour);
+    document.getElementById('costPerPrompt').textContent = '$'+fmt(costPerPrompt,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -427,7 +427,12 @@ footer a:hover{color:#fff}
     var householdSize = parseFloat(document.getElementById('householdSize').value) || 0;
 
     // Calculation logic
-    var importedGoodsSpend = v.householdIncome * 0.15; var tariffCost = importedGoodsSpend * (v.tariffRate / 100) * 0.7; var energyCost = (v.householdSize * 1800 + 2400) * (v.oilIncrease / 100) * 0.4; var combined = tariffCost + energyCost; var monthlyHit = combined / 12; var effectiveTax = (combined / v.householdIncome * 100); var inflation = v.tariffRate * 0.15 + v.oilIncrease * 0.08; return {tariffCost: '+$' + Math.round(tariffCost).toLocaleString() + '/yr', oilCost: '+$' + Math.round(energyCost).toLocaleString() + '/yr', combinedCost: '+$' + Math.round(combined).toLocaleString() + '/yr', monthlyHit: '+$' + Math.round(monthlyHit) + '/mo', effectiveTax: effectiveTax.toFixed(1) + '% of your income', inflationImpact: '+' + inflation.toFixed(1) + '% to inflation rate'};
+    var importedGoodsSpend = v.householdIncome * 0.15; var tariffCost = importedGoodsSpend * (v.tariffRate / 100) * 0.7; var energyCost = (v.householdSize * 1800 + 2400) * (v.oilIncrease / 100) * 0.4; var combined = tariffCost + energyCost; var monthlyHit = combined / 12; var effectiveTax = (combined / v.householdIncome * 100); var inflation = v.tariffRate * 0.15 + v.oilIncrease * 0.08;     document.getElementById('tariffCost').textContent = '+$' + Math.round(tariffCost).toLocaleString() + '/yr';
+    document.getElementById('oilCost').textContent = '+$' + Math.round(energyCost).toLocaleString() + '/yr';
+    document.getElementById('combinedCost').textContent = '+$' + Math.round(combined).toLocaleString() + '/yr';
+    document.getElementById('monthlyHit').textContent = '+$' + Math.round(monthlyHit) + '/mo';
+    document.getElementById('effectiveTax').textContent = effectiveTax.toFixed(1) + '% of your income';
+    document.getElementById('inflationImpact').textContent = '+' + inflation.toFixed(1) + '% to inflation rate';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

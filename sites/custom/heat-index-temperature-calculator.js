@@ -13,7 +13,8 @@
     var humidity = parseFloat(document.getElementById('humidity').value) || 0;
 
     // Calculation logic
-    var T = temp; var R = humidity; var hi = -42.379 + 2.04901523*T + 10.14333127*R - 0.22475541*T*R - 0.00683783*T*T - 0.05481717*R*R + 0.00122874*T*T*R + 0.00085282*T*R*R - 0.00000199*T*T*R*R; var danger = hi >= 130 ? 'Extreme Danger - heat stroke imminent' : hi >= 105 ? 'Danger - heat stroke likely' : hi >= 90 ? 'Extreme Caution' : 'Caution'; return {heatIndex: fmt(hi,0), danger: danger};
+    var T = temp; var R = humidity; var hi = -42.379 + 2.04901523*T + 10.14333127*R - 0.22475541*T*R - 0.00683783*T*T - 0.05481717*R*R + 0.00122874*T*T*R + 0.00085282*T*R*R - 0.00000199*T*T*R*R; var danger = hi >= 130 ? 'Extreme Danger - heat stroke imminent' : hi >= 105 ? 'Danger - heat stroke likely' : hi >= 90 ? 'Extreme Caution' : 'Caution';     document.getElementById('heatIndex').textContent = fmt(hi,0);
+    document.getElementById('danger').textContent = danger;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

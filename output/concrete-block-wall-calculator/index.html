@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Wall Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="height">Wall Height (ft)</label>
-      <input type="number" id="height" value="undefined" min="1" max="12" step="1" inputmode="decimal">
+      <input type="number" id="height" value="" min="1" max="12" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="blockSize">Block Size</label>
-      <select id="blockSize"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="blockSize"><option value="blockSize" selected>blockSize</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This concrete block wall calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Blocks</strong> — Blocks = Wall Area × 1.125 × 1.05 waste — <em>Blocks per square foot with 5% waste factor.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many blocks per square foot?</h3>
+      <p>Standard 8×16 blocks: 1.125 blocks per square foot of wall.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much mortar per block?</h3>
+      <p>About 30-35 standard blocks per 60-lb bag of mortar mix.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var blockSize = document.getElementById('blockSize').value;
 
     // Calculation logic
-    var sqft = length * height; var blocksPerSqFt = 1.125; var blocks = Math.ceil(sqft * blocksPerSqFt * 1.05); var mortarBags = Math.ceil(blocks / 30); var verticals = Math.ceil(length / 4) + 1; var rebarLength = verticals * (height + 2); return {blocks: fmt(blocks,0), mortarBags: fmt(mortarBags,0), rebarLength: fmt(rebarLength,0)};
+    var sqft = length * height; var blocksPerSqFt = 1.125; var blocks = Math.ceil(sqft * blocksPerSqFt * 1.05); var mortarBags = Math.ceil(blocks / 30); var verticals = Math.ceil(length / 4) + 1; var rebarLength = verticals * (height + 2);     document.getElementById('blocks').textContent = fmt(blocks,0);
+    document.getElementById('mortarBags').textContent = fmt(mortarBags,0);
+    document.getElementById('rebarLength').textContent = fmt(rebarLength,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

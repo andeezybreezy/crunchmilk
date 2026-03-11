@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="flour">Total Flour (g)</label>
-      <input type="number" id="flour" value="undefined" min="50" max="5000" step="10" inputmode="decimal">
+      <input type="number" id="flour" value="" min="50" max="5000" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="water">Total Water (g)</label>
-      <input type="number" id="water" value="undefined" min="50" max="5000" step="10" inputmode="decimal">
+      <input type="number" id="water" value="" min="50" max="5000" step="10" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="starter">Starter Amount (g)</label>
-      <input type="number" id="starter" value="undefined" min="10" max="500" step="10" inputmode="decimal">
+      <input type="number" id="starter" value="" min="10" max="500" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="starterHydration">Starter Hydration (%)</label>
-      <input type="number" id="starterHydration" value="undefined" min="50" max="200" step="5" inputmode="decimal">
+      <input type="number" id="starterHydration" value="" min="50" max="200" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This sourdough hydration calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Hydration</strong> — Hydration% = Total Water / Total Flour × 100 — <em>Baker's percentage comparing water to flour.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Cooking times and measurements can vary by equipment and altitude. Adjust based on your specific setup.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What hydration should sourdough be?</h3>
+      <p>65-70% for beginners, 75-80% for open crumb, 80%+ for ciabatta-style.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does starter hydration matter?</h3>
+      <p>Yes, a 100% hydration starter is equal parts flour and water. It affects total dough hydration.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var starterHydration = parseFloat(document.getElementById('starterHydration').value) || 0;
 
     // Calculation logic
-    var starterFlour = starter / (1 + starterHydration/100); var starterWater = starter - starterFlour; var totalFlour = flour + starterFlour; var totalWater = water + starterWater; var hydration = (totalWater / totalFlour) * 100; return {hydration: fmt(hydration,1), totalFlour: fmt(totalFlour,0), totalWater: fmt(totalWater,0)};
+    var starterFlour = starter / (1 + starterHydration/100); var starterWater = starter - starterFlour; var totalFlour = flour + starterFlour; var totalWater = water + starterWater; var hydration = (totalWater / totalFlour) * 100;     document.getElementById('hydration').textContent = fmt(hydration,1);
+    document.getElementById('totalFlour').textContent = fmt(totalFlour,0);
+    document.getElementById('totalWater').textContent = fmt(totalWater,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

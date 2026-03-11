@@ -14,7 +14,10 @@
     var gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
 
     // Calculation logic
-    var gallons=distance/mpg; var fuelCost=gallons*gasPrice; var costPerMile=fuelCost/distance; var roundTrip=fuelCost*2; return {gallons:fmt(gallons,1)+' gallons', fuelCost:dollar(fuelCost), costPerMile:'$'+fmt(costPerMile,3)+'/mile', roundTrip:dollar(roundTrip)};
+    var gallons=distance/mpg; var fuelCost=gallons*gasPrice; var costPerMile=fuelCost/distance; var roundTrip=fuelCost*2;     document.getElementById('gallons').textContent = fmt(gallons,1)+' gallons';
+    document.getElementById('fuelCost').textContent = dollar(fuelCost);
+    document.getElementById('costPerMile').textContent = '$'+fmt(costPerMile,3)+'/mile';
+    document.getElementById('roundTrip').textContent = dollar(roundTrip);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

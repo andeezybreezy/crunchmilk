@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Weight Lifted (lbs)</label>
-      <input type="number" id="weight" value="undefined" min="5" max="1500" step="5" inputmode="decimal">
+      <input type="number" id="weight" value="" min="5" max="1500" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="reps">Reps Performed</label>
-      <input type="number" id="reps" value="undefined" min="1" max="30" step="1" inputmode="decimal">
+      <input type="number" id="reps" value="" min="1" max="30" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This one rep max calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Epley Formula</strong> — 1RM = Weight × (1 + Reps/30) — <em>Simple and widely used 1RM estimation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Individual results vary based on metabolism, genetics, and activity level. Consult your doctor before starting any program.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is 1RM?</h3>
+      <p>The maximum weight you can lift for a single repetition.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How accurate is this?</h3>
+      <p>Most accurate with 3-5 rep sets. Less accurate above 10 reps.</p>
     </div>
 
   </div>
@@ -412,7 +412,10 @@ footer a:hover{color:#fff}
     var reps = parseFloat(document.getElementById('reps').value) || 0;
 
     // Calculation logic
-    var oneRM = Math.round(weight * (1 + reps/30)); var pct90 = Math.round(oneRM * 0.9); var pct80 = Math.round(oneRM * 0.8); var pct70 = Math.round(oneRM * 0.7); return {oneRM: fmt(oneRM,0), pct90: fmt(pct90,0), pct80: fmt(pct80,0), pct70: fmt(pct70,0)};
+    var oneRM = Math.round(weight * (1 + reps/30)); var pct90 = Math.round(oneRM * 0.9); var pct80 = Math.round(oneRM * 0.8); var pct70 = Math.round(oneRM * 0.7);     document.getElementById('oneRM').textContent = fmt(oneRM,0);
+    document.getElementById('pct90').textContent = fmt(pct90,0);
+    document.getElementById('pct80').textContent = fmt(pct80,0);
+    document.getElementById('pct70').textContent = fmt(pct70,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

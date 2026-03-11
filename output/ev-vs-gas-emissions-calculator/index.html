@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="annualMiles">Annual Miles Driven</label>
-      <input type="number" id="annualMiles" value="undefined" min="1000" max="50000" step="1000" inputmode="decimal">
+      <input type="number" id="annualMiles" value="" min="1000" max="50000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="gasMpg">Gas Car MPG</label>
-      <input type="number" id="gasMpg" value="undefined" min="10" max="60" step="1" inputmode="decimal">
+      <input type="number" id="gasMpg" value="" min="10" max="60" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="evEfficiency">EV Efficiency (kWh/mile)</label>
-      <input type="number" id="evEfficiency" value="undefined" min="0.15" max="0.5" step="0.05" inputmode="decimal">
+      <input type="number" id="evEfficiency" value="" min="0.15" max="0.5" step="0.05" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="gridCarbon">Grid Carbon Intensity (g CO2/kWh)</label>
-      <input type="number" id="gridCarbon" value="undefined" min="50" max="900" step="50" inputmode="decimal">
+      <input type="number" id="gridCarbon" value="" min="50" max="900" step="50" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This ev vs gas emissions calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Gas Emissions</strong> — Tons = (Miles / MPG) × 8.887 kg / 1000 — <em>Each gallon of gas produces 8.887 kg of CO2.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Are EVs really cleaner?</h3>
+      <p>Yes, even on coal-heavy grids EVs produce fewer emissions than gas cars over their lifetime.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What affects EV emissions?</h3>
+      <p>Your local grid's energy mix is the biggest factor. Renewable grids make EVs near-zero emission.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var gridCarbon = parseFloat(document.getElementById('gridCarbon').value) || 0;
 
     // Calculation logic
-    var gasTons = (annualMiles / gasMpg) * 8.887 / 2000; var evKwh = annualMiles * evEfficiency; var evTons = (evKwh * gridCarbon) / 1000000; var savings = gasTons - evTons; return {gasTons: fmt(gasTons,1), evTons: fmt(evTons,1), savings: fmt(savings,1)};
+    var gasTons = (annualMiles / gasMpg) * 8.887 / 2000; var evKwh = annualMiles * evEfficiency; var evTons = (evKwh * gridCarbon) / 1000000; var savings = gasTons - evTons;     document.getElementById('gasTons').textContent = fmt(gasTons,1);
+    document.getElementById('evTons').textContent = fmt(evTons,1);
+    document.getElementById('savings').textContent = fmt(savings,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

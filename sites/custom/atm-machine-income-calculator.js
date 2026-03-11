@@ -15,7 +15,9 @@
     var monthlyExpenses = parseFloat(document.getElementById('monthlyExpenses').value) || 0;
 
     // Calculation logic
-    var monthlyRevenue = transPerDay * surcharge * 30; var monthlyProfit = monthlyRevenue - monthlyExpenses; var roiMonths = atmCost / Math.max(monthlyProfit, 1); return {monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), roiMonths: fmt(roiMonths,1)};
+    var monthlyRevenue = transPerDay * surcharge * 30; var monthlyProfit = monthlyRevenue - monthlyExpenses; var roiMonths = atmCost / Math.max(monthlyProfit, 1);     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('roiMonths').textContent = fmt(roiMonths,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

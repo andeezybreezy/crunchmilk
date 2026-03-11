@@ -14,7 +14,9 @@
     var monthlyPremium = parseFloat(document.getElementById('monthlyPremium').value) || 0;
 
     // Calculation logic
-    var remainingYears = Math.max(12 - age, 1); var lifetimePremium = monthlyPremium * 12 * remainingYears; var avgAnnual = {'Low (mixed/hardy breed)': 800, 'Medium (average breed)': 1200, 'High (prone to issues)': 2000}; var expectedVet = (avgAnnual[breed] || 1200) * remainingYears; var verdict = expectedVet > lifetimePremium ? 'Likely worth it - expected vet costs exceed premiums' : 'May not be worth it - consider a vet savings fund instead'; return {lifetimePremium: dollar(lifetimePremium), expectedVet: dollar(expectedVet), verdict: verdict};
+    var remainingYears = Math.max(12 - age, 1); var lifetimePremium = monthlyPremium * 12 * remainingYears; var avgAnnual = {'Low (mixed/hardy breed)': 800, 'Medium (average breed)': 1200, 'High (prone to issues)': 2000}; var expectedVet = (avgAnnual[breed] || 1200) * remainingYears; var verdict = expectedVet > lifetimePremium ? 'Likely worth it - expected vet costs exceed premiums' : 'May not be worth it - consider a vet savings fund instead';     document.getElementById('lifetimePremium').textContent = dollar(lifetimePremium);
+    document.getElementById('expectedVet').textContent = dollar(expectedVet);
+    document.getElementById('verdict').textContent = verdict;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

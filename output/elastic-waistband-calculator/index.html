@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="bodyMeasure">Body Measurement (inches)</label>
-      <input type="number" id="bodyMeasure" value="undefined" min="10" max="80" step="0.5" inputmode="decimal">
+      <input type="number" id="bodyMeasure" value="" min="10" max="80" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="elasticType">Elastic Type</label>
-      <select id="elasticType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="elasticType"><option value="Regular Knit" selected>Regular Knit</option><option value="Woven Non-Roll">Woven Non-Roll</option><option value="Fold-Over">Fold-Over</option><option value="Clear Elastic">Clear Elastic</option><option value="elasticType">elasticType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="overlap">Overlap for Joining (inches)</label>
-      <input type="number" id="overlap" value="undefined" min="0.25" max="1" step="0.25" inputmode="decimal">
+      <input type="number" id="overlap" value="" min="0.25" max="1" step="0.25" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This elastic length calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Elastic Length</strong> — Length = Body Measurement × Ratio + Overlap — <em>Body measurement reduced by stretch ratio plus joining overlap.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much shorter should elastic be?</h3>
+      <p>Cut elastic 10-25% shorter than the body measurement depending on type.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does elastic width matter?</h3>
+      <p>Yes, wider elastic distributes pressure better and rolls less.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var overlap = parseFloat(document.getElementById('overlap').value) || 0;
 
     // Calculation logic
-    var ratios = {'Regular Knit': 0.85, 'Woven Non-Roll': 0.90, 'Fold-Over': 0.80, 'Clear Elastic': 0.75}; var ratio = ratios[elasticType] || 0.85; var cutLength = (bodyMeasure * ratio) + overlap; var stretchRatio = ((1/ratio) - 1) * 100; return {cutLength: fmt(cutLength,1), stretchRatio: fmt(stretchRatio,0)};
+    var ratios = {'Regular Knit': 0.85, 'Woven Non-Roll': 0.90, 'Fold-Over': 0.80, 'Clear Elastic': 0.75}; var ratio = ratios[elasticType] || 0.85; var cutLength = (bodyMeasure * ratio) + overlap; var stretchRatio = ((1/ratio) - 1) * 100;     document.getElementById('cutLength').textContent = fmt(cutLength,1);
+    document.getElementById('stretchRatio').textContent = fmt(stretchRatio,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

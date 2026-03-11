@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Deck Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="4" max="60" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="4" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Deck Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="4" max="30" step="1" inputmode="decimal">
+      <input type="number" id="width" value="" min="4" max="30" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="railing">Has Railings</label>
-      <select id="railing"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="railing"><option value="Yes" selected>Yes</option><option value="railing">railing</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="coats">Coats</label>
-      <input type="number" id="coats" value="undefined" min="1" max="3" step="1" inputmode="decimal">
+      <input type="number" id="coats" value="" min="1" max="3" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This deck stain calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Stain</strong> — Gallons = (Area × Coats) / 250 sqft per gallon — <em>Total area times coats divided by coverage rate.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does deck stain cover?</h3>
+      <p>Most deck stains cover 200-300 sq ft per gallon.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How often to restain a deck?</h3>
+      <p>Every 2-3 years for transparent stain, 3-5 for solid stain.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var coats = parseFloat(document.getElementById('coats').value) || 0;
 
     // Calculation logic
-    var floorArea = length * width; var railingArea = railing === 'Yes' ? 2 * (length + width) * 3 * 0.5 : 0; var area = floorArea + railingArea; var gallons = Math.ceil(area * coats / 250); var cost = gallons * 40; return {area: fmt(area,0), gallons: fmt(gallons,0), cost: dollar(cost)};
+    var floorArea = length * width; var railingArea = railing === 'Yes' ? 2 * (length + width) * 3 * 0.5 : 0; var area = floorArea + railingArea; var gallons = Math.ceil(area * coats / 250); var cost = gallons * 40;     document.getElementById('area').textContent = fmt(area,0);
+    document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

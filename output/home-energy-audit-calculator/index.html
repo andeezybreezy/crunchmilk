@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyBill">Monthly Energy Bill ($)</label>
-      <input type="number" id="monthlyBill" value="undefined" min="50" max="1000" step="25" inputmode="decimal">
+      <input type="number" id="monthlyBill" value="" min="50" max="1000" step="25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="insulation">Upgrade Insulation</label>
-      <select id="insulation"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="insulation"><option value="Yes" selected>Yes</option><option value="insulation">insulation</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="airSeal">Air Sealing</label>
-      <select id="airSeal"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="airSeal"><option value="Yes" selected>Yes</option><option value="airSeal">airSeal</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="ledLights">Switch to LED Lighting</label>
-      <select id="ledLights"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="ledLights"><option value="Yes" selected>Yes</option><option value="ledLights">ledLights</option><option value=", ">, </option></select>
     </div>
   </div>
     <div class="input-group">
       <label for="smartThermo">Smart Thermostat</label>
-      <select id="smartThermo"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="smartThermo"><option value="Yes" selected>Yes</option><option value="smartThermo">smartThermo</option></select>
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This energy audit savings calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Savings</strong> — Savings% = Sum of improvement percentages — <em>Each improvement contributes a percentage reduction to energy bills.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What saves the most energy?</h3>
+      <p>Insulation and air sealing typically save 15-25% on heating/cooling costs.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Are energy audits worth it?</h3>
+      <p>Professional audits cost $200-400 but typically identify $200-1000+/year in savings.</p>
     </div>
 
   </div>
@@ -425,7 +425,9 @@ footer a:hover{color:#fff}
     var smartThermo = document.getElementById('smartThermo').value;
 
     // Calculation logic
-    var savingsPct = 0; savingsPct += insulation === 'Yes' ? 15 : 0; savingsPct += airSeal === 'Yes' ? 10 : 0; savingsPct += ledLights === 'Yes' ? 5 : 0; savingsPct += smartThermo === 'Yes' ? 8 : 0; var monthlySavings = monthlyBill * (savingsPct/100); var annualSavings = monthlySavings * 12; return {savingsPct: fmt(savingsPct,0), monthlySavings: dollar(monthlySavings), annualSavings: dollar(annualSavings)};
+    var savingsPct = 0; savingsPct += insulation === 'Yes' ? 15 : 0; savingsPct += airSeal === 'Yes' ? 10 : 0; savingsPct += ledLights === 'Yes' ? 5 : 0; savingsPct += smartThermo === 'Yes' ? 8 : 0; var monthlySavings = monthlyBill * (savingsPct/100); var annualSavings = monthlySavings * 12;     document.getElementById('savingsPct').textContent = fmt(savingsPct,0);
+    document.getElementById('monthlySavings').textContent = dollar(monthlySavings);
+    document.getElementById('annualSavings').textContent = dollar(annualSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

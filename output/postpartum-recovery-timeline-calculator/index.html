@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="delivery">Delivery Type</label>
-      <select id="delivery"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="delivery"><option value="Vaginal (uncomplicated)" selected>Vaginal (uncomplicated)</option><option value="Vaginal (with tearing)">Vaginal (with tearing)</option><option value="C-Section">C-Section</option><option value="delivery">delivery</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="breastfeeding">Breastfeeding</label>
-      <select id="breastfeeding"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="breastfeeding"><option value="breastfeeding" selected>breastfeeding</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="support">Support at Home</label>
-      <select id="support"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="support"><option value="Strong support" selected>Strong support</option><option value="Some help">Some help</option><option value="Minimal support">Minimal support</option><option value="support">support</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This postpartum recovery calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Recovery Timeline</strong> — Full = Physical Base + 4 + Support Adjustment — <em>Physical healing plus emotional/hormonal adjustment.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long is postpartum recovery?</h3>
+      <p>4-6 weeks for vaginal delivery, 6-8 weeks for C-section, with full recovery taking longer.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When can I exercise after birth?</h3>
+      <p>Light walking immediately, but wait 6-8 weeks (vaginal) or 8-10 weeks (C-section) for more.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var support = document.getElementById('support').value;
 
     // Calculation logic
-    var baseWeeks = {'Vaginal (uncomplicated)': 4, 'Vaginal (with tearing)': 6, 'C-Section': 8}; var physicalRecovery = baseWeeks[delivery] || 6; var exerciseReturn = physicalRecovery + 2; var supportMod = {'Strong support': 0, 'Some help': 1, 'Minimal support': 3}; var fullRecovery = physicalRecovery + 4 + (supportMod[support] || 0); return {physicalRecovery: fmt(physicalRecovery,0), exerciseReturn: fmt(exerciseReturn,0), fullRecovery: fmt(fullRecovery,0)};
+    var baseWeeks = {'Vaginal (uncomplicated)': 4, 'Vaginal (with tearing)': 6, 'C-Section': 8}; var physicalRecovery = baseWeeks[delivery] || 6; var exerciseReturn = physicalRecovery + 2; var supportMod = {'Strong support': 0, 'Some help': 1, 'Minimal support': 3}; var fullRecovery = physicalRecovery + 4 + (supportMod[support] || 0);     document.getElementById('physicalRecovery').textContent = fmt(physicalRecovery,0);
+    document.getElementById('exerciseReturn').textContent = fmt(exerciseReturn,0);
+    document.getElementById('fullRecovery').textContent = fmt(fullRecovery,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

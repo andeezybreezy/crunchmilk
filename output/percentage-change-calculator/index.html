@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="oldValue">Original Value</label>
-      <input type="number" id="oldValue" value="undefined" min="0" max="100000000" step="1" inputmode="decimal">
+      <input type="number" id="oldValue" value="" min="0" max="100000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="newValue">New Value</label>
-      <input type="number" id="newValue" value="undefined" min="0" max="100000000" step="1" inputmode="decimal">
+      <input type="number" id="newValue" value="" min="0" max="100000000" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This percentage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>% Change</strong> — Change = (New - Old) / Old × 100 — <em>Percentage increase or decrease from original.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Tax laws and financial markets change frequently. Verify current rates with your financial institution.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to calculate percentage change?</h3>
+      <p>(New - Old) / Old × 100 gives percentage increase or decrease.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the difference between change and difference?</h3>
+      <p>Change is relative (%), difference is absolute (same unit as the values).</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var newValue = parseFloat(document.getElementById('newValue').value) || 0;
 
     // Calculation logic
-    var difference = newValue - oldValue; var change = oldValue !== 0 ? (difference / oldValue) * 100 : 0; var ratio = oldValue !== 0 ? (newValue / oldValue) * 100 : 0; return {change: (change >= 0 ? '+' : '') + fmt(change,1), difference: fmt(difference,2), ratio: fmt(ratio,1)};
+    var difference = newValue - oldValue; var change = oldValue !== 0 ? (difference / oldValue) * 100 : 0; var ratio = oldValue !== 0 ? (newValue / oldValue) * 100 : 0;     document.getElementById('change').textContent = (change >= 0 ? '+' : '') + fmt(change,1);
+    document.getElementById('difference').textContent = fmt(difference,2);
+    document.getElementById('ratio').textContent = fmt(ratio,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var claimFreq = parseFloat(document.getElementById('claimFreq').value) || 0;
 
     // Calculation logic
-    var savings = premium500 - premium1000; var deductibleDiff = 500; var breakeven = savings > 0 ? Math.ceil(deductibleDiff / savings) : 0; var fiveYearSavings = (savings * 60) - (claimFreq * deductibleDiff); var recommendation = fiveYearSavings > 0 ? 'Higher deductible saves ' + dollar(fiveYearSavings) + ' over 5 years' : 'Lower deductible is better with your claim frequency'; return {savings: dollar(savings), breakeven: fmt(breakeven,0), recommendation: recommendation};
+    var savings = premium500 - premium1000; var deductibleDiff = 500; var breakeven = savings > 0 ? Math.ceil(deductibleDiff / savings) : 0; var fiveYearSavings = (savings * 60) - (claimFreq * deductibleDiff); var recommendation = fiveYearSavings > 0 ? 'Higher deductible saves ' + dollar(fiveYearSavings) + ' over 5 years' : 'Lower deductible is better with your claim frequency';     document.getElementById('savings').textContent = dollar(savings);
+    document.getElementById('breakeven').textContent = fmt(breakeven,0);
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

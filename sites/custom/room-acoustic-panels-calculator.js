@@ -15,7 +15,9 @@
     var purpose = document.getElementById('purpose').value;
 
     // Calculation logic
-    var wallArea = 2*(length+width)*height; var coverPct = {'Music Listening': 0.25, 'Home Studio': 0.40, 'Podcast Room': 0.50, 'Home Theater': 0.30}; var pct = coverPct[purpose] || 0.3; var panelCoverage = wallArea * pct; var panels = Math.ceil(panelCoverage / 8); return {wallArea: fmt(wallArea,0), panelCoverage: fmt(panelCoverage,0), panels: fmt(panels,0)};
+    var wallArea = 2*(length+width)*height; var coverPct = {'Music Listening': 0.25, 'Home Studio': 0.40, 'Podcast Room': 0.50, 'Home Theater': 0.30}; var pct = coverPct[purpose] || 0.3; var panelCoverage = wallArea * pct; var panels = Math.ceil(panelCoverage / 8);     document.getElementById('wallArea').textContent = fmt(wallArea,0);
+    document.getElementById('panelCoverage').textContent = fmt(panelCoverage,0);
+    document.getElementById('panels').textContent = fmt(panels,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

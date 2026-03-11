@@ -13,7 +13,10 @@
     var powerFactor = parseFloat(document.getElementById('powerFactor').value) || 0;
 
     // Calculation logic
-    var apparentPower=realPower/powerFactor; var reactivePower=Math.sqrt(apparentPower*apparentPower-realPower*realPower); var angle=Math.acos(powerFactor)*180/Math.PI; var rating=powerFactor>=0.95?'Excellent':powerFactor>=0.85?'Good':powerFactor>=0.7?'Fair — consider correction':'Poor — correction needed'; return {apparentPower:fmt(apparentPower,2)+' kVA', reactivePower:fmt(reactivePower,2)+' kVAR', pfAngle:fmt(angle,1)+'°', efficiency:rating};
+    var apparentPower=realPower/powerFactor; var reactivePower=Math.sqrt(apparentPower*apparentPower-realPower*realPower); var angle=Math.acos(powerFactor)*180/Math.PI; var rating=powerFactor>=0.95?'Excellent':powerFactor>=0.85?'Good':powerFactor>=0.7?'Fair — consider correction':'Poor — correction needed';     document.getElementById('apparentPower').textContent = fmt(apparentPower,2)+' kVA';
+    document.getElementById('reactivePower').textContent = fmt(reactivePower,2)+' kVAR';
+    document.getElementById('pfAngle').textContent = fmt(angle,1)+'°';
+    document.getElementById('efficiency').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

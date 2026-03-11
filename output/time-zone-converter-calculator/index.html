@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="hour">Hour (24h format)</label>
-      <input type="number" id="hour" value="undefined" min="0" max="23" step="1" inputmode="decimal">
+      <input type="number" id="hour" value="" min="0" max="23" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="minute">Minute</label>
-      <input type="number" id="minute" value="undefined" min="0" max="59" step="15" inputmode="decimal">
+      <input type="number" id="minute" value="" min="0" max="59" step="15" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="fromZone">From Zone (UTC offset)</label>
-      <input type="number" id="fromZone" value="undefined" min="-12" max="14" step="1" inputmode="decimal">
+      <input type="number" id="fromZone" value="" min="-12" max="14" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="toZone">To Zone (UTC offset)</label>
-      <input type="number" id="toZone" value="undefined" min="-12" max="14" step="1" inputmode="decimal">
+      <input type="number" id="toZone" value="" min="-12" max="14" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This time zone converter uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Conversion</strong> — New Time = Original + (To Zone - From Zone) — <em>Add the difference in UTC offsets.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is UTC?</h3>
+      <p>Coordinated Universal Time, the global time standard. EST is UTC-5, JST is UTC+9.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do all zones shift for daylight saving?</h3>
+      <p>No, many countries and US states do not observe daylight saving time.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var toZone = parseFloat(document.getElementById('toZone').value) || 0;
 
     // Calculation logic
-    var diff = toZone - fromZone; var newHour = ((hour + diff) % 24 + 24) % 24; var dayChange = hour + diff >= 24 ? ' (+1 day)' : hour + diff < 0 ? ' (-1 day)' : ''; var ampm = newHour >= 12 ? 'PM' : 'AM'; var displayHour = newHour > 12 ? newHour - 12 : newHour === 0 ? 12 : newHour; var convertedTime = displayHour + ':' + (minute < 10 ? '0' : '') + minute + ' ' + ampm + dayChange; return {convertedTime: convertedTime, difference: (diff >= 0 ? '+' : '') + fmt(diff,0)};
+    var diff = toZone - fromZone; var newHour = ((hour + diff) % 24 + 24) % 24; var dayChange = hour + diff >= 24 ? ' (+1 day)' : hour + diff < 0 ? ' (-1 day)' : ''; var ampm = newHour >= 12 ? 'PM' : 'AM'; var displayHour = newHour > 12 ? newHour - 12 : newHour === 0 ? 12 : newHour; var convertedTime = displayHour + ':' + (minute < 10 ? '0' : '') + minute + ' ' + ampm + dayChange;     document.getElementById('convertedTime').textContent = convertedTime;
+    document.getElementById('difference').textContent = (diff >= 0 ? '+' : '') + fmt(diff,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

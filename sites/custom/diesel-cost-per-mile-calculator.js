@@ -15,7 +15,11 @@
     var daysPerWeek = parseFloat(document.getElementById('daysPerWeek').value) || 0;
 
     // Calculation logic
-    var cpm = v.dieselPrice / v.mpg; var daily = cpm * v.dailyMiles; var weekly = daily * v.daysPerWeek; var monthly = weekly * 4.33; var annual = weekly * 52; return {costPerMile: '$' + cpm.toFixed(3), dailyCost: '$' + Math.round(daily).toLocaleString(), weeklyCost: '$' + Math.round(weekly).toLocaleString(), monthlyCost: '$' + Math.round(monthly).toLocaleString(), annualCost: '$' + Math.round(annual).toLocaleString()};
+    var cpm = v.dieselPrice / v.mpg; var daily = cpm * v.dailyMiles; var weekly = daily * v.daysPerWeek; var monthly = weekly * 4.33; var annual = weekly * 52;     document.getElementById('costPerMile').textContent = '$' + cpm.toFixed(3);
+    document.getElementById('dailyCost').textContent = '$' + Math.round(daily).toLocaleString();
+    document.getElementById('weeklyCost').textContent = '$' + Math.round(weekly).toLocaleString();
+    document.getElementById('monthlyCost').textContent = '$' + Math.round(monthly).toLocaleString();
+    document.getElementById('annualCost').textContent = '$' + Math.round(annual).toLocaleString();
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

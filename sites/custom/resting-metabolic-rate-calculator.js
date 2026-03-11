@@ -15,7 +15,8 @@
     var sex = document.getElementById('sex').value;
 
     // Calculation logic
-    var weightKg = weight * 0.453592; var heightCm = height * 2.54; var rmr = sex === 'Male' ? (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5 : (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161; var hourly = rmr / 24; return {rmr: fmt(rmr,0), hourly: fmt(hourly,1)};
+    var weightKg = weight * 0.453592; var heightCm = height * 2.54; var rmr = sex === 'Male' ? (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5 : (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161; var hourly = rmr / 24;     document.getElementById('rmr').textContent = fmt(rmr,0);
+    document.getElementById('hourly').textContent = fmt(hourly,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

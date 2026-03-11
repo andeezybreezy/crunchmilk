@@ -14,7 +14,9 @@
     var height = parseFloat(document.getElementById('height').value) || 0;
 
     // Calculation logic
-    var sqft = length * width; var perimeter = 2 * (length + width); var studs = Math.ceil(perimeter / 1.33) + 8; var wallArea = perimeter * height; var floorSheets = Math.ceil(sqft / 32); var wallSheets = Math.ceil(wallArea / 32); var roofSheets = Math.ceil(sqft * 1.15 / 32); var plywood = floorSheets + wallSheets + roofSheets; return {studs: fmt(studs,0), plywood: fmt(plywood,0), sqft: fmt(sqft,0)};
+    var sqft = length * width; var perimeter = 2 * (length + width); var studs = Math.ceil(perimeter / 1.33) + 8; var wallArea = perimeter * height; var floorSheets = Math.ceil(sqft / 32); var wallSheets = Math.ceil(wallArea / 32); var roofSheets = Math.ceil(sqft * 1.15 / 32); var plywood = floorSheets + wallSheets + roofSheets;     document.getElementById('studs').textContent = fmt(studs,0);
+    document.getElementById('plywood').textContent = fmt(plywood,0);
+    document.getElementById('sqft').textContent = fmt(sqft,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

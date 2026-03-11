@@ -16,7 +16,9 @@
     var hasSymbols = document.getElementById('hasSymbols').value;
 
     // Calculation logic
-    var pool = 0; pool += hasUpper === 'Yes' ? 26 : 0; pool += hasLower === 'Yes' ? 26 : 0; pool += hasNumbers === 'Yes' ? 10 : 0; pool += hasSymbols === 'Yes' ? 32 : 0; pool = Math.max(pool, 1); var entropy = Math.log2(Math.pow(pool, length)); var combinations = Math.pow(pool, length); var perSecond = 10000000000; var seconds = combinations / perSecond; var crackTime = seconds < 1 ? 'Instant' : seconds < 60 ? fmt(seconds,0) + ' seconds' : seconds < 3600 ? fmt(seconds/60,0) + ' minutes' : seconds < 86400 ? fmt(seconds/3600,0) + ' hours' : seconds < 31536000 ? fmt(seconds/86400,0) + ' days' : seconds < 3.15e10 ? fmt(seconds/31536000,0) + ' years' : fmt(seconds/31536000,0) + ' years'; var strength = entropy >= 80 ? 'Very Strong' : entropy >= 60 ? 'Strong' : entropy >= 40 ? 'Moderate' : entropy >= 28 ? 'Weak' : 'Very Weak'; return {entropy: fmt(entropy,0), crackTime: crackTime, strength: strength};
+    var pool = 0; pool += hasUpper === 'Yes' ? 26 : 0; pool += hasLower === 'Yes' ? 26 : 0; pool += hasNumbers === 'Yes' ? 10 : 0; pool += hasSymbols === 'Yes' ? 32 : 0; pool = Math.max(pool, 1); var entropy = Math.log2(Math.pow(pool, length)); var combinations = Math.pow(pool, length); var perSecond = 10000000000; var seconds = combinations / perSecond; var crackTime = seconds < 1 ? 'Instant' : seconds < 60 ? fmt(seconds,0) + ' seconds' : seconds < 3600 ? fmt(seconds/60,0) + ' minutes' : seconds < 86400 ? fmt(seconds/3600,0) + ' hours' : seconds < 31536000 ? fmt(seconds/86400,0) + ' days' : seconds < 3.15e10 ? fmt(seconds/31536000,0) + ' years' : fmt(seconds/31536000,0) + ' years'; var strength = entropy >= 80 ? 'Very Strong' : entropy >= 60 ? 'Strong' : entropy >= 40 ? 'Moderate' : entropy >= 28 ? 'Weak' : 'Very Weak';     document.getElementById('entropy').textContent = fmt(entropy,0);
+    document.getElementById('crackTime').textContent = crackTime;
+    document.getElementById('strength').textContent = strength;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

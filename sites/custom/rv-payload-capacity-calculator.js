@@ -15,7 +15,8 @@
     var waterGallons = parseFloat(document.getElementById('waterGallons').value) || 0;
 
     // Calculation logic
-    var ccc = gvwr - dryWeight; var passengerWeight = passengers * 175; var waterWeight = waterGallons * 8.34; var remaining = ccc - passengerWeight - waterWeight; return {ccc: fmt(ccc,0), remaining: fmt(remaining,0)};
+    var ccc = gvwr - dryWeight; var passengerWeight = passengers * 175; var waterWeight = waterGallons * 8.34; var remaining = ccc - passengerWeight - waterWeight;     document.getElementById('ccc').textContent = fmt(ccc,0);
+    document.getElementById('remaining').textContent = fmt(remaining,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

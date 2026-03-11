@@ -12,7 +12,8 @@
     var usd = parseFloat(document.getElementById('usd').value) || 0;
 
     // Calculation logic
-    var rate=7.24; var cny=usd*rate; return {cny:fmt(cny,2)+' CNY', rate:'1 USD = '+fmt(rate,2)+' CNY'};
+    var rate=7.24; var cny=usd*rate;     document.getElementById('cny').textContent = fmt(cny,2)+' CNY';
+    document.getElementById('rate').textContent = '1 USD = '+fmt(rate,2)+' CNY';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

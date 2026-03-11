@@ -15,7 +15,8 @@
     var priceGal = parseFloat(document.getElementById('priceGal').value) || 0;
 
     // Calculation logic
-    var gallons = Math.ceil((area * coats) / coverage); var totalCost = gallons * priceGal; return {gallons: fmt(gallons,0), totalCost: dollar(totalCost)};
+    var gallons = Math.ceil((area * coats) / coverage); var totalCost = gallons * priceGal;     document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

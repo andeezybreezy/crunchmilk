@@ -17,7 +17,9 @@
     var newRim = parseFloat(document.getElementById('newRim').value) || 0;
 
     // Calculation logic
-    var origSidewall = origWidth * origAspect / 100 / 25.4; var origDia = (origRim + 2 * origSidewall); var newSidewall = newWidth * newAspect / 100 / 25.4; var newDia = (newRim + 2 * newSidewall); var speedoError = ((newDia - origDia) / origDia) * 100; return {origDia: fmt(origDia,1), newDia: fmt(newDia,1), speedoError: fmt(speedoError,1)};
+    var origSidewall = origWidth * origAspect / 100 / 25.4; var origDia = (origRim + 2 * origSidewall); var newSidewall = newWidth * newAspect / 100 / 25.4; var newDia = (newRim + 2 * newSidewall); var speedoError = ((newDia - origDia) / origDia) * 100;     document.getElementById('origDia').textContent = fmt(origDia,1);
+    document.getElementById('newDia').textContent = fmt(newDia,1);
+    document.getElementById('speedoError').textContent = fmt(speedoError,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

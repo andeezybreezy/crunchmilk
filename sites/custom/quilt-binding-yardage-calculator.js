@@ -14,7 +14,9 @@
     var bindingWidth = parseFloat(document.getElementById('bindingWidth').value) || 0;
 
     // Calculation logic
-    var perimeter = 2 * (length + width) + 12; var strips = Math.ceil(perimeter / 42); var fabricInches = strips * bindingWidth; var yardage = fabricInches / 36; return {perimeter: fmt(perimeter,0), strips: fmt(strips,0), yardage: fmt(yardage,2)};
+    var perimeter = 2 * (length + width) + 12; var strips = Math.ceil(perimeter / 42); var fabricInches = strips * bindingWidth; var yardage = fabricInches / 36;     document.getElementById('perimeter').textContent = fmt(perimeter,0);
+    document.getElementById('strips').textContent = fmt(strips,0);
+    document.getElementById('yardage').textContent = fmt(yardage,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

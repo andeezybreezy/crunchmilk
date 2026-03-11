@@ -14,7 +14,8 @@
     var velocity = parseFloat(document.getElementById('velocity').value) || 0;
 
     // Calculation logic
-    var twist = (150 * Math.pow(caliber, 2)) / bulletLength * Math.sqrt(2800/velocity); var standards = [7, 8, 9, 10, 12, 14, 16, 18, 20]; var nearest = standards.reduce(function(prev, curr) { return Math.abs(curr - twist) < Math.abs(prev - twist) ? curr : prev; }); return {twist: '1:' + fmt(twist,1), standard: '1:' + nearest};
+    var twist = (150 * Math.pow(caliber, 2)) / bulletLength * Math.sqrt(2800/velocity); var standards = [7, 8, 9, 10, 12, 14, 16, 18, 20]; var nearest = standards.reduce(function(prev, curr) { return Math.abs(curr - twist) < Math.abs(prev - twist) ? curr : prev; });     document.getElementById('twist').textContent = '1:' + fmt(twist,1);
+    document.getElementById('standard').textContent = '1:' + nearest;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

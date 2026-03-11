@@ -13,7 +13,9 @@
     var weeks = parseFloat(document.getElementById('weeks').value) || 0;
 
     // Calculation logic
-    var ranges = preBmi < 18.5 ? [28,40] : preBmi < 25 ? [25,35] : preBmi < 30 ? [15,25] : [11,20]; var weeklyRate = preBmi < 25 ? 1 : 0.6; var firstTri = weeks <= 13 ? weeks * 0.3 : 4; var laterWeeks = Math.max(weeks - 13, 0); var recommended = firstTri + laterWeeks * weeklyRate; var totalRange = ranges[0] + '-' + ranges[1]; return {recommended: fmt(recommended,1), totalRange: totalRange, weeklyRate: fmt(weeklyRate,1)};
+    var ranges = preBmi < 18.5 ? [28,40] : preBmi < 25 ? [25,35] : preBmi < 30 ? [15,25] : [11,20]; var weeklyRate = preBmi < 25 ? 1 : 0.6; var firstTri = weeks <= 13 ? weeks * 0.3 : 4; var laterWeeks = Math.max(weeks - 13, 0); var recommended = firstTri + laterWeeks * weeklyRate; var totalRange = ranges[0] + '-' + ranges[1];     document.getElementById('recommended').textContent = fmt(recommended,1);
+    document.getElementById('totalRange').textContent = totalRange;
+    document.getElementById('weeklyRate').textContent = fmt(weeklyRate,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

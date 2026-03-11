@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="pieces">Number of Pieces</label>
-      <input type="number" id="pieces" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="pieces" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="avgLength">Avg Piece Length (inches)</label>
-      <input type="number" id="avgLength" value="undefined" min="2" max="60" step="1" inputmode="decimal">
+      <input type="number" id="avgLength" value="" min="2" max="60" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="avgWidth">Avg Piece Width (inches)</label>
-      <input type="number" id="avgWidth" value="undefined" min="2" max="30" step="1" inputmode="decimal">
+      <input type="number" id="avgWidth" value="" min="2" max="30" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="interfacingWidth">Interfacing Width (inches)</label>
-      <input type="number" id="interfacingWidth" value="undefined" min="15" max="60" step="1" inputmode="decimal">
+      <input type="number" id="interfacingWidth" value="" min="15" max="60" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This interfacing yardage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Yardage</strong> — Yards = (Rows × Piece Length) / 36 — <em>Total linear interfacing based on layout.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is interfacing?</h3>
+      <p>A stabilizer fused or sewn to fabric to add structure to collars, cuffs, and waistbands.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Fusible vs sew-in?</h3>
+      <p>Fusible is easier and works for most fabrics. Sew-in is better for delicates and textured fabrics.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var interfacingWidth = parseFloat(document.getElementById('interfacingWidth').value) || 0;
 
     // Calculation logic
-    var totalArea = pieces * avgLength * avgWidth * 1.1; var rows = Math.ceil(pieces * avgWidth / interfacingWidth); var linearInches = rows * avgLength; var yardage = Math.ceil(linearInches / 36 * 10) / 10; return {totalArea: fmt(totalArea,0), yardage: fmt(yardage,1)};
+    var totalArea = pieces * avgLength * avgWidth * 1.1; var rows = Math.ceil(pieces * avgWidth / interfacingWidth); var linearInches = rows * avgLength; var yardage = Math.ceil(linearInches / 36 * 10) / 10;     document.getElementById('totalArea').textContent = fmt(totalArea,0);
+    document.getElementById('yardage').textContent = fmt(yardage,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

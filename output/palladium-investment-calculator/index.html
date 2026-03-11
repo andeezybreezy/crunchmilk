@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Weight</label>
-      <input type="number" id="weight" value="undefined" min="0.1" max="1000" step="0.1" inputmode="decimal">
+      <input type="number" id="weight" value="" min="0.1" max="1000" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="weightUnit">Unit</label>
-      <select id="weightUnit"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="weightUnit"><option value="Troy Ounces" selected>Troy Ounces</option><option value="Grams">Grams</option><option value="Kilograms">Kilograms</option><option value="weightUnit">weightUnit</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="spotPrice">Spot Price ($/troy oz)</label>
-      <input type="number" id="spotPrice" value="undefined" min="100" max="5000" step="10" inputmode="decimal">
+      <input type="number" id="spotPrice" value="" min="100" max="5000" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="premium">Dealer Premium (%)</label>
-      <input type="number" id="premium" value="undefined" min="0" max="30" step="0.5" inputmode="decimal">
+      <input type="number" id="premium" value="" min="0" max="30" step="0.5" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="purchasePrice">Your Purchase Price ($/troy oz)</label>
-      <input type="number" id="purchasePrice" value="undefined" min="0" max="5000" step="10" inputmode="decimal">
+      <input type="number" id="purchasePrice" value="" min="0" max="5000" step="10" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -362,7 +362,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This palladium investment calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Current Value</strong> — Value = Troy Ounces x Spot Price — <em>Weight converted to troy ounces multiplied by the current spot price.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -375,13 +375,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why invest in palladium?</h3>
+      <p>Palladium is rarer than gold and has strong industrial demand, especially for catalytic converters. It can diversify a precious metals portfolio beyond gold and silver.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How does palladium compare to platinum?</h3>
+      <p>Palladium has outperformed platinum in recent years due to gasoline engine catalyst demand, while platinum is used more in diesel catalysts.</p>
     </div>
 
   </div>
@@ -436,7 +436,10 @@ footer a:hover{color:#fff}
     var purchasePrice = parseFloat(document.getElementById('purchasePrice').value) || 0;
 
     // Calculation logic
-    var ozConvert = {'Troy Ounces': 1, 'Grams': 0.03215, 'Kilograms': 32.15}; var troyOz = weight * (ozConvert[weightUnit] || 1); var currentValue = troyOz * spotPrice; var totalWithPremium = troyOz * spotPrice * (1 + premium / 100); var costBasis = troyOz * purchasePrice; var gainLoss = currentValue - costBasis; var returnPct = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0; return {currentValue: dollar(currentValue), totalWithPremium: dollar(totalWithPremium), gainLoss: dollar(gainLoss), returnPct: fmt(returnPct, 2)};
+    var ozConvert = {'Troy Ounces': 1, 'Grams': 0.03215, 'Kilograms': 32.15}; var troyOz = weight * (ozConvert[weightUnit] || 1); var currentValue = troyOz * spotPrice; var totalWithPremium = troyOz * spotPrice * (1 + premium / 100); var costBasis = troyOz * purchasePrice; var gainLoss = currentValue - costBasis; var returnPct = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0;     document.getElementById('currentValue').textContent = dollar(currentValue);
+    document.getElementById('totalWithPremium').textContent = dollar(totalWithPremium);
+    document.getElementById('gainLoss').textContent = dollar(gainLoss);
+    document.getElementById('returnPct').textContent = fmt(returnPct, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

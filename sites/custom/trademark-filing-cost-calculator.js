@@ -14,7 +14,9 @@
     var attorney = document.getElementById('attorney').value;
 
     // Calculation logic
-    var perClass = filingType === 'TEAS Plus ($250/class)' ? 250 : 350; var filingFee = perClass * classes; var attorneyFee = attorney === 'Yes' ? 500 + (classes - 1) * 200 : 0; var totalCost = filingFee + attorneyFee; return {filingFee: dollar(filingFee), attorneyFee: dollar(attorneyFee), totalCost: dollar(totalCost)};
+    var perClass = filingType === 'TEAS Plus ($250/class)' ? 250 : 350; var filingFee = perClass * classes; var attorneyFee = attorney === 'Yes' ? 500 + (classes - 1) * 200 : 0; var totalCost = filingFee + attorneyFee;     document.getElementById('filingFee').textContent = dollar(filingFee);
+    document.getElementById('attorneyFee').textContent = dollar(attorneyFee);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

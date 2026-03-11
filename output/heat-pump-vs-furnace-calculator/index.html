@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sqft">Home Size (sq ft)</label>
-      <input type="number" id="sqft" value="undefined" min="500" max="10000" step="100" inputmode="decimal">
+      <input type="number" id="sqft" value="" min="500" max="10000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="heatingDays">Heating Days per Year</label>
-      <input type="number" id="heatingDays" value="undefined" min="30" max="300" step="10" inputmode="decimal">
+      <input type="number" id="heatingDays" value="" min="30" max="300" step="10" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gasRate">Gas Rate ($/therm)</label>
-      <input type="number" id="gasRate" value="undefined" min="0.3" max="3" step="0.1" inputmode="decimal">
+      <input type="number" id="gasRate" value="" min="0.3" max="3" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="electricRate">Electric Rate ($/kWh)</label>
-      <input type="number" id="electricRate" value="undefined" min="0.05" max="0.5" step="0.01" inputmode="decimal">
+      <input type="number" id="electricRate" value="" min="0.05" max="0.5" step="0.01" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This heat pump savings calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>COP Advantage</strong> — Heat Pump kWh = BTU / 3412 / COP (typically 3) — <em>Heat pumps deliver 3x the energy they consume.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Are heat pumps cheaper to run?</h3>
+      <p>Usually yes, heat pumps are 2-3x more efficient. Savings depend on gas vs electric prices.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do heat pumps work in cold climates?</h3>
+      <p>Modern cold-climate heat pumps work efficiently down to -15°F.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var electricRate = parseFloat(document.getElementById('electricRate').value) || 0;
 
     // Calculation logic
-    var dailyBtu = sqft * 25; var annualBtu = dailyBtu * heatingDays; var therms = annualBtu / 100000 / 0.95; var furnaceCost = therms * gasRate; var kwhNeeded = annualBtu / 3412 / 3; var heatPumpCost = kwhNeeded * electricRate; var savings = furnaceCost - heatPumpCost; return {furnaceCost: dollar(furnaceCost), heatPumpCost: dollar(heatPumpCost), savings: dollar(savings)};
+    var dailyBtu = sqft * 25; var annualBtu = dailyBtu * heatingDays; var therms = annualBtu / 100000 / 0.95; var furnaceCost = therms * gasRate; var kwhNeeded = annualBtu / 3412 / 3; var heatPumpCost = kwhNeeded * electricRate; var savings = furnaceCost - heatPumpCost;     document.getElementById('furnaceCost').textContent = dollar(furnaceCost);
+    document.getElementById('heatPumpCost').textContent = dollar(heatPumpCost);
+    document.getElementById('savings').textContent = dollar(savings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

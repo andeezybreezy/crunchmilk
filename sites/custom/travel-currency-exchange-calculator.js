@@ -14,7 +14,10 @@
     var midMarketRate = parseFloat(document.getElementById('midMarketRate').value) || 0;
 
     // Calculation logic
-    var feeRates = {'Airport Kiosk': 0.10, 'Bank (pre-trip)': 0.03, 'ATM Abroad': 0.02, 'Credit Card (no foreign fee)': 0.005, 'Credit Card (3% fee)': 0.035, 'Hotel Exchange': 0.12}; var feeRate = feeRates[method] || 0.05; var atmFee = method === 'ATM Abroad' ? 5 : 0; var totalFees = (amount * feeRate) + atmFee; var netAmount = amount - totalFees; var effectiveRate = midMarketRate * (1 - feeRate); var youReceive = netAmount * midMarketRate; var costPer100 = (totalFees / amount) * 100; return {effectiveRate: fmt(effectiveRate, 4), youReceive: fmt(youReceive, 2), totalFees: dollar(totalFees), costPer100: dollar(costPer100)};
+    var feeRates = {'Airport Kiosk': 0.10, 'Bank (pre-trip)': 0.03, 'ATM Abroad': 0.02, 'Credit Card (no foreign fee)': 0.005, 'Credit Card (3% fee)': 0.035, 'Hotel Exchange': 0.12}; var feeRate = feeRates[method] || 0.05; var atmFee = method === 'ATM Abroad' ? 5 : 0; var totalFees = (amount * feeRate) + atmFee; var netAmount = amount - totalFees; var effectiveRate = midMarketRate * (1 - feeRate); var youReceive = netAmount * midMarketRate; var costPer100 = (totalFees / amount) * 100;     document.getElementById('effectiveRate').textContent = fmt(effectiveRate, 4);
+    document.getElementById('youReceive').textContent = fmt(youReceive, 2);
+    document.getElementById('totalFees').textContent = dollar(totalFees);
+    document.getElementById('costPer100').textContent = dollar(costPer100);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,11 @@
     var adRate = parseFloat(document.getElementById('adRate').value) || 0;
 
     // Calculation logic
-    var subRevenue=subscribers*2.50; var monthlyHours=hoursPerWeek*4.33; var adImpressions=avgViewers*monthlyHours*2; var adRevenue=(adImpressions/1000)*adRate; var bitsRevenue=avgViewers*0.5; var total=subRevenue+adRevenue+bitsRevenue; var perHour=total/monthlyHours; return {subRevenue:dollar(subRevenue), adRevenue:dollar(adRevenue), bitsRevenue:dollar(bitsRevenue), totalMonthly:dollar(total), perHour:dollar(perHour)+'/hour'};
+    var subRevenue=subscribers*2.50; var monthlyHours=hoursPerWeek*4.33; var adImpressions=avgViewers*monthlyHours*2; var adRevenue=(adImpressions/1000)*adRate; var bitsRevenue=avgViewers*0.5; var total=subRevenue+adRevenue+bitsRevenue; var perHour=total/monthlyHours;     document.getElementById('subRevenue').textContent = dollar(subRevenue);
+    document.getElementById('adRevenue').textContent = dollar(adRevenue);
+    document.getElementById('bitsRevenue').textContent = dollar(bitsRevenue);
+    document.getElementById('totalMonthly').textContent = dollar(total);
+    document.getElementById('perHour').textContent = dollar(perHour)+'/hour';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

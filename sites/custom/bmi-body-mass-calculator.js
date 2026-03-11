@@ -14,7 +14,8 @@
     var heightIn = parseFloat(document.getElementById('heightIn').value) || 0;
 
     // Calculation logic
-    var totalIn = heightFt * 12 + heightIn; var bmi = (weight / (totalIn * totalIn)) * 703; var category = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal weight' : bmi < 30 ? 'Overweight' : 'Obese'; return {bmi: fmt(bmi,1), category: category};
+    var totalIn = heightFt * 12 + heightIn; var bmi = (weight / (totalIn * totalIn)) * 703; var category = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal weight' : bmi < 30 ? 'Overweight' : 'Obese';     document.getElementById('bmi').textContent = fmt(bmi,1);
+    document.getElementById('category').textContent = category;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,10 @@
     var investment = parseFloat(document.getElementById('investment').value) || 0;
 
     // Calculation logic
-    var realReturn = ((1 + nominalReturn/100) / (1 + inflation/100) - 1) * 100; var nominalValue = investment * Math.pow(1 + nominalReturn/100, years); var realValue = investment * Math.pow(1 + realReturn/100, years); var purchasingPowerLoss = nominalValue - realValue; return {realReturn: fmt(realReturn,2), nominalValue: dollar(nominalValue), realValue: dollar(realValue), purchasingPowerLoss: dollar(purchasingPowerLoss)};
+    var realReturn = ((1 + nominalReturn/100) / (1 + inflation/100) - 1) * 100; var nominalValue = investment * Math.pow(1 + nominalReturn/100, years); var realValue = investment * Math.pow(1 + realReturn/100, years); var purchasingPowerLoss = nominalValue - realValue;     document.getElementById('realReturn').textContent = fmt(realReturn,2);
+    document.getElementById('nominalValue').textContent = dollar(nominalValue);
+    document.getElementById('realValue').textContent = dollar(realValue);
+    document.getElementById('purchasingPowerLoss').textContent = dollar(purchasingPowerLoss);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

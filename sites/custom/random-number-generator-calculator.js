@@ -14,7 +14,8 @@
     var count = parseFloat(document.getElementById('count').value) || 0;
 
     // Calculation logic
-    var results = []; for (var i = 0; i < Math.min(count, 20); i++) { results.push(Math.floor(Math.random() * (max - min + 1)) + min); } var result = results.join(', '); var range = min + ' to ' + max; return {result: result, range: range};
+    var results = []; for (var i = 0; i < Math.min(count, 20); i++) { results.push(Math.floor(Math.random() * (max - min + 1)) + min); } var result = results.join(', '); var range = min + ' to ' + max;     document.getElementById('result').textContent = result;
+    document.getElementById('range').textContent = range;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

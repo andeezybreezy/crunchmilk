@@ -14,7 +14,9 @@
     var fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 0;
 
     // Calculation logic
-    var gallons = distance / mpg; var fuelCost = gallons * fuelPrice; var costPerMile = (fuelPrice / mpg) * 100; return {gallons: fmt(gallons,1), fuelCost: dollar(fuelCost), costPerMile: fmt(costPerMile,1)};
+    var gallons = distance / mpg; var fuelCost = gallons * fuelPrice; var costPerMile = (fuelPrice / mpg) * 100;     document.getElementById('gallons').textContent = fmt(gallons,1);
+    document.getElementById('fuelCost').textContent = dollar(fuelCost);
+    document.getElementById('costPerMile').textContent = fmt(costPerMile,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

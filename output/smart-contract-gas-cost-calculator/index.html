@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="contractSize">Contract Size (bytes)</label>
-      <input type="number" id="contractSize" value="undefined" min="100" max="50000" step="100" inputmode="decimal">
+      <input type="number" id="contractSize" value="" min="100" max="50000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="functions">Avg Functions Called/Day</label>
-      <input type="number" id="functions" value="undefined" min="1" max="10000" step="1" inputmode="decimal">
+      <input type="number" id="functions" value="" min="1" max="10000" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gasPrice">Gas Price (Gwei)</label>
-      <input type="number" id="gasPrice" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="gasPrice" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="ethPrice">ETH Price (USD)</label>
-      <input type="number" id="ethPrice" value="undefined" min="100" max="20000" step="50" inputmode="decimal">
+      <input type="number" id="ethPrice" value="" min="100" max="20000" step="50" inputmode="decimal">
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This smart contract gas cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Gas Cost</strong> — Cost (USD) = Gas Units x Gas Price (Gwei) / 1e9 x ETH Price — <em>Convert gas units to ETH using the gas price, then multiply by the current ETH/USD exchange rate.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Cryptocurrency markets are highly volatile. Past performance does not guarantee future results.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does it cost to deploy a smart contract?</h3>
+      <p>Deployment costs depend on contract size and gas prices. A typical ERC-20 token contract costs $50-$500 at moderate gas prices.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How can I reduce smart contract gas costs?</h3>
+      <p>Optimize storage usage, use events instead of storage where possible, batch operations, and consider Layer 2 solutions like Arbitrum or Optimism.</p>
     </div>
 
   </div>
@@ -430,7 +430,10 @@ footer a:hover{color:#fff}
     var ethPrice = parseFloat(document.getElementById('ethPrice').value) || 0;
 
     // Calculation logic
-    var deployGas = contractSize * 200 + 21000; var deployCostEth = (deployGas * gasPrice) / 1e9; var deployCost = deployCostEth * ethPrice; var avgCallGas = 65000; var dailyGas = avgCallGas * functions; var dailyCostEth = (dailyGas * gasPrice) / 1e9; var dailyInteractionCost = dailyCostEth * ethPrice; var monthlyCost = dailyInteractionCost * 30; return {deployGas: fmt(deployGas, 0), deployCost: dollar(deployCost), dailyInteractionCost: dollar(dailyInteractionCost), monthlyCost: dollar(monthlyCost)};
+    var deployGas = contractSize * 200 + 21000; var deployCostEth = (deployGas * gasPrice) / 1e9; var deployCost = deployCostEth * ethPrice; var avgCallGas = 65000; var dailyGas = avgCallGas * functions; var dailyCostEth = (dailyGas * gasPrice) / 1e9; var dailyInteractionCost = dailyCostEth * ethPrice; var monthlyCost = dailyInteractionCost * 30;     document.getElementById('deployGas').textContent = fmt(deployGas, 0);
+    document.getElementById('deployCost').textContent = dollar(deployCost);
+    document.getElementById('dailyInteractionCost').textContent = dollar(dailyInteractionCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

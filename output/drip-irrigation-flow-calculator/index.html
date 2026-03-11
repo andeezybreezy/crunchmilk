@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="emitters">Number of Emitters</label>
-      <input type="number" id="emitters" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="emitters" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="gph">Emitter Flow Rate (GPH)</label>
-      <input type="number" id="gph" value="undefined" min="0.25" max="4" step="0.25" inputmode="decimal">
+      <input type="number" id="gph" value="" min="0.25" max="4" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="runtime">Run Time (minutes)</label>
-      <input type="number" id="runtime" value="undefined" min="5" max="180" step="5" inputmode="decimal">
+      <input type="number" id="runtime" value="" min="5" max="180" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This drip irrigation flow calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Flow</strong> — Flow = Emitters × GPH per emitter — <em>Sum of all emitter flow rates gives total system demand.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What flow rate should I use?</h3>
+      <p>0.5-1 GPH for most plants, 2-4 GPH for trees and large shrubs.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long should I run drip irrigation?</h3>
+      <p>20-45 minutes for most gardens, depending on soil type and plant needs.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var runtime = parseFloat(document.getElementById('runtime').value) || 0;
 
     // Calculation logic
-    var totalFlow = emitters * gph; var waterUsed = totalFlow * (runtime / 60); var monthlyWater = waterUsed * 30; return {totalFlow: fmt(totalFlow,1), waterUsed: fmt(waterUsed,1), monthlyWater: fmt(monthlyWater,0)};
+    var totalFlow = emitters * gph; var waterUsed = totalFlow * (runtime / 60); var monthlyWater = waterUsed * 30;     document.getElementById('totalFlow').textContent = fmt(totalFlow,1);
+    document.getElementById('waterUsed').textContent = fmt(waterUsed,1);
+    document.getElementById('monthlyWater').textContent = fmt(monthlyWater,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

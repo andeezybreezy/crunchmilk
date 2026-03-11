@@ -14,7 +14,9 @@
     var avgFieldLength = parseFloat(document.getElementById('avgFieldLength').value) || 0;
 
     // Calculation logic
-    var fieldOverhead = 15; var bytesPerRecord = fieldsPerRecord * (avgFieldLength + fieldOverhead); var totalBytes = records * bytesPerRecord + 100; var sizeKB = totalBytes / 1024; var sizeMB = sizeKB / 1024; var transferTime = (totalBytes * 8) / 10000000; return {sizeKB: fmt(sizeKB,1), sizeMB: fmt(sizeMB,2), transferTime: fmt(transferTime,2)};
+    var fieldOverhead = 15; var bytesPerRecord = fieldsPerRecord * (avgFieldLength + fieldOverhead); var totalBytes = records * bytesPerRecord + 100; var sizeKB = totalBytes / 1024; var sizeMB = sizeKB / 1024; var transferTime = (totalBytes * 8) / 10000000;     document.getElementById('sizeKB').textContent = fmt(sizeKB,1);
+    document.getElementById('sizeMB').textContent = fmt(sizeMB,2);
+    document.getElementById('transferTime').textContent = fmt(transferTime,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

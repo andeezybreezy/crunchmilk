@@ -16,7 +16,9 @@
     var windows = parseFloat(document.getElementById('windows').value) || 0;
 
     // Calculation logic
-    var perimeter=2*(length+width); var wallArea=perimeter*height; var subtract=(doors*21)+(windows*15); var coverArea=wallArea-subtract; var singleRolls=Math.ceil(coverArea/28); var doubleRolls=Math.ceil(singleRolls/2); return {wallArea:fmt(coverArea,0)+' sq ft', singleRolls:singleRolls+' rolls', doubleRolls:doubleRolls+' double rolls'};
+    var perimeter=2*(length+width); var wallArea=perimeter*height; var subtract=(doors*21)+(windows*15); var coverArea=wallArea-subtract; var singleRolls=Math.ceil(coverArea/28); var doubleRolls=Math.ceil(singleRolls/2);     document.getElementById('wallArea').textContent = fmt(coverArea,0)+' sq ft';
+    document.getElementById('singleRolls').textContent = singleRolls+' rolls';
+    document.getElementById('doubleRolls').textContent = doubleRolls+' double rolls';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

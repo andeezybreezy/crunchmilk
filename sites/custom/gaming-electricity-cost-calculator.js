@@ -17,7 +17,10 @@
     var psuEfficiency = parseFloat(document.getElementById('psuEfficiency').value) || 0;
 
     // Calculation logic
-    var componentWatts = gpuWatts + cpuWatts + peripherals; var totalDraw = Math.round(componentWatts / (psuEfficiency / 100)); var kwhPerDay = (totalDraw * hoursPerDay) / 1000; var dailyCost = kwhPerDay * electricityRate; var monthlyCost = dailyCost * 30; var annualCost = dailyCost * 365; return {totalDraw: fmt(totalDraw, 0), dailyCost: dollar(dailyCost), monthlyCost: dollar(monthlyCost), annualCost: dollar(annualCost)};
+    var componentWatts = gpuWatts + cpuWatts + peripherals; var totalDraw = Math.round(componentWatts / (psuEfficiency / 100)); var kwhPerDay = (totalDraw * hoursPerDay) / 1000; var dailyCost = kwhPerDay * electricityRate; var monthlyCost = dailyCost * 30; var annualCost = dailyCost * 365;     document.getElementById('totalDraw').textContent = fmt(totalDraw, 0);
+    document.getElementById('dailyCost').textContent = dollar(dailyCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

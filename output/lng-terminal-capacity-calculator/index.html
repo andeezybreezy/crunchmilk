@@ -410,7 +410,11 @@ footer a:hover{color:#fff}
     var disruption = parseFloat(document.getElementById('disruption').value) || 0;
 
     // Calculation logic
-    var data = {eu: {lng: 270, demand: 400, pipeline: 200}, japan: {lng: 210, demand: 100, pipeline: 0}, china: {lng: 120, demand: 380, pipeline: 80}, india: {lng: 60, demand: 65, pipeline: 0}, 'south-korea': {lng: 90, demand: 55, pipeline: 0}, uk: {lng: 50, demand: 80, pipeline: 40}}; var d = data[v.region]; var pipelineLost = d.pipeline * (v.disruption / 100); var nonPipeline = d.demand - d.pipeline; var needed = nonPipeline + pipelineLost; var coverage = Math.min(100, (d.lng / needed * 100)); var deficit = d.lng - needed; return {lngCapacity: d.lng + ' bcm/year', totalDemand: d.demand + ' bcm/year', pipelineGap: Math.round(pipelineLost) + ' bcm lost', canLngCover: coverage.toFixed(0) + '% of non-pipeline demand', deficit: deficit > 0 ? 'Surplus: ' + deficit + ' bcm' : 'Deficit: ' + Math.abs(Math.round(deficit)) + ' bcm'};
+    var data = {eu: {lng: 270, demand: 400, pipeline: 200}, japan: {lng: 210, demand: 100, pipeline: 0}, china: {lng: 120, demand: 380, pipeline: 80}, india: {lng: 60, demand: 65, pipeline: 0}, 'south-korea': {lng: 90, demand: 55, pipeline: 0}, uk: {lng: 50, demand: 80, pipeline: 40}}; var d = data[v.region]; var pipelineLost = d.pipeline * (v.disruption / 100); var nonPipeline = d.demand - d.pipeline; var needed = nonPipeline + pipelineLost; var coverage = Math.min(100, (d.lng / needed * 100)); var deficit = d.lng - needed;     document.getElementById('lngCapacity').textContent = d.lng + ' bcm/year';
+    document.getElementById('totalDemand').textContent = d.demand + ' bcm/year';
+    document.getElementById('pipelineGap').textContent = Math.round(pipelineLost) + ' bcm lost';
+    document.getElementById('canLngCover').textContent = coverage.toFixed(0) + '% of non-pipeline demand';
+    document.getElementById('deficit').textContent = deficit > 0 ? 'Surplus: ' + deficit + ' bcm' : 'Deficit: ' + Math.abs(Math.round(deficit)) + ' bcm';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

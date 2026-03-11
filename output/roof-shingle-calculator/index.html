@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Roof Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="10" max="200" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="10" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Roof Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="10" max="100" step="1" inputmode="decimal">
+      <input type="number" id="width" value="" min="10" max="100" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="pitch">Roof Pitch</label>
-      <select id="pitch"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="pitch"><option value="4/12 (low)" selected>4/12 (low)</option><option value="6/12 (moderate)">6/12 (moderate)</option><option value="8/12 (steep)">8/12 (steep)</option><option value="10/12 (steep)">10/12 (steep)</option><option value="12/12 (45°)">12/12 (45°)</option><option value="pitch">pitch</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="layers">Remove Old Shingles</label>
-      <select id="layers"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="layers"><option value="layers" selected>layers</option></select>
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This roof shingle calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Actual Area</strong> — Area = L × W × Pitch Factor × 1.1 waste — <em>Flat area multiplied by pitch factor and waste overage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a roofing square?</h3>
+      <p>100 square feet of roof area. A typical home needs 20-30 squares.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many bundles per square?</h3>
+      <p>3 bundles of standard 3-tab shingles per square. Architectural may vary.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var layers = document.getElementById('layers').value;
 
     // Calculation logic
-    var pitchFactors = {'4/12 (low)': 1.054, '6/12 (moderate)': 1.118, '8/12 (steep)': 1.202, '10/12 (steep)': 1.302, '12/12 (45°)': 1.414}; var factor = pitchFactors[pitch] || 1.118; var actualArea = length * width * factor; var squares = actualArea / 100 * 1.1; var bundles = Math.ceil(squares * 3); var underlayment = Math.ceil(actualArea / 400); return {squares: fmt(squares,1), bundles: fmt(bundles,0), underlayment: fmt(underlayment,0)};
+    var pitchFactors = {'4/12 (low)': 1.054, '6/12 (moderate)': 1.118, '8/12 (steep)': 1.202, '10/12 (steep)': 1.302, '12/12 (45°)': 1.414}; var factor = pitchFactors[pitch] || 1.118; var actualArea = length * width * factor; var squares = actualArea / 100 * 1.1; var bundles = Math.ceil(squares * 3); var underlayment = Math.ceil(actualArea / 400);     document.getElementById('squares').textContent = fmt(squares,1);
+    document.getElementById('bundles').textContent = fmt(bundles,0);
+    document.getElementById('underlayment').textContent = fmt(underlayment,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -302,15 +302,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="purchasePrice">Purchase Price ($)</label>
-      <input type="number" id="purchasePrice" value="undefined" min="1000" max="500000" step="1000" inputmode="decimal">
+      <input type="number" id="purchasePrice" value="" min="1000" max="500000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Vehicle Age (years)</label>
-      <input type="number" id="age" value="undefined" min="0" max="25" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="0" max="25" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mileage">Annual Mileage</label>
-      <input type="number" id="mileage" value="undefined" min="1000" max="50000" step="1000" inputmode="decimal">
+      <input type="number" id="mileage" value="" min="1000" max="50000" step="1000" inputmode="decimal">
     </div>
   </div>
 
@@ -359,7 +359,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This car depreciation calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Depreciation</strong> — Value = Price × (1 - Rate)^years — <em>Compound depreciation applied year over year.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -380,13 +380,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How fast do cars depreciate?</h3>
+      <p>New cars lose about 20% in year one, then 10-15% per year after.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What cars hold value best?</h3>
+      <p>Trucks, SUVs, and luxury brands like Toyota and Porsche depreciate slowest.</p>
     </div>
 
   </div>
@@ -432,7 +432,9 @@ footer a:hover{color:#fff}
     var mileage = parseFloat(document.getElementById('mileage').value) || 0;
 
     // Calculation logic
-    var depRates = [0.20, 0.15, 0.13, 0.12, 0.11, 0.10, 0.09, 0.08, 0.07, 0.06]; var value = purchasePrice; for (var i = 0; i < Math.min(age, 10); i++) { value *= (1 - (depRates[i] || 0.05)); } var mileAdj = 1 - ((mileage - 12000) * 0.000005 * age); value *= Math.max(mileAdj, 0.5); var totalLoss = purchasePrice - value; var annualLoss = age > 0 ? totalLoss / age : 0; return {currentValue: dollar(value), totalLoss: dollar(totalLoss), annualLoss: dollar(annualLoss)};
+    var depRates = [0.20, 0.15, 0.13, 0.12, 0.11, 0.10, 0.09, 0.08, 0.07, 0.06]; var value = purchasePrice; for (var i = 0; i < Math.min(age, 10); i++) { value *= (1 - (depRates[i] || 0.05)); } var mileAdj = 1 - ((mileage - 12000) * 0.000005 * age); value *= Math.max(mileAdj, 0.5); var totalLoss = purchasePrice - value; var annualLoss = age > 0 ? totalLoss / age : 0;     document.getElementById('currentValue').textContent = dollar(value);
+    document.getElementById('totalLoss').textContent = dollar(totalLoss);
+    document.getElementById('annualLoss').textContent = dollar(annualLoss);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

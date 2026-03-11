@@ -15,7 +15,9 @@
     var volume = parseFloat(document.getElementById('volume').value) || 0;
 
     // Calculation logic
-    var ratio = Math.pow(10, targetPH - pKa); var totalMoles = totalConc * volume; var baseMoles = totalMoles * ratio / (1 + ratio); var acidMoles = totalMoles - baseMoles; return {ratio: fmt(ratio,2), baseMoles: fmt(baseMoles,2), acidMoles: fmt(acidMoles,2)};
+    var ratio = Math.pow(10, targetPH - pKa); var totalMoles = totalConc * volume; var baseMoles = totalMoles * ratio / (1 + ratio); var acidMoles = totalMoles - baseMoles;     document.getElementById('ratio').textContent = fmt(ratio,2);
+    document.getElementById('baseMoles').textContent = fmt(baseMoles,2);
+    document.getElementById('acidMoles').textContent = fmt(acidMoles,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var nozzle = parseFloat(document.getElementById('nozzle').value) || 0;
 
     // Calculation logic
-    var distances = {'Direct Drive': {'PLA': 1, 'PETG': 1.5, 'ABS': 1, 'TPU': 0.5}, 'Bowden Tube': {'PLA': 5, 'PETG': 6, 'ABS': 5, 'TPU': 3}}; var speeds = {'Direct Drive': 25, 'Bowden Tube': 40}; var distance = distances[extruder][material] || 2; var speed = speeds[extruder] || 30; var tip = nozzle > 220 ? 'Higher temps need more retraction - add 0.5mm' : 'Temperature is in good range'; return {distance: fmt(distance,1), speed: fmt(speed,0), tip: tip};
+    var distances = {'Direct Drive': {'PLA': 1, 'PETG': 1.5, 'ABS': 1, 'TPU': 0.5}, 'Bowden Tube': {'PLA': 5, 'PETG': 6, 'ABS': 5, 'TPU': 3}}; var speeds = {'Direct Drive': 25, 'Bowden Tube': 40}; var distance = distances[extruder][material] || 2; var speed = speeds[extruder] || 30; var tip = nozzle > 220 ? 'Higher temps need more retraction - add 0.5mm' : 'Temperature is in good range';     document.getElementById('distance').textContent = fmt(distance,1);
+    document.getElementById('speed').textContent = fmt(speed,0);
+    document.getElementById('tip').textContent = tip;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

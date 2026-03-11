@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="preBmi">Pre-Pregnancy BMI</label>
-      <input type="number" id="preBmi" value="undefined" min="15" max="50" step="0.5" inputmode="decimal">
+      <input type="number" id="preBmi" value="" min="15" max="50" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="weeks">Current Week of Pregnancy</label>
-      <input type="number" id="weeks" value="undefined" min="1" max="42" step="1" inputmode="decimal">
+      <input type="number" id="weeks" value="" min="1" max="42" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This pregnancy weight gain calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Weekly Rate</strong> — ~1 lb/week (normal BMI) or 0.6 lb/week (overweight) — <em>Steady gain after the first trimester.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much weight should I gain?</h3>
+      <p>25-35 lbs for normal BMI, 15-25 for overweight, 28-40 for underweight.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When does most weight gain occur?</h3>
+      <p>Most weight gain happens in the 2nd and 3rd trimesters.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var weeks = parseFloat(document.getElementById('weeks').value) || 0;
 
     // Calculation logic
-    var ranges = preBmi < 18.5 ? [28,40] : preBmi < 25 ? [25,35] : preBmi < 30 ? [15,25] : [11,20]; var weeklyRate = preBmi < 25 ? 1 : 0.6; var firstTri = weeks <= 13 ? weeks * 0.3 : 4; var laterWeeks = Math.max(weeks - 13, 0); var recommended = firstTri + laterWeeks * weeklyRate; var totalRange = ranges[0] + '-' + ranges[1]; return {recommended: fmt(recommended,1), totalRange: totalRange, weeklyRate: fmt(weeklyRate,1)};
+    var ranges = preBmi < 18.5 ? [28,40] : preBmi < 25 ? [25,35] : preBmi < 30 ? [15,25] : [11,20]; var weeklyRate = preBmi < 25 ? 1 : 0.6; var firstTri = weeks <= 13 ? weeks * 0.3 : 4; var laterWeeks = Math.max(weeks - 13, 0); var recommended = firstTri + laterWeeks * weeklyRate; var totalRange = ranges[0] + '-' + ranges[1];     document.getElementById('recommended').textContent = fmt(recommended,1);
+    document.getElementById('totalRange').textContent = totalRange;
+    document.getElementById('weeklyRate').textContent = fmt(weeklyRate,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

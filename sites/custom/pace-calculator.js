@@ -15,7 +15,9 @@
     var seconds = parseFloat(document.getElementById('seconds').value) || 0;
 
     // Calculation logic
-    var totalSeconds = hours*3600 + minutes*60 + seconds; var paceSeconds = totalSeconds / distance; var paceMin = Math.floor(paceSeconds / 60); var paceSec = Math.floor(paceSeconds % 60); var pace = paceMin + ':' + (paceSec < 10 ? '0' : '') + paceSec; var speed = distance / (totalSeconds / 3600); var marathonSec = paceSeconds * 26.2; var mHrs = Math.floor(marathonSec / 3600); var mMin = Math.floor((marathonSec % 3600) / 60); var marathon = mHrs + ':' + (mMin < 10 ? '0' : '') + mMin; return {pace: pace, speed: fmt(speed,1), marathon: marathon};
+    var totalSeconds = hours*3600 + minutes*60 + seconds; var paceSeconds = totalSeconds / distance; var paceMin = Math.floor(paceSeconds / 60); var paceSec = Math.floor(paceSeconds % 60); var pace = paceMin + ':' + (paceSec < 10 ? '0' : '') + paceSec; var speed = distance / (totalSeconds / 3600); var marathonSec = paceSeconds * 26.2; var mHrs = Math.floor(marathonSec / 3600); var mMin = Math.floor((marathonSec % 3600) / 60); var marathon = mHrs + ':' + (mMin < 10 ? '0' : '') + mMin;     document.getElementById('pace').textContent = pace;
+    document.getElementById('speed').textContent = fmt(speed,1);
+    document.getElementById('marathon').textContent = marathon;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

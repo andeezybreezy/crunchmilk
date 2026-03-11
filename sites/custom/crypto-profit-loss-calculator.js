@@ -15,7 +15,9 @@
     var fees = parseFloat(document.getElementById('fees').value) || 0;
 
     // Calculation logic
-    var invested = buyPrice * quantity; var returned = sellPrice * quantity; var profitLoss = returned - invested; var roi = (profitLoss / invested) * 100; var afterFees = profitLoss - fees; return {profitLoss: dollar(profitLoss), roi: (roi >= 0 ? '+' : '') + fmt(roi,1), afterFees: dollar(afterFees)};
+    var invested = buyPrice * quantity; var returned = sellPrice * quantity; var profitLoss = returned - invested; var roi = (profitLoss / invested) * 100; var afterFees = profitLoss - fees;     document.getElementById('profitLoss').textContent = dollar(profitLoss);
+    document.getElementById('roi').textContent = (roi >= 0 ? '+' : '') + fmt(roi,1);
+    document.getElementById('afterFees').textContent = dollar(afterFees);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

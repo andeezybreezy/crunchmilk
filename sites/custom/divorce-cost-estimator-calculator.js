@@ -14,7 +14,9 @@
     var assets = document.getElementById('assets').value;
 
     // Calculation logic
-    var costs = {'Uncontested': [500,2500], 'Mediated': [3000,8000], 'Collaborative': [5000,15000], 'Contested (Moderate)': [10000,30000], 'Contested (Complex)': [25000,100000]}; var range = costs[type] || [5000,15000]; var childMult = children === 'Yes' ? 1.4 : 1; var assetMult = {'Simple': 1, 'Moderate': 1.3, 'Complex (business, property)': 1.8}; var mult = childMult * (assetMult[assets] || 1); var lowEstimate = range[0] * mult; var highEstimate = range[1] * mult; var timelines = {'Uncontested': 3, 'Mediated': 4, 'Collaborative': 6, 'Contested (Moderate)': 12, 'Contested (Complex)': 24}; var timeline = timelines[type] || 6; return {lowEstimate: dollar(lowEstimate), highEstimate: dollar(highEstimate), timeline: fmt(timeline,0)};
+    var costs = {'Uncontested': [500,2500], 'Mediated': [3000,8000], 'Collaborative': [5000,15000], 'Contested (Moderate)': [10000,30000], 'Contested (Complex)': [25000,100000]}; var range = costs[type] || [5000,15000]; var childMult = children === 'Yes' ? 1.4 : 1; var assetMult = {'Simple': 1, 'Moderate': 1.3, 'Complex (business, property)': 1.8}; var mult = childMult * (assetMult[assets] || 1); var lowEstimate = range[0] * mult; var highEstimate = range[1] * mult; var timelines = {'Uncontested': 3, 'Mediated': 4, 'Collaborative': 6, 'Contested (Moderate)': 12, 'Contested (Complex)': 24}; var timeline = timelines[type] || 6;     document.getElementById('lowEstimate').textContent = dollar(lowEstimate);
+    document.getElementById('highEstimate').textContent = dollar(highEstimate);
+    document.getElementById('timeline').textContent = fmt(timeline,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

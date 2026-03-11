@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Trip Distance (miles)</label>
-      <input type="number" id="distance" value="undefined" min="10" max="20000" step="50" inputmode="decimal">
+      <input type="number" id="distance" value="" min="10" max="20000" step="50" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mpg">RV Fuel Economy (MPG)</label>
-      <input type="number" id="mpg" value="undefined" min="4" max="25" step="0.5" inputmode="decimal">
+      <input type="number" id="mpg" value="" min="4" max="25" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fuelPrice">Fuel Price ($/gal)</label>
-      <input type="number" id="fuelPrice" value="undefined" min="1" max="10" step="0.1" inputmode="decimal">
+      <input type="number" id="fuelPrice" value="" min="1" max="10" step="0.1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rv fuel cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Fuel Cost</strong> — Cost = (Distance / MPG) × Fuel Price — <em>Distance divided by fuel economy times price per gallon.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What MPG do RVs get?</h3>
+      <p>Class A: 6-10 MPG, Class C: 10-14 MPG, Travel trailers reduce tow vehicle MPG by 30-50%.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Diesel vs gas RV?</h3>
+      <p>Diesel RVs often get 1-3 MPG better but diesel fuel can cost more per gallon.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 0;
 
     // Calculation logic
-    var gallons = distance / mpg; var fuelCost = gallons * fuelPrice; var costPerMile = (fuelPrice / mpg) * 100; return {gallons: fmt(gallons,1), fuelCost: dollar(fuelCost), costPerMile: fmt(costPerMile,1)};
+    var gallons = distance / mpg; var fuelCost = gallons * fuelPrice; var costPerMile = (fuelPrice / mpg) * 100;     document.getElementById('gallons').textContent = fmt(gallons,1);
+    document.getElementById('fuelCost').textContent = dollar(fuelCost);
+    document.getElementById('costPerMile').textContent = fmt(costPerMile,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

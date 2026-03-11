@@ -14,7 +14,8 @@
     var rate = parseFloat(document.getElementById('rate').value) || 0;
 
     // Calculation logic
-    var kw = hp * 0.746; var monthlyKwh = kw * hours; var monthlyCost = monthlyKwh * rate; var annualCost = monthlyCost * 12; return {monthlyCost: dollar(monthlyCost), annualCost: dollar(annualCost)};
+    var kw = hp * 0.746; var monthlyKwh = kw * hours; var monthlyCost = monthlyKwh * rate; var annualCost = monthlyCost * 12;     document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

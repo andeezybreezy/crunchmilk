@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="rollerDia">Drive Roller Diameter (inches)</label>
-      <input type="number" id="rollerDia" value="undefined" min="1" max="48" step="0.5" inputmode="decimal">
+      <input type="number" id="rollerDia" value="" min="1" max="48" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rpm">Motor RPM</label>
-      <input type="number" id="rpm" value="undefined" min="1" max="5000" step="10" inputmode="decimal">
+      <input type="number" id="rpm" value="" min="1" max="5000" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="ratio">Gear Ratio</label>
-      <input type="number" id="ratio" value="undefined" min="1" max="200" step="1" inputmode="decimal">
+      <input type="number" id="ratio" value="" min="1" max="200" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This conveyor belt speed calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Belt Speed</strong> — Speed = π × Roller Dia × (Motor RPM / Gear Ratio) — <em>Output RPM times roller circumference gives linear belt speed.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How is belt speed calculated?</h3>
+      <p>Belt speed = roller circumference × output RPM after gear reduction.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a typical conveyor speed?</h3>
+      <p>Most material handling conveyors run 50-200 ft/min.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var ratio = parseFloat(document.getElementById('ratio').value) || 0;
 
     // Calculation logic
-    var outputRpm = rpm / ratio; var circumference = Math.PI * rollerDia / 12; var beltSpeed = outputRpm * circumference; var beltSpeedMph = beltSpeed * 60 / 5280; return {beltSpeed: fmt(beltSpeed,1), beltSpeedMph: fmt(beltSpeedMph,2)};
+    var outputRpm = rpm / ratio; var circumference = Math.PI * rollerDia / 12; var beltSpeed = outputRpm * circumference; var beltSpeedMph = beltSpeed * 60 / 5280;     document.getElementById('beltSpeed').textContent = fmt(beltSpeed,1);
+    document.getElementById('beltSpeedMph').textContent = fmt(beltSpeedMph,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

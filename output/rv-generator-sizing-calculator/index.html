@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="ac">Air Conditioner (BTU)</label>
-      <select id="ac"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="ac"><option value="None" selected>None</option><option value="13,500 BTU">13,500 BTU</option><option value="15,000 BTU">15,000 BTU</option><option value=",">,</option><option value="ac">ac</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="microwave">Microwave</label>
-      <select id="microwave"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="microwave"><option value="Yes (1000W)" selected>Yes (1000W)</option><option value="microwave">microwave</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="fridge">Residential Fridge</label>
-      <select id="fridge"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="fridge"><option value="Yes" selected>Yes</option><option value="fridge">fridge</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="extras">Other Loads (watts)</label>
-      <input type="number" id="extras" value="undefined" min="0" max="3000" step="100" inputmode="decimal">
+      <input type="number" id="extras" value="" min="0" max="3000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rv generator sizing calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Generator Size</strong> — Size = Σ Starting Watts of all appliances — <em>Sum all appliance starting watts and round up to next generator size.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What size generator for an RV?</h3>
+      <p>2000-3000W for small RVs, 3500-5500W for most Class C/A with AC.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Inverter vs conventional generator?</h3>
+      <p>Inverter generators are quieter and produce cleaner power for electronics.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var extras = parseFloat(document.getElementById('extras').value) || 0;
 
     // Calculation logic
-    var acWatts = {'None': 0, '13,500 BTU': 1500, '15,000 BTU': 2000}; var acStart = {'None': 0, '13,500 BTU': 3000, '15,000 BTU': 3500}; var mwWatts = microwave === 'Yes (1000W)' ? 1000 : 0; var fridgeWatts = fridge === 'Yes' ? 150 : 0; var fridgeStart = fridge === 'Yes' ? 600 : 0; var running = (acWatts[ac]||0) + mwWatts + fridgeWatts + extras; var starting = (acStart[ac]||0) + mwWatts + fridgeStart + extras; var recommended = Math.ceil(starting / 500) * 500; return {runningWatts: fmt(running,0), startingWatts: fmt(starting,0), recommended: fmt(recommended,0)};
+    var acWatts = {'None': 0, '13,500 BTU': 1500, '15,000 BTU': 2000}; var acStart = {'None': 0, '13,500 BTU': 3000, '15,000 BTU': 3500}; var mwWatts = microwave === 'Yes (1000W)' ? 1000 : 0; var fridgeWatts = fridge === 'Yes' ? 150 : 0; var fridgeStart = fridge === 'Yes' ? 600 : 0; var running = (acWatts[ac]||0) + mwWatts + fridgeWatts + extras; var starting = (acStart[ac]||0) + mwWatts + fridgeStart + extras; var recommended = Math.ceil(starting / 500) * 500;     document.getElementById('runningWatts').textContent = fmt(running,0);
+    document.getElementById('startingWatts').textContent = fmt(starting,0);
+    document.getElementById('recommended').textContent = fmt(recommended,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

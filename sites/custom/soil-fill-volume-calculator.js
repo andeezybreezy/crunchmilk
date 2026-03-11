@@ -14,7 +14,9 @@
     var depth = parseFloat(document.getElementById('depth').value) || 0;
 
     // Calculation logic
-    var cuFt = length * width * (depth/12); var cuYd = cuFt / 27; var tons = cuYd * 1.1; var cost = cuYd * 30; return {cuYd: fmt(cuYd,2), tons: fmt(tons,1), cost: dollar(cost)};
+    var cuFt = length * width * (depth/12); var cuYd = cuFt / 27; var tons = cuYd * 1.1; var cost = cuYd * 30;     document.getElementById('cuYd').textContent = fmt(cuYd,2);
+    document.getElementById('tons').textContent = fmt(tons,1);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

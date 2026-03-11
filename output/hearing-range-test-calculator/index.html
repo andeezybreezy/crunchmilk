@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="5" max="90" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="5" max="90" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="exposure">Noise Exposure History</label>
-      <select id="exposure"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="exposure"><option value="Low (quiet environment)" selected>Low (quiet environment)</option><option value="Moderate (some loud events)">Moderate (some loud events)</option><option value="High (concerts, machinery)">High (concerts, machinery)</option><option value="Very High (military, factory)">Very High (military, factory)</option><option value="exposure">exposure</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="earbuds">Daily Earbud Use (hours)</label>
-      <input type="number" id="earbuds" value="undefined" min="0" max="12" step="1" inputmode="decimal">
+      <input type="number" id="earbuds" value="" min="0" max="12" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This hearing loss frequency calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Max Frequency</strong> — Max Hz = 20000 - (Age × 150) - Exposure Loss — <em>Age-related decline plus noise exposure damage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What frequency range is normal hearing?</h3>
+      <p>20 Hz to 20,000 Hz for young adults. High frequencies decline naturally with age.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do earbuds cause hearing loss?</h3>
+      <p>At high volumes (over 85 dB), extended earbud use can accelerate hearing loss.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var earbuds = parseFloat(document.getElementById('earbuds').value) || 0;
 
     // Calculation logic
-    var baseMax = 20000 - (age * 150); var exposureLoss = {'Low (quiet environment)': 0, 'Moderate (some loud events)': 500, 'High (concerts, machinery)': 1500, 'Very High (military, factory)': 3000}; var earbudLoss = earbuds > 4 ? 1000 : earbuds > 2 ? 500 : 0; var maxFreq = Math.max(baseMax - (exposureLoss[exposure]||0) - earbudLoss, 2000); var lossRisk = maxFreq < 8000 ? 'High' : maxFreq < 12000 ? 'Moderate' : 'Low'; var recommendation = maxFreq < 8000 ? 'Consider professional hearing evaluation' : maxFreq < 12000 ? 'Use hearing protection in loud environments' : 'Continue protecting your hearing'; return {maxFreq: fmt(maxFreq,0), lossRisk: lossRisk, recommendation: recommendation};
+    var baseMax = 20000 - (age * 150); var exposureLoss = {'Low (quiet environment)': 0, 'Moderate (some loud events)': 500, 'High (concerts, machinery)': 1500, 'Very High (military, factory)': 3000}; var earbudLoss = earbuds > 4 ? 1000 : earbuds > 2 ? 500 : 0; var maxFreq = Math.max(baseMax - (exposureLoss[exposure]||0) - earbudLoss, 2000); var lossRisk = maxFreq < 8000 ? 'High' : maxFreq < 12000 ? 'Moderate' : 'Low'; var recommendation = maxFreq < 8000 ? 'Consider professional hearing evaluation' : maxFreq < 12000 ? 'Use hearing protection in loud environments' : 'Continue protecting your hearing';     document.getElementById('maxFreq').textContent = fmt(maxFreq,0);
+    document.getElementById('lossRisk').textContent = lossRisk;
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

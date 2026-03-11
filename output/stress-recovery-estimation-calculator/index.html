@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="stressLevel">Stress Severity (1-10)</label>
-      <input type="number" id="stressLevel" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="stressLevel" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="duration">Stress Duration</label>
-      <select id="duration"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="duration"><option value="Acute (hours)" selected>Acute (hours)</option><option value="Short-term (days)">Short-term (days)</option><option value="Chronic (weeks/months)">Chronic (weeks/months)</option><option value="duration">duration</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="copingTools">Coping Tools Available</label>
-      <select id="copingTools"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="copingTools"><option value="Many (exercise, therapy, support)" selected>Many (exercise, therapy, support)</option><option value="Some (1-2 methods)">Some (1-2 methods)</option><option value="Few (limited resources)">Few (limited resources)</option><option value="copingTools">copingTools</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This stress recovery time calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Recovery Time</strong> — Days = Base × (Severity/5) × Coping Factor — <em>Duration-based estimate adjusted for severity and available coping tools.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long does stress recovery take?</h3>
+      <p>Acute stress: hours to days. Chronic stress: weeks to months with intentional recovery.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What helps recovery most?</h3>
+      <p>Sleep, exercise, social support, therapy, and reducing stressors.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var copingTools = document.getElementById('copingTools').value;
 
     // Calculation logic
-    var baseDays = {'Acute (hours)': 1, 'Short-term (days)': 7, 'Chronic (weeks/months)': 30}; var base = baseDays[duration] || 7; var severityMult = stressLevel / 5; var copingMult = {'Many (exercise, therapy, support)': 0.6, 'Some (1-2 methods)': 1, 'Few (limited resources)': 1.5}; var recoveryDays = Math.ceil(base * severityMult * (copingMult[copingTools] || 1)); var priority = stressLevel >= 7 ? 'Seek professional support, prioritize sleep and movement' : 'Focus on rest, social connection, and routine'; return {recoveryDays: fmt(recoveryDays,0), priority: priority};
+    var baseDays = {'Acute (hours)': 1, 'Short-term (days)': 7, 'Chronic (weeks/months)': 30}; var base = baseDays[duration] || 7; var severityMult = stressLevel / 5; var copingMult = {'Many (exercise, therapy, support)': 0.6, 'Some (1-2 methods)': 1, 'Few (limited resources)': 1.5}; var recoveryDays = Math.ceil(base * severityMult * (copingMult[copingTools] || 1)); var priority = stressLevel >= 7 ? 'Seek professional support, prioritize sleep and movement' : 'Focus on rest, social connection, and routine';     document.getElementById('recoveryDays').textContent = fmt(recoveryDays,0);
+    document.getElementById('priority').textContent = priority;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

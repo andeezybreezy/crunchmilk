@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Building Age (years)</label>
-      <input type="number" id="age" value="undefined" min="1" max="500" step="10" inputmode="decimal">
+      <input type="number" id="age" value="" min="1" max="500" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="deaths">Known Deaths on Property</label>
-      <input type="number" id="deaths" value="undefined" min="0" max="20" step="1" inputmode="decimal">
+      <input type="number" id="deaths" value="" min="0" max="20" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="reports">Previous Reports</label>
-      <input type="number" id="reports" value="undefined" min="0" max="50" step="1" inputmode="decimal">
+      <input type="number" id="reports" value="" min="0" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="nearCemetery">Near Cemetery/Battlefield</label>
-      <select id="nearCemetery"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="nearCemetery"><option value="Yes" selected>Yes</option><option value="nearCemetery">nearCemetery</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This haunted location risk calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Risk Score</strong> — Score = Age Factor + Deaths×10 + Reports×5 + Cemetery Bonus — <em>Weighted sum of historical and environmental factors.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What makes a location haunted?</h3>
+      <p>Allegedly: violent deaths, old buildings, proximity to burial sites, and repeated reports.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do old buildings have more activity?</h3>
+      <p>Older buildings have more reported sightings, though this may correlate with more history.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var nearCemetery = document.getElementById('nearCemetery').value;
 
     // Calculation logic
-    var score = Math.min(age * 0.1, 15) + deaths * 10 + reports * 5 + (nearCemetery === 'Yes' ? 15 : 0); score = Math.min(score, 100); var category = score >= 60 ? 'High Activity' : score >= 35 ? 'Moderate Activity' : score >= 15 ? 'Low Activity' : 'Minimal'; return {riskScore: fmt(score,0), category: category};
+    var score = Math.min(age * 0.1, 15) + deaths * 10 + reports * 5 + (nearCemetery === 'Yes' ? 15 : 0); score = Math.min(score, 100); var category = score >= 60 ? 'High Activity' : score >= 35 ? 'Moderate Activity' : score >= 15 ? 'Low Activity' : 'Minimal';     document.getElementById('riskScore').textContent = fmt(score,0);
+    document.getElementById('category').textContent = category;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

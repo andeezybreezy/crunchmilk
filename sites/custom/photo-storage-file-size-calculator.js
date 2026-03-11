@@ -14,7 +14,9 @@
     var photos = parseFloat(document.getElementById('photos').value) || 0;
 
     // Calculation logic
-    var sizeFactors = {'JPEG Fine': 0.35, 'JPEG Normal': 0.2, 'RAW': 1.5, 'RAW + JPEG': 1.85}; var factor = sizeFactors[format] || 0.35; var perPhoto = megapixels * factor; var totalGB = (perPhoto * photos) / 1024; var cards = Math.ceil(totalGB / 30); return {perPhoto: fmt(perPhoto,1), totalGB: fmt(totalGB,1), cards: fmt(cards,0)};
+    var sizeFactors = {'JPEG Fine': 0.35, 'JPEG Normal': 0.2, 'RAW': 1.5, 'RAW + JPEG': 1.85}; var factor = sizeFactors[format] || 0.35; var perPhoto = megapixels * factor; var totalGB = (perPhoto * photos) / 1024; var cards = Math.ceil(totalGB / 30);     document.getElementById('perPhoto').textContent = fmt(perPhoto,1);
+    document.getElementById('totalGB').textContent = fmt(totalGB,1);
+    document.getElementById('cards').textContent = fmt(cards,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

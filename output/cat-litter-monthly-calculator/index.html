@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="cats">Number of Cats</label>
-      <input type="number" id="cats" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="cats" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="litterType">Litter Type</label>
-      <select id="litterType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="litterType"><option value="Clumping Clay" selected>Clumping Clay</option><option value="Non-Clumping Clay">Non-Clumping Clay</option><option value="Crystal/Silica">Crystal/Silica</option><option value="Pine/Natural">Pine/Natural</option><option value="Corn/Wheat">Corn/Wheat</option><option value="litterType">litterType</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="pricePerBag">Price per Bag ($)</label>
-      <input type="number" id="pricePerBag" value="undefined" min="3" max="50" step="1" inputmode="decimal">
+      <input type="number" id="pricePerBag" value="" min="3" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bagLbs">Bag Size (lbs)</label>
-      <input type="number" id="bagLbs" value="undefined" min="5" max="50" step="5" inputmode="decimal">
+      <input type="number" id="bagLbs" value="" min="5" max="50" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This cat litter usage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Monthly Litter</strong> — Lbs/Month = Lbs/Week per Cat × Cats × 4.33 — <em>Weekly usage times number of cats times weeks per month.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much litter per cat?</h3>
+      <p>About 7-10 lbs per week per cat depending on litter type.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How often should I change litter?</h3>
+      <p>Scoop daily, full change every 1-2 weeks for clumping, weekly for non-clumping.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var bagLbs = parseFloat(document.getElementById('bagLbs').value) || 0;
 
     // Calculation logic
-    var basePerCat = {'Clumping Clay': 7, 'Non-Clumping Clay': 10, 'Crystal/Silica': 5, 'Pine/Natural': 8, 'Corn/Wheat': 7}; var lbsPerWeek = (basePerCat[litterType] || 7) * cats; var monthlyLbs = lbsPerWeek * 4.33; var bagsPerMonth = Math.ceil(monthlyLbs / bagLbs); var monthlyCost = bagsPerMonth * pricePerBag; return {monthlyLbs: fmt(monthlyLbs,0), bagsPerMonth: fmt(bagsPerMonth,0), monthlyCost: dollar(monthlyCost)};
+    var basePerCat = {'Clumping Clay': 7, 'Non-Clumping Clay': 10, 'Crystal/Silica': 5, 'Pine/Natural': 8, 'Corn/Wheat': 7}; var lbsPerWeek = (basePerCat[litterType] || 7) * cats; var monthlyLbs = lbsPerWeek * 4.33; var bagsPerMonth = Math.ceil(monthlyLbs / bagLbs); var monthlyCost = bagsPerMonth * pricePerBag;     document.getElementById('monthlyLbs').textContent = fmt(monthlyLbs,0);
+    document.getElementById('bagsPerMonth').textContent = fmt(bagsPerMonth,0);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

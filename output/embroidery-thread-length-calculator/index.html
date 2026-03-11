@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="stitches">Total Stitches</label>
-      <input type="number" id="stitches" value="undefined" min="100" max="100000" step="100" inputmode="decimal">
+      <input type="number" id="stitches" value="" min="100" max="100000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fabric">Fabric Count</label>
-      <select id="fabric"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="fabric"><option value="14 count Aida" selected>14 count Aida</option><option value="16 count Aida">16 count Aida</option><option value="18 count Aida">18 count Aida</option><option value="28 count linen">28 count linen</option><option value="fabric">fabric</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="strands">Strands Used</label>
-      <input type="number" id="strands" value="undefined" min="1" max="6" step="1" inputmode="decimal">
+      <input type="number" id="strands" value="" min="1" max="6" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This embroidery thread calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Thread Length</strong> — Length = Stitches × Inches/Stitch × Strands × 1.3 — <em>Total stitches times per-stitch thread use with 30% waste factor.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much thread per cross stitch?</h3>
+      <p>About 1 inch of thread per stitch on 14-count Aida with 2 strands.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I add extra?</h3>
+      <p>Add 20-30% extra for tails, starting, and ending threads.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var strands = parseFloat(document.getElementById('strands').value) || 0;
 
     // Calculation logic
-    var inchesPerStitch = {'14 count Aida': 0.14, '16 count Aida': 0.125, '18 count Aida': 0.11, '28 count linen': 0.07}; var ips = inchesPerStitch[fabric] || 0.14; var totalInches = stitches * ips * strands * 1.3; var lengthYards = totalInches / 36; var skeins = Math.ceil(lengthYards / 8.7); return {lengthYards: fmt(lengthYards,1), skeins: fmt(skeins,0)};
+    var inchesPerStitch = {'14 count Aida': 0.14, '16 count Aida': 0.125, '18 count Aida': 0.11, '28 count linen': 0.07}; var ips = inchesPerStitch[fabric] || 0.14; var totalInches = stitches * ips * strands * 1.3; var lengthYards = totalInches / 36; var skeins = Math.ceil(lengthYards / 8.7);     document.getElementById('lengthYards').textContent = fmt(lengthYards,1);
+    document.getElementById('skeins').textContent = fmt(skeins,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

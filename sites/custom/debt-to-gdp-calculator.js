@@ -16,7 +16,11 @@
     var yearsForward = parseFloat(document.getElementById('yearsForward').value) || 0;
 
     // Calculation logic
-    var currentRatio=(debt/gdp)*100; var futureDebt=debt*Math.pow(1+debtGrowth/100,yearsForward); var futureGDP=gdp*Math.pow(1+gdpGrowth/100,yearsForward); var futureRatio=(futureDebt/futureGDP)*100; var riskLevel=futureRatio>200?'Critical — Default/Crisis Risk':futureRatio>150?'High — Debt Spiral Likely':futureRatio>100?'Elevated — Sustainability Concerns':'Manageable'; return {currentRatio:fmt(currentRatio,1)+'%', futureDebt:'$'+fmt(futureDebt,1)+'T', futureGDP:'$'+fmt(futureGDP,1)+'T', futureRatio:fmt(futureRatio,1)+'%', riskLevel:riskLevel};
+    var currentRatio=(debt/gdp)*100; var futureDebt=debt*Math.pow(1+debtGrowth/100,yearsForward); var futureGDP=gdp*Math.pow(1+gdpGrowth/100,yearsForward); var futureRatio=(futureDebt/futureGDP)*100; var riskLevel=futureRatio>200?'Critical — Default/Crisis Risk':futureRatio>150?'High — Debt Spiral Likely':futureRatio>100?'Elevated — Sustainability Concerns':'Manageable';     document.getElementById('currentRatio').textContent = fmt(currentRatio,1)+'%';
+    document.getElementById('futureDebt').textContent = '$'+fmt(futureDebt,1)+'T';
+    document.getElementById('futureGDP').textContent = '$'+fmt(futureGDP,1)+'T';
+    document.getElementById('futureRatio').textContent = fmt(futureRatio,1)+'%';
+    document.getElementById('riskLevel').textContent = riskLevel;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

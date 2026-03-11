@@ -15,7 +15,9 @@
     var lawnMin = parseFloat(document.getElementById('lawnMin').value) || 0;
 
     // Calculation logic
-    var showerGal = showerMin * 2.5 * 30; var flushGal = flushes * 3.5 * 30; var laundryGal = laundryLoads * 30 * 4.33; var lawnGal = lawnMin * 12 * 4.33; var currentGal = showerGal + flushGal + laundryGal + lawnGal; var efficientShower = showerMin * 1.5 * 30; var efficientFlush = flushes * 1.6 * 30; var efficientLaundry = laundryLoads * 15 * 4.33; var efficientLawn = lawnMin * 8 * 4.33; var efficientTotal = efficientShower + efficientFlush + efficientLaundry + efficientLawn; var savingsGal = currentGal - efficientTotal; var savingsCost = savingsGal * 0.005; return {currentGal: fmt(currentGal,0), savingsGal: fmt(savingsGal,0), savingsCost: dollar(savingsCost)};
+    var showerGal = showerMin * 2.5 * 30; var flushGal = flushes * 3.5 * 30; var laundryGal = laundryLoads * 30 * 4.33; var lawnGal = lawnMin * 12 * 4.33; var currentGal = showerGal + flushGal + laundryGal + lawnGal; var efficientShower = showerMin * 1.5 * 30; var efficientFlush = flushes * 1.6 * 30; var efficientLaundry = laundryLoads * 15 * 4.33; var efficientLawn = lawnMin * 8 * 4.33; var efficientTotal = efficientShower + efficientFlush + efficientLaundry + efficientLawn; var savingsGal = currentGal - efficientTotal; var savingsCost = savingsGal * 0.005;     document.getElementById('currentGal').textContent = fmt(currentGal,0);
+    document.getElementById('savingsGal').textContent = fmt(savingsGal,0);
+    document.getElementById('savingsCost').textContent = dollar(savingsCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

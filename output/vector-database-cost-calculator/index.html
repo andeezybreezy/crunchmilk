@@ -446,7 +446,11 @@ footer a:hover{color:#fff}
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var chunksPerDoc=3; var totalChunks=documents*chunksPerDoc; var bytesPerVector=dimensions*4; var storageMB=(totalChunks*bytesPerVector)/(1024*1024); var embeddingTokens=totalChunks*avgChunkSize; var embeddingCost=(embeddingTokens/1000000)*0.02; var queryTokens=queriesPerDay*days*avgChunkSize; var queryCost=(queryTokens/1000000)*0.02; var hostingEst=storageMB>1000?79:storageMB>100?25:7; var totalMonthly=queryCost+hostingEst; return {totalChunks:fmt(totalChunks,0), storageMB:fmt(storageMB,1)+' MB', embeddingCost:dollar(embeddingCost)+' (one-time)', queryCost:dollar(queryCost), totalMonthly:dollar(totalMonthly)+' (incl. hosting est.)'};
+    var chunksPerDoc=3; var totalChunks=documents*chunksPerDoc; var bytesPerVector=dimensions*4; var storageMB=(totalChunks*bytesPerVector)/(1024*1024); var embeddingTokens=totalChunks*avgChunkSize; var embeddingCost=(embeddingTokens/1000000)*0.02; var queryTokens=queriesPerDay*days*avgChunkSize; var queryCost=(queryTokens/1000000)*0.02; var hostingEst=storageMB>1000?79:storageMB>100?25:7; var totalMonthly=queryCost+hostingEst;     document.getElementById('totalChunks').textContent = fmt(totalChunks,0);
+    document.getElementById('storageMB').textContent = fmt(storageMB,1)+' MB';
+    document.getElementById('embeddingCost').textContent = dollar(embeddingCost)+' (one-time)';
+    document.getElementById('queryCost').textContent = dollar(queryCost);
+    document.getElementById('totalMonthly').textContent = dollar(totalMonthly)+' (incl. hosting est.)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

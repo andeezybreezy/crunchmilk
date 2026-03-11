@@ -16,7 +16,10 @@
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var pricing={haiku:{avg:0.75},sonnet:{avg:9},opus:{avg:45}}; var avgRate=pricing[model].avg; var tokPerTask=stepsPerTask*tokensPerStep; var costPerTask=(tokPerTask/1000000)*avgRate; var dailyCost=costPerTask*tasksPerDay; var monthlyCost=dailyCost*days; return {tokensPerTask:fmt(tokPerTask,0), costPerTask:'$'+fmt(costPerTask,4), dailyCost:dollar(dailyCost), monthlyCost:dollar(monthlyCost)};
+    var pricing={haiku:{avg:0.75},sonnet:{avg:9},opus:{avg:45}}; var avgRate=pricing[model].avg; var tokPerTask=stepsPerTask*tokensPerStep; var costPerTask=(tokPerTask/1000000)*avgRate; var dailyCost=costPerTask*tasksPerDay; var monthlyCost=dailyCost*days;     document.getElementById('tokensPerTask').textContent = fmt(tokPerTask,0);
+    document.getElementById('costPerTask').textContent = '$'+fmt(costPerTask,4);
+    document.getElementById('dailyCost').textContent = dollar(dailyCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

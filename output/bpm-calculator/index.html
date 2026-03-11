@@ -415,7 +415,11 @@ footer a:hover{color:#fff}
     var timeSignature = document.getElementById('timeSignature').value;
 
     // Calculation logic
-    var msPerBeat=60000/bpm; var beatsPerBar=parseInt(timeSignature); var msPerBar=msPerBeat*beatsPerBar; var barsPerMin=60000/msPerBar; var beatsPerSec=bpm/60; return {bpmDisplay:bpm+' BPM', msPerBeat:fmt(msPerBeat,1)+' ms', msPerBar:fmt(msPerBar,1)+' ms', barsPerMin:fmt(barsPerMin,1), beatsPerSec:fmt(beatsPerSec,2)};
+    var msPerBeat=60000/bpm; var beatsPerBar=parseInt(timeSignature); var msPerBar=msPerBeat*beatsPerBar; var barsPerMin=60000/msPerBar; var beatsPerSec=bpm/60;     document.getElementById('bpmDisplay').textContent = bpm+' BPM';
+    document.getElementById('msPerBeat').textContent = fmt(msPerBeat,1)+' ms';
+    document.getElementById('msPerBar').textContent = fmt(msPerBar,1)+' ms';
+    document.getElementById('barsPerMin').textContent = fmt(barsPerMin,1);
+    document.getElementById('beatsPerSec').textContent = fmt(beatsPerSec,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

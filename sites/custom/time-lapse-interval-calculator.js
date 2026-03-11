@@ -14,7 +14,9 @@
     var fps = parseFloat(document.getElementById('fps').value) || 0;
 
     // Calculation logic
-    var totalFrames = clipLength * fps; var eventSeconds = eventDuration * 60; var interval = eventSeconds / totalFrames; var storageGB = totalFrames * 25 / 1024; return {totalFrames: fmt(totalFrames,0), interval: fmt(interval,1), storageGB: fmt(storageGB,1)};
+    var totalFrames = clipLength * fps; var eventSeconds = eventDuration * 60; var interval = eventSeconds / totalFrames; var storageGB = totalFrames * 25 / 1024;     document.getElementById('totalFrames').textContent = fmt(totalFrames,0);
+    document.getElementById('interval').textContent = fmt(interval,1);
+    document.getElementById('storageGB').textContent = fmt(storageGB,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var runtime = parseFloat(document.getElementById('runtime').value) || 0;
 
     // Calculation logic
-    var totalFlow = emitters * gph; var waterUsed = totalFlow * (runtime / 60); var monthlyWater = waterUsed * 30; return {totalFlow: fmt(totalFlow,1), waterUsed: fmt(waterUsed,1), monthlyWater: fmt(monthlyWater,0)};
+    var totalFlow = emitters * gph; var waterUsed = totalFlow * (runtime / 60); var monthlyWater = waterUsed * 30;     document.getElementById('totalFlow').textContent = fmt(totalFlow,1);
+    document.getElementById('waterUsed').textContent = fmt(waterUsed,1);
+    document.getElementById('monthlyWater').textContent = fmt(monthlyWater,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

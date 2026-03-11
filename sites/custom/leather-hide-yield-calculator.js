@@ -14,7 +14,8 @@
     var pieceArea = parseFloat(document.getElementById('pieceArea').value) || 0;
 
     // Calculation logic
-    var usable = hideSize * (1 - waste/100); var pieceSqFt = pieceArea / 144; var pieces = Math.floor(usable / pieceSqFt); return {usable: fmt(usable,1), pieces: fmt(pieces,0)};
+    var usable = hideSize * (1 - waste/100); var pieceSqFt = pieceArea / 144; var pieces = Math.floor(usable / pieceSqFt);     document.getElementById('usable').textContent = fmt(usable,1);
+    document.getElementById('pieces').textContent = fmt(pieces,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

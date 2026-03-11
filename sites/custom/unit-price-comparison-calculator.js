@@ -15,7 +15,10 @@
     var qty2 = parseFloat(document.getElementById('qty2').value) || 0;
 
     // Calculation logic
-    var unitA = price1 / qty1; var unitB = price2 / qty2; var winner = unitA <= unitB ? 'Option A' : 'Option B'; var savings = Math.abs(unitA - unitB); return {unitA: dollar(unitA), unitB: dollar(unitB), winner: winner, savings: dollar(savings)};
+    var unitA = price1 / qty1; var unitB = price2 / qty2; var winner = unitA <= unitB ? 'Option A' : 'Option B'; var savings = Math.abs(unitA - unitB);     document.getElementById('unitA').textContent = dollar(unitA);
+    document.getElementById('unitB').textContent = dollar(unitB);
+    document.getElementById('winner').textContent = winner;
+    document.getElementById('savings').textContent = dollar(savings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

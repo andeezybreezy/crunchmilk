@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="dropInches">Bullet Drop (inches)</label>
-      <input type="number" id="dropInches" value="undefined" min="0.1" max="200" step="0.5" inputmode="decimal">
+      <input type="number" id="dropInches" value="" min="0.1" max="200" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Distance (yards)</label>
-      <input type="number" id="distance" value="undefined" min="25" max="2000" step="25" inputmode="decimal">
+      <input type="number" id="distance" value="" min="25" max="2000" step="25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="clickValue">Click Value</label>
-      <select id="clickValue"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="clickValue"><option value="1/4 MOA" selected>1/4 MOA</option><option value="1/2 MOA">1/2 MOA</option><option value="1/8 MOA">1/8 MOA</option><option value="0.1 MRAD">0.1 MRAD</option><option value="clickValue">clickValue</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rifle scope moa calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>MOA Adjustment</strong> — MOA = Drop (in) / (Distance × 1.047 / 100) — <em>Inches of drop divided by inches-per-MOA at that distance.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is MOA?</h3>
+      <p>Minute of Angle — 1 MOA ≈ 1.047 inches at 100 yards, scaling with distance.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>MOA vs MRAD?</h3>
+      <p>MOA is finer adjustment (1/4 MOA clicks), MRAD uses metric-friendly 0.1 mrad clicks.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var clickValue = document.getElementById('clickValue').value;
 
     // Calculation logic
-    var inchesPerMOA = distance * 1.047 / 100; var moaAdj = dropInches / inchesPerMOA; var clickValues = {'1/4 MOA': 0.25, '1/2 MOA': 0.5, '1/8 MOA': 0.125, '0.1 MRAD': 0.36}; var cv = clickValues[clickValue] || 0.25; var clicks = Math.round(moaAdj / cv); return {moaAdj: fmt(moaAdj,1), clicks: fmt(clicks,0)};
+    var inchesPerMOA = distance * 1.047 / 100; var moaAdj = dropInches / inchesPerMOA; var clickValues = {'1/4 MOA': 0.25, '1/2 MOA': 0.5, '1/8 MOA': 0.125, '0.1 MRAD': 0.36}; var cv = clickValues[clickValue] || 0.25; var clicks = Math.round(moaAdj / cv);     document.getElementById('moaAdj').textContent = fmt(moaAdj,1);
+    document.getElementById('clicks').textContent = fmt(clicks,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

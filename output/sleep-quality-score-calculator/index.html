@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="duration">Sleep Duration (hours)</label>
-      <input type="number" id="duration" value="undefined" min="2" max="14" step="0.25" inputmode="decimal">
+      <input type="number" id="duration" value="" min="2" max="14" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="latency">Time to Fall Asleep (min)</label>
-      <input type="number" id="latency" value="undefined" min="0" max="120" step="5" inputmode="decimal">
+      <input type="number" id="latency" value="" min="0" max="120" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="wakeups">Night Wakeups</label>
-      <input type="number" id="wakeups" value="undefined" min="0" max="10" step="1" inputmode="decimal">
+      <input type="number" id="wakeups" value="" min="0" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="restedness">Morning Restedness (1-10)</label>
-      <input type="number" id="restedness" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="restedness" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This sleep quality score calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Sleep Score</strong> — Score = Duration + Latency + Wakeup + Restedness points — <em>Composite score from four sleep quality components.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Health metrics are general guidelines. Consult your healthcare provider for personalized medical advice.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is good sleep quality?</h3>
+      <p>Falling asleep in under 20 min, sleeping 7-9 hours, waking 0-1 times.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to improve sleep?</h3>
+      <p>Consistent schedule, cool dark room, no screens 1hr before bed.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var restedness = parseFloat(document.getElementById('restedness').value) || 0;
 
     // Calculation logic
-    var durationScore = duration >= 7 && duration <= 9 ? 30 : duration >= 6 ? 20 : 10; var latencyScore = latency <= 15 ? 25 : latency <= 30 ? 15 : 5; var wakeScore = wakeups === 0 ? 20 : wakeups <= 1 ? 15 : wakeups <= 3 ? 8 : 3; var restScore = restedness * 2.5; var score = durationScore + latencyScore + wakeScore + restScore; var rating = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Poor'; return {score: fmt(score,0), rating: rating};
+    var durationScore = duration >= 7 && duration <= 9 ? 30 : duration >= 6 ? 20 : 10; var latencyScore = latency <= 15 ? 25 : latency <= 30 ? 15 : 5; var wakeScore = wakeups === 0 ? 20 : wakeups <= 1 ? 15 : wakeups <= 3 ? 8 : 3; var restScore = restedness * 2.5; var score = durationScore + latencyScore + wakeScore + restScore; var rating = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Poor';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

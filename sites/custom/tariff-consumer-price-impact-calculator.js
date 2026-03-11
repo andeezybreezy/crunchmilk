@@ -14,7 +14,9 @@
     var passThrough = parseFloat(document.getElementById('passThrough').value) || 0;
 
     // Calculation logic
-    var tariffAmount = basePrice * (tariffRate/100); var priceIncrease = tariffAmount * (passThrough/100); var newPrice = basePrice + priceIncrease; return {tariffAmount: dollar(tariffAmount), priceIncrease: dollar(priceIncrease), newPrice: dollar(newPrice)};
+    var tariffAmount = basePrice * (tariffRate/100); var priceIncrease = tariffAmount * (passThrough/100); var newPrice = basePrice + priceIncrease;     document.getElementById('tariffAmount').textContent = dollar(tariffAmount);
+    document.getElementById('priceIncrease').textContent = dollar(priceIncrease);
+    document.getElementById('newPrice').textContent = dollar(newPrice);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

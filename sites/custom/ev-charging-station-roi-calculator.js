@@ -17,7 +17,10 @@
     var electricityCost = parseFloat(document.getElementById('electricityCost').value) || 0;
 
     // Calculation logic
-    var installPrices = {'Level 2 (7-19 kW)': 6000, 'DC Fast (50 kW)': 50000, 'DC Fast (150 kW)': 120000}; var installCost = (installPrices[chargerType] || 6000) * numChargers; var dailyKwh = sessionsPerDay * avgKwhPerSession * numChargers; var monthlyRevenue = dailyKwh * rateCharged * 30; var monthlyElectricity = dailyKwh * electricityCost * 30; var monthlyMaintenance = numChargers * 50; var monthlyProfit = monthlyRevenue - monthlyElectricity - monthlyMaintenance; var paybackMonths = monthlyProfit > 0 ? Math.ceil(installCost / monthlyProfit) : 0; return {installCost: dollar(installCost), monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), paybackMonths: paybackMonths > 0 ? fmt(paybackMonths, 0) : 'N/A'};
+    var installPrices = {'Level 2 (7-19 kW)': 6000, 'DC Fast (50 kW)': 50000, 'DC Fast (150 kW)': 120000}; var installCost = (installPrices[chargerType] || 6000) * numChargers; var dailyKwh = sessionsPerDay * avgKwhPerSession * numChargers; var monthlyRevenue = dailyKwh * rateCharged * 30; var monthlyElectricity = dailyKwh * electricityCost * 30; var monthlyMaintenance = numChargers * 50; var monthlyProfit = monthlyRevenue - monthlyElectricity - monthlyMaintenance; var paybackMonths = monthlyProfit > 0 ? Math.ceil(installCost / monthlyProfit) : 0;     document.getElementById('installCost').textContent = dollar(installCost);
+    document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('paybackMonths').textContent = paybackMonths > 0 ? fmt(paybackMonths, 0) : 'N/A';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

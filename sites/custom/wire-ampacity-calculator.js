@@ -14,7 +14,9 @@
     var ambientTemp = document.getElementById('ambientTemp').value;
 
     // Calculation logic
-    var amps = {'14 AWG': 15, '12 AWG': 20, '10 AWG': 30, '8 AWG': 40, '6 AWG': 55, '4 AWG': 70, '2 AWG': 95, '1/0 AWG': 125}; var ampacity = amps[gauge] || 20; var tempDerate = {'Normal (<86°F)': 1, 'Warm (86-104°F)': 0.88, 'Hot (>104°F)': 0.75}; ampacity = Math.floor(ampacity * (tempDerate[ambientTemp] || 1)); var breakerSize = amps[gauge] || 20; var uses = {'14 AWG': 'Lighting, general outlets', '12 AWG': 'Kitchen, bathroom outlets', '10 AWG': 'Dryer, water heater', '8 AWG': 'Range, large AC', '6 AWG': 'Subpanel feeder', '4 AWG': 'Large subpanel', '2 AWG': 'Main feeder', '1/0 AWG': '100A service'}; var typicalUse = uses[gauge] || ''; return {ampacity: fmt(ampacity,0), breakerSize: fmt(breakerSize,0), typicalUse: typicalUse};
+    var amps = {'14 AWG': 15, '12 AWG': 20, '10 AWG': 30, '8 AWG': 40, '6 AWG': 55, '4 AWG': 70, '2 AWG': 95, '1/0 AWG': 125}; var ampacity = amps[gauge] || 20; var tempDerate = {'Normal (<86°F)': 1, 'Warm (86-104°F)': 0.88, 'Hot (>104°F)': 0.75}; ampacity = Math.floor(ampacity * (tempDerate[ambientTemp] || 1)); var breakerSize = amps[gauge] || 20; var uses = {'14 AWG': 'Lighting, general outlets', '12 AWG': 'Kitchen, bathroom outlets', '10 AWG': 'Dryer, water heater', '8 AWG': 'Range, large AC', '6 AWG': 'Subpanel feeder', '4 AWG': 'Large subpanel', '2 AWG': 'Main feeder', '1/0 AWG': '100A service'}; var typicalUse = uses[gauge] || '';     document.getElementById('ampacity').textContent = fmt(ampacity,0);
+    document.getElementById('breakerSize').textContent = fmt(breakerSize,0);
+    document.getElementById('typicalUse').textContent = typicalUse;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,8 @@
     var batteryType = document.getElementById('batteryType').value;
 
     // Calculation logic
-    var dod = {'Lead Acid (50% DOD)': 0.5, 'AGM (50% DOD)': 0.5, 'Lithium (80% DOD)': 0.8}; var depth = dod[batteryType] || 0.5; var bankAh = (dailyAh * daysAutonomy) / depth; var batteries = Math.ceil(bankAh / 100); return {bankAh: fmt(bankAh,0), batteries: fmt(batteries,0)};
+    var dod = {'Lead Acid (50% DOD)': 0.5, 'AGM (50% DOD)': 0.5, 'Lithium (80% DOD)': 0.8}; var depth = dod[batteryType] || 0.5; var bankAh = (dailyAh * daysAutonomy) / depth; var batteries = Math.ceil(bankAh / 100);     document.getElementById('bankAh').textContent = fmt(bankAh,0);
+    document.getElementById('batteries').textContent = fmt(batteries,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

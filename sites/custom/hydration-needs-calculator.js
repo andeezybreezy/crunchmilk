@@ -14,7 +14,9 @@
     var climate = document.getElementById('climate').value;
 
     // Calculation logic
-    var base = weight * 0.5; var exerciseOz = exercise / 30 * 12; var climateMod = {'Temperate': 1, 'Hot/Humid': 1.2, 'Cold/Dry': 1.1, 'High Altitude': 1.15}; var ounces = (base + exerciseOz) * (climateMod[climate] || 1); var liters = ounces * 0.0296; var glasses = Math.ceil(ounces / 8); return {ounces: fmt(ounces,0), liters: fmt(liters,1), glasses: fmt(glasses,0)};
+    var base = weight * 0.5; var exerciseOz = exercise / 30 * 12; var climateMod = {'Temperate': 1, 'Hot/Humid': 1.2, 'Cold/Dry': 1.1, 'High Altitude': 1.15}; var ounces = (base + exerciseOz) * (climateMod[climate] || 1); var liters = ounces * 0.0296; var glasses = Math.ceil(ounces / 8);     document.getElementById('ounces').textContent = fmt(ounces,0);
+    document.getElementById('liters').textContent = fmt(liters,1);
+    document.getElementById('glasses').textContent = fmt(glasses,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

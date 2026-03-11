@@ -14,7 +14,9 @@
     var loadPct = parseFloat(document.getElementById('loadPct').value) || 0;
 
     // Calculation logic
-    var fullLoadGPH = ratedWatts / 1000 * 0.75; var actualGPH = fullLoadGPH * (loadPct/100); var runtime = tankSize / actualGPH; var costPerHour = actualGPH * 3.80; return {runtime: fmt(runtime,1), fuelPerHour: fmt(actualGPH,2), costPerHour: dollar(costPerHour)};
+    var fullLoadGPH = ratedWatts / 1000 * 0.75; var actualGPH = fullLoadGPH * (loadPct/100); var runtime = tankSize / actualGPH; var costPerHour = actualGPH * 3.80;     document.getElementById('runtime').textContent = fmt(runtime,1);
+    document.getElementById('fuelPerHour').textContent = fmt(actualGPH,2);
+    document.getElementById('costPerHour').textContent = dollar(costPerHour);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

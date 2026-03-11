@@ -15,7 +15,9 @@
     var expectedVetBills = parseFloat(document.getElementById('expectedVetBills').value) || 0;
 
     // Calculation logic
-    var annualPremium = monthlyPremium * 12; var eligible = Math.max(expectedVetBills - deductible, 0); var reimbursed = eligible * (reimbursement / 100); var netSavings = reimbursed - annualPremium; return {annualPremium: dollar(annualPremium), reimbursed: dollar(reimbursed), netSavings: dollar(netSavings)};
+    var annualPremium = monthlyPremium * 12; var eligible = Math.max(expectedVetBills - deductible, 0); var reimbursed = eligible * (reimbursement / 100); var netSavings = reimbursed - annualPremium;     document.getElementById('annualPremium').textContent = dollar(annualPremium);
+    document.getElementById('reimbursed').textContent = dollar(reimbursed);
+    document.getElementById('netSavings').textContent = dollar(netSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

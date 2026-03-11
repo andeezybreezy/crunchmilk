@@ -14,7 +14,9 @@
     var tuition = parseFloat(document.getElementById('tuition').value) || 0;
 
     // Calculation logic
-    var totalValue = annual * years; var coveragePct = Math.min((annual / tuition) * 100, 100); var remaining = Math.max(tuition - annual, 0); return {totalValue: dollar(totalValue), coveragePct: fmt(coveragePct,1), remaining: dollar(remaining)};
+    var totalValue = annual * years; var coveragePct = Math.min((annual / tuition) * 100, 100); var remaining = Math.max(tuition - annual, 0);     document.getElementById('totalValue').textContent = dollar(totalValue);
+    document.getElementById('coveragePct').textContent = fmt(coveragePct,1);
+    document.getElementById('remaining').textContent = dollar(remaining);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

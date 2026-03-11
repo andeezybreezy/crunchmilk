@@ -14,7 +14,9 @@
     var rate = parseFloat(document.getElementById('rate').value) || 0;
 
     // Calculation logic
-    var kwh = watts * hoursDay / 1000; var daily = kwh * rate; var monthly = daily * 30; var annual = daily * 365; return {daily: dollar(daily), monthly: dollar(monthly), annual: dollar(annual)};
+    var kwh = watts * hoursDay / 1000; var daily = kwh * rate; var monthly = daily * 30; var annual = daily * 365;     document.getElementById('daily').textContent = dollar(daily);
+    document.getElementById('monthly').textContent = dollar(monthly);
+    document.getElementById('annual').textContent = dollar(annual);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

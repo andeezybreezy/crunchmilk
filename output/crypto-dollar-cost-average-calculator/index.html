@@ -440,7 +440,11 @@ footer a:hover{color:#fff}
     var endPrice = parseFloat(document.getElementById('endPrice').value) || 0;
 
     // Calculation logic
-    var totalInvested=weeklyAmount*weeks; var priceStep=(endPrice-startPrice)/weeks; var totalCrypto=0; var totalCostWeighted=0; for(var i=0;i<weeks;i++){var price=startPrice+priceStep*i; var bought=weeklyAmount/price; totalCrypto+=bought;} var avgCost=totalInvested/totalCrypto; var currentValue=totalCrypto*endPrice; var returnPct=((currentValue-totalInvested)/totalInvested)*100; return {totalInvested:dollar(totalInvested), cryptoAccumulated:fmt(totalCrypto,6), avgCostBasis:dollar(avgCost), currentValue:dollar(currentValue), returnPct:fmt(returnPct,1)+'%'};
+    var totalInvested=weeklyAmount*weeks; var priceStep=(endPrice-startPrice)/weeks; var totalCrypto=0; var totalCostWeighted=0; for(var i=0;i<weeks;i++){var price=startPrice+priceStep*i; var bought=weeklyAmount/price; totalCrypto+=bought;} var avgCost=totalInvested/totalCrypto; var currentValue=totalCrypto*endPrice; var returnPct=((currentValue-totalInvested)/totalInvested)*100;     document.getElementById('totalInvested').textContent = dollar(totalInvested);
+    document.getElementById('cryptoAccumulated').textContent = fmt(totalCrypto,6);
+    document.getElementById('avgCostBasis').textContent = dollar(avgCost);
+    document.getElementById('currentValue').textContent = dollar(currentValue);
+    document.getElementById('returnPct').textContent = fmt(returnPct,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="containerOz">Container Size (fl oz)</label>
-      <input type="number" id="containerOz" value="undefined" min="1" max="64" step="1" inputmode="decimal">
+      <input type="number" id="containerOz" value="" min="1" max="64" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="containers">Number of Candles</label>
-      <input type="number" id="containers" value="undefined" min="1" max="100" step="1" inputmode="decimal">
+      <input type="number" id="containers" value="" min="1" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fragPct">Fragrance Load (%)</label>
-      <input type="number" id="fragPct" value="undefined" min="0" max="12" step="0.5" inputmode="decimal">
+      <input type="number" id="fragPct" value="" min="0" max="12" step="0.5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This candle wax calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Wax Weight</strong> — Wax (oz) = Container oz × 0.86 — <em>Wax is lighter than water, so use 86% of container volume.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much wax per container?</h3>
+      <p>Multiply container fluid ounces by 0.86 to get wax weight in ounces.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the max fragrance load?</h3>
+      <p>Most waxes handle 6-10%. Exceeding the limit causes sweating and poor burns.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var fragPct = parseFloat(document.getElementById('fragPct').value) || 0;
 
     // Calculation logic
-    var waxOzPer = containerOz * 0.86; var totalWaxOz = waxOzPer * containers; var waxLbs = totalWaxOz / 16; var fragOz = (totalWaxOz * fragPct / 100); var wicks = containers; return {waxLbs: fmt(waxLbs,1), fragOz: fmt(fragOz,1), wicks: fmt(wicks,0)};
+    var waxOzPer = containerOz * 0.86; var totalWaxOz = waxOzPer * containers; var waxLbs = totalWaxOz / 16; var fragOz = (totalWaxOz * fragPct / 100); var wicks = containers;     document.getElementById('waxLbs').textContent = fmt(waxLbs,1);
+    document.getElementById('fragOz').textContent = fmt(fragOz,1);
+    document.getElementById('wicks').textContent = fmt(wicks,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

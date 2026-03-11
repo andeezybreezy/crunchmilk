@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="storage">Storage Method</label>
-      <select id="storage"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="storage"><option value="Room Temperature" selected>Room Temperature</option><option value="Insulated Cooler">Insulated Cooler</option><option value="Refrigerator">Refrigerator</option><option value="Freezer (attached)">Freezer (attached)</option><option value="Deep Freezer">Deep Freezer</option><option value="storage">storage</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="hoursStored">Hours Since Pumping</label>
-      <input type="number" id="hoursStored" value="undefined" min="0" max="8760" step="1" inputmode="decimal">
+      <input type="number" id="hoursStored" value="" min="0" max="8760" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This breastmilk storage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Time Remaining</strong> — Remaining = Max Storage Time - Hours Stored — <em>Simple countdown from maximum safe duration.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long can breastmilk sit out?</h3>
+      <p>Up to 4 hours at room temperature, 24 hours in a cooler, 4 days refrigerated.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I refreeze thawed breastmilk?</h3>
+      <p>No, once thawed it should be used within 24 hours and never refrozen.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var hoursStored = parseFloat(document.getElementById('hoursStored').value) || 0;
 
     // Calculation logic
-    var maxTimes = {'Room Temperature': 4, 'Insulated Cooler': 24, 'Refrigerator': 96, 'Freezer (attached)': 4320, 'Deep Freezer': 8760}; var maxHours = maxTimes[storage] || 4; var remaining = maxHours - hoursStored; var status = remaining > maxHours * 0.25 ? 'Safe to use' : remaining > 0 ? 'Use soon' : 'Discard - past safe window'; return {maxHours: maxHours <= 96 ? fmt(maxHours,0) : fmt(maxHours/24,0) + ' (' + fmt(maxHours/24,0) + ' days)', remaining: remaining > 0 ? (remaining <= 96 ? fmt(remaining,0) : fmt(remaining/24,0) + ' days') : '0', status: status};
+    var maxTimes = {'Room Temperature': 4, 'Insulated Cooler': 24, 'Refrigerator': 96, 'Freezer (attached)': 4320, 'Deep Freezer': 8760}; var maxHours = maxTimes[storage] || 4; var remaining = maxHours - hoursStored; var status = remaining > maxHours * 0.25 ? 'Safe to use' : remaining > 0 ? 'Use soon' : 'Discard - past safe window';     document.getElementById('maxHours').textContent = maxHours <= 96 ? fmt(maxHours,0) : fmt(maxHours/24,0) + ' (' + fmt(maxHours/24,0) + ' days)';
+    document.getElementById('remaining').textContent = remaining > 0 ? (remaining <= 96 ? fmt(remaining,0) : fmt(remaining/24,0) + ' days') : '0';
+    document.getElementById('status').textContent = status;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

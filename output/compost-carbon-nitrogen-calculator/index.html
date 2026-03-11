@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="brownLbs">Brown Material (lbs)</label>
-      <input type="number" id="brownLbs" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="brownLbs" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="brownCN">Brown C:N Ratio</label>
-      <input type="number" id="brownCN" value="undefined" min="10" max="500" step="5" inputmode="decimal">
+      <input type="number" id="brownCN" value="" min="10" max="500" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="greenLbs">Green Material (lbs)</label>
-      <input type="number" id="greenLbs" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="greenLbs" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="greenCN">Green C:N Ratio</label>
-      <input type="number" id="greenCN" value="undefined" min="5" max="100" step="5" inputmode="decimal">
+      <input type="number" id="greenCN" value="" min="5" max="100" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This compost c:n ratio calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Blend C:N</strong> — C:N = (Brown lbs × Brown C:N + Green lbs × Green C:N) / (Brown lbs + Green lbs) — <em>Weighted average of carbon-to-nitrogen ratios.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the ideal C:N ratio?</h3>
+      <p>The ideal range is 25:1 to 35:1 for active composting.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are browns and greens?</h3>
+      <p>Browns are carbon-rich (leaves, cardboard, straw). Greens are nitrogen-rich (food scraps, grass clippings).</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var greenCN = parseFloat(document.getElementById('greenCN').value) || 0;
 
     // Calculation logic
-    var totalCarbon = (brownLbs * brownCN) + (greenLbs * greenCN); var totalNitrogen = brownLbs + greenLbs; var blendRatio = totalCarbon / totalNitrogen; var rating = blendRatio >= 25 && blendRatio <= 35 ? 'Ideal' : blendRatio < 25 ? 'Too much nitrogen - add browns' : 'Too much carbon - add greens'; return {blendRatio: fmt(blendRatio,1), rating: rating};
+    var totalCarbon = (brownLbs * brownCN) + (greenLbs * greenCN); var totalNitrogen = brownLbs + greenLbs; var blendRatio = totalCarbon / totalNitrogen; var rating = blendRatio >= 25 && blendRatio <= 35 ? 'Ideal' : blendRatio < 25 ? 'Too much nitrogen - add browns' : 'Too much carbon - add greens';     document.getElementById('blendRatio').textContent = fmt(blendRatio,1);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

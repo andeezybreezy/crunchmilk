@@ -14,7 +14,9 @@
     var weeksPregnant = parseFloat(document.getElementById('weeksPregnant').value) || 0;
 
     // Calculation logic
-    var rate = (kicks / minutes) * 60; var status = kicks >= 10 && minutes <= 120 ? 'Normal' : kicks >= 10 ? 'Slow but reached 10' : 'Below threshold'; var action = kicks < 10 && minutes >= 120 ? 'Contact your healthcare provider' : kicks < 10 ? 'Keep counting - try for 10 in 2 hours' : 'Normal - no action needed'; return {rate: fmt(rate,1), status: status, action: action};
+    var rate = (kicks / minutes) * 60; var status = kicks >= 10 && minutes <= 120 ? 'Normal' : kicks >= 10 ? 'Slow but reached 10' : 'Below threshold'; var action = kicks < 10 && minutes >= 120 ? 'Contact your healthcare provider' : kicks < 10 ? 'Keep counting - try for 10 in 2 hours' : 'Normal - no action needed';     document.getElementById('rate').textContent = fmt(rate,1);
+    document.getElementById('status').textContent = status;
+    document.getElementById('action').textContent = action;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,8 @@
     var restedness = parseFloat(document.getElementById('restedness').value) || 0;
 
     // Calculation logic
-    var durationScore = duration >= 7 && duration <= 9 ? 30 : duration >= 6 ? 20 : 10; var latencyScore = latency <= 15 ? 25 : latency <= 30 ? 15 : 5; var wakeScore = wakeups === 0 ? 20 : wakeups <= 1 ? 15 : wakeups <= 3 ? 8 : 3; var restScore = restedness * 2.5; var score = durationScore + latencyScore + wakeScore + restScore; var rating = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Poor'; return {score: fmt(score,0), rating: rating};
+    var durationScore = duration >= 7 && duration <= 9 ? 30 : duration >= 6 ? 20 : 10; var latencyScore = latency <= 15 ? 25 : latency <= 30 ? 15 : 5; var wakeScore = wakeups === 0 ? 20 : wakeups <= 1 ? 15 : wakeups <= 3 ? 8 : 3; var restScore = restedness * 2.5; var score = durationScore + latencyScore + wakeScore + restScore; var rating = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Poor';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

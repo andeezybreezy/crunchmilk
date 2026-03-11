@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="material">Material</label>
-      <select id="material"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="material"><option value="PLA" selected>PLA</option><option value="PETG">PETG</option><option value="ABS">ABS</option><option value="Nylon">Nylon</option><option value="TPU">TPU</option><option value="material">material</option><option value="Brim + ABS slurry">Brim + ABS slurry</option><option value="Brim + glue stick">Brim + glue stick</option><option value="Large (>150mm)">Large (>150mm)</option><option value="Brim recommended">Brim recommended</option><option value="Skirt only">Skirt only</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bedType">Bed Surface</label>
-      <select id="bedType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="bedType"><option value="bedType" selected>bedType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="partSize">Part Footprint</label>
-      <select id="partSize"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="partSize"><option value="Small (<50mm)" selected>Small (<50mm)</option><option value="Medium (50-150mm)">Medium (50-150mm)</option><option value="Large (>150mm)">Large (>150mm)</option><option value="partSize">partSize</option><option value="Brim recommended">Brim recommended</option><option value="Skirt only">Skirt only</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This 3d print bed adhesion calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Bed Temp</strong> — Temp = Material Base + Size Adjustment — <em>Material-specific temperature with adjustment for larger parts.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why do prints warp?</h3>
+      <p>Uneven cooling causes corners to curl up. Higher bed temps and enclosures help.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a brim?</h3>
+      <p>Extra first-layer rings around the part to increase adhesion area.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var partSize = document.getElementById('partSize').value;
 
     // Calculation logic
-    var temps = {'PLA': 60, 'PETG': 80, 'ABS': 100, 'Nylon': 80, 'TPU': 50}; var bedTemp = temps[material] || 60; var sizeAdj = {'Small (<50mm)': 0, 'Medium (50-150mm)': 0, 'Large (>150mm)': 5}; bedTemp += sizeAdj[partSize] || 0; var adhesionType = material === 'ABS' ? 'Brim + ABS slurry' : material === 'Nylon' ? 'Brim + glue stick' : partSize === 'Large (>150mm)' ? 'Brim recommended' : 'Skirt only'; var firstLayerSpeed = 20; return {bedTemp: fmt(bedTemp,0), adhesionType: adhesionType, firstLayerSpeed: fmt(firstLayerSpeed,0)};
+    var temps = {'PLA': 60, 'PETG': 80, 'ABS': 100, 'Nylon': 80, 'TPU': 50}; var bedTemp = temps[material] || 60; var sizeAdj = {'Small (<50mm)': 0, 'Medium (50-150mm)': 0, 'Large (>150mm)': 5}; bedTemp += sizeAdj[partSize] || 0; var adhesionType = material === 'ABS' ? 'Brim + ABS slurry' : material === 'Nylon' ? 'Brim + glue stick' : partSize === 'Large (>150mm)' ? 'Brim recommended' : 'Skirt only'; var firstLayerSpeed = 20;     document.getElementById('bedTemp').textContent = fmt(bedTemp,0);
+    document.getElementById('adhesionType').textContent = adhesionType;
+    document.getElementById('firstLayerSpeed').textContent = fmt(firstLayerSpeed,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

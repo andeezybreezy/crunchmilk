@@ -15,7 +15,9 @@
     var mixRatio = document.getElementById('mixRatio').value;
 
     // Calculation logic
-    var cubicIn = length * width * depth; var totalOz = cubicIn * 0.554; var ratios = {'1:1': [0.5,0.5], '2:1': [0.667,0.333], '3:1': [0.75,0.25]}; var r = ratios[mixRatio] || [0.5,0.5]; var resinOz = totalOz * r[0] * 1.1; var hardenerOz = totalOz * r[1] * 1.1; return {totalOz: fmt(totalOz,1), resinOz: fmt(resinOz,1), hardenerOz: fmt(hardenerOz,1)};
+    var cubicIn = length * width * depth; var totalOz = cubicIn * 0.554; var ratios = {'1:1': [0.5,0.5], '2:1': [0.667,0.333], '3:1': [0.75,0.25]}; var r = ratios[mixRatio] || [0.5,0.5]; var resinOz = totalOz * r[0] * 1.1; var hardenerOz = totalOz * r[1] * 1.1;     document.getElementById('totalOz').textContent = fmt(totalOz,1);
+    document.getElementById('resinOz').textContent = fmt(resinOz,1);
+    document.getElementById('hardenerOz').textContent = fmt(hardenerOz,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

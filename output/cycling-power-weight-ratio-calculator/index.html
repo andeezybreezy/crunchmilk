@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="ftp">FTP (watts)</label>
-      <input type="number" id="ftp" value="undefined" min="50" max="500" step="5" inputmode="decimal">
+      <input type="number" id="ftp" value="" min="50" max="500" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Body Weight (lbs)</label>
-      <input type="number" id="weight" value="undefined" min="80" max="300" step="1" inputmode="decimal">
+      <input type="number" id="weight" value="" min="80" max="300" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This cycling power-to-weight calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>W/kg</strong> — W/kg = FTP (watts) / Body Mass (kg) — <em>Functional threshold power divided by mass.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a good W/kg?</h3>
+      <p>3.0+ for fit recreational riders, 4.0+ for racing, 5.0+ for elite.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I improve W/kg?</h3>
+      <p>Increase FTP through training and/or reduce body weight.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var weight = parseFloat(document.getElementById('weight').value) || 0;
 
     // Calculation logic
-    var weightKg = weight * 0.453592; var wpk = ftp / weightKg; var level = wpk >= 5.5 ? 'World Class' : wpk >= 4.5 ? 'Cat 1/Pro' : wpk >= 3.7 ? 'Cat 2/3' : wpk >= 3.0 ? 'Cat 4/5' : wpk >= 2.5 ? 'Recreational' : 'Beginner'; var climbSpeed = (wpk * 2.5) - 1; return {wpk: fmt(wpk,2), level: level, climbSpeed: fmt(Math.max(climbSpeed,2),1)};
+    var weightKg = weight * 0.453592; var wpk = ftp / weightKg; var level = wpk >= 5.5 ? 'World Class' : wpk >= 4.5 ? 'Cat 1/Pro' : wpk >= 3.7 ? 'Cat 2/3' : wpk >= 3.0 ? 'Cat 4/5' : wpk >= 2.5 ? 'Recreational' : 'Beginner'; var climbSpeed = (wpk * 2.5) - 1;     document.getElementById('wpk').textContent = fmt(wpk,2);
+    document.getElementById('level').textContent = level;
+    document.getElementById('climbSpeed').textContent = fmt(Math.max(climbSpeed,2),1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -13,7 +13,9 @@
     var newValue = parseFloat(document.getElementById('newValue').value) || 0;
 
     // Calculation logic
-    var difference = newValue - oldValue; var change = oldValue !== 0 ? (difference / oldValue) * 100 : 0; var ratio = oldValue !== 0 ? (newValue / oldValue) * 100 : 0; return {change: (change >= 0 ? '+' : '') + fmt(change,1), difference: fmt(difference,2), ratio: fmt(ratio,1)};
+    var difference = newValue - oldValue; var change = oldValue !== 0 ? (difference / oldValue) * 100 : 0; var ratio = oldValue !== 0 ? (newValue / oldValue) * 100 : 0;     document.getElementById('change').textContent = (change >= 0 ? '+' : '') + fmt(change,1);
+    document.getElementById('difference').textContent = fmt(difference,2);
+    document.getElementById('ratio').textContent = fmt(ratio,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

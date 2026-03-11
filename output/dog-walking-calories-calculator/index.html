@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="yourWeight">Your Weight (lbs)</label>
-      <input type="number" id="yourWeight" value="undefined" min="80" max="400" step="1" inputmode="decimal">
+      <input type="number" id="yourWeight" value="" min="80" max="400" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="minutes">Walk Duration (min)</label>
-      <input type="number" id="minutes" value="undefined" min="5" max="180" step="5" inputmode="decimal">
+      <input type="number" id="minutes" value="" min="5" max="180" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pace">Walking Pace</label>
-      <select id="pace"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="pace"><option value="Slow (2 mph)" selected>Slow (2 mph)</option><option value="Moderate (3 mph)">Moderate (3 mph)</option><option value="Brisk (4 mph)">Brisk (4 mph)</option><option value="Jogging (5 mph)">Jogging (5 mph)</option><option value="pace">pace</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This dog walking calorie calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Calories</strong> — Cal = MET × 3.5 × kg / 200 × minutes — <em>MET-based calorie calculation from body weight and duration.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many calories does dog walking burn?</h3>
+      <p>About 120-200 calories per 30 minutes depending on pace and your weight.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long should I walk my dog?</h3>
+      <p>Most dogs need 30-60 minutes of walking per day.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var pace = document.getElementById('pace').value;
 
     // Calculation logic
-    var mets = {'Slow (2 mph)': 2.5, 'Moderate (3 mph)': 3.5, 'Brisk (4 mph)': 4.5, 'Jogging (5 mph)': 7}; var met = mets[pace] || 3.5; var calories = met * 3.5 * (yourWeight * 0.453592) / 200 * minutes; var weeklyCalories = calories * 7; var speeds = {'Slow (2 mph)': 2, 'Moderate (3 mph)': 3, 'Brisk (4 mph)': 4, 'Jogging (5 mph)': 5}; var monthlyMiles = (speeds[pace] || 3) * (minutes/60) * 30; return {calories: fmt(calories,0), weeklyCalories: fmt(weeklyCalories,0), monthlyMiles: fmt(monthlyMiles,0)};
+    var mets = {'Slow (2 mph)': 2.5, 'Moderate (3 mph)': 3.5, 'Brisk (4 mph)': 4.5, 'Jogging (5 mph)': 7}; var met = mets[pace] || 3.5; var calories = met * 3.5 * (yourWeight * 0.453592) / 200 * minutes; var weeklyCalories = calories * 7; var speeds = {'Slow (2 mph)': 2, 'Moderate (3 mph)': 3, 'Brisk (4 mph)': 4, 'Jogging (5 mph)': 5}; var monthlyMiles = (speeds[pace] || 3) * (minutes/60) * 30;     document.getElementById('calories').textContent = fmt(calories,0);
+    document.getElementById('weeklyCalories').textContent = fmt(weeklyCalories,0);
+    document.getElementById('monthlyMiles').textContent = fmt(monthlyMiles,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

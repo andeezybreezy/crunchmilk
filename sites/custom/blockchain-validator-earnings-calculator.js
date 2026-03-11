@@ -16,7 +16,10 @@
     var electricityCost = parseFloat(document.getElementById('electricityCost').value) || 0;
 
     // Calculation logic
-    var grossEth = stakeAmount * (networkApr / 100) * (uptime / 100); var annualUsd = grossEth * ethPrice; var annualCosts = electricityCost * 12; var monthlyNet = (annualUsd - annualCosts) / 12; var effectiveApr = ((annualUsd - annualCosts) / (stakeAmount * ethPrice)) * 100; return {annualEth: fmt(grossEth, 4), annualUsd: dollar(annualUsd), monthlyNet: dollar(monthlyNet), effectiveApr: fmt(effectiveApr, 2)};
+    var grossEth = stakeAmount * (networkApr / 100) * (uptime / 100); var annualUsd = grossEth * ethPrice; var annualCosts = electricityCost * 12; var monthlyNet = (annualUsd - annualCosts) / 12; var effectiveApr = ((annualUsd - annualCosts) / (stakeAmount * ethPrice)) * 100;     document.getElementById('annualEth').textContent = fmt(grossEth, 4);
+    document.getElementById('annualUsd').textContent = dollar(annualUsd);
+    document.getElementById('monthlyNet').textContent = dollar(monthlyNet);
+    document.getElementById('effectiveApr').textContent = fmt(effectiveApr, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

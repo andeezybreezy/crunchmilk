@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="batchSize">Dry Batch Size (g)</label>
-      <input type="number" id="batchSize" value="undefined" min="100" max="10000" step="100" inputmode="decimal">
+      <input type="number" id="batchSize" value="" min="100" max="10000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="waterRatio">Water Ratio (% of dry)</label>
-      <input type="number" id="waterRatio" value="undefined" min="50" max="150" step="5" inputmode="decimal">
+      <input type="number" id="waterRatio" value="" min="50" max="150" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pots">Number of Pots to Glaze</label>
-      <input type="number" id="pots" value="undefined" min="1" max="50" step="1" inputmode="decimal">
+      <input type="number" id="pots" value="" min="1" max="50" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This pottery glaze calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Water Amount</strong> — Water = Dry Weight × Water Ratio% — <em>Water added as a percentage of total dry ingredients.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much glaze per pot?</h3>
+      <p>About 100-200mL per medium pot, depending on application thickness.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the ideal water ratio?</h3>
+      <p>Most glazes use 80-120% water by weight of dry materials for dipping consistency.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var pots = parseFloat(document.getElementById('pots').value) || 0;
 
     // Calculation logic
-    var perPot = 150; var totalNeeded = pots * perPot; var dryWeight = Math.max(batchSize, totalNeeded * 0.5); var waterWeight = dryWeight * (waterRatio / 100); var totalVolume = dryWeight * 0.4 + waterWeight; return {dryWeight: fmt(dryWeight,0), waterWeight: fmt(waterWeight,0), totalVolume: fmt(totalVolume,0)};
+    var perPot = 150; var totalNeeded = pots * perPot; var dryWeight = Math.max(batchSize, totalNeeded * 0.5); var waterWeight = dryWeight * (waterRatio / 100); var totalVolume = dryWeight * 0.4 + waterWeight;     document.getElementById('dryWeight').textContent = fmt(dryWeight,0);
+    document.getElementById('waterWeight').textContent = fmt(waterWeight,0);
+    document.getElementById('totalVolume').textContent = fmt(totalVolume,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

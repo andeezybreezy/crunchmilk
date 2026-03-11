@@ -14,7 +14,9 @@
     var ethPrice = parseFloat(document.getElementById('ethPrice').value) || 0;
 
     // Calculation logic
-    var gasGwei=gasPrice*gasLimit; var gasFeeETH=gasGwei/1e9; var gasFeeUSD=gasFeeETH*ethPrice; return {gasFeeETH:fmt(gasFeeETH,6)+' ETH', gasFeeUSD:dollar(gasFeeUSD), gasGwei:fmt(gasGwei,0)+' Gwei'};
+    var gasGwei=gasPrice*gasLimit; var gasFeeETH=gasGwei/1e9; var gasFeeUSD=gasFeeETH*ethPrice;     document.getElementById('gasFeeETH').textContent = fmt(gasFeeETH,6)+' ETH';
+    document.getElementById('gasFeeUSD').textContent = dollar(gasFeeUSD);
+    document.getElementById('gasGwei').textContent = fmt(gasGwei,0)+' Gwei';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

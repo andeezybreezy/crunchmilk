@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="type">Divorce Type</label>
-      <select id="type"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="type"><option value="Uncontested" selected>Uncontested</option><option value="Mediated">Mediated</option><option value="Collaborative">Collaborative</option><option value="Contested (Moderate)">Contested (Moderate)</option><option value="Contested (Complex)">Contested (Complex)</option><option value="type">type</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="children">Children Involved</label>
-      <select id="children"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="children"><option value="Yes" selected>Yes</option><option value="children">children</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="assets">Asset Complexity</label>
-      <select id="assets"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="assets"><option value="Simple" selected>Simple</option><option value="Moderate">Moderate</option><option value="Complex (business, property)">Complex (business, property)</option><option value="assets">assets</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This divorce cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Cost Range</strong> — Cost = Base Range × Child Factor × Asset Factor — <em>Base cost adjusted for custody and asset complexity.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Laws vary by jurisdiction and change frequently. This is not legal advice — consult a licensed attorney.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does divorce cost?</h3>
+      <p>From $500 for simple uncontested to $100,000+ for complex contested cases.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to reduce divorce costs?</h3>
+      <p>Agree on as much as possible beforehand. Mediation is much cheaper than litigation.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var assets = document.getElementById('assets').value;
 
     // Calculation logic
-    var costs = {'Uncontested': [500,2500], 'Mediated': [3000,8000], 'Collaborative': [5000,15000], 'Contested (Moderate)': [10000,30000], 'Contested (Complex)': [25000,100000]}; var range = costs[type] || [5000,15000]; var childMult = children === 'Yes' ? 1.4 : 1; var assetMult = {'Simple': 1, 'Moderate': 1.3, 'Complex (business, property)': 1.8}; var mult = childMult * (assetMult[assets] || 1); var lowEstimate = range[0] * mult; var highEstimate = range[1] * mult; var timelines = {'Uncontested': 3, 'Mediated': 4, 'Collaborative': 6, 'Contested (Moderate)': 12, 'Contested (Complex)': 24}; var timeline = timelines[type] || 6; return {lowEstimate: dollar(lowEstimate), highEstimate: dollar(highEstimate), timeline: fmt(timeline,0)};
+    var costs = {'Uncontested': [500,2500], 'Mediated': [3000,8000], 'Collaborative': [5000,15000], 'Contested (Moderate)': [10000,30000], 'Contested (Complex)': [25000,100000]}; var range = costs[type] || [5000,15000]; var childMult = children === 'Yes' ? 1.4 : 1; var assetMult = {'Simple': 1, 'Moderate': 1.3, 'Complex (business, property)': 1.8}; var mult = childMult * (assetMult[assets] || 1); var lowEstimate = range[0] * mult; var highEstimate = range[1] * mult; var timelines = {'Uncontested': 3, 'Mediated': 4, 'Collaborative': 6, 'Contested (Moderate)': 12, 'Contested (Complex)': 24}; var timeline = timelines[type] || 6;     document.getElementById('lowEstimate').textContent = dollar(lowEstimate);
+    document.getElementById('highEstimate').textContent = dollar(highEstimate);
+    document.getElementById('timeline').textContent = fmt(timeline,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

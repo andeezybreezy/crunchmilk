@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sphere">Glasses Sphere (diopter)</label>
-      <input type="number" id="sphere" value="undefined" min="-20" max="20" step="0.25" inputmode="decimal">
+      <input type="number" id="sphere" value="" min="-20" max="20" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="cylinder">Glasses Cylinder</label>
-      <input type="number" id="cylinder" value="undefined" min="-6" max="0" step="0.25" inputmode="decimal">
+      <input type="number" id="cylinder" value="" min="-6" max="0" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="vertexDistance">Vertex Distance (mm)</label>
-      <input type="number" id="vertexDistance" value="undefined" min="10" max="15" step="1" inputmode="decimal">
+      <input type="number" id="vertexDistance" value="" min="10" max="15" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This eye prescription converter calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Vertex Conversion</strong> — Contact Power = Glasses Power / (1 - d × Power) — <em>Adjust for vertex distance between lens and eye.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Are glasses and contacts prescriptions different?</h3>
+      <p>Yes, contacts sit directly on the eye so the power differs, especially for higher prescriptions.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I use my glasses prescription for contacts?</h3>
+      <p>No, you need a separate contact lens fitting and prescription from your eye doctor.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var vertexDistance = parseFloat(document.getElementById('vertexDistance').value) || 0;
 
     // Calculation logic
-    var vd = vertexDistance / 1000; var contactSphere = sphere / (1 - vd * sphere); contactSphere = Math.round(contactSphere * 4) / 4; var contactCyl = cylinder; var note = Math.abs(sphere) > 4 ? 'Significant conversion difference - verify with eye doctor' : 'Minor conversion - verify with eye doctor'; return {contactSphere: fmt(contactSphere,2), contactCyl: fmt(contactCyl,2), note: note};
+    var vd = vertexDistance / 1000; var contactSphere = sphere / (1 - vd * sphere); contactSphere = Math.round(contactSphere * 4) / 4; var contactCyl = cylinder; var note = Math.abs(sphere) > 4 ? 'Significant conversion difference - verify with eye doctor' : 'Minor conversion - verify with eye doctor';     document.getElementById('contactSphere').textContent = fmt(contactSphere,2);
+    document.getElementById('contactCyl').textContent = fmt(contactCyl,2);
+    document.getElementById('note').textContent = note;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

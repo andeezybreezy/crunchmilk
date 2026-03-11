@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Surface Area (sq ft)</label>
-      <input type="number" id="area" value="undefined" min="10" max="1000000" step="100" inputmode="decimal">
+      <input type="number" id="area" value="" min="10" max="1000000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="coverage">Coverage Rate (sq ft/gal)</label>
-      <input type="number" id="coverage" value="undefined" min="50" max="800" step="10" inputmode="decimal">
+      <input type="number" id="coverage" value="" min="50" max="800" step="10" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="coats">Number of Coats</label>
-      <input type="number" id="coats" value="undefined" min="1" max="5" step="1" inputmode="decimal">
+      <input type="number" id="coats" value="" min="1" max="5" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="priceGal">Price per Gallon ($)</label>
-      <input type="number" id="priceGal" value="undefined" min="5" max="500" step="1" inputmode="decimal">
+      <input type="number" id="priceGal" value="" min="5" max="500" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This industrial paint coverage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Gallons Needed</strong> — Gallons = (Area × Coats) / Coverage Rate — <em>Total area to be painted divided by per-gallon coverage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is typical industrial paint coverage?</h3>
+      <p>Most industrial coatings cover 300-400 sq ft per gallon at recommended mil thickness.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I add waste factor?</h3>
+      <p>Add 10-20% for overspray and waste depending on application method.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var priceGal = parseFloat(document.getElementById('priceGal').value) || 0;
 
     // Calculation logic
-    var gallons = Math.ceil((area * coats) / coverage); var totalCost = gallons * priceGal; return {gallons: fmt(gallons,0), totalCost: dollar(totalCost)};
+    var gallons = Math.ceil((area * coats) / coverage); var totalCost = gallons * priceGal;     document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Room Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="5" max="60" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="5" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Room Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="5" max="40" step="1" inputmode="decimal">
+      <input type="number" id="width" value="" min="5" max="40" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="height">Ceiling Height (ft)</label>
-      <input type="number" id="height" value="undefined" min="7" max="20" step="0.5" inputmode="decimal">
+      <input type="number" id="height" value="" min="7" max="20" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="purpose">Room Purpose</label>
-      <select id="purpose"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="purpose"><option value="Music Listening" selected>Music Listening</option><option value="Home Studio">Home Studio</option><option value="Podcast Room">Podcast Room</option><option value="Home Theater">Home Theater</option><option value="purpose">purpose</option></select>
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This room acoustic treatment calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Coverage</strong> — Panels = Wall Area × Coverage% / Panel Size — <em>Total wall area times treatment percentage divided by panel area.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much acoustic treatment do I need?</h3>
+      <p>25-40% wall coverage for listening rooms, 40-60% for recording studios.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Where should panels go?</h3>
+      <p>First reflection points, behind speakers, and in corners (bass traps).</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var purpose = document.getElementById('purpose').value;
 
     // Calculation logic
-    var wallArea = 2*(length+width)*height; var coverPct = {'Music Listening': 0.25, 'Home Studio': 0.40, 'Podcast Room': 0.50, 'Home Theater': 0.30}; var pct = coverPct[purpose] || 0.3; var panelCoverage = wallArea * pct; var panels = Math.ceil(panelCoverage / 8); return {wallArea: fmt(wallArea,0), panelCoverage: fmt(panelCoverage,0), panels: fmt(panels,0)};
+    var wallArea = 2*(length+width)*height; var coverPct = {'Music Listening': 0.25, 'Home Studio': 0.40, 'Podcast Room': 0.50, 'Home Theater': 0.30}; var pct = coverPct[purpose] || 0.3; var panelCoverage = wallArea * pct; var panels = Math.ceil(panelCoverage / 8);     document.getElementById('wallArea').textContent = fmt(wallArea,0);
+    document.getElementById('panelCoverage').textContent = fmt(panelCoverage,0);
+    document.getElementById('panels').textContent = fmt(panels,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

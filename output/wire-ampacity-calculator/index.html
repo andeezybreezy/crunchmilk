@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gauge">Wire Gauge (AWG)</label>
-      <select id="gauge"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="gauge"><option value="14 AWG" selected>14 AWG</option><option value="12 AWG">12 AWG</option><option value="10 AWG">10 AWG</option><option value="8 AWG">8 AWG</option><option value="6 AWG">6 AWG</option><option value="4 AWG">4 AWG</option><option value="2 AWG">2 AWG</option><option value="1/0 AWG">1/0 AWG</option><option value="Lighting, general outlets">Lighting, general outlets</option><option value="Kitchen, bathroom outlets">Kitchen, bathroom outlets</option><option value="Dryer, water heater">Dryer, water heater</option><option value="Range, large AC">Range, large AC</option><option value="Subpanel feeder">Subpanel feeder</option><option value="Large subpanel">Large subpanel</option><option value="Main feeder">Main feeder</option><option value="100A service">100A service</option><option value="gauge">gauge</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="wireType">Wire Type</label>
-      <select id="wireType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="wireType"><option value="wireType" selected>wireType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="ambientTemp">Ambient Temperature</label>
-      <select id="ambientTemp"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="ambientTemp"><option value="Normal (<86°F)" selected>Normal (<86°F)</option><option value="Warm (86-104°F)">Warm (86-104°F)</option><option value="Hot (>104°F)">Hot (>104°F)</option><option value="ambientTemp">ambientTemp</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This wire ampacity calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Derated Ampacity</strong> — Amps = Base Ampacity × Temperature Factor — <em>Standard ampacity reduced for high ambient temperatures.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What wire size for 20 amps?</h3>
+      <p>12 AWG minimum for 20-amp circuits per NEC code.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does temperature affect wire capacity?</h3>
+      <p>Yes, high ambient temperatures reduce ampacity by 12-25%.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var ambientTemp = document.getElementById('ambientTemp').value;
 
     // Calculation logic
-    var amps = {'14 AWG': 15, '12 AWG': 20, '10 AWG': 30, '8 AWG': 40, '6 AWG': 55, '4 AWG': 70, '2 AWG': 95, '1/0 AWG': 125}; var ampacity = amps[gauge] || 20; var tempDerate = {'Normal (<86°F)': 1, 'Warm (86-104°F)': 0.88, 'Hot (>104°F)': 0.75}; ampacity = Math.floor(ampacity * (tempDerate[ambientTemp] || 1)); var breakerSize = amps[gauge] || 20; var uses = {'14 AWG': 'Lighting, general outlets', '12 AWG': 'Kitchen, bathroom outlets', '10 AWG': 'Dryer, water heater', '8 AWG': 'Range, large AC', '6 AWG': 'Subpanel feeder', '4 AWG': 'Large subpanel', '2 AWG': 'Main feeder', '1/0 AWG': '100A service'}; var typicalUse = uses[gauge] || ''; return {ampacity: fmt(ampacity,0), breakerSize: fmt(breakerSize,0), typicalUse: typicalUse};
+    var amps = {'14 AWG': 15, '12 AWG': 20, '10 AWG': 30, '8 AWG': 40, '6 AWG': 55, '4 AWG': 70, '2 AWG': 95, '1/0 AWG': 125}; var ampacity = amps[gauge] || 20; var tempDerate = {'Normal (<86°F)': 1, 'Warm (86-104°F)': 0.88, 'Hot (>104°F)': 0.75}; ampacity = Math.floor(ampacity * (tempDerate[ambientTemp] || 1)); var breakerSize = amps[gauge] || 20; var uses = {'14 AWG': 'Lighting, general outlets', '12 AWG': 'Kitchen, bathroom outlets', '10 AWG': 'Dryer, water heater', '8 AWG': 'Range, large AC', '6 AWG': 'Subpanel feeder', '4 AWG': 'Large subpanel', '2 AWG': 'Main feeder', '1/0 AWG': '100A service'}; var typicalUse = uses[gauge] || '';     document.getElementById('ampacity').textContent = fmt(ampacity,0);
+    document.getElementById('breakerSize').textContent = fmt(breakerSize,0);
+    document.getElementById('typicalUse').textContent = typicalUse;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

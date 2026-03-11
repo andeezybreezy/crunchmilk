@@ -445,7 +445,11 @@ footer a:hover{color:#fff}
     var annualFee = parseFloat(document.getElementById('annualFee').value) || 0;
 
     // Calculation logic
-    var bal=initial; var totalFees=0; var totalContrib=initial; for(var i=0;i<years;i++){bal=bal*(1+(goldReturn-annualFee)/100); bal+=annualAdd; totalContrib+=annualAdd; totalFees+=bal*(annualFee/100);} var growth=bal-totalContrib; var netReturn=goldReturn-annualFee; return {futureValue:dollar(bal), totalContrib:dollar(totalContrib), totalGrowth:dollar(growth), totalFees:dollar(totalFees), netReturn:fmt(netReturn,1)+'%'};
+    var bal=initial; var totalFees=0; var totalContrib=initial; for(var i=0;i<years;i++){bal=bal*(1+(goldReturn-annualFee)/100); bal+=annualAdd; totalContrib+=annualAdd; totalFees+=bal*(annualFee/100);} var growth=bal-totalContrib; var netReturn=goldReturn-annualFee;     document.getElementById('futureValue').textContent = dollar(bal);
+    document.getElementById('totalContrib').textContent = dollar(totalContrib);
+    document.getElementById('totalGrowth').textContent = dollar(growth);
+    document.getElementById('totalFees').textContent = dollar(totalFees);
+    document.getElementById('netReturn').textContent = fmt(netReturn,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

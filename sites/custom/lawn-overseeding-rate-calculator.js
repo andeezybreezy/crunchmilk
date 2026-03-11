@@ -14,7 +14,9 @@
     var condition = document.getElementById('condition').value;
 
     // Calculation logic
-    var rates = {'Kentucky Bluegrass': 2, 'Perennial Ryegrass': 4, 'Tall Fescue': 6, 'Bermuda': 1.5, 'Zoysia': 1.5}; var multipliers = {'Light Overseeding': 0.5, 'Moderate Repair': 1, 'Heavy Renovation': 1.5}; var base = rates[seedType] || 3; var mult = multipliers[condition] || 1; var seedLbs = (area / 1000) * base * mult; var bags = Math.ceil(seedLbs / 5); var cost = bags * 25; return {seedLbs: fmt(seedLbs,1), bags: fmt(bags,0), cost: dollar(cost)};
+    var rates = {'Kentucky Bluegrass': 2, 'Perennial Ryegrass': 4, 'Tall Fescue': 6, 'Bermuda': 1.5, 'Zoysia': 1.5}; var multipliers = {'Light Overseeding': 0.5, 'Moderate Repair': 1, 'Heavy Renovation': 1.5}; var base = rates[seedType] || 3; var mult = multipliers[condition] || 1; var seedLbs = (area / 1000) * base * mult; var bags = Math.ceil(seedLbs / 5); var cost = bags * 25;     document.getElementById('seedLbs').textContent = fmt(seedLbs,1);
+    document.getElementById('bags').textContent = fmt(bags,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -302,15 +302,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="wakeTime">Wake Up Time (hour, 24h)</label>
-      <input type="number" id="wakeTime" value="undefined" min="0" max="23" step="1" inputmode="decimal">
+      <input type="number" id="wakeTime" value="" min="0" max="23" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="cycles">Sleep Cycles (5-6 recommended)</label>
-      <input type="number" id="cycles" value="undefined" min="3" max="7" step="1" inputmode="decimal">
+      <input type="number" id="cycles" value="" min="3" max="7" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fallAsleep">Time to Fall Asleep (min)</label>
-      <input type="number" id="fallAsleep" value="undefined" min="5" max="60" step="5" inputmode="decimal">
+      <input type="number" id="fallAsleep" value="" min="5" max="60" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -359,7 +359,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This sleep calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Bedtime</strong> — Bedtime = Wake Time - (Cycles × 90 min) - Fall Asleep Time — <em>Count back from wake time by sleep cycle duration.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Health metrics are general guidelines. Consult your healthcare provider for personalized medical advice.</p>
   </div>
@@ -380,13 +380,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many sleep cycles do I need?</h3>
+      <p>5-6 cycles (7.5-9 hours) is optimal for most adults.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a sleep cycle?</h3>
+      <p>A 90-minute cycle through light, deep, and REM sleep stages.</p>
     </div>
 
   </div>
@@ -432,7 +432,9 @@ footer a:hover{color:#fff}
     var fallAsleep = parseFloat(document.getElementById('fallAsleep').value) || 0;
 
     // Calculation logic
-    var cycleMin = 90; var totalSleepMin = cycles * cycleMin; var totalMin = totalSleepMin + fallAsleep; var bedtimeMin = (wakeTime * 60 - totalMin + 1440) % 1440; var bedHour = Math.floor(bedtimeMin / 60); var bedMin = bedtimeMin % 60; var ampm = bedHour >= 12 ? 'PM' : 'AM'; var displayHour = bedHour > 12 ? bedHour - 12 : bedHour === 0 ? 12 : bedHour; var bedtime = displayHour + ':' + (bedMin < 10 ? '0' : '') + bedMin + ' ' + ampm; var sleepHours = totalSleepMin / 60; var quality = cycles >= 5 ? 'Optimal' : cycles === 4 ? 'Adequate' : 'Below recommended'; return {bedtime: bedtime, sleepHours: fmt(sleepHours,1), quality: quality};
+    var cycleMin = 90; var totalSleepMin = cycles * cycleMin; var totalMin = totalSleepMin + fallAsleep; var bedtimeMin = (wakeTime * 60 - totalMin + 1440) % 1440; var bedHour = Math.floor(bedtimeMin / 60); var bedMin = bedtimeMin % 60; var ampm = bedHour >= 12 ? 'PM' : 'AM'; var displayHour = bedHour > 12 ? bedHour - 12 : bedHour === 0 ? 12 : bedHour; var bedtime = displayHour + ':' + (bedMin < 10 ? '0' : '') + bedMin + ' ' + ampm; var sleepHours = totalSleepMin / 60; var quality = cycles >= 5 ? 'Optimal' : cycles === 4 ? 'Adequate' : 'Below recommended';     document.getElementById('bedtime').textContent = bedtime;
+    document.getElementById('sleepHours').textContent = fmt(sleepHours,1);
+    document.getElementById('quality').textContent = quality;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

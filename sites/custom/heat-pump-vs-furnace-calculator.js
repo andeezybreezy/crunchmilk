@@ -15,7 +15,9 @@
     var electricRate = parseFloat(document.getElementById('electricRate').value) || 0;
 
     // Calculation logic
-    var dailyBtu = sqft * 25; var annualBtu = dailyBtu * heatingDays; var therms = annualBtu / 100000 / 0.95; var furnaceCost = therms * gasRate; var kwhNeeded = annualBtu / 3412 / 3; var heatPumpCost = kwhNeeded * electricRate; var savings = furnaceCost - heatPumpCost; return {furnaceCost: dollar(furnaceCost), heatPumpCost: dollar(heatPumpCost), savings: dollar(savings)};
+    var dailyBtu = sqft * 25; var annualBtu = dailyBtu * heatingDays; var therms = annualBtu / 100000 / 0.95; var furnaceCost = therms * gasRate; var kwhNeeded = annualBtu / 3412 / 3; var heatPumpCost = kwhNeeded * electricRate; var savings = furnaceCost - heatPumpCost;     document.getElementById('furnaceCost').textContent = dollar(furnaceCost);
+    document.getElementById('heatPumpCost').textContent = dollar(heatPumpCost);
+    document.getElementById('savings').textContent = dollar(savings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

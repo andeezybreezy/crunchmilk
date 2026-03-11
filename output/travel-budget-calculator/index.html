@@ -427,7 +427,11 @@ footer a:hover{color:#fff}
     var flightCost = parseFloat(document.getElementById('flightCost').value) || 0;
 
     // Calculation logic
-    var dailyRates={budget:75,medium:150,high:300,luxury:500}; var daily=dailyRates[destination]; var totalDaily=daily*travelers; var tripDailyTotal=totalDaily*days; var flightTotal=flightCost*travelers; var tripTotal=tripDailyTotal+flightTotal; var perPerson=tripTotal/travelers; return {dailyPerPerson:dollar(daily)+'/day', totalDaily:dollar(totalDaily)+'/day', flightTotal:dollar(flightTotal), tripTotal:dollar(tripTotal), perPersonTotal:dollar(perPerson)};
+    var dailyRates={budget:75,medium:150,high:300,luxury:500}; var daily=dailyRates[destination]; var totalDaily=daily*travelers; var tripDailyTotal=totalDaily*days; var flightTotal=flightCost*travelers; var tripTotal=tripDailyTotal+flightTotal; var perPerson=tripTotal/travelers;     document.getElementById('dailyPerPerson').textContent = dollar(daily)+'/day';
+    document.getElementById('totalDaily').textContent = dollar(totalDaily)+'/day';
+    document.getElementById('flightTotal').textContent = dollar(flightTotal);
+    document.getElementById('tripTotal').textContent = dollar(tripTotal);
+    document.getElementById('perPersonTotal').textContent = dollar(perPerson);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

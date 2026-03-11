@@ -16,7 +16,8 @@
     var slopeRating = parseFloat(document.getElementById('slopeRating').value) || 0;
 
     // Calculation logic
-    var diff1 = (score1 - courseRating) * 113 / slopeRating; var diff2 = (score2 - courseRating) * 113 / slopeRating; var diff3 = (score3 - courseRating) * 113 / slopeRating; var best = Math.min(diff1, diff2, diff3); var avgDiff = best; var handicap = avgDiff * 0.96; return {avgDiff: fmt(avgDiff,1), handicap: fmt(handicap,1)};
+    var diff1 = (score1 - courseRating) * 113 / slopeRating; var diff2 = (score2 - courseRating) * 113 / slopeRating; var diff3 = (score3 - courseRating) * 113 / slopeRating; var best = Math.min(diff1, diff2, diff3); var avgDiff = best; var handicap = avgDiff * 0.96;     document.getElementById('avgDiff').textContent = fmt(avgDiff,1);
+    document.getElementById('handicap').textContent = fmt(handicap,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

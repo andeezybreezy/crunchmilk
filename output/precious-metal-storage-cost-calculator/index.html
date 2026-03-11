@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="metalValue">Total Metal Value (USD)</label>
-      <input type="number" id="metalValue" value="undefined" min="1000" max="10000000" step="1000" inputmode="decimal">
+      <input type="number" id="metalValue" value="" min="1000" max="10000000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="metalType">Primary Metal</label>
-      <select id="metalType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="metalType"><option value="Silver" selected>Silver</option><option value="Mixed Portfolio">Mixed Portfolio</option><option value="metalType">metalType</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="storageType">Storage Type</label>
-      <select id="storageType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="storageType"><option value="Home Safe" selected>Home Safe</option><option value="Bank Safe Deposit Box">Bank Safe Deposit Box</option><option value="Private Vault (Segregated)">Private Vault (Segregated)</option><option value="Private Vault (Allocated)">Private Vault (Allocated)</option><option value="storageType">storageType</option><option value="Free (but see insurance)">Free (but see insurance)</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="years">Storage Duration (years)</label>
-      <input type="number" id="years" value="undefined" min="1" max="30" step="1" inputmode="decimal">
+      <input type="number" id="years" value="" min="1" max="30" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This precious metal storage cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Annual Storage Cost</strong> — Cost = Metal Value x Annual Rate (with minimums) — <em>Most vaults charge a percentage of value with minimum annual fees.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the cheapest way to store precious metals?</h3>
+      <p>Home storage is cheapest but riskiest. For larger holdings ($50k+), a private vault with insurance is typically 0.4-0.5% per year and far more secure.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does silver cost more to store than gold?</h3>
+      <p>Yes, because silver has a lower value-to-weight ratio. Storing $50,000 in silver takes roughly 100x more space than $50,000 in gold.</p>
     </div>
 
   </div>
@@ -431,7 +431,10 @@ footer a:hover{color:#fff}
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var rates = {'Home Safe': 0, 'Bank Safe Deposit Box': 0.002, 'Private Vault (Segregated)': 0.005, 'Private Vault (Allocated)': 0.004}; var silverPremium = metalType === 'Silver' ? 1.5 : metalType === 'Mixed Portfolio' ? 1.2 : 1; var annualRate = rates[storageType] || 0; var annualCost = storageType === 'Home Safe' ? 0 : Math.max(metalValue * annualRate * silverPremium, storageType === 'Bank Safe Deposit Box' ? 150 : 200); var totalCost = annualCost * years; var costAsPct = (annualCost / metalValue) * 100; var insuranceRate = storageType === 'Home Safe' ? 0.015 : storageType === 'Bank Safe Deposit Box' ? 0.005 : 0.001; var insuranceCost = metalValue * insuranceRate; return {annualCost: storageType === 'Home Safe' ? 'Free (but see insurance)' : dollar(annualCost), totalCost: dollar(totalCost), costAsPct: fmt(costAsPct, 2), insuranceCost: dollar(insuranceCost)};
+    var rates = {'Home Safe': 0, 'Bank Safe Deposit Box': 0.002, 'Private Vault (Segregated)': 0.005, 'Private Vault (Allocated)': 0.004}; var silverPremium = metalType === 'Silver' ? 1.5 : metalType === 'Mixed Portfolio' ? 1.2 : 1; var annualRate = rates[storageType] || 0; var annualCost = storageType === 'Home Safe' ? 0 : Math.max(metalValue * annualRate * silverPremium, storageType === 'Bank Safe Deposit Box' ? 150 : 200); var totalCost = annualCost * years; var costAsPct = (annualCost / metalValue) * 100; var insuranceRate = storageType === 'Home Safe' ? 0.015 : storageType === 'Bank Safe Deposit Box' ? 0.005 : 0.001; var insuranceCost = metalValue * insuranceRate;     document.getElementById('annualCost').textContent = storageType === 'Home Safe' ? 'Free (but see insurance)' : dollar(annualCost);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('costAsPct').textContent = fmt(costAsPct, 2);
+    document.getElementById('insuranceCost').textContent = dollar(insuranceCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

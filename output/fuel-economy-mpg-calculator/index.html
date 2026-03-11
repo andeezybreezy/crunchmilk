@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="miles">Miles Driven</label>
-      <input type="number" id="miles" value="undefined" min="1" max="10000" step="1" inputmode="decimal">
+      <input type="number" id="miles" value="" min="1" max="10000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="gallons">Gallons Used</label>
-      <input type="number" id="gallons" value="undefined" min="0.1" max="200" step="0.1" inputmode="decimal">
+      <input type="number" id="gallons" value="" min="0.1" max="200" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="gasPrice">Gas Price ($/gal)</label>
-      <input type="number" id="gasPrice" value="undefined" min="1" max="10" step="0.1" inputmode="decimal">
+      <input type="number" id="gasPrice" value="" min="1" max="10" step="0.1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This mpg calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>MPG</strong> — MPG = Miles / Gallons — <em>Simple miles divided by fuel consumed.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I calculate MPG?</h3>
+      <p>Divide total miles driven by gallons of fuel used.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is good MPG?</h3>
+      <p>30+ MPG is good for cars, 20+ for SUVs, 15+ for trucks.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
 
     // Calculation logic
-    var mpg = miles / gallons; var costPerMile = (gasPrice / mpg) * 100; var annualCost = (12000 / mpg) * gasPrice; return {mpg: fmt(mpg,1), costPerMile: fmt(costPerMile,1), annualCost: dollar(annualCost)};
+    var mpg = miles / gallons; var costPerMile = (gasPrice / mpg) * 100; var annualCost = (12000 / mpg) * gasPrice;     document.getElementById('mpg').textContent = fmt(mpg,1);
+    document.getElementById('costPerMile').textContent = fmt(costPerMile,1);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

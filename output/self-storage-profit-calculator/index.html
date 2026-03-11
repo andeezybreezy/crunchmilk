@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="units">Number of Units</label>
-      <input type="number" id="units" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="units" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="avgRent">Avg Monthly Rent per Unit ($)</label>
-      <input type="number" id="avgRent" value="undefined" min="25" max="500" step="25" inputmode="decimal">
+      <input type="number" id="avgRent" value="" min="25" max="500" step="25" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="occupancy">Occupancy Rate (%)</label>
-      <input type="number" id="occupancy" value="undefined" min="50" max="100" step="5" inputmode="decimal">
+      <input type="number" id="occupancy" value="" min="50" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="expenses">Monthly Expenses ($)</label>
-      <input type="number" id="expenses" value="undefined" min="0" max="50000" step="100" inputmode="decimal">
+      <input type="number" id="expenses" value="" min="0" max="50000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This self storage unit profit calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Net Income</strong> — Net = (Units × Rent × Occupancy%) - Expenses — <em>Gross rental income at occupancy minus operating expenses.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is self storage profitable?</h3>
+      <p>Average cap rates are 5-8%. Well-managed facilities can achieve 15%+ returns.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What occupancy rate is good?</h3>
+      <p>Industry average is 85-90%. Above 90% means you can raise rents.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var expenses = parseFloat(document.getElementById('expenses').value) || 0;
 
     // Calculation logic
-    var grossIncome = units * avgRent * (occupancy/100); var netIncome = grossIncome - expenses; var annualNet = netIncome * 12; return {grossIncome: dollar(grossIncome), netIncome: dollar(netIncome), annualNet: dollar(annualNet)};
+    var grossIncome = units * avgRent * (occupancy/100); var netIncome = grossIncome - expenses; var annualNet = netIncome * 12;     document.getElementById('grossIncome').textContent = dollar(grossIncome);
+    document.getElementById('netIncome').textContent = dollar(netIncome);
+    document.getElementById('annualNet').textContent = dollar(annualNet);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

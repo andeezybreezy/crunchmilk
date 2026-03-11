@@ -14,7 +14,9 @@
     var calories = parseFloat(document.getElementById('calories').value) || 0;
 
     // Calculation logic
-    var rec; if (age <= 3) rec = 19; else if (age <= 8) rec = 25; else if (age <= 13) rec = sex === 'Male' ? 31 : 26; else if (age <= 50) rec = sex === 'Male' ? 38 : 25; else rec = sex === 'Male' ? 30 : 21; var minimum = calories * 0.014; var sources = fmt(rec/5,0) + ' apples or ' + fmt(rec/8,0) + ' cups of beans'; return {recommendation: fmt(rec,0), minimum: fmt(minimum,0), sources: sources};
+    var rec; if (age <= 3) rec = 19; else if (age <= 8) rec = 25; else if (age <= 13) rec = sex === 'Male' ? 31 : 26; else if (age <= 50) rec = sex === 'Male' ? 38 : 25; else rec = sex === 'Male' ? 30 : 21; var minimum = calories * 0.014; var sources = fmt(rec/5,0) + ' apples or ' + fmt(rec/8,0) + ' cups of beans';     document.getElementById('recommendation').textContent = fmt(rec,0);
+    document.getElementById('minimum').textContent = fmt(minimum,0);
+    document.getElementById('sources').textContent = sources;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Pet Age (years)</label>
-      <input type="number" id="age" value="undefined" min="0" max="20" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="0" max="20" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="breed">Breed Risk</label>
-      <select id="breed"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="breed"><option value="Low (mixed/hardy breed)" selected>Low (mixed/hardy breed)</option><option value="Medium (average breed)">Medium (average breed)</option><option value="High (prone to issues)">High (prone to issues)</option><option value="breed">breed</option><option value=": 800, ">: 800, </option><option value=": 1200, ">: 1200, </option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyPremium">Monthly Premium ($)</label>
-      <input type="number" id="monthlyPremium" value="undefined" min="10" max="200" step="5" inputmode="decimal">
+      <input type="number" id="monthlyPremium" value="" min="10" max="200" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This pet insurance value calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Lifetime Cost</strong> — Cost = Monthly Premium × 12 × Remaining Years — <em>Total premiums over the pet's expected remaining life.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is pet insurance worth it?</h3>
+      <p>For breeds prone to health issues, insurance often pays for itself. For healthy breeds, a savings account may be better.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When should I get pet insurance?</h3>
+      <p>As young as possible — pre-existing conditions are never covered.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var monthlyPremium = parseFloat(document.getElementById('monthlyPremium').value) || 0;
 
     // Calculation logic
-    var remainingYears = Math.max(12 - age, 1); var lifetimePremium = monthlyPremium * 12 * remainingYears; var avgAnnual = {'Low (mixed/hardy breed)': 800, 'Medium (average breed)': 1200, 'High (prone to issues)': 2000}; var expectedVet = (avgAnnual[breed] || 1200) * remainingYears; var verdict = expectedVet > lifetimePremium ? 'Likely worth it - expected vet costs exceed premiums' : 'May not be worth it - consider a vet savings fund instead'; return {lifetimePremium: dollar(lifetimePremium), expectedVet: dollar(expectedVet), verdict: verdict};
+    var remainingYears = Math.max(12 - age, 1); var lifetimePremium = monthlyPremium * 12 * remainingYears; var avgAnnual = {'Low (mixed/hardy breed)': 800, 'Medium (average breed)': 1200, 'High (prone to issues)': 2000}; var expectedVet = (avgAnnual[breed] || 1200) * remainingYears; var verdict = expectedVet > lifetimePremium ? 'Likely worth it - expected vet costs exceed premiums' : 'May not be worth it - consider a vet savings fund instead';     document.getElementById('lifetimePremium').textContent = dollar(lifetimePremium);
+    document.getElementById('expectedVet').textContent = dollar(expectedVet);
+    document.getElementById('verdict').textContent = verdict;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,11 @@
     var gdpGrowth = parseFloat(document.getElementById('gdpGrowth').value) || 0;
 
     // Calculation logic
-    var futureM2=currentM2*Math.pow(1+growthRate/100,years); var totalIncrease=futureM2-currentM2; var excessGrowth=growthRate-gdpGrowth; var impliedInflation=Math.max(0,excessGrowth*0.7); var dilution=(1-currentM2/futureM2)*100; return {futureM2:'$'+fmt(futureM2,1)+'T', totalIncrease:'+$'+fmt(totalIncrease,1)+'T', excessOverGDP:fmt(excessGrowth,1)+'% excess growth/year', impliedInflation:'~'+fmt(impliedInflation,1)+'%/year', dollarDilution:fmt(dilution,1)+'%'};
+    var futureM2=currentM2*Math.pow(1+growthRate/100,years); var totalIncrease=futureM2-currentM2; var excessGrowth=growthRate-gdpGrowth; var impliedInflation=Math.max(0,excessGrowth*0.7); var dilution=(1-currentM2/futureM2)*100;     document.getElementById('futureM2').textContent = '$'+fmt(futureM2,1)+'T';
+    document.getElementById('totalIncrease').textContent = '+$'+fmt(totalIncrease,1)+'T';
+    document.getElementById('excessOverGDP').textContent = fmt(excessGrowth,1)+'% excess growth/year';
+    document.getElementById('impliedInflation').textContent = '~'+fmt(impliedInflation,1)+'%/year';
+    document.getElementById('dollarDilution').textContent = fmt(dilution,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

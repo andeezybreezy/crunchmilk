@@ -14,7 +14,10 @@
     var spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
 
     // Calculation logic
-    var silverContent={morgan:0.7734,peace:0.7734,ike40:0.3161,eagle:1.0}; var ozPer=silverContent[coinType]||0.7734; var meltPer=ozPer*spotPrice; var totalSilver=ozPer*quantity; var totalMelt=totalSilver*spotPrice; return {silverPer:fmt(ozPer,4)+' troy oz', meltPer:dollar(meltPer), totalMelt:dollar(totalMelt), totalSilver:fmt(totalSilver,4)+' troy oz'};
+    var silverContent={morgan:0.7734,peace:0.7734,ike40:0.3161,eagle:1.0}; var ozPer=silverContent[coinType]||0.7734; var meltPer=ozPer*spotPrice; var totalSilver=ozPer*quantity; var totalMelt=totalSilver*spotPrice;     document.getElementById('silverPer').textContent = fmt(ozPer,4)+' troy oz';
+    document.getElementById('meltPer').textContent = dollar(meltPer);
+    document.getElementById('totalMelt').textContent = dollar(totalMelt);
+    document.getElementById('totalSilver').textContent = fmt(totalSilver,4)+' troy oz';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

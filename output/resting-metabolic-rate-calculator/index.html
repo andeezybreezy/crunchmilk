@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Weight (lbs)</label>
-      <input type="number" id="weight" value="undefined" min="80" max="500" step="1" inputmode="decimal">
+      <input type="number" id="weight" value="" min="80" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="height">Height (inches)</label>
-      <input type="number" id="height" value="undefined" min="48" max="84" step="1" inputmode="decimal">
+      <input type="number" id="height" value="" min="48" max="84" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="18" max="90" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="18" max="90" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="sex">Sex</label>
-      <select id="sex"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="sex"><option value="Male" selected>Male</option><option value="sex">sex</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This resting metabolic rate calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Mifflin-St Jeor</strong> — Male: 10×kg + 6.25×cm - 5×age + 5 — <em>The most accurate RMR estimation formula.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Health metrics are general guidelines. Consult your healthcare provider for personalized medical advice.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is RMR?</h3>
+      <p>The calories your body burns at complete rest to maintain basic functions like breathing and circulation.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How is RMR different from BMR?</h3>
+      <p>BMR is measured in stricter conditions. RMR is slightly higher and more practical to measure.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var sex = document.getElementById('sex').value;
 
     // Calculation logic
-    var weightKg = weight * 0.453592; var heightCm = height * 2.54; var rmr = sex === 'Male' ? (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5 : (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161; var hourly = rmr / 24; return {rmr: fmt(rmr,0), hourly: fmt(hourly,1)};
+    var weightKg = weight * 0.453592; var heightCm = height * 2.54; var rmr = sex === 'Male' ? (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5 : (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161; var hourly = rmr / 24;     document.getElementById('rmr').textContent = fmt(rmr,0);
+    document.getElementById('hourly').textContent = fmt(hourly,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

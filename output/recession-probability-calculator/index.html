@@ -421,7 +421,10 @@ footer a:hover{color:#fff}
     var fedAction = document.getElementById('fedAction').value;
 
     // Calculation logic
-    var score=0; var yieldScores={normal:0,flat:15,inverted:35}; var unempScores={falling:0,stable:10,rising:25}; var inflScores={low:5,moderate:10,high:20}; var fedScores={cutting:10,holding:5,hiking:20}; score=yieldScores[yieldCurve]+unempScores[unemployment]+inflScores[inflation]+fedScores[fedAction]; score=Math.min(score,95); var timeframe=score>60?'6-12 months':score>40?'12-18 months':'18+ months'; var severity=score>70?'Moderate to Severe':score>50?'Mild to Moderate':'Mild if any'; var advice=score>60?'Consider defensive positioning: bonds, cash reserves, reduced leverage':score>40?'Maintain diversification, build emergency fund':'Stay the course with balanced allocation'; return {probability:score+'%', timeframe:timeframe, severity:severity, advice:advice};
+    var score=0; var yieldScores={normal:0,flat:15,inverted:35}; var unempScores={falling:0,stable:10,rising:25}; var inflScores={low:5,moderate:10,high:20}; var fedScores={cutting:10,holding:5,hiking:20}; score=yieldScores[yieldCurve]+unempScores[unemployment]+inflScores[inflation]+fedScores[fedAction]; score=Math.min(score,95); var timeframe=score>60?'6-12 months':score>40?'12-18 months':'18+ months'; var severity=score>70?'Moderate to Severe':score>50?'Mild to Moderate':'Mild if any'; var advice=score>60?'Consider defensive positioning: bonds, cash reserves, reduced leverage':score>40?'Maintain diversification, build emergency fund':'Stay the course with balanced allocation';     document.getElementById('probability').textContent = score+'%';
+    document.getElementById('timeframe').textContent = timeframe;
+    document.getElementById('severity').textContent = severity;
+    document.getElementById('advice').textContent = advice;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

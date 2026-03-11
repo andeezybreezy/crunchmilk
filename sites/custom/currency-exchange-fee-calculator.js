@@ -14,7 +14,10 @@
     var offeredRate = parseFloat(document.getElementById('offeredRate').value) || 0;
 
     // Calculation logic
-    var atMarket=amount*marketRate; var atOffered=amount*offeredRate; var diff=atMarket-atOffered; var feePct=((marketRate-offeredRate)/marketRate)*100; var feeDollar=amount*(1-offeredRate/marketRate); return {atMarket:fmt(atMarket,2), atOffered:fmt(atOffered,2), feePct:fmt(feePct,2)+'%', feeDollar:dollar(feeDollar)};
+    var atMarket=amount*marketRate; var atOffered=amount*offeredRate; var diff=atMarket-atOffered; var feePct=((marketRate-offeredRate)/marketRate)*100; var feeDollar=amount*(1-offeredRate/marketRate);     document.getElementById('atMarket').textContent = fmt(atMarket,2);
+    document.getElementById('atOffered').textContent = fmt(atOffered,2);
+    document.getElementById('feePct').textContent = fmt(feePct,2)+'%';
+    document.getElementById('feeDollar').textContent = dollar(feeDollar);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

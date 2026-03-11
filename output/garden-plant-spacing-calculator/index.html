@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="bedLength">Bed Length (ft)</label>
-      <input type="number" id="bedLength" value="undefined" min="1" max="100" step="1" inputmode="decimal">
+      <input type="number" id="bedLength" value="" min="1" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bedWidth">Bed Width (ft)</label>
-      <input type="number" id="bedWidth" value="undefined" min="1" max="50" step="1" inputmode="decimal">
+      <input type="number" id="bedWidth" value="" min="1" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="spacing">Plant Spacing (inches)</label>
-      <input type="number" id="spacing" value="undefined" min="3" max="72" step="1" inputmode="decimal">
+      <input type="number" id="spacing" value="" min="3" max="72" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This garden spacing calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Plants</strong> — Plants = (Bed Width / Spacing) × (Bed Length / Spacing) — <em>Grid layout based on spacing in both directions.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does spacing matter?</h3>
+      <p>Proper spacing ensures adequate sunlight, airflow, and nutrient access for each plant.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I plant closer in raised beds?</h3>
+      <p>Yes, raised beds with good soil can often use spacing 25% tighter than ground planting.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var spacing = parseFloat(document.getElementById('spacing').value) || 0;
 
     // Calculation logic
-    var spacingFt = spacing / 12; var rows = Math.floor(bedWidth / spacingFt); var plantsPerRow = Math.floor(bedLength / spacingFt); var totalPlants = rows * plantsPerRow; return {rows: fmt(rows,0), plantsPerRow: fmt(plantsPerRow,0), totalPlants: fmt(totalPlants,0)};
+    var spacingFt = spacing / 12; var rows = Math.floor(bedWidth / spacingFt); var plantsPerRow = Math.floor(bedLength / spacingFt); var totalPlants = rows * plantsPerRow;     document.getElementById('rows').textContent = fmt(rows,0);
+    document.getElementById('plantsPerRow').textContent = fmt(plantsPerRow,0);
+    document.getElementById('totalPlants').textContent = fmt(totalPlants,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

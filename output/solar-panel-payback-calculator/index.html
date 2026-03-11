@@ -302,21 +302,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="systemCost">System Cost ($)</label>
-      <input type="number" id="systemCost" value="undefined" min="5000" max="100000" step="1000" inputmode="decimal">
+      <input type="number" id="systemCost" value="" min="5000" max="100000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="taxCredit">Federal Tax Credit (%)</label>
-      <input type="number" id="taxCredit" value="undefined" min="0" max="50" step="5" inputmode="decimal">
+      <input type="number" id="taxCredit" value="" min="0" max="50" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyBill">Monthly Electric Bill ($)</label>
-      <input type="number" id="monthlyBill" value="undefined" min="50" max="1000" step="25" inputmode="decimal">
+      <input type="number" id="monthlyBill" value="" min="50" max="1000" step="25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="offsetPct">Solar Offset (%)</label>
-      <input type="number" id="offsetPct" value="undefined" min="30" max="100" step="5" inputmode="decimal">
+      <input type="number" id="offsetPct" value="" min="30" max="100" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -365,7 +365,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This solar payback period calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Payback</strong> — Years = (System Cost × (1 - Tax Credit)) / Annual Savings — <em>Net cost divided by yearly electricity savings.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -386,13 +386,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long do solar panels take to pay off?</h3>
+      <p>Typically 6-12 years with the federal tax credit, depending on electricity costs.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the federal solar tax credit?</h3>
+      <p>30% of system cost through 2032, then stepping down.</p>
     </div>
 
   </div>
@@ -439,7 +439,9 @@ footer a:hover{color:#fff}
     var offsetPct = parseFloat(document.getElementById('offsetPct').value) || 0;
 
     // Calculation logic
-    var netCost = systemCost * (1 - taxCredit/100); var annualSavings = monthlyBill * 12 * (offsetPct/100); var paybackYears = netCost / annualSavings; return {netCost: dollar(netCost), annualSavings: dollar(annualSavings), paybackYears: fmt(paybackYears,1)};
+    var netCost = systemCost * (1 - taxCredit/100); var annualSavings = monthlyBill * 12 * (offsetPct/100); var paybackYears = netCost / annualSavings;     document.getElementById('netCost').textContent = dollar(netCost);
+    document.getElementById('annualSavings').textContent = dollar(annualSavings);
+    document.getElementById('paybackYears').textContent = fmt(paybackYears,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

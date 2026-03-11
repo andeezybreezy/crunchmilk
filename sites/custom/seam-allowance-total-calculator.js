@@ -15,7 +15,9 @@
     var pieces = parseFloat(document.getElementById('pieces').value) || 0;
 
     // Calculation logic
-    var cutLength = patternLength + (seamAllowance * 2); var cutWidth = patternWidth + (seamAllowance * 2); var totalFabric = cutLength * cutWidth * pieces; return {cutLength: fmt(cutLength,2), cutWidth: fmt(cutWidth,2), totalFabric: fmt(totalFabric,0)};
+    var cutLength = patternLength + (seamAllowance * 2); var cutWidth = patternWidth + (seamAllowance * 2); var totalFabric = cutLength * cutWidth * pieces;     document.getElementById('cutLength').textContent = fmt(cutLength,2);
+    document.getElementById('cutWidth').textContent = fmt(cutWidth,2);
+    document.getElementById('totalFabric').textContent = fmt(totalFabric,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

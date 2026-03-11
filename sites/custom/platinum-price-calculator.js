@@ -13,7 +13,8 @@
     var spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
 
     // Calculation logic
-    var value=weight*spotPrice; var perGram=spotPrice/31.1035; return {value:dollar(value), perGram:dollar(perGram)+'/gram'};
+    var value=weight*spotPrice; var perGram=spotPrice/31.1035;     document.getElementById('value').textContent = dollar(value);
+    document.getElementById('perGram').textContent = dollar(perGram)+'/gram';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

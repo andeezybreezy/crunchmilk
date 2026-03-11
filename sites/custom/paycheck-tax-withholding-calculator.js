@@ -14,7 +14,10 @@
     var stateTax = parseFloat(document.getElementById('stateTax').value) || 0;
 
     // Calculation logic
-    var periods = {'Weekly': 52, 'Bi-Weekly': 26, 'Monthly': 12}; var annual = gross * (periods[frequency] || 26); var fedRate = annual > 95375 ? 0.22 : annual > 44725 ? 0.17 : 0.12; var federal = gross * fedRate; var fica = gross * 0.0765; var state = gross * (stateTax/100); var net = gross - federal - fica - state; return {federal: dollar(federal), fica: dollar(fica), state: dollar(state), net: dollar(net)};
+    var periods = {'Weekly': 52, 'Bi-Weekly': 26, 'Monthly': 12}; var annual = gross * (periods[frequency] || 26); var fedRate = annual > 95375 ? 0.22 : annual > 44725 ? 0.17 : 0.12; var federal = gross * fedRate; var fica = gross * 0.0765; var state = gross * (stateTax/100); var net = gross - federal - fica - state;     document.getElementById('federal').textContent = dollar(federal);
+    document.getElementById('fica').textContent = dollar(fica);
+    document.getElementById('state').textContent = dollar(state);
+    document.getElementById('net').textContent = dollar(net);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

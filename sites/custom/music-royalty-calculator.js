@@ -14,7 +14,10 @@
     var splitPct = parseFloat(document.getElementById('splitPct').value) || 0;
 
     // Calculation logic
-    var rates={spotify:0.004,apple:0.008,youtube:0.002,tidal:0.013,amazon:0.004}; var rate=rates[platform]; var monthlyGross=streams*rate; var monthlyNet=monthlyGross*(splitPct/100); var annualNet=monthlyNet*12; var streamsFor1k=Math.ceil(1000/(rate*splitPct/100)); return {monthlyGross:dollar(monthlyGross), monthlyNet:dollar(monthlyNet), annualNet:dollar(annualNet), streamsFor1k:fmt(streamsFor1k,0)+' streams'};
+    var rates={spotify:0.004,apple:0.008,youtube:0.002,tidal:0.013,amazon:0.004}; var rate=rates[platform]; var monthlyGross=streams*rate; var monthlyNet=monthlyGross*(splitPct/100); var annualNet=monthlyNet*12; var streamsFor1k=Math.ceil(1000/(rate*splitPct/100));     document.getElementById('monthlyGross').textContent = dollar(monthlyGross);
+    document.getElementById('monthlyNet').textContent = dollar(monthlyNet);
+    document.getElementById('annualNet').textContent = dollar(annualNet);
+    document.getElementById('streamsFor1k').textContent = fmt(streamsFor1k,0)+' streams';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

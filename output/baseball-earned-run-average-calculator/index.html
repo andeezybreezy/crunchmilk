@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="earnedRuns">Earned Runs</label>
-      <input type="number" id="earnedRuns" value="undefined" min="0" max="500" step="1" inputmode="decimal">
+      <input type="number" id="earnedRuns" value="" min="0" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="inningsPitched">Innings Pitched</label>
-      <input type="number" id="inningsPitched" value="undefined" min="0.1" max="400" step="0.1" inputmode="decimal">
+      <input type="number" id="inningsPitched" value="" min="0.1" max="400" step="0.1" inputmode="decimal">
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This baseball era calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>ERA</strong> — ERA = (Earned Runs / Innings Pitched) × 9 — <em>Earned runs per nine innings pitched.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a good ERA?</h3>
+      <p>Below 3.00 is excellent, 3.00-4.00 is good, above 5.00 is poor.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How is ERA calculated?</h3>
+      <p>Earned runs divided by innings pitched, multiplied by 9 (a full game).</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var inningsPitched = parseFloat(document.getElementById('inningsPitched').value) || 0;
 
     // Calculation logic
-    var era = (earnedRuns / inningsPitched) * 9; var rating = era < 2.5 ? 'Elite' : era < 3.5 ? 'Excellent' : era < 4.0 ? 'Good' : era < 5.0 ? 'Average' : 'Below Average'; return {era: fmt(era,2), rating: rating};
+    var era = (earnedRuns / inningsPitched) * 9; var rating = era < 2.5 ? 'Elite' : era < 3.5 ? 'Excellent' : era < 4.0 ? 'Good' : era < 5.0 ? 'Average' : 'Below Average';     document.getElementById('era').textContent = fmt(era,2);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="2" max="90" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="2" max="90" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="sex">Sex</label>
-      <select id="sex"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="sex"><option value="Male" selected>Male</option><option value="sex">sex</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="calories">Daily Calories</label>
-      <input type="number" id="calories" value="undefined" min="1000" max="4000" step="100" inputmode="decimal">
+      <input type="number" id="calories" value="" min="1000" max="4000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This daily fiber intake calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Fiber per Calorie</strong> — Minimum = Calories × 14g per 1000 cal — <em>At least 14 grams of fiber per 1,000 calories consumed.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much fiber do I need?</h3>
+      <p>25g/day for women, 38g/day for men under 50. Most Americans only get 15g.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What foods are high in fiber?</h3>
+      <p>Beans, lentils, whole grains, fruits, vegetables, and nuts.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var calories = parseFloat(document.getElementById('calories').value) || 0;
 
     // Calculation logic
-    var rec; if (age <= 3) rec = 19; else if (age <= 8) rec = 25; else if (age <= 13) rec = sex === 'Male' ? 31 : 26; else if (age <= 50) rec = sex === 'Male' ? 38 : 25; else rec = sex === 'Male' ? 30 : 21; var minimum = calories * 0.014; var sources = fmt(rec/5,0) + ' apples or ' + fmt(rec/8,0) + ' cups of beans'; return {recommendation: fmt(rec,0), minimum: fmt(minimum,0), sources: sources};
+    var rec; if (age <= 3) rec = 19; else if (age <= 8) rec = 25; else if (age <= 13) rec = sex === 'Male' ? 31 : 26; else if (age <= 50) rec = sex === 'Male' ? 38 : 25; else rec = sex === 'Male' ? 30 : 21; var minimum = calories * 0.014; var sources = fmt(rec/5,0) + ' apples or ' + fmt(rec/8,0) + ' cups of beans';     document.getElementById('recommendation').textContent = fmt(rec,0);
+    document.getElementById('minimum').textContent = fmt(minimum,0);
+    document.getElementById('sources').textContent = sources;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

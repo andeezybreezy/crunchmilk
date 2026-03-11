@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyPremium">Monthly Premium ($)</label>
-      <input type="number" id="monthlyPremium" value="undefined" min="10" max="200" step="5" inputmode="decimal">
+      <input type="number" id="monthlyPremium" value="" min="10" max="200" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="deductible">Annual Deductible ($)</label>
-      <input type="number" id="deductible" value="undefined" min="0" max="1000" step="50" inputmode="decimal">
+      <input type="number" id="deductible" value="" min="0" max="1000" step="50" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="reimbursement">Reimbursement Rate (%)</label>
-      <input type="number" id="reimbursement" value="undefined" min="50" max="100" step="5" inputmode="decimal">
+      <input type="number" id="reimbursement" value="" min="50" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="expectedVetBills">Expected Annual Vet Bills ($)</label>
-      <input type="number" id="expectedVetBills" value="undefined" min="100" max="20000" step="100" inputmode="decimal">
+      <input type="number" id="expectedVetBills" value="" min="100" max="20000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This pet insurance breakeven calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Net Value</strong> — Net = (Vet Bills - Deductible) × Reimbursement% - Annual Premium — <em>Reimbursement amount minus what you pay in premiums.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Insurance rates depend on many individual factors. Get personalized quotes from licensed providers.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is pet insurance worth it?</h3>
+      <p>It depends on your pet's health risks. Breeds prone to health issues benefit most.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When does pet insurance break even?</h3>
+      <p>Typically when annual vet bills exceed premiums plus deductible.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var expectedVetBills = parseFloat(document.getElementById('expectedVetBills').value) || 0;
 
     // Calculation logic
-    var annualPremium = monthlyPremium * 12; var eligible = Math.max(expectedVetBills - deductible, 0); var reimbursed = eligible * (reimbursement / 100); var netSavings = reimbursed - annualPremium; return {annualPremium: dollar(annualPremium), reimbursed: dollar(reimbursed), netSavings: dollar(netSavings)};
+    var annualPremium = monthlyPremium * 12; var eligible = Math.max(expectedVetBills - deductible, 0); var reimbursed = eligible * (reimbursement / 100); var netSavings = reimbursed - annualPremium;     document.getElementById('annualPremium').textContent = dollar(annualPremium);
+    document.getElementById('reimbursed').textContent = dollar(reimbursed);
+    document.getElementById('netSavings').textContent = dollar(netSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

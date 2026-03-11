@@ -14,7 +14,9 @@
     var items = parseFloat(document.getElementById('items').value) || 0;
 
     // Calculation logic
-    var freqMult = {'Daily': 7, '3-4 times per week': 3.5, 'Weekly': 1, 'Rarely': 0.25}; var sessionsPerWeek = freqMult[frequency] || 1; var totalEntries = Math.round(sessionsPerWeek * duration * items); var consistency = Math.min(sessionsPerWeek / 7 * 100, 100); var wellnessBoost = Math.min(Math.sqrt(duration) * sessionsPerWeek * 1.2, 25); return {consistency: fmt(consistency,0), wellnessBoost: fmt(wellnessBoost,0), totalEntries: fmt(totalEntries,0)};
+    var freqMult = {'Daily': 7, '3-4 times per week': 3.5, 'Weekly': 1, 'Rarely': 0.25}; var sessionsPerWeek = freqMult[frequency] || 1; var totalEntries = Math.round(sessionsPerWeek * duration * items); var consistency = Math.min(sessionsPerWeek / 7 * 100, 100); var wellnessBoost = Math.min(Math.sqrt(duration) * sessionsPerWeek * 1.2, 25);     document.getElementById('consistency').textContent = fmt(consistency,0);
+    document.getElementById('wellnessBoost').textContent = fmt(wellnessBoost,0);
+    document.getElementById('totalEntries').textContent = fmt(totalEntries,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

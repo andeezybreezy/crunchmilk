@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Step Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="2" max="20" step="0.5" inputmode="decimal">
+      <input type="number" id="width" value="" min="2" max="20" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="riserHeight">Riser Height (inches)</label>
-      <input type="number" id="riserHeight" value="undefined" min="5" max="8" step="0.5" inputmode="decimal">
+      <input type="number" id="riserHeight" value="" min="5" max="8" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="treadDepth">Tread Depth (inches)</label>
-      <input type="number" id="treadDepth" value="undefined" min="9" max="14" step="0.5" inputmode="decimal">
+      <input type="number" id="treadDepth" value="" min="9" max="14" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="numSteps">Number of Steps</label>
-      <input type="number" id="numSteps" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="numSteps" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This concrete steps calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Volume</strong> — Sum of each step's volume (accumulated height) — <em>Each step includes all concrete below it.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Standard step dimensions?</h3>
+      <p>7-7.75 inch riser, 10-11 inch tread per building code.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do I need rebar in steps?</h3>
+      <p>Yes, use #4 rebar for structural integrity and crack prevention.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var numSteps = parseFloat(document.getElementById('numSteps').value) || 0;
 
     // Calculation logic
-    var totalCuFt = 0; for (var i = 1; i <= numSteps; i++) { totalCuFt += width * (treadDepth/12) * (riserHeight/12 * i); } totalCuFt *= 1.1; var cuYd = totalCuFt / 27; var bags80 = Math.ceil(totalCuFt / 0.6); var cost = cuYd * 150; return {cuYd: fmt(cuYd,2), bags80: fmt(bags80,0), cost: dollar(cost)};
+    var totalCuFt = 0; for (var i = 1; i <= numSteps; i++) { totalCuFt += width * (treadDepth/12) * (riserHeight/12 * i); } totalCuFt *= 1.1; var cuYd = totalCuFt / 27; var bags80 = Math.ceil(totalCuFt / 0.6); var cost = cuYd * 150;     document.getElementById('cuYd').textContent = fmt(cuYd,2);
+    document.getElementById('bags80').textContent = fmt(bags80,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

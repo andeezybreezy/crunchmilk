@@ -16,7 +16,9 @@
     var windows = parseFloat(document.getElementById('windows').value) || 0;
 
     // Calculation logic
-    var wallArea = 2 * (length + width) * height; wallArea -= doors * 21 + windows * 15; var usableSqFt = 25; var rolls = Math.ceil(wallArea / usableSqFt); var cost = rolls * 40; return {wallArea: fmt(wallArea,0), rolls: fmt(rolls,0), cost: dollar(cost)};
+    var wallArea = 2 * (length + width) * height; wallArea -= doors * 21 + windows * 15; var usableSqFt = 25; var rolls = Math.ceil(wallArea / usableSqFt); var cost = rolls * 40;     document.getElementById('wallArea').textContent = fmt(wallArea,0);
+    document.getElementById('rolls').textContent = fmt(rolls,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var partSize = document.getElementById('partSize').value;
 
     // Calculation logic
-    var temps = {'PLA': 60, 'PETG': 80, 'ABS': 100, 'Nylon': 80, 'TPU': 50}; var bedTemp = temps[material] || 60; var sizeAdj = {'Small (<50mm)': 0, 'Medium (50-150mm)': 0, 'Large (>150mm)': 5}; bedTemp += sizeAdj[partSize] || 0; var adhesionType = material === 'ABS' ? 'Brim + ABS slurry' : material === 'Nylon' ? 'Brim + glue stick' : partSize === 'Large (>150mm)' ? 'Brim recommended' : 'Skirt only'; var firstLayerSpeed = 20; return {bedTemp: fmt(bedTemp,0), adhesionType: adhesionType, firstLayerSpeed: fmt(firstLayerSpeed,0)};
+    var temps = {'PLA': 60, 'PETG': 80, 'ABS': 100, 'Nylon': 80, 'TPU': 50}; var bedTemp = temps[material] || 60; var sizeAdj = {'Small (<50mm)': 0, 'Medium (50-150mm)': 0, 'Large (>150mm)': 5}; bedTemp += sizeAdj[partSize] || 0; var adhesionType = material === 'ABS' ? 'Brim + ABS slurry' : material === 'Nylon' ? 'Brim + glue stick' : partSize === 'Large (>150mm)' ? 'Brim recommended' : 'Skirt only'; var firstLayerSpeed = 20;     document.getElementById('bedTemp').textContent = fmt(bedTemp,0);
+    document.getElementById('adhesionType').textContent = adhesionType;
+    document.getElementById('firstLayerSpeed').textContent = fmt(firstLayerSpeed,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

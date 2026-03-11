@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="fileSize">File Size (GB)</label>
-      <input type="number" id="fileSize" value="undefined" min="0.01" max="1000" step="0.5" inputmode="decimal">
+      <input type="number" id="fileSize" value="" min="0.01" max="1000" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="speed">Internet Speed (Mbps)</label>
-      <input type="number" id="speed" value="undefined" min="1" max="10000" step="10" inputmode="decimal">
+      <input type="number" id="speed" value="" min="1" max="10000" step="10" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This download time calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Download Time</strong> — Seconds = File Size (Mb) / Speed (Mbps) — <em>File size in megabits divided by speed in megabits per second.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why is my download slower than my speed?</h3>
+      <p>Real-world throughput is typically 60-80% of advertised speed due to overhead.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Mbps vs MBps?</h3>
+      <p>Mbps is megabits (speed). MBps is megabytes (file size). 1 MBps = 8 Mbps.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var speed = parseFloat(document.getElementById('speed').value) || 0;
 
     // Calculation logic
-    var bits = fileSize * 8 * 1024; var seconds = bits / speed; var minutes = seconds / 60; var realistic = minutes / 0.7; return {seconds: fmt(seconds,0), minutes: fmt(minutes,1), realistic: fmt(realistic,1)};
+    var bits = fileSize * 8 * 1024; var seconds = bits / speed; var minutes = seconds / 60; var realistic = minutes / 0.7;     document.getElementById('seconds').textContent = fmt(seconds,0);
+    document.getElementById('minutes').textContent = fmt(minutes,1);
+    document.getElementById('realistic').textContent = fmt(realistic,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

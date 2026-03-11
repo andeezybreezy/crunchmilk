@@ -16,7 +16,9 @@
     var smartThermo = document.getElementById('smartThermo').value;
 
     // Calculation logic
-    var savingsPct = 0; savingsPct += insulation === 'Yes' ? 15 : 0; savingsPct += airSeal === 'Yes' ? 10 : 0; savingsPct += ledLights === 'Yes' ? 5 : 0; savingsPct += smartThermo === 'Yes' ? 8 : 0; var monthlySavings = monthlyBill * (savingsPct/100); var annualSavings = monthlySavings * 12; return {savingsPct: fmt(savingsPct,0), monthlySavings: dollar(monthlySavings), annualSavings: dollar(annualSavings)};
+    var savingsPct = 0; savingsPct += insulation === 'Yes' ? 15 : 0; savingsPct += airSeal === 'Yes' ? 10 : 0; savingsPct += ledLights === 'Yes' ? 5 : 0; savingsPct += smartThermo === 'Yes' ? 8 : 0; var monthlySavings = monthlyBill * (savingsPct/100); var annualSavings = monthlySavings * 12;     document.getElementById('savingsPct').textContent = fmt(savingsPct,0);
+    document.getElementById('monthlySavings').textContent = dollar(monthlySavings);
+    document.getElementById('annualSavings').textContent = dollar(annualSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

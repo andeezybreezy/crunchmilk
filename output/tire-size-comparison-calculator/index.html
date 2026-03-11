@@ -300,31 +300,31 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="origWidth">Original Width (mm)</label>
-      <input type="number" id="origWidth" value="undefined" min="125" max="355" step="5" inputmode="decimal">
+      <input type="number" id="origWidth" value="" min="125" max="355" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="origAspect">Original Aspect Ratio</label>
-      <input type="number" id="origAspect" value="undefined" min="25" max="85" step="5" inputmode="decimal">
+      <input type="number" id="origAspect" value="" min="25" max="85" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="origRim">Original Rim (inches)</label>
-      <input type="number" id="origRim" value="undefined" min="13" max="24" step="1" inputmode="decimal">
+      <input type="number" id="origRim" value="" min="13" max="24" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="newWidth">New Width (mm)</label>
-      <input type="number" id="newWidth" value="undefined" min="125" max="355" step="5" inputmode="decimal">
+      <input type="number" id="newWidth" value="" min="125" max="355" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="newAspect">New Aspect Ratio</label>
-      <input type="number" id="newAspect" value="undefined" min="25" max="85" step="5" inputmode="decimal">
+      <input type="number" id="newAspect" value="" min="25" max="85" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="newRim">New Rim (inches)</label>
-      <input type="number" id="newRim" value="undefined" min="13" max="24" step="1" inputmode="decimal">
+      <input type="number" id="newRim" value="" min="13" max="24" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -364,7 +364,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This tire size comparison calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Tire Diameter</strong> — Diameter = Rim + 2 × (Width × Aspect / 2540) — <em>Rim diameter plus twice the sidewall height.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -377,13 +377,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much tire size difference is acceptable?</h3>
+      <p>Stay within 3% of the original diameter to avoid speedometer and handling issues.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does tire size affect gas mileage?</h3>
+      <p>Larger/wider tires can reduce MPG by 1-3% due to increased rolling resistance.</p>
     </div>
 
   </div>
@@ -432,7 +432,9 @@ footer a:hover{color:#fff}
     var newRim = parseFloat(document.getElementById('newRim').value) || 0;
 
     // Calculation logic
-    var origSidewall = origWidth * origAspect / 100 / 25.4; var origDia = (origRim + 2 * origSidewall); var newSidewall = newWidth * newAspect / 100 / 25.4; var newDia = (newRim + 2 * newSidewall); var speedoError = ((newDia - origDia) / origDia) * 100; return {origDia: fmt(origDia,1), newDia: fmt(newDia,1), speedoError: fmt(speedoError,1)};
+    var origSidewall = origWidth * origAspect / 100 / 25.4; var origDia = (origRim + 2 * origSidewall); var newSidewall = newWidth * newAspect / 100 / 25.4; var newDia = (newRim + 2 * newSidewall); var speedoError = ((newDia - origDia) / origDia) * 100;     document.getElementById('origDia').textContent = fmt(origDia,1);
+    document.getElementById('newDia').textContent = fmt(newDia,1);
+    document.getElementById('speedoError').textContent = fmt(speedoError,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

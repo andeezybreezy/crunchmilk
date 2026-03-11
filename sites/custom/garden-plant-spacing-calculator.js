@@ -14,7 +14,9 @@
     var spacing = parseFloat(document.getElementById('spacing').value) || 0;
 
     // Calculation logic
-    var spacingFt = spacing / 12; var rows = Math.floor(bedWidth / spacingFt); var plantsPerRow = Math.floor(bedLength / spacingFt); var totalPlants = rows * plantsPerRow; return {rows: fmt(rows,0), plantsPerRow: fmt(plantsPerRow,0), totalPlants: fmt(totalPlants,0)};
+    var spacingFt = spacing / 12; var rows = Math.floor(bedWidth / spacingFt); var plantsPerRow = Math.floor(bedLength / spacingFt); var totalPlants = rows * plantsPerRow;     document.getElementById('rows').textContent = fmt(rows,0);
+    document.getElementById('plantsPerRow').textContent = fmt(plantsPerRow,0);
+    document.getElementById('totalPlants').textContent = fmt(totalPlants,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

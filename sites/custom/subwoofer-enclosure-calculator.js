@@ -14,7 +14,9 @@
     var drivers = parseFloat(document.getElementById('drivers').value) || 0;
 
     // Calculation logic
-    var volumes = {'8': {'Sealed':0.35,'Ported':0.5,'Bandpass':0.7}, '10': {'Sealed':0.6,'Ported':1,'Bandpass':1.4}, '12': {'Sealed':1,'Ported':1.75,'Bandpass':2.5}, '15': {'Sealed':2,'Ported':3.5,'Bandpass':5}, '18': {'Sealed':3.5,'Ported':6,'Bandpass':8}}; var vol = volumes[driverSize][enclosureType] * drivers; var side = Math.pow(vol * 1728, 1/3); var dimensions = fmt(side,0) + ' x ' + fmt(side,0) + ' x ' + fmt(side,0) + ' inches (cube)'; var surfaceArea = 6 * side * side / 144; var woodSheets = Math.ceil(surfaceArea / 32); return {volume: fmt(vol,2), dimensions: dimensions, woodSheets: fmt(woodSheets,0)};
+    var volumes = {'8': {'Sealed':0.35,'Ported':0.5,'Bandpass':0.7}, '10': {'Sealed':0.6,'Ported':1,'Bandpass':1.4}, '12': {'Sealed':1,'Ported':1.75,'Bandpass':2.5}, '15': {'Sealed':2,'Ported':3.5,'Bandpass':5}, '18': {'Sealed':3.5,'Ported':6,'Bandpass':8}}; var vol = volumes[driverSize][enclosureType] * drivers; var side = Math.pow(vol * 1728, 1/3); var dimensions = fmt(side,0) + ' x ' + fmt(side,0) + ' x ' + fmt(side,0) + ' inches (cube)'; var surfaceArea = 6 * side * side / 144; var woodSheets = Math.ceil(surfaceArea / 32);     document.getElementById('volume').textContent = fmt(vol,2);
+    document.getElementById('dimensions').textContent = dimensions;
+    document.getElementById('woodSheets').textContent = fmt(woodSheets,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

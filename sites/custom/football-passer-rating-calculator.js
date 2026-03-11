@@ -16,7 +16,8 @@
     var interceptions = parseFloat(document.getElementById('interceptions').value) || 0;
 
     // Calculation logic
-    var a = Math.min(Math.max(((completions/attempts)-0.3)*5, 0), 2.375); var b = Math.min(Math.max(((yards/attempts)-3)*0.25, 0), 2.375); var c = Math.min(Math.max((touchdowns/attempts)*20, 0), 2.375); var d = Math.min(Math.max(2.375-((interceptions/attempts)*25), 0), 2.375); var rating = ((a+b+c+d)/6)*100; var grade = rating >= 100 ? 'Elite' : rating >= 90 ? 'Excellent' : rating >= 80 ? 'Good' : rating >= 70 ? 'Average' : 'Below Average'; return {rating: fmt(rating,1), grade: grade};
+    var a = Math.min(Math.max(((completions/attempts)-0.3)*5, 0), 2.375); var b = Math.min(Math.max(((yards/attempts)-3)*0.25, 0), 2.375); var c = Math.min(Math.max((touchdowns/attempts)*20, 0), 2.375); var d = Math.min(Math.max(2.375-((interceptions/attempts)*25), 0), 2.375); var rating = ((a+b+c+d)/6)*100; var grade = rating >= 100 ? 'Elite' : rating >= 90 ? 'Excellent' : rating >= 80 ? 'Good' : rating >= 70 ? 'Average' : 'Below Average';     document.getElementById('rating').textContent = fmt(rating,1);
+    document.getElementById('grade').textContent = grade;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

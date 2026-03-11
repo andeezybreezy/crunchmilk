@@ -14,7 +14,12 @@
     var timeline = document.getElementById('timeline').value;
 
     // Calculation logic
-    var baseCost = 80; var adjusted = baseCost * (v.destructionLevel / 100); var housing = adjusted * 0.4; var infra = adjusted * 0.35; var annual = adjusted / parseInt(v.timeline); var perCapita = Math.round(adjusted * 1e9 / (v.populationK * 1e3)); var comp = adjusted > 60 ? 'Comparable to Marshall Plan for a single country' : adjusted > 30 ? 'Similar to Iraq reconstruction scale' : 'Comparable to Lebanon 2006 rebuilding'; return {totalCost: '$' + adjusted.toFixed(0) + ' billion', housingCost: '$' + housing.toFixed(0) + ' billion', infraCost: '$' + infra.toFixed(0) + ' billion', annualSpend: '$' + annual.toFixed(1) + ' billion/year', perCapitaCost: '$' + perCapita.toLocaleString() + '/person', historicalComp: comp};
+    var baseCost = 80; var adjusted = baseCost * (v.destructionLevel / 100); var housing = adjusted * 0.4; var infra = adjusted * 0.35; var annual = adjusted / parseInt(v.timeline); var perCapita = Math.round(adjusted * 1e9 / (v.populationK * 1e3)); var comp = adjusted > 60 ? 'Comparable to Marshall Plan for a single country' : adjusted > 30 ? 'Similar to Iraq reconstruction scale' : 'Comparable to Lebanon 2006 rebuilding';     document.getElementById('totalCost').textContent = '$' + adjusted.toFixed(0) + ' billion';
+    document.getElementById('housingCost').textContent = '$' + housing.toFixed(0) + ' billion';
+    document.getElementById('infraCost').textContent = '$' + infra.toFixed(0) + ' billion';
+    document.getElementById('annualSpend').textContent = '$' + annual.toFixed(1) + ' billion/year';
+    document.getElementById('perCapitaCost').textContent = '$' + perCapita.toLocaleString() + '/person';
+    document.getElementById('historicalComp').textContent = comp;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

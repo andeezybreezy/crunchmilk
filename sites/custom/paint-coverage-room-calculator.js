@@ -17,7 +17,9 @@
     var coats = parseFloat(document.getElementById('coats').value) || 0;
 
     // Calculation logic
-    var wallArea = 2 * (length + width) * height; wallArea -= doors * 21; wallArea -= windows * 15; var coverage = 350; var gallons = Math.ceil((wallArea * coats) / coverage); var cost = gallons * 40; return {wallArea: fmt(wallArea,0), gallons: fmt(gallons,0), cost: dollar(cost)};
+    var wallArea = 2 * (length + width) * height; wallArea -= doors * 21; wallArea -= windows * 15; var coverage = 350; var gallons = Math.ceil((wallArea * coats) / coverage); var cost = gallons * 40;     document.getElementById('wallArea').textContent = fmt(wallArea,0);
+    document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

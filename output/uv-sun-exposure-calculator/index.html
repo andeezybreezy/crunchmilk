@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="uvIndex">UV Index</label>
-      <input type="number" id="uvIndex" value="undefined" min="1" max="12" step="1" inputmode="decimal">
+      <input type="number" id="uvIndex" value="" min="1" max="12" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="skinType">Skin Type</label>
-      <select id="skinType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="skinType"><option value="Type I (very fair)" selected>Type I (very fair)</option><option value="Type II (fair)">Type II (fair)</option><option value="Type III (medium)">Type III (medium)</option><option value="Type IV (olive)">Type IV (olive)</option><option value="Type V (brown)">Type V (brown)</option><option value="Type VI (dark)">Type VI (dark)</option><option value="skinType">skinType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="spf">SPF Applied</label>
-      <input type="number" id="spf" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="spf" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This uv exposure time calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Safe Time</strong> — Minutes = Base Burn Time / UV Index × SPF × 0.6 — <em>Skin-type burn time adjusted for UV level and sunscreen.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What UV index is dangerous?</h3>
+      <p>6-7 is high, 8-10 is very high, 11+ is extreme. Seek shade at 8+.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does SPF stack?</h3>
+      <p>No, SPF 30 blocks 97% of UV. SPF 50 blocks 98%. Reapply every 2 hours.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var spf = parseFloat(document.getElementById('spf').value) || 0;
 
     // Calculation logic
-    var burnTimes = {'Type I (very fair)': 67, 'Type II (fair)': 100, 'Type III (medium)': 200, 'Type IV (olive)': 300, 'Type V (brown)': 400, 'Type VI (dark)': 500}; var base = burnTimes[skinType] || 100; var unprotected = base / uvIndex; var withSpf = spf > 0 ? unprotected * spf * 0.6 : unprotected; return {unprotected: fmt(unprotected,0), withSpf: fmt(Math.min(withSpf, 480),0)};
+    var burnTimes = {'Type I (very fair)': 67, 'Type II (fair)': 100, 'Type III (medium)': 200, 'Type IV (olive)': 300, 'Type V (brown)': 400, 'Type VI (dark)': 500}; var base = burnTimes[skinType] || 100; var unprotected = base / uvIndex; var withSpf = spf > 0 ? unprotected * spf * 0.6 : unprotected;     document.getElementById('unprotected').textContent = fmt(unprotected,0);
+    document.getElementById('withSpf').textContent = fmt(Math.min(withSpf, 480),0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

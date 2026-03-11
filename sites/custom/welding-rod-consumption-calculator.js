@@ -14,7 +14,8 @@
     var passes = parseFloat(document.getElementById('passes').value) || 0;
 
     // Calculation logic
-    var deposition = rodLength * 0.6; var rodsNeeded = Math.ceil((jointLength * passes) / deposition); var totalWeight = rodsNeeded * 0.12; return {rodsNeeded: fmt(rodsNeeded,0), totalWeight: fmt(totalWeight,1)};
+    var deposition = rodLength * 0.6; var rodsNeeded = Math.ceil((jointLength * passes) / deposition); var totalWeight = rodsNeeded * 0.12;     document.getElementById('rodsNeeded').textContent = fmt(rodsNeeded,0);
+    document.getElementById('totalWeight').textContent = fmt(totalWeight,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

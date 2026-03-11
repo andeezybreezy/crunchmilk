@@ -433,7 +433,11 @@ footer a:hover{color:#fff}
     var priceChangeB = parseFloat(document.getElementById('priceChangeB').value) || 0;
 
     // Calculation logic
-    var rA=1+priceChangeA/100; var rB=1+priceChangeB/100; var holdValue=initialInvestment*(rA+rB)/2; var lpValue=initialInvestment*Math.sqrt(rA*rB); var impLoss=lpValue-holdValue; var impLossPct=(impLoss/holdValue)*100; var breakEvenAPR=Math.abs(impLossPct)*1; return {lpValue:dollar(lpValue), holdValue:dollar(holdValue), impLoss:dollar(impLoss), impLossPct:fmt(impLossPct,2)+'%', breakEvenAPR:fmt(breakEvenAPR,1)+'% APR to offset'};
+    var rA=1+priceChangeA/100; var rB=1+priceChangeB/100; var holdValue=initialInvestment*(rA+rB)/2; var lpValue=initialInvestment*Math.sqrt(rA*rB); var impLoss=lpValue-holdValue; var impLossPct=(impLoss/holdValue)*100; var breakEvenAPR=Math.abs(impLossPct)*1;     document.getElementById('lpValue').textContent = dollar(lpValue);
+    document.getElementById('holdValue').textContent = dollar(holdValue);
+    document.getElementById('impLoss').textContent = dollar(impLoss);
+    document.getElementById('impLossPct').textContent = fmt(impLossPct,2)+'%';
+    document.getElementById('breakEvenAPR').textContent = fmt(breakEvenAPR,1)+'% APR to offset';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

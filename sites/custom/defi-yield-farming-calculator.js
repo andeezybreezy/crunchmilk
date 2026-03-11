@@ -16,7 +16,11 @@
     var gasFees = parseFloat(document.getElementById('gasFees').value) || 0;
 
     // Calculation logic
-    var months = duration; var poolRate = poolApy / 100; var rewardRate = rewardToken / 100; var poolEarnings = deposit * (Math.pow(1 + poolRate / 12, months) - 1); var rewardEarnings = deposit * (rewardRate / 12) * months; var totalGas = gasFees * months; var netProfit = poolEarnings + rewardEarnings - totalGas; var effectiveApy = (netProfit / deposit) * (12 / months) * 100; return {poolEarnings: dollar(poolEarnings), rewardEarnings: dollar(rewardEarnings), totalGas: dollar(totalGas), netProfit: dollar(netProfit), effectiveApy: fmt(effectiveApy, 1)};
+    var months = duration; var poolRate = poolApy / 100; var rewardRate = rewardToken / 100; var poolEarnings = deposit * (Math.pow(1 + poolRate / 12, months) - 1); var rewardEarnings = deposit * (rewardRate / 12) * months; var totalGas = gasFees * months; var netProfit = poolEarnings + rewardEarnings - totalGas; var effectiveApy = (netProfit / deposit) * (12 / months) * 100;     document.getElementById('poolEarnings').textContent = dollar(poolEarnings);
+    document.getElementById('rewardEarnings').textContent = dollar(rewardEarnings);
+    document.getElementById('totalGas').textContent = dollar(totalGas);
+    document.getElementById('netProfit').textContent = dollar(netProfit);
+    document.getElementById('effectiveApy').textContent = fmt(effectiveApy, 1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

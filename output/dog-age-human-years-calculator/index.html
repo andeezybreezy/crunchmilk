@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="dogAge">Dog's Age (years)</label>
-      <input type="number" id="dogAge" value="undefined" min="0.25" max="20" step="0.25" inputmode="decimal">
+      <input type="number" id="dogAge" value="" min="0.25" max="20" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="size">Dog Size</label>
-      <select id="size"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="size"><option value="Small (under 20 lbs)" selected>Small (under 20 lbs)</option><option value="Medium (20-50 lbs)">Medium (20-50 lbs)</option><option value="Large (50-90 lbs)">Large (50-90 lbs)</option><option value="Giant (90+ lbs)">Giant (90+ lbs)</option><option value="size">size</option></select>
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This dog age calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Dog to Human Years</strong> — Year 1 = 15, Year 2 = 9, then 4-7/year by size — <em>Non-linear conversion that varies by dog size.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is it really 7 dog years per human year?</h3>
+      <p>No, the first year equals 15 human years, the second 9, then 4-7 per year based on size.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do small dogs age slower?</h3>
+      <p>Yes, small dogs live longer and age more slowly after year 2 than large breeds.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var size = document.getElementById('size').value;
 
     // Calculation logic
-    var firstYear = 15; var secondYear = 9; var laterYears = {'Small (under 20 lbs)': 4, 'Medium (20-50 lbs)': 5, 'Large (50-90 lbs)': 6, 'Giant (90+ lbs)': 7}; var yearRate = laterYears[size] || 5; var humanAge = dogAge <= 1 ? dogAge * firstYear : dogAge <= 2 ? firstYear + (dogAge-1) * secondYear : firstYear + secondYear + (dogAge-2) * yearRate; var lifeStage = humanAge < 15 ? 'Puppy' : humanAge < 30 ? 'Young Adult' : humanAge < 55 ? 'Adult' : humanAge < 75 ? 'Senior' : 'Geriatric'; return {humanAge: fmt(humanAge,0), lifeStage: lifeStage};
+    var firstYear = 15; var secondYear = 9; var laterYears = {'Small (under 20 lbs)': 4, 'Medium (20-50 lbs)': 5, 'Large (50-90 lbs)': 6, 'Giant (90+ lbs)': 7}; var yearRate = laterYears[size] || 5; var humanAge = dogAge <= 1 ? dogAge * firstYear : dogAge <= 2 ? firstYear + (dogAge-1) * secondYear : firstYear + secondYear + (dogAge-2) * yearRate; var lifeStage = humanAge < 15 ? 'Puppy' : humanAge < 30 ? 'Young Adult' : humanAge < 55 ? 'Adult' : humanAge < 75 ? 'Senior' : 'Geriatric';     document.getElementById('humanAge').textContent = fmt(humanAge,0);
+    document.getElementById('lifeStage').textContent = lifeStage;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

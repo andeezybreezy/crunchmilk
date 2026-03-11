@@ -13,7 +13,10 @@
     var reps = parseFloat(document.getElementById('reps').value) || 0;
 
     // Calculation logic
-    var oneRM = Math.round(weight * (1 + reps/30)); var pct90 = Math.round(oneRM * 0.9); var pct80 = Math.round(oneRM * 0.8); var pct70 = Math.round(oneRM * 0.7); return {oneRM: fmt(oneRM,0), pct90: fmt(pct90,0), pct80: fmt(pct80,0), pct70: fmt(pct70,0)};
+    var oneRM = Math.round(weight * (1 + reps/30)); var pct90 = Math.round(oneRM * 0.9); var pct80 = Math.round(oneRM * 0.8); var pct70 = Math.round(oneRM * 0.7);     document.getElementById('oneRM').textContent = fmt(oneRM,0);
+    document.getElementById('pct90').textContent = fmt(pct90,0);
+    document.getElementById('pct80').textContent = fmt(pct80,0);
+    document.getElementById('pct70').textContent = fmt(pct70,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

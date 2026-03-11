@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="18" max="90" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="18" max="90" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="activity">Current Activity Level</label>
-      <select id="activity"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="activity"><option value="activity" selected>activity</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="goal">Health Goal</label>
-      <select id="goal"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="goal"><option value="General Health" selected>General Health</option><option value="Weight Loss">Weight Loss</option><option value="Heart Health">Heart Health</option><option value="Longevity">Longevity</option><option value="goal">goal</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This daily step goal calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Step Target</strong> — Steps = Base Goal + Age Adjustment — <em>Health-goal-based target adjusted for age.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Health metrics are general guidelines. Consult your healthcare provider for personalized medical advice.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is 10,000 steps really necessary?</h3>
+      <p>Research shows significant health benefits at 7,000-8,000 steps, with diminishing returns after.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How far is 10,000 steps?</h3>
+      <p>About 4.5-5 miles depending on stride length.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var goal = document.getElementById('goal').value;
 
     // Calculation logic
-    var targets = {'General Health': 8000, 'Weight Loss': 10000, 'Heart Health': 9000, 'Longevity': 7500}; var base = targets[goal] || 8000; var ageMod = age > 65 ? -1500 : age > 50 ? -500 : 0; var targetSteps = base + ageMod; var miles = targetSteps / 2100; var calories = targetSteps * 0.04; return {targetSteps: fmt(targetSteps,0), miles: fmt(miles,1), calories: fmt(calories,0)};
+    var targets = {'General Health': 8000, 'Weight Loss': 10000, 'Heart Health': 9000, 'Longevity': 7500}; var base = targets[goal] || 8000; var ageMod = age > 65 ? -1500 : age > 50 ? -500 : 0; var targetSteps = base + ageMod; var miles = targetSteps / 2100; var calories = targetSteps * 0.04;     document.getElementById('targetSteps').textContent = fmt(targetSteps,0);
+    document.getElementById('miles').textContent = fmt(miles,1);
+    document.getElementById('calories').textContent = fmt(calories,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

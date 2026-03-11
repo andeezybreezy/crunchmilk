@@ -15,7 +15,9 @@
     var age = parseFloat(document.getElementById('age').value) || 0;
 
     // Calculation logic
-    var riskScore = 0; riskScore += totalHours > 8 ? 3 : totalHours > 5 ? 2 : totalHours > 3 ? 1 : 0; riskScore += socialMedia > 3 ? 3 : socialMedia > 2 ? 2 : socialMedia > 1 ? 1 : 0; riskScore += beforeBed > 60 ? 2 : beforeBed > 30 ? 1 : 0; var riskLevel = riskScore >= 6 ? 'High' : riskScore >= 3 ? 'Moderate' : 'Low'; var sleepImpact = beforeBed > 60 ? 'Significant - blue light delays melatonin by 30+ min' : beforeBed > 30 ? 'Moderate - consider blue light filter' : 'Minimal'; var recommendation = riskScore >= 6 ? 'Reduce social media by 1 hr, no screens 1 hr before bed' : riskScore >= 3 ? 'Set screen time limits, use night mode after sunset' : 'Healthy screen habits - maintain current patterns'; return {riskLevel: riskLevel, sleepImpact: sleepImpact, recommendation: recommendation};
+    var riskScore = 0; riskScore += totalHours > 8 ? 3 : totalHours > 5 ? 2 : totalHours > 3 ? 1 : 0; riskScore += socialMedia > 3 ? 3 : socialMedia > 2 ? 2 : socialMedia > 1 ? 1 : 0; riskScore += beforeBed > 60 ? 2 : beforeBed > 30 ? 1 : 0; var riskLevel = riskScore >= 6 ? 'High' : riskScore >= 3 ? 'Moderate' : 'Low'; var sleepImpact = beforeBed > 60 ? 'Significant - blue light delays melatonin by 30+ min' : beforeBed > 30 ? 'Moderate - consider blue light filter' : 'Minimal'; var recommendation = riskScore >= 6 ? 'Reduce social media by 1 hr, no screens 1 hr before bed' : riskScore >= 3 ? 'Set screen time limits, use night mode after sunset' : 'Healthy screen habits - maintain current patterns';     document.getElementById('riskLevel').textContent = riskLevel;
+    document.getElementById('sleepImpact').textContent = sleepImpact;
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

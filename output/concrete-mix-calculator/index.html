@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="cubicFeet">Concrete Needed (cu ft)</label>
-      <input type="number" id="cubicFeet" value="undefined" min="1" max="1000" step="1" inputmode="decimal">
+      <input type="number" id="cubicFeet" value="" min="1" max="1000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mixRatio">Mix Ratio</label>
-      <select id="mixRatio"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="mixRatio"><option value="1:2:3 (standard)" selected>1:2:3 (standard)</option><option value="1:1.5:3 (strong)">1:1.5:3 (strong)</option><option value="1:3:6 (lean)">1:3:6 (lean)</option><option value="mixRatio">mixRatio</option></select>
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This concrete mix calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Material Volumes</strong> — Each = Total × Ratio Part / Sum × 1.54 bulking factor — <em>Divide total by ratio parts with bulking factor for dry materials.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the standard concrete mix ratio?</h3>
+      <p>1:2:3 (cement:sand:gravel) by volume for general purpose concrete.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When to use stronger mix?</h3>
+      <p>1:1.5:3 for structural elements, foundations, and load-bearing applications.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var mixRatio = document.getElementById('mixRatio').value;
 
     // Calculation logic
-    var ratios = {'1:2:3 (standard)': [1,2,3], '1:1.5:3 (strong)': [1,1.5,3], '1:3:6 (lean)': [1,3,6]}; var r = ratios[mixRatio] || [1,2,3]; var total = r[0]+r[1]+r[2]; var cementCuFt = cubicFeet * r[0] / total * 1.54; var cement = Math.ceil(cementCuFt / 1); var sand = cubicFeet * r[1] / total * 1.54; var gravel = cubicFeet * r[2] / total * 1.54; return {cement: fmt(cement,0), sand: fmt(sand,0), gravel: fmt(gravel,0)};
+    var ratios = {'1:2:3 (standard)': [1,2,3], '1:1.5:3 (strong)': [1,1.5,3], '1:3:6 (lean)': [1,3,6]}; var r = ratios[mixRatio] || [1,2,3]; var total = r[0]+r[1]+r[2]; var cementCuFt = cubicFeet * r[0] / total * 1.54; var cement = Math.ceil(cementCuFt / 1); var sand = cubicFeet * r[1] / total * 1.54; var gravel = cubicFeet * r[2] / total * 1.54;     document.getElementById('cement').textContent = fmt(cement,0);
+    document.getElementById('sand').textContent = fmt(sand,0);
+    document.getElementById('gravel').textContent = fmt(gravel,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -415,7 +415,11 @@ footer a:hover{color:#fff}
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var annual = v.annualDefense * (v.contractorShare / 100); var total = annual * v.years; var perDay = annual * 1e9 / 365; var perHour = perDay / 24; return {annualRevenue: '$' + annual.toFixed(1) + ' billion/year', totalRevenue: '$' + total.toFixed(0) + ' billion', perDay: '$' + Math.round(perDay / 1e6) + ' million/day', perHour: '$' + Math.round(perHour / 1e6) + ' million/hour', topContractors: 'Lockheed Martin, Boeing, Raytheon, General Dynamics, Northrop Grumman'};
+    var annual = v.annualDefense * (v.contractorShare / 100); var total = annual * v.years; var perDay = annual * 1e9 / 365; var perHour = perDay / 24;     document.getElementById('annualRevenue').textContent = '$' + annual.toFixed(1) + ' billion/year';
+    document.getElementById('totalRevenue').textContent = '$' + total.toFixed(0) + ' billion';
+    document.getElementById('perDay').textContent = '$' + Math.round(perDay / 1e6) + ' million/day';
+    document.getElementById('perHour').textContent = '$' + Math.round(perHour / 1e6) + ' million/hour';
+    document.getElementById('topContractors').textContent = 'Lockheed Martin, Boeing, Raytheon, General Dynamics, Northrop Grumman';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

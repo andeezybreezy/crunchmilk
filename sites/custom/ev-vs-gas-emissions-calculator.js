@@ -15,7 +15,9 @@
     var gridCarbon = parseFloat(document.getElementById('gridCarbon').value) || 0;
 
     // Calculation logic
-    var gasTons = (annualMiles / gasMpg) * 8.887 / 2000; var evKwh = annualMiles * evEfficiency; var evTons = (evKwh * gridCarbon) / 1000000; var savings = gasTons - evTons; return {gasTons: fmt(gasTons,1), evTons: fmt(evTons,1), savings: fmt(savings,1)};
+    var gasTons = (annualMiles / gasMpg) * 8.887 / 2000; var evKwh = annualMiles * evEfficiency; var evTons = (evKwh * gridCarbon) / 1000000; var savings = gasTons - evTons;     document.getElementById('gasTons').textContent = fmt(gasTons,1);
+    document.getElementById('evTons').textContent = fmt(evTons,1);
+    document.getElementById('savings').textContent = fmt(savings,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

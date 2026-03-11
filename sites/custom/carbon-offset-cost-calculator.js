@@ -14,7 +14,9 @@
     var homeKwh = parseFloat(document.getElementById('homeKwh').value) || 0;
 
     // Calculation logic
-    var drivingTons = annualMiles * 0.000404; var flightTons = flights * 1.6; var electricTons = homeKwh * 12 * 0.000417; var totalTons = drivingTons + flightTons + electricTons; var offsetCost = totalTons * 15; var premiumCost = totalTons * 30; return {totalTons: fmt(totalTons,1), offsetCost: dollar(offsetCost), premiumCost: dollar(premiumCost)};
+    var drivingTons = annualMiles * 0.000404; var flightTons = flights * 1.6; var electricTons = homeKwh * 12 * 0.000417; var totalTons = drivingTons + flightTons + electricTons; var offsetCost = totalTons * 15; var premiumCost = totalTons * 30;     document.getElementById('totalTons').textContent = fmt(totalTons,1);
+    document.getElementById('offsetCost').textContent = dollar(offsetCost);
+    document.getElementById('premiumCost').textContent = dollar(premiumCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,9 @@
     var layers = document.getElementById('layers').value;
 
     // Calculation logic
-    var pitchFactors = {'4/12 (low)': 1.054, '6/12 (moderate)': 1.118, '8/12 (steep)': 1.202, '10/12 (steep)': 1.302, '12/12 (45°)': 1.414}; var factor = pitchFactors[pitch] || 1.118; var actualArea = length * width * factor; var squares = actualArea / 100 * 1.1; var bundles = Math.ceil(squares * 3); var underlayment = Math.ceil(actualArea / 400); return {squares: fmt(squares,1), bundles: fmt(bundles,0), underlayment: fmt(underlayment,0)};
+    var pitchFactors = {'4/12 (low)': 1.054, '6/12 (moderate)': 1.118, '8/12 (steep)': 1.202, '10/12 (steep)': 1.302, '12/12 (45°)': 1.414}; var factor = pitchFactors[pitch] || 1.118; var actualArea = length * width * factor; var squares = actualArea / 100 * 1.1; var bundles = Math.ceil(squares * 3); var underlayment = Math.ceil(actualArea / 400);     document.getElementById('squares').textContent = fmt(squares,1);
+    document.getElementById('bundles').textContent = fmt(bundles,0);
+    document.getElementById('underlayment').textContent = fmt(underlayment,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

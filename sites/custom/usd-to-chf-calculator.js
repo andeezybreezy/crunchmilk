@@ -12,7 +12,8 @@
     var usd = parseFloat(document.getElementById('usd').value) || 0;
 
     // Calculation logic
-    var rate=0.88; var chf=usd*rate; return {chf:fmt(chf,2)+' CHF', rate:'1 USD = '+fmt(rate,4)+' CHF'};
+    var rate=0.88; var chf=usd*rate;     document.getElementById('chf').textContent = fmt(chf,2)+' CHF';
+    document.getElementById('rate').textContent = '1 USD = '+fmt(rate,4)+' CHF';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

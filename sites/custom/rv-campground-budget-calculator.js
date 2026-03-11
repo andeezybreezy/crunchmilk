@@ -15,7 +15,8 @@
     var freeNights = parseFloat(document.getElementById('freeNights').value) || 0;
 
     // Calculation logic
-    var privateCost = privateNights * 55; var publicCost = publicNights * 30; var totalCost = privateCost + publicCost; var avgPerNight = nights > 0 ? totalCost / nights : 0; return {totalCost: dollar(totalCost), avgPerNight: dollar(avgPerNight)};
+    var privateCost = privateNights * 55; var publicCost = publicNights * 30; var totalCost = privateCost + publicCost; var avgPerNight = nights > 0 ? totalCost / nights : 0;     document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('avgPerNight').textContent = dollar(avgPerNight);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

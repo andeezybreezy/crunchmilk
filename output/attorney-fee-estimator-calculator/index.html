@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="caseType">Case Type</label>
-      <select id="caseType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="caseType"><option value="Simple Contract" selected>Simple Contract</option><option value="Personal Injury">Personal Injury</option><option value="Divorce">Divorce</option><option value="Criminal Defense">Criminal Defense</option><option value="Business Litigation">Business Litigation</option><option value="Estate Planning">Estate Planning</option><option value="caseType">caseType</option><option value="Contingency (33%)">Contingency (33%)</option><option value="Contingency fee - no upfront cost">Contingency fee - no upfront cost</option><option value="None">None</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="complexity">Complexity</label>
-      <select id="complexity"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="complexity"><option value="Simple" selected>Simple</option><option value="Moderate">Moderate</option><option value="Complex">Complex</option><option value="complexity">complexity</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="region">Region</label>
-      <select id="region"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="region"><option value="Rural" selected>Rural</option><option value="Suburban">Suburban</option><option value="Urban">Urban</option><option value="Major Metro">Major Metro</option><option value="region">region</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This attorney fee calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Estimate</strong> — Total = Hourly Rate × Hours × Complexity × Region — <em>Base rate adjusted for complexity and geographic market.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Laws vary by jurisdiction and change frequently. This is not legal advice — consult a licensed attorney.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much do lawyers cost?</h3>
+      <p>Rates range from $150/hr in rural areas to $500+/hr in major metros.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a retainer?</h3>
+      <p>An upfront deposit against which the attorney bills their hourly rate.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var region = document.getElementById('region').value;
 
     // Calculation logic
-    var baseRates = {'Simple Contract': 250, 'Personal Injury': 0, 'Divorce': 300, 'Criminal Defense': 350, 'Business Litigation': 400, 'Estate Planning': 275}; var hours = {'Simple Contract': 10, 'Personal Injury': 0, 'Divorce': 20, 'Criminal Defense': 30, 'Business Litigation': 50, 'Estate Planning': 8}; var complexMult = {'Simple': 0.8, 'Moderate': 1, 'Complex': 1.8}; var regionMult = {'Rural': 0.7, 'Suburban': 0.9, 'Urban': 1.1, 'Major Metro': 1.4}; var rate = baseRates[caseType] * (regionMult[region] || 1); var totalHours = hours[caseType] * (complexMult[complexity] || 1); var totalEstimate = caseType === 'Personal Injury' ? 0 : rate * totalHours; var retainer = Math.min(totalEstimate * 0.3, 10000); var hourlyRate = rate; if (caseType === 'Personal Injury') { hourlyRate = 0; totalEstimate = 0; retainer = 0; } return {hourlyRate: caseType === 'Personal Injury' ? 'Contingency (33%)' : dollar(hourlyRate), totalEstimate: caseType === 'Personal Injury' ? 'Contingency fee - no upfront cost' : dollar(totalEstimate), retainer: caseType === 'Personal Injury' ? 'None' : dollar(retainer)};
+    var baseRates = {'Simple Contract': 250, 'Personal Injury': 0, 'Divorce': 300, 'Criminal Defense': 350, 'Business Litigation': 400, 'Estate Planning': 275}; var hours = {'Simple Contract': 10, 'Personal Injury': 0, 'Divorce': 20, 'Criminal Defense': 30, 'Business Litigation': 50, 'Estate Planning': 8}; var complexMult = {'Simple': 0.8, 'Moderate': 1, 'Complex': 1.8}; var regionMult = {'Rural': 0.7, 'Suburban': 0.9, 'Urban': 1.1, 'Major Metro': 1.4}; var rate = baseRates[caseType] * (regionMult[region] || 1); var totalHours = hours[caseType] * (complexMult[complexity] || 1); var totalEstimate = caseType === 'Personal Injury' ? 0 : rate * totalHours; var retainer = Math.min(totalEstimate * 0.3, 10000); var hourlyRate = rate; if (caseType === 'Personal Injury') { hourlyRate = 0; totalEstimate = 0; retainer = 0; }     document.getElementById('hourlyRate').textContent = caseType === 'Personal Injury' ? 'Contingency (33%)' : dollar(hourlyRate);
+    document.getElementById('totalEstimate').textContent = caseType === 'Personal Injury' ? 'Contingency fee - no upfront cost' : dollar(totalEstimate);
+    document.getElementById('retainer').textContent = caseType === 'Personal Injury' ? 'None' : dollar(retainer);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

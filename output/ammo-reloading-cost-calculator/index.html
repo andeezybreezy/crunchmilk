@@ -300,36 +300,36 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="primerCost">Primer Cost per 100</label>
-      <input type="number" id="primerCost" value="undefined" min="1" max="30" step="0.5" inputmode="decimal">
+      <input type="number" id="primerCost" value="" min="1" max="30" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="powderCost">Powder Cost per lb ($)</label>
-      <input type="number" id="powderCost" value="undefined" min="10" max="80" step="1" inputmode="decimal">
+      <input type="number" id="powderCost" value="" min="10" max="80" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="grainCharge">Powder Charge (grains)</label>
-      <input type="number" id="grainCharge" value="undefined" min="3" max="100" step="1" inputmode="decimal">
+      <input type="number" id="grainCharge" value="" min="3" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bulletCost">Bullet Cost per 100</label>
-      <input type="number" id="bulletCost" value="undefined" min="5" max="200" step="1" inputmode="decimal">
+      <input type="number" id="bulletCost" value="" min="5" max="200" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="brassCost">Brass per 100 (first load)</label>
-      <input type="number" id="brassCost" value="undefined" min="0" max="200" step="5" inputmode="decimal">
+      <input type="number" id="brassCost" value="" min="0" max="200" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="reloads">Brass Reloads Before Discard</label>
-      <input type="number" id="reloads" value="undefined" min="1" max="15" step="1" inputmode="decimal">
+      <input type="number" id="reloads" value="" min="1" max="15" step="1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="factoryCost">Factory Ammo per Round ($)</label>
-      <input type="number" id="factoryCost" value="undefined" min="0.1" max="5" step="0.05" inputmode="decimal">
+      <input type="number" id="factoryCost" value="" min="0.1" max="5" step="0.05" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -368,7 +368,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This reloading cost per round calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Cost per Round</strong> — CPR = Primer + Powder + Bullet + Brass/Reloads — <em>Sum of all component costs per round.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -381,13 +381,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much do you save reloading?</h3>
+      <p>Typically 30-60% savings depending on caliber and component sourcing.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is reloading worth starting?</h3>
+      <p>If you shoot 500+ rounds/year, equipment costs pay for themselves in 1-2 years.</p>
     </div>
 
   </div>
@@ -437,7 +437,9 @@ footer a:hover{color:#fff}
     var factoryCost = parseFloat(document.getElementById('factoryCost').value) || 0;
 
     // Calculation logic
-    var primer = primerCost / 100; var powder = (grainCharge / 7000) * powderCost; var bullet = bulletCost / 100; var brass = (brassCost / 100) / reloads; var costPerRound = primer + powder + bullet + brass; var savings = factoryCost - costPerRound; var savingsPer100 = savings * 100; return {costPerRound: fmt(costPerRound * 100, 1), savings: fmt(savings * 100, 1), savingsPer100: dollar(savingsPer100)};
+    var primer = primerCost / 100; var powder = (grainCharge / 7000) * powderCost; var bullet = bulletCost / 100; var brass = (brassCost / 100) / reloads; var costPerRound = primer + powder + bullet + brass; var savings = factoryCost - costPerRound; var savingsPer100 = savings * 100;     document.getElementById('costPerRound').textContent = fmt(costPerRound * 100, 1);
+    document.getElementById('savings').textContent = fmt(savings * 100, 1);
+    document.getElementById('savingsPer100').textContent = dollar(savingsPer100);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

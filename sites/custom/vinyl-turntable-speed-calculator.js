@@ -13,7 +13,9 @@
     var measuredRpm = parseFloat(document.getElementById('measuredRpm').value) || 0;
 
     // Calculation logic
-    var target = parseFloat(targetRpm); var error = ((measuredRpm - target) / target) * 100; var pitchShift = error * 17.31; var status = Math.abs(error) < 0.5 ? 'Accurate' : Math.abs(error) < 1 ? 'Slightly off' : 'Needs adjustment'; return {error: (error >= 0 ? '+' : '') + fmt(error,2), pitchShift: (pitchShift >= 0 ? '+' : '') + fmt(pitchShift,1), status: status};
+    var target = parseFloat(targetRpm); var error = ((measuredRpm - target) / target) * 100; var pitchShift = error * 17.31; var status = Math.abs(error) < 0.5 ? 'Accurate' : Math.abs(error) < 1 ? 'Slightly off' : 'Needs adjustment';     document.getElementById('error').textContent = (error >= 0 ? '+' : '') + fmt(error,2);
+    document.getElementById('pitchShift').textContent = (pitchShift >= 0 ? '+' : '') + fmt(pitchShift,1);
+    document.getElementById('status').textContent = status;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Quilt Length (inches)</label>
-      <input type="number" id="length" value="undefined" min="10" max="200" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="10" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Quilt Width (inches)</label>
-      <input type="number" id="width" value="undefined" min="10" max="200" step="1" inputmode="decimal">
+      <input type="number" id="width" value="" min="10" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bindingWidth">Binding Strip Width (inches)</label>
-      <input type="number" id="bindingWidth" value="undefined" min="1.5" max="4" step="0.25" inputmode="decimal">
+      <input type="number" id="bindingWidth" value="" min="1.5" max="4" step="0.25" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This quilt binding calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Binding Length</strong> — Length = 2(L + W) + 12 inches — <em>Perimeter plus extra for corners and joins.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How wide should binding be?</h3>
+      <p>2.5 inches is standard for double-fold binding, giving a 3/8 inch finished edge.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much extra should I add?</h3>
+      <p>Add 10-12 inches to the perimeter for joining strips and turning corners.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var bindingWidth = parseFloat(document.getElementById('bindingWidth').value) || 0;
 
     // Calculation logic
-    var perimeter = 2 * (length + width) + 12; var strips = Math.ceil(perimeter / 42); var fabricInches = strips * bindingWidth; var yardage = fabricInches / 36; return {perimeter: fmt(perimeter,0), strips: fmt(strips,0), yardage: fmt(yardage,2)};
+    var perimeter = 2 * (length + width) + 12; var strips = Math.ceil(perimeter / 42); var fabricInches = strips * bindingWidth; var yardage = fabricInches / 36;     document.getElementById('perimeter').textContent = fmt(perimeter,0);
+    document.getElementById('strips').textContent = fmt(strips,0);
+    document.getElementById('yardage').textContent = fmt(yardage,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

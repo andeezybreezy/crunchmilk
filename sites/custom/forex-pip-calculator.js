@@ -14,7 +14,10 @@
     var price = parseFloat(document.getElementById('price').value) || 0;
 
     // Calculation logic
-    var unitSize=lots*100000; var isJpy=pair.indexOf('JPY')!==-1; var pipSize=isJpy?0.01:0.0001; var pipVal; if(pair.indexOf('USD')===4){pipVal=pipSize*unitSize;}else{pipVal=(pipSize/price)*unitSize;} var microPip=pipVal/100; var miniPip=pipVal/10; return {pipVal:dollar(pipVal), microPip:dollar(microPip), miniPip:dollar(miniPip), tenPips:dollar(pipVal*10)};
+    var unitSize=lots*100000; var isJpy=pair.indexOf('JPY')!==-1; var pipSize=isJpy?0.01:0.0001; var pipVal; if(pair.indexOf('USD')===4){pipVal=pipSize*unitSize;}else{pipVal=(pipSize/price)*unitSize;} var microPip=pipVal/100; var miniPip=pipVal/10;     document.getElementById('pipVal').textContent = dollar(pipVal);
+    document.getElementById('microPip').textContent = dollar(microPip);
+    document.getElementById('miniPip').textContent = dollar(miniPip);
+    document.getElementById('tenPips').textContent = dollar(pipVal*10);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

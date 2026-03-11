@@ -14,7 +14,8 @@
     var pressure = parseFloat(document.getElementById('pressure').value) || 0;
 
     // Calculation logic
-    var boreArea = Math.PI * Math.pow(bore/2, 2); var rodArea = Math.PI * Math.pow(rodDia/2, 2); var pushForce = boreArea * pressure; var pullForce = (boreArea - rodArea) * pressure; return {pushForce: fmt(pushForce,0), pullForce: fmt(pullForce,0)};
+    var boreArea = Math.PI * Math.pow(bore/2, 2); var rodArea = Math.PI * Math.pow(rodDia/2, 2); var pushForce = boreArea * pressure; var pullForce = (boreArea - rodArea) * pressure;     document.getElementById('pushForce').textContent = fmt(pushForce,0);
+    document.getElementById('pullForce').textContent = fmt(pullForce,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="score1">Score 1</label>
-      <input type="number" id="score1" value="undefined" min="60" max="150" step="1" inputmode="decimal">
+      <input type="number" id="score1" value="" min="60" max="150" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="score2">Score 2</label>
-      <input type="number" id="score2" value="undefined" min="60" max="150" step="1" inputmode="decimal">
+      <input type="number" id="score2" value="" min="60" max="150" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="score3">Score 3</label>
-      <input type="number" id="score3" value="undefined" min="60" max="150" step="1" inputmode="decimal">
+      <input type="number" id="score3" value="" min="60" max="150" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="courseRating">Course Rating</label>
-      <input type="number" id="courseRating" value="undefined" min="60" max="80" step="0.1" inputmode="decimal">
+      <input type="number" id="courseRating" value="" min="60" max="80" step="0.1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="slopeRating">Slope Rating</label>
-      <input type="number" id="slopeRating" value="undefined" min="55" max="155" step="1" inputmode="decimal">
+      <input type="number" id="slopeRating" value="" min="55" max="155" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This golf handicap calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Differential</strong> — Diff = (Score - Course Rating) × 113 / Slope Rating — <em>Adjusted score differential normalized by slope.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a golf handicap?</h3>
+      <p>A number representing your playing ability. Lower handicap = better golfer.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many rounds do I need?</h3>
+      <p>Minimum 3 rounds, officially 20 rounds for full calculation.</p>
     </div>
 
   </div>
@@ -419,7 +419,8 @@ footer a:hover{color:#fff}
     var slopeRating = parseFloat(document.getElementById('slopeRating').value) || 0;
 
     // Calculation logic
-    var diff1 = (score1 - courseRating) * 113 / slopeRating; var diff2 = (score2 - courseRating) * 113 / slopeRating; var diff3 = (score3 - courseRating) * 113 / slopeRating; var best = Math.min(diff1, diff2, diff3); var avgDiff = best; var handicap = avgDiff * 0.96; return {avgDiff: fmt(avgDiff,1), handicap: fmt(handicap,1)};
+    var diff1 = (score1 - courseRating) * 113 / slopeRating; var diff2 = (score2 - courseRating) * 113 / slopeRating; var diff3 = (score3 - courseRating) * 113 / slopeRating; var best = Math.min(diff1, diff2, diff3); var avgDiff = best; var handicap = avgDiff * 0.96;     document.getElementById('avgDiff').textContent = fmt(avgDiff,1);
+    document.getElementById('handicap').textContent = fmt(handicap,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

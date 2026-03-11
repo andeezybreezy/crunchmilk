@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="nozzle">Nozzle Diameter (mm)</label>
-      <input type="number" id="nozzle" value="undefined" min="0.1" max="1.2" step="0.05" inputmode="decimal">
+      <input type="number" id="nozzle" value="" min="0.1" max="1.2" step="0.05" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="quality">Print Quality</label>
-      <select id="quality"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="quality"><option value="Draft (fast)" selected>Draft (fast)</option><option value="Standard">Standard</option><option value="High Detail">High Detail</option><option value="Ultra Fine">Ultra Fine</option><option value="quality">quality</option></select>
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This 3d print layer height calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Layer Height</strong> — Height = Nozzle Diameter × Quality Factor — <em>Fraction of nozzle diameter based on desired quality.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What layer height should I use?</h3>
+      <p>25-75% of nozzle diameter. 0.2mm is standard for a 0.4mm nozzle.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does layer height affect strength?</h3>
+      <p>Thicker layers bond better but show more visible lines.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var quality = document.getElementById('quality').value;
 
     // Calculation logic
-    var maxLayer = nozzle * 0.75; var qualityMult = {'Draft (fast)': 0.75, 'Standard': 0.5, 'High Detail': 0.35, 'Ultra Fine': 0.2}; var mult = qualityMult[quality] || 0.5; var layerHeight = nozzle * mult; return {layerHeight: fmt(layerHeight,2), maxLayer: fmt(maxLayer,2)};
+    var maxLayer = nozzle * 0.75; var qualityMult = {'Draft (fast)': 0.75, 'Standard': 0.5, 'High Detail': 0.35, 'Ultra Fine': 0.2}; var mult = qualityMult[quality] || 0.5; var layerHeight = nozzle * mult;     document.getElementById('layerHeight').textContent = fmt(layerHeight,2);
+    document.getElementById('maxLayer').textContent = fmt(maxLayer,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

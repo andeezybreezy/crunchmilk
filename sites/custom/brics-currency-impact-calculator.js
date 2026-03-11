@@ -14,7 +14,11 @@
     var investInForeign = parseFloat(document.getElementById('investInForeign').value) || 0;
 
     // Calculation logic
-    var scenarios={minimal:{deval:5,inflation:1,rates:0.5},partial:{deval:15,inflation:3,rates:1.5},full:{deval:30,inflation:6,rates:3}}; var s=scenarios[scenario]; var savingsLoss=savings*(s.deval/100); var foreignGain=savings*(investInForeign/100)*(s.deval/100)*0.8; var diversifiedValue=savings-savingsLoss+foreignGain+savings*(investInForeign/100); return {dollarImpact:'-'+s.deval+'% against major currencies', inflationBoost:'+'+s.inflation+'% additional inflation', interestRateImpact:'+'+s.rates+'% higher rates likely', savingsImpact:'-'+dollar(savingsLoss)+' in purchasing power', diversifiedValue:dollar(diversifiedValue)+' (diversified portfolio)'};
+    var scenarios={minimal:{deval:5,inflation:1,rates:0.5},partial:{deval:15,inflation:3,rates:1.5},full:{deval:30,inflation:6,rates:3}}; var s=scenarios[scenario]; var savingsLoss=savings*(s.deval/100); var foreignGain=savings*(investInForeign/100)*(s.deval/100)*0.8; var diversifiedValue=savings-savingsLoss+foreignGain+savings*(investInForeign/100);     document.getElementById('dollarImpact').textContent = '-'+s.deval+'% against major currencies';
+    document.getElementById('inflationBoost').textContent = '+'+s.inflation+'% additional inflation';
+    document.getElementById('interestRateImpact').textContent = '+'+s.rates+'% higher rates likely';
+    document.getElementById('savingsImpact').textContent = '-'+dollar(savingsLoss)+' in purchasing power';
+    document.getElementById('diversifiedValue').textContent = dollar(diversifiedValue)+' (diversified portfolio)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

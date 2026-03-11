@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="windows">Number of Windows</label>
-      <input type="number" id="windows" value="undefined" min="1" max="40" step="1" inputmode="decimal">
+      <input type="number" id="windows" value="" min="1" max="40" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="costPerWindow">Cost per Window Installed ($)</label>
-      <input type="number" id="costPerWindow" value="undefined" min="200" max="2000" step="50" inputmode="decimal">
+      <input type="number" id="costPerWindow" value="" min="200" max="2000" step="50" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyEnergy">Monthly Energy Bill ($)</label>
-      <input type="number" id="monthlyEnergy" value="undefined" min="50" max="1000" step="25" inputmode="decimal">
+      <input type="number" id="monthlyEnergy" value="" min="50" max="1000" step="25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="currentType">Current Windows</label>
-      <select id="currentType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="currentType"><option value="Single Pane" selected>Single Pane</option><option value="Old Double Pane (15+ years)">Old Double Pane (15+ years)</option><option value="Decent Double Pane">Decent Double Pane</option><option value="currentType">currentType</option></select>
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This window replacement roi calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Annual Savings</strong> — Savings = Monthly Bill × 12 × Window Improvement % — <em>Percentage energy reduction from window upgrade.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do new windows save money?</h3>
+      <p>Replacing single-pane windows can cut energy bills by 20-30%.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long until windows pay for themselves?</h3>
+      <p>Typically 10-20 years through energy savings alone. Home value increase is additional ROI.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var currentType = document.getElementById('currentType').value;
 
     // Calculation logic
-    var savingsPct = {'Single Pane': 0.25, 'Old Double Pane (15+ years)': 0.12, 'Decent Double Pane': 0.05}; var pct = savingsPct[currentType] || 0.12; var totalCost = windows * costPerWindow; var annualSavings = monthlyEnergy * 12 * pct; var roiYears = annualSavings > 0 ? totalCost / annualSavings : 999; return {totalCost: dollar(totalCost), annualSavings: dollar(annualSavings), roiYears: fmt(roiYears,1)};
+    var savingsPct = {'Single Pane': 0.25, 'Old Double Pane (15+ years)': 0.12, 'Decent Double Pane': 0.05}; var pct = savingsPct[currentType] || 0.12; var totalCost = windows * costPerWindow; var annualSavings = monthlyEnergy * 12 * pct; var roiYears = annualSavings > 0 ? totalCost / annualSavings : 999;     document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('annualSavings').textContent = dollar(annualSavings);
+    document.getElementById('roiYears').textContent = fmt(roiYears,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

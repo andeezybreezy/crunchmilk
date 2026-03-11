@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="printWidth">Print Width (inches)</label>
-      <input type="number" id="printWidth" value="undefined" min="2" max="60" step="1" inputmode="decimal">
+      <input type="number" id="printWidth" value="" min="2" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="printHeight">Print Height (inches)</label>
-      <input type="number" id="printHeight" value="undefined" min="2" max="60" step="1" inputmode="decimal">
+      <input type="number" id="printHeight" value="" min="2" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="dpi">Print DPI</label>
-      <input type="number" id="dpi" value="undefined" min="72" max="600" step="10" inputmode="decimal">
+      <input type="number" id="dpi" value="" min="72" max="600" step="10" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This print resolution calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Megapixels</strong> — MP = (Width × DPI × Height × DPI) / 1,000,000 — <em>Total pixels needed divided by one million.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What DPI do I need?</h3>
+      <p>300 DPI for close viewing, 150 DPI for posters, 72 DPI for billboards.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I upscale a photo?</h3>
+      <p>AI upscaling can help, but starting with enough megapixels is always better.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var dpi = parseFloat(document.getElementById('dpi').value) || 0;
 
     // Calculation logic
-    var pixelWidth = printWidth * dpi; var pixelHeight = printHeight * dpi; var megapixels = (pixelWidth * pixelHeight) / 1000000; return {megapixels: fmt(megapixels,1), pixelWidth: fmt(pixelWidth,0), pixelHeight: fmt(pixelHeight,0)};
+    var pixelWidth = printWidth * dpi; var pixelHeight = printHeight * dpi; var megapixels = (pixelWidth * pixelHeight) / 1000000;     document.getElementById('megapixels').textContent = fmt(megapixels,1);
+    document.getElementById('pixelWidth').textContent = fmt(pixelWidth,0);
+    document.getElementById('pixelHeight').textContent = fmt(pixelHeight,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

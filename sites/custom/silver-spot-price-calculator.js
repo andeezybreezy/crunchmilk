@@ -13,7 +13,9 @@
     var spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
 
     // Calculation logic
-    var value=weight*spotPrice; var grams=weight*31.1035; var perGram=spotPrice/31.1035; return {value:dollar(value), perGram:dollar(perGram)+'/gram', grams:fmt(grams,2)+' g'};
+    var value=weight*spotPrice; var grams=weight*31.1035; var perGram=spotPrice/31.1035;     document.getElementById('value').textContent = dollar(value);
+    document.getElementById('perGram').textContent = dollar(perGram)+'/gram';
+    document.getElementById('grams').textContent = fmt(grams,2)+' g';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var pots = parseFloat(document.getElementById('pots').value) || 0;
 
     // Calculation logic
-    var perPot = 150; var totalNeeded = pots * perPot; var dryWeight = Math.max(batchSize, totalNeeded * 0.5); var waterWeight = dryWeight * (waterRatio / 100); var totalVolume = dryWeight * 0.4 + waterWeight; return {dryWeight: fmt(dryWeight,0), waterWeight: fmt(waterWeight,0), totalVolume: fmt(totalVolume,0)};
+    var perPot = 150; var totalNeeded = pots * perPot; var dryWeight = Math.max(batchSize, totalNeeded * 0.5); var waterWeight = dryWeight * (waterRatio / 100); var totalVolume = dryWeight * 0.4 + waterWeight;     document.getElementById('dryWeight').textContent = fmt(dryWeight,0);
+    document.getElementById('waterWeight').textContent = fmt(waterWeight,0);
+    document.getElementById('totalVolume').textContent = fmt(totalVolume,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

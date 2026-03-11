@@ -12,7 +12,9 @@
     var usd = parseFloat(document.getElementById('usd').value) || 0;
 
     // Calculation logic
-    var rate=0.79; var gbp=usd*rate; return {gbp:fmt(gbp,2)+' GBP', rate:'1 USD = '+fmt(rate,4)+' GBP', inverse:'1 GBP = '+fmt(1/rate,4)+' USD'};
+    var rate=0.79; var gbp=usd*rate;     document.getElementById('gbp').textContent = fmt(gbp,2)+' GBP';
+    document.getElementById('rate').textContent = '1 USD = '+fmt(rate,4)+' GBP';
+    document.getElementById('inverse').textContent = '1 GBP = '+fmt(1/rate,4)+' USD';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

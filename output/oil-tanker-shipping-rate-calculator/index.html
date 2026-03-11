@@ -422,7 +422,11 @@ footer a:hover{color:#fff}
     var gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
 
     // Calculation logic
-    var baseShipping = 2.50; var baseInsurance = 0.30; var shippingCost = baseShipping * (1 + v.rateIncrease / 100); var insuranceCost = baseInsurance * (1 + v.insurancePremium / 100); var rerouteCost = v.reroutePct / 100 * 4; var totalExtra = (shippingCost - baseShipping) + (insuranceCost - baseInsurance) + rerouteCost; var gasImpact = totalExtra / 42 * 0.6; var globalDaily = totalExtra * 50e6; var annualConsumer = gasImpact * (1200 / 25) * 12; var delay = Math.round(v.reroutePct / 100 * 14); return {costPerBarrel: '+$' + totalExtra.toFixed(2) + '/barrel', gasPriceImpact: '+$' + gasImpact.toFixed(3) + '/gal', dailyGlobalCost: '$' + Math.round(globalDaily / 1e6) + ' million/day', consumerImpact: '+$' + Math.round(annualConsumer) + '/year', transitDelay: '+' + delay + ' days (Cape of Good Hope route)'};
+    var baseShipping = 2.50; var baseInsurance = 0.30; var shippingCost = baseShipping * (1 + v.rateIncrease / 100); var insuranceCost = baseInsurance * (1 + v.insurancePremium / 100); var rerouteCost = v.reroutePct / 100 * 4; var totalExtra = (shippingCost - baseShipping) + (insuranceCost - baseInsurance) + rerouteCost; var gasImpact = totalExtra / 42 * 0.6; var globalDaily = totalExtra * 50e6; var annualConsumer = gasImpact * (1200 / 25) * 12; var delay = Math.round(v.reroutePct / 100 * 14);     document.getElementById('costPerBarrel').textContent = '+$' + totalExtra.toFixed(2) + '/barrel';
+    document.getElementById('gasPriceImpact').textContent = '+$' + gasImpact.toFixed(3) + '/gal';
+    document.getElementById('dailyGlobalCost').textContent = '$' + Math.round(globalDaily / 1e6) + ' million/day';
+    document.getElementById('consumerImpact').textContent = '+$' + Math.round(annualConsumer) + '/year';
+    document.getElementById('transitDelay').textContent = '+' + delay + ' days (Cape of Good Hope route)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

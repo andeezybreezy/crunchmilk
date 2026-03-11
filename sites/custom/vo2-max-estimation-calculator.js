@@ -13,7 +13,8 @@
     var time = parseFloat(document.getElementById('time').value) || 0;
 
     // Calculation logic
-    var speed = distance / (time / 60); var vo2max = 3.5 + (speed * 5.5); var rating = vo2max >= 50 ? 'Excellent' : vo2max >= 40 ? 'Good' : vo2max >= 30 ? 'Average' : 'Below Average'; return {vo2max: fmt(vo2max,1), rating: rating};
+    var speed = distance / (time / 60); var vo2max = 3.5 + (speed * 5.5); var rating = vo2max >= 50 ? 'Excellent' : vo2max >= 40 ? 'Good' : vo2max >= 30 ? 'Average' : 'Below Average';     document.getElementById('vo2max').textContent = fmt(vo2max,1);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

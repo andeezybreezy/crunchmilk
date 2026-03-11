@@ -15,7 +15,10 @@
     var ethPrice = parseFloat(document.getElementById('ethPrice').value) || 0;
 
     // Calculation logic
-    var royaltyPerSale=salePrice*(royaltyPct/100); var royaltyUSD=royaltyPerSale*ethPrice; var totalETH=royaltyPerSale*numSales; var totalUSD=totalETH*ethPrice; return {royaltyPerSale:fmt(royaltyPerSale,4)+' ETH', royaltyUSD:dollar(royaltyUSD), totalRoyaltyETH:fmt(totalETH,4)+' ETH', totalRoyaltyUSD:dollar(totalUSD)};
+    var royaltyPerSale=salePrice*(royaltyPct/100); var royaltyUSD=royaltyPerSale*ethPrice; var totalETH=royaltyPerSale*numSales; var totalUSD=totalETH*ethPrice;     document.getElementById('royaltyPerSale').textContent = fmt(royaltyPerSale,4)+' ETH';
+    document.getElementById('royaltyUSD').textContent = dollar(royaltyUSD);
+    document.getElementById('totalRoyaltyETH').textContent = fmt(totalETH,4)+' ETH';
+    document.getElementById('totalRoyaltyUSD').textContent = dollar(totalUSD);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

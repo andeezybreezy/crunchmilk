@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="currentKey">Current Song Key</label>
-      <select id="currentKey"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="currentKey"><option value="C Major" selected>C Major</option><option value="8B">8B</option><option value="C# Major">C# Major</option><option value="3B">3B</option><option value="D Major">D Major</option><option value="10B">10B</option><option value="D# Major">D# Major</option><option value="5B">5B</option><option value="E Major">E Major</option><option value="12B">12B</option><option value="F Major">F Major</option><option value="7B">7B</option><option value="F# Major">F# Major</option><option value="2B">2B</option><option value="G Major">G Major</option><option value="9B">9B</option><option value="G# Major">G# Major</option><option value="4B">4B</option><option value="A Major">A Major</option><option value="11B">11B</option><option value="A# Major">A# Major</option><option value="6B">6B</option><option value="B Major">B Major</option><option value="1B">1B</option><option value="A Minor">A Minor</option><option value="8A">8A</option><option value="A# Minor">A# Minor</option><option value="3A">3A</option><option value="B Minor">B Minor</option><option value="10A">10A</option><option value="C Minor">C Minor</option><option value="5A">5A</option><option value="C# Minor">C# Minor</option><option value="12A">12A</option><option value="D Minor">D Minor</option><option value="7A">7A</option><option value="D# Minor">D# Minor</option><option value="2A">2A</option><option value="E Minor">E Minor</option><option value="9A">9A</option><option value="F Minor">F Minor</option><option value="4A">4A</option><option value="F# Minor">F# Minor</option><option value="11A">11A</option><option value="G Minor">G Minor</option><option value="6A">6A</option><option value="G# Minor">G# Minor</option><option value="1A">1A</option><option value="currentKey">currentKey</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="currentBpm">Current BPM</label>
-      <input type="number" id="currentBpm" value="undefined" min="60" max="200" step="1" inputmode="decimal">
+      <input type="number" id="currentBpm" value="" min="60" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bpmRange">Acceptable BPM Range (%)</label>
-      <input type="number" id="bpmRange" value="undefined" min="1" max="15" step="1" inputmode="decimal">
+      <input type="number" id="bpmRange" value="" min="1" max="15" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This song key & bpm match calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>BPM Range</strong> — Range = BPM x (1 +/- Tolerance%) — <em>The current tempo multiplied by your acceptable percentage range.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is harmonic mixing?</h3>
+      <p>Harmonic mixing uses the Camelot wheel to blend songs in compatible musical keys, creating smoother transitions without clashing notes.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much can I adjust BPM when mixing?</h3>
+      <p>Staying within 3-5% BPM change sounds natural. Beyond 8% the pitch shift becomes noticeable without key lock.</p>
     </div>
 
   </div>
@@ -424,7 +424,10 @@ footer a:hover{color:#fff}
     var bpmRange = parseFloat(document.getElementById('bpmRange').value) || 0;
 
     // Calculation logic
-    var camelot = {'C Major':'8B','C# Major':'3B','D Major':'10B','D# Major':'5B','E Major':'12B','F Major':'7B','F# Major':'2B','G Major':'9B','G# Major':'4B','A Major':'11B','A# Major':'6B','B Major':'1B','A Minor':'8A','A# Minor':'3A','B Minor':'10A','C Minor':'5A','C# Minor':'12A','D Minor':'7A','D# Minor':'2A','E Minor':'9A','F Minor':'4A','F# Minor':'11A','G Minor':'6A','G# Minor':'1A'}; var code = camelot[currentKey] || '8B'; var num = parseInt(code); var letter = code.slice(-1); var up = ((num % 12) + 1) || 12; var down = ((num - 2 + 12) % 12) + 1; var otherLetter = letter === 'A' ? 'B' : 'A'; var rev = {}; for (var k in camelot) { rev[camelot[k]] = k; } var compatible = [rev[num + letter], rev[up + letter], rev[down + letter], rev[num + otherLetter]].filter(function(v){return v;}); var bpmLow = Math.round(currentBpm * (1 - bpmRange / 100)); var bpmHigh = Math.round(currentBpm * (1 + bpmRange / 100)); var halfDouble = Math.round(currentBpm / 2) + ' / ' + Math.round(currentBpm * 2); return {compatibleKeys: compatible.join(', '), bpmLow: fmt(bpmLow, 0), bpmHigh: fmt(bpmHigh, 0), halfDouble: halfDouble};
+    var camelot = {'C Major':'8B','C# Major':'3B','D Major':'10B','D# Major':'5B','E Major':'12B','F Major':'7B','F# Major':'2B','G Major':'9B','G# Major':'4B','A Major':'11B','A# Major':'6B','B Major':'1B','A Minor':'8A','A# Minor':'3A','B Minor':'10A','C Minor':'5A','C# Minor':'12A','D Minor':'7A','D# Minor':'2A','E Minor':'9A','F Minor':'4A','F# Minor':'11A','G Minor':'6A','G# Minor':'1A'}; var code = camelot[currentKey] || '8B'; var num = parseInt(code); var letter = code.slice(-1); var up = ((num % 12) + 1) || 12; var down = ((num - 2 + 12) % 12) + 1; var otherLetter = letter === 'A' ? 'B' : 'A'; var rev = {}; for (var k in camelot) { rev[camelot[k]] = k; } var compatible = [rev[num + letter], rev[up + letter], rev[down + letter], rev[num + otherLetter]].filter(function(v){return v;}); var bpmLow = Math.round(currentBpm * (1 - bpmRange / 100)); var bpmHigh = Math.round(currentBpm * (1 + bpmRange / 100)); var halfDouble = Math.round(currentBpm / 2) + ' / ' + Math.round(currentBpm * 2);     document.getElementById('compatibleKeys').textContent = compatible.join(', ');
+    document.getElementById('bpmLow').textContent = fmt(bpmLow, 0);
+    document.getElementById('bpmHigh').textContent = fmt(bpmHigh, 0);
+    document.getElementById('halfDouble').textContent = halfDouble;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

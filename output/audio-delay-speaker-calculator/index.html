@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Distance Offset (ft)</label>
-      <input type="number" id="distance" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="distance" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="temperature">Air Temperature (°F)</label>
-      <input type="number" id="temperature" value="undefined" min="0" max="120" step="1" inputmode="decimal">
+      <input type="number" id="temperature" value="" min="0" max="120" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This audio delay alignment calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Delay</strong> — Delay = Distance / Speed of Sound × 1000 — <em>Time for sound to travel the offset distance.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why do speakers need delay?</h3>
+      <p>Speakers at different distances need timing offsets so sound arrives at listeners simultaneously.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does temperature affect delay?</h3>
+      <p>Yes, sound travels faster in warmer air, changing the required delay.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var temperature = parseFloat(document.getElementById('temperature').value) || 0;
 
     // Calculation logic
-    var tempC = (temperature - 32) * 5/9; var soundSpeed = 1086 + (tempC * 1.14); var delayMs = (distance / soundSpeed) * 1000; return {delayMs: fmt(delayMs,1), soundSpeed: fmt(soundSpeed,0)};
+    var tempC = (temperature - 32) * 5/9; var soundSpeed = 1086 + (tempC * 1.14); var delayMs = (distance / soundSpeed) * 1000;     document.getElementById('delayMs').textContent = fmt(delayMs,1);
+    document.getElementById('soundSpeed').textContent = fmt(soundSpeed,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

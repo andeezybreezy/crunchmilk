@@ -14,7 +14,9 @@
     var bandType = document.getElementById('bandType').value;
 
     // Calculation logic
-    var fullSweep = (sweepSpeed * channelRange) / 1000; var sweepsPerMinute = 60 / fullSweep; var recommendation = sweepSpeed < 75 ? 'Very fast - may miss responses' : sweepSpeed <= 150 ? 'Good balance of speed and clarity' : 'Slow sweep - easier to analyze but fewer passes'; return {fullSweep: fmt(fullSweep,1), sweepsPerMinute: fmt(sweepsPerMinute,1), recommendation: recommendation};
+    var fullSweep = (sweepSpeed * channelRange) / 1000; var sweepsPerMinute = 60 / fullSweep; var recommendation = sweepSpeed < 75 ? 'Very fast - may miss responses' : sweepSpeed <= 150 ? 'Good balance of speed and clarity' : 'Slow sweep - easier to analyze but fewer passes';     document.getElementById('fullSweep').textContent = fmt(fullSweep,1);
+    document.getElementById('sweepsPerMinute').textContent = fmt(sweepsPerMinute,1);
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

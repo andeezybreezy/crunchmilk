@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Area (sq ft)</label>
-      <input type="number" id="area" value="undefined" min="5" max="10000" step="5" inputmode="decimal">
+      <input type="number" id="area" value="" min="5" max="10000" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="depth">Depth (inches)</label>
-      <input type="number" id="depth" value="undefined" min="1" max="6" step="0.5" inputmode="decimal">
+      <input type="number" id="depth" value="" min="1" max="6" step="0.5" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This mulch calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Volume</strong> — Cu Yd = Area × Depth / 12 / 27 — <em>Area times depth converted to cubic yards.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How deep should mulch be?</h3>
+      <p>2-3 inches for most beds. Too deep can suffocate plant roots.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Bulk or bags?</h3>
+      <p>Bulk is cheaper for areas over 100 sq ft.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var depth = parseFloat(document.getElementById('depth').value) || 0;
 
     // Calculation logic
-    var cuFt = area * (depth/12); var cubicYards = cuFt / 27; var bags = Math.ceil(cuFt / 2); var cost = cubicYards * 35; return {cubicYards: fmt(cubicYards,1), bags: fmt(bags,0), cost: dollar(cost)};
+    var cuFt = area * (depth/12); var cubicYards = cuFt / 27; var bags = Math.ceil(cuFt / 2); var cost = cubicYards * 35;     document.getElementById('cubicYards').textContent = fmt(cubicYards,1);
+    document.getElementById('bags').textContent = fmt(bags,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

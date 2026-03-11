@@ -14,7 +14,9 @@
     var spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
 
     // Calculation logic
-    var purityMap={24:0.999,22:0.917,18:0.750,14:0.583,10:0.417,9:0.375}; var purity=purityMap[karat]||0.583; var pureGrams=weight*purity; var pureOz=pureGrams/31.1035; var value=pureOz*spotPrice; return {pureGold:fmt(pureGrams,2)+' grams', value:dollar(value), purity:fmt(purity*100,1)+'%'};
+    var purityMap={24:0.999,22:0.917,18:0.750,14:0.583,10:0.417,9:0.375}; var purity=purityMap[karat]||0.583; var pureGrams=weight*purity; var pureOz=pureGrams/31.1035; var value=pureOz*spotPrice;     document.getElementById('pureGold').textContent = fmt(pureGrams,2)+' grams';
+    document.getElementById('value').textContent = dollar(value);
+    document.getElementById('purity').textContent = fmt(purity*100,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -13,7 +13,8 @@
     var temperature = parseFloat(document.getElementById('temperature').value) || 0;
 
     // Calculation logic
-    var tempC = (temperature - 32) * 5/9; var soundSpeed = 1086 + (tempC * 1.14); var delayMs = (distance / soundSpeed) * 1000; return {delayMs: fmt(delayMs,1), soundSpeed: fmt(soundSpeed,0)};
+    var tempC = (temperature - 32) * 5/9; var soundSpeed = 1086 + (tempC * 1.14); var delayMs = (distance / soundSpeed) * 1000;     document.getElementById('delayMs').textContent = fmt(delayMs,1);
+    document.getElementById('soundSpeed').textContent = fmt(soundSpeed,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

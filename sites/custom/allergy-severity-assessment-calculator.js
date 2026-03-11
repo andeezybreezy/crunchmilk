@@ -15,7 +15,9 @@
     var interference = parseFloat(document.getElementById('interference').value) || 0;
 
     // Calculation logic
-    var sneezeScore = Math.min(sneezing, 10); var score = sneezeScore + congestion + eyeItch + interference; var severity = score >= 30 ? 'Severe' : score >= 20 ? 'Moderate-Severe' : score >= 12 ? 'Moderate' : score >= 5 ? 'Mild' : 'Minimal'; var action = score >= 20 ? 'See allergist, consider immunotherapy' : score >= 12 ? 'Daily antihistamine + nasal spray' : score >= 5 ? 'As-needed antihistamine' : 'Monitor symptoms'; return {score: fmt(score,0), severity: severity, action: action};
+    var sneezeScore = Math.min(sneezing, 10); var score = sneezeScore + congestion + eyeItch + interference; var severity = score >= 30 ? 'Severe' : score >= 20 ? 'Moderate-Severe' : score >= 12 ? 'Moderate' : score >= 5 ? 'Mild' : 'Minimal'; var action = score >= 20 ? 'See allergist, consider immunotherapy' : score >= 12 ? 'Daily antihistamine + nasal spray' : score >= 5 ? 'As-needed antihistamine' : 'Monitor symptoms';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('severity').textContent = severity;
+    document.getElementById('action').textContent = action;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

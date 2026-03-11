@@ -14,7 +14,10 @@
     var birthDay = parseFloat(document.getElementById('birthDay').value) || 0;
 
     // Calculation logic
-    var now = new Date(); var birth = new Date(birthYear, birthMonth - 1, birthDay); var years = now.getFullYear() - birthYear; if (now.getMonth() < birthMonth - 1 || (now.getMonth() === birthMonth - 1 && now.getDate() < birthDay)) years--; var months = years * 12 + now.getMonth() - (birthMonth - 1); if (now.getDate() < birthDay) months--; var days = Math.floor((now - birth) / (1000*60*60*24)); var nextBday = new Date(now.getFullYear(), birthMonth - 1, birthDay); if (nextBday < now) nextBday = new Date(now.getFullYear() + 1, birthMonth - 1, birthDay); var nextBirthday = Math.ceil((nextBday - now) / (1000*60*60*24)); return {years: fmt(years,0), months: fmt(months,0), days: fmt(days,0), nextBirthday: fmt(nextBirthday,0)};
+    var now = new Date(); var birth = new Date(birthYear, birthMonth - 1, birthDay); var years = now.getFullYear() - birthYear; if (now.getMonth() < birthMonth - 1 || (now.getMonth() === birthMonth - 1 && now.getDate() < birthDay)) years--; var months = years * 12 + now.getMonth() - (birthMonth - 1); if (now.getDate() < birthDay) months--; var days = Math.floor((now - birth) / (1000*60*60*24)); var nextBday = new Date(now.getFullYear(), birthMonth - 1, birthDay); if (nextBday < now) nextBday = new Date(now.getFullYear() + 1, birthMonth - 1, birthDay); var nextBirthday = Math.ceil((nextBday - now) / (1000*60*60*24));     document.getElementById('years').textContent = fmt(years,0);
+    document.getElementById('months').textContent = fmt(months,0);
+    document.getElementById('days').textContent = fmt(days,0);
+    document.getElementById('nextBirthday').textContent = fmt(nextBirthday,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

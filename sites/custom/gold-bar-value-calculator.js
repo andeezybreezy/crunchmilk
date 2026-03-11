@@ -15,7 +15,10 @@
     var premium = parseFloat(document.getElementById('premium').value) || 0;
 
     // Calculation logic
-    var gramsMap={'1g':1,'5g':5,'10g':10,'1oz':31.1035,'100g':100,'1kg':1000,'400oz':12441.4}; var grams=gramsMap[barSize]||31.1035; var oz=grams/31.1035; var spotValue=oz*spotPrice; var withPremium=spotValue*(1+premium/100); var totalValue=withPremium*quantity; var perGram=withPremium/grams; return {spotValue:dollar(spotValue), withPremium:dollar(withPremium), totalValue:dollar(totalValue), perGram:dollar(perGram)+'/gram'};
+    var gramsMap={'1g':1,'5g':5,'10g':10,'1oz':31.1035,'100g':100,'1kg':1000,'400oz':12441.4}; var grams=gramsMap[barSize]||31.1035; var oz=grams/31.1035; var spotValue=oz*spotPrice; var withPremium=spotValue*(1+premium/100); var totalValue=withPremium*quantity; var perGram=withPremium/grams;     document.getElementById('spotValue').textContent = dollar(spotValue);
+    document.getElementById('withPremium').textContent = dollar(withPremium);
+    document.getElementById('totalValue').textContent = dollar(totalValue);
+    document.getElementById('perGram').textContent = dollar(perGram)+'/gram';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

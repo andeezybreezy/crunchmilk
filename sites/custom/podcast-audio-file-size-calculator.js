@@ -14,7 +14,8 @@
     var format = document.getElementById('format').value;
 
     // Calculation logic
-    var bitrates = {'64 (mono speech)': 64, '96 (mono music)': 96, '128 (stereo standard)': 128, '192 (stereo high)': 192, '320 (stereo max)': 320}; var br = bitrates[bitrate] || 128; if (format === 'WAV (uncompressed)') br = 1411; if (format === 'AAC') br = br * 0.8; var fileSize = (br * duration * 60) / 8 / 1024; var bandwidth = fileSize * 1000 / 1024; return {fileSize: fmt(fileSize,1), bandwidth: fmt(bandwidth,1)};
+    var bitrates = {'64 (mono speech)': 64, '96 (mono music)': 96, '128 (stereo standard)': 128, '192 (stereo high)': 192, '320 (stereo max)': 320}; var br = bitrates[bitrate] || 128; if (format === 'WAV (uncompressed)') br = 1411; if (format === 'AAC') br = br * 0.8; var fileSize = (br * duration * 60) / 8 / 1024; var bandwidth = fileSize * 1000 / 1024;     document.getElementById('fileSize').textContent = fmt(fileSize,1);
+    document.getElementById('bandwidth').textContent = fmt(bandwidth,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

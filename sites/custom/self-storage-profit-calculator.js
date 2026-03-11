@@ -15,7 +15,9 @@
     var expenses = parseFloat(document.getElementById('expenses').value) || 0;
 
     // Calculation logic
-    var grossIncome = units * avgRent * (occupancy/100); var netIncome = grossIncome - expenses; var annualNet = netIncome * 12; return {grossIncome: dollar(grossIncome), netIncome: dollar(netIncome), annualNet: dollar(annualNet)};
+    var grossIncome = units * avgRent * (occupancy/100); var netIncome = grossIncome - expenses; var annualNet = netIncome * 12;     document.getElementById('grossIncome').textContent = dollar(grossIncome);
+    document.getElementById('netIncome').textContent = dollar(netIncome);
+    document.getElementById('annualNet').textContent = dollar(annualNet);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

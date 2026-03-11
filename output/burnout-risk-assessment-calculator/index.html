@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="workHours">Weekly Work Hours</label>
-      <input type="number" id="workHours" value="undefined" min="10" max="100" step="5" inputmode="decimal">
+      <input type="number" id="workHours" value="" min="10" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="exhaustion">Emotional Exhaustion (1-10)</label>
-      <input type="number" id="exhaustion" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="exhaustion" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="detachment">Detachment from Work (1-10)</label>
-      <input type="number" id="detachment" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="detachment" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="accomplishment">Sense of Accomplishment (1-10)</label>
-      <input type="number" id="accomplishment" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="accomplishment" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="vacation">Days Off in Last 3 Months</label>
-      <input type="number" id="vacation" value="undefined" min="0" max="30" step="1" inputmode="decimal">
+      <input type="number" id="vacation" value="" min="0" max="30" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This burnout risk score calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Burnout Score</strong> — Score = Work Hours + Exhaustion + Detachment + Low Accomplishment + No Vacation — <em>Multi-factor burnout risk assessment.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are the signs of burnout?</h3>
+      <p>Chronic exhaustion, cynicism, detachment, reduced performance, and physical symptoms.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to prevent burnout?</h3>
+      <p>Set boundaries, take regular time off, exercise, maintain social connections outside work.</p>
     </div>
 
   </div>
@@ -425,7 +425,9 @@ footer a:hover{color:#fff}
     var vacation = parseFloat(document.getElementById('vacation').value) || 0;
 
     // Calculation logic
-    var workScore = workHours > 55 ? 25 : workHours > 45 ? 15 : workHours > 40 ? 8 : 0; var exhaustScore = exhaustion * 2.5; var detachScore = detachment * 2; var accomScore = (10 - accomplishment) * 1.5; var vacScore = vacation < 2 ? 10 : vacation < 5 ? 5 : 0; var riskScore = Math.min(workScore + exhaustScore + detachScore + accomScore + vacScore, 100); var level = riskScore >= 70 ? 'High' : riskScore >= 45 ? 'Moderate' : riskScore >= 25 ? 'Low' : 'Minimal'; var action = riskScore >= 70 ? 'Urgent: take time off, set boundaries, consider therapy' : riskScore >= 45 ? 'Set work boundaries, schedule regular breaks' : 'Maintain current balance, monitor stress levels'; return {riskScore: fmt(riskScore,0), level: level, action: action};
+    var workScore = workHours > 55 ? 25 : workHours > 45 ? 15 : workHours > 40 ? 8 : 0; var exhaustScore = exhaustion * 2.5; var detachScore = detachment * 2; var accomScore = (10 - accomplishment) * 1.5; var vacScore = vacation < 2 ? 10 : vacation < 5 ? 5 : 0; var riskScore = Math.min(workScore + exhaustScore + detachScore + accomScore + vacScore, 100); var level = riskScore >= 70 ? 'High' : riskScore >= 45 ? 'Moderate' : riskScore >= 25 ? 'Low' : 'Minimal'; var action = riskScore >= 70 ? 'Urgent: take time off, set boundaries, consider therapy' : riskScore >= 45 ? 'Set work boundaries, schedule regular breaks' : 'Maintain current balance, monitor stress levels';     document.getElementById('riskScore').textContent = fmt(riskScore,0);
+    document.getElementById('level').textContent = level;
+    document.getElementById('action').textContent = action;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

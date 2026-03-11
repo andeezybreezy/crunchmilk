@@ -13,7 +13,9 @@
     var state = document.getElementById('state').value;
 
     // Calculation logic
-    var limits = {'$5,000': 5000, '$7,500': 7500, '$10,000': 10000, '$12,000': 12000, '$15,000': 15000, '$25,000': 25000}; var limit = limits[state] || 10000; var qualifies = amount <= limit ? 'Yes' : 'No - exceeds limit'; var filingFee = amount <= 2500 ? 50 : amount <= 5000 ? 75 : amount <= 10000 ? 100 : 150; var netRecovery = amount - filingFee; return {qualifies: qualifies, filingFee: dollar(filingFee), netRecovery: dollar(netRecovery)};
+    var limits = {'$5,000': 5000, '$7,500': 7500, '$10,000': 10000, '$12,000': 12000, '$15,000': 15000, '$25,000': 25000}; var limit = limits[state] || 10000; var qualifies = amount <= limit ? 'Yes' : 'No - exceeds limit'; var filingFee = amount <= 2500 ? 50 : amount <= 5000 ? 75 : amount <= 10000 ? 100 : 150; var netRecovery = amount - filingFee;     document.getElementById('qualifies').textContent = qualifies;
+    document.getElementById('filingFee').textContent = dollar(filingFee);
+    document.getElementById('netRecovery').textContent = dollar(netRecovery);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

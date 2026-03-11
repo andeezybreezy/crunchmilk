@@ -15,7 +15,10 @@
     var annualInflation = parseFloat(document.getElementById('annualInflation').value) || 0;
 
     // Calculation logic
-    var years=endYear-startYear; var cumInflation=Math.pow(1+annualInflation/100,years); var equivalentToday=amount*cumInflation; var lost=equivalentToday-amount; var retained=(amount/equivalentToday)*100; return {equivalentToday:dollar(equivalentToday), purchasingPowerLost:dollar(lost), cumulativeInflation:fmt((cumInflation-1)*100,1)+'%', realReturn:fmt(retained,1)+'% retained'};
+    var years=endYear-startYear; var cumInflation=Math.pow(1+annualInflation/100,years); var equivalentToday=amount*cumInflation; var lost=equivalentToday-amount; var retained=(amount/equivalentToday)*100;     document.getElementById('equivalentToday').textContent = dollar(equivalentToday);
+    document.getElementById('purchasingPowerLost').textContent = dollar(lost);
+    document.getElementById('cumulativeInflation').textContent = fmt((cumInflation-1)*100,1)+'%';
+    document.getElementById('realReturn').textContent = fmt(retained,1)+'% retained';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

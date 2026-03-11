@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="balance">Remaining Balance ($)</label>
-      <input type="number" id="balance" value="undefined" min="1000" max="100000" step="500" inputmode="decimal">
+      <input type="number" id="balance" value="" min="1000" max="100000" step="500" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="currentRate">Current Rate (%)</label>
-      <input type="number" id="currentRate" value="undefined" min="0.5" max="25" step="0.1" inputmode="decimal">
+      <input type="number" id="currentRate" value="" min="0.5" max="25" step="0.1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="currentMonths">Months Remaining</label>
-      <input type="number" id="currentMonths" value="undefined" min="1" max="84" step="1" inputmode="decimal">
+      <input type="number" id="currentMonths" value="" min="1" max="84" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="newRate">New Rate (%)</label>
-      <input type="number" id="newRate" value="undefined" min="0.5" max="25" step="0.1" inputmode="decimal">
+      <input type="number" id="newRate" value="" min="0.5" max="25" step="0.1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="newMonths">New Loan Term (months)</label>
-      <input type="number" id="newMonths" value="undefined" min="12" max="84" step="6" inputmode="decimal">
+      <input type="number" id="newMonths" value="" min="12" max="84" step="6" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -362,7 +362,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This car loan refinance calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Monthly Payment</strong> — PMT = Balance × r / (1 - (1+r)^-n) — <em>Standard amortization formula for fixed-rate loans.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -375,13 +375,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When should I refinance my car?</h3>
+      <p>When you can get a rate at least 1-2% lower than your current rate.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Are there refinance fees?</h3>
+      <p>Some lenders charge $0-$75. Factor this into your savings calculation.</p>
     </div>
 
   </div>
@@ -429,7 +429,10 @@ footer a:hover{color:#fff}
     var newMonths = parseFloat(document.getElementById('newMonths').value) || 0;
 
     // Calculation logic
-    var cr = currentRate/100/12; var nr = newRate/100/12; var currentPayment = balance * cr / (1 - Math.pow(1+cr, -currentMonths)); var newPayment = balance * nr / (1 - Math.pow(1+nr, -newMonths)); var currentTotal = currentPayment * currentMonths; var newTotal = newPayment * newMonths; var totalSavings = currentTotal - newTotal; var monthlySavings = currentPayment - newPayment; return {currentPayment: dollar(currentPayment), newPayment: dollar(newPayment), monthlySavings: dollar(monthlySavings), totalSavings: dollar(totalSavings)};
+    var cr = currentRate/100/12; var nr = newRate/100/12; var currentPayment = balance * cr / (1 - Math.pow(1+cr, -currentMonths)); var newPayment = balance * nr / (1 - Math.pow(1+nr, -newMonths)); var currentTotal = currentPayment * currentMonths; var newTotal = newPayment * newMonths; var totalSavings = currentTotal - newTotal; var monthlySavings = currentPayment - newPayment;     document.getElementById('currentPayment').textContent = dollar(currentPayment);
+    document.getElementById('newPayment').textContent = dollar(newPayment);
+    document.getElementById('monthlySavings').textContent = dollar(monthlySavings);
+    document.getElementById('totalSavings').textContent = dollar(totalSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

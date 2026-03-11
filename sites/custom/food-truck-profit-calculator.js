@@ -17,7 +17,10 @@
     var laborDaily = parseFloat(document.getElementById('laborDaily').value) || 0;
 
     // Calculation logic
-    var dailyRevenue = avgTicket * customersPerDay; var dailyFoodCost = dailyRevenue * (foodCostPct / 100); var dailyFuel = 25; var dailyOther = 30; var dailyProfit = dailyRevenue - dailyFoodCost - laborDaily - dailyFuel - dailyOther; var monthlyDays = daysPerWeek * 4.33; var monthlyRevenue = dailyRevenue * monthlyDays; var monthlyProfit = (dailyProfit * monthlyDays) - rent; var annualProfit = monthlyProfit * 12; return {dailyRevenue: dollar(dailyRevenue), dailyProfit: dollar(dailyProfit), monthlyProfit: dollar(monthlyProfit), annualProfit: dollar(annualProfit)};
+    var dailyRevenue = avgTicket * customersPerDay; var dailyFoodCost = dailyRevenue * (foodCostPct / 100); var dailyFuel = 25; var dailyOther = 30; var dailyProfit = dailyRevenue - dailyFoodCost - laborDaily - dailyFuel - dailyOther; var monthlyDays = daysPerWeek * 4.33; var monthlyRevenue = dailyRevenue * monthlyDays; var monthlyProfit = (dailyProfit * monthlyDays) - rent; var annualProfit = monthlyProfit * 12;     document.getElementById('dailyRevenue').textContent = dollar(dailyRevenue);
+    document.getElementById('dailyProfit').textContent = dollar(dailyProfit);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('annualProfit').textContent = dollar(annualProfit);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

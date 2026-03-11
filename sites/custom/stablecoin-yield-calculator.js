@@ -15,7 +15,10 @@
     var compounding = document.getElementById('compounding').value;
 
     // Calculation logic
-    var years=months/12; var n=compounding==='daily'?365:compounding==='monthly'?12:1; var futureValue; if(compounding==='none'){futureValue=amount*(1+(apy/100)*years);}else{futureValue=amount*Math.pow(1+(apy/100)/n,n*years);} var earnings=futureValue-amount; var monthlyIncome=earnings/months; var dailyIncome=earnings/(months*30); return {futureValue:dollar(futureValue), earnings:dollar(earnings), monthlyIncome:dollar(monthlyIncome)+'/month', dailyIncome:dollar(dailyIncome)+'/day'};
+    var years=months/12; var n=compounding==='daily'?365:compounding==='monthly'?12:1; var futureValue; if(compounding==='none'){futureValue=amount*(1+(apy/100)*years);}else{futureValue=amount*Math.pow(1+(apy/100)/n,n*years);} var earnings=futureValue-amount; var monthlyIncome=earnings/months; var dailyIncome=earnings/(months*30);     document.getElementById('futureValue').textContent = dollar(futureValue);
+    document.getElementById('earnings').textContent = dollar(earnings);
+    document.getElementById('monthlyIncome').textContent = dollar(monthlyIncome)+'/month';
+    document.getElementById('dailyIncome').textContent = dollar(dailyIncome)+'/day';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

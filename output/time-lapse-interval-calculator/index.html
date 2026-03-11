@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="eventDuration">Event Duration (minutes)</label>
-      <input type="number" id="eventDuration" value="undefined" min="1" max="1440" step="1" inputmode="decimal">
+      <input type="number" id="eventDuration" value="" min="1" max="1440" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="clipLength">Desired Clip Length (seconds)</label>
-      <input type="number" id="clipLength" value="undefined" min="5" max="120" step="5" inputmode="decimal">
+      <input type="number" id="clipLength" value="" min="5" max="120" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fps">Video Frame Rate (fps)</label>
-      <input type="number" id="fps" value="undefined" min="24" max="60" step="1" inputmode="decimal">
+      <input type="number" id="fps" value="" min="24" max="60" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This time lapse interval calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Interval</strong> — Interval = Event Duration / (Clip Length × FPS) — <em>Total recording time divided by frames needed.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What interval should I use?</h3>
+      <p>1-2s for fast action, 5-10s for clouds, 15-30s for construction/plants.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many photos do I need?</h3>
+      <p>Multiply desired video length by frame rate (e.g., 30 seconds × 30 fps = 900 frames).</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var fps = parseFloat(document.getElementById('fps').value) || 0;
 
     // Calculation logic
-    var totalFrames = clipLength * fps; var eventSeconds = eventDuration * 60; var interval = eventSeconds / totalFrames; var storageGB = totalFrames * 25 / 1024; return {totalFrames: fmt(totalFrames,0), interval: fmt(interval,1), storageGB: fmt(storageGB,1)};
+    var totalFrames = clipLength * fps; var eventSeconds = eventDuration * 60; var interval = eventSeconds / totalFrames; var storageGB = totalFrames * 25 / 1024;     document.getElementById('totalFrames').textContent = fmt(totalFrames,0);
+    document.getElementById('interval').textContent = fmt(interval,1);
+    document.getElementById('storageGB').textContent = fmt(storageGB,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

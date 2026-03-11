@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Room Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="5" max="50" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="5" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Room Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="5" max="50" step="1" inputmode="decimal">
+      <input type="number" id="width" value="" min="5" max="50" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="height">Wall Height (ft)</label>
-      <input type="number" id="height" value="undefined" min="7" max="14" step="0.5" inputmode="decimal">
+      <input type="number" id="height" value="" min="7" max="14" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="doors">Doors</label>
-      <input type="number" id="doors" value="undefined" min="0" max="6" step="1" inputmode="decimal">
+      <input type="number" id="doors" value="" min="0" max="6" step="1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="windows">Windows</label>
-      <input type="number" id="windows" value="undefined" min="0" max="8" step="1" inputmode="decimal">
+      <input type="number" id="windows" value="" min="0" max="8" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This wallpaper calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Rolls</strong> — Rolls = (Wall Area - Openings) / 25 sq ft per roll — <em>Total wall area minus doors/windows, divided by usable roll coverage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does a roll cover?</h3>
+      <p>A standard single roll covers about 28-30 sq ft, minus waste about 25 usable sq ft.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I order extra?</h3>
+      <p>Yes, order 10-15% extra for pattern matching and mistakes.</p>
     </div>
 
   </div>
@@ -425,7 +425,9 @@ footer a:hover{color:#fff}
     var windows = parseFloat(document.getElementById('windows').value) || 0;
 
     // Calculation logic
-    var wallArea = 2 * (length + width) * height; wallArea -= doors * 21 + windows * 15; var usableSqFt = 25; var rolls = Math.ceil(wallArea / usableSqFt); var cost = rolls * 40; return {wallArea: fmt(wallArea,0), rolls: fmt(rolls,0), cost: dollar(cost)};
+    var wallArea = 2 * (length + width) * height; wallArea -= doors * 21 + windows * 15; var usableSqFt = 25; var rolls = Math.ceil(wallArea / usableSqFt); var cost = rolls * 40;     document.getElementById('wallArea').textContent = fmt(wallArea,0);
+    document.getElementById('rolls').textContent = fmt(rolls,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

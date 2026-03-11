@@ -16,7 +16,11 @@
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var pricing={haiku:{input:0.25,output:1.25},sonnet:{input:3,output:15},opus:{input:15,output:75}}; var p=pricing[model]; var inCost=(inputTokens/1000000)*p.input; var outCost=(outputTokens/1000000)*p.output; var costPerReq=inCost+outCost; var dailyCost=costPerReq*requests; var monthlyCost=dailyCost*days; var monthlyIn=inCost*requests*days; var monthlyOut=outCost*requests*days; return {costPerReq:'$'+fmt(costPerReq,6), dailyCost:dollar(dailyCost), monthlyCost:dollar(monthlyCost), inputCost:dollar(monthlyIn), outputCost:dollar(monthlyOut)};
+    var pricing={haiku:{input:0.25,output:1.25},sonnet:{input:3,output:15},opus:{input:15,output:75}}; var p=pricing[model]; var inCost=(inputTokens/1000000)*p.input; var outCost=(outputTokens/1000000)*p.output; var costPerReq=inCost+outCost; var dailyCost=costPerReq*requests; var monthlyCost=dailyCost*days; var monthlyIn=inCost*requests*days; var monthlyOut=outCost*requests*days;     document.getElementById('costPerReq').textContent = '$'+fmt(costPerReq,6);
+    document.getElementById('dailyCost').textContent = dollar(dailyCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('inputCost').textContent = dollar(monthlyIn);
+    document.getElementById('outputCost').textContent = dollar(monthlyOut);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

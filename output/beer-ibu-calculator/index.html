@@ -422,7 +422,9 @@ footer a:hover{color:#fff}
     var gravity = parseFloat(document.getElementById('gravity').value) || 0;
 
     // Calculation logic
-    var util=(1.65*Math.pow(0.000125,(gravity-1)))*((1-Math.pow(Math.E,-0.04*boilTime))/4.15); var ibu=(hopOz*alphaAcid*util*7489)/(batchGal*100); var style=ibu>60?'Very Bitter (IPA/DIPA)':ibu>40?'Bitter (Pale Ale/IPA)':ibu>25?'Moderate (Amber/ESB)':ibu>15?'Mild (Wheat/Lager)':'Very Low (Light Lager)'; return {ibu:fmt(ibu,1)+' IBU', utilization:fmt(util*100,1)+'%', style:style};
+    var util=(1.65*Math.pow(0.000125,(gravity-1)))*((1-Math.pow(Math.E,-0.04*boilTime))/4.15); var ibu=(hopOz*alphaAcid*util*7489)/(batchGal*100); var style=ibu>60?'Very Bitter (IPA/DIPA)':ibu>40?'Bitter (Pale Ale/IPA)':ibu>25?'Moderate (Amber/ESB)':ibu>15?'Mild (Wheat/Lager)':'Very Low (Light Lager)';     document.getElementById('ibu').textContent = fmt(ibu,1)+' IBU';
+    document.getElementById('utilization').textContent = fmt(util*100,1)+'%';
+    document.getElementById('style').textContent = style;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

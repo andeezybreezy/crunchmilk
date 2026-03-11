@@ -12,7 +12,8 @@
     var usd = parseFloat(document.getElementById('usd').value) || 0;
 
     // Calculation logic
-    var rate=1.53; var aud=usd*rate; return {aud:fmt(aud,2)+' AUD', rate:'1 USD = '+fmt(rate,4)+' AUD'};
+    var rate=1.53; var aud=usd*rate;     document.getElementById('aud').textContent = fmt(aud,2)+' AUD';
+    document.getElementById('rate').textContent = '1 USD = '+fmt(rate,4)+' AUD';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

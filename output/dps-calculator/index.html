@@ -421,7 +421,10 @@ footer a:hover{color:#fff}
     var critDamage = parseFloat(document.getElementById('critDamage').value) || 0;
 
     // Calculation logic
-    var baseDPS=damage*attackSpeed; var critMult=1+((critChance/100)*(critDamage-1)); var avgHit=damage*critMult; var effectiveDPS=avgHit*attackSpeed; var critDPS=effectiveDPS-baseDPS; return {baseDPS:fmt(baseDPS,1), effectiveDPS:fmt(effectiveDPS,1), critDPS:'+'+fmt(critDPS,1)+' from crits', avgHit:fmt(avgHit,1)};
+    var baseDPS=damage*attackSpeed; var critMult=1+((critChance/100)*(critDamage-1)); var avgHit=damage*critMult; var effectiveDPS=avgHit*attackSpeed; var critDPS=effectiveDPS-baseDPS;     document.getElementById('baseDPS').textContent = fmt(baseDPS,1);
+    document.getElementById('effectiveDPS').textContent = fmt(effectiveDPS,1);
+    document.getElementById('critDPS').textContent = '+'+fmt(critDPS,1)+' from crits';
+    document.getElementById('avgHit').textContent = fmt(avgHit,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

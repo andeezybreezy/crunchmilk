@@ -16,7 +16,8 @@
     var existing = parseFloat(document.getElementById('existing').value) || 0;
 
     // Calculation logic
-    var incomeReplace = income * yearsReplace; var totalNeed = incomeReplace + debt + education; var gap = Math.max(totalNeed - existing, 0); return {totalNeed: dollar(totalNeed), gap: dollar(gap)};
+    var incomeReplace = income * yearsReplace; var totalNeed = incomeReplace + debt + education; var gap = Math.max(totalNeed - existing, 0);     document.getElementById('totalNeed').textContent = dollar(totalNeed);
+    document.getElementById('gap').textContent = dollar(gap);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

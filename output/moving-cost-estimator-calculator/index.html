@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="bedrooms">Bedrooms</label>
-      <input type="number" id="bedrooms" value="undefined" min="1" max="6" step="1" inputmode="decimal">
+      <input type="number" id="bedrooms" value="" min="1" max="6" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Distance (miles)</label>
-      <input type="number" id="distance" value="undefined" min="1" max="3000" step="10" inputmode="decimal">
+      <input type="number" id="distance" value="" min="1" max="3000" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="type">Move Type</label>
-      <select id="type"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="type"><option value="DIY Truck" selected>DIY Truck</option><option value="Labor Only">Labor Only</option><option value="Full Service">Full Service</option><option value="type">type</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This moving cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Cost</strong> — Cost = Base × Size × Distance Factor — <em>Base rate scaled for home size and moving distance.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Real estate values and regulations vary significantly by location. Work with a local agent or attorney.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does moving cost?</h3>
+      <p>Local: $500-2500. Long distance: $2000-8000+ depending on size.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to save on moving?</h3>
+      <p>Move mid-month/mid-week, declutter before, and get 3+ quotes.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var type = document.getElementById('type').value;
 
     // Calculation logic
-    var baseCost = {'DIY Truck': 200, 'Labor Only': 600, 'Full Service': 1500}; var base = baseCost[type] || 600; var sizeMult = bedrooms * 0.5 + 0.5; var distMult = distance > 100 ? 1 + distance/500 : 1; var estimate = base * sizeMult * distMult; var timeline = distance > 500 ? '2-4 days' : 'Same day'; return {estimate: dollar(estimate), timeline: timeline};
+    var baseCost = {'DIY Truck': 200, 'Labor Only': 600, 'Full Service': 1500}; var base = baseCost[type] || 600; var sizeMult = bedrooms * 0.5 + 0.5; var distMult = distance > 100 ? 1 + distance/500 : 1; var estimate = base * sizeMult * distMult; var timeline = distance > 500 ? '2-4 days' : 'Same day';     document.getElementById('estimate').textContent = dollar(estimate);
+    document.getElementById('timeline').textContent = timeline;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

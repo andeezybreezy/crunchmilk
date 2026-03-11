@@ -15,7 +15,9 @@
     var sugarType = document.getElementById('sugarType').value;
 
     // Calculation logic
-    var residualCO2=3.0378-(0.050062*beerTemp)+(0.00026555*beerTemp*beerTemp); var neededCO2=targetVols-residualCO2; var cornSugarG=neededCO2*batchGal*3.785*4; var multipliers={corn:1,table:0.91,dme:1.47,honey:1.25}; var sugarG=cornSugarG*multipliers[sugarType]; var sugarOz=sugarG/28.35; var sugarCups=sugarOz/7; return {sugarOz:fmt(sugarOz,1)+' oz', sugarG:fmt(sugarG,0)+' g', sugarCups:fmt(sugarCups,2)+' cups'};
+    var residualCO2=3.0378-(0.050062*beerTemp)+(0.00026555*beerTemp*beerTemp); var neededCO2=targetVols-residualCO2; var cornSugarG=neededCO2*batchGal*3.785*4; var multipliers={corn:1,table:0.91,dme:1.47,honey:1.25}; var sugarG=cornSugarG*multipliers[sugarType]; var sugarOz=sugarG/28.35; var sugarCups=sugarOz/7;     document.getElementById('sugarOz').textContent = fmt(sugarOz,1)+' oz';
+    document.getElementById('sugarG').textContent = fmt(sugarG,0)+' g';
+    document.getElementById('sugarCups').textContent = fmt(sugarCups,2)+' cups';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

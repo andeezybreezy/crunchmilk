@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="thickness">Current Pad Thickness (mm)</label>
-      <input type="number" id="thickness" value="undefined" min="1" max="15" step="0.5" inputmode="decimal">
+      <input type="number" id="thickness" value="" min="1" max="15" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="minThickness">Minimum Thickness (mm)</label>
-      <input type="number" id="minThickness" value="undefined" min="1" max="5" step="0.5" inputmode="decimal">
+      <input type="number" id="minThickness" value="" min="1" max="5" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyMiles">Monthly Miles Driven</label>
-      <input type="number" id="monthlyMiles" value="undefined" min="100" max="5000" step="100" inputmode="decimal">
+      <input type="number" id="monthlyMiles" value="" min="100" max="5000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="driving">Driving Style</label>
-      <select id="driving"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="driving"><option value="Highway (light braking)" selected>Highway (light braking)</option><option value="Mixed">Mixed</option><option value="City (heavy braking)">City (heavy braking)</option><option value="driving">driving</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This brake pad life calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Miles Remaining</strong> — Miles = (Current - Min Thickness) / Wear Rate per Mile — <em>Remaining pad material divided by per-mile wear rate.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long do brake pads last?</h3>
+      <p>Typically 25,000-65,000 miles depending on driving habits and pad material.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the minimum safe thickness?</h3>
+      <p>Most manufacturers recommend replacement at 3mm or when the wear indicator is exposed.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var driving = document.getElementById('driving').value;
 
     // Calculation logic
-    var wearRates = {'Highway (light braking)': 0.00008, 'Mixed': 0.00012, 'City (heavy braking)': 0.00020}; var wearPerMile = wearRates[driving] || 0.00012; var remaining = thickness - minThickness; var milesLeft = remaining / wearPerMile; var monthsLeft = milesLeft / monthlyMiles; return {milesLeft: fmt(milesLeft,0), monthsLeft: fmt(monthsLeft,0)};
+    var wearRates = {'Highway (light braking)': 0.00008, 'Mixed': 0.00012, 'City (heavy braking)': 0.00020}; var wearPerMile = wearRates[driving] || 0.00012; var remaining = thickness - minThickness; var milesLeft = remaining / wearPerMile; var monthsLeft = milesLeft / monthlyMiles;     document.getElementById('milesLeft').textContent = fmt(milesLeft,0);
+    document.getElementById('monthsLeft').textContent = fmt(monthsLeft,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

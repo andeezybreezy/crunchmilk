@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="targetSalary">Target Annual Income ($)</label>
-      <input type="number" id="targetSalary" value="undefined" min="20000" max="500000" step="5000" inputmode="decimal">
+      <input type="number" id="targetSalary" value="" min="20000" max="500000" step="5000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="billableHours">Billable Hours per Week</label>
-      <input type="number" id="billableHours" value="undefined" min="5" max="45" step="1" inputmode="decimal">
+      <input type="number" id="billableHours" value="" min="5" max="45" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weeksOff">Weeks Off per Year</label>
-      <input type="number" id="weeksOff" value="undefined" min="0" max="12" step="1" inputmode="decimal">
+      <input type="number" id="weeksOff" value="" min="0" max="12" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="expensesPct">Business Expenses (%)</label>
-      <input type="number" id="expensesPct" value="undefined" min="10" max="50" step="5" inputmode="decimal">
+      <input type="number" id="expensesPct" value="" min="10" max="50" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This freelance hourly rate calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Hourly Rate</strong> — Rate = (Salary / (1 - Expense%)) / Billable Hours — <em>Target income grossed up for expenses divided by billable hours.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Tax laws and financial markets change frequently. Verify current rates with your financial institution.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I set my freelance rate?</h3>
+      <p>Start with your desired salary, add expenses and taxes, divide by billable hours.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What percentage of hours are billable?</h3>
+      <p>Typically only 50-65% of working hours are billable - the rest is admin, marketing, etc.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var expensesPct = parseFloat(document.getElementById('expensesPct').value) || 0;
 
     // Calculation logic
-    var workingWeeks = 52 - weeksOff; var totalHours = billableHours * workingWeeks; var grossNeeded = targetSalary / (1 - expensesPct/100); var hourlyRate = grossNeeded / totalHours; var dayRate = hourlyRate * 8; var projectRate = hourlyRate * billableHours; return {hourlyRate: dollar(hourlyRate), dayRate: dollar(dayRate), projectRate: dollar(projectRate)};
+    var workingWeeks = 52 - weeksOff; var totalHours = billableHours * workingWeeks; var grossNeeded = targetSalary / (1 - expensesPct/100); var hourlyRate = grossNeeded / totalHours; var dayRate = hourlyRate * 8; var projectRate = hourlyRate * billableHours;     document.getElementById('hourlyRate').textContent = dollar(hourlyRate);
+    document.getElementById('dayRate').textContent = dollar(dayRate);
+    document.getElementById('projectRate').textContent = dollar(projectRate);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

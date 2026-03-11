@@ -421,7 +421,10 @@ footer a:hover{color:#fff}
     var ledCount = parseFloat(document.getElementById('ledCount').value) || 0;
 
     // Calculation logic
-    var totalLedV=ledV*ledCount; var resistance=(supplyV-totalLedV)/(ledMA/1000); var powerW=Math.pow(ledMA/1000,2)*resistance; var stdValues=[10,22,33,47,68,100,150,220,330,470,680,1000,1500,2200,3300,4700]; var nearest=stdValues[0]; for(var i=0;i<stdValues.length;i++){if(Math.abs(stdValues[i]-resistance)<Math.abs(nearest-resistance)){nearest=stdValues[i];}} var minPower=powerW<0.125?'1/8W':powerW<0.25?'1/4W':powerW<0.5?'1/2W':'1W'; return {resistance:fmt(resistance,0)+' Ω', nearestStd:nearest+' Ω', powerW:fmt(powerW*1000,1)+' mW', minPowerRating:minPower+' or higher'};
+    var totalLedV=ledV*ledCount; var resistance=(supplyV-totalLedV)/(ledMA/1000); var powerW=Math.pow(ledMA/1000,2)*resistance; var stdValues=[10,22,33,47,68,100,150,220,330,470,680,1000,1500,2200,3300,4700]; var nearest=stdValues[0]; for(var i=0;i<stdValues.length;i++){if(Math.abs(stdValues[i]-resistance)<Math.abs(nearest-resistance)){nearest=stdValues[i];}} var minPower=powerW<0.125?'1/8W':powerW<0.25?'1/4W':powerW<0.5?'1/2W':'1W';     document.getElementById('resistance').textContent = fmt(resistance,0)+' Ω';
+    document.getElementById('nearestStd').textContent = nearest+' Ω';
+    document.getElementById('powerW').textContent = fmt(powerW*1000,1)+' mW';
+    document.getElementById('minPowerRating').textContent = minPower+' or higher';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

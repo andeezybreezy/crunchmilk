@@ -15,7 +15,11 @@
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var ounces=investment/buyPrice; var currentVal=ounces*currentPrice; var profit=currentVal-investment; var returnPct=(profit/investment)*100; var annualized=(Math.pow(currentVal/investment,1/years)-1)*100; return {ounces:fmt(ounces,4)+' oz', currentVal:dollar(currentVal), profit:dollar(profit), returnPct:fmt(returnPct,1)+'%', annualized:fmt(annualized,1)+'%'};
+    var ounces=investment/buyPrice; var currentVal=ounces*currentPrice; var profit=currentVal-investment; var returnPct=(profit/investment)*100; var annualized=(Math.pow(currentVal/investment,1/years)-1)*100;     document.getElementById('ounces').textContent = fmt(ounces,4)+' oz';
+    document.getElementById('currentVal').textContent = dollar(currentVal);
+    document.getElementById('profit').textContent = dollar(profit);
+    document.getElementById('returnPct').textContent = fmt(returnPct,1)+'%';
+    document.getElementById('annualized').textContent = fmt(annualized,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

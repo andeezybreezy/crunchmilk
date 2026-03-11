@@ -16,7 +16,9 @@
     var machineCost = parseFloat(document.getElementById('machineCost').value) || 0;
 
     // Calculation logic
-    var dailyRevenue = machineCount * avgSalesDay * avgPrice; var monthlyRevenue = dailyRevenue * 30; var monthlyCogs = monthlyRevenue * (cogs/100); var monthlyProfit = monthlyRevenue - monthlyCogs; var totalInvestment = machineCount * machineCost; var roiMonths = totalInvestment / monthlyProfit; return {monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), roiMonths: fmt(roiMonths,1)};
+    var dailyRevenue = machineCount * avgSalesDay * avgPrice; var monthlyRevenue = dailyRevenue * 30; var monthlyCogs = monthlyRevenue * (cogs/100); var monthlyProfit = monthlyRevenue - monthlyCogs; var totalInvestment = machineCount * machineCost; var roiMonths = totalInvestment / monthlyProfit;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('roiMonths').textContent = fmt(roiMonths,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

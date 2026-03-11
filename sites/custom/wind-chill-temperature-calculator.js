@@ -13,7 +13,8 @@
     var wind = parseFloat(document.getElementById('wind').value) || 0;
 
     // Calculation logic
-    var windChill = 35.74 + (0.6215 * temp) - (35.75 * Math.pow(wind, 0.16)) + (0.4275 * temp * Math.pow(wind, 0.16)); var danger = windChill < -40 ? 'Extreme - frostbite in <5 min' : windChill < -20 ? 'High - frostbite in 10-30 min' : windChill < 0 ? 'Moderate - dress in layers' : 'Low'; return {windChill: fmt(windChill,0), danger: danger};
+    var windChill = 35.74 + (0.6215 * temp) - (35.75 * Math.pow(wind, 0.16)) + (0.4275 * temp * Math.pow(wind, 0.16)); var danger = windChill < -40 ? 'Extreme - frostbite in <5 min' : windChill < -20 ? 'High - frostbite in 10-30 min' : windChill < 0 ? 'Moderate - dress in layers' : 'Low';     document.getElementById('windChill').textContent = fmt(windChill,0);
+    document.getElementById('danger').textContent = danger;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

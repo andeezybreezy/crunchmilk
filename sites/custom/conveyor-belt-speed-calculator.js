@@ -14,7 +14,8 @@
     var ratio = parseFloat(document.getElementById('ratio').value) || 0;
 
     // Calculation logic
-    var outputRpm = rpm / ratio; var circumference = Math.PI * rollerDia / 12; var beltSpeed = outputRpm * circumference; var beltSpeedMph = beltSpeed * 60 / 5280; return {beltSpeed: fmt(beltSpeed,1), beltSpeedMph: fmt(beltSpeedMph,2)};
+    var outputRpm = rpm / ratio; var circumference = Math.PI * rollerDia / 12; var beltSpeed = outputRpm * circumference; var beltSpeedMph = beltSpeed * 60 / 5280;     document.getElementById('beltSpeed').textContent = fmt(beltSpeed,1);
+    document.getElementById('beltSpeedMph').textContent = fmt(beltSpeedMph,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

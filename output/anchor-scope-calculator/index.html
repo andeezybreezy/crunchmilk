@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="depth">Water Depth (ft)</label>
-      <input type="number" id="depth" value="undefined" min="1" max="200" step="1" inputmode="decimal">
+      <input type="number" id="depth" value="" min="1" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="tide">Max Tide Rise (ft)</label>
-      <input type="number" id="tide" value="undefined" min="0" max="20" step="1" inputmode="decimal">
+      <input type="number" id="tide" value="" min="0" max="20" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="bowHeight">Bow Height (ft)</label>
-      <input type="number" id="bowHeight" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="bowHeight" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="scope">Scope Ratio</label>
-      <select id="scope"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="scope"><option value="5:1 (calm)" selected>5:1 (calm)</option><option value="7:1 (standard)">7:1 (standard)</option><option value="10:1 (storm)">10:1 (storm)</option><option value="scope">scope</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This anchor rode length calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Rode Length</strong> — Rode = (Depth + Tide + Bow Height) × Scope Ratio — <em>Total vertical distance multiplied by the scope ratio.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What scope ratio should I use?</h3>
+      <p>7:1 for most conditions, 5:1 in calm weather, 10:1 for storms.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Chain or rope rode?</h3>
+      <p>All chain provides better holding. Chain + nylon rode is lighter and more common on smaller boats.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var scope = document.getElementById('scope').value;
 
     // Calculation logic
-    var totalDepth = depth + tide + bowHeight; var ratios = {'5:1 (calm)': 5, '7:1 (standard)': 7, '10:1 (storm)': 10}; var ratio = ratios[scope] || 7; var rodeLength = totalDepth * ratio; return {totalDepth: fmt(totalDepth,0), rodeLength: fmt(rodeLength,0)};
+    var totalDepth = depth + tide + bowHeight; var ratios = {'5:1 (calm)': 5, '7:1 (standard)': 7, '10:1 (storm)': 10}; var ratio = ratios[scope] || 7; var rodeLength = totalDepth * ratio;     document.getElementById('totalDepth').textContent = fmt(totalDepth,0);
+    document.getElementById('rodeLength').textContent = fmt(rodeLength,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,31 +300,31 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gpuWatts">GPU Power Draw (watts)</label>
-      <input type="number" id="gpuWatts" value="undefined" min="50" max="600" step="10" inputmode="decimal">
+      <input type="number" id="gpuWatts" value="" min="50" max="600" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="cpuWatts">CPU Power Draw (watts)</label>
-      <input type="number" id="cpuWatts" value="undefined" min="35" max="300" step="5" inputmode="decimal">
+      <input type="number" id="cpuWatts" value="" min="35" max="300" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="peripherals">Monitors + Peripherals (watts)</label>
-      <input type="number" id="peripherals" value="undefined" min="20" max="300" step="10" inputmode="decimal">
+      <input type="number" id="peripherals" value="" min="20" max="300" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="hoursPerDay">Gaming Hours per Day</label>
-      <input type="number" id="hoursPerDay" value="undefined" min="1" max="16" step="0.5" inputmode="decimal">
+      <input type="number" id="hoursPerDay" value="" min="1" max="16" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="electricityRate">Electricity Rate ($/kWh)</label>
-      <input type="number" id="electricityRate" value="undefined" min="0.05" max="0.5" step="0.01" inputmode="decimal">
+      <input type="number" id="electricityRate" value="" min="0.05" max="0.5" step="0.01" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="psuEfficiency">PSU Efficiency (%)</label>
-      <input type="number" id="psuEfficiency" value="undefined" min="70" max="95" step="5" inputmode="decimal">
+      <input type="number" id="psuEfficiency" value="" min="70" max="95" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -368,7 +368,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This gaming electricity cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Monthly Cost</strong> — Cost = (Total Watts / 1000) x Hours/Day x 30 x Rate — <em>Convert watts to kilowatts, multiply by daily hours and monthly days, then by your electricity rate.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -381,13 +381,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much electricity does a gaming PC use?</h3>
+      <p>A mid-range gaming PC draws 300-500 watts while gaming. At average US electricity rates, that costs $15-$30 per month for 4 hours daily.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does PSU efficiency matter for electricity cost?</h3>
+      <p>Yes, an 80% efficient PSU wastes 20% of power as heat. Upgrading from 80% to 90% efficiency saves roughly 10% on gaming electricity costs.</p>
     </div>
 
   </div>
@@ -443,7 +443,10 @@ footer a:hover{color:#fff}
     var psuEfficiency = parseFloat(document.getElementById('psuEfficiency').value) || 0;
 
     // Calculation logic
-    var componentWatts = gpuWatts + cpuWatts + peripherals; var totalDraw = Math.round(componentWatts / (psuEfficiency / 100)); var kwhPerDay = (totalDraw * hoursPerDay) / 1000; var dailyCost = kwhPerDay * electricityRate; var monthlyCost = dailyCost * 30; var annualCost = dailyCost * 365; return {totalDraw: fmt(totalDraw, 0), dailyCost: dollar(dailyCost), monthlyCost: dollar(monthlyCost), annualCost: dollar(annualCost)};
+    var componentWatts = gpuWatts + cpuWatts + peripherals; var totalDraw = Math.round(componentWatts / (psuEfficiency / 100)); var kwhPerDay = (totalDraw * hoursPerDay) / 1000; var dailyCost = kwhPerDay * electricityRate; var monthlyCost = dailyCost * 30; var annualCost = dailyCost * 365;     document.getElementById('totalDraw').textContent = fmt(totalDraw, 0);
+    document.getElementById('dailyCost').textContent = dollar(dailyCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

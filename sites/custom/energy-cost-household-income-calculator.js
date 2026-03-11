@@ -15,7 +15,11 @@
     var monthlyHeating = parseFloat(document.getElementById('monthlyHeating').value) || 0;
 
     // Calculation logic
-    var annual = (v.monthlyGas + v.monthlyElectric + v.monthlyHeating) * 12; var pct = (annual / v.annualIncome * 100); var status = pct > 10 ? 'Energy Poverty — exceeds 10% threshold' : pct > 6 ? 'High Energy Burden' : pct > 3 ? 'Moderate — within normal range' : 'Low Energy Burden'; var natAvg = 3.5; var doubled = annual * 2; var doubledPct = (doubled / v.annualIncome * 100); return {annualEnergy: '$' + Math.round(annual).toLocaleString() + '/year', incomePercent: pct.toFixed(1) + '%', status: status, nationalAvg: 'National average: ' + natAvg + '% (yours: ' + (pct > natAvg ? 'above' : 'below') + ')', crisisImpact: doubledPct.toFixed(1) + '% of income ($' + Math.round(doubled).toLocaleString() + '/yr)'};
+    var annual = (v.monthlyGas + v.monthlyElectric + v.monthlyHeating) * 12; var pct = (annual / v.annualIncome * 100); var status = pct > 10 ? 'Energy Poverty — exceeds 10% threshold' : pct > 6 ? 'High Energy Burden' : pct > 3 ? 'Moderate — within normal range' : 'Low Energy Burden'; var natAvg = 3.5; var doubled = annual * 2; var doubledPct = (doubled / v.annualIncome * 100);     document.getElementById('annualEnergy').textContent = '$' + Math.round(annual).toLocaleString() + '/year';
+    document.getElementById('incomePercent').textContent = pct.toFixed(1) + '%';
+    document.getElementById('status').textContent = status;
+    document.getElementById('nationalAvg').textContent = 'National average: ' + natAvg + '% (yours: ' + (pct > natAvg ? 'above' : 'below') + ')';
+    document.getElementById('crisisImpact').textContent = doubledPct.toFixed(1) + '% of income ($' + Math.round(doubled).toLocaleString() + '/yr)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

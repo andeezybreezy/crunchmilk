@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="baseline">Baseline EMF (mG)</label>
-      <input type="number" id="baseline" value="undefined" min="0" max="10" step="0.1" inputmode="decimal">
+      <input type="number" id="baseline" value="" min="0" max="10" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="reading">Current Reading (mG)</label>
-      <input type="number" id="reading" value="undefined" min="0" max="100" step="0.1" inputmode="decimal">
+      <input type="number" id="reading" value="" min="0" max="100" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="nearElectronics">Near Electronics</label>
-      <select id="nearElectronics"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="nearElectronics"><option value="Yes" selected>Yes</option><option value="nearElectronics">nearElectronics</option><option value="Likely electronic interference">Likely electronic interference</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This ghost hunting emf calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>EMF Spike</strong> — Spike = Current Reading - Baseline — <em>Deviation from normal background EMF levels.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What EMF level indicates paranormal activity?</h3>
+      <p>Unexplained spikes of 2-7 mG with no electronic source nearby are considered noteworthy.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What causes false EMF readings?</h3>
+      <p>Wiring, appliances, cell phones, and power lines all create EMF fields.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var nearElectronics = document.getElementById('nearElectronics').value;
 
     // Calculation logic
-    var spike = reading - baseline; var significance; if (nearElectronics === 'Yes') significance = 'Likely electronic interference'; else if (spike > 5) significance = 'Significant unexplained spike'; else if (spike > 2) significance = 'Notable deviation - investigate'; else significance = 'Within normal range'; return {spike: fmt(spike,1), significance: significance};
+    var spike = reading - baseline; var significance; if (nearElectronics === 'Yes') significance = 'Likely electronic interference'; else if (spike > 5) significance = 'Significant unexplained spike'; else if (spike > 2) significance = 'Notable deviation - investigate'; else significance = 'Within normal range';     document.getElementById('spike').textContent = fmt(spike,1);
+    document.getElementById('significance').textContent = significance;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

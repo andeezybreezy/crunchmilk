@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="debt1">Debt 1 Balance ($)</label>
-      <input type="number" id="debt1" value="undefined" min="100" max="200000" step="100" inputmode="decimal">
+      <input type="number" id="debt1" value="" min="100" max="200000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rate1">Debt 1 Rate (%)</label>
-      <input type="number" id="rate1" value="undefined" min="0" max="30" step="0.5" inputmode="decimal">
+      <input type="number" id="rate1" value="" min="0" max="30" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="debt2">Debt 2 Balance ($)</label>
-      <input type="number" id="debt2" value="undefined" min="100" max="200000" step="100" inputmode="decimal">
+      <input type="number" id="debt2" value="" min="100" max="200000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rate2">Debt 2 Rate (%)</label>
-      <input type="number" id="rate2" value="undefined" min="0" max="30" step="0.5" inputmode="decimal">
+      <input type="number" id="rate2" value="" min="0" max="30" step="0.5" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="extra">Extra Monthly Payment ($)</label>
-      <input type="number" id="extra" value="undefined" min="50" max="5000" step="50" inputmode="decimal">
+      <input type="number" id="extra" value="" min="50" max="5000" step="50" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This debt snowball calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Snowball</strong> — Pay minimum on all, throw extra at smallest debt — <em>Freed-up payments roll into the next debt for accelerating payoff.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Tax laws and financial markets change frequently. Verify current rates with your financial institution.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is debt snowball?</h3>
+      <p>Pay off smallest debt first for motivation wins, then roll payments to next debt.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Snowball vs avalanche?</h3>
+      <p>Snowball targets smallest balance. Avalanche targets highest interest rate.</p>
     </div>
 
   </div>
@@ -425,7 +425,9 @@ footer a:hover{color:#fff}
     var extra = parseFloat(document.getElementById('extra').value) || 0;
 
     // Calculation logic
-    var totalDebt = debt1 + debt2; var months1 = Math.ceil(debt1 / extra); var months2 = months1 + Math.ceil(debt2 / (extra + debt1*rate1/100/12)); var debtFreeMonths = months2; var minPayment1 = debt1 * 0.03; var minPayment2 = debt2 * 0.03; var minMonths = Math.ceil(totalDebt / (minPayment1 + minPayment2)); var interestSaved = totalDebt * 0.15 * ((minMonths - debtFreeMonths) / 12); return {totalDebt: dollar(totalDebt), debtFreeMonths: fmt(debtFreeMonths,0), interestSaved: dollar(Math.max(interestSaved,0))};
+    var totalDebt = debt1 + debt2; var months1 = Math.ceil(debt1 / extra); var months2 = months1 + Math.ceil(debt2 / (extra + debt1*rate1/100/12)); var debtFreeMonths = months2; var minPayment1 = debt1 * 0.03; var minPayment2 = debt2 * 0.03; var minMonths = Math.ceil(totalDebt / (minPayment1 + minPayment2)); var interestSaved = totalDebt * 0.15 * ((minMonths - debtFreeMonths) / 12);     document.getElementById('totalDebt').textContent = dollar(totalDebt);
+    document.getElementById('debtFreeMonths').textContent = fmt(debtFreeMonths,0);
+    document.getElementById('interestSaved').textContent = dollar(Math.max(interestSaved,0));
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

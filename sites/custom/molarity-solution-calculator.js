@@ -14,7 +14,9 @@
     var volume = parseFloat(document.getElementById('volume').value) || 0;
 
     // Calculation logic
-    var moles = mass / molarMass; var volumeL = volume / 1000; var molarity = moles / volumeL; var normality = molarity; return {moles: fmt(moles,4), molarity: fmt(molarity,4), normality: fmt(normality,4)};
+    var moles = mass / molarMass; var volumeL = volume / 1000; var molarity = moles / volumeL; var normality = molarity;     document.getElementById('moles').textContent = fmt(moles,4);
+    document.getElementById('molarity').textContent = fmt(molarity,4);
+    document.getElementById('normality').textContent = fmt(normality,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

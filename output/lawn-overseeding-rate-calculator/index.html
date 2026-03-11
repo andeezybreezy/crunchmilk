@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Lawn Area (sq ft)</label>
-      <input type="number" id="area" value="undefined" min="100" max="200000" step="100" inputmode="decimal">
+      <input type="number" id="area" value="" min="100" max="200000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="seedType">Grass Type</label>
-      <select id="seedType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="seedType"><option value="Kentucky Bluegrass" selected>Kentucky Bluegrass</option><option value="Perennial Ryegrass">Perennial Ryegrass</option><option value="Tall Fescue">Tall Fescue</option><option value="Bermuda">Bermuda</option><option value="Zoysia">Zoysia</option><option value="seedType">seedType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="condition">Lawn Condition</label>
-      <select id="condition"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="condition"><option value="Light Overseeding" selected>Light Overseeding</option><option value="Moderate Repair">Moderate Repair</option><option value="Heavy Renovation">Heavy Renovation</option><option value="condition">condition</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This lawn overseeding rate calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Seed Amount</strong> — Seed (lbs) = (Area / 1000) × Rate × Condition Multiplier — <em>Base rate per 1000 sq ft adjusted for lawn condition.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When is the best time to overseed?</h3>
+      <p>Fall is ideal for cool-season grasses, late spring for warm-season varieties.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I aerate before overseeding?</h3>
+      <p>Yes, core aeration improves seed-to-soil contact significantly.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var condition = document.getElementById('condition').value;
 
     // Calculation logic
-    var rates = {'Kentucky Bluegrass': 2, 'Perennial Ryegrass': 4, 'Tall Fescue': 6, 'Bermuda': 1.5, 'Zoysia': 1.5}; var multipliers = {'Light Overseeding': 0.5, 'Moderate Repair': 1, 'Heavy Renovation': 1.5}; var base = rates[seedType] || 3; var mult = multipliers[condition] || 1; var seedLbs = (area / 1000) * base * mult; var bags = Math.ceil(seedLbs / 5); var cost = bags * 25; return {seedLbs: fmt(seedLbs,1), bags: fmt(bags,0), cost: dollar(cost)};
+    var rates = {'Kentucky Bluegrass': 2, 'Perennial Ryegrass': 4, 'Tall Fescue': 6, 'Bermuda': 1.5, 'Zoysia': 1.5}; var multipliers = {'Light Overseeding': 0.5, 'Moderate Repair': 1, 'Heavy Renovation': 1.5}; var base = rates[seedType] || 3; var mult = multipliers[condition] || 1; var seedLbs = (area / 1000) * base * mult; var bags = Math.ceil(seedLbs / 5); var cost = bags * 25;     document.getElementById('seedLbs').textContent = fmt(seedLbs,1);
+    document.getElementById('bags').textContent = fmt(bags,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

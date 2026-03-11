@@ -15,7 +15,9 @@
     var warehouseMonths = parseFloat(document.getElementById('warehouseMonths').value) || 0;
 
     // Calculation logic
-    var normalDuty = importValue * (dutyRate/100); var reexportSavings = normalDuty * (reexportPct/100); var deferralSavings = normalDuty * 0.05 * (warehouseMonths/12); var ftzDuty = normalDuty - reexportSavings - deferralSavings; var savings = normalDuty - ftzDuty; return {normalDuty: dollar(normalDuty), ftzDuty: dollar(ftzDuty), savings: dollar(savings)};
+    var normalDuty = importValue * (dutyRate/100); var reexportSavings = normalDuty * (reexportPct/100); var deferralSavings = normalDuty * 0.05 * (warehouseMonths/12); var ftzDuty = normalDuty - reexportSavings - deferralSavings; var savings = normalDuty - ftzDuty;     document.getElementById('normalDuty').textContent = dollar(normalDuty);
+    document.getElementById('ftzDuty').textContent = dollar(ftzDuty);
+    document.getElementById('savings').textContent = dollar(savings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

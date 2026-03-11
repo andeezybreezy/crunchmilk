@@ -15,7 +15,10 @@
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var rates={a100:1.50,h100:3.00,a10g:0.75,t4:0.35,l4:0.50}; var rate=rates[gpu]*gpuCount; var dailyCost=rate*hoursPerDay; var monthlyCost=dailyCost*days; var annualCost=monthlyCost*12; return {hourlyRate:dollar(rate)+'/hr', dailyCost:dollar(dailyCost), monthlyCost:dollar(monthlyCost), annualCost:dollar(annualCost)};
+    var rates={a100:1.50,h100:3.00,a10g:0.75,t4:0.35,l4:0.50}; var rate=rates[gpu]*gpuCount; var dailyCost=rate*hoursPerDay; var monthlyCost=dailyCost*days; var annualCost=monthlyCost*12;     document.getElementById('hourlyRate').textContent = dollar(rate)+'/hr';
+    document.getElementById('dailyCost').textContent = dollar(dailyCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

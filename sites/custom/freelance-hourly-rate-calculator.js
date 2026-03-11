@@ -15,7 +15,9 @@
     var expensesPct = parseFloat(document.getElementById('expensesPct').value) || 0;
 
     // Calculation logic
-    var workingWeeks = 52 - weeksOff; var totalHours = billableHours * workingWeeks; var grossNeeded = targetSalary / (1 - expensesPct/100); var hourlyRate = grossNeeded / totalHours; var dayRate = hourlyRate * 8; var projectRate = hourlyRate * billableHours; return {hourlyRate: dollar(hourlyRate), dayRate: dollar(dayRate), projectRate: dollar(projectRate)};
+    var workingWeeks = 52 - weeksOff; var totalHours = billableHours * workingWeeks; var grossNeeded = targetSalary / (1 - expensesPct/100); var hourlyRate = grossNeeded / totalHours; var dayRate = hourlyRate * 8; var projectRate = hourlyRate * billableHours;     document.getElementById('hourlyRate').textContent = dollar(hourlyRate);
+    document.getElementById('dayRate').textContent = dollar(dayRate);
+    document.getElementById('projectRate').textContent = dollar(projectRate);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

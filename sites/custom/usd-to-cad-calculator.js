@@ -12,7 +12,8 @@
     var usd = parseFloat(document.getElementById('usd').value) || 0;
 
     // Calculation logic
-    var rate=1.36; var cad=usd*rate; return {cad:fmt(cad,2)+' CAD', rate:'1 USD = '+fmt(rate,4)+' CAD'};
+    var rate=1.36; var cad=usd*rate;     document.getElementById('cad').textContent = fmt(cad,2)+' CAD';
+    document.getElementById('rate').textContent = '1 USD = '+fmt(rate,4)+' CAD';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

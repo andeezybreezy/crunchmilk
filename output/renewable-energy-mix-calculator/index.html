@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="annualKwh">Annual Energy Need (kWh)</label>
-      <input type="number" id="annualKwh" value="undefined" min="1000" max="1000000" step="1000" inputmode="decimal">
+      <input type="number" id="annualKwh" value="" min="1000" max="1000000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="solarPct">Solar Percentage</label>
-      <input type="number" id="solarPct" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="solarPct" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="windPct">Wind Percentage</label>
-      <input type="number" id="windPct" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="windPct" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="hydroPct">Hydro Percentage</label>
-      <input type="number" id="hydroPct" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="hydroPct" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This renewable energy mix calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>CO2 Saved</strong> — Tons = kWh × 0.000907 — <em>Average coal plant emits 907g CO2 per kWh.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the best renewable energy mix?</h3>
+      <p>Depends on location. Solar dominates in sunny areas, wind in plains and coasts.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much CO2 does renewable energy save?</h3>
+      <p>About 0.9 tons per 1000 kWh compared to coal-fired electricity.</p>
     </div>
 
   </div>
@@ -424,7 +424,10 @@ footer a:hover{color:#fff}
     var hydroPct = parseFloat(document.getElementById('hydroPct').value) || 0;
 
     // Calculation logic
-    var total = solarPct + windPct + hydroPct; var solarKwh = annualKwh * (solarPct / Math.max(total,1)); var windKwh = annualKwh * (windPct / Math.max(total,1)); var hydroKwh = annualKwh * (hydroPct / Math.max(total,1)); var co2Saved = annualKwh * 0.000907; return {solarKwh: fmt(solarKwh,0), windKwh: fmt(windKwh,0), hydroKwh: fmt(hydroKwh,0), co2Saved: fmt(co2Saved,1)};
+    var total = solarPct + windPct + hydroPct; var solarKwh = annualKwh * (solarPct / Math.max(total,1)); var windKwh = annualKwh * (windPct / Math.max(total,1)); var hydroKwh = annualKwh * (hydroPct / Math.max(total,1)); var co2Saved = annualKwh * 0.000907;     document.getElementById('solarKwh').textContent = fmt(solarKwh,0);
+    document.getElementById('windKwh').textContent = fmt(windKwh,0);
+    document.getElementById('hydroKwh').textContent = fmt(hydroKwh,0);
+    document.getElementById('co2Saved').textContent = fmt(co2Saved,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

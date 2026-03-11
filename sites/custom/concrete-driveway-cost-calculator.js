@@ -14,7 +14,9 @@
     var material = document.getElementById('material').value;
 
     // Calculation logic
-    var sqft = length * width; var rates = {'Concrete': 12, 'Asphalt': 7, 'Pavers': 18, 'Gravel': 3}; var costPerSqFt = rates[material] || 10; var cost = sqft * costPerSqFt; return {sqft: fmt(sqft,0), cost: dollar(cost), costPerSqFt: dollar(costPerSqFt)};
+    var sqft = length * width; var rates = {'Concrete': 12, 'Asphalt': 7, 'Pavers': 18, 'Gravel': 3}; var costPerSqFt = rates[material] || 10; var cost = sqft * costPerSqFt;     document.getElementById('sqft').textContent = fmt(sqft,0);
+    document.getElementById('cost').textContent = dollar(cost);
+    document.getElementById('costPerSqFt').textContent = dollar(costPerSqFt);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,11 @@
     var starterPct = parseFloat(document.getElementById('starterPct').value) || 0;
 
     // Calculation logic
-    var water=flourG*(hydration/100); var salt=flourG*(saltPct/100); var starter=flourG*(starterPct/100); var totalDough=flourG+water+salt+starter; var loaves=totalDough/500; return {water:fmt(water,0)+' g', salt:fmt(salt,0)+' g', starter:fmt(starter,0)+' g', totalDough:fmt(totalDough,0)+' g', loaves:fmt(loaves,1)};
+    var water=flourG*(hydration/100); var salt=flourG*(saltPct/100); var starter=flourG*(starterPct/100); var totalDough=flourG+water+salt+starter; var loaves=totalDough/500;     document.getElementById('water').textContent = fmt(water,0)+' g';
+    document.getElementById('salt').textContent = fmt(salt,0)+' g';
+    document.getElementById('starter').textContent = fmt(starter,0)+' g';
+    document.getElementById('totalDough').textContent = fmt(totalDough,0)+' g';
+    document.getElementById('loaves').textContent = fmt(loaves,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

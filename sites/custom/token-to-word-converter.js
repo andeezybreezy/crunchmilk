@@ -13,7 +13,9 @@
     var direction = document.getElementById('direction').value;
 
     // Calculation logic
-    var words,tokens; if(direction==='tokensToWords'){tokens=amount;words=Math.round(amount*0.75);}else{words=amount;tokens=Math.round(amount*1.33);} var pages=Math.round(words/250*10)/10; var readTime=Math.round(words/200); return {result:direction==='tokensToWords'?fmt(words,0)+' words':fmt(tokens,0)+' tokens', pages:fmt(pages,1)+' pages', readTime:readTime+' min read'};
+    var words,tokens; if(direction==='tokensToWords'){tokens=amount;words=Math.round(amount*0.75);}else{words=amount;tokens=Math.round(amount*1.33);} var pages=Math.round(words/250*10)/10; var readTime=Math.round(words/200);     document.getElementById('result').textContent = direction==='tokensToWords'?fmt(words,0)+' words':fmt(tokens,0)+' tokens';
+    document.getElementById('pages').textContent = fmt(pages,1)+' pages';
+    document.getElementById('readTime').textContent = readTime+' min read';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

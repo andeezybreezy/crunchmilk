@@ -14,7 +14,9 @@
     var aides = parseFloat(document.getElementById('aides').value) || 0;
 
     // Calculation logic
-    var ratio = students / teachers; var effectiveRatio = students / (teachers + aides * 0.5); var rating = effectiveRatio <= 12 ? 'Excellent' : effectiveRatio <= 18 ? 'Good' : effectiveRatio <= 24 ? 'Average' : 'Needs Improvement'; return {ratio: fmt(ratio,1), effectiveRatio: fmt(effectiveRatio,1), rating: rating};
+    var ratio = students / teachers; var effectiveRatio = students / (teachers + aides * 0.5); var rating = effectiveRatio <= 12 ? 'Excellent' : effectiveRatio <= 18 ? 'Good' : effectiveRatio <= 24 ? 'Average' : 'Needs Improvement';     document.getElementById('ratio').textContent = fmt(ratio,1);
+    document.getElementById('effectiveRatio').textContent = fmt(effectiveRatio,1);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

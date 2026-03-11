@@ -15,7 +15,8 @@
     var toZone = parseFloat(document.getElementById('toZone').value) || 0;
 
     // Calculation logic
-    var diff = toZone - fromZone; var newHour = ((hour + diff) % 24 + 24) % 24; var dayChange = hour + diff >= 24 ? ' (+1 day)' : hour + diff < 0 ? ' (-1 day)' : ''; var ampm = newHour >= 12 ? 'PM' : 'AM'; var displayHour = newHour > 12 ? newHour - 12 : newHour === 0 ? 12 : newHour; var convertedTime = displayHour + ':' + (minute < 10 ? '0' : '') + minute + ' ' + ampm + dayChange; return {convertedTime: convertedTime, difference: (diff >= 0 ? '+' : '') + fmt(diff,0)};
+    var diff = toZone - fromZone; var newHour = ((hour + diff) % 24 + 24) % 24; var dayChange = hour + diff >= 24 ? ' (+1 day)' : hour + diff < 0 ? ' (-1 day)' : ''; var ampm = newHour >= 12 ? 'PM' : 'AM'; var displayHour = newHour > 12 ? newHour - 12 : newHour === 0 ? 12 : newHour; var convertedTime = displayHour + ':' + (minute < 10 ? '0' : '') + minute + ' ' + ampm + dayChange;     document.getElementById('convertedTime').textContent = convertedTime;
+    document.getElementById('difference').textContent = (diff >= 0 ? '+' : '') + fmt(diff,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

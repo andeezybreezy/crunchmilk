@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="income">Annual Income ($)</label>
-      <input type="number" id="income" value="undefined" min="10000" max="500000" step="1000" inputmode="decimal">
+      <input type="number" id="income" value="" min="10000" max="500000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="18" max="64" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="18" max="64" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="familySize">Family Size</label>
-      <input type="number" id="familySize" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="familySize" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="tier">Plan Tier</label>
-      <select id="tier"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="tier"><option value="Bronze" selected>Bronze</option><option value="Silver">Silver</option><option value="Gold">Gold</option><option value="Platinum">Platinum</option><option value="tier">tier</option></select>
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This health insurance premium calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Premium</strong> — Premium = Base × Age Factor × Family Size Factor - Subsidy — <em>Adjusted base premium minus any applicable subsidies.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Insurance rates depend on many individual factors. Get personalized quotes from licensed providers.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do I qualify for a subsidy?</h3>
+      <p>If your income is below 400% of the federal poverty level, you may qualify for premium tax credits.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What plan tier should I choose?</h3>
+      <p>Bronze for low premiums/high deductibles, Silver for subsidies, Gold/Platinum for frequent care.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var tier = document.getElementById('tier').value;
 
     // Calculation logic
-    var basePremiums = {'Bronze': 350, 'Silver': 450, 'Gold': 550, 'Platinum': 700}; var base = basePremiums[tier] || 450; var ageFactor = 1 + ((age - 21) * 0.015); var famFactor = 1 + ((familySize - 1) * 0.6); var monthlyPremium = base * ageFactor * famFactor; var fpl = 15060 + (familySize - 1) * 5380; var fplPct = income / fpl * 100; var subsidy = fplPct < 400 ? monthlyPremium * 0.3 : 0; monthlyPremium = monthlyPremium - subsidy; var annualPremium = monthlyPremium * 12; return {monthlyPremium: dollar(monthlyPremium), annualPremium: dollar(annualPremium), subsidy: dollar(subsidy)};
+    var basePremiums = {'Bronze': 350, 'Silver': 450, 'Gold': 550, 'Platinum': 700}; var base = basePremiums[tier] || 450; var ageFactor = 1 + ((age - 21) * 0.015); var famFactor = 1 + ((familySize - 1) * 0.6); var monthlyPremium = base * ageFactor * famFactor; var fpl = 15060 + (familySize - 1) * 5380; var fplPct = income / fpl * 100; var subsidy = fplPct < 400 ? monthlyPremium * 0.3 : 0; monthlyPremium = monthlyPremium - subsidy; var annualPremium = monthlyPremium * 12;     document.getElementById('monthlyPremium').textContent = dollar(monthlyPremium);
+    document.getElementById('annualPremium').textContent = dollar(annualPremium);
+    document.getElementById('subsidy').textContent = dollar(subsidy);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

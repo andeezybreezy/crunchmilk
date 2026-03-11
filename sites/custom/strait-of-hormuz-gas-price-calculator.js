@@ -15,7 +15,12 @@
     var mpg = parseFloat(document.getElementById('mpg').value) || 0;
 
     // Calculation logic
-    var d = v.disruption / 100; var globalSupplyLoss = 0.21 * d; var priceMultiplier = 1 + (globalSupplyLoss * 4.5); var newPrice = v.gasPrice * priceMultiplier; var gallonsNow = v.monthlyMiles / v.mpg; var costNow = gallonsNow * v.gasPrice; var costNew = gallonsNow * newPrice; return {newGasPrice: '$' + newPrice.toFixed(2), priceIncrease: '+' + ((priceMultiplier - 1) * 100).toFixed(0) + '%', monthlyCostNow: '$' + costNow.toFixed(0), monthlyCostNew: '$' + costNew.toFixed(0), monthlyHit: '+$' + (costNew - costNow).toFixed(0) + '/mo', annualHit: '+$' + ((costNew - costNow) * 12).toFixed(0) + '/yr'};
+    var d = v.disruption / 100; var globalSupplyLoss = 0.21 * d; var priceMultiplier = 1 + (globalSupplyLoss * 4.5); var newPrice = v.gasPrice * priceMultiplier; var gallonsNow = v.monthlyMiles / v.mpg; var costNow = gallonsNow * v.gasPrice; var costNew = gallonsNow * newPrice;     document.getElementById('newGasPrice').textContent = '$' + newPrice.toFixed(2);
+    document.getElementById('priceIncrease').textContent = '+' + ((priceMultiplier - 1) * 100).toFixed(0) + '%';
+    document.getElementById('monthlyCostNow').textContent = '$' + costNow.toFixed(0);
+    document.getElementById('monthlyCostNew').textContent = '$' + costNew.toFixed(0);
+    document.getElementById('monthlyHit').textContent = '+$' + (costNew - costNow).toFixed(0) + '/mo';
+    document.getElementById('annualHit').textContent = '+$' + ((costNew - costNow) * 12).toFixed(0) + '/yr';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="students">Total Students</label>
-      <input type="number" id="students" value="undefined" min="10" max="5000" step="10" inputmode="decimal">
+      <input type="number" id="students" value="" min="10" max="5000" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="teachers">Number of Teachers</label>
-      <input type="number" id="teachers" value="undefined" min="1" max="200" step="1" inputmode="decimal">
+      <input type="number" id="teachers" value="" min="1" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="aides">Teaching Aides</label>
-      <input type="number" id="aides" value="undefined" min="0" max="100" step="1" inputmode="decimal">
+      <input type="number" id="aides" value="" min="0" max="100" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This class size impact calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Student-Teacher Ratio</strong> — Ratio = Students / Teachers — <em>Simple division of total students by number of teachers.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Educational costs and financial aid vary by institution. Contact schools directly for current figures.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the ideal class size?</h3>
+      <p>Research suggests 15-18 students per teacher provides optimal outcomes.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do teaching aides help?</h3>
+      <p>Yes, each aide effectively reduces the ratio, though not as much as a full teacher.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var aides = parseFloat(document.getElementById('aides').value) || 0;
 
     // Calculation logic
-    var ratio = students / teachers; var effectiveRatio = students / (teachers + aides * 0.5); var rating = effectiveRatio <= 12 ? 'Excellent' : effectiveRatio <= 18 ? 'Good' : effectiveRatio <= 24 ? 'Average' : 'Needs Improvement'; return {ratio: fmt(ratio,1), effectiveRatio: fmt(effectiveRatio,1), rating: rating};
+    var ratio = students / teachers; var effectiveRatio = students / (teachers + aides * 0.5); var rating = effectiveRatio <= 12 ? 'Excellent' : effectiveRatio <= 18 ? 'Good' : effectiveRatio <= 24 ? 'Average' : 'Needs Improvement';     document.getElementById('ratio').textContent = fmt(ratio,1);
+    document.getElementById('effectiveRatio').textContent = fmt(effectiveRatio,1);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

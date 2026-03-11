@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="annualMiles">Annual Driving Miles</label>
-      <input type="number" id="annualMiles" value="undefined" min="0" max="100000" step="1000" inputmode="decimal">
+      <input type="number" id="annualMiles" value="" min="0" max="100000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="flights">Round-Trip Flights per Year</label>
-      <input type="number" id="flights" value="undefined" min="0" max="50" step="1" inputmode="decimal">
+      <input type="number" id="flights" value="" min="0" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="homeKwh">Monthly Home Electricity (kWh)</label>
-      <input type="number" id="homeKwh" value="undefined" min="0" max="5000" step="100" inputmode="decimal">
+      <input type="number" id="homeKwh" value="" min="0" max="5000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This carbon offset cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Driving Emissions</strong> — Tons = Miles × 0.000404 — <em>Average car emits about 404g CO2 per mile.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does it cost to offset carbon?</h3>
+      <p>Voluntary carbon offsets range from $10-50 per ton of CO2.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the average American carbon footprint?</h3>
+      <p>About 16 tons of CO2 per year, compared to a global average of 4 tons.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var homeKwh = parseFloat(document.getElementById('homeKwh').value) || 0;
 
     // Calculation logic
-    var drivingTons = annualMiles * 0.000404; var flightTons = flights * 1.6; var electricTons = homeKwh * 12 * 0.000417; var totalTons = drivingTons + flightTons + electricTons; var offsetCost = totalTons * 15; var premiumCost = totalTons * 30; return {totalTons: fmt(totalTons,1), offsetCost: dollar(offsetCost), premiumCost: dollar(premiumCost)};
+    var drivingTons = annualMiles * 0.000404; var flightTons = flights * 1.6; var electricTons = homeKwh * 12 * 0.000417; var totalTons = drivingTons + flightTons + electricTons; var offsetCost = totalTons * 15; var premiumCost = totalTons * 30;     document.getElementById('totalTons').textContent = fmt(totalTons,1);
+    document.getElementById('offsetCost').textContent = dollar(offsetCost);
+    document.getElementById('premiumCost').textContent = dollar(premiumCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

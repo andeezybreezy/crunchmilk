@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="totalValue">Total Product Value ($)</label>
-      <input type="number" id="totalValue" value="undefined" min="1" max="1000000" step="1" inputmode="decimal">
+      <input type="number" id="totalValue" value="" min="1" max="1000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="domesticValue">Domestic/FTA Content Value ($)</label>
-      <input type="number" id="domesticValue" value="undefined" min="0" max="1000000" step="1" inputmode="decimal">
+      <input type="number" id="domesticValue" value="" min="0" max="1000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="agreement">Trade Agreement</label>
-      <select id="agreement"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="agreement"><option value="USMCA (75% auto, 60% other)" selected>USMCA (75% auto, 60% other)</option><option value="EU FTA (varies)">EU FTA (varies)</option><option value="CAFTA-DR (35%)">CAFTA-DR (35%)</option><option value="General (50%)">General (50%)</option><option value="agreement">agreement</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rules of origin calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Regional Content</strong> — Content% = Domestic Value / Total Value × 100 — <em>Percentage of product value from FTA member countries.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are rules of origin?</h3>
+      <p>Criteria to determine where a product was made, affecting eligibility for lower tariff rates.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why do rules of origin matter?</h3>
+      <p>Products meeting origin rules can get preferential (lower or zero) tariff rates under trade agreements.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var agreement = document.getElementById('agreement').value;
 
     // Calculation logic
-    var contentPct = (domesticValue / totalValue) * 100; var thresholds = {'USMCA (75% auto, 60% other)': 60, 'EU FTA (varies)': 55, 'CAFTA-DR (35%)': 35, 'General (50%)': 50}; var threshold = thresholds[agreement] || 50; var qualifies = contentPct >= threshold ? 'Yes - qualifies for preferential rate' : 'No - does not meet content threshold'; return {contentPct: fmt(contentPct,1), threshold: fmt(threshold,0), qualifies: qualifies};
+    var contentPct = (domesticValue / totalValue) * 100; var thresholds = {'USMCA (75% auto, 60% other)': 60, 'EU FTA (varies)': 55, 'CAFTA-DR (35%)': 35, 'General (50%)': 50}; var threshold = thresholds[agreement] || 50; var qualifies = contentPct >= threshold ? 'Yes - qualifies for preferential rate' : 'No - does not meet content threshold';     document.getElementById('contentPct').textContent = fmt(contentPct,1);
+    document.getElementById('threshold').textContent = fmt(threshold,0);
+    document.getElementById('qualifies').textContent = qualifies;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

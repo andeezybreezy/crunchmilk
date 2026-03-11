@@ -15,7 +15,10 @@
     var insulation = document.getElementById('insulation').value;
 
     // Calculation logic
-    var climateMultiplier = {mild: 0.7, cold: 1.0, severe: 1.35}; var insulationMultiplier = {poor: 1.3, average: 1.0, good: 0.75}; var baseGallons = v.homeSqft * 0.45; var gallons = Math.round(baseGallons * climateMultiplier[v.climate] * insulationMultiplier[v.insulation]); var cost = gallons * v.oilPrice; return {gallonsPerSeason: gallons.toLocaleString() + ' gal', seasonCost: '$' + Math.round(cost).toLocaleString(), monthlyCost: '$' + Math.round(cost / 6) + '/mo', costPerSqft: '$' + (cost / v.homeSqft).toFixed(2) + '/sqft'};
+    var climateMultiplier = {mild: 0.7, cold: 1.0, severe: 1.35}; var insulationMultiplier = {poor: 1.3, average: 1.0, good: 0.75}; var baseGallons = v.homeSqft * 0.45; var gallons = Math.round(baseGallons * climateMultiplier[v.climate] * insulationMultiplier[v.insulation]); var cost = gallons * v.oilPrice;     document.getElementById('gallonsPerSeason').textContent = gallons.toLocaleString() + ' gal';
+    document.getElementById('seasonCost').textContent = '$' + Math.round(cost).toLocaleString();
+    document.getElementById('monthlyCost').textContent = '$' + Math.round(cost / 6) + '/mo';
+    document.getElementById('costPerSqft').textContent = '$' + (cost / v.homeSqft).toFixed(2) + '/sqft';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -16,7 +16,9 @@
     var dryPrice = parseFloat(document.getElementById('dryPrice').value) || 0;
 
     // Calculation logic
-    var dailyWash = washers * turnsPerDay * washPrice; var dailyDry = dryers * turnsPerDay * dryPrice; var monthlyRevenue = (dailyWash + dailyDry) * 30; var netIncome = monthlyRevenue * 0.35; var annualRevenue = monthlyRevenue * 12; return {monthlyRevenue: dollar(monthlyRevenue), netIncome: dollar(netIncome), annualRevenue: dollar(annualRevenue)};
+    var dailyWash = washers * turnsPerDay * washPrice; var dailyDry = dryers * turnsPerDay * dryPrice; var monthlyRevenue = (dailyWash + dailyDry) * 30; var netIncome = monthlyRevenue * 0.35; var annualRevenue = monthlyRevenue * 12;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('netIncome').textContent = dollar(netIncome);
+    document.getElementById('annualRevenue').textContent = dollar(annualRevenue);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

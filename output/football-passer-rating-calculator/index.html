@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="completions">Completions</label>
-      <input type="number" id="completions" value="undefined" min="0" max="60" step="1" inputmode="decimal">
+      <input type="number" id="completions" value="" min="0" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="attempts">Attempts</label>
-      <input type="number" id="attempts" value="undefined" min="1" max="70" step="1" inputmode="decimal">
+      <input type="number" id="attempts" value="" min="1" max="70" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="yards">Passing Yards</label>
-      <input type="number" id="yards" value="undefined" min="0" max="600" step="1" inputmode="decimal">
+      <input type="number" id="yards" value="" min="0" max="600" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="touchdowns">Touchdowns</label>
-      <input type="number" id="touchdowns" value="undefined" min="0" max="8" step="1" inputmode="decimal">
+      <input type="number" id="touchdowns" value="" min="0" max="8" step="1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="interceptions">Interceptions</label>
-      <input type="number" id="interceptions" value="undefined" min="0" max="6" step="1" inputmode="decimal">
+      <input type="number" id="interceptions" value="" min="0" max="6" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This football qb rating calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>NFL Passer Rating</strong> — Rating = ((a + b + c + d) / 6) × 100 — <em>Four components: completion%, yards/att, TD%, INT%.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a perfect passer rating?</h3>
+      <p>158.3 is the maximum NFL passer rating.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is an average QB rating?</h3>
+      <p>Around 85-90 is league average in the modern NFL.</p>
     </div>
 
   </div>
@@ -419,7 +419,8 @@ footer a:hover{color:#fff}
     var interceptions = parseFloat(document.getElementById('interceptions').value) || 0;
 
     // Calculation logic
-    var a = Math.min(Math.max(((completions/attempts)-0.3)*5, 0), 2.375); var b = Math.min(Math.max(((yards/attempts)-3)*0.25, 0), 2.375); var c = Math.min(Math.max((touchdowns/attempts)*20, 0), 2.375); var d = Math.min(Math.max(2.375-((interceptions/attempts)*25), 0), 2.375); var rating = ((a+b+c+d)/6)*100; var grade = rating >= 100 ? 'Elite' : rating >= 90 ? 'Excellent' : rating >= 80 ? 'Good' : rating >= 70 ? 'Average' : 'Below Average'; return {rating: fmt(rating,1), grade: grade};
+    var a = Math.min(Math.max(((completions/attempts)-0.3)*5, 0), 2.375); var b = Math.min(Math.max(((yards/attempts)-3)*0.25, 0), 2.375); var c = Math.min(Math.max((touchdowns/attempts)*20, 0), 2.375); var d = Math.min(Math.max(2.375-((interceptions/attempts)*25), 0), 2.375); var rating = ((a+b+c+d)/6)*100; var grade = rating >= 100 ? 'Elite' : rating >= 90 ? 'Excellent' : rating >= 80 ? 'Good' : rating >= 70 ? 'Average' : 'Below Average';     document.getElementById('rating').textContent = fmt(rating,1);
+    document.getElementById('grade').textContent = grade;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

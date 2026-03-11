@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="extruder">Extruder Type</label>
-      <select id="extruder"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="extruder"><option value="Direct Drive" selected>Direct Drive</option><option value="PLA">PLA</option><option value="PETG">PETG</option><option value="ABS">ABS</option><option value="TPU">TPU</option><option value="Bowden Tube">Bowden Tube</option><option value="extruder">extruder</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="material">Material</label>
-      <select id="material"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="material"><option value="material" selected>material</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="nozzle">Nozzle Temp (°C)</label>
-      <input type="number" id="nozzle" value="undefined" min="170" max="280" step="5" inputmode="decimal">
+      <input type="number" id="nozzle" value="" min="170" max="280" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This 3d print retraction calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Retraction Distance</strong> — Distance based on extruder type and material — <em>Direct drive uses shorter retraction than bowden setups.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What causes stringing?</h3>
+      <p>Melted filament oozing during travel moves. Retraction pulls filament back to stop this.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Direct drive vs bowden retraction?</h3>
+      <p>Direct drive needs 0.5-2mm retraction, bowden needs 4-7mm due to tube play.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var nozzle = parseFloat(document.getElementById('nozzle').value) || 0;
 
     // Calculation logic
-    var distances = {'Direct Drive': {'PLA': 1, 'PETG': 1.5, 'ABS': 1, 'TPU': 0.5}, 'Bowden Tube': {'PLA': 5, 'PETG': 6, 'ABS': 5, 'TPU': 3}}; var speeds = {'Direct Drive': 25, 'Bowden Tube': 40}; var distance = distances[extruder][material] || 2; var speed = speeds[extruder] || 30; var tip = nozzle > 220 ? 'Higher temps need more retraction - add 0.5mm' : 'Temperature is in good range'; return {distance: fmt(distance,1), speed: fmt(speed,0), tip: tip};
+    var distances = {'Direct Drive': {'PLA': 1, 'PETG': 1.5, 'ABS': 1, 'TPU': 0.5}, 'Bowden Tube': {'PLA': 5, 'PETG': 6, 'ABS': 5, 'TPU': 3}}; var speeds = {'Direct Drive': 25, 'Bowden Tube': 40}; var distance = distances[extruder][material] || 2; var speed = speeds[extruder] || 30; var tip = nozzle > 220 ? 'Higher temps need more retraction - add 0.5mm' : 'Temperature is in good range';     document.getElementById('distance').textContent = fmt(distance,1);
+    document.getElementById('speed').textContent = fmt(speed,0);
+    document.getElementById('tip').textContent = tip;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,8 @@
     var nearCemetery = document.getElementById('nearCemetery').value;
 
     // Calculation logic
-    var score = Math.min(age * 0.1, 15) + deaths * 10 + reports * 5 + (nearCemetery === 'Yes' ? 15 : 0); score = Math.min(score, 100); var category = score >= 60 ? 'High Activity' : score >= 35 ? 'Moderate Activity' : score >= 15 ? 'Low Activity' : 'Minimal'; return {riskScore: fmt(score,0), category: category};
+    var score = Math.min(age * 0.1, 15) + deaths * 10 + reports * 5 + (nearCemetery === 'Yes' ? 15 : 0); score = Math.min(score, 100); var category = score >= 60 ? 'High Activity' : score >= 35 ? 'Moderate Activity' : score >= 15 ? 'Low Activity' : 'Minimal';     document.getElementById('riskScore').textContent = fmt(score,0);
+    document.getElementById('category').textContent = category;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

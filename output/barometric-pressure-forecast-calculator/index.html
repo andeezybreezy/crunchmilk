@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="current">Current Pressure (inHg)</label>
-      <input type="number" id="current" value="undefined" min="28" max="31" step="0.01" inputmode="decimal">
+      <input type="number" id="current" value="" min="28" max="31" step="0.01" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="threeHoursAgo">Pressure 3 Hours Ago (inHg)</label>
-      <input type="number" id="threeHoursAgo" value="undefined" min="28" max="31" step="0.01" inputmode="decimal">
+      <input type="number" id="threeHoursAgo" value="" min="28" max="31" step="0.01" inputmode="decimal">
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This barometric pressure trend calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Pressure Change</strong> — Change = Current - Previous Reading — <em>Positive = rising (clearing), negative = falling (storm approaching).</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is normal barometric pressure?</h3>
+      <p>29.92 inHg (1013.25 mb) is standard sea-level pressure.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What pressure change indicates a storm?</h3>
+      <p>A drop of 0.06+ inHg in 3 hours often signals approaching severe weather.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var threeHoursAgo = parseFloat(document.getElementById('threeHoursAgo').value) || 0;
 
     // Calculation logic
-    var change = current - threeHoursAgo; var trend = change > 0.06 ? 'Rising rapidly' : change > 0.02 ? 'Rising slowly' : change < -0.06 ? 'Falling rapidly' : change < -0.02 ? 'Falling slowly' : 'Steady'; var forecast = change < -0.06 ? 'Storm likely approaching' : change < -0.02 ? 'Weather may deteriorate' : change > 0.06 ? 'Rapid clearing expected' : change > 0.02 ? 'Fair weather ahead' : 'Current conditions likely to continue'; return {change: (change >= 0 ? '+' : '') + fmt(change,2), trend: trend, forecast: forecast};
+    var change = current - threeHoursAgo; var trend = change > 0.06 ? 'Rising rapidly' : change > 0.02 ? 'Rising slowly' : change < -0.06 ? 'Falling rapidly' : change < -0.02 ? 'Falling slowly' : 'Steady'; var forecast = change < -0.06 ? 'Storm likely approaching' : change < -0.02 ? 'Weather may deteriorate' : change > 0.06 ? 'Rapid clearing expected' : change > 0.02 ? 'Fair weather ahead' : 'Current conditions likely to continue';     document.getElementById('change').textContent = (change >= 0 ? '+' : '') + fmt(change,2);
+    document.getElementById('trend').textContent = trend;
+    document.getElementById('forecast').textContent = forecast;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

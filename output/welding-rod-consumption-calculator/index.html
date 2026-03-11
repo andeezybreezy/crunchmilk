@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="jointLength">Joint Length (inches)</label>
-      <input type="number" id="jointLength" value="undefined" min="1" max="1000" step="1" inputmode="decimal">
+      <input type="number" id="jointLength" value="" min="1" max="1000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rodLength">Rod Length (inches)</label>
-      <input type="number" id="rodLength" value="undefined" min="6" max="18" step="1" inputmode="decimal">
+      <input type="number" id="rodLength" value="" min="6" max="18" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="passes">Number of Passes</label>
-      <input type="number" id="passes" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="passes" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This welding rod consumption calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Rods Needed</strong> — Rods = (Joint Length × Passes) / (Rod Length × 0.6) — <em>Each rod deposits about 60% of its length as weld metal.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I estimate rod consumption?</h3>
+      <p>Divide total weld length by the deposition length per rod (typically 60% of rod length).</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What affects rod usage?</h3>
+      <p>Joint type, rod diameter, number of passes, and welder technique all impact consumption.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var passes = parseFloat(document.getElementById('passes').value) || 0;
 
     // Calculation logic
-    var deposition = rodLength * 0.6; var rodsNeeded = Math.ceil((jointLength * passes) / deposition); var totalWeight = rodsNeeded * 0.12; return {rodsNeeded: fmt(rodsNeeded,0), totalWeight: fmt(totalWeight,1)};
+    var deposition = rodLength * 0.6; var rodsNeeded = Math.ceil((jointLength * passes) / deposition); var totalWeight = rodsNeeded * 0.12;     document.getElementById('rodsNeeded').textContent = fmt(rodsNeeded,0);
+    document.getElementById('totalWeight').textContent = fmt(totalWeight,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

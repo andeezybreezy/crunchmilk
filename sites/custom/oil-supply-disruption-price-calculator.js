@@ -15,7 +15,11 @@
     var currentOil = parseFloat(document.getElementById('currentOil').value) || 0;
 
     // Calculation logic
-    var pctLoss = v.supplyLoss / 100; var panicMultiplier = v.duration > 90 ? 1.3 : v.duration > 30 ? 1.15 : 1.0; var typeMultiplier = {pipeline: 0.8, country: 1.0, multi: 1.3, embargo: 1.6}; var tm = typeMultiplier[v.disruptionType]; var priceSpike = pctLoss * 8 * panicMultiplier * tm; var peakOil = v.currentOil * (1 + priceSpike); var avgOil = v.currentOil * (1 + priceSpike * 0.7); var gasImpact = '+$' + (priceSpike * 0.6 * 3.5).toFixed(2) + '/gal'; var globalCostB = Math.round(v.supplyLoss * (peakOil - v.currentOil) * v.duration / 1e3); var recovery = v.duration < 30 ? '2-4 weeks after resolution' : v.duration < 90 ? '1-3 months' : '3-6 months'; return {peakOil: '$' + peakOil.toFixed(0) + '/barrel', avgOil: '$' + avgOil.toFixed(0) + '/barrel', gasImpact: gasImpact, globalCost: '$' + globalCostB + ' billion (est.)', recoveryTime: recovery};
+    var pctLoss = v.supplyLoss / 100; var panicMultiplier = v.duration > 90 ? 1.3 : v.duration > 30 ? 1.15 : 1.0; var typeMultiplier = {pipeline: 0.8, country: 1.0, multi: 1.3, embargo: 1.6}; var tm = typeMultiplier[v.disruptionType]; var priceSpike = pctLoss * 8 * panicMultiplier * tm; var peakOil = v.currentOil * (1 + priceSpike); var avgOil = v.currentOil * (1 + priceSpike * 0.7); var gasImpact = '+$' + (priceSpike * 0.6 * 3.5).toFixed(2) + '/gal'; var globalCostB = Math.round(v.supplyLoss * (peakOil - v.currentOil) * v.duration / 1e3); var recovery = v.duration < 30 ? '2-4 weeks after resolution' : v.duration < 90 ? '1-3 months' : '3-6 months';     document.getElementById('peakOil').textContent = '$' + peakOil.toFixed(0) + '/barrel';
+    document.getElementById('avgOil').textContent = '$' + avgOil.toFixed(0) + '/barrel';
+    document.getElementById('gasImpact').textContent = gasImpact;
+    document.getElementById('globalCost').textContent = '$' + globalCostB + ' billion (est.)';
+    document.getElementById('recoveryTime').textContent = recovery;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Mold Length (inches)</label>
-      <input type="number" id="length" value="undefined" min="1" max="120" step="0.5" inputmode="decimal">
+      <input type="number" id="length" value="" min="1" max="120" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Mold Width (inches)</label>
-      <input type="number" id="width" value="undefined" min="1" max="60" step="0.5" inputmode="decimal">
+      <input type="number" id="width" value="" min="1" max="60" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="depth">Pour Depth (inches)</label>
-      <input type="number" id="depth" value="undefined" min="0.05" max="6" step="0.05" inputmode="decimal">
+      <input type="number" id="depth" value="" min="0.05" max="6" step="0.05" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mixRatio">Mix Ratio (resin:hardener)</label>
-      <select id="mixRatio"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="mixRatio"><option value="1:1" selected>1:1</option><option value="2:1">2:1</option><option value="3:1">3:1</option><option value="mixRatio">mixRatio</option></select>
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This resin pour volume calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Volume</strong> — fl oz = L × W × D × 0.554 — <em>Cubic inches to fluid ounces conversion.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much resin do I need?</h3>
+      <p>Calculate mold volume in cubic inches, multiply by 0.554 to get fluid ounces.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I mix extra?</h3>
+      <p>Yes, mix 10% extra to account for mixing cup residue and bubbles.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var mixRatio = document.getElementById('mixRatio').value;
 
     // Calculation logic
-    var cubicIn = length * width * depth; var totalOz = cubicIn * 0.554; var ratios = {'1:1': [0.5,0.5], '2:1': [0.667,0.333], '3:1': [0.75,0.25]}; var r = ratios[mixRatio] || [0.5,0.5]; var resinOz = totalOz * r[0] * 1.1; var hardenerOz = totalOz * r[1] * 1.1; return {totalOz: fmt(totalOz,1), resinOz: fmt(resinOz,1), hardenerOz: fmt(hardenerOz,1)};
+    var cubicIn = length * width * depth; var totalOz = cubicIn * 0.554; var ratios = {'1:1': [0.5,0.5], '2:1': [0.667,0.333], '3:1': [0.75,0.25]}; var r = ratios[mixRatio] || [0.5,0.5]; var resinOz = totalOz * r[0] * 1.1; var hardenerOz = totalOz * r[1] * 1.1;     document.getElementById('totalOz').textContent = fmt(totalOz,1);
+    document.getElementById('resinOz').textContent = fmt(resinOz,1);
+    document.getElementById('hardenerOz').textContent = fmt(hardenerOz,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

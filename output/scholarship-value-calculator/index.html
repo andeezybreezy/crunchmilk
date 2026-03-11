@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="annual">Annual Scholarship ($)</label>
-      <input type="number" id="annual" value="undefined" min="100" max="100000" step="500" inputmode="decimal">
+      <input type="number" id="annual" value="" min="100" max="100000" step="500" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="years">Years of Coverage</label>
-      <input type="number" id="years" value="undefined" min="1" max="8" step="1" inputmode="decimal">
+      <input type="number" id="years" value="" min="1" max="8" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="tuition">Annual Tuition ($)</label>
-      <input type="number" id="tuition" value="undefined" min="1000" max="100000" step="1000" inputmode="decimal">
+      <input type="number" id="tuition" value="" min="1000" max="100000" step="1000" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This scholarship value calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Value</strong> — Total = Annual Amount × Years — <em>Simple multiplication of annual award by years of coverage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Educational costs and financial aid vary by institution. Contact schools directly for current figures.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do scholarships count as income?</h3>
+      <p>Scholarships used for tuition and fees are generally tax-free. Room and board portions may be taxable.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I stack multiple scholarships?</h3>
+      <p>Yes, but total aid usually cannot exceed cost of attendance.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var tuition = parseFloat(document.getElementById('tuition').value) || 0;
 
     // Calculation logic
-    var totalValue = annual * years; var coveragePct = Math.min((annual / tuition) * 100, 100); var remaining = Math.max(tuition - annual, 0); return {totalValue: dollar(totalValue), coveragePct: fmt(coveragePct,1), remaining: dollar(remaining)};
+    var totalValue = annual * years; var coveragePct = Math.min((annual / tuition) * 100, 100); var remaining = Math.max(tuition - annual, 0);     document.getElementById('totalValue').textContent = dollar(totalValue);
+    document.getElementById('coveragePct').textContent = fmt(coveragePct,1);
+    document.getElementById('remaining').textContent = dollar(remaining);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

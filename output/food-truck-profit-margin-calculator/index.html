@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="daysPerWeek">Operating Days per Week</label>
-      <input type="number" id="daysPerWeek" value="undefined" min="1" max="7" step="1" inputmode="decimal">
+      <input type="number" id="daysPerWeek" value="" min="1" max="7" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="dailySales">Daily Sales ($)</label>
-      <input type="number" id="dailySales" value="undefined" min="100" max="5000" step="100" inputmode="decimal">
+      <input type="number" id="dailySales" value="" min="100" max="5000" step="100" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="foodCostPct">Food Cost (%)</label>
-      <input type="number" id="foodCostPct" value="undefined" min="15" max="50" step="5" inputmode="decimal">
+      <input type="number" id="foodCostPct" value="" min="15" max="50" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyFixed">Monthly Fixed Costs ($)</label>
-      <input type="number" id="monthlyFixed" value="undefined" min="500" max="10000" step="250" inputmode="decimal">
+      <input type="number" id="monthlyFixed" value="" min="500" max="10000" step="250" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This food truck profit calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Profit</strong> — Profit = Revenue - (Revenue × Food%) - Fixed Costs — <em>Revenue minus variable food costs and fixed operating costs.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does a food truck make?</h3>
+      <p>Average $250k-500k annual revenue with 10-20% profit margins.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a good food cost percentage?</h3>
+      <p>28-35% is standard. Below 25% is excellent.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var monthlyFixed = parseFloat(document.getElementById('monthlyFixed').value) || 0;
 
     // Calculation logic
-    var monthlyRevenue = dailySales * daysPerWeek * 4.33; var foodCost = monthlyRevenue * (foodCostPct/100); var monthlyProfit = monthlyRevenue - foodCost - monthlyFixed; var profitMargin = (monthlyProfit / monthlyRevenue) * 100; return {monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), profitMargin: fmt(profitMargin,1)};
+    var monthlyRevenue = dailySales * daysPerWeek * 4.33; var foodCost = monthlyRevenue * (foodCostPct/100); var monthlyProfit = monthlyRevenue - foodCost - monthlyFixed; var profitMargin = (monthlyProfit / monthlyRevenue) * 100;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('profitMargin').textContent = fmt(profitMargin,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

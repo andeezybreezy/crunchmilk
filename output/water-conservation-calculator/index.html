@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="showerMin">Daily Shower Minutes</label>
-      <input type="number" id="showerMin" value="undefined" min="2" max="30" step="1" inputmode="decimal">
+      <input type="number" id="showerMin" value="" min="2" max="30" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="flushes">Daily Toilet Flushes</label>
-      <input type="number" id="flushes" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="flushes" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="laundryLoads">Weekly Laundry Loads</label>
-      <input type="number" id="laundryLoads" value="undefined" min="0" max="14" step="1" inputmode="decimal">
+      <input type="number" id="laundryLoads" value="" min="0" max="14" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="lawnMin">Weekly Lawn Watering (min)</label>
-      <input type="number" id="lawnMin" value="undefined" min="0" max="120" step="5" inputmode="decimal">
+      <input type="number" id="lawnMin" value="" min="0" max="120" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This water conservation calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Shower Savings</strong> — Savings = (Standard 2.5 GPM - Low-flow 1.5 GPM) × Minutes × 30 — <em>Flow rate reduction times daily usage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much water does the average household use?</h3>
+      <p>About 300 gallons per day or 9,000 gallons per month.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What saves the most water?</h3>
+      <p>Low-flow toilets, shorter showers, and efficient irrigation save the most.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var lawnMin = parseFloat(document.getElementById('lawnMin').value) || 0;
 
     // Calculation logic
-    var showerGal = showerMin * 2.5 * 30; var flushGal = flushes * 3.5 * 30; var laundryGal = laundryLoads * 30 * 4.33; var lawnGal = lawnMin * 12 * 4.33; var currentGal = showerGal + flushGal + laundryGal + lawnGal; var efficientShower = showerMin * 1.5 * 30; var efficientFlush = flushes * 1.6 * 30; var efficientLaundry = laundryLoads * 15 * 4.33; var efficientLawn = lawnMin * 8 * 4.33; var efficientTotal = efficientShower + efficientFlush + efficientLaundry + efficientLawn; var savingsGal = currentGal - efficientTotal; var savingsCost = savingsGal * 0.005; return {currentGal: fmt(currentGal,0), savingsGal: fmt(savingsGal,0), savingsCost: dollar(savingsCost)};
+    var showerGal = showerMin * 2.5 * 30; var flushGal = flushes * 3.5 * 30; var laundryGal = laundryLoads * 30 * 4.33; var lawnGal = lawnMin * 12 * 4.33; var currentGal = showerGal + flushGal + laundryGal + lawnGal; var efficientShower = showerMin * 1.5 * 30; var efficientFlush = flushes * 1.6 * 30; var efficientLaundry = laundryLoads * 15 * 4.33; var efficientLawn = lawnMin * 8 * 4.33; var efficientTotal = efficientShower + efficientFlush + efficientLaundry + efficientLawn; var savingsGal = currentGal - efficientTotal; var savingsCost = savingsGal * 0.005;     document.getElementById('currentGal').textContent = fmt(currentGal,0);
+    document.getElementById('savingsGal').textContent = fmt(savingsGal,0);
+    document.getElementById('savingsCost').textContent = dollar(savingsCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

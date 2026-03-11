@@ -16,7 +16,8 @@
     var creditsF = parseFloat(document.getElementById('creditsF').value) || 0;
 
     // Calculation logic
-    var totalCredits = creditsA + creditsB + creditsC + creditsD + creditsF; var points = creditsA*4 + creditsB*3 + creditsC*2 + creditsD*1 + creditsF*0; var gpa = totalCredits > 0 ? points / totalCredits : 0; return {gpa: fmt(gpa,2), totalCredits: fmt(totalCredits,0)};
+    var totalCredits = creditsA + creditsB + creditsC + creditsD + creditsF; var points = creditsA*4 + creditsB*3 + creditsC*2 + creditsD*1 + creditsF*0; var gpa = totalCredits > 0 ? points / totalCredits : 0;     document.getElementById('gpa').textContent = fmt(gpa,2);
+    document.getElementById('totalCredits').textContent = fmt(totalCredits,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

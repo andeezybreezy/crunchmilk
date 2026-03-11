@@ -17,7 +17,9 @@
     var day2 = parseFloat(document.getElementById('day2').value) || 0;
 
     // Calculation logic
-    var d1 = new Date(year1, month1-1, day1); var d2 = new Date(year2, month2-1, day2); var diff = Math.abs(d2 - d1); var days = Math.floor(diff / (1000*60*60*24)); var weeks = Math.floor(days / 7); var months = days / 30.44; return {days: fmt(days,0), weeks: fmt(weeks,0), months: fmt(months,1)};
+    var d1 = new Date(year1, month1-1, day1); var d2 = new Date(year2, month2-1, day2); var diff = Math.abs(d2 - d1); var days = Math.floor(diff / (1000*60*60*24)); var weeks = Math.floor(days / 7); var months = days / 30.44;     document.getElementById('days').textContent = fmt(days,0);
+    document.getElementById('weeks').textContent = fmt(weeks,0);
+    document.getElementById('months').textContent = fmt(months,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

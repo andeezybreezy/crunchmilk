@@ -433,7 +433,10 @@ footer a:hover{color:#fff}
     var coats = parseFloat(document.getElementById('coats').value) || 0;
 
     // Calculation logic
-    var wallArea=2*(length+width)*height; var doorArea=doors*21; var windowArea=windows*15; var paintableArea=wallArea-doorArea-windowArea; var gallonsPerCoat=paintableArea/350; var gallons=Math.ceil(gallonsPerCoat*coats*10)/10; var cost=Math.ceil(gallons)*35; return {wallArea:fmt(wallArea,0)+' sq ft', paintableArea:fmt(paintableArea,0)+' sq ft', gallons:fmt(gallons,1)+' gallons', cost:dollar(cost)};
+    var wallArea=2*(length+width)*height; var doorArea=doors*21; var windowArea=windows*15; var paintableArea=wallArea-doorArea-windowArea; var gallonsPerCoat=paintableArea/350; var gallons=Math.ceil(gallonsPerCoat*coats*10)/10; var cost=Math.ceil(gallons)*35;     document.getElementById('wallArea').textContent = fmt(wallArea,0)+' sq ft';
+    document.getElementById('paintableArea').textContent = fmt(paintableArea,0)+' sq ft';
+    document.getElementById('gallons').textContent = fmt(gallons,1)+' gallons';
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

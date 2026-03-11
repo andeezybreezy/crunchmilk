@@ -14,7 +14,9 @@
     var wallThickness = parseFloat(document.getElementById('wallThickness').value) || 0;
 
     // Calculation logic
-    var density = 1.24; var solidFraction = 0.3 + (infill / 100) * 0.7; var weight = volume * density * solidFraction; var filamentLength = weight / 3; var printTime = (volume * solidFraction) / 15; return {weight: fmt(weight,1), filamentLength: fmt(filamentLength,1), printTime: fmt(printTime,1)};
+    var density = 1.24; var solidFraction = 0.3 + (infill / 100) * 0.7; var weight = volume * density * solidFraction; var filamentLength = weight / 3; var printTime = (volume * solidFraction) / 15;     document.getElementById('weight').textContent = fmt(weight,1);
+    document.getElementById('filamentLength').textContent = fmt(filamentLength,1);
+    document.getElementById('printTime').textContent = fmt(printTime,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

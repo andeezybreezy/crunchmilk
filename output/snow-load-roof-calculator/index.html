@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Roof Area (sq ft)</label>
-      <input type="number" id="area" value="undefined" min="100" max="10000" step="100" inputmode="decimal">
+      <input type="number" id="area" value="" min="100" max="10000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="depth">Snow Depth (inches)</label>
-      <input type="number" id="depth" value="undefined" min="1" max="60" step="1" inputmode="decimal">
+      <input type="number" id="depth" value="" min="1" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="snowType">Snow Type</label>
-      <select id="snowType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="snowType"><option value="Fresh/Fluffy (3 lb/sqft per ft)" selected>Fresh/Fluffy (3 lb/sqft per ft)</option><option value="Settled (10 lb/sqft per ft)">Settled (10 lb/sqft per ft)</option><option value="Packed/Wet (15 lb/sqft per ft)">Packed/Wet (15 lb/sqft per ft)</option><option value="Ice Layer (57 lb/sqft per ft)">Ice Layer (57 lb/sqft per ft)</option><option value="snowType">snowType</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This snow load calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Snow Load</strong> — PSF = (Depth/12) × Density — <em>Snow depth in feet times density per square foot.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much snow can a roof hold?</h3>
+      <p>Most roofs handle 20-40 psf. Check local building codes for your area.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When should I remove roof snow?</h3>
+      <p>When accumulation exceeds 2 feet of settled snow or visible sagging.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var snowType = document.getElementById('snowType').value;
 
     // Calculation logic
-    var densities = {'Fresh/Fluffy (3 lb/sqft per ft)': 3, 'Settled (10 lb/sqft per ft)': 10, 'Packed/Wet (15 lb/sqft per ft)': 15, 'Ice Layer (57 lb/sqft per ft)': 57}; var density = densities[snowType] || 10; var psfLoad = (depth / 12) * density; var totalLoad = psfLoad * area; var warning = psfLoad > 30 ? 'DANGER: Exceeds most residential roof limits. Consider snow removal.' : psfLoad > 20 ? 'Heavy load - monitor closely' : 'Within typical limits'; return {psfLoad: fmt(psfLoad,1), totalLoad: fmt(totalLoad,0), warning: warning};
+    var densities = {'Fresh/Fluffy (3 lb/sqft per ft)': 3, 'Settled (10 lb/sqft per ft)': 10, 'Packed/Wet (15 lb/sqft per ft)': 15, 'Ice Layer (57 lb/sqft per ft)': 57}; var density = densities[snowType] || 10; var psfLoad = (depth / 12) * density; var totalLoad = psfLoad * area; var warning = psfLoad > 30 ? 'DANGER: Exceeds most residential roof limits. Consider snow removal.' : psfLoad > 20 ? 'Heavy load - monitor closely' : 'Within typical limits';     document.getElementById('psfLoad').textContent = fmt(psfLoad,1);
+    document.getElementById('totalLoad').textContent = fmt(totalLoad,0);
+    document.getElementById('warning').textContent = warning;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

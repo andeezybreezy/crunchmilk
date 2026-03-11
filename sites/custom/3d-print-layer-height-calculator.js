@@ -13,7 +13,8 @@
     var quality = document.getElementById('quality').value;
 
     // Calculation logic
-    var maxLayer = nozzle * 0.75; var qualityMult = {'Draft (fast)': 0.75, 'Standard': 0.5, 'High Detail': 0.35, 'Ultra Fine': 0.2}; var mult = qualityMult[quality] || 0.5; var layerHeight = nozzle * mult; return {layerHeight: fmt(layerHeight,2), maxLayer: fmt(maxLayer,2)};
+    var maxLayer = nozzle * 0.75; var qualityMult = {'Draft (fast)': 0.75, 'Standard': 0.5, 'High Detail': 0.35, 'Ultra Fine': 0.2}; var mult = qualityMult[quality] || 0.5; var layerHeight = nozzle * mult;     document.getElementById('layerHeight').textContent = fmt(layerHeight,2);
+    document.getElementById('maxLayer').textContent = fmt(maxLayer,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

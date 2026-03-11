@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sqft">Room Size (sq ft)</label>
-      <input type="number" id="sqft" value="undefined" min="50" max="2000" step="25" inputmode="decimal">
+      <input type="number" id="sqft" value="" min="50" max="2000" step="25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="sunExposure">Sun Exposure</label>
-      <select id="sunExposure"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="sunExposure"><option value="Heavily Shaded" selected>Heavily Shaded</option><option value="Average">Average</option><option value="Very Sunny">Very Sunny</option><option value="sunExposure">sunExposure</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="occupants">People in Room</label>
-      <input type="number" id="occupants" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="occupants" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This room ac btu calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>BTU</strong> — BTU = Sq Ft × 20 + Adjustments — <em>Base calculation with sun and occupancy adjustments.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many BTU per square foot?</h3>
+      <p>About 20 BTU per sq ft as a baseline, adjusted for sun, occupants, and insulation.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a ton of cooling?</h3>
+      <p>12,000 BTU/hour. A typical room AC is 0.5-1.5 tons.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var occupants = parseFloat(document.getElementById('occupants').value) || 0;
 
     // Calculation logic
-    var baseBtu = sqft * 20; var sunMod = {'Heavily Shaded': 0.9, 'Average': 1, 'Very Sunny': 1.1}; var btu = baseBtu * (sunMod[sunExposure] || 1) + (occupants - 2) * 600; btu = Math.ceil(btu / 1000) * 1000; var tonnage = btu / 12000; var estCost = (btu / 12000) * 0.15 * 8 * 30; return {btu: fmt(btu,0), tonnage: fmt(tonnage,2), estCost: dollar(estCost)};
+    var baseBtu = sqft * 20; var sunMod = {'Heavily Shaded': 0.9, 'Average': 1, 'Very Sunny': 1.1}; var btu = baseBtu * (sunMod[sunExposure] || 1) + (occupants - 2) * 600; btu = Math.ceil(btu / 1000) * 1000; var tonnage = btu / 12000; var estCost = (btu / 12000) * 0.15 * 8 * 30;     document.getElementById('btu').textContent = fmt(btu,0);
+    document.getElementById('tonnage').textContent = fmt(tonnage,2);
+    document.getElementById('estCost').textContent = dollar(estCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

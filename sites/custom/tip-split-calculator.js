@@ -14,7 +14,9 @@
     var people = parseFloat(document.getElementById('people').value) || 0;
 
     // Calculation logic
-    var tip = bill * (tipPct/100); var total = bill + tip; var perPerson = total / people; return {tip: dollar(tip), total: dollar(total), perPerson: dollar(perPerson)};
+    var tip = bill * (tipPct/100); var total = bill + tip; var perPerson = total / people;     document.getElementById('tip').textContent = dollar(tip);
+    document.getElementById('total').textContent = dollar(total);
+    document.getElementById('perPerson').textContent = dollar(perPerson);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

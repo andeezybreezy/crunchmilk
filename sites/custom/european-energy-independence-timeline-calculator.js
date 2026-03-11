@@ -14,7 +14,11 @@
     var demandReduction = parseFloat(document.getElementById('demandReduction').value) || 0;
 
     // Calculation logic
-    var currentGasDep = 15; var currentOilDep = 25; var totalDep = 40; var annualReduction = v.renewableGrowth * 0.3 + v.lngExpansion * 0.2 + v.demandReduction; var gasYears = Math.ceil(currentGasDep / annualReduction); var oilYears = Math.ceil(currentOilDep / (annualReduction * 0.6)); var fullYears = Math.ceil(totalDep / annualReduction); var gasYear = 2026 + gasYears; var oilYear = 2026 + oilYears; var fullYear = 2026 + fullYears; var investment = fullYears * 120; return {currentDependency: totalDep + '% of energy from Russia/ME', gasIndependence: gasYear.toString() + ' (from Russian gas)', oilIndependence: oilYear.toString() + ' (from ME oil)', fullIndependence: fullYear.toString(), investmentNeeded: '~' + Math.round(investment / 1000 * 10) / 10 + ' trillion EUR over ' + fullYears + ' years'};
+    var currentGasDep = 15; var currentOilDep = 25; var totalDep = 40; var annualReduction = v.renewableGrowth * 0.3 + v.lngExpansion * 0.2 + v.demandReduction; var gasYears = Math.ceil(currentGasDep / annualReduction); var oilYears = Math.ceil(currentOilDep / (annualReduction * 0.6)); var fullYears = Math.ceil(totalDep / annualReduction); var gasYear = 2026 + gasYears; var oilYear = 2026 + oilYears; var fullYear = 2026 + fullYears; var investment = fullYears * 120;     document.getElementById('currentDependency').textContent = totalDep + '% of energy from Russia/ME';
+    document.getElementById('gasIndependence').textContent = gasYear.toString() + ' (from Russian gas)';
+    document.getElementById('oilIndependence').textContent = oilYear.toString() + ' (from ME oil)';
+    document.getElementById('fullIndependence').textContent = fullYear.toString();
+    document.getElementById('investmentNeeded').textContent = '~' + Math.round(investment / 1000 * 10) / 10 + ' trillion EUR over ' + fullYears + ' years';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

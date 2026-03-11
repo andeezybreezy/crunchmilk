@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="tradeSecretValue">Trade Secret Value ($)</label>
-      <input type="number" id="tradeSecretValue" value="undefined" min="1000" max="100000000" step="10000" inputmode="decimal">
+      <input type="number" id="tradeSecretValue" value="" min="1000" max="100000000" step="10000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="breachSeverity">Breach Severity</label>
-      <select id="breachSeverity"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="breachSeverity"><option value="Minor (limited disclosure)" selected>Minor (limited disclosure)</option><option value="Moderate (some competitive harm)">Moderate (some competitive harm)</option><option value="Severe (public/competitor disclosure)">Severe (public/competitor disclosure)</option><option value="breachSeverity">breachSeverity</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="liquidated">Liquidated Damages in NDA ($)</label>
-      <input type="number" id="liquidated" value="undefined" min="0" max="10000000" step="10000" inputmode="decimal">
+      <input type="number" id="liquidated" value="" min="0" max="10000000" step="10000" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This nda penalty calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Estimated Damages</strong> — Damages = Trade Secret Value × Severity Factor (or Liquidated Amount) — <em>Fraction of trade secret value based on breach severity.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Laws vary by jurisdiction and change frequently. This is not legal advice — consult a licensed attorney.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are NDA damages?</h3>
+      <p>Can include actual damages, lost profits, unjust enrichment, and sometimes punitive damages.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are liquidated damages?</h3>
+      <p>A pre-agreed damage amount specified in the NDA contract.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var liquidated = parseFloat(document.getElementById('liquidated').value) || 0;
 
     // Calculation logic
-    var severityMult = {'Minor (limited disclosure)': 0.1, 'Moderate (some competitive harm)': 0.3, 'Severe (public/competitor disclosure)': 0.7}; var mult = severityMult[breachSeverity] || 0.3; var estimatedDamages = liquidated > 0 ? liquidated : tradeSecretValue * mult; var legalCosts = Math.min(estimatedDamages * 0.15, 100000); return {estimatedDamages: dollar(estimatedDamages), legalCosts: dollar(legalCosts)};
+    var severityMult = {'Minor (limited disclosure)': 0.1, 'Moderate (some competitive harm)': 0.3, 'Severe (public/competitor disclosure)': 0.7}; var mult = severityMult[breachSeverity] || 0.3; var estimatedDamages = liquidated > 0 ? liquidated : tradeSecretValue * mult; var legalCosts = Math.min(estimatedDamages * 0.15, 100000);     document.getElementById('estimatedDamages').textContent = dollar(estimatedDamages);
+    document.getElementById('legalCosts').textContent = dollar(legalCosts);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

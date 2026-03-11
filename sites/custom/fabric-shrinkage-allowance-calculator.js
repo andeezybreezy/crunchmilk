@@ -14,7 +14,9 @@
     var shrinkPct = parseFloat(document.getElementById('shrinkPct').value) || 0;
 
     // Calculation logic
-    var cutLength = length / (1 - shrinkPct/100); var cutWidth = width / (1 - shrinkPct/100); var extraFabric = (cutLength * cutWidth) - (length * width); return {cutLength: fmt(cutLength,1), cutWidth: fmt(cutWidth,1), extraFabric: fmt(extraFabric,0)};
+    var cutLength = length / (1 - shrinkPct/100); var cutWidth = width / (1 - shrinkPct/100); var extraFabric = (cutLength * cutWidth) - (length * width);     document.getElementById('cutLength').textContent = fmt(cutLength,1);
+    document.getElementById('cutWidth').textContent = fmt(cutWidth,1);
+    document.getElementById('extraFabric').textContent = fmt(extraFabric,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

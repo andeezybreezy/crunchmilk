@@ -15,7 +15,9 @@
     var starterHydration = parseFloat(document.getElementById('starterHydration').value) || 0;
 
     // Calculation logic
-    var starterFlour = starter / (1 + starterHydration/100); var starterWater = starter - starterFlour; var totalFlour = flour + starterFlour; var totalWater = water + starterWater; var hydration = (totalWater / totalFlour) * 100; return {hydration: fmt(hydration,1), totalFlour: fmt(totalFlour,0), totalWater: fmt(totalWater,0)};
+    var starterFlour = starter / (1 + starterHydration/100); var starterWater = starter - starterFlour; var totalFlour = flour + starterFlour; var totalWater = water + starterWater; var hydration = (totalWater / totalFlour) * 100;     document.getElementById('hydration').textContent = fmt(hydration,1);
+    document.getElementById('totalFlour').textContent = fmt(totalFlour,0);
+    document.getElementById('totalWater').textContent = fmt(totalWater,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

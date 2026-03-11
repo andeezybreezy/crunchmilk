@@ -14,7 +14,8 @@
     var power = parseFloat(document.getElementById('power').value) || 0;
 
     // Calculation logic
-    var ratio = distance / impedance; var gauge = ratio > 50 ? 10 : ratio > 25 ? 12 : ratio > 12 ? 14 : 16; var resistance = {'10': 0.001, '12': 0.0016, '14': 0.0025, '16': 0.004}; var wireR = resistance[String(gauge)] * distance * 2; var maxLoss = (wireR / (wireR + impedance)) * 100; return {gauge: fmt(gauge,0), maxLoss: fmt(maxLoss,1)};
+    var ratio = distance / impedance; var gauge = ratio > 50 ? 10 : ratio > 25 ? 12 : ratio > 12 ? 14 : 16; var resistance = {'10': 0.001, '12': 0.0016, '14': 0.0025, '16': 0.004}; var wireR = resistance[String(gauge)] * distance * 2; var maxLoss = (wireR / (wireR + impedance)) * 100;     document.getElementById('gauge').textContent = fmt(gauge,0);
+    document.getElementById('maxLoss').textContent = fmt(maxLoss,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="nominalReturn">Nominal Return (%)</label>
-      <input type="number" id="nominalReturn" value="undefined" min="-20" max="50" step="0.5" inputmode="decimal">
+      <input type="number" id="nominalReturn" value="" min="-20" max="50" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="inflation">Inflation Rate (%)</label>
-      <input type="number" id="inflation" value="undefined" min="-2" max="20" step="0.5" inputmode="decimal">
+      <input type="number" id="inflation" value="" min="-2" max="20" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="years">Investment Period (years)</label>
-      <input type="number" id="years" value="undefined" min="1" max="50" step="1" inputmode="decimal">
+      <input type="number" id="years" value="" min="1" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="investment">Investment Amount ($)</label>
-      <input type="number" id="investment" value="undefined" min="100" max="10000000" step="1000" inputmode="decimal">
+      <input type="number" id="investment" value="" min="100" max="10000000" step="1000" inputmode="decimal">
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This inflation adjusted return calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Fisher Equation</strong> — Real Return = (1 + Nominal) / (1 + Inflation) - 1 — <em>Exact formula for inflation-adjusted returns.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is real return?</h3>
+      <p>Your investment return after subtracting inflation. It shows actual purchasing power gained.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does inflation matter for investing?</h3>
+      <p>At 3% inflation, $100 today is worth only $74 in 10 years.</p>
     </div>
 
   </div>
@@ -424,7 +424,10 @@ footer a:hover{color:#fff}
     var investment = parseFloat(document.getElementById('investment').value) || 0;
 
     // Calculation logic
-    var realReturn = ((1 + nominalReturn/100) / (1 + inflation/100) - 1) * 100; var nominalValue = investment * Math.pow(1 + nominalReturn/100, years); var realValue = investment * Math.pow(1 + realReturn/100, years); var purchasingPowerLoss = nominalValue - realValue; return {realReturn: fmt(realReturn,2), nominalValue: dollar(nominalValue), realValue: dollar(realValue), purchasingPowerLoss: dollar(purchasingPowerLoss)};
+    var realReturn = ((1 + nominalReturn/100) / (1 + inflation/100) - 1) * 100; var nominalValue = investment * Math.pow(1 + nominalReturn/100, years); var realValue = investment * Math.pow(1 + realReturn/100, years); var purchasingPowerLoss = nominalValue - realValue;     document.getElementById('realReturn').textContent = fmt(realReturn,2);
+    document.getElementById('nominalValue').textContent = dollar(nominalValue);
+    document.getElementById('realValue').textContent = dollar(realValue);
+    document.getElementById('purchasingPowerLoss').textContent = dollar(purchasingPowerLoss);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

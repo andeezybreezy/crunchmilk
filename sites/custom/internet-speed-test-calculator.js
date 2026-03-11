@@ -13,7 +13,9 @@
     var speed = parseFloat(document.getElementById('speed').value) || 0;
 
     // Calculation logic
-    var bits = fileSize * 8 * 1024; var seconds = bits / speed; var minutes = seconds / 60; var realistic = minutes / 0.7; return {seconds: fmt(seconds,0), minutes: fmt(minutes,1), realistic: fmt(realistic,1)};
+    var bits = fileSize * 8 * 1024; var seconds = bits / speed; var minutes = seconds / 60; var realistic = minutes / 0.7;     document.getElementById('seconds').textContent = fmt(seconds,0);
+    document.getElementById('minutes').textContent = fmt(minutes,1);
+    document.getElementById('realistic').textContent = fmt(realistic,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

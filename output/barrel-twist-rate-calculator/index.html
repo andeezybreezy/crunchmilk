@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="caliber">Caliber (inches)</label>
-      <input type="number" id="caliber" value="undefined" min="0.17" max="0.75" step="0.001" inputmode="decimal">
+      <input type="number" id="caliber" value="" min="0.17" max="0.75" step="0.001" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bulletLength">Bullet Length (inches)</label>
-      <input type="number" id="bulletLength" value="undefined" min="0.3" max="2.5" step="0.05" inputmode="decimal">
+      <input type="number" id="bulletLength" value="" min="0.3" max="2.5" step="0.05" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="velocity">Muzzle Velocity (fps)</label>
-      <input type="number" id="velocity" value="undefined" min="500" max="5000" step="100" inputmode="decimal">
+      <input type="number" id="velocity" value="" min="500" max="5000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This barrel twist rate calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Greenhill Formula</strong> — Twist = 150 × Caliber² / Bullet Length — <em>Classic formula for twist rate estimation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is twist rate?</h3>
+      <p>How many inches of barrel for one full rotation. 1:10 means one turn in 10 inches.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What happens with wrong twist?</h3>
+      <p>Too slow: bullet tumbles and accuracy suffers. Too fast: minor accuracy loss, jacket damage possible.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var velocity = parseFloat(document.getElementById('velocity').value) || 0;
 
     // Calculation logic
-    var twist = (150 * Math.pow(caliber, 2)) / bulletLength * Math.sqrt(2800/velocity); var standards = [7, 8, 9, 10, 12, 14, 16, 18, 20]; var nearest = standards.reduce(function(prev, curr) { return Math.abs(curr - twist) < Math.abs(prev - twist) ? curr : prev; }); return {twist: '1:' + fmt(twist,1), standard: '1:' + nearest};
+    var twist = (150 * Math.pow(caliber, 2)) / bulletLength * Math.sqrt(2800/velocity); var standards = [7, 8, 9, 10, 12, 14, 16, 18, 20]; var nearest = standards.reduce(function(prev, curr) { return Math.abs(curr - twist) < Math.abs(prev - twist) ? curr : prev; });     document.getElementById('twist').textContent = '1:' + fmt(twist,1);
+    document.getElementById('standard').textContent = '1:' + nearest;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

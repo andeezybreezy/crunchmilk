@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Driveway Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="10" max="200" step="5" inputmode="decimal">
+      <input type="number" id="length" value="" min="10" max="200" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Driveway Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="8" max="30" step="2" inputmode="decimal">
+      <input type="number" id="width" value="" min="8" max="30" step="2" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="material">Material</label>
-      <select id="material"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="material"><option value="Concrete" selected>Concrete</option><option value="Asphalt">Asphalt</option><option value="Pavers">Pavers</option><option value="Gravel">Gravel</option><option value="material">material</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This driveway cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Cost</strong> — Cost = Length × Width × Price per sq ft — <em>Simple area times per-square-foot rate.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does a concrete driveway cost?</h3>
+      <p>$8-15 per sq ft installed. A typical 2-car driveway costs $3,000-7,000.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long does concrete last?</h3>
+      <p>30+ years with proper installation and maintenance.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var material = document.getElementById('material').value;
 
     // Calculation logic
-    var sqft = length * width; var rates = {'Concrete': 12, 'Asphalt': 7, 'Pavers': 18, 'Gravel': 3}; var costPerSqFt = rates[material] || 10; var cost = sqft * costPerSqFt; return {sqft: fmt(sqft,0), cost: dollar(cost), costPerSqFt: dollar(costPerSqFt)};
+    var sqft = length * width; var rates = {'Concrete': 12, 'Asphalt': 7, 'Pavers': 18, 'Gravel': 3}; var costPerSqFt = rates[material] || 10; var cost = sqft * costPerSqFt;     document.getElementById('sqft').textContent = fmt(sqft,0);
+    document.getElementById('cost').textContent = dollar(cost);
+    document.getElementById('costPerSqFt').textContent = dollar(costPerSqFt);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

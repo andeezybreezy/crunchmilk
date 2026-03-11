@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Pet Weight (lbs)</label>
-      <input type="number" id="weight" value="undefined" min="1" max="200" step="0.5" inputmode="decimal">
+      <input type="number" id="weight" value="" min="1" max="200" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="doseRate">Dose Rate (mg/lb)</label>
-      <input type="number" id="doseRate" value="undefined" min="0.1" max="50" step="0.1" inputmode="decimal">
+      <input type="number" id="doseRate" value="" min="0.1" max="50" step="0.1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="frequency">Times per Day</label>
-      <input type="number" id="frequency" value="undefined" min="1" max="4" step="1" inputmode="decimal">
+      <input type="number" id="frequency" value="" min="1" max="4" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="tabletMg">Tablet Strength (mg)</label>
-      <input type="number" id="tabletMg" value="undefined" min="1" max="1000" step="1" inputmode="decimal">
+      <input type="number" id="tabletMg" value="" min="1" max="1000" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This pet medication dosage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Dose</strong> — Dose (mg) = Weight (lbs) × Dose Rate (mg/lb) — <em>Simple weight-based dosing calculation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I use human medication for pets?</h3>
+      <p>Some human medications are safe for pets at proper doses, but always consult your vet first.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What if the dose is between tablet sizes?</h3>
+      <p>Ask your vet about splitting tablets or using liquid formulations.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var tabletMg = parseFloat(document.getElementById('tabletMg').value) || 0;
 
     // Calculation logic
-    var dosePerAdmin = weight * doseRate; var tabletsPerDose = dosePerAdmin / tabletMg; var dailyDose = dosePerAdmin * frequency; return {dosePerAdmin: fmt(dosePerAdmin,1), tabletsPerDose: fmt(tabletsPerDose,1), dailyDose: fmt(dailyDose,1)};
+    var dosePerAdmin = weight * doseRate; var tabletsPerDose = dosePerAdmin / tabletMg; var dailyDose = dosePerAdmin * frequency;     document.getElementById('dosePerAdmin').textContent = fmt(dosePerAdmin,1);
+    document.getElementById('tabletsPerDose').textContent = fmt(tabletsPerDose,1);
+    document.getElementById('dailyDose').textContent = fmt(dailyDose,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

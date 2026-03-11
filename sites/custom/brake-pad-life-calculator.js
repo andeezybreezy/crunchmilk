@@ -15,7 +15,8 @@
     var driving = document.getElementById('driving').value;
 
     // Calculation logic
-    var wearRates = {'Highway (light braking)': 0.00008, 'Mixed': 0.00012, 'City (heavy braking)': 0.00020}; var wearPerMile = wearRates[driving] || 0.00012; var remaining = thickness - minThickness; var milesLeft = remaining / wearPerMile; var monthsLeft = milesLeft / monthlyMiles; return {milesLeft: fmt(milesLeft,0), monthsLeft: fmt(monthsLeft,0)};
+    var wearRates = {'Highway (light braking)': 0.00008, 'Mixed': 0.00012, 'City (heavy braking)': 0.00020}; var wearPerMile = wearRates[driving] || 0.00012; var remaining = thickness - minThickness; var milesLeft = remaining / wearPerMile; var monthsLeft = milesLeft / monthlyMiles;     document.getElementById('milesLeft').textContent = fmt(milesLeft,0);
+    document.getElementById('monthsLeft').textContent = fmt(monthsLeft,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

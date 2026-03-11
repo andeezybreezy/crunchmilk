@@ -14,7 +14,9 @@
     var supportDensity = parseFloat(document.getElementById('supportDensity').value) || 0;
 
     // Calculation logic
-    var supportWeight = partWeight * (overhangPct / 100) * (supportDensity / 100) * 2; var totalWeight = partWeight + supportWeight; var wastePct = (supportWeight / totalWeight) * 100; return {supportWeight: fmt(supportWeight,1), totalWeight: fmt(totalWeight,1), wastePct: fmt(wastePct,1)};
+    var supportWeight = partWeight * (overhangPct / 100) * (supportDensity / 100) * 2; var totalWeight = partWeight + supportWeight; var wastePct = (supportWeight / totalWeight) * 100;     document.getElementById('supportWeight').textContent = fmt(supportWeight,1);
+    document.getElementById('totalWeight').textContent = fmt(totalWeight,1);
+    document.getElementById('wastePct').textContent = fmt(wastePct,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

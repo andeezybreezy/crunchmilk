@@ -13,7 +13,9 @@
     var mixRatio = document.getElementById('mixRatio').value;
 
     // Calculation logic
-    var ratios = {'1:2:3 (standard)': [1,2,3], '1:1.5:3 (strong)': [1,1.5,3], '1:3:6 (lean)': [1,3,6]}; var r = ratios[mixRatio] || [1,2,3]; var total = r[0]+r[1]+r[2]; var cementCuFt = cubicFeet * r[0] / total * 1.54; var cement = Math.ceil(cementCuFt / 1); var sand = cubicFeet * r[1] / total * 1.54; var gravel = cubicFeet * r[2] / total * 1.54; return {cement: fmt(cement,0), sand: fmt(sand,0), gravel: fmt(gravel,0)};
+    var ratios = {'1:2:3 (standard)': [1,2,3], '1:1.5:3 (strong)': [1,1.5,3], '1:3:6 (lean)': [1,3,6]}; var r = ratios[mixRatio] || [1,2,3]; var total = r[0]+r[1]+r[2]; var cementCuFt = cubicFeet * r[0] / total * 1.54; var cement = Math.ceil(cementCuFt / 1); var sand = cubicFeet * r[1] / total * 1.54; var gravel = cubicFeet * r[2] / total * 1.54;     document.getElementById('cement').textContent = fmt(cement,0);
+    document.getElementById('sand').textContent = fmt(sand,0);
+    document.getElementById('gravel').textContent = fmt(gravel,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

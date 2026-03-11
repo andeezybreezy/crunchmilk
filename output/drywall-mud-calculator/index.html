@@ -409,7 +409,10 @@ footer a:hover{color:#fff}
     var coats = parseFloat(document.getElementById('coats').value) || 0;
 
     // Calculation logic
-    var sqFt=sheets*32; var linearFt=sheets*12; var gallonsPerCoat=sqFt/250; var gallons=gallonsPerCoat*coats*1.2; var buckets=Math.ceil(gallons/4.5); var tape=linearFt; return {sqFt:fmt(sqFt,0)+' sq ft', gallons:fmt(gallons,1)+' gallons', buckets:buckets+' bucket'+(buckets>1?'s':''), tape:fmt(tape,0)+' ft'};
+    var sqFt=sheets*32; var linearFt=sheets*12; var gallonsPerCoat=sqFt/250; var gallons=gallonsPerCoat*coats*1.2; var buckets=Math.ceil(gallons/4.5); var tape=linearFt;     document.getElementById('sqFt').textContent = fmt(sqFt,0)+' sq ft';
+    document.getElementById('gallons').textContent = fmt(gallons,1)+' gallons';
+    document.getElementById('buckets').textContent = buckets+' bucket'+(buckets>1?'s':'');
+    document.getElementById('tape').textContent = fmt(tape,0)+' ft';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

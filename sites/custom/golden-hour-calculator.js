@@ -13,7 +13,8 @@
     var month = document.getElementById('month').value;
 
     // Calculation logic
-    var monthIdx = ['January','February','March','April','May','June','July','August','September','October','November','December'].indexOf(month); var absLat = Math.abs(latitude); var baseDuration = 30; var latBonus = absLat * 0.3; var seasonMod = Math.abs(monthIdx - 5.5) <= 3 ? 5 : -5; if (absLat > 50) seasonMod *= 2; var duration = baseDuration + latBonus + seasonMod; var quality = absLat > 35 ? 'Rich warm tones' : 'Bright golden light'; return {duration: fmt(Math.max(duration, 15),0), quality: quality};
+    var monthIdx = ['January','February','March','April','May','June','July','August','September','October','November','December'].indexOf(month); var absLat = Math.abs(latitude); var baseDuration = 30; var latBonus = absLat * 0.3; var seasonMod = Math.abs(monthIdx - 5.5) <= 3 ? 5 : -5; if (absLat > 50) seasonMod *= 2; var duration = baseDuration + latBonus + seasonMod; var quality = absLat > 35 ? 'Rich warm tones' : 'Bright golden light';     document.getElementById('duration').textContent = fmt(Math.max(duration, 15),0);
+    document.getElementById('quality').textContent = quality;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,10 @@
     var conditions = document.getElementById('conditions').value;
 
     // Calculation logic
-    var intervals = {'Conventional': 5000, 'Synthetic Blend': 7500, 'Full Synthetic': 10000}; var severeMulti = {'Normal': 1, 'Severe (towing, dusty, short trips)': 0.7, 'Extreme (racing, off-road)': 0.5}; var costs = {'Conventional': 40, 'Synthetic Blend': 55, 'Full Synthetic': 75}; var intervalMiles = intervals[oilType] * (severeMulti[conditions] || 1); var intervalMonths = intervalMiles / monthlyMiles; var changesPerYear = 12 / intervalMonths; var annualCost = changesPerYear * (costs[oilType] || 50); return {intervalMiles: fmt(intervalMiles,0), intervalMonths: fmt(intervalMonths,1), changesPerYear: fmt(changesPerYear,1), annualCost: dollar(annualCost)};
+    var intervals = {'Conventional': 5000, 'Synthetic Blend': 7500, 'Full Synthetic': 10000}; var severeMulti = {'Normal': 1, 'Severe (towing, dusty, short trips)': 0.7, 'Extreme (racing, off-road)': 0.5}; var costs = {'Conventional': 40, 'Synthetic Blend': 55, 'Full Synthetic': 75}; var intervalMiles = intervals[oilType] * (severeMulti[conditions] || 1); var intervalMonths = intervalMiles / monthlyMiles; var changesPerYear = 12 / intervalMonths; var annualCost = changesPerYear * (costs[oilType] || 50);     document.getElementById('intervalMiles').textContent = fmt(intervalMiles,0);
+    document.getElementById('intervalMonths').textContent = fmt(intervalMonths,1);
+    document.getElementById('changesPerYear').textContent = fmt(changesPerYear,1);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

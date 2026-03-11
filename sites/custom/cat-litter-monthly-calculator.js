@@ -15,7 +15,9 @@
     var bagLbs = parseFloat(document.getElementById('bagLbs').value) || 0;
 
     // Calculation logic
-    var basePerCat = {'Clumping Clay': 7, 'Non-Clumping Clay': 10, 'Crystal/Silica': 5, 'Pine/Natural': 8, 'Corn/Wheat': 7}; var lbsPerWeek = (basePerCat[litterType] || 7) * cats; var monthlyLbs = lbsPerWeek * 4.33; var bagsPerMonth = Math.ceil(monthlyLbs / bagLbs); var monthlyCost = bagsPerMonth * pricePerBag; return {monthlyLbs: fmt(monthlyLbs,0), bagsPerMonth: fmt(bagsPerMonth,0), monthlyCost: dollar(monthlyCost)};
+    var basePerCat = {'Clumping Clay': 7, 'Non-Clumping Clay': 10, 'Crystal/Silica': 5, 'Pine/Natural': 8, 'Corn/Wheat': 7}; var lbsPerWeek = (basePerCat[litterType] || 7) * cats; var monthlyLbs = lbsPerWeek * 4.33; var bagsPerMonth = Math.ceil(monthlyLbs / bagLbs); var monthlyCost = bagsPerMonth * pricePerBag;     document.getElementById('monthlyLbs').textContent = fmt(monthlyLbs,0);
+    document.getElementById('bagsPerMonth').textContent = fmt(bagsPerMonth,0);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,9 @@
     var currentType = document.getElementById('currentType').value;
 
     // Calculation logic
-    var savingsPct = {'Single Pane': 0.25, 'Old Double Pane (15+ years)': 0.12, 'Decent Double Pane': 0.05}; var pct = savingsPct[currentType] || 0.12; var totalCost = windows * costPerWindow; var annualSavings = monthlyEnergy * 12 * pct; var roiYears = annualSavings > 0 ? totalCost / annualSavings : 999; return {totalCost: dollar(totalCost), annualSavings: dollar(annualSavings), roiYears: fmt(roiYears,1)};
+    var savingsPct = {'Single Pane': 0.25, 'Old Double Pane (15+ years)': 0.12, 'Decent Double Pane': 0.05}; var pct = savingsPct[currentType] || 0.12; var totalCost = windows * costPerWindow; var annualSavings = monthlyEnergy * 12 * pct; var roiYears = annualSavings > 0 ? totalCost / annualSavings : 999;     document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('annualSavings').textContent = dollar(annualSavings);
+    document.getElementById('roiYears').textContent = fmt(roiYears,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var occupants = parseFloat(document.getElementById('occupants').value) || 0;
 
     // Calculation logic
-    var baseBtu = sqft * 20; var sunMod = {'Heavily Shaded': 0.9, 'Average': 1, 'Very Sunny': 1.1}; var btu = baseBtu * (sunMod[sunExposure] || 1) + (occupants - 2) * 600; btu = Math.ceil(btu / 1000) * 1000; var tonnage = btu / 12000; var estCost = (btu / 12000) * 0.15 * 8 * 30; return {btu: fmt(btu,0), tonnage: fmt(tonnage,2), estCost: dollar(estCost)};
+    var baseBtu = sqft * 20; var sunMod = {'Heavily Shaded': 0.9, 'Average': 1, 'Very Sunny': 1.1}; var btu = baseBtu * (sunMod[sunExposure] || 1) + (occupants - 2) * 600; btu = Math.ceil(btu / 1000) * 1000; var tonnage = btu / 12000; var estCost = (btu / 12000) * 0.15 * 8 * 30;     document.getElementById('btu').textContent = fmt(btu,0);
+    document.getElementById('tonnage').textContent = fmt(tonnage,2);
+    document.getElementById('estCost').textContent = dollar(estCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

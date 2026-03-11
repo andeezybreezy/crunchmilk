@@ -16,7 +16,11 @@
     var hedgeMonths = parseFloat(document.getElementById('hedgeMonths').value) || 0;
 
     // Calculation logic
-    var totalGallons = v.monthlyGallons * v.hedgeMonths; var hedgeCost = totalGallons * v.hedgePrice; var unhedgedCost = totalGallons * v.priceSpike; var savings = unhedgedCost - hedgeCost; var premium = totalGallons * (v.hedgePrice - v.currentPrice); return {hedgeCost: '$' + Math.round(hedgeCost).toLocaleString(), unhegdedCost: '$' + Math.round(unhedgedCost).toLocaleString(), savings: '$' + Math.round(savings).toLocaleString(), hedgePremium: '$' + Math.round(premium).toLocaleString() + ' (cost to lock in)', breakeven: '$' + v.hedgePrice.toFixed(2) + '/gal'};
+    var totalGallons = v.monthlyGallons * v.hedgeMonths; var hedgeCost = totalGallons * v.hedgePrice; var unhedgedCost = totalGallons * v.priceSpike; var savings = unhedgedCost - hedgeCost; var premium = totalGallons * (v.hedgePrice - v.currentPrice);     document.getElementById('hedgeCost').textContent = '$' + Math.round(hedgeCost).toLocaleString();
+    document.getElementById('unhegdedCost').textContent = '$' + Math.round(unhedgedCost).toLocaleString();
+    document.getElementById('savings').textContent = '$' + Math.round(savings).toLocaleString();
+    document.getElementById('hedgePremium').textContent = '$' + Math.round(premium).toLocaleString() + ' (cost to lock in)';
+    document.getElementById('breakeven').textContent = '$' + v.hedgePrice.toFixed(2) + '/gal';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

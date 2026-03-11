@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sneezing">Sneezing (episodes/day)</label>
-      <input type="number" id="sneezing" value="undefined" min="0" max="50" step="1" inputmode="decimal">
+      <input type="number" id="sneezing" value="" min="0" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="congestion">Nasal Congestion (1-10)</label>
-      <input type="number" id="congestion" value="undefined" min="0" max="10" step="1" inputmode="decimal">
+      <input type="number" id="congestion" value="" min="0" max="10" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="eyeItch">Eye Itchiness (1-10)</label>
-      <input type="number" id="eyeItch" value="undefined" min="0" max="10" step="1" inputmode="decimal">
+      <input type="number" id="eyeItch" value="" min="0" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="interference">Daily Life Interference (1-10)</label>
-      <input type="number" id="interference" value="undefined" min="0" max="10" step="1" inputmode="decimal">
+      <input type="number" id="interference" value="" min="0" max="10" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This allergy severity score calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Severity Score</strong> — Score = Sneezing + Congestion + Eye + Interference — <em>Sum of symptom severity ratings.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When should I see an allergist?</h3>
+      <p>When OTC medications don't control symptoms or allergies impact daily life.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is immunotherapy?</h3>
+      <p>Allergy shots or sublingual tablets that desensitize you to allergens over time.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var interference = parseFloat(document.getElementById('interference').value) || 0;
 
     // Calculation logic
-    var sneezeScore = Math.min(sneezing, 10); var score = sneezeScore + congestion + eyeItch + interference; var severity = score >= 30 ? 'Severe' : score >= 20 ? 'Moderate-Severe' : score >= 12 ? 'Moderate' : score >= 5 ? 'Mild' : 'Minimal'; var action = score >= 20 ? 'See allergist, consider immunotherapy' : score >= 12 ? 'Daily antihistamine + nasal spray' : score >= 5 ? 'As-needed antihistamine' : 'Monitor symptoms'; return {score: fmt(score,0), severity: severity, action: action};
+    var sneezeScore = Math.min(sneezing, 10); var score = sneezeScore + congestion + eyeItch + interference; var severity = score >= 30 ? 'Severe' : score >= 20 ? 'Moderate-Severe' : score >= 12 ? 'Moderate' : score >= 5 ? 'Mild' : 'Minimal'; var action = score >= 20 ? 'See allergist, consider immunotherapy' : score >= 12 ? 'Daily antihistamine + nasal spray' : score >= 5 ? 'As-needed antihistamine' : 'Monitor symptoms';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('severity').textContent = severity;
+    document.getElementById('action').textContent = action;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

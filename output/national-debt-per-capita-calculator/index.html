@@ -427,7 +427,11 @@ footer a:hover{color:#fff}
     var householdSize = parseFloat(document.getElementById('householdSize').value) || 0;
 
     // Calculation logic
-    var debtDollars=totalDebt*1e12; var pop=population*1e6; var tax=taxpayers*1e6; var perCapita=debtDollars/pop; var perTaxpayer=debtDollars/tax; var perHousehold=perCapita*householdSize; var annualInterest=debtDollars*0.032; var interestPerCapita=annualInterest/pop; var gdp=28.78e12; var debtGDP=(debtDollars/gdp)*100; return {perCapita:dollar(perCapita), perTaxpayer:dollar(perTaxpayer), perHousehold:dollar(perHousehold), interestPerCapita:dollar(interestPerCapita)+'/year', debtGDP:fmt(debtGDP,1)+'%'};
+    var debtDollars=totalDebt*1e12; var pop=population*1e6; var tax=taxpayers*1e6; var perCapita=debtDollars/pop; var perTaxpayer=debtDollars/tax; var perHousehold=perCapita*householdSize; var annualInterest=debtDollars*0.032; var interestPerCapita=annualInterest/pop; var gdp=28.78e12; var debtGDP=(debtDollars/gdp)*100;     document.getElementById('perCapita').textContent = dollar(perCapita);
+    document.getElementById('perTaxpayer').textContent = dollar(perTaxpayer);
+    document.getElementById('perHousehold').textContent = dollar(perHousehold);
+    document.getElementById('interestPerCapita').textContent = dollar(interestPerCapita)+'/year';
+    document.getElementById('debtGDP').textContent = fmt(debtGDP,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

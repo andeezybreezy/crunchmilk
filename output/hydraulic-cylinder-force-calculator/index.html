@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="bore">Bore Diameter (inches)</label>
-      <input type="number" id="bore" value="undefined" min="0.5" max="24" step="0.25" inputmode="decimal">
+      <input type="number" id="bore" value="" min="0.5" max="24" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rodDia">Rod Diameter (inches)</label>
-      <input type="number" id="rodDia" value="undefined" min="0.25" max="12" step="0.25" inputmode="decimal">
+      <input type="number" id="rodDia" value="" min="0.25" max="12" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pressure">System Pressure (PSI)</label>
-      <input type="number" id="pressure" value="undefined" min="100" max="10000" step="100" inputmode="decimal">
+      <input type="number" id="pressure" value="" min="100" max="10000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This hydraulic cylinder force calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Push Force</strong> — F = π × (Bore/2)² × PSI — <em>Push force uses the full bore area times pressure.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How is cylinder force calculated?</h3>
+      <p>Force equals bore area times system pressure. Pull force subtracts the rod area.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What PSI is typical?</h3>
+      <p>Most industrial hydraulic systems run 2000-5000 PSI.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var pressure = parseFloat(document.getElementById('pressure').value) || 0;
 
     // Calculation logic
-    var boreArea = Math.PI * Math.pow(bore/2, 2); var rodArea = Math.PI * Math.pow(rodDia/2, 2); var pushForce = boreArea * pressure; var pullForce = (boreArea - rodArea) * pressure; return {pushForce: fmt(pushForce,0), pullForce: fmt(pullForce,0)};
+    var boreArea = Math.PI * Math.pow(bore/2, 2); var rodArea = Math.PI * Math.pow(rodDia/2, 2); var pushForce = boreArea * pressure; var pullForce = (boreArea - rodArea) * pressure;     document.getElementById('pushForce').textContent = fmt(pushForce,0);
+    document.getElementById('pullForce').textContent = fmt(pullForce,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

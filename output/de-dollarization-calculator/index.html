@@ -441,7 +441,11 @@ footer a:hover{color:#fff}
     var goldAllocation = parseFloat(document.getElementById('goldAllocation').value) || 0;
 
     // Calculation logic
-    var dollarImpact=reserveDecline*0.6; var annualImpact=dollarImpact/yearsToDecline; var cashSavings=savings*(1-goldAllocation/100); var goldSavings=savings*(goldAllocation/100); var cashLoss=cashSavings*(dollarImpact/100); var goldGain=goldSavings*(dollarImpact/100)*1.5; var netImpact=goldGain-cashLoss; return {dollarImpact:fmt(dollarImpact,1)+'% weaker', savingsImpact:'-'+dollar(cashLoss)+' in purchasing power', goldHedgeValue:'+'+dollar(goldGain)+' in gold appreciation', netPosition:dollar(netImpact), annualDrag:fmt(annualImpact,1)+'% per year'};
+    var dollarImpact=reserveDecline*0.6; var annualImpact=dollarImpact/yearsToDecline; var cashSavings=savings*(1-goldAllocation/100); var goldSavings=savings*(goldAllocation/100); var cashLoss=cashSavings*(dollarImpact/100); var goldGain=goldSavings*(dollarImpact/100)*1.5; var netImpact=goldGain-cashLoss;     document.getElementById('dollarImpact').textContent = fmt(dollarImpact,1)+'% weaker';
+    document.getElementById('savingsImpact').textContent = '-'+dollar(cashLoss)+' in purchasing power';
+    document.getElementById('goldHedgeValue').textContent = '+'+dollar(goldGain)+' in gold appreciation';
+    document.getElementById('netPosition').textContent = dollar(netImpact);
+    document.getElementById('annualDrag').textContent = fmt(annualImpact,1)+'% per year';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var duration = parseFloat(document.getElementById('duration').value) || 0;
 
     // Calculation logic
-    var nyquist = parseFloat(sampleRate) * 1000 / 2; var range = peakFreq < 300 ? 'Low frequency (unusual for voice)' : peakFreq < 1000 ? 'Low voice range' : peakFreq < 3000 ? 'Normal voice range' : 'High frequency (unusual)'; var classification = duration > 2 ? 'Extended vocalization' : duration > 0.5 ? 'Word/phrase length' : 'Brief burst'; return {range: range, classification: classification, nyquist: fmt(nyquist,0)};
+    var nyquist = parseFloat(sampleRate) * 1000 / 2; var range = peakFreq < 300 ? 'Low frequency (unusual for voice)' : peakFreq < 1000 ? 'Low voice range' : peakFreq < 3000 ? 'Normal voice range' : 'High frequency (unusual)'; var classification = duration > 2 ? 'Extended vocalization' : duration > 0.5 ? 'Word/phrase length' : 'Brief burst';     document.getElementById('range').textContent = range;
+    document.getElementById('classification').textContent = classification;
+    document.getElementById('nyquist').textContent = fmt(nyquist,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

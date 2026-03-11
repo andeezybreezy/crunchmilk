@@ -14,7 +14,9 @@
     var dependents = parseFloat(document.getElementById('dependents').value) || 0;
 
     // Calculation logic
-    var baseMonths = {'Very Stable': 3, 'Stable': 6, 'Variable': 9, 'Unstable': 12}; var months = (baseMonths[stability] || 6) + (dependents > 0 ? 1 : 0); var minimum = monthlyExpenses * 3; var recommended = monthlyExpenses * months; return {minimum: dollar(minimum), recommended: dollar(recommended), months: fmt(months,0)};
+    var baseMonths = {'Very Stable': 3, 'Stable': 6, 'Variable': 9, 'Unstable': 12}; var months = (baseMonths[stability] || 6) + (dependents > 0 ? 1 : 0); var minimum = monthlyExpenses * 3; var recommended = monthlyExpenses * months;     document.getElementById('minimum').textContent = dollar(minimum);
+    document.getElementById('recommended').textContent = dollar(recommended);
+    document.getElementById('months').textContent = fmt(months,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

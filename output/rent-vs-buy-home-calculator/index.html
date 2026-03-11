@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="homePrice">Home Price ($)</label>
-      <input type="number" id="homePrice" value="undefined" min="50000" max="5000000" step="10000" inputmode="decimal">
+      <input type="number" id="homePrice" value="" min="50000" max="5000000" step="10000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rent">Monthly Rent ($)</label>
-      <input type="number" id="rent" value="undefined" min="300" max="10000" step="100" inputmode="decimal">
+      <input type="number" id="rent" value="" min="300" max="10000" step="100" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="rate">Mortgage Rate (%)</label>
-      <input type="number" id="rate" value="undefined" min="2" max="12" step="0.125" inputmode="decimal">
+      <input type="number" id="rate" value="" min="2" max="12" step="0.125" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="years">Years to Compare</label>
-      <input type="number" id="years" value="undefined" min="1" max="30" step="1" inputmode="decimal">
+      <input type="number" id="years" value="" min="1" max="30" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rent vs buy calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Monthly Mortgage</strong> — PMT = Loan × r / (1-(1+r)^-360) — <em>30-year fixed mortgage payment.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Real estate values and regulations vary significantly by location. Work with a local agent or attorney.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I rent or buy?</h3>
+      <p>Buy if staying 5+ years and can afford 20% down. Rent if you need flexibility.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What costs does buying include?</h3>
+      <p>Mortgage, property tax, insurance, maintenance, and closing costs.</p>
     </div>
 
   </div>
@@ -424,7 +424,10 @@ footer a:hover{color:#fff}
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var loan = homePrice * 0.8; var r = rate/100/12; var mortgage = loan * r / (1 - Math.pow(1+r,-360)); var monthlyOwn = mortgage + homePrice*0.01/12; var totalRent = rent * years * 12; var totalOwn = monthlyOwn * years * 12 + homePrice*0.2; var equity = homePrice*0.2 + homePrice*0.03*years; var netOwn = totalOwn - equity; var verdict = netOwn < totalRent ? 'Buying saves ' + dollar(totalRent-netOwn) : 'Renting saves ' + dollar(netOwn-totalRent); return {monthlyMortgage: dollar(mortgage), totalRent: dollar(totalRent), totalOwn: dollar(netOwn), verdict: verdict};
+    var loan = homePrice * 0.8; var r = rate/100/12; var mortgage = loan * r / (1 - Math.pow(1+r,-360)); var monthlyOwn = mortgage + homePrice*0.01/12; var totalRent = rent * years * 12; var totalOwn = monthlyOwn * years * 12 + homePrice*0.2; var equity = homePrice*0.2 + homePrice*0.03*years; var netOwn = totalOwn - equity; var verdict = netOwn < totalRent ? 'Buying saves ' + dollar(totalRent-netOwn) : 'Renting saves ' + dollar(netOwn-totalRent);     document.getElementById('monthlyMortgage').textContent = dollar(mortgage);
+    document.getElementById('totalRent').textContent = dollar(totalRent);
+    document.getElementById('totalOwn').textContent = dollar(netOwn);
+    document.getElementById('verdict').textContent = verdict;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

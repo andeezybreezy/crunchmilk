@@ -14,7 +14,8 @@
     var efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
 
     // Calculation logic
-    var effectiveCapacity = capacity * (efficiency/100); var hours = effectiveCapacity / loadMa; var days = hours / 24; return {hours: fmt(hours,1), days: fmt(days,1)};
+    var effectiveCapacity = capacity * (efficiency/100); var hours = effectiveCapacity / loadMa; var days = hours / 24;     document.getElementById('hours').textContent = fmt(hours,1);
+    document.getElementById('days').textContent = fmt(days,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

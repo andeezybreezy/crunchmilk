@@ -14,7 +14,9 @@
     var daysInPeriod = parseFloat(document.getElementById('daysInPeriod').value) || 0;
 
     // Calculation logic
-    var fullMoonDays = Math.round(daysInPeriod / 29.5) * 5; var expectedPct = (fullMoonDays / daysInPeriod) * 100; var actualPct = (fullMoonReports / totalReports) * 100; var ratio = actualPct / expectedPct; var correlation = ratio > 1.5 ? 'Strong lunar correlation' : ratio > 1.1 ? 'Slight correlation' : ratio < 0.7 ? 'Inverse correlation' : 'No significant correlation'; return {expectedPct: fmt(expectedPct,1), actualPct: fmt(actualPct,1), correlation: correlation};
+    var fullMoonDays = Math.round(daysInPeriod / 29.5) * 5; var expectedPct = (fullMoonDays / daysInPeriod) * 100; var actualPct = (fullMoonReports / totalReports) * 100; var ratio = actualPct / expectedPct; var correlation = ratio > 1.5 ? 'Strong lunar correlation' : ratio > 1.1 ? 'Slight correlation' : ratio < 0.7 ? 'Inverse correlation' : 'No significant correlation';     document.getElementById('expectedPct').textContent = fmt(expectedPct,1);
+    document.getElementById('actualPct').textContent = fmt(actualPct,1);
+    document.getElementById('correlation').textContent = correlation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -18,7 +18,10 @@
     var overheadPct = parseFloat(document.getElementById('overheadPct').value) || 0;
 
     // Calculation logic
-    var ingredientCost = ingredient1 + ingredient2 + ingredient3 + ingredient4 + ingredient5; var overhead = ingredientCost * (overheadPct / 100); var totalCost = ingredientCost + overhead; var costPerServing = totalCost / servings; var vsRestaurant = costPerServing * 3.5; var savings = vsRestaurant - costPerServing; return {totalCost: dollar(totalCost), costPerServing: dollar(costPerServing), vsRestaurant: dollar(vsRestaurant), savings: dollar(savings)};
+    var ingredientCost = ingredient1 + ingredient2 + ingredient3 + ingredient4 + ingredient5; var overhead = ingredientCost * (overheadPct / 100); var totalCost = ingredientCost + overhead; var costPerServing = totalCost / servings; var vsRestaurant = costPerServing * 3.5; var savings = vsRestaurant - costPerServing;     document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('costPerServing').textContent = dollar(costPerServing);
+    document.getElementById('vsRestaurant').textContent = dollar(vsRestaurant);
+    document.getElementById('savings').textContent = dollar(savings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

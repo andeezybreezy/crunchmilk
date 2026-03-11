@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="amount">Loan Amount ($)</label>
-      <input type="number" id="amount" value="undefined" min="500" max="5000000" step="500" inputmode="decimal">
+      <input type="number" id="amount" value="" min="500" max="5000000" step="500" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rate">Interest Rate (%)</label>
-      <input type="number" id="rate" value="undefined" min="0.5" max="30" step="0.25" inputmode="decimal">
+      <input type="number" id="rate" value="" min="0.5" max="30" step="0.25" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="months">Term (months)</label>
-      <input type="number" id="months" value="undefined" min="6" max="360" step="6" inputmode="decimal">
+      <input type="number" id="months" value="" min="6" max="360" step="6" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This loan payment calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Payment</strong> — PMT = P×r/(1-(1+r)^-n) — <em>Standard amortization formula.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Tax laws and financial markets change frequently. Verify current rates with your financial institution.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I lower my payment?</h3>
+      <p>Longer term, lower rate, or smaller loan amount.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Fixed vs variable rate?</h3>
+      <p>Fixed stays the same. Variable can change, usually starting lower.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var months = parseFloat(document.getElementById('months').value) || 0;
 
     // Calculation logic
-    var r = rate/100/12; var payment = amount * r / (1 - Math.pow(1+r,-months)); var total = payment * months; var totalInterest = total - amount; return {payment: dollar(payment), totalInterest: dollar(totalInterest), total: dollar(total)};
+    var r = rate/100/12; var payment = amount * r / (1 - Math.pow(1+r,-months)); var total = payment * months; var totalInterest = total - amount;     document.getElementById('payment').textContent = dollar(payment);
+    document.getElementById('totalInterest').textContent = dollar(totalInterest);
+    document.getElementById('total').textContent = dollar(total);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

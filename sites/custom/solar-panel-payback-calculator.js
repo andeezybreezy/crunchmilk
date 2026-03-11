@@ -15,7 +15,9 @@
     var offsetPct = parseFloat(document.getElementById('offsetPct').value) || 0;
 
     // Calculation logic
-    var netCost = systemCost * (1 - taxCredit/100); var annualSavings = monthlyBill * 12 * (offsetPct/100); var paybackYears = netCost / annualSavings; return {netCost: dollar(netCost), annualSavings: dollar(annualSavings), paybackYears: fmt(paybackYears,1)};
+    var netCost = systemCost * (1 - taxCredit/100); var annualSavings = monthlyBill * 12 * (offsetPct/100); var paybackYears = netCost / annualSavings;     document.getElementById('netCost').textContent = dollar(netCost);
+    document.getElementById('annualSavings').textContent = dollar(annualSavings);
+    document.getElementById('paybackYears').textContent = fmt(paybackYears,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="closeRelationships">Close Relationships</label>
-      <input type="number" id="closeRelationships" value="undefined" min="0" max="20" step="1" inputmode="decimal">
+      <input type="number" id="closeRelationships" value="" min="0" max="20" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="weeklyInteractions">Meaningful Interactions per Week</label>
-      <input type="number" id="weeklyInteractions" value="undefined" min="0" max="30" step="1" inputmode="decimal">
+      <input type="number" id="weeklyInteractions" value="" min="0" max="30" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="belongingScore">Sense of Belonging (1-10)</label>
-      <input type="number" id="belongingScore" value="undefined" min="1" max="10" step="1" inputmode="decimal">
+      <input type="number" id="belongingScore" value="" min="1" max="10" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="loneliness">Loneliness Frequency</label>
-      <select id="loneliness"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="loneliness"><option value="Rarely" selected>Rarely</option><option value="Sometimes">Sometimes</option><option value="Often">Often</option><option value="Always">Always</option><option value="loneliness">loneliness</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This social connection score calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Social Score</strong> — Score = Relationships + Interactions + Belonging + Loneliness factors — <em>Four-component social health assessment.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does social connection matter?</h3>
+      <p>Strong social ties reduce mortality risk by 50%, comparable to quitting smoking.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many close relationships do I need?</h3>
+      <p>Research suggests 3-5 close relationships is optimal for mental health.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var loneliness = document.getElementById('loneliness').value;
 
     // Calculation logic
-    var relScore = Math.min(closeRelationships * 5, 25); var interScore = Math.min(weeklyInteractions * 3, 25); var belongScore = belongingScore * 2.5; var loneScores = {'Rarely': 25, 'Sometimes': 15, 'Often': 5, 'Always': 0}; var loneScore = loneScores[loneliness] || 10; var score = relScore + interScore + belongScore + loneScore; var assessment = score >= 80 ? 'Strong social health' : score >= 60 ? 'Adequate - room for deeper connections' : score >= 40 ? 'At risk - prioritize social activities' : 'Concerning - consider reaching out for support'; return {score: fmt(score,0), assessment: assessment};
+    var relScore = Math.min(closeRelationships * 5, 25); var interScore = Math.min(weeklyInteractions * 3, 25); var belongScore = belongingScore * 2.5; var loneScores = {'Rarely': 25, 'Sometimes': 15, 'Often': 5, 'Always': 0}; var loneScore = loneScores[loneliness] || 10; var score = relScore + interScore + belongScore + loneScore; var assessment = score >= 80 ? 'Strong social health' : score >= 60 ? 'Adequate - room for deeper connections' : score >= 40 ? 'At risk - prioritize social activities' : 'Concerning - consider reaching out for support';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('assessment').textContent = assessment;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

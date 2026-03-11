@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="nights">Total Nights</label>
-      <input type="number" id="nights" value="undefined" min="1" max="365" step="1" inputmode="decimal">
+      <input type="number" id="nights" value="" min="1" max="365" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="privateNights">Nights at Private Parks</label>
-      <input type="number" id="privateNights" value="undefined" min="0" max="365" step="1" inputmode="decimal">
+      <input type="number" id="privateNights" value="" min="0" max="365" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="publicNights">Nights at Public/State Parks</label>
-      <input type="number" id="publicNights" value="undefined" min="0" max="365" step="1" inputmode="decimal">
+      <input type="number" id="publicNights" value="" min="0" max="365" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="freeNights">Free Camping Nights</label>
-      <input type="number" id="freeNights" value="undefined" min="0" max="365" step="1" inputmode="decimal">
+      <input type="number" id="freeNights" value="" min="0" max="365" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rv campground budget calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Cost</strong> — Cost = (Private Nights × $55) + (Public Nights × $30) — <em>Average rates for private and public campgrounds.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much do RV campgrounds cost?</h3>
+      <p>Private parks average $40-70/night, public parks $20-40, and free BLM/dispersed camping is $0.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to reduce campground costs?</h3>
+      <p>Mix free camping with paid parks, use memberships like Thousand Trails or Passport America.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var freeNights = parseFloat(document.getElementById('freeNights').value) || 0;
 
     // Calculation logic
-    var privateCost = privateNights * 55; var publicCost = publicNights * 30; var totalCost = privateCost + publicCost; var avgPerNight = nights > 0 ? totalCost / nights : 0; return {totalCost: dollar(totalCost), avgPerNight: dollar(avgPerNight)};
+    var privateCost = privateNights * 55; var publicCost = publicNights * 30; var totalCost = privateCost + publicCost; var avgPerNight = nights > 0 ? totalCost / nights : 0;     document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('avgPerNight').textContent = dollar(avgPerNight);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

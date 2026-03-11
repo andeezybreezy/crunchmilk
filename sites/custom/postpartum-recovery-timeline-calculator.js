@@ -14,7 +14,9 @@
     var support = document.getElementById('support').value;
 
     // Calculation logic
-    var baseWeeks = {'Vaginal (uncomplicated)': 4, 'Vaginal (with tearing)': 6, 'C-Section': 8}; var physicalRecovery = baseWeeks[delivery] || 6; var exerciseReturn = physicalRecovery + 2; var supportMod = {'Strong support': 0, 'Some help': 1, 'Minimal support': 3}; var fullRecovery = physicalRecovery + 4 + (supportMod[support] || 0); return {physicalRecovery: fmt(physicalRecovery,0), exerciseReturn: fmt(exerciseReturn,0), fullRecovery: fmt(fullRecovery,0)};
+    var baseWeeks = {'Vaginal (uncomplicated)': 4, 'Vaginal (with tearing)': 6, 'C-Section': 8}; var physicalRecovery = baseWeeks[delivery] || 6; var exerciseReturn = physicalRecovery + 2; var supportMod = {'Strong support': 0, 'Some help': 1, 'Minimal support': 3}; var fullRecovery = physicalRecovery + 4 + (supportMod[support] || 0);     document.getElementById('physicalRecovery').textContent = fmt(physicalRecovery,0);
+    document.getElementById('exerciseReturn').textContent = fmt(exerciseReturn,0);
+    document.getElementById('fullRecovery').textContent = fmt(fullRecovery,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

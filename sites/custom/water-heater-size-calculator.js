@@ -14,7 +14,10 @@
     var usage = document.getElementById('usage').value;
 
     // Calculation logic
-    var perPerson={low:8,medium:12,high:18}; var peakGPH=people*perPerson[usage]; var tankSize=peakGPH<=30?30:peakGPH<=40?40:peakGPH<=50?50:peakGPH<=65?65:80; var tanklessGPM=peakGPH/20; var monthlyGas=tankSize*0.7; return {peakGPH:peakGPH+' gallons/hour', tankSize:tankSize+' gallon tank', tankless:fmt(tanklessGPM,1)+' GPM tankless', monthlyGas:dollar(monthlyGas)+'/month'};
+    var perPerson={low:8,medium:12,high:18}; var peakGPH=people*perPerson[usage]; var tankSize=peakGPH<=30?30:peakGPH<=40?40:peakGPH<=50?50:peakGPH<=65?65:80; var tanklessGPM=peakGPH/20; var monthlyGas=tankSize*0.7;     document.getElementById('peakGPH').textContent = peakGPH+' gallons/hour';
+    document.getElementById('tankSize').textContent = tankSize+' gallon tank';
+    document.getElementById('tankless').textContent = fmt(tanklessGPM,1)+' GPM tankless';
+    document.getElementById('monthlyGas').textContent = dollar(monthlyGas)+'/month';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

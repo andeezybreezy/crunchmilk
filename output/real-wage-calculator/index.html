@@ -421,7 +421,11 @@ footer a:hover{color:#fff}
     var inflationRate = parseFloat(document.getElementById('inflationRate').value) || 0;
 
     // Calculation logic
-    var nominalRaise=newSalary-oldSalary; var nominalPct=(nominalRaise/oldSalary)*100; var realSalary=newSalary/(1+inflationRate/100); var realRaise=realSalary-oldSalary; var realPct=(realRaise/oldSalary)*100; var verdict=realRaise>0?'You got a real raise of '+dollar(realRaise):'You took a real pay CUT of '+dollar(Math.abs(realRaise)); return {nominalRaise:dollar(nominalRaise), nominalPct:fmt(nominalPct,1)+'%', realRaise:dollar(realRaise), realPct:fmt(realPct,1)+'%', verdict:verdict};
+    var nominalRaise=newSalary-oldSalary; var nominalPct=(nominalRaise/oldSalary)*100; var realSalary=newSalary/(1+inflationRate/100); var realRaise=realSalary-oldSalary; var realPct=(realRaise/oldSalary)*100; var verdict=realRaise>0?'You got a real raise of '+dollar(realRaise):'You took a real pay CUT of '+dollar(Math.abs(realRaise));     document.getElementById('nominalRaise').textContent = dollar(nominalRaise);
+    document.getElementById('nominalPct').textContent = fmt(nominalPct,1)+'%';
+    document.getElementById('realRaise').textContent = dollar(realRaise);
+    document.getElementById('realPct').textContent = fmt(realPct,1)+'%';
+    document.getElementById('verdict').textContent = verdict;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

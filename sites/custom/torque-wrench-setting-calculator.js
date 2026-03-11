@@ -14,7 +14,8 @@
     var extLength = parseFloat(document.getElementById('extLength').value) || 0;
 
     // Calculation logic
-    var effectiveLength = wrenchLength + extLength; var dialSetting = targetTorque * (wrenchLength / effectiveLength); var appliedForce = targetTorque * 12 / effectiveLength; return {dialSetting: fmt(dialSetting,1), appliedForce: fmt(appliedForce,1)};
+    var effectiveLength = wrenchLength + extLength; var dialSetting = targetTorque * (wrenchLength / effectiveLength); var appliedForce = targetTorque * 12 / effectiveLength;     document.getElementById('dialSetting').textContent = fmt(dialSetting,1);
+    document.getElementById('appliedForce').textContent = fmt(appliedForce,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

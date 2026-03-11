@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="bedrooms">Number of Bedrooms</label>
-      <input type="number" id="bedrooms" value="undefined" min="1" max="8" step="1" inputmode="decimal">
+      <input type="number" id="bedrooms" value="" min="1" max="8" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="occupants">Number of Occupants</label>
-      <input type="number" id="occupants" value="undefined" min="1" max="15" step="1" inputmode="decimal">
+      <input type="number" id="occupants" value="" min="1" max="15" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="waterUse">Water Usage</label>
-      <select id="waterUse"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="waterUse"><option value="Low (conservation fixtures)" selected>Low (conservation fixtures)</option><option value="Average">Average</option><option value="High (large tubs, many loads)">High (large tubs, many loads)</option><option value="waterUse">waterUse</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This septic tank size calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Tank Size</strong> — Gallons = (Bedrooms × 250 + 500) × Usage Factor — <em>Bedroom-based calculation adjusted for water usage.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What size septic tank do I need?</h3>
+      <p>1000 gallons minimum for up to 3 bedrooms, add 250 gallons per additional bedroom.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How often should I pump my septic?</h3>
+      <p>Every 3-5 years for a family of 4, more often for larger households.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var waterUse = document.getElementById('waterUse').value;
 
     // Calculation logic
-    var base = Math.max(bedrooms, 3) * 250 + 500; var usageMult = {'Low (conservation fixtures)': 0.85, 'Average': 1, 'High (large tubs, many loads)': 1.2}; var tankGallons = Math.ceil(base * (usageMult[waterUse] || 1) / 250) * 250; var dailyFlow = occupants * 75; var drainField = dailyFlow * 3; var pumpFrequency = occupants <= 2 ? 5 : occupants <= 4 ? 3 : 2; return {tankGallons: fmt(tankGallons,0), drainField: fmt(drainField,0), pumpFrequency: fmt(pumpFrequency,0)};
+    var base = Math.max(bedrooms, 3) * 250 + 500; var usageMult = {'Low (conservation fixtures)': 0.85, 'Average': 1, 'High (large tubs, many loads)': 1.2}; var tankGallons = Math.ceil(base * (usageMult[waterUse] || 1) / 250) * 250; var dailyFlow = occupants * 75; var drainField = dailyFlow * 3; var pumpFrequency = occupants <= 2 ? 5 : occupants <= 4 ? 3 : 2;     document.getElementById('tankGallons').textContent = fmt(tankGallons,0);
+    document.getElementById('drainField').textContent = fmt(drainField,0);
+    document.getElementById('pumpFrequency').textContent = fmt(pumpFrequency,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="people">People Aboard</label>
-      <input type="number" id="people" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="people" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="days">Days Between Pump-Outs</label>
-      <input type="number" id="days" value="undefined" min="1" max="14" step="1" inputmode="decimal">
+      <input type="number" id="days" value="" min="1" max="14" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This marine holding tank calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Tank Size</strong> — Gallons = People × Days × 2 gal/person/day × 1.25 — <em>Per-person daily usage with 25% safety margin.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How big should a holding tank be?</h3>
+      <p>Plan 2 gallons per person per day, then add 25% buffer.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How often to pump out?</h3>
+      <p>Depends on tank size and crew. Most cruisers pump every 3-5 days.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var perPersonDay = 2; var gallons = people * days * perPersonDay; var recommended = Math.ceil(gallons * 1.25 / 5) * 5; return {gallons: fmt(gallons,0), recommended: fmt(recommended,0)};
+    var perPersonDay = 2; var gallons = people * days * perPersonDay; var recommended = Math.ceil(gallons * 1.25 / 5) * 5;     document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('recommended').textContent = fmt(recommended,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

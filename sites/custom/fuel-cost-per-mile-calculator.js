@@ -14,7 +14,9 @@
     var annualMiles = parseFloat(document.getElementById('annualMiles').value) || 0;
 
     // Calculation logic
-    var costPerMile = gasPrice / mpg; var annualFuel = annualMiles * costPerMile; var monthlyFuel = annualFuel / 12; return {costPerMile: fmt(costPerMile * 100, 1), annualFuel: dollar(annualFuel), monthlyFuel: dollar(monthlyFuel)};
+    var costPerMile = gasPrice / mpg; var annualFuel = annualMiles * costPerMile; var monthlyFuel = annualFuel / 12;     document.getElementById('costPerMile').textContent = fmt(costPerMile * 100, 1);
+    document.getElementById('annualFuel').textContent = dollar(annualFuel);
+    document.getElementById('monthlyFuel').textContent = dollar(monthlyFuel);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

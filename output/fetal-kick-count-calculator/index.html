@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="kicks">Kicks Counted</label>
-      <input type="number" id="kicks" value="undefined" min="1" max="100" step="1" inputmode="decimal">
+      <input type="number" id="kicks" value="" min="1" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="minutes">Time Taken (minutes)</label>
-      <input type="number" id="minutes" value="undefined" min="1" max="180" step="1" inputmode="decimal">
+      <input type="number" id="minutes" value="" min="1" max="180" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="weeksPregnant">Weeks Pregnant</label>
-      <input type="number" id="weeksPregnant" value="undefined" min="24" max="42" step="1" inputmode="decimal">
+      <input type="number" id="weeksPregnant" value="" min="24" max="42" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This kick count tracker calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Kick Rate</strong> — Rate = (Kicks / Minutes) × 60 — <em>Kicks per hour from the counting session.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many kicks should I feel?</h3>
+      <p>At least 10 movements in 2 hours is the standard guideline.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When should I start counting?</h3>
+      <p>Most providers recommend starting kick counts at 28 weeks.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var weeksPregnant = parseFloat(document.getElementById('weeksPregnant').value) || 0;
 
     // Calculation logic
-    var rate = (kicks / minutes) * 60; var status = kicks >= 10 && minutes <= 120 ? 'Normal' : kicks >= 10 ? 'Slow but reached 10' : 'Below threshold'; var action = kicks < 10 && minutes >= 120 ? 'Contact your healthcare provider' : kicks < 10 ? 'Keep counting - try for 10 in 2 hours' : 'Normal - no action needed'; return {rate: fmt(rate,1), status: status, action: action};
+    var rate = (kicks / minutes) * 60; var status = kicks >= 10 && minutes <= 120 ? 'Normal' : kicks >= 10 ? 'Slow but reached 10' : 'Below threshold'; var action = kicks < 10 && minutes >= 120 ? 'Contact your healthcare provider' : kicks < 10 ? 'Keep counting - try for 10 in 2 hours' : 'Normal - no action needed';     document.getElementById('rate').textContent = fmt(rate,1);
+    document.getElementById('status').textContent = status;
+    document.getElementById('action').textContent = action;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

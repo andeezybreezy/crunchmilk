@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="records">Number of Records</label>
-      <input type="number" id="records" value="undefined" min="1" max="1000000" step="100" inputmode="decimal">
+      <input type="number" id="records" value="" min="1" max="1000000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fieldsPerRecord">Fields per Record</label>
-      <input type="number" id="fieldsPerRecord" value="undefined" min="1" max="100" step="1" inputmode="decimal">
+      <input type="number" id="fieldsPerRecord" value="" min="1" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="avgFieldLength">Avg Field Value Length (chars)</label>
-      <input type="number" id="avgFieldLength" value="undefined" min="1" max="1000" step="5" inputmode="decimal">
+      <input type="number" id="avgFieldLength" value="" min="1" max="1000" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This json payload size calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Payload Size</strong> — Size = Records × Fields × (Value Length + Overhead) — <em>Total bytes from record count, field count, and average lengths.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How big is a typical API response?</h3>
+      <p>Varies widely: 1-10 KB for simple, 100+ KB for data-heavy responses.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does JSON compression help?</h3>
+      <p>Yes, gzip typically reduces JSON size by 70-80%.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var avgFieldLength = parseFloat(document.getElementById('avgFieldLength').value) || 0;
 
     // Calculation logic
-    var fieldOverhead = 15; var bytesPerRecord = fieldsPerRecord * (avgFieldLength + fieldOverhead); var totalBytes = records * bytesPerRecord + 100; var sizeKB = totalBytes / 1024; var sizeMB = sizeKB / 1024; var transferTime = (totalBytes * 8) / 10000000; return {sizeKB: fmt(sizeKB,1), sizeMB: fmt(sizeMB,2), transferTime: fmt(transferTime,2)};
+    var fieldOverhead = 15; var bytesPerRecord = fieldsPerRecord * (avgFieldLength + fieldOverhead); var totalBytes = records * bytesPerRecord + 100; var sizeKB = totalBytes / 1024; var sizeMB = sizeKB / 1024; var transferTime = (totalBytes * 8) / 10000000;     document.getElementById('sizeKB').textContent = fmt(sizeKB,1);
+    document.getElementById('sizeMB').textContent = fmt(sizeMB,2);
+    document.getElementById('transferTime').textContent = fmt(transferTime,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -13,7 +13,9 @@
     var brinePct = document.getElementById('brinePct').value;
 
     // Calculation logic
-    var waterMl = waterCups * 236.6; var pcts = {'3.5% (light - vegetables)': 3.5, '5% (standard - poultry)': 5, '10% (heavy - pickles)': 10, '20% (curing)': 20}; var pct = pcts[brinePct] || 5; var saltGrams = waterMl * (pct/100); var saltTbsp = saltGrams / 15; var times = {'3.5% (light - vegetables)': 2, '5% (standard - poultry)': 8, '10% (heavy - pickles)': 24, '20% (curing)': 48}; var soakTime = times[brinePct] || 8; return {saltTbsp: fmt(saltTbsp,1), saltGrams: fmt(saltGrams,0), soakTime: fmt(soakTime,0)};
+    var waterMl = waterCups * 236.6; var pcts = {'3.5% (light - vegetables)': 3.5, '5% (standard - poultry)': 5, '10% (heavy - pickles)': 10, '20% (curing)': 20}; var pct = pcts[brinePct] || 5; var saltGrams = waterMl * (pct/100); var saltTbsp = saltGrams / 15; var times = {'3.5% (light - vegetables)': 2, '5% (standard - poultry)': 8, '10% (heavy - pickles)': 24, '20% (curing)': 48}; var soakTime = times[brinePct] || 8;     document.getElementById('saltTbsp').textContent = fmt(saltTbsp,1);
+    document.getElementById('saltGrams').textContent = fmt(saltGrams,0);
+    document.getElementById('soakTime').textContent = fmt(soakTime,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gallons">Tank Size (gallons)</label>
-      <input type="number" id="gallons" value="undefined" min="1" max="500" step="1" inputmode="decimal">
+      <input type="number" id="gallons" value="" min="1" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="filtration">Filtration</label>
-      <select id="filtration"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="filtration"><option value="Standard" selected>Standard</option><option value="Over-filtered (2x)">Over-filtered (2x)</option><option value="Under-filtered">Under-filtered</option><option value="filtration">filtration</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fishSize">Average Fish Size</label>
-      <select id="fishSize"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="fishSize"><option value="Small (1-2 inches)" selected>Small (1-2 inches)</option><option value="Medium (2-4 inches)">Medium (2-4 inches)</option><option value="Large (4-6 inches)">Large (4-6 inches)</option><option value="Extra Large (6+ inches)">Extra Large (6+ inches)</option><option value="fishSize">fishSize</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This aquarium stocking calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Fish Capacity</strong> — Fish = (Gallons × Filtration Factor) / Avg Fish Size — <em>Total inches of fish the tank can support.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the inch-per-gallon rule?</h3>
+      <p>One inch of fish per gallon of water. It's a guideline, not exact.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I overstock with good filtration?</h3>
+      <p>Over-filtration allows slightly more fish, but never exceed 130% of the guideline.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var fishSize = document.getElementById('fishSize').value;
 
     // Calculation logic
-    var inchesPerGal = {'Standard': 1, 'Over-filtered (2x)': 1.3, 'Under-filtered': 0.7}; var avgSize = {'Small (1-2 inches)': 1.5, 'Medium (2-4 inches)': 3, 'Large (4-6 inches)': 5, 'Extra Large (6+ inches)': 8}; var totalInches = gallons * (inchesPerGal[filtration] || 1); var fishInches = avgSize[fishSize] || 3; var maxFish = Math.floor(totalInches / fishInches); var recommendedFish = Math.floor(maxFish * 0.75); return {maxFish: fmt(maxFish,0), recommendedFish: fmt(recommendedFish,0)};
+    var inchesPerGal = {'Standard': 1, 'Over-filtered (2x)': 1.3, 'Under-filtered': 0.7}; var avgSize = {'Small (1-2 inches)': 1.5, 'Medium (2-4 inches)': 3, 'Large (4-6 inches)': 5, 'Extra Large (6+ inches)': 8}; var totalInches = gallons * (inchesPerGal[filtration] || 1); var fishInches = avgSize[fishSize] || 3; var maxFish = Math.floor(totalInches / fishInches); var recommendedFish = Math.floor(maxFish * 0.75);     document.getElementById('maxFish').textContent = fmt(maxFish,0);
+    document.getElementById('recommendedFish').textContent = fmt(recommendedFish,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="zone">Climate Zone</label>
-      <select id="zone"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="zone"><option value="zone" selected>zone</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="area">Application Area</label>
-      <select id="area"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="area"><option value="Attic Floor" selected>Attic Floor</option><option value="Zone 1 (Hot - Miami)">Zone 1 (Hot - Miami)</option><option value="Zone 2 (Hot - Houston)">Zone 2 (Hot - Houston)</option><option value="Zone 3 (Mixed-Hot - Atlanta)">Zone 3 (Mixed-Hot - Atlanta)</option><option value="Zone 4 (Mixed - DC)">Zone 4 (Mixed - DC)</option><option value="Zone 5 (Cold - Chicago)">Zone 5 (Cold - Chicago)</option><option value="Zone 6 (Cold - Minneapolis)">Zone 6 (Cold - Minneapolis)</option><option value="Zone 7 (Very Cold - Duluth)">Zone 7 (Very Cold - Duluth)</option><option value="area">area</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="existing">Current R-Value</label>
-      <input type="number" id="existing" value="undefined" min="0" max="60" step="1" inputmode="decimal">
+      <input type="number" id="existing" value="" min="0" max="60" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This insulation r-value calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Additional R-Value</strong> — Additional = Recommended - Existing — <em>The gap between what you have and what is recommended.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What R-value do I need?</h3>
+      <p>Depends on climate zone and location in home. Attics need R-30 to R-60.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is R-value?</h3>
+      <p>A measure of thermal resistance. Higher R-value = better insulation.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var existing = parseFloat(document.getElementById('existing').value) || 0;
 
     // Calculation logic
-    var rValues = {'Attic Floor': {'Zone 1 (Hot - Miami)': 30, 'Zone 2 (Hot - Houston)': 38, 'Zone 3 (Mixed-Hot - Atlanta)': 38, 'Zone 4 (Mixed - DC)': 49, 'Zone 5 (Cold - Chicago)': 49, 'Zone 6 (Cold - Minneapolis)': 60, 'Zone 7 (Very Cold - Duluth)': 60}, 'Exterior Wall': {'Zone 1 (Hot - Miami)': 13, 'Zone 2 (Hot - Houston)': 13, 'Zone 3 (Mixed-Hot - Atlanta)': 20, 'Zone 4 (Mixed - DC)': 20, 'Zone 5 (Cold - Chicago)': 20, 'Zone 6 (Cold - Minneapolis)': 21, 'Zone 7 (Very Cold - Duluth)': 21}, 'Crawl Space': {'Zone 1 (Hot - Miami)': 13, 'Zone 2 (Hot - Houston)': 19, 'Zone 3 (Mixed-Hot - Atlanta)': 19, 'Zone 4 (Mixed - DC)': 25, 'Zone 5 (Cold - Chicago)': 25, 'Zone 6 (Cold - Minneapolis)': 30, 'Zone 7 (Very Cold - Duluth)': 30}, 'Basement Wall': {'Zone 1 (Hot - Miami)': 0, 'Zone 2 (Hot - Houston)': 0, 'Zone 3 (Mixed-Hot - Atlanta)': 5, 'Zone 4 (Mixed - DC)': 10, 'Zone 5 (Cold - Chicago)': 15, 'Zone 6 (Cold - Minneapolis)': 15, 'Zone 7 (Very Cold - Duluth)': 15}}; var recommended = rValues[area][zone] || 30; var additional = Math.max(recommended - existing, 0); var fiberglass = additional / 3.2; return {recommended: 'R-' + fmt(recommended,0), additional: 'R-' + fmt(additional,0), fiberglass: fmt(fiberglass,1)};
+    var rValues = {'Attic Floor': {'Zone 1 (Hot - Miami)': 30, 'Zone 2 (Hot - Houston)': 38, 'Zone 3 (Mixed-Hot - Atlanta)': 38, 'Zone 4 (Mixed - DC)': 49, 'Zone 5 (Cold - Chicago)': 49, 'Zone 6 (Cold - Minneapolis)': 60, 'Zone 7 (Very Cold - Duluth)': 60}, 'Exterior Wall': {'Zone 1 (Hot - Miami)': 13, 'Zone 2 (Hot - Houston)': 13, 'Zone 3 (Mixed-Hot - Atlanta)': 20, 'Zone 4 (Mixed - DC)': 20, 'Zone 5 (Cold - Chicago)': 20, 'Zone 6 (Cold - Minneapolis)': 21, 'Zone 7 (Very Cold - Duluth)': 21}, 'Crawl Space': {'Zone 1 (Hot - Miami)': 13, 'Zone 2 (Hot - Houston)': 19, 'Zone 3 (Mixed-Hot - Atlanta)': 19, 'Zone 4 (Mixed - DC)': 25, 'Zone 5 (Cold - Chicago)': 25, 'Zone 6 (Cold - Minneapolis)': 30, 'Zone 7 (Very Cold - Duluth)': 30}, 'Basement Wall': {'Zone 1 (Hot - Miami)': 0, 'Zone 2 (Hot - Houston)': 0, 'Zone 3 (Mixed-Hot - Atlanta)': 5, 'Zone 4 (Mixed - DC)': 10, 'Zone 5 (Cold - Chicago)': 15, 'Zone 6 (Cold - Minneapolis)': 15, 'Zone 7 (Very Cold - Duluth)': 15}}; var recommended = rValues[area][zone] || 30; var additional = Math.max(recommended - existing, 0); var fiberglass = additional / 3.2;     document.getElementById('recommended').textContent = 'R-' + fmt(recommended,0);
+    document.getElementById('additional').textContent = 'R-' + fmt(additional,0);
+    document.getElementById('fiberglass').textContent = fmt(fiberglass,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,10 @@
     var wastePct = parseFloat(document.getElementById('wastePct').value) || 0;
 
     // Calculation logic
-    var area=areaLength*areaWidth; var tileSizeIn=parseInt(tileSize); var tilesPerSqFt=144/(tileSizeIn*tileSizeIn); var tilesNeeded=Math.ceil(area*tilesPerSqFt*(1+wastePct/100)); var boxes=Math.ceil(tilesNeeded/10); var groutLbs=Math.ceil(area*0.5); return {areaSqFt:fmt(area,0)+' sq ft', tiles:tilesNeeded+' tiles', boxes:boxes+' boxes', groutLbs:groutLbs+' lbs'};
+    var area=areaLength*areaWidth; var tileSizeIn=parseInt(tileSize); var tilesPerSqFt=144/(tileSizeIn*tileSizeIn); var tilesNeeded=Math.ceil(area*tilesPerSqFt*(1+wastePct/100)); var boxes=Math.ceil(tilesNeeded/10); var groutLbs=Math.ceil(area*0.5);     document.getElementById('areaSqFt').textContent = fmt(area,0)+' sq ft';
+    document.getElementById('tiles').textContent = tilesNeeded+' tiles';
+    document.getElementById('boxes').textContent = boxes+' boxes';
+    document.getElementById('groutLbs').textContent = groutLbs+' lbs';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

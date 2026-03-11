@@ -302,15 +302,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="mpg">Fuel Economy (MPG)</label>
-      <input type="number" id="mpg" value="undefined" min="5" max="150" step="1" inputmode="decimal">
+      <input type="number" id="mpg" value="" min="5" max="150" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="gasPrice">Gas Price ($/gal)</label>
-      <input type="number" id="gasPrice" value="undefined" min="0.5" max="10" step="0.1" inputmode="decimal">
+      <input type="number" id="gasPrice" value="" min="0.5" max="10" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="annualMiles">Annual Miles Driven</label>
-      <input type="number" id="annualMiles" value="undefined" min="1000" max="100000" step="1000" inputmode="decimal">
+      <input type="number" id="annualMiles" value="" min="1000" max="100000" step="1000" inputmode="decimal">
     </div>
   </div>
 
@@ -359,7 +359,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This fuel cost per mile calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Cost per Mile</strong> — Cost = Gas Price / MPG — <em>Divide fuel price by miles per gallon.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -380,13 +380,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the average cost per mile?</h3>
+      <p>At $3.50/gal and 28 MPG, that's about 12.5 cents per mile for fuel alone.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What about total cost per mile?</h3>
+      <p>Including insurance, maintenance, and depreciation, the IRS rate is 67 cents/mile (2024).</p>
     </div>
 
   </div>
@@ -432,7 +432,9 @@ footer a:hover{color:#fff}
     var annualMiles = parseFloat(document.getElementById('annualMiles').value) || 0;
 
     // Calculation logic
-    var costPerMile = gasPrice / mpg; var annualFuel = annualMiles * costPerMile; var monthlyFuel = annualFuel / 12; return {costPerMile: fmt(costPerMile * 100, 1), annualFuel: dollar(annualFuel), monthlyFuel: dollar(monthlyFuel)};
+    var costPerMile = gasPrice / mpg; var annualFuel = annualMiles * costPerMile; var monthlyFuel = annualFuel / 12;     document.getElementById('costPerMile').textContent = fmt(costPerMile * 100, 1);
+    document.getElementById('annualFuel').textContent = dollar(annualFuel);
+    document.getElementById('monthlyFuel').textContent = dollar(monthlyFuel);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -15,7 +15,10 @@
     var marginBalance = parseFloat(document.getElementById('marginBalance').value) || 0;
 
     // Calculation logic
-    var positionSize=marginBalance*leverage; var liqPct=1/leverage; var liqPrice; if(positionType==='long'){liqPrice=entryPrice*(1-liqPct+0.005);}else{liqPrice=entryPrice*(1+liqPct-0.005);} var distancePct=Math.abs(liqPrice-entryPrice)/entryPrice*100; return {positionSize:dollar(positionSize), liqPrice:dollar(liqPrice), distancePct:fmt(distancePct,1)+'% from entry', maxLoss:dollar(marginBalance)+' (entire margin)'};
+    var positionSize=marginBalance*leverage; var liqPct=1/leverage; var liqPrice; if(positionType==='long'){liqPrice=entryPrice*(1-liqPct+0.005);}else{liqPrice=entryPrice*(1+liqPct-0.005);} var distancePct=Math.abs(liqPrice-entryPrice)/entryPrice*100;     document.getElementById('positionSize').textContent = dollar(positionSize);
+    document.getElementById('liqPrice').textContent = dollar(liqPrice);
+    document.getElementById('distancePct').textContent = fmt(distancePct,1)+'% from entry';
+    document.getElementById('maxLoss').textContent = dollar(marginBalance)+' (entire margin)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

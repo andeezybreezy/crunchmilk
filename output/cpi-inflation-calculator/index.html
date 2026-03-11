@@ -414,7 +414,10 @@ footer a:hover{color:#fff}
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var rates={all:3.2,food:5.1,shelter:6.2,energy:3.8,medical:3.5,education:4.8,vehicles:1.2}; var rate=rates[category]||3.2; var cumulative=Math.pow(1+rate/100,years); var futureMonthly=monthlySpend*cumulative; var increase=futureMonthly-monthlySpend; var totalExtra=0; for(var i=1;i<=years*12;i++){totalExtra+=(monthlySpend*Math.pow(1+rate/100,i/12))-monthlySpend;} return {futureMonthly:dollar(futureMonthly)+'/month', increase:'+'+dollar(increase)+'/month', totalExtra:dollar(totalExtra)+' extra over '+years+' years', cumulativePct:'+'+fmt((cumulative-1)*100,1)+'%'};
+    var rates={all:3.2,food:5.1,shelter:6.2,energy:3.8,medical:3.5,education:4.8,vehicles:1.2}; var rate=rates[category]||3.2; var cumulative=Math.pow(1+rate/100,years); var futureMonthly=monthlySpend*cumulative; var increase=futureMonthly-monthlySpend; var totalExtra=0; for(var i=1;i<=years*12;i++){totalExtra+=(monthlySpend*Math.pow(1+rate/100,i/12))-monthlySpend;}     document.getElementById('futureMonthly').textContent = dollar(futureMonthly)+'/month';
+    document.getElementById('increase').textContent = '+'+dollar(increase)+'/month';
+    document.getElementById('totalExtra').textContent = dollar(totalExtra)+' extra over '+years+' years';
+    document.getElementById('cumulativePct').textContent = '+'+fmt((cumulative-1)*100,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="temp">Temperature (°F)</label>
-      <input type="number" id="temp" value="undefined" min="0" max="130" step="1" inputmode="decimal">
+      <input type="number" id="temp" value="" min="0" max="130" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="humidity">Relative Humidity (%)</label>
-      <input type="number" id="humidity" value="undefined" min="5" max="100" step="1" inputmode="decimal">
+      <input type="number" id="humidity" value="" min="5" max="100" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This dew point calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Magnus Formula</strong> — Td = 237.7 × α / (17.27 - α) — <em>Approximation using temperature and relative humidity.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is dew point?</h3>
+      <p>The temperature at which air becomes saturated and moisture condenses.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why is dew point better than humidity?</h3>
+      <p>Dew point gives a more absolute measure of moisture — 65°F+ feels uncomfortable regardless of temp.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var humidity = parseFloat(document.getElementById('humidity').value) || 0;
 
     // Calculation logic
-    var tempC = (temp - 32) * 5/9; var a = 17.27; var b = 237.7; var alpha = (a * tempC)/(b + tempC) + Math.log(humidity/100); var dewC = (b * alpha)/(a - alpha); var dewPoint = dewC * 9/5 + 32; var comfort = dewPoint > 75 ? 'Extremely uncomfortable' : dewPoint > 70 ? 'Very muggy' : dewPoint > 65 ? 'Uncomfortable' : dewPoint > 60 ? 'Slightly humid' : dewPoint > 55 ? 'Comfortable' : 'Dry and pleasant'; return {dewPoint: fmt(dewPoint,0), comfort: comfort};
+    var tempC = (temp - 32) * 5/9; var a = 17.27; var b = 237.7; var alpha = (a * tempC)/(b + tempC) + Math.log(humidity/100); var dewC = (b * alpha)/(a - alpha); var dewPoint = dewC * 9/5 + 32; var comfort = dewPoint > 75 ? 'Extremely uncomfortable' : dewPoint > 70 ? 'Very muggy' : dewPoint > 65 ? 'Uncomfortable' : dewPoint > 60 ? 'Slightly humid' : dewPoint > 55 ? 'Comfortable' : 'Dry and pleasant';     document.getElementById('dewPoint').textContent = fmt(dewPoint,0);
+    document.getElementById('comfort').textContent = comfort;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,10 @@
     var color2Pct = parseFloat(document.getElementById('color2Pct').value) || 0;
 
     // Calculation logic
-    var total = color1Pct + color2Pct; var base = totalGallons * (color1Pct / total); var tint = totalGallons * (color2Pct / total); var baseOz = base * 128; var tintOz = tint * 128; return {base: fmt(base,2), tint: fmt(tint,2), baseOz: fmt(baseOz,0), tintOz: fmt(tintOz,0)};
+    var total = color1Pct + color2Pct; var base = totalGallons * (color1Pct / total); var tint = totalGallons * (color2Pct / total); var baseOz = base * 128; var tintOz = tint * 128;     document.getElementById('base').textContent = fmt(base,2);
+    document.getElementById('tint').textContent = fmt(tint,2);
+    document.getElementById('baseOz').textContent = fmt(baseOz,0);
+    document.getElementById('tintOz').textContent = fmt(tintOz,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

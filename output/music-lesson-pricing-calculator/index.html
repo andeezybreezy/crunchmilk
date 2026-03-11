@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="experience">Teaching Experience</label>
-      <select id="experience"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="experience"><option value="Beginner (0-2 years)" selected>Beginner (0-2 years)</option><option value="Intermediate (3-7 years)">Intermediate (3-7 years)</option><option value="Advanced (8-15 years)">Advanced (8-15 years)</option><option value="Master/Degree (15+ years)">Master/Degree (15+ years)</option><option value="experience">experience</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="instrument">Instrument</label>
-      <select id="instrument"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="instrument"><option value="instrument" selected>instrument</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="lessonLength">Lesson Length (min)</label>
-      <select id="lessonLength"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="lessonLength"><option value="30" selected>30</option><option value="45">45</option><option value="60">60</option><option value="90">90</option><option value="lessonLength">lessonLength</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="location">Location Type</label>
-      <select id="location"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="location"><option value="In-Home (student)" selected>In-Home (student)</option><option value="Your Studio">Your Studio</option><option value="Online">Online</option><option value="Music School">Music School</option><option value="location">location</option><option value=", ">, </option></select>
     </div>
   </div>
     <div class="input-group">
       <label for="costOfLiving">Cost of Living Area</label>
-      <select id="costOfLiving"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="costOfLiving"><option value="Low" selected>Low</option><option value="Medium">Medium</option><option value="High">High</option><option value="Very High (NYC, SF)">Very High (NYC, SF)</option><option value="costOfLiving">costOfLiving</option></select>
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -362,7 +362,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This music lesson pricing calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Lesson Rate</strong> — Rate = Base x Length Multiplier x Location Multiplier x Cost-of-Living Multiplier — <em>Your experience-based rate adjusted for lesson duration, teaching location, and local market.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -375,13 +375,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much should I charge for music lessons?</h3>
+      <p>Rates vary from $30-$120 per hour based on experience, location, and instrument. Research local competitors and price based on your qualifications.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I charge less for online lessons?</h3>
+      <p>Online lessons typically go for 10-15% less since you have no travel time or studio overhead, but the convenience can justify full rates.</p>
     </div>
 
   </div>
@@ -435,7 +435,10 @@ footer a:hover{color:#fff}
     var costOfLiving = document.getElementById('costOfLiving').value;
 
     // Calculation logic
-    var baseRates = {'Beginner (0-2 years)': 35, 'Intermediate (3-7 years)': 55, 'Advanced (8-15 years)': 75, 'Master/Degree (15+ years)': 100}; var lengthMult = {'30': 0.6, '45': 0.85, '60': 1, '90': 1.4}; var locationMult = {'In-Home (student)': 1.15, 'Your Studio': 1, 'Online': 0.9, 'Music School': 0.75}; var colMult = {'Low': 0.75, 'Medium': 1, 'High': 1.35, 'Very High (NYC, SF)': 1.7}; var base = baseRates[experience] || 55; var rate = base * (lengthMult[lessonLength] || 1) * (locationMult[location] || 1) * (colMult[costOfLiving] || 1); var hourlyEquivalent = rate / (parseInt(lessonLength) / 60); var monthlyIncome = rate * 20 * 4.33; var annualIncome = rate * 20 * 44; return {suggestedRate: dollar(rate), hourlyEquivalent: dollar(hourlyEquivalent), monthlyIncome: dollar(monthlyIncome), annualIncome: dollar(annualIncome)};
+    var baseRates = {'Beginner (0-2 years)': 35, 'Intermediate (3-7 years)': 55, 'Advanced (8-15 years)': 75, 'Master/Degree (15+ years)': 100}; var lengthMult = {'30': 0.6, '45': 0.85, '60': 1, '90': 1.4}; var locationMult = {'In-Home (student)': 1.15, 'Your Studio': 1, 'Online': 0.9, 'Music School': 0.75}; var colMult = {'Low': 0.75, 'Medium': 1, 'High': 1.35, 'Very High (NYC, SF)': 1.7}; var base = baseRates[experience] || 55; var rate = base * (lengthMult[lessonLength] || 1) * (locationMult[location] || 1) * (colMult[costOfLiving] || 1); var hourlyEquivalent = rate / (parseInt(lessonLength) / 60); var monthlyIncome = rate * 20 * 4.33; var annualIncome = rate * 20 * 44;     document.getElementById('suggestedRate').textContent = dollar(rate);
+    document.getElementById('hourlyEquivalent').textContent = dollar(hourlyEquivalent);
+    document.getElementById('monthlyIncome').textContent = dollar(monthlyIncome);
+    document.getElementById('annualIncome').textContent = dollar(annualIncome);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

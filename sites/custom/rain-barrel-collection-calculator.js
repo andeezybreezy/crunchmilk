@@ -14,7 +14,9 @@
     var efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
 
     // Calculation logic
-    var gallonsYear = roofArea * (rainfall / 12) * 7.48 * (efficiency/100); var gallonsMonth = gallonsYear / 12; var barrels = Math.ceil(gallonsMonth / 55); return {gallonsYear: fmt(gallonsYear,0), gallonsMonth: fmt(gallonsMonth,0), barrels: fmt(barrels,0)};
+    var gallonsYear = roofArea * (rainfall / 12) * 7.48 * (efficiency/100); var gallonsMonth = gallonsYear / 12; var barrels = Math.ceil(gallonsMonth / 55);     document.getElementById('gallonsYear').textContent = fmt(gallonsYear,0);
+    document.getElementById('gallonsMonth').textContent = fmt(gallonsMonth,0);
+    document.getElementById('barrels').textContent = fmt(barrels,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

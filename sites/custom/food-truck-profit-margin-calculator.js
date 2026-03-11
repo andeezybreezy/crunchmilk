@@ -15,7 +15,9 @@
     var monthlyFixed = parseFloat(document.getElementById('monthlyFixed').value) || 0;
 
     // Calculation logic
-    var monthlyRevenue = dailySales * daysPerWeek * 4.33; var foodCost = monthlyRevenue * (foodCostPct/100); var monthlyProfit = monthlyRevenue - foodCost - monthlyFixed; var profitMargin = (monthlyProfit / monthlyRevenue) * 100; return {monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), profitMargin: fmt(profitMargin,1)};
+    var monthlyRevenue = dailySales * daysPerWeek * 4.33; var foodCost = monthlyRevenue * (foodCostPct/100); var monthlyProfit = monthlyRevenue - foodCost - monthlyFixed; var profitMargin = (monthlyProfit / monthlyRevenue) * 100;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('profitMargin').textContent = fmt(profitMargin,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="estateValue">Estate Value</label>
-      <input type="number" id="estateValue" value="undefined" min="10000" max="50000000" step="10000" inputmode="decimal">
+      <input type="number" id="estateValue" value="" min="10000" max="50000000" step="10000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="planType">Plan Type</label>
-      <select id="planType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="planType"><option value="Simple Will" selected>Simple Will</option><option value="Online Service">Online Service</option><option value="Attorney (Small Firm)">Attorney (Small Firm)</option><option value="Attorney (Large Firm)">Attorney (Large Firm)</option><option value="Complex Trust (Irrevocable)">Complex Trust (Irrevocable)</option><option value="planType">planType</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="state">Complexity</label>
-      <select id="state"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="state"><option value="Simple (single, few assets)" selected>Simple (single, few assets)</option><option value="Moderate (married, home + accounts)">Moderate (married, home + accounts)</option><option value="Complex (business, multiple properties)">Complex (business, multiple properties)</option><option value="estateValue">estateValue</option><option value="state">state</option><option value=": {">: {</option><option value=": 800, ">: 800, </option><option value=": 4000, ">: 4000, </option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="method">Method</label>
-      <select id="method"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="method"><option value="Online Service" selected>Online Service</option><option value="method">method</option></select>
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This estate planning cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Probate Savings</strong> — Savings = Estate Value x Probate Rate (4-5%) — <em>Trusts bypass probate, saving the percentage that courts and attorneys typically charge.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Laws vary by jurisdiction and change frequently. This is not legal advice — consult a licensed attorney.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is a living trust worth the cost?</h3>
+      <p>For estates over $100,000 or those with real estate, a living trust typically saves far more in probate costs and time than its upfront price.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How often should I update my estate plan?</h3>
+      <p>Review every 3-5 years or after major life events: marriage, divorce, birth of a child, significant asset changes, or moving to a new state.</p>
     </div>
 
   </div>
@@ -430,7 +430,10 @@ footer a:hover{color:#fff}
     var method = document.getElementById('method').value;
 
     // Calculation logic
-    var basePrices = {'Simple Will': {'Online Service': 150, 'Attorney (Small Firm)': 500, 'Attorney (Large Firm)': 1200}, 'Living Trust': {'Online Service': 500, 'Attorney (Small Firm)': 2500, 'Attorney (Large Firm)': 5000}, 'Complex Trust (Irrevocable)': {'Online Service': 0, 'Attorney (Small Firm)': 5000, 'Attorney (Large Firm)': 12000}, 'Full Estate Plan': {'Online Service': 800, 'Attorney (Small Firm)': 4000, 'Attorney (Large Firm)': 10000}}; var complexityMult = {'Simple (single, few assets)': 1, 'Moderate (married, home + accounts)': 1.5, 'Complex (business, multiple properties)': 2.5}; var base = basePrices[planType][method] || 1000; if (planType === 'Complex Trust (Irrevocable)' && method === 'Online Service') base = 5000; var documentCost = base * (complexityMult[state] || 1); var annualMaintenance = planType === 'Simple Will' ? 0 : documentCost * 0.05; var probateRate = estateValue > 1000000 ? 0.04 : 0.05; var probateSavings = planType !== 'Simple Will' ? estateValue * probateRate : 0; var totalFirstYear = documentCost + annualMaintenance; return {documentCost: dollar(documentCost), annualMaintenance: annualMaintenance > 0 ? dollar(annualMaintenance) : 'None', probateSavings: probateSavings > 0 ? dollar(probateSavings) : 'N/A (will goes through probate)', totalFirstYear: dollar(totalFirstYear)};
+    var basePrices = {'Simple Will': {'Online Service': 150, 'Attorney (Small Firm)': 500, 'Attorney (Large Firm)': 1200}, 'Living Trust': {'Online Service': 500, 'Attorney (Small Firm)': 2500, 'Attorney (Large Firm)': 5000}, 'Complex Trust (Irrevocable)': {'Online Service': 0, 'Attorney (Small Firm)': 5000, 'Attorney (Large Firm)': 12000}, 'Full Estate Plan': {'Online Service': 800, 'Attorney (Small Firm)': 4000, 'Attorney (Large Firm)': 10000}}; var complexityMult = {'Simple (single, few assets)': 1, 'Moderate (married, home + accounts)': 1.5, 'Complex (business, multiple properties)': 2.5}; var base = basePrices[planType][method] || 1000; if (planType === 'Complex Trust (Irrevocable)' && method === 'Online Service') base = 5000; var documentCost = base * (complexityMult[state] || 1); var annualMaintenance = planType === 'Simple Will' ? 0 : documentCost * 0.05; var probateRate = estateValue > 1000000 ? 0.04 : 0.05; var probateSavings = planType !== 'Simple Will' ? estateValue * probateRate : 0; var totalFirstYear = documentCost + annualMaintenance;     document.getElementById('documentCost').textContent = dollar(documentCost);
+    document.getElementById('annualMaintenance').textContent = annualMaintenance > 0 ? dollar(annualMaintenance) : 'None';
+    document.getElementById('probateSavings').textContent = probateSavings > 0 ? dollar(probateSavings) : 'N/A (will goes through probate)';
+    document.getElementById('totalFirstYear').textContent = dollar(totalFirstYear);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

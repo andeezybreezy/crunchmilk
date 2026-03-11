@@ -16,7 +16,10 @@
     var unitPrice = parseFloat(document.getElementById('unitPrice').value) || 0;
 
     // Calculation logic
-    var inQuotaQty = Math.min(quantity, quotaLimit); var overQuotaQty = Math.max(quantity - quotaLimit, 0); var inQuotaDuty = inQuotaQty * unitPrice * (inQuotaRate/100); var overQuotaDuty = overQuotaQty * unitPrice * (overQuotaRate/100); var totalDuty = inQuotaDuty + overQuotaDuty; var totalValue = quantity * unitPrice; var effectiveRate = (totalDuty / totalValue) * 100; return {inQuotaDuty: dollar(inQuotaDuty), overQuotaDuty: dollar(overQuotaDuty), totalDuty: dollar(totalDuty), effectiveRate: fmt(effectiveRate,1)};
+    var inQuotaQty = Math.min(quantity, quotaLimit); var overQuotaQty = Math.max(quantity - quotaLimit, 0); var inQuotaDuty = inQuotaQty * unitPrice * (inQuotaRate/100); var overQuotaDuty = overQuotaQty * unitPrice * (overQuotaRate/100); var totalDuty = inQuotaDuty + overQuotaDuty; var totalValue = quantity * unitPrice; var effectiveRate = (totalDuty / totalValue) * 100;     document.getElementById('inQuotaDuty').textContent = dollar(inQuotaDuty);
+    document.getElementById('overQuotaDuty').textContent = dollar(overQuotaDuty);
+    document.getElementById('totalDuty').textContent = dollar(totalDuty);
+    document.getElementById('effectiveRate').textContent = fmt(effectiveRate,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

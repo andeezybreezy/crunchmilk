@@ -16,7 +16,10 @@
     var batteryType = document.getElementById('batteryType').value;
 
     // Calculation logic
-    var usableKwh = dailyUsage * backupDays; var totalKwh = usableKwh / (depthOfDischarge / 100); var voltMap = {'12V': 12, '24V': 24, '48V': 48}; var volts = voltMap[batteryVoltage] || 48; var ampHours = (totalKwh * 1000) / volts; var costPerKwh = {'Lithium (LFP)': 400, 'Lead-Acid (AGM)': 250, 'Lead-Acid (Flooded)': 150}; var estimatedCost = totalKwh * (costPerKwh[batteryType] || 400); return {totalKwh: fmt(totalKwh, 1), usableKwh: fmt(usableKwh, 1), ampHours: fmt(ampHours, 0), estimatedCost: dollar(estimatedCost)};
+    var usableKwh = dailyUsage * backupDays; var totalKwh = usableKwh / (depthOfDischarge / 100); var voltMap = {'12V': 12, '24V': 24, '48V': 48}; var volts = voltMap[batteryVoltage] || 48; var ampHours = (totalKwh * 1000) / volts; var costPerKwh = {'Lithium (LFP)': 400, 'Lead-Acid (AGM)': 250, 'Lead-Acid (Flooded)': 150}; var estimatedCost = totalKwh * (costPerKwh[batteryType] || 400);     document.getElementById('totalKwh').textContent = fmt(totalKwh, 1);
+    document.getElementById('usableKwh').textContent = fmt(usableKwh, 1);
+    document.getElementById('ampHours').textContent = fmt(ampHours, 0);
+    document.getElementById('estimatedCost').textContent = dollar(estimatedCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

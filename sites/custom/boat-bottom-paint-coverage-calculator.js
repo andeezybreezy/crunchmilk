@@ -15,7 +15,9 @@
     var coats = parseFloat(document.getElementById('coats').value) || 0;
 
     // Calculation logic
-    var sqft = loa * (beam + draft) * 0.85; var gallons = Math.ceil((sqft * coats) / 400); var cost = gallons * 180; return {sqft: fmt(sqft,0), gallons: fmt(gallons,0), cost: dollar(cost)};
+    var sqft = loa * (beam + draft) * 0.85; var gallons = Math.ceil((sqft * coats) / 400); var cost = gallons * 180;     document.getElementById('sqft').textContent = fmt(sqft,0);
+    document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

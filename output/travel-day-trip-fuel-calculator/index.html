@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">One-Way Distance (miles)</label>
-      <input type="number" id="distance" value="undefined" min="5" max="500" step="5" inputmode="decimal">
+      <input type="number" id="distance" value="" min="5" max="500" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mpg">Vehicle MPG</label>
-      <input type="number" id="mpg" value="undefined" min="8" max="60" step="1" inputmode="decimal">
+      <input type="number" id="mpg" value="" min="8" max="60" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="gasPrice">Gas Price ($/gallon)</label>
-      <input type="number" id="gasPrice" value="undefined" min="1" max="8" step="0.1" inputmode="decimal">
+      <input type="number" id="gasPrice" value="" min="1" max="8" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="passengers">Number of Passengers</label>
-      <input type="number" id="passengers" value="undefined" min="1" max="8" step="1" inputmode="decimal">
+      <input type="number" id="passengers" value="" min="1" max="8" step="1" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="tolls">Total Tolls (round trip)</label>
-      <input type="number" id="tolls" value="undefined" min="0" max="100" step="1" inputmode="decimal">
+      <input type="number" id="tolls" value="" min="0" max="100" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -362,7 +362,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This day trip fuel cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Fuel Cost</strong> — Cost = (Round Trip Miles / MPG) x Gas Price + Tolls — <em>Total distance divided by fuel efficiency gives gallons used, multiplied by price per gallon.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -375,13 +375,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I calculate fuel cost for a trip?</h3>
+      <p>Divide total miles by your MPG to get gallons needed, then multiply by the gas price. Add tolls and split between passengers.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How can I improve fuel economy on road trips?</h3>
+      <p>Drive 60-65 mph instead of 75+, maintain tire pressure, remove roof cargo, and use cruise control on highways.</p>
     </div>
 
   </div>
@@ -435,7 +435,10 @@ footer a:hover{color:#fff}
     var tolls = parseFloat(document.getElementById('tolls').value) || 0;
 
     // Calculation logic
-    var roundTripMiles = distance * 2; var gallonsUsed = roundTripMiles / mpg; var totalFuelCost = gallonsUsed * gasPrice + tolls; var costPerPerson = totalFuelCost / passengers; return {roundTripMiles: fmt(roundTripMiles, 0), gallonsUsed: fmt(gallonsUsed, 1), totalFuelCost: dollar(totalFuelCost), costPerPerson: dollar(costPerPerson)};
+    var roundTripMiles = distance * 2; var gallonsUsed = roundTripMiles / mpg; var totalFuelCost = gallonsUsed * gasPrice + tolls; var costPerPerson = totalFuelCost / passengers;     document.getElementById('roundTripMiles').textContent = fmt(roundTripMiles, 0);
+    document.getElementById('gallonsUsed').textContent = fmt(gallonsUsed, 1);
+    document.getElementById('totalFuelCost').textContent = dollar(totalFuelCost);
+    document.getElementById('costPerPerson').textContent = dollar(costPerPerson);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

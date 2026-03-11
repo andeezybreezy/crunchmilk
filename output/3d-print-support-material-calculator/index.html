@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="partWeight">Part Weight (g)</label>
-      <input type="number" id="partWeight" value="undefined" min="1" max="2000" step="1" inputmode="decimal">
+      <input type="number" id="partWeight" value="" min="1" max="2000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="overhangPct">Overhang Coverage (%)</label>
-      <input type="number" id="overhangPct" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="overhangPct" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="supportDensity">Support Density (%)</label>
-      <input type="number" id="supportDensity" value="undefined" min="5" max="50" step="5" inputmode="decimal">
+      <input type="number" id="supportDensity" value="" min="5" max="50" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This 3d print support material calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Support Weight</strong> — Support = Part Weight × Overhang% × Density% × 2 — <em>Proportional to overhang area and support density.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When do I need supports?</h3>
+      <p>Overhangs greater than 45° and bridges longer than 10mm typically need support.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to minimize support material?</h3>
+      <p>Orient the part to reduce overhangs, use tree supports, and lower support density.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var supportDensity = parseFloat(document.getElementById('supportDensity').value) || 0;
 
     // Calculation logic
-    var supportWeight = partWeight * (overhangPct / 100) * (supportDensity / 100) * 2; var totalWeight = partWeight + supportWeight; var wastePct = (supportWeight / totalWeight) * 100; return {supportWeight: fmt(supportWeight,1), totalWeight: fmt(totalWeight,1), wastePct: fmt(wastePct,1)};
+    var supportWeight = partWeight * (overhangPct / 100) * (supportDensity / 100) * 2; var totalWeight = partWeight + supportWeight; var wastePct = (supportWeight / totalWeight) * 100;     document.getElementById('supportWeight').textContent = fmt(supportWeight,1);
+    document.getElementById('totalWeight').textContent = fmt(totalWeight,1);
+    document.getElementById('wastePct').textContent = fmt(wastePct,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

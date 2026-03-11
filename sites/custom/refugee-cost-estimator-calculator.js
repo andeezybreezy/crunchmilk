@@ -14,7 +14,11 @@
     var duration = parseFloat(document.getElementById('duration').value) || 0;
 
     // Calculation logic
-    var perPerson = {low: 3500, middle: 8000, high: 25000}; var pp = perPerson[v.hostCountryIncome]; var annual = v.refugees * pp; var total = annual * v.duration; var shelter = Math.round(pp * 0.35); var food = Math.round(pp * 0.25); var health = Math.round(pp * 0.15); var education = Math.round(pp * 0.10); var comp = 'Shelter: $' + shelter + ', Food: $' + food + ', Health: $' + health + ', Education: $' + education + '/person/yr'; var context = annual > 10e9 ? 'Major GDP burden for most host countries' : annual > 1e9 ? 'Significant fiscal impact, needs international support' : 'Manageable with international aid coordination'; return {annualCost: '$' + (annual / 1e9).toFixed(1) + ' billion/year', totalCost: '$' + (total / 1e9).toFixed(1) + ' billion', perRefugeeCost: '$' + pp.toLocaleString() + '/person/year', components: comp, gdpImpact: context};
+    var perPerson = {low: 3500, middle: 8000, high: 25000}; var pp = perPerson[v.hostCountryIncome]; var annual = v.refugees * pp; var total = annual * v.duration; var shelter = Math.round(pp * 0.35); var food = Math.round(pp * 0.25); var health = Math.round(pp * 0.15); var education = Math.round(pp * 0.10); var comp = 'Shelter: $' + shelter + ', Food: $' + food + ', Health: $' + health + ', Education: $' + education + '/person/yr'; var context = annual > 10e9 ? 'Major GDP burden for most host countries' : annual > 1e9 ? 'Significant fiscal impact, needs international support' : 'Manageable with international aid coordination';     document.getElementById('annualCost').textContent = '$' + (annual / 1e9).toFixed(1) + ' billion/year';
+    document.getElementById('totalCost').textContent = '$' + (total / 1e9).toFixed(1) + ' billion';
+    document.getElementById('perRefugeeCost').textContent = '$' + pp.toLocaleString() + '/person/year';
+    document.getElementById('components').textContent = comp;
+    document.getElementById('gdpImpact').textContent = context;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

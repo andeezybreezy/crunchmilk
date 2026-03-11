@@ -12,7 +12,8 @@
     var lwl = parseFloat(document.getElementById('lwl').value) || 0;
 
     // Calculation logic
-    var hullSpeed = 1.34 * Math.sqrt(lwl); var hullSpeedMph = hullSpeed * 1.15078; return {hullSpeed: fmt(hullSpeed,1), hullSpeedMph: fmt(hullSpeedMph,1)};
+    var hullSpeed = 1.34 * Math.sqrt(lwl); var hullSpeedMph = hullSpeed * 1.15078;     document.getElementById('hullSpeed').textContent = fmt(hullSpeed,1);
+    document.getElementById('hullSpeedMph').textContent = fmt(hullSpeedMph,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

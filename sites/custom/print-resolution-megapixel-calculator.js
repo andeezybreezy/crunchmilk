@@ -14,7 +14,9 @@
     var dpi = parseFloat(document.getElementById('dpi').value) || 0;
 
     // Calculation logic
-    var pixelWidth = printWidth * dpi; var pixelHeight = printHeight * dpi; var megapixels = (pixelWidth * pixelHeight) / 1000000; return {megapixels: fmt(megapixels,1), pixelWidth: fmt(pixelWidth,0), pixelHeight: fmt(pixelHeight,0)};
+    var pixelWidth = printWidth * dpi; var pixelHeight = printHeight * dpi; var megapixels = (pixelWidth * pixelHeight) / 1000000;     document.getElementById('megapixels').textContent = fmt(megapixels,1);
+    document.getElementById('pixelWidth').textContent = fmt(pixelWidth,0);
+    document.getElementById('pixelHeight').textContent = fmt(pixelHeight,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

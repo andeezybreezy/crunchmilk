@@ -14,7 +14,9 @@
     var goal = document.getElementById('goal').value;
 
     // Calculation logic
-    var targets = {'General Health': 8000, 'Weight Loss': 10000, 'Heart Health': 9000, 'Longevity': 7500}; var base = targets[goal] || 8000; var ageMod = age > 65 ? -1500 : age > 50 ? -500 : 0; var targetSteps = base + ageMod; var miles = targetSteps / 2100; var calories = targetSteps * 0.04; return {targetSteps: fmt(targetSteps,0), miles: fmt(miles,1), calories: fmt(calories,0)};
+    var targets = {'General Health': 8000, 'Weight Loss': 10000, 'Heart Health': 9000, 'Longevity': 7500}; var base = targets[goal] || 8000; var ageMod = age > 65 ? -1500 : age > 50 ? -500 : 0; var targetSteps = base + ageMod; var miles = targetSteps / 2100; var calories = targetSteps * 0.04;     document.getElementById('targetSteps').textContent = fmt(targetSteps,0);
+    document.getElementById('miles').textContent = fmt(miles,1);
+    document.getElementById('calories').textContent = fmt(calories,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

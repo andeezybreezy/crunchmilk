@@ -428,7 +428,11 @@ footer a:hover{color:#fff}
     var method = document.getElementById('method').value;
 
     // Calculation logic
-    var ratios={avg:1.33,code:1.5,simple:1.2}; var ratio=ratios[method]||1.33; var tokens=Math.round(words*ratio); var characters=Math.round(words*5); var pages=fmt(words/250,1); var costHaiku=(tokens/1000000)*0.25; var costSonnet=(tokens/1000000)*3; return {tokens:fmt(tokens,0)+' tokens', characters:fmt(characters,0), pages:pages, costHaiku:'$'+fmt(costHaiku,6), costSonnet:'$'+fmt(costSonnet,6)};
+    var ratios={avg:1.33,code:1.5,simple:1.2}; var ratio=ratios[method]||1.33; var tokens=Math.round(words*ratio); var characters=Math.round(words*5); var pages=fmt(words/250,1); var costHaiku=(tokens/1000000)*0.25; var costSonnet=(tokens/1000000)*3;     document.getElementById('tokens').textContent = fmt(tokens,0)+' tokens';
+    document.getElementById('characters').textContent = fmt(characters,0);
+    document.getElementById('pages').textContent = pages;
+    document.getElementById('costHaiku').textContent = '$'+fmt(costHaiku,6);
+    document.getElementById('costSonnet').textContent = '$'+fmt(costSonnet,6);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

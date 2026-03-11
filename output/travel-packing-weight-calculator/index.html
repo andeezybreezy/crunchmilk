@@ -300,36 +300,36 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="clothing">Clothing Items</label>
-      <input type="number" id="clothing" value="undefined" min="0" max="50" step="1" inputmode="decimal">
+      <input type="number" id="clothing" value="" min="0" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="shoes">Pairs of Shoes</label>
-      <input type="number" id="shoes" value="undefined" min="0" max="8" step="1" inputmode="decimal">
+      <input type="number" id="shoes" value="" min="0" max="8" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="toiletries">Toiletry Weight (lbs)</label>
-      <input type="number" id="toiletries" value="undefined" min="0" max="15" step="0.5" inputmode="decimal">
+      <input type="number" id="toiletries" value="" min="0" max="15" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="electronics">Electronics Weight (lbs)</label>
-      <input type="number" id="electronics" value="undefined" min="0" max="20" step="0.5" inputmode="decimal">
+      <input type="number" id="electronics" value="" min="0" max="20" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="misc">Misc Items Weight (lbs)</label>
-      <input type="number" id="misc" value="undefined" min="0" max="20" step="0.5" inputmode="decimal">
+      <input type="number" id="misc" value="" min="0" max="20" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bagWeight">Empty Bag Weight (lbs)</label>
-      <input type="number" id="bagWeight" value="undefined" min="2" max="15" step="0.5" inputmode="decimal">
+      <input type="number" id="bagWeight" value="" min="2" max="15" step="0.5" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="bagType">Bag Type</label>
-      <select id="bagType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="bagType"><option value="Carry-on (22 lb limit)" selected>Carry-on (22 lb limit)</option><option value="Checked Bag (50 lb limit)">Checked Bag (50 lb limit)</option><option value="Checked Bag (70 lb limit)">Checked Bag (70 lb limit)</option><option value="bagType">bagType</option></select>
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -372,7 +372,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This travel packing weight calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Weight</strong> — Total = Clothing + Shoes + Toiletries + Electronics + Misc + Bag Weight — <em>Sum of all item weights plus the empty bag weight compared against airline limits.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -385,13 +385,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does a typical outfit weigh?</h3>
+      <p>A casual outfit (shirt, pants, underwear, socks) averages about 1.5-2 lbs. Heavy items like jeans and sweaters add more.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the heaviest item in most luggage?</h3>
+      <p>Shoes are usually the heaviest per-item. Wearing your bulkiest shoes on the plane saves significant bag weight.</p>
     </div>
 
   </div>
@@ -447,7 +447,10 @@ footer a:hover{color:#fff}
     var bagType = document.getElementById('bagType').value;
 
     // Calculation logic
-    var avgClothingWeight = 0.6; var avgShoeWeight = 2; var clothingWeight = clothing * avgClothingWeight; var shoeWeight = shoes * avgShoeWeight; var totalWeight = clothingWeight + shoeWeight + toiletries + electronics + misc + bagWeight; var limits = {'Carry-on (22 lb limit)': 22, 'Checked Bag (50 lb limit)': 50, 'Checked Bag (70 lb limit)': 70}; var weightLimit = limits[bagType] || 50; var remaining = weightLimit - totalWeight; var status = remaining >= 10 ? 'Well under limit' : remaining >= 0 ? 'Close to limit' : 'OVER LIMIT by ' + fmt(Math.abs(remaining), 1) + ' lbs'; return {totalWeight: fmt(totalWeight, 1), weightLimit: fmt(weightLimit, 0), remaining: fmt(remaining, 1), status: status};
+    var avgClothingWeight = 0.6; var avgShoeWeight = 2; var clothingWeight = clothing * avgClothingWeight; var shoeWeight = shoes * avgShoeWeight; var totalWeight = clothingWeight + shoeWeight + toiletries + electronics + misc + bagWeight; var limits = {'Carry-on (22 lb limit)': 22, 'Checked Bag (50 lb limit)': 50, 'Checked Bag (70 lb limit)': 70}; var weightLimit = limits[bagType] || 50; var remaining = weightLimit - totalWeight; var status = remaining >= 10 ? 'Well under limit' : remaining >= 0 ? 'Close to limit' : 'OVER LIMIT by ' + fmt(Math.abs(remaining), 1) + ' lbs';     document.getElementById('totalWeight').textContent = fmt(totalWeight, 1);
+    document.getElementById('weightLimit').textContent = fmt(weightLimit, 0);
+    document.getElementById('remaining').textContent = fmt(remaining, 1);
+    document.getElementById('status').textContent = status;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var time = parseFloat(document.getElementById('time').value) || 0;
 
     // Calculation logic
-    var ratio=yieldVal/dose; var flowRate=yieldVal/time; var assessment=''; if(ratio<1.5){assessment='Ristretto — very concentrated, intense';}else if(ratio<2.5){assessment='Normal espresso range — balanced';}else{assessment='Lungo — lighter, more volume';} if(time<22){assessment+=' | Running fast — grind finer';}else if(time>35){assessment+=' | Running slow — grind coarser';} return {ratio:'1:'+fmt(ratio,1), flowRate:fmt(flowRate,2)+' g/s', assessment:assessment};
+    var ratio=yieldVal/dose; var flowRate=yieldVal/time; var assessment=''; if(ratio<1.5){assessment='Ristretto — very concentrated, intense';}else if(ratio<2.5){assessment='Normal espresso range — balanced';}else{assessment='Lungo — lighter, more volume';} if(time<22){assessment+=' | Running fast — grind finer';}else if(time>35){assessment+=' | Running slow — grind coarser';}     document.getElementById('ratio').textContent = '1:'+fmt(ratio,1);
+    document.getElementById('flowRate').textContent = fmt(flowRate,2)+' g/s';
+    document.getElementById('assessment').textContent = assessment;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

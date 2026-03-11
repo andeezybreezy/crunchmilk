@@ -14,7 +14,9 @@
     var earbuds = parseFloat(document.getElementById('earbuds').value) || 0;
 
     // Calculation logic
-    var baseMax = 20000 - (age * 150); var exposureLoss = {'Low (quiet environment)': 0, 'Moderate (some loud events)': 500, 'High (concerts, machinery)': 1500, 'Very High (military, factory)': 3000}; var earbudLoss = earbuds > 4 ? 1000 : earbuds > 2 ? 500 : 0; var maxFreq = Math.max(baseMax - (exposureLoss[exposure]||0) - earbudLoss, 2000); var lossRisk = maxFreq < 8000 ? 'High' : maxFreq < 12000 ? 'Moderate' : 'Low'; var recommendation = maxFreq < 8000 ? 'Consider professional hearing evaluation' : maxFreq < 12000 ? 'Use hearing protection in loud environments' : 'Continue protecting your hearing'; return {maxFreq: fmt(maxFreq,0), lossRisk: lossRisk, recommendation: recommendation};
+    var baseMax = 20000 - (age * 150); var exposureLoss = {'Low (quiet environment)': 0, 'Moderate (some loud events)': 500, 'High (concerts, machinery)': 1500, 'Very High (military, factory)': 3000}; var earbudLoss = earbuds > 4 ? 1000 : earbuds > 2 ? 500 : 0; var maxFreq = Math.max(baseMax - (exposureLoss[exposure]||0) - earbudLoss, 2000); var lossRisk = maxFreq < 8000 ? 'High' : maxFreq < 12000 ? 'Moderate' : 'Low'; var recommendation = maxFreq < 8000 ? 'Consider professional hearing evaluation' : maxFreq < 12000 ? 'Use hearing protection in loud environments' : 'Continue protecting your hearing';     document.getElementById('maxFreq').textContent = fmt(maxFreq,0);
+    document.getElementById('lossRisk').textContent = lossRisk;
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

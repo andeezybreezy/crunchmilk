@@ -13,7 +13,8 @@
     var humidity = parseFloat(document.getElementById('humidity').value) || 0;
 
     // Calculation logic
-    var tempC = (temp - 32) * 5/9; var a = 17.27; var b = 237.7; var alpha = (a * tempC)/(b + tempC) + Math.log(humidity/100); var dewC = (b * alpha)/(a - alpha); var dewPoint = dewC * 9/5 + 32; var comfort = dewPoint > 75 ? 'Extremely uncomfortable' : dewPoint > 70 ? 'Very muggy' : dewPoint > 65 ? 'Uncomfortable' : dewPoint > 60 ? 'Slightly humid' : dewPoint > 55 ? 'Comfortable' : 'Dry and pleasant'; return {dewPoint: fmt(dewPoint,0), comfort: comfort};
+    var tempC = (temp - 32) * 5/9; var a = 17.27; var b = 237.7; var alpha = (a * tempC)/(b + tempC) + Math.log(humidity/100); var dewC = (b * alpha)/(a - alpha); var dewPoint = dewC * 9/5 + 32; var comfort = dewPoint > 75 ? 'Extremely uncomfortable' : dewPoint > 70 ? 'Very muggy' : dewPoint > 65 ? 'Uncomfortable' : dewPoint > 60 ? 'Slightly humid' : dewPoint > 55 ? 'Comfortable' : 'Dry and pleasant';     document.getElementById('dewPoint').textContent = fmt(dewPoint,0);
+    document.getElementById('comfort').textContent = comfort;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

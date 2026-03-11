@@ -18,7 +18,8 @@
     var minutes = parseFloat(document.getElementById('minutes').value) || 0;
 
     // Calculation logic
-    var raw = points + (rebounds * 1.2) + (assists * 1.5) + (steals * 2) + (blocks * 2) - turnovers; var per = (raw / minutes) * 36; var rating = per > 25 ? 'MVP Level' : per > 20 ? 'All-Star' : per > 15 ? 'Above Average' : per > 10 ? 'Average' : 'Below Average'; return {per: fmt(per,1), rating: rating};
+    var raw = points + (rebounds * 1.2) + (assists * 1.5) + (steals * 2) + (blocks * 2) - turnovers; var per = (raw / minutes) * 36; var rating = per > 25 ? 'MVP Level' : per > 20 ? 'All-Star' : per > 15 ? 'Above Average' : per > 10 ? 'Average' : 'Below Average';     document.getElementById('per').textContent = fmt(per,1);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

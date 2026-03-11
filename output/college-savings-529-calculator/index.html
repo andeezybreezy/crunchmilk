@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="current">Current Balance ($)</label>
-      <input type="number" id="current" value="undefined" min="0" max="1000000" step="500" inputmode="decimal">
+      <input type="number" id="current" value="" min="0" max="1000000" step="500" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="monthly">Monthly Contribution ($)</label>
-      <input type="number" id="monthly" value="undefined" min="0" max="10000" step="50" inputmode="decimal">
+      <input type="number" id="monthly" value="" min="0" max="10000" step="50" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="years">Years Until College</label>
-      <input type="number" id="years" value="undefined" min="1" max="25" step="1" inputmode="decimal">
+      <input type="number" id="years" value="" min="1" max="25" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="returnRate">Expected Return (%)</label>
-      <input type="number" id="returnRate" value="undefined" min="1" max="15" step="0.5" inputmode="decimal">
+      <input type="number" id="returnRate" value="" min="1" max="15" step="0.5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This college savings (529) calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Future Value</strong> — FV = PV(1+r)^n + PMT × ((1+r)^n - 1)/r — <em>Compound growth of lump sum plus regular contributions.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Educational costs and financial aid vary by institution. Contact schools directly for current figures.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a 529 plan?</h3>
+      <p>A tax-advantaged savings plan for education expenses. Earnings grow tax-free when used for qualified expenses.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much should I save?</h3>
+      <p>Aim to cover at least 50-75% of projected college costs through savings.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var returnRate = parseFloat(document.getElementById('returnRate').value) || 0;
 
     // Calculation logic
-    var r = returnRate / 100 / 12; var n = years * 12; var fvLump = current * Math.pow(1 + r, n); var fvMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r); var futureValue = fvLump + fvMonthly; var totalContributions = current + (monthly * n); var earnings = futureValue - totalContributions; return {futureValue: dollar(futureValue), totalContributions: dollar(totalContributions), earnings: dollar(earnings)};
+    var r = returnRate / 100 / 12; var n = years * 12; var fvLump = current * Math.pow(1 + r, n); var fvMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r); var futureValue = fvLump + fvMonthly; var totalContributions = current + (monthly * n); var earnings = futureValue - totalContributions;     document.getElementById('futureValue').textContent = dollar(futureValue);
+    document.getElementById('totalContributions').textContent = dollar(totalContributions);
+    document.getElementById('earnings').textContent = dollar(earnings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

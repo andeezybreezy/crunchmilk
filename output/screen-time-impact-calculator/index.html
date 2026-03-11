@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="totalHours">Daily Screen Time (hours)</label>
-      <input type="number" id="totalHours" value="undefined" min="0.5" max="18" step="0.5" inputmode="decimal">
+      <input type="number" id="totalHours" value="" min="0.5" max="18" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="socialMedia">Social Media (hours)</label>
-      <input type="number" id="socialMedia" value="undefined" min="0" max="10" step="0.5" inputmode="decimal">
+      <input type="number" id="socialMedia" value="" min="0" max="10" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="beforeBed">Screen Use Before Bed (min)</label>
-      <input type="number" id="beforeBed" value="undefined" min="0" max="180" step="15" inputmode="decimal">
+      <input type="number" id="beforeBed" value="" min="0" max="180" step="15" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="10" max="80" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="10" max="80" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This screen time mental health calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Risk Score</strong> — Score = Total + Social Media + Before-Bed factors — <em>Composite risk from three screen time dimensions.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much screen time is too much?</h3>
+      <p>Research suggests >2 hours of social media daily is associated with increased anxiety and depression.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does screen time before bed matter?</h3>
+      <p>Yes, blue light suppresses melatonin production, delaying sleep onset by 20-60 minutes.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var age = parseFloat(document.getElementById('age').value) || 0;
 
     // Calculation logic
-    var riskScore = 0; riskScore += totalHours > 8 ? 3 : totalHours > 5 ? 2 : totalHours > 3 ? 1 : 0; riskScore += socialMedia > 3 ? 3 : socialMedia > 2 ? 2 : socialMedia > 1 ? 1 : 0; riskScore += beforeBed > 60 ? 2 : beforeBed > 30 ? 1 : 0; var riskLevel = riskScore >= 6 ? 'High' : riskScore >= 3 ? 'Moderate' : 'Low'; var sleepImpact = beforeBed > 60 ? 'Significant - blue light delays melatonin by 30+ min' : beforeBed > 30 ? 'Moderate - consider blue light filter' : 'Minimal'; var recommendation = riskScore >= 6 ? 'Reduce social media by 1 hr, no screens 1 hr before bed' : riskScore >= 3 ? 'Set screen time limits, use night mode after sunset' : 'Healthy screen habits - maintain current patterns'; return {riskLevel: riskLevel, sleepImpact: sleepImpact, recommendation: recommendation};
+    var riskScore = 0; riskScore += totalHours > 8 ? 3 : totalHours > 5 ? 2 : totalHours > 3 ? 1 : 0; riskScore += socialMedia > 3 ? 3 : socialMedia > 2 ? 2 : socialMedia > 1 ? 1 : 0; riskScore += beforeBed > 60 ? 2 : beforeBed > 30 ? 1 : 0; var riskLevel = riskScore >= 6 ? 'High' : riskScore >= 3 ? 'Moderate' : 'Low'; var sleepImpact = beforeBed > 60 ? 'Significant - blue light delays melatonin by 30+ min' : beforeBed > 30 ? 'Moderate - consider blue light filter' : 'Minimal'; var recommendation = riskScore >= 6 ? 'Reduce social media by 1 hr, no screens 1 hr before bed' : riskScore >= 3 ? 'Set screen time limits, use night mode after sunset' : 'Healthy screen habits - maintain current patterns';     document.getElementById('riskLevel').textContent = riskLevel;
+    document.getElementById('sleepImpact').textContent = sleepImpact;
+    document.getElementById('recommendation').textContent = recommendation;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

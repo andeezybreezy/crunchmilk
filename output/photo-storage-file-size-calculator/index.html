@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="megapixels">Camera Megapixels</label>
-      <input type="number" id="megapixels" value="undefined" min="2" max="100" step="1" inputmode="decimal">
+      <input type="number" id="megapixels" value="" min="2" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="format">File Format</label>
-      <select id="format"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="format"><option value="JPEG Fine" selected>JPEG Fine</option><option value="JPEG Normal">JPEG Normal</option><option value="RAW">RAW</option><option value="RAW + JPEG">RAW + JPEG</option><option value="format">format</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="photos">Number of Photos</label>
-      <input type="number" id="photos" value="undefined" min="1" max="100000" step="100" inputmode="decimal">
+      <input type="number" id="photos" value="" min="1" max="100000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This photo file size calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>File Size</strong> — Size = Megapixels × Format Factor — <em>Megapixels multiplied by compression factor per format.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How big is a RAW file?</h3>
+      <p>Typically 1.5-2× the megapixel count in MB (e.g., 24MP = 36-48MB RAW).</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>JPEG vs RAW?</h3>
+      <p>RAW retains all sensor data for editing. JPEG is compressed and smaller.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var photos = parseFloat(document.getElementById('photos').value) || 0;
 
     // Calculation logic
-    var sizeFactors = {'JPEG Fine': 0.35, 'JPEG Normal': 0.2, 'RAW': 1.5, 'RAW + JPEG': 1.85}; var factor = sizeFactors[format] || 0.35; var perPhoto = megapixels * factor; var totalGB = (perPhoto * photos) / 1024; var cards = Math.ceil(totalGB / 30); return {perPhoto: fmt(perPhoto,1), totalGB: fmt(totalGB,1), cards: fmt(cards,0)};
+    var sizeFactors = {'JPEG Fine': 0.35, 'JPEG Normal': 0.2, 'RAW': 1.5, 'RAW + JPEG': 1.85}; var factor = sizeFactors[format] || 0.35; var perPhoto = megapixels * factor; var totalGB = (perPhoto * photos) / 1024; var cards = Math.ceil(totalGB / 30);     document.getElementById('perPhoto').textContent = fmt(perPhoto,1);
+    document.getElementById('totalGB').textContent = fmt(totalGB,1);
+    document.getElementById('cards').textContent = fmt(cards,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

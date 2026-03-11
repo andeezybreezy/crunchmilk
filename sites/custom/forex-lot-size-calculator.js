@@ -15,7 +15,10 @@
     var pipValue = parseFloat(document.getElementById('pipValue').value) || 0;
 
     // Calculation logic
-    var riskDollar=balance*(riskPct/100); var lotSize=riskDollar/(stopPips*pipValue); var units=Math.floor(lotSize*100000); var microLots=Math.round(lotSize*100); return {riskDollar:dollar(riskDollar), lotSize:fmt(lotSize,2)+' lots', units:fmt(units,0)+' units', microLots:microLots+' micro lots'};
+    var riskDollar=balance*(riskPct/100); var lotSize=riskDollar/(stopPips*pipValue); var units=Math.floor(lotSize*100000); var microLots=Math.round(lotSize*100);     document.getElementById('riskDollar').textContent = dollar(riskDollar);
+    document.getElementById('lotSize').textContent = fmt(lotSize,2)+' lots';
+    document.getElementById('units').textContent = fmt(units,0)+' units';
+    document.getElementById('microLots').textContent = microLots+' micro lots';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,8 @@
     var type = document.getElementById('type').value;
 
     // Calculation logic
-    var baseCost = {'DIY Truck': 200, 'Labor Only': 600, 'Full Service': 1500}; var base = baseCost[type] || 600; var sizeMult = bedrooms * 0.5 + 0.5; var distMult = distance > 100 ? 1 + distance/500 : 1; var estimate = base * sizeMult * distMult; var timeline = distance > 500 ? '2-4 days' : 'Same day'; return {estimate: dollar(estimate), timeline: timeline};
+    var baseCost = {'DIY Truck': 200, 'Labor Only': 600, 'Full Service': 1500}; var base = baseCost[type] || 600; var sizeMult = bedrooms * 0.5 + 0.5; var distMult = distance > 100 ? 1 + distance/500 : 1; var estimate = base * sizeMult * distMult; var timeline = distance > 500 ? '2-4 days' : 'Same day';     document.getElementById('estimate').textContent = dollar(estimate);
+    document.getElementById('timeline').textContent = timeline;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

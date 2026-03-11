@@ -15,7 +15,8 @@
     var jointWidth = parseFloat(document.getElementById('jointWidth').value) || 0;
 
     // Calculation logic
-    var tileArea = tileWidth * tileLength; var jointLengthPerTile = 2 * (tileWidth + tileLength); var tilesNeeded = area * 144 / tileArea; var totalJointLength = tilesNeeded * jointLengthPerTile / 2; var groutVolume = totalJointLength * jointWidth * 0.375; var groutLbs = groutVolume / 144 * 100; var bags25 = Math.ceil(groutLbs / 25); return {groutLbs: fmt(Math.max(groutLbs,5),0), bags25: fmt(Math.max(bags25,1),0)};
+    var tileArea = tileWidth * tileLength; var jointLengthPerTile = 2 * (tileWidth + tileLength); var tilesNeeded = area * 144 / tileArea; var totalJointLength = tilesNeeded * jointLengthPerTile / 2; var groutVolume = totalJointLength * jointWidth * 0.375; var groutLbs = groutVolume / 144 * 100; var bags25 = Math.ceil(groutLbs / 25);     document.getElementById('groutLbs').textContent = fmt(Math.max(groutLbs,5),0);
+    document.getElementById('bags25').textContent = fmt(Math.max(bags25,1),0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

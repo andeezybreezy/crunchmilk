@@ -14,7 +14,8 @@
     var fuelType = document.getElementById('fuelType').value;
 
     // Calculation logic
-    var sfc = fuelType === 'Diesel' ? 0.055 : 0.075; var gph = hp * (throttle/100) * sfc; var price = fuelType === 'Diesel' ? 4.50 : 3.80; var costPerHour = gph * price; return {gph: fmt(gph,1), costPerHour: dollar(costPerHour)};
+    var sfc = fuelType === 'Diesel' ? 0.055 : 0.075; var gph = hp * (throttle/100) * sfc; var price = fuelType === 'Diesel' ? 4.50 : 3.80; var costPerHour = gph * price;     document.getElementById('gph').textContent = fmt(gph,1);
+    document.getElementById('costPerHour').textContent = dollar(costPerHour);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

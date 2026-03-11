@@ -302,11 +302,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="0.5" max="1000" step="0.5" inputmode="decimal">
+      <input type="number" id="length" value="" min="0.5" max="1000" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="0.5" max="1000" step="0.5" inputmode="decimal">
+      <input type="number" id="width" value="" min="0.5" max="1000" step="0.5" inputmode="decimal">
     </div>
   </div>
 
@@ -355,7 +355,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This square footage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Area</strong> — Area = Length × Width — <em>Simple rectangle area calculation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Material prices and building codes vary by region. Get local quotes before purchasing.</p>
   </div>
@@ -376,13 +376,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I calculate square footage?</h3>
+      <p>Multiply length by width. For irregular shapes, break into rectangles.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many square feet in an acre?</h3>
+      <p>43,560 square feet = 1 acre.</p>
     </div>
 
   </div>
@@ -427,7 +427,9 @@ footer a:hover{color:#fff}
     var width = parseFloat(document.getElementById('width').value) || 0;
 
     // Calculation logic
-    var sqft = length * width; var sqm = sqft * 0.0929; var acres = sqft / 43560; return {sqft: fmt(sqft,1), sqm: fmt(sqm,1), acres: fmt(acres,4)};
+    var sqft = length * width; var sqm = sqft * 0.0929; var acres = sqft / 43560;     document.getElementById('sqft').textContent = fmt(sqft,1);
+    document.getElementById('sqm').textContent = fmt(sqm,1);
+    document.getElementById('acres').textContent = fmt(acres,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

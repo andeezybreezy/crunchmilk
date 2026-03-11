@@ -15,7 +15,9 @@
     var pricePerFt = parseFloat(document.getElementById('pricePerFt').value) || 0;
 
     // Calculation logic
-    var sqft = length * width; var boardWidthFt = boardWidth / 12; var boardsFt = sqft / boardWidthFt; var boards = Math.ceil(boardsFt / length * 1.1); var screws = Math.ceil(sqft * 2.5); var cost = boardsFt * 1.1 * pricePerFt; return {boards: fmt(boards,0), screws: fmt(screws,0), cost: dollar(cost)};
+    var sqft = length * width; var boardWidthFt = boardWidth / 12; var boardsFt = sqft / boardWidthFt; var boards = Math.ceil(boardsFt / length * 1.1); var screws = Math.ceil(sqft * 2.5); var cost = boardsFt * 1.1 * pricePerFt;     document.getElementById('boards').textContent = fmt(boards,0);
+    document.getElementById('screws').textContent = fmt(screws,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var blockSize = document.getElementById('blockSize').value;
 
     // Calculation logic
-    var sqft = length * height; var blocksPerSqFt = 1.125; var blocks = Math.ceil(sqft * blocksPerSqFt * 1.05); var mortarBags = Math.ceil(blocks / 30); var verticals = Math.ceil(length / 4) + 1; var rebarLength = verticals * (height + 2); return {blocks: fmt(blocks,0), mortarBags: fmt(mortarBags,0), rebarLength: fmt(rebarLength,0)};
+    var sqft = length * height; var blocksPerSqFt = 1.125; var blocks = Math.ceil(sqft * blocksPerSqFt * 1.05); var mortarBags = Math.ceil(blocks / 30); var verticals = Math.ceil(length / 4) + 1; var rebarLength = verticals * (height + 2);     document.getElementById('blocks').textContent = fmt(blocks,0);
+    document.getElementById('mortarBags').textContent = fmt(mortarBags,0);
+    document.getElementById('rebarLength').textContent = fmt(rebarLength,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

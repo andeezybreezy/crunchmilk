@@ -113,7 +113,15 @@ function buildHowItWorks(config) {
     html += '    <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>\n';
     html += '    <ul style="margin-left:20px;margin-bottom:12px;line-height:2">\n';
     hw.rules.forEach(function(rule) {
-      html += '      <li>' + rule + '</li>\n';
+      if (typeof rule === 'object' && rule !== null) {
+        var parts = [];
+        if (rule.name) parts.push('<strong>' + rule.name + '</strong>');
+        if (rule.formula) parts.push(rule.formula);
+        if (rule.explanation) parts.push('<em>' + rule.explanation + '</em>');
+        html += '      <li>' + (parts.length > 0 ? parts.join(' — ') : JSON.stringify(rule)) + '</li>\n';
+      } else {
+        html += '      <li>' + rule + '</li>\n';
+      }
     });
     html += '    </ul>\n';
   }
@@ -137,8 +145,8 @@ function buildFaqHtml(config) {
   html += '    <h2>Frequently Asked Questions</h2>\n\n';
   config.faq.forEach(function(item) {
     html += '    <div class="faq-item">\n';
-    html += '      <h3>' + item.question + '</h3>\n';
-    html += '      <p>' + item.answer + '</p>\n';
+    html += '      <h3>' + (item.question || item.q || '') + '</h3>\n';
+    html += '      <p>' + (item.answer || item.a || '') + '</p>\n';
     html += '    </div>\n\n';
   });
   html += '  </div>';
@@ -521,7 +529,7 @@ function buildSite(configFile) {
     jsonLdBreadcrumb: jsonLdBreadcrumb,
     categorySlug: catMeta.slug,
     categoryName: catMeta.name,
-    calculatorHTML: config.calculatorHTML || '',
+    calculatorHTML: (config.calculatorHTML || '').replace(/value="undefined"/g, 'value=""'),
     chartHTML: chartHTML,
     contentIntroHTML: buildContentIntro(config),
     howToStepsHTML: buildHowToSteps(config),

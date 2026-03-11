@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sampleRate">Recording Sample Rate (kHz)</label>
-      <select id="sampleRate"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="sampleRate"><option value="sampleRate" selected>sampleRate</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="peakFreq">Peak Anomaly Frequency (Hz)</label>
-      <input type="number" id="peakFreq" value="undefined" min="20" max="20000" step="10" inputmode="decimal">
+      <input type="number" id="peakFreq" value="" min="20" max="20000" step="10" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="duration">EVP Duration (seconds)</label>
-      <input type="number" id="duration" value="undefined" min="0.1" max="10" step="0.1" inputmode="decimal">
+      <input type="number" id="duration" value="" min="0.1" max="10" step="0.1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This evp frequency analysis calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Nyquist Frequency</strong> — Max Freq = Sample Rate / 2 — <em>The highest frequency a digital recording can capture.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What frequency range are EVPs typically found?</h3>
+      <p>Most alleged EVPs fall in the 200-4000 Hz range, similar to human speech.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What sample rate should I record at?</h3>
+      <p>44.1 kHz minimum. Higher rates capture more frequency information.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var duration = parseFloat(document.getElementById('duration').value) || 0;
 
     // Calculation logic
-    var nyquist = parseFloat(sampleRate) * 1000 / 2; var range = peakFreq < 300 ? 'Low frequency (unusual for voice)' : peakFreq < 1000 ? 'Low voice range' : peakFreq < 3000 ? 'Normal voice range' : 'High frequency (unusual)'; var classification = duration > 2 ? 'Extended vocalization' : duration > 0.5 ? 'Word/phrase length' : 'Brief burst'; return {range: range, classification: classification, nyquist: fmt(nyquist,0)};
+    var nyquist = parseFloat(sampleRate) * 1000 / 2; var range = peakFreq < 300 ? 'Low frequency (unusual for voice)' : peakFreq < 1000 ? 'Low voice range' : peakFreq < 3000 ? 'Normal voice range' : 'High frequency (unusual)'; var classification = duration > 2 ? 'Extended vocalization' : duration > 0.5 ? 'Word/phrase length' : 'Brief burst';     document.getElementById('range').textContent = range;
+    document.getElementById('classification').textContent = classification;
+    document.getElementById('nyquist').textContent = fmt(nyquist,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

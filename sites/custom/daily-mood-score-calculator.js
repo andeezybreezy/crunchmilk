@@ -16,7 +16,8 @@
     var socialConnection = parseFloat(document.getElementById('socialConnection').value) || 0;
 
     // Calculation logic
-    var anxietyInv = 11 - anxiety; var score = ((overallMood + anxietyInv + energy + sleepQuality + socialConnection) / 50) * 100; var assessment = score >= 80 ? 'Thriving - keep doing what works' : score >= 60 ? 'Good - stable mood' : score >= 40 ? 'Fair - consider self-care focus' : 'Low - reach out for support'; return {score: fmt(score,0), assessment: assessment};
+    var anxietyInv = 11 - anxiety; var score = ((overallMood + anxietyInv + energy + sleepQuality + socialConnection) / 50) * 100; var assessment = score >= 80 ? 'Thriving - keep doing what works' : score >= 60 ? 'Good - stable mood' : score >= 40 ? 'Fair - consider self-care focus' : 'Low - reach out for support';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('assessment').textContent = assessment;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

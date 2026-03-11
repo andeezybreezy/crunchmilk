@@ -15,7 +15,9 @@
     var returnRate = parseFloat(document.getElementById('returnRate').value) || 0;
 
     // Calculation logic
-    var r = returnRate / 100 / 12; var n = years * 12; var fvLump = current * Math.pow(1 + r, n); var fvMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r); var futureValue = fvLump + fvMonthly; var totalContributions = current + (monthly * n); var earnings = futureValue - totalContributions; return {futureValue: dollar(futureValue), totalContributions: dollar(totalContributions), earnings: dollar(earnings)};
+    var r = returnRate / 100 / 12; var n = years * 12; var fvLump = current * Math.pow(1 + r, n); var fvMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r); var futureValue = fvLump + fvMonthly; var totalContributions = current + (monthly * n); var earnings = futureValue - totalContributions;     document.getElementById('futureValue').textContent = dollar(futureValue);
+    document.getElementById('totalContributions').textContent = dollar(totalContributions);
+    document.getElementById('earnings').textContent = dollar(earnings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

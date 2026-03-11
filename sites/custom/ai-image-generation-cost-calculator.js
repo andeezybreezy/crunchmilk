@@ -14,7 +14,9 @@
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var totalImages=imagesPerDay*days; var costPerImg={dalle3:0.04,dalle3hd:0.08,midjourney:10/200,sdapi:0.02}; var cost=costPerImg[service]||0.04; var monthlyCost; if(service==='midjourney'){monthlyCost=totalImages<=200?10:10+((totalImages-200)*0.05);cost=monthlyCost/totalImages;}else{monthlyCost=totalImages*cost;} return {totalImages:fmt(totalImages,0), monthlyCost:dollar(monthlyCost), costPerImage:'$'+fmt(cost,4)};
+    var totalImages=imagesPerDay*days; var costPerImg={dalle3:0.04,dalle3hd:0.08,midjourney:10/200,sdapi:0.02}; var cost=costPerImg[service]||0.04; var monthlyCost; if(service==='midjourney'){monthlyCost=totalImages<=200?10:10+((totalImages-200)*0.05);cost=monthlyCost/totalImages;}else{monthlyCost=totalImages*cost;}     document.getElementById('totalImages').textContent = fmt(totalImages,0);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('costPerImage').textContent = '$'+fmt(cost,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

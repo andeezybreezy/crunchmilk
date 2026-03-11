@@ -14,7 +14,11 @@
     var months = parseFloat(document.getElementById('months').value) || 0;
 
     // Calculation logic
-    var cumulative=Math.pow(1+monthlyRate/100,months); var finalPurchasing=savings/cumulative; var annualRate=(Math.pow(1+monthlyRate/100,12)-1)*100; var breadPrice=5*cumulative; var gasPrice=3.50*cumulative; var lostPct=((savings-finalPurchasing)/savings)*100; return {finalPurchasing:dollar(finalPurchasing), annualRate:fmt(annualRate,0)+'%', breadPrice:dollar(breadPrice), gasPrice:dollar(gasPrice), lostPct:fmt(lostPct,2)+'%'};
+    var cumulative=Math.pow(1+monthlyRate/100,months); var finalPurchasing=savings/cumulative; var annualRate=(Math.pow(1+monthlyRate/100,12)-1)*100; var breadPrice=5*cumulative; var gasPrice=3.50*cumulative; var lostPct=((savings-finalPurchasing)/savings)*100;     document.getElementById('finalPurchasing').textContent = dollar(finalPurchasing);
+    document.getElementById('annualRate').textContent = fmt(annualRate,0)+'%';
+    document.getElementById('breadPrice').textContent = dollar(breadPrice);
+    document.getElementById('gasPrice').textContent = dollar(gasPrice);
+    document.getElementById('lostPct').textContent = fmt(lostPct,2)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

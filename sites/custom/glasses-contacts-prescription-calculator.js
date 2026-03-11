@@ -14,7 +14,9 @@
     var vertexDistance = parseFloat(document.getElementById('vertexDistance').value) || 0;
 
     // Calculation logic
-    var vd = vertexDistance / 1000; var contactSphere = sphere / (1 - vd * sphere); contactSphere = Math.round(contactSphere * 4) / 4; var contactCyl = cylinder; var note = Math.abs(sphere) > 4 ? 'Significant conversion difference - verify with eye doctor' : 'Minor conversion - verify with eye doctor'; return {contactSphere: fmt(contactSphere,2), contactCyl: fmt(contactCyl,2), note: note};
+    var vd = vertexDistance / 1000; var contactSphere = sphere / (1 - vd * sphere); contactSphere = Math.round(contactSphere * 4) / 4; var contactCyl = cylinder; var note = Math.abs(sphere) > 4 ? 'Significant conversion difference - verify with eye doctor' : 'Minor conversion - verify with eye doctor';     document.getElementById('contactSphere').textContent = fmt(contactSphere,2);
+    document.getElementById('contactCyl').textContent = fmt(contactCyl,2);
+    document.getElementById('note').textContent = note;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

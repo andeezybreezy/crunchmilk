@@ -15,7 +15,9 @@
     var expensePct = parseFloat(document.getElementById('expensePct').value) || 0;
 
     // Calculation logic
-    var monthlyRevenue = carsPerDay * avgTicket * operatingDays; var monthlyProfit = monthlyRevenue * (1 - expensePct/100); var annualProfit = monthlyProfit * 12; return {monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), annualProfit: dollar(annualProfit)};
+    var monthlyRevenue = carsPerDay * avgTicket * operatingDays; var monthlyProfit = monthlyRevenue * (1 - expensePct/100); var annualProfit = monthlyProfit * 12;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('annualProfit').textContent = dollar(annualProfit);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

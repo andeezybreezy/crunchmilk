@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Deck Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="4" max="60" step="1" inputmode="decimal">
+      <input type="number" id="length" value="" min="4" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Deck Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="4" max="30" step="1" inputmode="decimal">
+      <input type="number" id="width" value="" min="4" max="30" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="boardWidth">Board Width (inches)</label>
-      <input type="number" id="boardWidth" value="undefined" min="3.5" max="8" step="0.5" inputmode="decimal">
+      <input type="number" id="boardWidth" value="" min="3.5" max="8" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pricePerFt">Price per Linear Ft ($)</label>
-      <input type="number" id="pricePerFt" value="undefined" min="0.5" max="15" step="0.25" inputmode="decimal">
+      <input type="number" id="pricePerFt" value="" min="0.5" max="15" step="0.25" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This deck board calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Boards</strong> — Boards = (Area / Board Width) / Board Length × 1.1 — <em>Area coverage with 10% waste factor.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many deck boards do I need?</h3>
+      <p>Divide deck area by board width, then add 10% for waste and cuts.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Wood vs composite decking?</h3>
+      <p>Wood costs less upfront but requires maintenance. Composite lasts 25-50 years maintenance-free.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var pricePerFt = parseFloat(document.getElementById('pricePerFt').value) || 0;
 
     // Calculation logic
-    var sqft = length * width; var boardWidthFt = boardWidth / 12; var boardsFt = sqft / boardWidthFt; var boards = Math.ceil(boardsFt / length * 1.1); var screws = Math.ceil(sqft * 2.5); var cost = boardsFt * 1.1 * pricePerFt; return {boards: fmt(boards,0), screws: fmt(screws,0), cost: dollar(cost)};
+    var sqft = length * width; var boardWidthFt = boardWidth / 12; var boardsFt = sqft / boardWidthFt; var boards = Math.ceil(boardsFt / length * 1.1); var screws = Math.ceil(sqft * 2.5); var cost = boardsFt * 1.1 * pricePerFt;     document.getElementById('boards').textContent = fmt(boards,0);
+    document.getElementById('screws').textContent = fmt(screws,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

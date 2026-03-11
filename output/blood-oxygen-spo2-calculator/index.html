@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="spo2">SpO2 Reading (%)</label>
-      <input type="number" id="spo2" value="undefined" min="70" max="100" step="1" inputmode="decimal">
+      <input type="number" id="spo2" value="" min="70" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="heartRate">Heart Rate (bpm)</label>
-      <input type="number" id="heartRate" value="undefined" min="30" max="200" step="1" inputmode="decimal">
+      <input type="number" id="heartRate" value="" min="30" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="altitude">Altitude</label>
-      <select id="altitude"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="altitude"><option value="Sea Level" selected>Sea Level</option><option value="3000-5000 ft">3000-5000 ft</option><option value="5000-8000 ft">5000-8000 ft</option><option value="8000+ ft">8000+ ft</option><option value="altitude">altitude</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This blood oxygen level calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Altitude Adjustment</strong> — Effective SpO2 = Reading - Altitude Factor — <em>SpO2 adjusted for altitude effects on normal oxygen levels.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a normal SpO2?</h3>
+      <p>95-100% at sea level. Below 90% is concerning and requires medical attention.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does altitude affect readings?</h3>
+      <p>Yes, SpO2 naturally drops 2-5% at higher elevations.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var altitude = document.getElementById('altitude').value;
 
     // Calculation logic
-    var altAdj = {'Sea Level': 0, '3000-5000 ft': -2, '5000-8000 ft': -3, '8000+ ft': -5}; var adj = altAdj[altitude] || 0; var effectiveSpo2 = spo2 - adj; var status = effectiveSpo2 >= 95 ? 'Normal' : effectiveSpo2 >= 90 ? 'Mildly Low' : effectiveSpo2 >= 85 ? 'Low - concerning' : 'Critical - seek help'; var hrStatus = heartRate < 60 ? 'Low (bradycardia)' : heartRate <= 100 ? 'Normal' : 'Elevated (tachycardia)'; var action = effectiveSpo2 < 90 ? 'Seek medical attention immediately' : effectiveSpo2 < 95 ? 'Monitor closely, consult doctor if persistent' : 'Normal, no action needed'; return {status: status, hrStatus: hrStatus, action: action};
+    var altAdj = {'Sea Level': 0, '3000-5000 ft': -2, '5000-8000 ft': -3, '8000+ ft': -5}; var adj = altAdj[altitude] || 0; var effectiveSpo2 = spo2 - adj; var status = effectiveSpo2 >= 95 ? 'Normal' : effectiveSpo2 >= 90 ? 'Mildly Low' : effectiveSpo2 >= 85 ? 'Low - concerning' : 'Critical - seek help'; var hrStatus = heartRate < 60 ? 'Low (bradycardia)' : heartRate <= 100 ? 'Normal' : 'Elevated (tachycardia)'; var action = effectiveSpo2 < 90 ? 'Seek medical attention immediately' : effectiveSpo2 < 95 ? 'Monitor closely, consult doctor if persistent' : 'Normal, no action needed';     document.getElementById('status').textContent = status;
+    document.getElementById('hrStatus').textContent = hrStatus;
+    document.getElementById('action').textContent = action;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

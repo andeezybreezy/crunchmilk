@@ -14,7 +14,9 @@
     var feedingsPerDay = parseFloat(document.getElementById('feedingsPerDay').value) || 0;
 
     // Calculation logic
-    var ozPerFeeding = ageMonths < 1 ? 2.5 : ageMonths < 3 ? 4 : ageMonths < 6 ? 6 : 8; var ozPerDay = ozPerFeeding * feedingsPerDay; var costs = {'Standard Powder ($0.15/oz)': 0.15, 'Organic ($0.22/oz)': 0.22, 'Specialty/Hypoallergenic ($0.30/oz)': 0.30, 'Ready-to-Feed ($0.35/oz)': 0.35}; var costPerOz = costs[formulaType] || 0.15; var monthlyCost = ozPerDay * costPerOz * 30; var annualCost = monthlyCost * 12; return {ozPerDay: fmt(ozPerDay,0), monthlyCost: dollar(monthlyCost), annualCost: dollar(annualCost)};
+    var ozPerFeeding = ageMonths < 1 ? 2.5 : ageMonths < 3 ? 4 : ageMonths < 6 ? 6 : 8; var ozPerDay = ozPerFeeding * feedingsPerDay; var costs = {'Standard Powder ($0.15/oz)': 0.15, 'Organic ($0.22/oz)': 0.22, 'Specialty/Hypoallergenic ($0.30/oz)': 0.30, 'Ready-to-Feed ($0.35/oz)': 0.35}; var costPerOz = costs[formulaType] || 0.15; var monthlyCost = ozPerDay * costPerOz * 30; var annualCost = monthlyCost * 12;     document.getElementById('ozPerDay').textContent = fmt(ozPerDay,0);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

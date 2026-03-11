@@ -15,7 +15,10 @@
     var hydroPct = parseFloat(document.getElementById('hydroPct').value) || 0;
 
     // Calculation logic
-    var total = solarPct + windPct + hydroPct; var solarKwh = annualKwh * (solarPct / Math.max(total,1)); var windKwh = annualKwh * (windPct / Math.max(total,1)); var hydroKwh = annualKwh * (hydroPct / Math.max(total,1)); var co2Saved = annualKwh * 0.000907; return {solarKwh: fmt(solarKwh,0), windKwh: fmt(windKwh,0), hydroKwh: fmt(hydroKwh,0), co2Saved: fmt(co2Saved,1)};
+    var total = solarPct + windPct + hydroPct; var solarKwh = annualKwh * (solarPct / Math.max(total,1)); var windKwh = annualKwh * (windPct / Math.max(total,1)); var hydroKwh = annualKwh * (hydroPct / Math.max(total,1)); var co2Saved = annualKwh * 0.000907;     document.getElementById('solarKwh').textContent = fmt(solarKwh,0);
+    document.getElementById('windKwh').textContent = fmt(windKwh,0);
+    document.getElementById('hydroKwh').textContent = fmt(hydroKwh,0);
+    document.getElementById('co2Saved').textContent = fmt(co2Saved,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

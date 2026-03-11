@@ -15,7 +15,11 @@
     var investment = parseFloat(document.getElementById('investment').value) || 0;
 
     // Calculation logic
-    var xrp=xrpAmount>0?xrpAmount:investment/buyPrice; var invested=xrp*buyPrice; var currentValue=xrp*sellPrice; var profit=currentValue-invested; var returnPct=(profit/invested)*100; return {totalInvested:dollar(invested), currentValue:dollar(currentValue), profit:dollar(profit), returnPct:fmt(returnPct,1)+'%', xrpHeld:fmt(xrp,2)+' XRP'};
+    var xrp=xrpAmount>0?xrpAmount:investment/buyPrice; var invested=xrp*buyPrice; var currentValue=xrp*sellPrice; var profit=currentValue-invested; var returnPct=(profit/invested)*100;     document.getElementById('totalInvested').textContent = dollar(invested);
+    document.getElementById('currentValue').textContent = dollar(currentValue);
+    document.getElementById('profit').textContent = dollar(profit);
+    document.getElementById('returnPct').textContent = fmt(returnPct,1)+'%';
+    document.getElementById('xrpHeld').textContent = fmt(xrp,2)+' XRP';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

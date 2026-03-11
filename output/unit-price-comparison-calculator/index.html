@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="price1">Option A Price ($)</label>
-      <input type="number" id="price1" value="undefined" min="0.01" max="10000" step="0.01" inputmode="decimal">
+      <input type="number" id="price1" value="" min="0.01" max="10000" step="0.01" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="qty1">Option A Quantity</label>
-      <input type="number" id="qty1" value="undefined" min="0.1" max="10000" step="0.1" inputmode="decimal">
+      <input type="number" id="qty1" value="" min="0.1" max="10000" step="0.1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="price2">Option B Price ($)</label>
-      <input type="number" id="price2" value="undefined" min="0.01" max="10000" step="0.01" inputmode="decimal">
+      <input type="number" id="price2" value="" min="0.01" max="10000" step="0.01" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="qty2">Option B Quantity</label>
-      <input type="number" id="qty2" value="undefined" min="0.1" max="10000" step="0.1" inputmode="decimal">
+      <input type="number" id="qty2" value="" min="0.1" max="10000" step="0.1" inputmode="decimal">
     </div>
   </div>
 
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This unit price comparison calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Unit Price</strong> — Unit Price = Total Price / Quantity — <em>Simple division to find cost per unit.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Tax laws and financial markets change frequently. Verify current rates with your financial institution.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is unit price?</h3>
+      <p>The cost per single unit (oz, lb, count), making it easy to compare different sized packages.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is bigger always cheaper?</h3>
+      <p>Usually, but not always. Always check unit price - sometimes smaller sizes are on sale.</p>
     </div>
 
   </div>
@@ -424,7 +424,10 @@ footer a:hover{color:#fff}
     var qty2 = parseFloat(document.getElementById('qty2').value) || 0;
 
     // Calculation logic
-    var unitA = price1 / qty1; var unitB = price2 / qty2; var winner = unitA <= unitB ? 'Option A' : 'Option B'; var savings = Math.abs(unitA - unitB); return {unitA: dollar(unitA), unitB: dollar(unitB), winner: winner, savings: dollar(savings)};
+    var unitA = price1 / qty1; var unitB = price2 / qty2; var winner = unitA <= unitB ? 'Option A' : 'Option B'; var savings = Math.abs(unitA - unitB);     document.getElementById('unitA').textContent = dollar(unitA);
+    document.getElementById('unitB').textContent = dollar(unitB);
+    document.getElementById('winner').textContent = winner;
+    document.getElementById('savings').textContent = dollar(savings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

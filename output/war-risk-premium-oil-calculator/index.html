@@ -422,7 +422,11 @@ footer a:hover{color:#fff}
     var monthlyMiles = parseFloat(document.getElementById('monthlyMiles').value) || 0;
 
     // Calculation logic
-    var premium = v.currentOil - v.peacePrice; var pct = (premium / v.currentOil * 100); var gasPremium = (premium / v.currentOil) * v.gasPrice * 0.6; var gallons = v.monthlyMiles / 25; var monthly = gallons * gasPremium; return {warPremium: '$' + premium.toFixed(0) + '/barrel', premiumPct: pct.toFixed(1) + '%', gasPremium: '$' + gasPremium.toFixed(2) + '/gal', monthlyWarCost: '$' + monthly.toFixed(0) + '/mo', annualWarCost: '$' + Math.round(monthly * 12) + '/yr'};
+    var premium = v.currentOil - v.peacePrice; var pct = (premium / v.currentOil * 100); var gasPremium = (premium / v.currentOil) * v.gasPrice * 0.6; var gallons = v.monthlyMiles / 25; var monthly = gallons * gasPremium;     document.getElementById('warPremium').textContent = '$' + premium.toFixed(0) + '/barrel';
+    document.getElementById('premiumPct').textContent = pct.toFixed(1) + '%';
+    document.getElementById('gasPremium').textContent = '$' + gasPremium.toFixed(2) + '/gal';
+    document.getElementById('monthlyWarCost').textContent = '$' + monthly.toFixed(0) + '/mo';
+    document.getElementById('annualWarCost').textContent = '$' + Math.round(monthly * 12) + '/yr';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

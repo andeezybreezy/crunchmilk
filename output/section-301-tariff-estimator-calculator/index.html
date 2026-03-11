@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="importValue">Import Value ($)</label>
-      <input type="number" id="importValue" value="undefined" min="100" max="100000000" step="1000" inputmode="decimal">
+      <input type="number" id="importValue" value="" min="100" max="100000000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="list">Tariff List</label>
-      <select id="list"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="list"><option value="List 1 (25%)" selected>List 1 (25%)</option><option value="List 2 (25%)">List 2 (25%)</option><option value="List 3 (25%)">List 3 (25%)</option><option value="List 4A (7.5%)">List 4A (7.5%)</option><option value="List 4B (varies)">List 4B (varies)</option><option value="list">list</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="quantity">Annual Shipments</label>
-      <input type="number" id="quantity" value="undefined" min="1" max="365" step="1" inputmode="decimal">
+      <input type="number" id="quantity" value="" min="1" max="365" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This section 301 tariff calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Annual Cost</strong> — Cost = Import Value × Tariff Rate × Shipments — <em>Per-shipment tariff multiplied by annual frequency.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are Section 301 tariffs?</h3>
+      <p>Additional tariffs imposed on Chinese goods due to unfair trade practices, ranging from 7.5-25%.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can I get an exclusion?</h3>
+      <p>Some products qualify for exclusions. Check USTR.gov for current exclusion lists.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var quantity = parseFloat(document.getElementById('quantity').value) || 0;
 
     // Calculation logic
-    var rates = {'List 1 (25%)': 25, 'List 2 (25%)': 25, 'List 3 (25%)': 25, 'List 4A (7.5%)': 7.5, 'List 4B (varies)': 15}; var tariffRate = rates[list] || 25; var perShipment = importValue * (tariffRate/100); var annualTariff = perShipment * quantity; return {tariffRate: fmt(tariffRate,1), perShipment: dollar(perShipment), annualTariff: dollar(annualTariff)};
+    var rates = {'List 1 (25%)': 25, 'List 2 (25%)': 25, 'List 3 (25%)': 25, 'List 4A (7.5%)': 7.5, 'List 4B (varies)': 15}; var tariffRate = rates[list] || 25; var perShipment = importValue * (tariffRate/100); var annualTariff = perShipment * quantity;     document.getElementById('tariffRate').textContent = fmt(tariffRate,1);
+    document.getElementById('perShipment').textContent = dollar(perShipment);
+    document.getElementById('annualTariff').textContent = dollar(annualTariff);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

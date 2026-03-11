@@ -18,7 +18,9 @@
     var factoryCost = parseFloat(document.getElementById('factoryCost').value) || 0;
 
     // Calculation logic
-    var primer = primerCost / 100; var powder = (grainCharge / 7000) * powderCost; var bullet = bulletCost / 100; var brass = (brassCost / 100) / reloads; var costPerRound = primer + powder + bullet + brass; var savings = factoryCost - costPerRound; var savingsPer100 = savings * 100; return {costPerRound: fmt(costPerRound * 100, 1), savings: fmt(savings * 100, 1), savingsPer100: dollar(savingsPer100)};
+    var primer = primerCost / 100; var powder = (grainCharge / 7000) * powderCost; var bullet = bulletCost / 100; var brass = (brassCost / 100) / reloads; var costPerRound = primer + powder + bullet + brass; var savings = factoryCost - costPerRound; var savingsPer100 = savings * 100;     document.getElementById('costPerRound').textContent = fmt(costPerRound * 100, 1);
+    document.getElementById('savings').textContent = fmt(savings * 100, 1);
+    document.getElementById('savingsPer100').textContent = dollar(savingsPer100);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

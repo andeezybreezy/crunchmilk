@@ -427,7 +427,11 @@ footer a:hover{color:#fff}
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var initialValue=xrpAmount*xrpPrice; var futureXRP=xrpAmount*Math.pow(1+apy/100,years); var rewardsXRP=futureXRP-xrpAmount; var rewardsUSD=rewardsXRP*xrpPrice; var totalValue=futureXRP*xrpPrice; return {initialValue:dollar(initialValue), futureXRP:fmt(futureXRP,2)+' XRP', rewardsXRP:fmt(rewardsXRP,2)+' XRP', rewardsUSD:dollar(rewardsUSD), totalValue:dollar(totalValue)};
+    var initialValue=xrpAmount*xrpPrice; var futureXRP=xrpAmount*Math.pow(1+apy/100,years); var rewardsXRP=futureXRP-xrpAmount; var rewardsUSD=rewardsXRP*xrpPrice; var totalValue=futureXRP*xrpPrice;     document.getElementById('initialValue').textContent = dollar(initialValue);
+    document.getElementById('futureXRP').textContent = fmt(futureXRP,2)+' XRP';
+    document.getElementById('rewardsXRP').textContent = fmt(rewardsXRP,2)+' XRP';
+    document.getElementById('rewardsUSD').textContent = dollar(rewardsUSD);
+    document.getElementById('totalValue').textContent = dollar(totalValue);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

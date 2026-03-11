@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="avgWinterTemp">Avg Winter Temp (°F)</label>
-      <input type="number" id="avgWinterTemp" value="undefined" min="-30" max="60" step="1" inputmode="decimal">
+      <input type="number" id="avgWinterTemp" value="" min="-30" max="60" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="snowCover">Snow Cover</label>
-      <select id="snowCover"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="snowCover"><option value="None" selected>None</option><option value="Light (1-6 inches)">Light (1-6 inches)</option><option value="Heavy (6+ inches)">Heavy (6+ inches)</option><option value="snowCover">snowCover</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="soilType">Soil Type</label>
-      <select id="soilType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="soilType"><option value="Sandy" selected>Sandy</option><option value="Loam">Loam</option><option value="Clay">Clay</option><option value="Gravel">Gravel</option><option value="soilType">soilType</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This frost depth calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Frost Depth</strong> — Depth = (32 - Avg Temp) × 1.5 × Snow × Soil factors — <em>Simplified estimation based on temperature and conditions.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does frost depth matter?</h3>
+      <p>Foundations and pipes must be below the frost line to prevent heaving and freezing.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the frost line in my area?</h3>
+      <p>Ranges from 0 in the South to 72+ inches in northern states. Check local building codes.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var soilType = document.getElementById('soilType').value;
 
     // Calculation logic
-    var baseDepth = (32 - avgWinterTemp) * 1.5; var snowMod = {'None': 1, 'Light (1-6 inches)': 0.75, 'Heavy (6+ inches)': 0.5}; var soilMod = {'Sandy': 1.2, 'Loam': 1, 'Clay': 0.8, 'Gravel': 1.3}; var frostDepth = baseDepth * (snowMod[snowCover]||1) * (soilMod[soilType]||1); var foundationMin = frostDepth + 6; return {frostDepth: fmt(Math.max(frostDepth,0),0), foundationMin: fmt(Math.max(foundationMin,12),0)};
+    var baseDepth = (32 - avgWinterTemp) * 1.5; var snowMod = {'None': 1, 'Light (1-6 inches)': 0.75, 'Heavy (6+ inches)': 0.5}; var soilMod = {'Sandy': 1.2, 'Loam': 1, 'Clay': 0.8, 'Gravel': 1.3}; var frostDepth = baseDepth * (snowMod[snowCover]||1) * (soilMod[soilType]||1); var foundationMin = frostDepth + 6;     document.getElementById('frostDepth').textContent = fmt(Math.max(frostDepth,0),0);
+    document.getElementById('foundationMin').textContent = fmt(Math.max(foundationMin,12),0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

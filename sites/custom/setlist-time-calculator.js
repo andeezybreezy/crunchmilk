@@ -15,7 +15,10 @@
     var banter = parseFloat(document.getElementById('banter').value) || 0;
 
     // Calculation logic
-    var musicTime=songs*avgLength; var betweenTotal=((songs-1)*betweenSongs)/60; var totalMin=musicTime+betweenTotal+banter; var hours=Math.floor(totalMin/60); var mins=Math.round(totalMin%60); var setsNeeded=Math.ceil(180/totalMin); return {totalTime:hours+'h '+mins+'m', musicTime:fmt(musicTime,0)+' min', deadTime:fmt(betweenTotal+banter,1)+' min', sets:setsNeeded+' sets (with breaks)'};
+    var musicTime=songs*avgLength; var betweenTotal=((songs-1)*betweenSongs)/60; var totalMin=musicTime+betweenTotal+banter; var hours=Math.floor(totalMin/60); var mins=Math.round(totalMin%60); var setsNeeded=Math.ceil(180/totalMin);     document.getElementById('totalTime').textContent = hours+'h '+mins+'m';
+    document.getElementById('musicTime').textContent = fmt(musicTime,0)+' min';
+    document.getElementById('deadTime').textContent = fmt(betweenTotal+banter,1)+' min';
+    document.getElementById('sets').textContent = setsNeeded+' sets (with breaks)';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

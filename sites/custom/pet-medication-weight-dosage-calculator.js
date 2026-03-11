@@ -15,7 +15,9 @@
     var tabletMg = parseFloat(document.getElementById('tabletMg').value) || 0;
 
     // Calculation logic
-    var dosePerAdmin = weight * doseRate; var tabletsPerDose = dosePerAdmin / tabletMg; var dailyDose = dosePerAdmin * frequency; return {dosePerAdmin: fmt(dosePerAdmin,1), tabletsPerDose: fmt(tabletsPerDose,1), dailyDose: fmt(dailyDose,1)};
+    var dosePerAdmin = weight * doseRate; var tabletsPerDose = dosePerAdmin / tabletMg; var dailyDose = dosePerAdmin * frequency;     document.getElementById('dosePerAdmin').textContent = fmt(dosePerAdmin,1);
+    document.getElementById('tabletsPerDose').textContent = fmt(tabletsPerDose,1);
+    document.getElementById('dailyDose').textContent = fmt(dailyDose,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

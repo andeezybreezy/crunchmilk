@@ -15,7 +15,8 @@
     var greenCN = parseFloat(document.getElementById('greenCN').value) || 0;
 
     // Calculation logic
-    var totalCarbon = (brownLbs * brownCN) + (greenLbs * greenCN); var totalNitrogen = brownLbs + greenLbs; var blendRatio = totalCarbon / totalNitrogen; var rating = blendRatio >= 25 && blendRatio <= 35 ? 'Ideal' : blendRatio < 25 ? 'Too much nitrogen - add browns' : 'Too much carbon - add greens'; return {blendRatio: fmt(blendRatio,1), rating: rating};
+    var totalCarbon = (brownLbs * brownCN) + (greenLbs * greenCN); var totalNitrogen = brownLbs + greenLbs; var blendRatio = totalCarbon / totalNitrogen; var rating = blendRatio >= 25 && blendRatio <= 35 ? 'Ideal' : blendRatio < 25 ? 'Too much nitrogen - add browns' : 'Too much carbon - add greens';     document.getElementById('blendRatio').textContent = fmt(blendRatio,1);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

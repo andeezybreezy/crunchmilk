@@ -14,7 +14,8 @@
     var clickValue = document.getElementById('clickValue').value;
 
     // Calculation logic
-    var inchesPerMOA = distance * 1.047 / 100; var moaAdj = dropInches / inchesPerMOA; var clickValues = {'1/4 MOA': 0.25, '1/2 MOA': 0.5, '1/8 MOA': 0.125, '0.1 MRAD': 0.36}; var cv = clickValues[clickValue] || 0.25; var clicks = Math.round(moaAdj / cv); return {moaAdj: fmt(moaAdj,1), clicks: fmt(clicks,0)};
+    var inchesPerMOA = distance * 1.047 / 100; var moaAdj = dropInches / inchesPerMOA; var clickValues = {'1/4 MOA': 0.25, '1/2 MOA': 0.5, '1/8 MOA': 0.125, '0.1 MRAD': 0.36}; var cv = clickValues[clickValue] || 0.25; var clicks = Math.round(moaAdj / cv);     document.getElementById('moaAdj').textContent = fmt(moaAdj,1);
+    document.getElementById('clicks').textContent = fmt(clicks,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

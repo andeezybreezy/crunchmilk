@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="oilType">Oil Type</label>
-      <select id="oilType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="oilType"><option value="Conventional" selected>Conventional</option><option value="Synthetic Blend">Synthetic Blend</option><option value="Full Synthetic">Full Synthetic</option><option value="oilType">oilType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="monthlyMiles">Monthly Miles Driven</label>
-      <input type="number" id="monthlyMiles" value="undefined" min="100" max="5000" step="100" inputmode="decimal">
+      <input type="number" id="monthlyMiles" value="" min="100" max="5000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="conditions">Driving Conditions</label>
-      <select id="conditions"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="conditions"><option value="Normal" selected>Normal</option><option value="Severe (towing, dusty, short trips)">Severe (towing, dusty, short trips)</option><option value="Extreme (racing, off-road)">Extreme (racing, off-road)</option><option value="conditions">conditions</option></select>
     </div>
   </div>
 
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This oil change interval calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Interval</strong> — Interval = Base Miles × Condition Multiplier — <em>Base interval adjusted for driving severity.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Vehicle specifications and costs vary by model year and condition. Consult your mechanic for specific advice.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How often should I change oil?</h3>
+      <p>Every 5,000 miles for conventional, 7,500-10,000 for synthetic under normal conditions.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does synthetic oil last longer?</h3>
+      <p>Yes, full synthetic typically lasts twice as long as conventional oil.</p>
     </div>
 
   </div>
@@ -417,7 +417,10 @@ footer a:hover{color:#fff}
     var conditions = document.getElementById('conditions').value;
 
     // Calculation logic
-    var intervals = {'Conventional': 5000, 'Synthetic Blend': 7500, 'Full Synthetic': 10000}; var severeMulti = {'Normal': 1, 'Severe (towing, dusty, short trips)': 0.7, 'Extreme (racing, off-road)': 0.5}; var costs = {'Conventional': 40, 'Synthetic Blend': 55, 'Full Synthetic': 75}; var intervalMiles = intervals[oilType] * (severeMulti[conditions] || 1); var intervalMonths = intervalMiles / monthlyMiles; var changesPerYear = 12 / intervalMonths; var annualCost = changesPerYear * (costs[oilType] || 50); return {intervalMiles: fmt(intervalMiles,0), intervalMonths: fmt(intervalMonths,1), changesPerYear: fmt(changesPerYear,1), annualCost: dollar(annualCost)};
+    var intervals = {'Conventional': 5000, 'Synthetic Blend': 7500, 'Full Synthetic': 10000}; var severeMulti = {'Normal': 1, 'Severe (towing, dusty, short trips)': 0.7, 'Extreme (racing, off-road)': 0.5}; var costs = {'Conventional': 40, 'Synthetic Blend': 55, 'Full Synthetic': 75}; var intervalMiles = intervals[oilType] * (severeMulti[conditions] || 1); var intervalMonths = intervalMiles / monthlyMiles; var changesPerYear = 12 / intervalMonths; var annualCost = changesPerYear * (costs[oilType] || 50);     document.getElementById('intervalMiles').textContent = fmt(intervalMiles,0);
+    document.getElementById('intervalMonths').textContent = fmt(intervalMonths,1);
+    document.getElementById('changesPerYear').textContent = fmt(changesPerYear,1);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

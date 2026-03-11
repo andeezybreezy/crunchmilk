@@ -446,7 +446,11 @@ footer a:hover{color:#fff}
     var hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 0;
 
     // Calculation logic
-    var monthlySavings=monthlySpend*(tokenReduction/100); var engineeringCost=engineeringHours*hourlyRate; var paybackMonths=monthlySavings>0?engineeringCost/monthlySavings:999; var annualSavings=monthlySavings*12; var yearOneSavings=annualSavings-engineeringCost; var annualROI=engineeringCost>0?((yearOneSavings/engineeringCost)*100):0; return {monthlySavings:dollar(monthlySavings), engineeringCost:dollar(engineeringCost), paybackMonths:fmt(paybackMonths,1)+' months', annualROI:fmt(annualROI,0)+'%', yearOneSavings:dollar(yearOneSavings)};
+    var monthlySavings=monthlySpend*(tokenReduction/100); var engineeringCost=engineeringHours*hourlyRate; var paybackMonths=monthlySavings>0?engineeringCost/monthlySavings:999; var annualSavings=monthlySavings*12; var yearOneSavings=annualSavings-engineeringCost; var annualROI=engineeringCost>0?((yearOneSavings/engineeringCost)*100):0;     document.getElementById('monthlySavings').textContent = dollar(monthlySavings);
+    document.getElementById('engineeringCost').textContent = dollar(engineeringCost);
+    document.getElementById('paybackMonths').textContent = fmt(paybackMonths,1)+' months';
+    document.getElementById('annualROI').textContent = fmt(annualROI,0)+'%';
+    document.getElementById('yearOneSavings').textContent = dollar(yearOneSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

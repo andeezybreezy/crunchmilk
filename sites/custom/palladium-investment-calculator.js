@@ -16,7 +16,10 @@
     var purchasePrice = parseFloat(document.getElementById('purchasePrice').value) || 0;
 
     // Calculation logic
-    var ozConvert = {'Troy Ounces': 1, 'Grams': 0.03215, 'Kilograms': 32.15}; var troyOz = weight * (ozConvert[weightUnit] || 1); var currentValue = troyOz * spotPrice; var totalWithPremium = troyOz * spotPrice * (1 + premium / 100); var costBasis = troyOz * purchasePrice; var gainLoss = currentValue - costBasis; var returnPct = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0; return {currentValue: dollar(currentValue), totalWithPremium: dollar(totalWithPremium), gainLoss: dollar(gainLoss), returnPct: fmt(returnPct, 2)};
+    var ozConvert = {'Troy Ounces': 1, 'Grams': 0.03215, 'Kilograms': 32.15}; var troyOz = weight * (ozConvert[weightUnit] || 1); var currentValue = troyOz * spotPrice; var totalWithPremium = troyOz * spotPrice * (1 + premium / 100); var costBasis = troyOz * purchasePrice; var gainLoss = currentValue - costBasis; var returnPct = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0;     document.getElementById('currentValue').textContent = dollar(currentValue);
+    document.getElementById('totalWithPremium').textContent = dollar(totalWithPremium);
+    document.getElementById('gainLoss').textContent = dollar(gainLoss);
+    document.getElementById('returnPct').textContent = fmt(returnPct, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

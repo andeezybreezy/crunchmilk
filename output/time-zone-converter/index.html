@@ -410,7 +410,9 @@ footer a:hover{color:#fff}
     var toZone = document.getElementById('toZone').value;
 
     // Calculation logic
-    var diff=parseFloat(toZone)-parseFloat(fromZone); var newHour=hour+diff; var dayShift='Same day'; if(newHour>=24){newHour-=24;dayShift='Next day';}else if(newHour<0){newHour+=24;dayShift='Previous day';} var h=Math.floor(newHour); var m=Math.round((newHour-h)*60); var timeStr=h.toString().padStart(2,'0')+':'+(m>0?m.toString().padStart(2,'0'):'00'); var period=h>=12?'PM':'AM'; var h12=h>12?h-12:(h===0?12:h); return {convertedTime:h12+':'+(m>0?m.toString().padStart(2,'0'):'00')+' '+period+' ('+timeStr+')', difference:(diff>=0?'+':'')+diff+' hours', dayShift:dayShift};
+    var diff=parseFloat(toZone)-parseFloat(fromZone); var newHour=hour+diff; var dayShift='Same day'; if(newHour>=24){newHour-=24;dayShift='Next day';}else if(newHour<0){newHour+=24;dayShift='Previous day';} var h=Math.floor(newHour); var m=Math.round((newHour-h)*60); var timeStr=h.toString().padStart(2,'0')+':'+(m>0?m.toString().padStart(2,'0'):'00'); var period=h>=12?'PM':'AM'; var h12=h>12?h-12:(h===0?12:h);     document.getElementById('convertedTime').textContent = h12+':'+(m>0?m.toString().padStart(2,'0'):'00')+' '+period+' ('+timeStr+')';
+    document.getElementById('difference').textContent = (diff>=0?'+':'')+diff+' hours';
+    document.getElementById('dayShift').textContent = dayShift;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

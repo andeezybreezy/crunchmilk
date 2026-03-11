@@ -431,7 +431,9 @@ footer a:hover{color:#fff}
     var spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
 
     // Calculation logic
-    var coinOz={custom:weight,morgan:0.7734,washington:0.1808,roosevelt:0.0723,kennedy:0.3617,eagle:1.0}; var ozPer=coinOz[coinType]||weight; var totalOz=ozPer*quantity; var meltValue=totalOz*spotPrice; var perCoin=ozPer*spotPrice; return {meltValue:dollar(meltValue), perCoin:dollar(perCoin), totalOz:fmt(totalOz,4)+' oz'};
+    var coinOz={custom:weight,morgan:0.7734,washington:0.1808,roosevelt:0.0723,kennedy:0.3617,eagle:1.0}; var ozPer=coinOz[coinType]||weight; var totalOz=ozPer*quantity; var meltValue=totalOz*spotPrice; var perCoin=ozPer*spotPrice;     document.getElementById('meltValue').textContent = dollar(meltValue);
+    document.getElementById('perCoin').textContent = dollar(perCoin);
+    document.getElementById('totalOz').textContent = fmt(totalOz,4)+' oz';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

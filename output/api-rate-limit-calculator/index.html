@@ -422,7 +422,10 @@ footer a:hover{color:#fff}
     var avgLatency = parseFloat(document.getElementById('avgLatency').value) || 0;
 
     // Calculation logic
-    var dailyRequests=dailyUsers*reqPerUser; var avgRps=dailyRequests/86400; var peakRps=avgRps*peakMultiplier; var concurrency=Math.ceil(peakRps*(avgLatency/1000)); return {dailyRequests:fmt(dailyRequests,0), avgRps:fmt(avgRps,1)+' req/sec', peakRps:fmt(peakRps,1)+' req/sec', concurrency:concurrency+' connections'};
+    var dailyRequests=dailyUsers*reqPerUser; var avgRps=dailyRequests/86400; var peakRps=avgRps*peakMultiplier; var concurrency=Math.ceil(peakRps*(avgLatency/1000));     document.getElementById('dailyRequests').textContent = fmt(dailyRequests,0);
+    document.getElementById('avgRps').textContent = fmt(avgRps,1)+' req/sec';
+    document.getElementById('peakRps').textContent = fmt(peakRps,1)+' req/sec';
+    document.getElementById('concurrency').textContent = concurrency+' connections';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

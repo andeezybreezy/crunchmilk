@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="length">Shed Length (ft)</label>
-      <input type="number" id="length" value="undefined" min="4" max="24" step="2" inputmode="decimal">
+      <input type="number" id="length" value="" min="4" max="24" step="2" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="width">Shed Width (ft)</label>
-      <input type="number" id="width" value="undefined" min="4" max="16" step="2" inputmode="decimal">
+      <input type="number" id="width" value="" min="4" max="16" step="2" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="height">Wall Height (ft)</label>
-      <input type="number" id="height" value="undefined" min="6" max="12" step="1" inputmode="decimal">
+      <input type="number" id="height" value="" min="6" max="12" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This shed material calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Studs</strong> — Studs = Perimeter / 16" spacing + corners — <em>Wall studs at 16-inch centers around the perimeter.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What size shed can I build without a permit?</h3>
+      <p>Most areas allow 100-120 sq ft without a permit. Check local codes.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What foundation does a shed need?</h3>
+      <p>Gravel pad, concrete blocks, or concrete slab depending on size and local codes.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var height = parseFloat(document.getElementById('height').value) || 0;
 
     // Calculation logic
-    var sqft = length * width; var perimeter = 2 * (length + width); var studs = Math.ceil(perimeter / 1.33) + 8; var wallArea = perimeter * height; var floorSheets = Math.ceil(sqft / 32); var wallSheets = Math.ceil(wallArea / 32); var roofSheets = Math.ceil(sqft * 1.15 / 32); var plywood = floorSheets + wallSheets + roofSheets; return {studs: fmt(studs,0), plywood: fmt(plywood,0), sqft: fmt(sqft,0)};
+    var sqft = length * width; var perimeter = 2 * (length + width); var studs = Math.ceil(perimeter / 1.33) + 8; var wallArea = perimeter * height; var floorSheets = Math.ceil(sqft / 32); var wallSheets = Math.ceil(wallArea / 32); var roofSheets = Math.ceil(sqft * 1.15 / 32); var plywood = floorSheets + wallSheets + roofSheets;     document.getElementById('studs').textContent = fmt(studs,0);
+    document.getElementById('plywood').textContent = fmt(plywood,0);
+    document.getElementById('sqft').textContent = fmt(sqft,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

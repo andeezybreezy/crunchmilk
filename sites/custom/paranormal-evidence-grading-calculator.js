@@ -16,7 +16,8 @@
     var witnesses = parseFloat(document.getElementById('witnesses').value) || 0;
 
     // Calculation logic
-    var score = 0; score += emfSpike === 'Yes' ? 15 : 0; var evpScores = {'No': 0, 'Class C (barely audible)': 10, 'Class B (audible)': 20, 'Class A (clear)': 30}; score += evpScores[evp] || 0; var visScores = {'None': 0, 'Shadow/Mist': 10, 'Partial Apparition': 20, 'Full Apparition': 30}; score += visScores[visual] || 0; var tempScores = {'No': 0, 'Yes (5-10°F drop)': 10, 'Yes (10°F+ drop)': 15}; score += tempScores[temperature] || 0; score += Math.min(witnesses * 5, 10); var grade = score >= 70 ? 'A - Compelling' : score >= 50 ? 'B - Strong' : score >= 30 ? 'C - Moderate' : score >= 15 ? 'D - Weak' : 'F - Insufficient'; return {score: fmt(score,0), grade: grade};
+    var score = 0; score += emfSpike === 'Yes' ? 15 : 0; var evpScores = {'No': 0, 'Class C (barely audible)': 10, 'Class B (audible)': 20, 'Class A (clear)': 30}; score += evpScores[evp] || 0; var visScores = {'None': 0, 'Shadow/Mist': 10, 'Partial Apparition': 20, 'Full Apparition': 30}; score += visScores[visual] || 0; var tempScores = {'No': 0, 'Yes (5-10°F drop)': 10, 'Yes (10°F+ drop)': 15}; score += tempScores[temperature] || 0; score += Math.min(witnesses * 5, 10); var grade = score >= 70 ? 'A - Compelling' : score >= 50 ? 'B - Strong' : score >= 30 ? 'C - Moderate' : score >= 15 ? 'D - Weak' : 'F - Insufficient';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('grade').textContent = grade;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

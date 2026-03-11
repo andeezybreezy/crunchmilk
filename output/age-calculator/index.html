@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="birthYear">Birth Year</label>
-      <input type="number" id="birthYear" value="undefined" min="1900" max="2026" step="1" inputmode="decimal">
+      <input type="number" id="birthYear" value="" min="1900" max="2026" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="birthMonth">Birth Month</label>
-      <input type="number" id="birthMonth" value="undefined" min="1" max="12" step="1" inputmode="decimal">
+      <input type="number" id="birthMonth" value="" min="1" max="12" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="birthDay">Birth Day</label>
-      <input type="number" id="birthDay" value="undefined" min="1" max="31" step="1" inputmode="decimal">
+      <input type="number" id="birthDay" value="" min="1" max="31" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This age calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Age</strong> — Years = Current Year - Birth Year (adjusted for month/day) — <em>Standard age calculation.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How is exact age calculated?</h3>
+      <p>From your birth date to today, counting complete years, months, and days.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does age matter for calculators?</h3>
+      <p>Many health, financial, and legal calculations depend on exact age.</p>
     </div>
 
   </div>
@@ -417,7 +417,10 @@ footer a:hover{color:#fff}
     var birthDay = parseFloat(document.getElementById('birthDay').value) || 0;
 
     // Calculation logic
-    var now = new Date(); var birth = new Date(birthYear, birthMonth - 1, birthDay); var years = now.getFullYear() - birthYear; if (now.getMonth() < birthMonth - 1 || (now.getMonth() === birthMonth - 1 && now.getDate() < birthDay)) years--; var months = years * 12 + now.getMonth() - (birthMonth - 1); if (now.getDate() < birthDay) months--; var days = Math.floor((now - birth) / (1000*60*60*24)); var nextBday = new Date(now.getFullYear(), birthMonth - 1, birthDay); if (nextBday < now) nextBday = new Date(now.getFullYear() + 1, birthMonth - 1, birthDay); var nextBirthday = Math.ceil((nextBday - now) / (1000*60*60*24)); return {years: fmt(years,0), months: fmt(months,0), days: fmt(days,0), nextBirthday: fmt(nextBirthday,0)};
+    var now = new Date(); var birth = new Date(birthYear, birthMonth - 1, birthDay); var years = now.getFullYear() - birthYear; if (now.getMonth() < birthMonth - 1 || (now.getMonth() === birthMonth - 1 && now.getDate() < birthDay)) years--; var months = years * 12 + now.getMonth() - (birthMonth - 1); if (now.getDate() < birthDay) months--; var days = Math.floor((now - birth) / (1000*60*60*24)); var nextBday = new Date(now.getFullYear(), birthMonth - 1, birthDay); if (nextBday < now) nextBday = new Date(now.getFullYear() + 1, birthMonth - 1, birthDay); var nextBirthday = Math.ceil((nextBday - now) / (1000*60*60*24));     document.getElementById('years').textContent = fmt(years,0);
+    document.getElementById('months').textContent = fmt(months,0);
+    document.getElementById('days').textContent = fmt(days,0);
+    document.getElementById('nextBirthday').textContent = fmt(nextBirthday,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

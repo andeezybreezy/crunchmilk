@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="balance">Loan Balance ($)</label>
-      <input type="number" id="balance" value="undefined" min="1000" max="500000" step="1000" inputmode="decimal">
+      <input type="number" id="balance" value="" min="1000" max="500000" step="1000" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rate">Interest Rate (%)</label>
-      <input type="number" id="rate" value="undefined" min="0.1" max="15" step="0.1" inputmode="decimal">
+      <input type="number" id="rate" value="" min="0.1" max="15" step="0.1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="payment">Monthly Payment ($)</label>
-      <input type="number" id="payment" value="undefined" min="50" max="10000" step="50" inputmode="decimal">
+      <input type="number" id="payment" value="" min="50" max="10000" step="50" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This student loan repayment calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Months to Payoff</strong> — n = -ln(1 - Balance × r / Payment) / ln(1 + r) — <em>Solve the amortization formula for the number of payments.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Educational costs and financial aid vary by institution. Contact schools directly for current figures.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How long will it take to pay off student loans?</h3>
+      <p>Depends on balance, rate, and payment. The standard plan is 10 years (120 months).</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I pay extra?</h3>
+      <p>Even small extra payments significantly reduce total interest and payoff time.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var payment = parseFloat(document.getElementById('payment').value) || 0;
 
     // Calculation logic
-    var monthlyRate = rate / 100 / 12; var months = Math.ceil(-Math.log(1 - (balance * monthlyRate / payment)) / Math.log(1 + monthlyRate)); var totalPaid = months * payment; var totalInterest = totalPaid - balance; return {months: fmt(months,0), totalInterest: dollar(totalInterest), totalPaid: dollar(totalPaid)};
+    var monthlyRate = rate / 100 / 12; var months = Math.ceil(-Math.log(1 - (balance * monthlyRate / payment)) / Math.log(1 + monthlyRate)); var totalPaid = months * payment; var totalInterest = totalPaid - balance;     document.getElementById('months').textContent = fmt(months,0);
+    document.getElementById('totalInterest').textContent = dollar(totalInterest);
+    document.getElementById('totalPaid').textContent = dollar(totalPaid);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

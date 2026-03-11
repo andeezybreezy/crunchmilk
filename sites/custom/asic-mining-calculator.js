@@ -16,7 +16,11 @@
     var difficulty = parseFloat(document.getElementById('difficulty').value) || 0;
 
     // Calculation logic
-    var blocksPerDay=144; var blockReward=3.125; var networkHashrate=difficulty*1e12*Math.pow(2,32)/(600); var myShare=hashrate*1e12/networkHashrate; var dailyBTC=blocksPerDay*blockReward*myShare; var dailyRevenue=dailyBTC*btcPrice; var dailyElectricity=(power/1000)*24*electricityCost; var dailyProfit=dailyRevenue-dailyElectricity; var monthlyProfit=dailyProfit*30; return {dailyBTC:fmt(dailyBTC,8)+' BTC', dailyRevenue:dollar(dailyRevenue), dailyElectricity:dollar(dailyElectricity), dailyProfit:dollar(dailyProfit), monthlyProfit:dollar(monthlyProfit)};
+    var blocksPerDay=144; var blockReward=3.125; var networkHashrate=difficulty*1e12*Math.pow(2,32)/(600); var myShare=hashrate*1e12/networkHashrate; var dailyBTC=blocksPerDay*blockReward*myShare; var dailyRevenue=dailyBTC*btcPrice; var dailyElectricity=(power/1000)*24*electricityCost; var dailyProfit=dailyRevenue-dailyElectricity; var monthlyProfit=dailyProfit*30;     document.getElementById('dailyBTC').textContent = fmt(dailyBTC,8)+' BTC';
+    document.getElementById('dailyRevenue').textContent = dollar(dailyRevenue);
+    document.getElementById('dailyElectricity').textContent = dollar(dailyElectricity);
+    document.getElementById('dailyProfit').textContent = dollar(dailyProfit);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Weight (lbs)</label>
-      <input type="number" id="weight" value="undefined" min="80" max="400" step="1" inputmode="decimal">
+      <input type="number" id="weight" value="" min="80" max="400" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="activity">Activity Level</label>
-      <select id="activity"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="activity"><option value="Sedentary" selected>Sedentary</option><option value="Lightly Active">Lightly Active</option><option value="Moderately Active">Moderately Active</option><option value="Very Active">Very Active</option><option value="activity">activity</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="goalLbs">Lose per Week (lbs)</label>
-      <input type="number" id="goalLbs" value="undefined" min="0.5" max="2" step="0.5" inputmode="decimal">
+      <input type="number" id="goalLbs" value="" min="0.5" max="2" step="0.5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This calorie deficit calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Deficit</strong> — Target = TDEE - (Goal lbs × 500) — <em>Subtract 500 calories per pound you want to lose per week.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Individual results vary based on metabolism, genetics, and activity level. Consult your doctor before starting any program.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much deficit for weight loss?</h3>
+      <p>500 cal/day deficit = ~1 lb/week. 1000 cal/day = ~2 lbs/week.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Minimum calories per day?</h3>
+      <p>Generally 1200 for women, 1500 for men minimum to meet nutritional needs.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var goalLbs = parseFloat(document.getElementById('goalLbs').value) || 0;
 
     // Calculation logic
-    var mult = {'Sedentary': 13, 'Lightly Active': 14.5, 'Moderately Active': 16, 'Very Active': 18}; var tdee = weight * (mult[activity] || 14.5); var deficitCal = goalLbs * 500; var target = Math.max(tdee - deficitCal, 1200); var weeks = 20 / goalLbs; return {tdee: fmt(tdee,0), target: fmt(target,0), weeks: fmt(weeks,0)};
+    var mult = {'Sedentary': 13, 'Lightly Active': 14.5, 'Moderately Active': 16, 'Very Active': 18}; var tdee = weight * (mult[activity] || 14.5); var deficitCal = goalLbs * 500; var target = Math.max(tdee - deficitCal, 1200); var weeks = 20 / goalLbs;     document.getElementById('tdee').textContent = fmt(tdee,0);
+    document.getElementById('target').textContent = fmt(target,0);
+    document.getElementById('weeks').textContent = fmt(weeks,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

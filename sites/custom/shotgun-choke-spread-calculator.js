@@ -13,7 +13,8 @@
     var distance = parseFloat(document.getElementById('distance').value) || 0;
 
     // Calculation logic
-    var rates = {'Cylinder (no choke)': 1.5, 'Improved Cylinder': 1.2, 'Modified': 1.0, 'Improved Modified': 0.85, 'Full': 0.7}; var rate = rates[choke] || 1; var spread = distance * rate; var density = spread < 20 ? 'Very tight' : spread < 30 ? 'Tight' : spread < 40 ? 'Medium' : 'Wide/sparse'; return {spread: fmt(spread,0), density: density};
+    var rates = {'Cylinder (no choke)': 1.5, 'Improved Cylinder': 1.2, 'Modified': 1.0, 'Improved Modified': 0.85, 'Full': 0.7}; var rate = rates[choke] || 1; var spread = distance * rate; var density = spread < 20 ? 'Very tight' : spread < 30 ? 'Tight' : spread < 40 ? 'Medium' : 'Wide/sparse';     document.getElementById('spread').textContent = fmt(spread,0);
+    document.getElementById('density').textContent = density;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

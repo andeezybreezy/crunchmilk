@@ -14,7 +14,8 @@
     var distance = parseFloat(document.getElementById('distance').value) || 0;
 
     // Calculation logic
-    var G = 6.674e-11; var force = G * mass1 * mass2 / (distance * distance); var accel = force / mass2; return {force: fmt(force,4), accel: fmt(accel,4)};
+    var G = 6.674e-11; var force = G * mass1 * mass2 / (distance * distance); var accel = force / mass2;     document.getElementById('force').textContent = fmt(force,4);
+    document.getElementById('accel').textContent = fmt(accel,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

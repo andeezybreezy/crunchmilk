@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="projectType">Project Type</label>
-      <select id="projectType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="projectType"><option value="Scarf" selected>Scarf</option><option value="Lace">Lace</option><option value="Fingering">Fingering</option><option value="Sport">Sport</option><option value="Worsted">Worsted</option><option value="Bulky">Bulky</option><option value="Super Bulky">Super Bulky</option><option value="projectType">projectType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="yarnWeight">Yarn Weight</label>
-      <select id="yarnWeight"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="yarnWeight"><option value="yarnWeight" selected>yarnWeight</option></select>
     </div>
   </div>
 
@@ -344,7 +344,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This yarn yardage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Skeins</strong> — Skeins = Yardage / Yards per Skein — <em>Total yardage divided by what each skein provides.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -357,13 +357,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much yarn for a blanket?</h3>
+      <p>A throw blanket needs 1400-4000 yards depending on yarn weight.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I buy extra?</h3>
+      <p>Always buy 10-15% extra to account for gauge differences and mistakes.</p>
     </div>
 
   </div>
@@ -408,7 +408,9 @@ footer a:hover{color:#fff}
     var yarnWeight = document.getElementById('yarnWeight').value;
 
     // Calculation logic
-    var yards = {'Scarf': {'Lace': 600,'Fingering': 500,'Sport': 400,'Worsted': 300,'Bulky': 200,'Super Bulky': 150}, 'Hat': {'Lace': 400,'Fingering': 300,'Sport': 250,'Worsted': 200,'Bulky': 150,'Super Bulky': 100}, 'Sweater (Adult)': {'Lace': 3000,'Fingering': 2500,'Sport': 2000,'Worsted': 1500,'Bulky': 1200,'Super Bulky': 900}, 'Blanket (Throw)': {'Lace': 4000,'Fingering': 3500,'Sport': 2800,'Worsted': 2200,'Bulky': 1800,'Super Bulky': 1400}, 'Socks (pair)': {'Lace': 500,'Fingering': 400,'Sport': 350,'Worsted': 300,'Bulky': 250,'Super Bulky': 200}, 'Baby Blanket': {'Lace': 1800,'Fingering': 1500,'Sport': 1200,'Worsted': 1000,'Bulky': 800,'Super Bulky': 600}}; var yardage = yards[projectType][yarnWeight] || 500; var skeins = Math.ceil(yardage / 200); var cost = skeins * 8; return {yardage: fmt(yardage,0), skeins: fmt(skeins,0), cost: dollar(cost)};
+    var yards = {'Scarf': {'Lace': 600,'Fingering': 500,'Sport': 400,'Worsted': 300,'Bulky': 200,'Super Bulky': 150}, 'Hat': {'Lace': 400,'Fingering': 300,'Sport': 250,'Worsted': 200,'Bulky': 150,'Super Bulky': 100}, 'Sweater (Adult)': {'Lace': 3000,'Fingering': 2500,'Sport': 2000,'Worsted': 1500,'Bulky': 1200,'Super Bulky': 900}, 'Blanket (Throw)': {'Lace': 4000,'Fingering': 3500,'Sport': 2800,'Worsted': 2200,'Bulky': 1800,'Super Bulky': 1400}, 'Socks (pair)': {'Lace': 500,'Fingering': 400,'Sport': 350,'Worsted': 300,'Bulky': 250,'Super Bulky': 200}, 'Baby Blanket': {'Lace': 1800,'Fingering': 1500,'Sport': 1200,'Worsted': 1000,'Bulky': 800,'Super Bulky': 600}}; var yardage = yards[projectType][yarnWeight] || 500; var skeins = Math.ceil(yardage / 200); var cost = skeins * 8;     document.getElementById('yardage').textContent = fmt(yardage,0);
+    document.getElementById('skeins').textContent = fmt(skeins,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

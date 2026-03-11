@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="samples">Number of Samples</label>
-      <input type="number" id="samples" value="undefined" min="100" max="1000000" step="100" inputmode="decimal">
+      <input type="number" id="samples" value="" min="100" max="1000000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="taskType">Task Type</label>
-      <select id="taskType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="taskType"><option value="Text Classification" selected>Text Classification</option><option value="In-house Team">In-house Team</option><option value="Crowdsource (MTurk)">Crowdsource (MTurk)</option><option value="Managed Service">Managed Service</option><option value="AI-Assisted + Review">AI-Assisted + Review</option><option value="taskType">taskType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="method">Labeling Method</label>
-      <select id="method"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="method"><option value="In-house Team" selected>In-house Team</option><option value="Crowdsource (MTurk)">Crowdsource (MTurk)</option><option value="Managed Service">Managed Service</option><option value="method">method</option></select>
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This ai data labeling cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Total Labeling Cost</strong> — Total Cost = Number of Samples x Cost per Sample — <em>Multiply your dataset size by the per-sample rate based on task complexity and labeling method.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the cheapest way to label training data?</h3>
+      <p>AI-assisted labeling with human review is cheapest and fastest, using a pre-trained model to generate initial labels that humans then correct.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much labeled data do I need for a good ML model?</h3>
+      <p>It varies widely: text classifiers can work with 1,000-5,000 samples, while image segmentation models often need 10,000+ labeled examples.</p>
     </div>
 
   </div>
@@ -419,7 +419,9 @@ footer a:hover{color:#fff}
     var method = document.getElementById('method').value;
 
     // Calculation logic
-    var rates = {'Text Classification': {'In-house Team': 0.10, 'Crowdsource (MTurk)': 0.03, 'Managed Service': 0.08, 'AI-Assisted + Review': 0.02}, 'Image Bounding Box': {'In-house Team': 0.25, 'Crowdsource (MTurk)': 0.08, 'Managed Service': 0.15, 'AI-Assisted + Review': 0.05}, 'Image Segmentation': {'In-house Team': 0.80, 'Crowdsource (MTurk)': 0.25, 'Managed Service': 0.50, 'AI-Assisted + Review': 0.12}, 'Named Entity Recognition': {'In-house Team': 0.15, 'Crowdsource (MTurk)': 0.05, 'Managed Service': 0.10, 'AI-Assisted + Review': 0.03}, 'Audio Transcription': {'In-house Team': 0.50, 'Crowdsource (MTurk)': 0.15, 'Managed Service': 0.30, 'AI-Assisted + Review': 0.08}}; var cps = rates[taskType][method] || 0.10; var totalCost = cps * samples; var samplesPerWeek = method === 'In-house Team' ? 2000 : method === 'Crowdsource (MTurk)' ? 10000 : method === 'Managed Service' ? 5000 : 15000; var timeEstimate = Math.ceil(samples / samplesPerWeek); return {costPerSample: dollar(cps), totalCost: dollar(totalCost), timeEstimate: fmt(timeEstimate, 0)};
+    var rates = {'Text Classification': {'In-house Team': 0.10, 'Crowdsource (MTurk)': 0.03, 'Managed Service': 0.08, 'AI-Assisted + Review': 0.02}, 'Image Bounding Box': {'In-house Team': 0.25, 'Crowdsource (MTurk)': 0.08, 'Managed Service': 0.15, 'AI-Assisted + Review': 0.05}, 'Image Segmentation': {'In-house Team': 0.80, 'Crowdsource (MTurk)': 0.25, 'Managed Service': 0.50, 'AI-Assisted + Review': 0.12}, 'Named Entity Recognition': {'In-house Team': 0.15, 'Crowdsource (MTurk)': 0.05, 'Managed Service': 0.10, 'AI-Assisted + Review': 0.03}, 'Audio Transcription': {'In-house Team': 0.50, 'Crowdsource (MTurk)': 0.15, 'Managed Service': 0.30, 'AI-Assisted + Review': 0.08}}; var cps = rates[taskType][method] || 0.10; var totalCost = cps * samples; var samplesPerWeek = method === 'In-house Team' ? 2000 : method === 'Crowdsource (MTurk)' ? 10000 : method === 'Managed Service' ? 5000 : 15000; var timeEstimate = Math.ceil(samples / samplesPerWeek);     document.getElementById('costPerSample').textContent = dollar(cps);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
+    document.getElementById('timeEstimate').textContent = fmt(timeEstimate, 0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

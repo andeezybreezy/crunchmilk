@@ -14,7 +14,9 @@
     var timeframe = parseFloat(document.getElementById('timeframe').value) || 0;
 
     // Calculation logic
-    var annualRise = 0.013; var projected = (annualRise * timeframe) + (timeframe > 30 ? timeframe * 0.005 : 0); var safetyMargin = elevation - projected; var riskLevel = safetyMargin < 0 ? 'Extreme' : safetyMargin < 3 ? 'High' : safetyMargin < 10 ? 'Moderate' : 'Low'; return {projected: fmt(projected,1), riskLevel: riskLevel, safetyMargin: fmt(safetyMargin,1)};
+    var annualRise = 0.013; var projected = (annualRise * timeframe) + (timeframe > 30 ? timeframe * 0.005 : 0); var safetyMargin = elevation - projected; var riskLevel = safetyMargin < 0 ? 'Extreme' : safetyMargin < 3 ? 'High' : safetyMargin < 10 ? 'Moderate' : 'Low';     document.getElementById('projected').textContent = fmt(projected,1);
+    document.getElementById('riskLevel').textContent = riskLevel;
+    document.getElementById('safetyMargin').textContent = fmt(safetyMargin,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

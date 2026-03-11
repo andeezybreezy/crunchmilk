@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="red">Red (0-255)</label>
-      <input type="number" id="red" value="undefined" min="0" max="255" step="1" inputmode="decimal">
+      <input type="number" id="red" value="" min="0" max="255" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="green">Green (0-255)</label>
-      <input type="number" id="green" value="undefined" min="0" max="255" step="1" inputmode="decimal">
+      <input type="number" id="green" value="" min="0" max="255" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="blue">Blue (0-255)</label>
-      <input type="number" id="blue" value="undefined" min="0" max="255" step="1" inputmode="decimal">
+      <input type="number" id="blue" value="" min="0" max="255" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This hex to rgb color converter uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Hex Conversion</strong> — Hex = #RRGGBB (each pair is 0-FF) — <em>Each color channel represented as two hexadecimal digits.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is hex color?</h3>
+      <p>A 6-digit hexadecimal representation of RGB color values used in web design.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is HSL?</h3>
+      <p>Hue (0-360°), Saturation (0-100%), Lightness (0-100%) - often more intuitive than RGB.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var blue = parseFloat(document.getElementById('blue').value) || 0;
 
     // Calculation logic
-    var hex = '#' + ('0'+red.toString(16)).slice(-2) + ('0'+green.toString(16)).slice(-2) + ('0'+blue.toString(16)).slice(-2); var r = red/255; var g = green/255; var b = blue/255; var max = Math.max(r,g,b); var min = Math.min(r,g,b); var l = (max+min)/2; var s = max===min ? 0 : l > 0.5 ? (max-min)/(2-max-min) : (max-min)/(max+min); var h = 0; if(max!==min){if(max===r)h=(g-b)/(max-min)+(g<b?6:0);else if(max===g)h=(b-r)/(max-min)+2;else h=(r-g)/(max-min)+4;h/=6;} var hsl = fmt(h*360,0) + ', ' + fmt(s*100,0) + '%, ' + fmt(l*100,0) + '%'; return {hex: hex.toUpperCase(), rgb: red+', '+green+', '+blue, hsl: hsl};
+    var hex = '#' + ('0'+red.toString(16)).slice(-2) + ('0'+green.toString(16)).slice(-2) + ('0'+blue.toString(16)).slice(-2); var r = red/255; var g = green/255; var b = blue/255; var max = Math.max(r,g,b); var min = Math.min(r,g,b); var l = (max+min)/2; var s = max===min ? 0 : l > 0.5 ? (max-min)/(2-max-min) : (max-min)/(max+min); var h = 0; if(max!==min){if(max===r)h=(g-b)/(max-min)+(g<b?6:0);else if(max===g)h=(b-r)/(max-min)+2;else h=(r-g)/(max-min)+4;h/=6;} var hsl = fmt(h*360,0) + ', ' + fmt(s*100,0) + '%, ' + fmt(l*100,0) + '%';     document.getElementById('hex').textContent = hex.toUpperCase();
+    document.getElementById('rgb').textContent = red+', '+green+', '+blue;
+    document.getElementById('hsl').textContent = hsl;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

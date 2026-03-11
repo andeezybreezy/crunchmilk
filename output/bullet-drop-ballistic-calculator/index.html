@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="velocity">Muzzle Velocity (fps)</label>
-      <input type="number" id="velocity" value="undefined" min="500" max="5000" step="50" inputmode="decimal">
+      <input type="number" id="velocity" value="" min="500" max="5000" step="50" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="bc">Ballistic Coefficient</label>
-      <input type="number" id="bc" value="undefined" min="0.1" max="1" step="0.01" inputmode="decimal">
+      <input type="number" id="bc" value="" min="0.1" max="1" step="0.01" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Distance (yards)</label>
-      <input type="number" id="distance" value="undefined" min="50" max="1500" step="50" inputmode="decimal">
+      <input type="number" id="distance" value="" min="50" max="1500" step="50" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="zeroRange">Zero Range (yards)</label>
-      <input type="number" id="zeroRange" value="undefined" min="25" max="300" step="25" inputmode="decimal">
+      <input type="number" id="zeroRange" value="" min="25" max="300" step="25" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This bullet drop calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Simple Drop</strong> — Drop = ½g × t² (adjusted for zero range) — <em>Gravity-based drop corrected for sight-in distance.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What affects bullet drop?</h3>
+      <p>Velocity, ballistic coefficient, distance, altitude, and wind.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is ballistic coefficient?</h3>
+      <p>A measure of a bullet's ability to resist air drag. Higher BC = less drop.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var zeroRange = parseFloat(document.getElementById('zeroRange').value) || 0;
 
     // Calculation logic
-    var timeToTarget = distance / (velocity * (1 - (1-bc) * distance/3000)); var timeToZero = zeroRange / velocity; var drop = 0.5 * 386.09 * Math.pow(timeToTarget, 2) - 0.5 * 386.09 * Math.pow(timeToZero, 2) * (distance/zeroRange); var moa = Math.abs(drop) / (distance * 0.01047); var vel = velocity * Math.pow(bc, distance/1000) * (1 - distance*0.0002); return {drop: fmt(-Math.abs(drop * 0.08),1), moa: fmt(moa * 0.3,1), velocity_at_range: fmt(Math.max(vel,500),0)};
+    var timeToTarget = distance / (velocity * (1 - (1-bc) * distance/3000)); var timeToZero = zeroRange / velocity; var drop = 0.5 * 386.09 * Math.pow(timeToTarget, 2) - 0.5 * 386.09 * Math.pow(timeToZero, 2) * (distance/zeroRange); var moa = Math.abs(drop) / (distance * 0.01047); var vel = velocity * Math.pow(bc, distance/1000) * (1 - distance*0.0002);     document.getElementById('drop').textContent = fmt(-Math.abs(drop * 0.08),1);
+    document.getElementById('moa').textContent = fmt(moa * 0.3,1);
+    document.getElementById('velocity_at_range').textContent = fmt(Math.max(vel,500),0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

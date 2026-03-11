@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="washers">Number of Washers</label>
-      <input type="number" id="washers" value="undefined" min="5" max="100" step="1" inputmode="decimal">
+      <input type="number" id="washers" value="" min="5" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="dryers">Number of Dryers</label>
-      <input type="number" id="dryers" value="undefined" min="5" max="80" step="1" inputmode="decimal">
+      <input type="number" id="dryers" value="" min="5" max="80" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="turnsPerDay">Avg Turns per Machine per Day</label>
-      <input type="number" id="turnsPerDay" value="undefined" min="1" max="10" step="0.5" inputmode="decimal">
+      <input type="number" id="turnsPerDay" value="" min="1" max="10" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="washPrice">Avg Wash Price ($)</label>
-      <input type="number" id="washPrice" value="undefined" min="1" max="10" step="0.25" inputmode="decimal">
+      <input type="number" id="washPrice" value="" min="1" max="10" step="0.25" inputmode="decimal">
     </div>
   </div>
     <div class="input-group">
       <label for="dryPrice">Avg Dry Price ($)</label>
-      <input type="number" id="dryPrice" value="undefined" min="0.5" max="5" step="0.25" inputmode="decimal">
+      <input type="number" id="dryPrice" value="" min="0.5" max="5" step="0.25" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -358,7 +358,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This laundromat income calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Revenue</strong> — Revenue = (Washers × Turns × Wash$ + Dryers × Turns × Dry$) × 30 — <em>Daily machine revenue extrapolated to monthly.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -371,13 +371,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is the average laundromat profit margin?</h3>
+      <p>Net margins typically range from 20-40% depending on rent and utilities.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many turns per day is good?</h3>
+      <p>4-6 turns per machine per day is average. 7+ is excellent.</p>
     </div>
 
   </div>
@@ -425,7 +425,9 @@ footer a:hover{color:#fff}
     var dryPrice = parseFloat(document.getElementById('dryPrice').value) || 0;
 
     // Calculation logic
-    var dailyWash = washers * turnsPerDay * washPrice; var dailyDry = dryers * turnsPerDay * dryPrice; var monthlyRevenue = (dailyWash + dailyDry) * 30; var netIncome = monthlyRevenue * 0.35; var annualRevenue = monthlyRevenue * 12; return {monthlyRevenue: dollar(monthlyRevenue), netIncome: dollar(netIncome), annualRevenue: dollar(annualRevenue)};
+    var dailyWash = washers * turnsPerDay * washPrice; var dailyDry = dryers * turnsPerDay * dryPrice; var monthlyRevenue = (dailyWash + dailyDry) * 30; var netIncome = monthlyRevenue * 0.35; var annualRevenue = monthlyRevenue * 12;     document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('netIncome').textContent = dollar(netIncome);
+    document.getElementById('annualRevenue').textContent = dollar(annualRevenue);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

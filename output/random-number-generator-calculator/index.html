@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="min">Minimum</label>
-      <input type="number" id="min" value="undefined" min="-1000000" max="1000000" step="1" inputmode="decimal">
+      <input type="number" id="min" value="" min="-1000000" max="1000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="max">Maximum</label>
-      <input type="number" id="max" value="undefined" min="-1000000" max="1000000" step="1" inputmode="decimal">
+      <input type="number" id="max" value="" min="-1000000" max="1000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="count">How Many Numbers</label>
-      <input type="number" id="count" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="count" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This random number generator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Random Integer</strong> — floor(random() × (max - min + 1)) + min — <em>Generates a uniform random integer in the specified range.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is this truly random?</h3>
+      <p>This uses JavaScript's Math.random() which is pseudo-random, suitable for most non-cryptographic purposes.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is this useful for?</h3>
+      <p>Dice rolls, random selection, sampling, games, and decision making.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var count = parseFloat(document.getElementById('count').value) || 0;
 
     // Calculation logic
-    var results = []; for (var i = 0; i < Math.min(count, 20); i++) { results.push(Math.floor(Math.random() * (max - min + 1)) + min); } var result = results.join(', '); var range = min + ' to ' + max; return {result: result, range: range};
+    var results = []; for (var i = 0; i < Math.min(count, 20); i++) { results.push(Math.floor(Math.random() * (max - min + 1)) + min); } var result = results.join(', '); var range = min + ' to ' + max;     document.getElementById('result').textContent = result;
+    document.getElementById('range').textContent = range;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

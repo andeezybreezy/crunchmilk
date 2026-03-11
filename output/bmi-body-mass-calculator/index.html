@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="weight">Weight (lbs)</label>
-      <input type="number" id="weight" value="undefined" min="50" max="500" step="1" inputmode="decimal">
+      <input type="number" id="weight" value="" min="50" max="500" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="heightFt">Height (feet)</label>
-      <input type="number" id="heightFt" value="undefined" min="3" max="8" step="1" inputmode="decimal">
+      <input type="number" id="heightFt" value="" min="3" max="8" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="heightIn">Height (inches)</label>
-      <input type="number" id="heightIn" value="undefined" min="0" max="11" step="1" inputmode="decimal">
+      <input type="number" id="heightIn" value="" min="0" max="11" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This bmi calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>BMI Formula</strong> — BMI = (Weight / Height²) × 703 — <em>Weight in pounds, height in inches.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Individual results vary based on metabolism, genetics, and activity level. Consult your doctor before starting any program.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a healthy BMI?</h3>
+      <p>18.5-24.9 is considered normal weight.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is BMI accurate?</h3>
+      <p>It is a screening tool. Athletes with high muscle mass may show elevated BMI.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var heightIn = parseFloat(document.getElementById('heightIn').value) || 0;
 
     // Calculation logic
-    var totalIn = heightFt * 12 + heightIn; var bmi = (weight / (totalIn * totalIn)) * 703; var category = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal weight' : bmi < 30 ? 'Overweight' : 'Obese'; return {bmi: fmt(bmi,1), category: category};
+    var totalIn = heightFt * 12 + heightIn; var bmi = (weight / (totalIn * totalIn)) * 703; var category = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal weight' : bmi < 30 ? 'Overweight' : 'Obese';     document.getElementById('bmi').textContent = fmt(bmi,1);
+    document.getElementById('category').textContent = category;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="currentGPF">Current Gallons per Flush</label>
-      <input type="number" id="currentGPF" value="undefined" min="1" max="7" step="0.5" inputmode="decimal">
+      <input type="number" id="currentGPF" value="" min="1" max="7" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="newGPF">New Toilet GPF</label>
-      <input type="number" id="newGPF" value="undefined" min="0.8" max="3.5" step="0.1" inputmode="decimal">
+      <input type="number" id="newGPF" value="" min="0.8" max="3.5" step="0.1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="flushesDay">Flushes per Day (household)</label>
-      <input type="number" id="flushesDay" value="undefined" min="5" max="50" step="1" inputmode="decimal">
+      <input type="number" id="flushesDay" value="" min="5" max="50" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="waterRate">Water Rate ($/1000 gal)</label>
-      <input type="number" id="waterRate" value="undefined" min="1" max="20" step="0.5" inputmode="decimal">
+      <input type="number" id="waterRate" value="" min="1" max="20" step="0.5" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This toilet water usage calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Savings</strong> — Savings = Flushes × (Old GPF - New GPF) × 365 — <em>Daily flush reduction scaled to annual savings.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much water does an old toilet use?</h3>
+      <p>Pre-1994 toilets use 3.5-7 GPF. Modern low-flow toilets use 1.28 GPF or less.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is upgrading worth it?</h3>
+      <p>A family of 4 can save 10,000+ gallons and $50-100/year by switching to low-flow.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var waterRate = parseFloat(document.getElementById('waterRate').value) || 0;
 
     // Calculation logic
-    var dailySavings = flushesDay * (currentGPF - newGPF); var annualSavings = dailySavings * 365; var costSavings = (annualSavings / 1000) * waterRate; return {dailySavings: fmt(dailySavings,1), annualSavings: fmt(annualSavings,0), costSavings: dollar(costSavings)};
+    var dailySavings = flushesDay * (currentGPF - newGPF); var annualSavings = dailySavings * 365; var costSavings = (annualSavings / 1000) * waterRate;     document.getElementById('dailySavings').textContent = fmt(dailySavings,1);
+    document.getElementById('annualSavings').textContent = fmt(annualSavings,0);
+    document.getElementById('costSavings').textContent = dollar(costSavings);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -16,7 +16,10 @@
     var tolls = parseFloat(document.getElementById('tolls').value) || 0;
 
     // Calculation logic
-    var roundTripMiles = distance * 2; var gallonsUsed = roundTripMiles / mpg; var totalFuelCost = gallonsUsed * gasPrice + tolls; var costPerPerson = totalFuelCost / passengers; return {roundTripMiles: fmt(roundTripMiles, 0), gallonsUsed: fmt(gallonsUsed, 1), totalFuelCost: dollar(totalFuelCost), costPerPerson: dollar(costPerPerson)};
+    var roundTripMiles = distance * 2; var gallonsUsed = roundTripMiles / mpg; var totalFuelCost = gallonsUsed * gasPrice + tolls; var costPerPerson = totalFuelCost / passengers;     document.getElementById('roundTripMiles').textContent = fmt(roundTripMiles, 0);
+    document.getElementById('gallonsUsed').textContent = fmt(gallonsUsed, 1);
+    document.getElementById('totalFuelCost').textContent = dollar(totalFuelCost);
+    document.getElementById('costPerPerson').textContent = dollar(costPerPerson);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

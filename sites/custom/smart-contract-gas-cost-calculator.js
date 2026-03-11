@@ -15,7 +15,10 @@
     var ethPrice = parseFloat(document.getElementById('ethPrice').value) || 0;
 
     // Calculation logic
-    var deployGas = contractSize * 200 + 21000; var deployCostEth = (deployGas * gasPrice) / 1e9; var deployCost = deployCostEth * ethPrice; var avgCallGas = 65000; var dailyGas = avgCallGas * functions; var dailyCostEth = (dailyGas * gasPrice) / 1e9; var dailyInteractionCost = dailyCostEth * ethPrice; var monthlyCost = dailyInteractionCost * 30; return {deployGas: fmt(deployGas, 0), deployCost: dollar(deployCost), dailyInteractionCost: dollar(dailyInteractionCost), monthlyCost: dollar(monthlyCost)};
+    var deployGas = contractSize * 200 + 21000; var deployCostEth = (deployGas * gasPrice) / 1e9; var deployCost = deployCostEth * ethPrice; var avgCallGas = 65000; var dailyGas = avgCallGas * functions; var dailyCostEth = (dailyGas * gasPrice) / 1e9; var dailyInteractionCost = dailyCostEth * ethPrice; var monthlyCost = dailyInteractionCost * 30;     document.getElementById('deployGas').textContent = fmt(deployGas, 0);
+    document.getElementById('deployCost').textContent = dollar(deployCost);
+    document.getElementById('dailyInteractionCost').textContent = dollar(dailyInteractionCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

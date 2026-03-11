@@ -14,7 +14,8 @@
     var strands = parseFloat(document.getElementById('strands').value) || 0;
 
     // Calculation logic
-    var inchesPerStitch = {'14 count Aida': 0.14, '16 count Aida': 0.125, '18 count Aida': 0.11, '28 count linen': 0.07}; var ips = inchesPerStitch[fabric] || 0.14; var totalInches = stitches * ips * strands * 1.3; var lengthYards = totalInches / 36; var skeins = Math.ceil(lengthYards / 8.7); return {lengthYards: fmt(lengthYards,1), skeins: fmt(skeins,0)};
+    var inchesPerStitch = {'14 count Aida': 0.14, '16 count Aida': 0.125, '18 count Aida': 0.11, '28 count linen': 0.07}; var ips = inchesPerStitch[fabric] || 0.14; var totalInches = stitches * ips * strands * 1.3; var lengthYards = totalInches / 36; var skeins = Math.ceil(lengthYards / 8.7);     document.getElementById('lengthYards').textContent = fmt(lengthYards,1);
+    document.getElementById('skeins').textContent = fmt(skeins,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

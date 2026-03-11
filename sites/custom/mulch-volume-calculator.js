@@ -13,7 +13,9 @@
     var depth = parseFloat(document.getElementById('depth').value) || 0;
 
     // Calculation logic
-    var cuFt = area * (depth/12); var cubicYards = cuFt / 27; var bags = Math.ceil(cuFt / 2); var cost = cubicYards * 35; return {cubicYards: fmt(cubicYards,1), bags: fmt(bags,0), cost: dollar(cost)};
+    var cuFt = area * (depth/12); var cubicYards = cuFt / 27; var bags = Math.ceil(cuFt / 2); var cost = cubicYards * 35;     document.getElementById('cubicYards').textContent = fmt(cubicYards,1);
+    document.getElementById('bags').textContent = fmt(bags,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

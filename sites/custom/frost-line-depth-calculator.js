@@ -14,7 +14,8 @@
     var soilType = document.getElementById('soilType').value;
 
     // Calculation logic
-    var baseDepth = (32 - avgWinterTemp) * 1.5; var snowMod = {'None': 1, 'Light (1-6 inches)': 0.75, 'Heavy (6+ inches)': 0.5}; var soilMod = {'Sandy': 1.2, 'Loam': 1, 'Clay': 0.8, 'Gravel': 1.3}; var frostDepth = baseDepth * (snowMod[snowCover]||1) * (soilMod[soilType]||1); var foundationMin = frostDepth + 6; return {frostDepth: fmt(Math.max(frostDepth,0),0), foundationMin: fmt(Math.max(foundationMin,12),0)};
+    var baseDepth = (32 - avgWinterTemp) * 1.5; var snowMod = {'None': 1, 'Light (1-6 inches)': 0.75, 'Heavy (6+ inches)': 0.5}; var soilMod = {'Sandy': 1.2, 'Loam': 1, 'Clay': 0.8, 'Gravel': 1.3}; var frostDepth = baseDepth * (snowMod[snowCover]||1) * (soilMod[soilType]||1); var foundationMin = frostDepth + 6;     document.getElementById('frostDepth').textContent = fmt(Math.max(frostDepth,0),0);
+    document.getElementById('foundationMin').textContent = fmt(Math.max(foundationMin,12),0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

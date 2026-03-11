@@ -13,7 +13,8 @@
     var application = document.getElementById('application').value;
 
     // Calculation logic
-    var addInches = {'Dress (center back)': 1, 'Skirt (side)': 0.5, 'Pants (fly)': 0.5, 'Jacket (separating)': 0, 'Bag/Pouch': -1, 'Pillow': -2}; var types = {'Dress (center back)': 'Invisible zipper', 'Skirt (side)': 'Invisible zipper', 'Pants (fly)': 'Metal jean zipper', 'Jacket (separating)': 'Separating zipper', 'Bag/Pouch': 'Nylon coil', 'Pillow': 'Nylon coil'}; var zipperLength = opening + (addInches[application] || 0); var type = types[application] || 'Standard'; return {zipperLength: fmt(zipperLength,1), type: type};
+    var addInches = {'Dress (center back)': 1, 'Skirt (side)': 0.5, 'Pants (fly)': 0.5, 'Jacket (separating)': 0, 'Bag/Pouch': -1, 'Pillow': -2}; var types = {'Dress (center back)': 'Invisible zipper', 'Skirt (side)': 'Invisible zipper', 'Pants (fly)': 'Metal jean zipper', 'Jacket (separating)': 'Separating zipper', 'Bag/Pouch': 'Nylon coil', 'Pillow': 'Nylon coil'}; var zipperLength = opening + (addInches[application] || 0); var type = types[application] || 'Standard';     document.getElementById('zipperLength').textContent = fmt(zipperLength,1);
+    document.getElementById('type').textContent = type;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -12,7 +12,8 @@
     var usd = parseFloat(document.getElementById('usd').value) || 0;
 
     // Calculation logic
-    var rate=17.15; var mxn=usd*rate; return {mxn:fmt(mxn,2)+' MXN', rate:'1 USD = '+fmt(rate,2)+' MXN'};
+    var rate=17.15; var mxn=usd*rate;     document.getElementById('mxn').textContent = fmt(mxn,2)+' MXN';
+    document.getElementById('rate').textContent = '1 USD = '+fmt(rate,2)+' MXN';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

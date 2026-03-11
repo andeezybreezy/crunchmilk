@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="mass1">Mass 1 (kg)</label>
-      <input type="number" id="mass1" value="undefined" min="0.001" max="1e+35" step="1" inputmode="decimal">
+      <input type="number" id="mass1" value="" min="0.001" max="1e+35" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mass2">Mass 2 (kg)</label>
-      <input type="number" id="mass2" value="undefined" min="0.001" max="1e+35" step="1" inputmode="decimal">
+      <input type="number" id="mass2" value="" min="0.001" max="1e+35" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Distance (m)</label>
-      <input type="number" id="distance" value="undefined" min="0.001" max="1000000000000000" step="1" inputmode="decimal">
+      <input type="number" id="distance" value="" min="0.001" max="1000000000000000" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This gravitational force calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Newton's Law of Gravitation</strong> — F = G × m₁ × m₂ / r² — <em>Force between two masses separated by distance r.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is G?</h3>
+      <p>The gravitational constant: 6.674 × 10⁻¹¹ N·m²/kg².</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does distance matter so much?</h3>
+      <p>Force decreases with the square of distance — doubling distance reduces force to 1/4.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var distance = parseFloat(document.getElementById('distance').value) || 0;
 
     // Calculation logic
-    var G = 6.674e-11; var force = G * mass1 * mass2 / (distance * distance); var accel = force / mass2; return {force: fmt(force,4), accel: fmt(accel,4)};
+    var G = 6.674e-11; var force = G * mass1 * mass2 / (distance * distance); var accel = force / mass2;     document.getElementById('force').textContent = fmt(force,4);
+    document.getElementById('accel').textContent = fmt(accel,4);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

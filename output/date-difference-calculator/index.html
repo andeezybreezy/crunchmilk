@@ -300,31 +300,31 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="year1">Start Year</label>
-      <input type="number" id="year1" value="undefined" min="1900" max="2100" step="1" inputmode="decimal">
+      <input type="number" id="year1" value="" min="1900" max="2100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="month1">Start Month</label>
-      <input type="number" id="month1" value="undefined" min="1" max="12" step="1" inputmode="decimal">
+      <input type="number" id="month1" value="" min="1" max="12" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="day1">Start Day</label>
-      <input type="number" id="day1" value="undefined" min="1" max="31" step="1" inputmode="decimal">
+      <input type="number" id="day1" value="" min="1" max="31" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="year2">End Year</label>
-      <input type="number" id="year2" value="undefined" min="1900" max="2100" step="1" inputmode="decimal">
+      <input type="number" id="year2" value="" min="1900" max="2100" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="month2">End Month</label>
-      <input type="number" id="month2" value="undefined" min="1" max="12" step="1" inputmode="decimal">
+      <input type="number" id="month2" value="" min="1" max="12" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="day2">End Day</label>
-      <input type="number" id="day2" value="undefined" min="1" max="31" step="1" inputmode="decimal">
+      <input type="number" id="day2" value="" min="1" max="31" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -364,7 +364,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This date difference calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Date Difference</strong> — Days = |Date2 - Date1| — <em>Absolute difference between two dates.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -377,13 +377,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How do I calculate days between dates?</h3>
+      <p>Subtract the earlier date from the later date to get the difference in days.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Does this account for leap years?</h3>
+      <p>Yes, the calculation automatically handles leap years.</p>
     </div>
 
   </div>
@@ -432,7 +432,9 @@ footer a:hover{color:#fff}
     var day2 = parseFloat(document.getElementById('day2').value) || 0;
 
     // Calculation logic
-    var d1 = new Date(year1, month1-1, day1); var d2 = new Date(year2, month2-1, day2); var diff = Math.abs(d2 - d1); var days = Math.floor(diff / (1000*60*60*24)); var weeks = Math.floor(days / 7); var months = days / 30.44; return {days: fmt(days,0), weeks: fmt(weeks,0), months: fmt(months,1)};
+    var d1 = new Date(year1, month1-1, day1); var d2 = new Date(year2, month2-1, day2); var diff = Math.abs(d2 - d1); var days = Math.floor(diff / (1000*60*60*24)); var weeks = Math.floor(days / 7); var months = days / 30.44;     document.getElementById('days').textContent = fmt(days,0);
+    document.getElementById('weeks').textContent = fmt(weeks,0);
+    document.getElementById('months').textContent = fmt(months,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

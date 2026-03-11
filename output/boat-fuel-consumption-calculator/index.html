@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="hp">Engine HP</label>
-      <input type="number" id="hp" value="undefined" min="5" max="2000" step="5" inputmode="decimal">
+      <input type="number" id="hp" value="" min="5" max="2000" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="throttle">Throttle (%)</label>
-      <input type="number" id="throttle" value="undefined" min="10" max="100" step="5" inputmode="decimal">
+      <input type="number" id="throttle" value="" min="10" max="100" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fuelType">Fuel Type</label>
-      <select id="fuelType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="fuelType"><option value="Diesel" selected>Diesel</option><option value="fuelType">fuelType</option></select>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This boat fuel burn rate calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Fuel Burn</strong> — GPH = HP × Throttle% × SFC — <em>Horsepower times specific fuel consumption rate.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -355,13 +355,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much fuel does a boat use?</h3>
+      <p>A rough rule: gas engines burn 0.075 GPH per HP at full throttle, diesel 0.055.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to reduce fuel consumption?</h3>
+      <p>Run at 70-75% throttle for best efficiency. Trim properly and keep hull clean.</p>
     </div>
 
   </div>
@@ -407,7 +407,8 @@ footer a:hover{color:#fff}
     var fuelType = document.getElementById('fuelType').value;
 
     // Calculation logic
-    var sfc = fuelType === 'Diesel' ? 0.055 : 0.075; var gph = hp * (throttle/100) * sfc; var price = fuelType === 'Diesel' ? 4.50 : 3.80; var costPerHour = gph * price; return {gph: fmt(gph,1), costPerHour: dollar(costPerHour)};
+    var sfc = fuelType === 'Diesel' ? 0.055 : 0.075; var gph = hp * (throttle/100) * sfc; var price = fuelType === 'Diesel' ? 4.50 : 3.80; var costPerHour = gph * price;     document.getElementById('gph').textContent = fmt(gph,1);
+    document.getElementById('costPerHour').textContent = dollar(costPerHour);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

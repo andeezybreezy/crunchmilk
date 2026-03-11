@@ -14,7 +14,9 @@
     var activity = document.getElementById('activity').value;
 
     // Calculation logic
-    var baseCups = weight * 0.04 + 0.5; var actMult = {'Low': 0.8, 'Moderate': 1, 'High': 1.3, 'Working Dog': 1.6}; var cupsPerDay = baseCups * (actMult[activity] || 1); var lbsPerMonth = cupsPerDay * 0.25 * 30; var prices = {'Budget ($1/lb)': 1, 'Mid-Range ($2/lb)': 2, 'Premium ($3.50/lb)': 3.5, 'Raw/Fresh ($5/lb)': 5}; var monthlyCost = lbsPerMonth * (prices[foodQuality] || 2); return {cupsPerDay: fmt(cupsPerDay,1), lbsPerMonth: fmt(lbsPerMonth,1), monthlyCost: dollar(monthlyCost)};
+    var baseCups = weight * 0.04 + 0.5; var actMult = {'Low': 0.8, 'Moderate': 1, 'High': 1.3, 'Working Dog': 1.6}; var cupsPerDay = baseCups * (actMult[activity] || 1); var lbsPerMonth = cupsPerDay * 0.25 * 30; var prices = {'Budget ($1/lb)': 1, 'Mid-Range ($2/lb)': 2, 'Premium ($3.50/lb)': 3.5, 'Raw/Fresh ($5/lb)': 5}; var monthlyCost = lbsPerMonth * (prices[foodQuality] || 2);     document.getElementById('cupsPerDay').textContent = fmt(cupsPerDay,1);
+    document.getElementById('lbsPerMonth').textContent = fmt(lbsPerMonth,1);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="ageMonths">Baby's Age (months)</label>
-      <input type="number" id="ageMonths" value="undefined" min="0" max="12" step="1" inputmode="decimal">
+      <input type="number" id="ageMonths" value="" min="0" max="12" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="formulaType">Formula Type</label>
-      <select id="formulaType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="formulaType"><option value="Standard Powder ($0.15/oz)" selected>Standard Powder ($0.15/oz)</option><option value="Organic ($0.22/oz)">Organic ($0.22/oz)</option><option value="Specialty/Hypoallergenic ($0.30/oz)">Specialty/Hypoallergenic ($0.30/oz)</option><option value="Ready-to-Feed ($0.35/oz)">Ready-to-Feed ($0.35/oz)</option><option value="formulaType">formulaType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="feedingsPerDay">Feedings per Day</label>
-      <input type="number" id="feedingsPerDay" value="undefined" min="3" max="12" step="1" inputmode="decimal">
+      <input type="number" id="feedingsPerDay" value="" min="3" max="12" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This baby formula cost calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Daily Formula</strong> — Daily oz = oz per feeding × feedings per day — <em>Total daily consumption from feeding schedule.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much formula does a baby need?</h3>
+      <p>Roughly 2.5 oz per pound of body weight per day, usually 24-32 oz total.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Which formula is cheapest?</h3>
+      <p>Store-brand powder is most economical, meeting the same FDA nutritional standards.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var feedingsPerDay = parseFloat(document.getElementById('feedingsPerDay').value) || 0;
 
     // Calculation logic
-    var ozPerFeeding = ageMonths < 1 ? 2.5 : ageMonths < 3 ? 4 : ageMonths < 6 ? 6 : 8; var ozPerDay = ozPerFeeding * feedingsPerDay; var costs = {'Standard Powder ($0.15/oz)': 0.15, 'Organic ($0.22/oz)': 0.22, 'Specialty/Hypoallergenic ($0.30/oz)': 0.30, 'Ready-to-Feed ($0.35/oz)': 0.35}; var costPerOz = costs[formulaType] || 0.15; var monthlyCost = ozPerDay * costPerOz * 30; var annualCost = monthlyCost * 12; return {ozPerDay: fmt(ozPerDay,0), monthlyCost: dollar(monthlyCost), annualCost: dollar(annualCost)};
+    var ozPerFeeding = ageMonths < 1 ? 2.5 : ageMonths < 3 ? 4 : ageMonths < 6 ? 6 : 8; var ozPerDay = ozPerFeeding * feedingsPerDay; var costs = {'Standard Powder ($0.15/oz)': 0.15, 'Organic ($0.22/oz)': 0.22, 'Specialty/Hypoallergenic ($0.30/oz)': 0.30, 'Ready-to-Feed ($0.35/oz)': 0.35}; var costPerOz = costs[formulaType] || 0.15; var monthlyCost = ozPerDay * costPerOz * 30; var annualCost = monthlyCost * 12;     document.getElementById('ozPerDay').textContent = fmt(ozPerDay,0);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
+    document.getElementById('annualCost').textContent = dollar(annualCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

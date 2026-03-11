@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="basePrice">Product Base Price ($)</label>
-      <input type="number" id="basePrice" value="undefined" min="1" max="100000" step="1" inputmode="decimal">
+      <input type="number" id="basePrice" value="" min="1" max="100000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="tariffRate">Tariff Rate (%)</label>
-      <input type="number" id="tariffRate" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="tariffRate" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="passThrough">Pass-Through Rate (%)</label>
-      <input type="number" id="passThrough" value="undefined" min="0" max="100" step="5" inputmode="decimal">
+      <input type="number" id="passThrough" value="" min="0" max="100" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This tariff impact on price calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Price Increase</strong> — Increase = Base Price × Tariff% × Pass-Through% — <em>Tariff amount adjusted by how much retailers pass to consumers.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Do tariffs raise prices?</h3>
+      <p>Yes, studies show 60-100% of tariff costs are passed to consumers.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is pass-through rate?</h3>
+      <p>The percentage of tariff cost that importers pass on to consumers vs absorbing.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var passThrough = parseFloat(document.getElementById('passThrough').value) || 0;
 
     // Calculation logic
-    var tariffAmount = basePrice * (tariffRate/100); var priceIncrease = tariffAmount * (passThrough/100); var newPrice = basePrice + priceIncrease; return {tariffAmount: dollar(tariffAmount), priceIncrease: dollar(priceIncrease), newPrice: dollar(newPrice)};
+    var tariffAmount = basePrice * (tariffRate/100); var priceIncrease = tariffAmount * (passThrough/100); var newPrice = basePrice + priceIncrease;     document.getElementById('tariffAmount').textContent = dollar(tariffAmount);
+    document.getElementById('priceIncrease').textContent = dollar(priceIncrease);
+    document.getElementById('newPrice').textContent = dollar(newPrice);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,9 @@
     var blue = parseFloat(document.getElementById('blue').value) || 0;
 
     // Calculation logic
-    var hex = '#' + ('0'+red.toString(16)).slice(-2) + ('0'+green.toString(16)).slice(-2) + ('0'+blue.toString(16)).slice(-2); var r = red/255; var g = green/255; var b = blue/255; var max = Math.max(r,g,b); var min = Math.min(r,g,b); var l = (max+min)/2; var s = max===min ? 0 : l > 0.5 ? (max-min)/(2-max-min) : (max-min)/(max+min); var h = 0; if(max!==min){if(max===r)h=(g-b)/(max-min)+(g<b?6:0);else if(max===g)h=(b-r)/(max-min)+2;else h=(r-g)/(max-min)+4;h/=6;} var hsl = fmt(h*360,0) + ', ' + fmt(s*100,0) + '%, ' + fmt(l*100,0) + '%'; return {hex: hex.toUpperCase(), rgb: red+', '+green+', '+blue, hsl: hsl};
+    var hex = '#' + ('0'+red.toString(16)).slice(-2) + ('0'+green.toString(16)).slice(-2) + ('0'+blue.toString(16)).slice(-2); var r = red/255; var g = green/255; var b = blue/255; var max = Math.max(r,g,b); var min = Math.min(r,g,b); var l = (max+min)/2; var s = max===min ? 0 : l > 0.5 ? (max-min)/(2-max-min) : (max-min)/(max+min); var h = 0; if(max!==min){if(max===r)h=(g-b)/(max-min)+(g<b?6:0);else if(max===g)h=(b-r)/(max-min)+2;else h=(r-g)/(max-min)+4;h/=6;} var hsl = fmt(h*360,0) + ', ' + fmt(s*100,0) + '%, ' + fmt(l*100,0) + '%';     document.getElementById('hex').textContent = hex.toUpperCase();
+    document.getElementById('rgb').textContent = red+', '+green+', '+blue;
+    document.getElementById('hsl').textContent = hsl;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

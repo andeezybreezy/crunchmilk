@@ -435,7 +435,9 @@ footer a:hover{color:#fff}
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var pricing={gpt4omini:{input:0.15,output:0.60},gpt4o:{input:2.50,output:10},o1:{input:15,output:60},o3mini:{input:1.10,output:4.40}}; var p=pricing[model]; var inCost=(inputTokens/1000000)*p.input; var outCost=(outputTokens/1000000)*p.output; var costPerReq=inCost+outCost; var dailyCost=costPerReq*requests; var monthlyCost=dailyCost*days; return {costPerReq:'$'+fmt(costPerReq,6), dailyCost:dollar(dailyCost), monthlyCost:dollar(monthlyCost)};
+    var pricing={gpt4omini:{input:0.15,output:0.60},gpt4o:{input:2.50,output:10},o1:{input:15,output:60},o3mini:{input:1.10,output:4.40}}; var p=pricing[model]; var inCost=(inputTokens/1000000)*p.input; var outCost=(outputTokens/1000000)*p.output; var costPerReq=inCost+outCost; var dailyCost=costPerReq*requests; var monthlyCost=dailyCost*days;     document.getElementById('costPerReq').textContent = '$'+fmt(costPerReq,6);
+    document.getElementById('dailyCost').textContent = dollar(dailyCost);
+    document.getElementById('monthlyCost').textContent = dollar(monthlyCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

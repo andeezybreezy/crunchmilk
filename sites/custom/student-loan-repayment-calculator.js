@@ -14,7 +14,9 @@
     var payment = parseFloat(document.getElementById('payment').value) || 0;
 
     // Calculation logic
-    var monthlyRate = rate / 100 / 12; var months = Math.ceil(-Math.log(1 - (balance * monthlyRate / payment)) / Math.log(1 + monthlyRate)); var totalPaid = months * payment; var totalInterest = totalPaid - balance; return {months: fmt(months,0), totalInterest: dollar(totalInterest), totalPaid: dollar(totalPaid)};
+    var monthlyRate = rate / 100 / 12; var months = Math.ceil(-Math.log(1 - (balance * monthlyRate / payment)) / Math.log(1 + monthlyRate)); var totalPaid = months * payment; var totalInterest = totalPaid - balance;     document.getElementById('months').textContent = fmt(months,0);
+    document.getElementById('totalInterest').textContent = dollar(totalInterest);
+    document.getElementById('totalPaid').textContent = dollar(totalPaid);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -414,7 +414,10 @@ footer a:hover{color:#fff}
     var strength = document.getElementById('strength').value;
 
     // Calculation logic
-    var ratios={pourover:16,frenchpress:15,aeropress:12,coldbrew:8,espresso:2,drip:17}; var ratio=ratios[method]; var strengthMod={light:1.1,medium:1,strong:0.9}; ratio=ratio*strengthMod[strength]; var waterMl=cups*177; var coffeeG=waterMl/ratio; var coffeeTbsp=coffeeG/5; var waterOz=waterMl/29.574; return {coffeeG:fmt(coffeeG,1)+' g', coffeeTbsp:fmt(coffeeTbsp,1)+' tbsp', waterMl:fmt(waterMl,0)+' ml', waterOz:fmt(waterOz,1)+' oz'};
+    var ratios={pourover:16,frenchpress:15,aeropress:12,coldbrew:8,espresso:2,drip:17}; var ratio=ratios[method]; var strengthMod={light:1.1,medium:1,strong:0.9}; ratio=ratio*strengthMod[strength]; var waterMl=cups*177; var coffeeG=waterMl/ratio; var coffeeTbsp=coffeeG/5; var waterOz=waterMl/29.574;     document.getElementById('coffeeG').textContent = fmt(coffeeG,1)+' g';
+    document.getElementById('coffeeTbsp').textContent = fmt(coffeeTbsp,1)+' tbsp';
+    document.getElementById('waterMl').textContent = fmt(waterMl,0)+' ml';
+    document.getElementById('waterOz').textContent = fmt(waterOz,1)+' oz';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

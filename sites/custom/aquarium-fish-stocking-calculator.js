@@ -14,7 +14,8 @@
     var fishSize = document.getElementById('fishSize').value;
 
     // Calculation logic
-    var inchesPerGal = {'Standard': 1, 'Over-filtered (2x)': 1.3, 'Under-filtered': 0.7}; var avgSize = {'Small (1-2 inches)': 1.5, 'Medium (2-4 inches)': 3, 'Large (4-6 inches)': 5, 'Extra Large (6+ inches)': 8}; var totalInches = gallons * (inchesPerGal[filtration] || 1); var fishInches = avgSize[fishSize] || 3; var maxFish = Math.floor(totalInches / fishInches); var recommendedFish = Math.floor(maxFish * 0.75); return {maxFish: fmt(maxFish,0), recommendedFish: fmt(recommendedFish,0)};
+    var inchesPerGal = {'Standard': 1, 'Over-filtered (2x)': 1.3, 'Under-filtered': 0.7}; var avgSize = {'Small (1-2 inches)': 1.5, 'Medium (2-4 inches)': 3, 'Large (4-6 inches)': 5, 'Extra Large (6+ inches)': 8}; var totalInches = gallons * (inchesPerGal[filtration] || 1); var fishInches = avgSize[fishSize] || 3; var maxFish = Math.floor(totalInches / fishInches); var recommendedFish = Math.floor(maxFish * 0.75);     document.getElementById('maxFish').textContent = fmt(maxFish,0);
+    document.getElementById('recommendedFish').textContent = fmt(recommendedFish,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

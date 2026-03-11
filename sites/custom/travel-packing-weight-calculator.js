@@ -18,7 +18,10 @@
     var bagType = document.getElementById('bagType').value;
 
     // Calculation logic
-    var avgClothingWeight = 0.6; var avgShoeWeight = 2; var clothingWeight = clothing * avgClothingWeight; var shoeWeight = shoes * avgShoeWeight; var totalWeight = clothingWeight + shoeWeight + toiletries + electronics + misc + bagWeight; var limits = {'Carry-on (22 lb limit)': 22, 'Checked Bag (50 lb limit)': 50, 'Checked Bag (70 lb limit)': 70}; var weightLimit = limits[bagType] || 50; var remaining = weightLimit - totalWeight; var status = remaining >= 10 ? 'Well under limit' : remaining >= 0 ? 'Close to limit' : 'OVER LIMIT by ' + fmt(Math.abs(remaining), 1) + ' lbs'; return {totalWeight: fmt(totalWeight, 1), weightLimit: fmt(weightLimit, 0), remaining: fmt(remaining, 1), status: status};
+    var avgClothingWeight = 0.6; var avgShoeWeight = 2; var clothingWeight = clothing * avgClothingWeight; var shoeWeight = shoes * avgShoeWeight; var totalWeight = clothingWeight + shoeWeight + toiletries + electronics + misc + bagWeight; var limits = {'Carry-on (22 lb limit)': 22, 'Checked Bag (50 lb limit)': 50, 'Checked Bag (70 lb limit)': 70}; var weightLimit = limits[bagType] || 50; var remaining = weightLimit - totalWeight; var status = remaining >= 10 ? 'Well under limit' : remaining >= 0 ? 'Close to limit' : 'OVER LIMIT by ' + fmt(Math.abs(remaining), 1) + ' lbs';     document.getElementById('totalWeight').textContent = fmt(totalWeight, 1);
+    document.getElementById('weightLimit').textContent = fmt(weightLimit, 0);
+    document.getElementById('remaining').textContent = fmt(remaining, 1);
+    document.getElementById('status').textContent = status;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

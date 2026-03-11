@@ -404,7 +404,8 @@ footer a:hover{color:#fff}
     var toUnit = document.getElementById('toUnit').value;
 
     // Calculation logic
-    var toGrams={oz:31.1035,g:1,kg:1000,dwt:1.55517,avoz:28.3495}; var grams=amount*(toGrams[fromUnit]||1); var result=grams/(toGrams[toUnit]||1); var factor=(toGrams[fromUnit]||1)/(toGrams[toUnit]||1); return {result:fmt(result,4), factor:'1 '+fromUnit+' = '+fmt(factor,6)+' '+toUnit};
+    var toGrams={oz:31.1035,g:1,kg:1000,dwt:1.55517,avoz:28.3495}; var grams=amount*(toGrams[fromUnit]||1); var result=grams/(toGrams[toUnit]||1); var factor=(toGrams[fromUnit]||1)/(toGrams[toUnit]||1);     document.getElementById('result').textContent = fmt(result,4);
+    document.getElementById('factor').textContent = '1 '+fromUnit+' = '+fmt(factor,6)+' '+toUnit;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

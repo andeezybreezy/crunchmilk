@@ -15,7 +15,10 @@
     var extra = parseFloat(document.getElementById('extra').value) || 0;
 
     // Calculation logic
-    var r = rate/100/12; var payment = balance * r / (1 - Math.pow(1+r, -monthsLeft)); var totalNormal = payment * monthsLeft; var bal = balance; var earlyMonths = 0; var totalEarly = 0; while (bal > 0 && earlyMonths < monthsLeft) { var interest = bal * r; var principal = payment + extra - interest; if (principal > bal) { totalEarly += bal + interest; break; } bal -= principal; totalEarly += payment + extra; earlyMonths++; } var interestSaved = totalNormal - totalEarly; var yearsSaved = (monthsLeft - earlyMonths) / 12; return {normalPayoff: fmt(monthsLeft,0), earlyPayoff: fmt(earlyMonths,0), interestSaved: dollar(interestSaved), yearsSaved: fmt(yearsSaved,1)};
+    var r = rate/100/12; var payment = balance * r / (1 - Math.pow(1+r, -monthsLeft)); var totalNormal = payment * monthsLeft; var bal = balance; var earlyMonths = 0; var totalEarly = 0; while (bal > 0 && earlyMonths < monthsLeft) { var interest = bal * r; var principal = payment + extra - interest; if (principal > bal) { totalEarly += bal + interest; break; } bal -= principal; totalEarly += payment + extra; earlyMonths++; } var interestSaved = totalNormal - totalEarly; var yearsSaved = (monthsLeft - earlyMonths) / 12;     document.getElementById('normalPayoff').textContent = fmt(monthsLeft,0);
+    document.getElementById('earlyPayoff').textContent = fmt(earlyMonths,0);
+    document.getElementById('interestSaved').textContent = dollar(interestSaved);
+    document.getElementById('yearsSaved').textContent = fmt(yearsSaved,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

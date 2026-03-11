@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="exportPrice">Export Price ($)</label>
-      <input type="number" id="exportPrice" value="undefined" min="1" max="100000" step="1" inputmode="decimal">
+      <input type="number" id="exportPrice" value="" min="1" max="100000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="fairValue">Fair Market Value ($)</label>
-      <input type="number" id="fairValue" value="undefined" min="1" max="100000" step="1" inputmode="decimal">
+      <input type="number" id="fairValue" value="" min="1" max="100000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="quantity">Quantity (units)</label>
-      <input type="number" id="quantity" value="undefined" min="1" max="1000000" step="100" inputmode="decimal">
+      <input type="number" id="quantity" value="" min="1" max="1000000" step="100" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This anti-dumping duty calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Dumping Margin</strong> — Margin = (Fair Value - Export Price) / Export Price × 100 — <em>Percentage by which export price is below fair market value.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is dumping?</h3>
+      <p>Selling goods in a foreign market below fair value or below home market price.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How are anti-dumping duties calculated?</h3>
+      <p>The duty equals the difference between fair value and the export price.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var quantity = parseFloat(document.getElementById('quantity').value) || 0;
 
     // Calculation logic
-    var dumpingMargin = Math.max(((fairValue - exportPrice) / exportPrice) * 100, 0); var dutyPerUnit = Math.max(fairValue - exportPrice, 0); var totalDuty = dutyPerUnit * quantity; return {dumpingMargin: fmt(dumpingMargin,1), dutyPerUnit: dollar(dutyPerUnit), totalDuty: dollar(totalDuty)};
+    var dumpingMargin = Math.max(((fairValue - exportPrice) / exportPrice) * 100, 0); var dutyPerUnit = Math.max(fairValue - exportPrice, 0); var totalDuty = dutyPerUnit * quantity;     document.getElementById('dumpingMargin').textContent = fmt(dumpingMargin,1);
+    document.getElementById('dutyPerUnit').textContent = dollar(dutyPerUnit);
+    document.getElementById('totalDuty').textContent = dollar(totalDuty);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

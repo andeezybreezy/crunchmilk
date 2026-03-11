@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="initial">Initial Amount</label>
-      <input type="number" id="initial" value="undefined" min="0.01" max="1000000" step="1" inputmode="decimal">
+      <input type="number" id="initial" value="" min="0.01" max="1000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="halfLife">Half-Life</label>
-      <input type="number" id="halfLife" value="undefined" min="0.001" max="1000000000" step="1" inputmode="decimal">
+      <input type="number" id="halfLife" value="" min="0.001" max="1000000000" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="elapsed">Time Elapsed</label>
-      <input type="number" id="elapsed" value="undefined" min="0" max="1000000000" step="1" inputmode="decimal">
+      <input type="number" id="elapsed" value="" min="0" max="1000000000" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This radioactive decay calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Radioactive Decay</strong> — N = N₀ × (1/2)^(t/t½) — <em>Remaining amount after t time with half-life t½.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is a half-life?</h3>
+      <p>The time for half of a radioactive substance to decay.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is Carbon-14's half-life?</h3>
+      <p>5,730 years, used for dating organic materials up to ~50,000 years old.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var elapsed = parseFloat(document.getElementById('elapsed').value) || 0;
 
     // Calculation logic
-    var halvings = elapsed / halfLife; var remaining = initial * Math.pow(0.5, halvings); var decayed = initial - remaining; return {remaining: fmt(remaining,4), decayed: fmt(decayed,4), halvings: fmt(halvings,2)};
+    var halvings = elapsed / halfLife; var remaining = initial * Math.pow(0.5, halvings); var decayed = initial - remaining;     document.getElementById('remaining').textContent = fmt(remaining,4);
+    document.getElementById('decayed').textContent = fmt(decayed,4);
+    document.getElementById('halvings').textContent = fmt(halvings,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

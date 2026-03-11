@@ -15,7 +15,9 @@
     var coats = parseFloat(document.getElementById('coats').value) || 0;
 
     // Calculation logic
-    var floorArea = length * width; var railingArea = railing === 'Yes' ? 2 * (length + width) * 3 * 0.5 : 0; var area = floorArea + railingArea; var gallons = Math.ceil(area * coats / 250); var cost = gallons * 40; return {area: fmt(area,0), gallons: fmt(gallons,0), cost: dollar(cost)};
+    var floorArea = length * width; var railingArea = railing === 'Yes' ? 2 * (length + width) * 3 * 0.5 : 0; var area = floorArea + railingArea; var gallons = Math.ceil(area * coats / 250); var cost = gallons * 40;     document.getElementById('area').textContent = fmt(area,0);
+    document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

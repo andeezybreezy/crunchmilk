@@ -12,7 +12,8 @@
     var eur = parseFloat(document.getElementById('eur').value) || 0;
 
     // Calculation logic
-    var rate=0.86; var gbp=eur*rate; return {gbp:fmt(gbp,2)+' GBP', rate:'1 EUR = '+fmt(rate,4)+' GBP'};
+    var rate=0.86; var gbp=eur*rate;     document.getElementById('gbp').textContent = fmt(gbp,2)+' GBP';
+    document.getElementById('rate').textContent = '1 EUR = '+fmt(rate,4)+' GBP';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

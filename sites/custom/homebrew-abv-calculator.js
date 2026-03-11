@@ -13,7 +13,9 @@
     var fg = parseFloat(document.getElementById('fg').value) || 0;
 
     // Calculation logic
-    var abv=(og-fg)*131.25; var abw=abv*0.8; var attenuation=((og-fg)/(og-1))*100; return {abv:fmt(abv,2)+'%', abw:fmt(abw,2)+'%', attenuation:fmt(attenuation,1)+'%'};
+    var abv=(og-fg)*131.25; var abw=abv*0.8; var attenuation=((og-fg)/(og-1))*100;     document.getElementById('abv').textContent = fmt(abv,2)+'%';
+    document.getElementById('abw').textContent = fmt(abw,2)+'%';
+    document.getElementById('attenuation').textContent = fmt(attenuation,1)+'%';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

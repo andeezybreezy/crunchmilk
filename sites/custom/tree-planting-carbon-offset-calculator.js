@@ -14,7 +14,9 @@
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var rates = {'Deciduous (oak, maple)': 0.048, 'Conifer (pine, spruce)': 0.04, 'Tropical (fast-growing)': 0.065}; var rate = rates[treeType] || 0.048; var totalAbsorption = rate * years; var treesNeeded = Math.ceil(tons / totalAbsorption); var acres = treesNeeded / 400; var cost = treesNeeded * 3; return {treesNeeded: fmt(treesNeeded,0), acres: fmt(acres,1), cost: dollar(cost)};
+    var rates = {'Deciduous (oak, maple)': 0.048, 'Conifer (pine, spruce)': 0.04, 'Tropical (fast-growing)': 0.065}; var rate = rates[treeType] || 0.048; var totalAbsorption = rate * years; var treesNeeded = Math.ceil(tons / totalAbsorption); var acres = treesNeeded / 400; var cost = treesNeeded * 3;     document.getElementById('treesNeeded').textContent = fmt(treesNeeded,0);
+    document.getElementById('acres').textContent = fmt(acres,1);
+    document.getElementById('cost').textContent = dollar(cost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

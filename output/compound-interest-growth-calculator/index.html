@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="principal">Initial Investment ($)</label>
-      <input type="number" id="principal" value="undefined" min="100" max="10000000" step="500" inputmode="decimal">
+      <input type="number" id="principal" value="" min="100" max="10000000" step="500" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="monthly">Monthly Addition ($)</label>
-      <input type="number" id="monthly" value="undefined" min="0" max="50000" step="100" inputmode="decimal">
+      <input type="number" id="monthly" value="" min="0" max="50000" step="100" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="rate">Annual Return (%)</label>
-      <input type="number" id="rate" value="undefined" min="0.5" max="30" step="0.5" inputmode="decimal">
+      <input type="number" id="rate" value="" min="0.5" max="30" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="years">Years</label>
-      <input type="number" id="years" value="undefined" min="1" max="50" step="1" inputmode="decimal">
+      <input type="number" id="years" value="" min="1" max="50" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This compound interest calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Future Value</strong> — FV = PV(1+r)^n + PMT((1+r)^n - 1)/r — <em>Compound growth of lump sum plus regular contributions.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Tax laws and financial markets change frequently. Verify current rates with your financial institution.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is compound interest?</h3>
+      <p>Interest earned on both your principal and previously earned interest - growth accelerates over time.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What return should I expect?</h3>
+      <p>S&P 500 has averaged ~10% annually, ~7% after inflation over the long term.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var r = rate / 100 / 12; var n = years * 12; var fvPrincipal = principal * Math.pow(1 + r, n); var fvMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r); var futureValue = fvPrincipal + fvMonthly; var totalContributions = principal + (monthly * n); var interestEarned = futureValue - totalContributions; return {futureValue: dollar(futureValue), totalContributions: dollar(totalContributions), interestEarned: dollar(interestEarned)};
+    var r = rate / 100 / 12; var n = years * 12; var fvPrincipal = principal * Math.pow(1 + r, n); var fvMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r); var futureValue = fvPrincipal + fvMonthly; var totalContributions = principal + (monthly * n); var interestEarned = futureValue - totalContributions;     document.getElementById('futureValue').textContent = dollar(futureValue);
+    document.getElementById('totalContributions').textContent = dollar(totalContributions);
+    document.getElementById('interestEarned').textContent = dollar(interestEarned);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

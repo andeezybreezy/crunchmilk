@@ -16,7 +16,9 @@
     var printHours = parseFloat(document.getElementById('printHours').value) || 0;
 
     // Calculation logic
-    var costPerGram = spoolPrice / spoolWeight; var filamentCost = costPerGram * partWeight; var electricCost = 0.15 * printHours * electricRate; var totalCost = filamentCost + electricCost; return {filamentCost: dollar(filamentCost), electricCost: dollar(electricCost), totalCost: dollar(totalCost)};
+    var costPerGram = spoolPrice / spoolWeight; var filamentCost = costPerGram * partWeight; var electricCost = 0.15 * printHours * electricRate; var totalCost = filamentCost + electricCost;     document.getElementById('filamentCost').textContent = dollar(filamentCost);
+    document.getElementById('electricCost').textContent = dollar(electricCost);
+    document.getElementById('totalCost').textContent = dollar(totalCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

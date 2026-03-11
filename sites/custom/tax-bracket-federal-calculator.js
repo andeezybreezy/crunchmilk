@@ -13,7 +13,9 @@
     var status = document.getElementById('status').value;
 
     // Calculation logic
-    var rate = status === 'Single' ? (income > 191950 ? 32 : income > 100525 ? 24 : income > 47150 ? 22 : income > 11600 ? 12 : 10) : (income > 383900 ? 32 : income > 201050 ? 24 : income > 94300 ? 22 : income > 23200 ? 12 : 10); var tax = income * rate / 100 * 0.75; var effective = (tax / income) * 100; return {bracket: fmt(rate,0), tax: dollar(tax), effective: fmt(effective,1)};
+    var rate = status === 'Single' ? (income > 191950 ? 32 : income > 100525 ? 24 : income > 47150 ? 22 : income > 11600 ? 12 : 10) : (income > 383900 ? 32 : income > 201050 ? 24 : income > 94300 ? 22 : income > 23200 ? 12 : 10); var tax = income * rate / 100 * 0.75; var effective = (tax / income) * 100;     document.getElementById('bracket').textContent = fmt(rate,0);
+    document.getElementById('tax').textContent = dollar(tax);
+    document.getElementById('effective').textContent = fmt(effective,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

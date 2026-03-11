@@ -14,7 +14,9 @@
     var quantity = parseFloat(document.getElementById('quantity').value) || 0;
 
     // Calculation logic
-    var rates = {'List 1 (25%)': 25, 'List 2 (25%)': 25, 'List 3 (25%)': 25, 'List 4A (7.5%)': 7.5, 'List 4B (varies)': 15}; var tariffRate = rates[list] || 25; var perShipment = importValue * (tariffRate/100); var annualTariff = perShipment * quantity; return {tariffRate: fmt(tariffRate,1), perShipment: dollar(perShipment), annualTariff: dollar(annualTariff)};
+    var rates = {'List 1 (25%)': 25, 'List 2 (25%)': 25, 'List 3 (25%)': 25, 'List 4A (7.5%)': 7.5, 'List 4B (varies)': 15}; var tariffRate = rates[list] || 25; var perShipment = importValue * (tariffRate/100); var annualTariff = perShipment * quantity;     document.getElementById('tariffRate').textContent = fmt(tariffRate,1);
+    document.getElementById('perShipment').textContent = dollar(perShipment);
+    document.getElementById('annualTariff').textContent = dollar(annualTariff);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -390,7 +390,7 @@ footer a:hover{color:#fff}
     <div class="related-section" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;margin-bottom:24px">
     <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
     <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
-      <a href="/bitcoin-halving-countdown-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Bitcoin Halving Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate days until next Bitcoin halving and supply impact</span></a>
+      <a href="/bitcoin-halving-countdown-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Bitcoin Halving Countdown Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate days until next Bitcoin halving and supply impact</span></a>
       <a href="/xrp-profit-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">XRP Profit Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate potential XRP gains from price changes</span></a>
     </div>
   </div>
@@ -432,7 +432,11 @@ footer a:hover{color:#fff}
     var difficulty = parseFloat(document.getElementById('difficulty').value) || 0;
 
     // Calculation logic
-    var blocksPerDay=144; var blockReward=3.125; var networkHashrate=difficulty*1e12*Math.pow(2,32)/(600); var myShare=hashrate*1e12/networkHashrate; var dailyBTC=blocksPerDay*blockReward*myShare; var dailyRevenue=dailyBTC*btcPrice; var dailyElectricity=(power/1000)*24*electricityCost; var dailyProfit=dailyRevenue-dailyElectricity; var monthlyProfit=dailyProfit*30; return {dailyBTC:fmt(dailyBTC,8)+' BTC', dailyRevenue:dollar(dailyRevenue), dailyElectricity:dollar(dailyElectricity), dailyProfit:dollar(dailyProfit), monthlyProfit:dollar(monthlyProfit)};
+    var blocksPerDay=144; var blockReward=3.125; var networkHashrate=difficulty*1e12*Math.pow(2,32)/(600); var myShare=hashrate*1e12/networkHashrate; var dailyBTC=blocksPerDay*blockReward*myShare; var dailyRevenue=dailyBTC*btcPrice; var dailyElectricity=(power/1000)*24*electricityCost; var dailyProfit=dailyRevenue-dailyElectricity; var monthlyProfit=dailyProfit*30;     document.getElementById('dailyBTC').textContent = fmt(dailyBTC,8)+' BTC';
+    document.getElementById('dailyRevenue').textContent = dollar(dailyRevenue);
+    document.getElementById('dailyElectricity').textContent = dollar(dailyElectricity);
+    document.getElementById('dailyProfit').textContent = dollar(dailyProfit);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

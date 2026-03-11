@@ -14,7 +14,9 @@
     var elapsed = parseFloat(document.getElementById('elapsed').value) || 0;
 
     // Calculation logic
-    var halvings = elapsed / halfLife; var remaining = initial * Math.pow(0.5, halvings); var decayed = initial - remaining; return {remaining: fmt(remaining,4), decayed: fmt(decayed,4), halvings: fmt(halvings,2)};
+    var halvings = elapsed / halfLife; var remaining = initial * Math.pow(0.5, halvings); var decayed = initial - remaining;     document.getElementById('remaining').textContent = fmt(remaining,4);
+    document.getElementById('decayed').textContent = fmt(decayed,4);
+    document.getElementById('halvings').textContent = fmt(halvings,2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="emfSpike">EMF Spike Detected</label>
-      <select id="emfSpike"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="emfSpike"><option value="Yes" selected>Yes</option><option value="emfSpike">emfSpike</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="evp">EVP Captured</label>
-      <select id="evp"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="evp"><option value="No" selected>No</option><option value="Class C (barely audible)">Class C (barely audible)</option><option value="Class B (audible)">Class B (audible)</option><option value="Class A (clear)">Class A (clear)</option><option value="evp">evp</option><option value=", ">, </option></select>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="visual">Visual Evidence</label>
-      <select id="visual"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="visual"><option value="None" selected>None</option><option value="Shadow/Mist">Shadow/Mist</option><option value="Partial Apparition">Partial Apparition</option><option value="Full Apparition">Full Apparition</option><option value="visual">visual</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="temperature">Cold Spot Detected</label>
-      <select id="temperature"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="temperature"><option value="No" selected>No</option><option value="Yes (5-10°F drop)">Yes (5-10°F drop)</option><option value="Yes (10°F+ drop)">Yes (10°F+ drop)</option><option value="temperature">temperature</option><option value=", ">, </option></select>
     </div>
   </div>
     <div class="input-group">
       <label for="witnesses">Number of Witnesses</label>
-      <input type="number" id="witnesses" value="undefined" min="0" max="20" step="1" inputmode="decimal">
+      <input type="number" id="witnesses" value="" min="0" max="20" step="1" inputmode="decimal">
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -352,7 +352,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This paranormal evidence score calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Evidence Score</strong> — Score = EMF + EVP + Visual + Temperature + Witness points — <em>Composite score from multiple evidence types.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -365,13 +365,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What makes strong paranormal evidence?</h3>
+      <p>Multiple types of evidence (EMF, EVP, visual) corroborated by witnesses.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Can evidence be faked?</h3>
+      <p>Yes, which is why multiple independent data points and proper controls matter.</p>
     </div>
 
   </div>
@@ -419,7 +419,8 @@ footer a:hover{color:#fff}
     var witnesses = parseFloat(document.getElementById('witnesses').value) || 0;
 
     // Calculation logic
-    var score = 0; score += emfSpike === 'Yes' ? 15 : 0; var evpScores = {'No': 0, 'Class C (barely audible)': 10, 'Class B (audible)': 20, 'Class A (clear)': 30}; score += evpScores[evp] || 0; var visScores = {'None': 0, 'Shadow/Mist': 10, 'Partial Apparition': 20, 'Full Apparition': 30}; score += visScores[visual] || 0; var tempScores = {'No': 0, 'Yes (5-10°F drop)': 10, 'Yes (10°F+ drop)': 15}; score += tempScores[temperature] || 0; score += Math.min(witnesses * 5, 10); var grade = score >= 70 ? 'A - Compelling' : score >= 50 ? 'B - Strong' : score >= 30 ? 'C - Moderate' : score >= 15 ? 'D - Weak' : 'F - Insufficient'; return {score: fmt(score,0), grade: grade};
+    var score = 0; score += emfSpike === 'Yes' ? 15 : 0; var evpScores = {'No': 0, 'Class C (barely audible)': 10, 'Class B (audible)': 20, 'Class A (clear)': 30}; score += evpScores[evp] || 0; var visScores = {'None': 0, 'Shadow/Mist': 10, 'Partial Apparition': 20, 'Full Apparition': 30}; score += visScores[visual] || 0; var tempScores = {'No': 0, 'Yes (5-10°F drop)': 10, 'Yes (10°F+ drop)': 15}; score += tempScores[temperature] || 0; score += Math.min(witnesses * 5, 10); var grade = score >= 70 ? 'A - Compelling' : score >= 50 ? 'B - Strong' : score >= 30 ? 'C - Moderate' : score >= 15 ? 'D - Weak' : 'F - Insufficient';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('grade').textContent = grade;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

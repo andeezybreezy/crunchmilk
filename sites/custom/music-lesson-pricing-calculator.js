@@ -16,7 +16,10 @@
     var costOfLiving = document.getElementById('costOfLiving').value;
 
     // Calculation logic
-    var baseRates = {'Beginner (0-2 years)': 35, 'Intermediate (3-7 years)': 55, 'Advanced (8-15 years)': 75, 'Master/Degree (15+ years)': 100}; var lengthMult = {'30': 0.6, '45': 0.85, '60': 1, '90': 1.4}; var locationMult = {'In-Home (student)': 1.15, 'Your Studio': 1, 'Online': 0.9, 'Music School': 0.75}; var colMult = {'Low': 0.75, 'Medium': 1, 'High': 1.35, 'Very High (NYC, SF)': 1.7}; var base = baseRates[experience] || 55; var rate = base * (lengthMult[lessonLength] || 1) * (locationMult[location] || 1) * (colMult[costOfLiving] || 1); var hourlyEquivalent = rate / (parseInt(lessonLength) / 60); var monthlyIncome = rate * 20 * 4.33; var annualIncome = rate * 20 * 44; return {suggestedRate: dollar(rate), hourlyEquivalent: dollar(hourlyEquivalent), monthlyIncome: dollar(monthlyIncome), annualIncome: dollar(annualIncome)};
+    var baseRates = {'Beginner (0-2 years)': 35, 'Intermediate (3-7 years)': 55, 'Advanced (8-15 years)': 75, 'Master/Degree (15+ years)': 100}; var lengthMult = {'30': 0.6, '45': 0.85, '60': 1, '90': 1.4}; var locationMult = {'In-Home (student)': 1.15, 'Your Studio': 1, 'Online': 0.9, 'Music School': 0.75}; var colMult = {'Low': 0.75, 'Medium': 1, 'High': 1.35, 'Very High (NYC, SF)': 1.7}; var base = baseRates[experience] || 55; var rate = base * (lengthMult[lessonLength] || 1) * (locationMult[location] || 1) * (colMult[costOfLiving] || 1); var hourlyEquivalent = rate / (parseInt(lessonLength) / 60); var monthlyIncome = rate * 20 * 4.33; var annualIncome = rate * 20 * 44;     document.getElementById('suggestedRate').textContent = dollar(rate);
+    document.getElementById('hourlyEquivalent').textContent = dollar(hourlyEquivalent);
+    document.getElementById('monthlyIncome').textContent = dollar(monthlyIncome);
+    document.getElementById('annualIncome').textContent = dollar(annualIncome);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

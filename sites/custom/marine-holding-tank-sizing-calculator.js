@@ -13,7 +13,8 @@
     var days = parseFloat(document.getElementById('days').value) || 0;
 
     // Calculation logic
-    var perPersonDay = 2; var gallons = people * days * perPersonDay; var recommended = Math.ceil(gallons * 1.25 / 5) * 5; return {gallons: fmt(gallons,0), recommended: fmt(recommended,0)};
+    var perPersonDay = 2; var gallons = people * days * perPersonDay; var recommended = Math.ceil(gallons * 1.25 / 5) * 5;     document.getElementById('gallons').textContent = fmt(gallons,0);
+    document.getElementById('recommended').textContent = fmt(recommended,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

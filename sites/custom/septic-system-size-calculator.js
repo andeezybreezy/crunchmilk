@@ -14,7 +14,9 @@
     var waterUse = document.getElementById('waterUse').value;
 
     // Calculation logic
-    var base = Math.max(bedrooms, 3) * 250 + 500; var usageMult = {'Low (conservation fixtures)': 0.85, 'Average': 1, 'High (large tubs, many loads)': 1.2}; var tankGallons = Math.ceil(base * (usageMult[waterUse] || 1) / 250) * 250; var dailyFlow = occupants * 75; var drainField = dailyFlow * 3; var pumpFrequency = occupants <= 2 ? 5 : occupants <= 4 ? 3 : 2; return {tankGallons: fmt(tankGallons,0), drainField: fmt(drainField,0), pumpFrequency: fmt(pumpFrequency,0)};
+    var base = Math.max(bedrooms, 3) * 250 + 500; var usageMult = {'Low (conservation fixtures)': 0.85, 'Average': 1, 'High (large tubs, many loads)': 1.2}; var tankGallons = Math.ceil(base * (usageMult[waterUse] || 1) / 250) * 250; var dailyFlow = occupants * 75; var drainField = dailyFlow * 3; var pumpFrequency = occupants <= 2 ? 5 : occupants <= 4 ? 3 : 2;     document.getElementById('tankGallons').textContent = fmt(tankGallons,0);
+    document.getElementById('drainField').textContent = fmt(drainField,0);
+    document.getElementById('pumpFrequency').textContent = fmt(pumpFrequency,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

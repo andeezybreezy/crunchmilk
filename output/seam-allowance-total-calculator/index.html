@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="patternLength">Pattern Piece Length (inches)</label>
-      <input type="number" id="patternLength" value="undefined" min="1" max="120" step="0.5" inputmode="decimal">
+      <input type="number" id="patternLength" value="" min="1" max="120" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="patternWidth">Pattern Piece Width (inches)</label>
-      <input type="number" id="patternWidth" value="undefined" min="1" max="60" step="0.5" inputmode="decimal">
+      <input type="number" id="patternWidth" value="" min="1" max="60" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="seamAllowance">Seam Allowance (inches)</label>
-      <input type="number" id="seamAllowance" value="undefined" min="0.25" max="1" step="0.125" inputmode="decimal">
+      <input type="number" id="seamAllowance" value="" min="0.25" max="1" step="0.125" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="pieces">Number of Pieces</label>
-      <input type="number" id="pieces" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="pieces" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -354,7 +354,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This seam allowance calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Cut Size</strong> — Cut = Pattern + (2 × Seam Allowance) — <em>Add seam allowance to both sides of each edge.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -367,13 +367,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What is standard seam allowance?</h3>
+      <p>5/8 inch (1.5cm) for garments, 1/4 inch for quilting.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When to use wider seam allowance?</h3>
+      <p>Use 1 inch for loosely woven fabrics or areas that need adjustment room.</p>
     </div>
 
   </div>
@@ -420,7 +420,9 @@ footer a:hover{color:#fff}
     var pieces = parseFloat(document.getElementById('pieces').value) || 0;
 
     // Calculation logic
-    var cutLength = patternLength + (seamAllowance * 2); var cutWidth = patternWidth + (seamAllowance * 2); var totalFabric = cutLength * cutWidth * pieces; return {cutLength: fmt(cutLength,2), cutWidth: fmt(cutWidth,2), totalFabric: fmt(totalFabric,0)};
+    var cutLength = patternLength + (seamAllowance * 2); var cutWidth = patternWidth + (seamAllowance * 2); var totalFabric = cutLength * cutWidth * pieces;     document.getElementById('cutLength').textContent = fmt(cutLength,2);
+    document.getElementById('cutWidth').textContent = fmt(cutWidth,2);
+    document.getElementById('totalFabric').textContent = fmt(totalFabric,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

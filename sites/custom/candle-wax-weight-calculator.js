@@ -14,7 +14,9 @@
     var fragPct = parseFloat(document.getElementById('fragPct').value) || 0;
 
     // Calculation logic
-    var waxOzPer = containerOz * 0.86; var totalWaxOz = waxOzPer * containers; var waxLbs = totalWaxOz / 16; var fragOz = (totalWaxOz * fragPct / 100); var wicks = containers; return {waxLbs: fmt(waxLbs,1), fragOz: fmt(fragOz,1), wicks: fmt(wicks,0)};
+    var waxOzPer = containerOz * 0.86; var totalWaxOz = waxOzPer * containers; var waxLbs = totalWaxOz / 16; var fragOz = (totalWaxOz * fragPct / 100); var wicks = containers;     document.getElementById('waxLbs').textContent = fmt(waxLbs,1);
+    document.getElementById('fragOz').textContent = fmt(fragOz,1);
+    document.getElementById('wicks').textContent = fmt(wicks,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

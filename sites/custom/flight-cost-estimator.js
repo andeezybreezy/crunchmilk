@@ -14,7 +14,9 @@
     var timing = document.getElementById('timing').value;
 
     // Calculation logic
-    var baseCPM=distance<500?0.20:distance<1500?0.12:distance<3000?0.10:0.08; var classMultiplier={economy:1,premium:1.7,business:3.5,first:6}; var timingMultiplier={lastmin:1.8,short:1.3,advance:1,early:0.9}; var oneWay=distance*baseCPM*classMultiplier[seatClass]*timingMultiplier[timing]; oneWay=Math.max(oneWay,49); var roundTrip=oneWay*1.8; var perMile=oneWay/distance; return {estimate:dollar(oneWay), roundTrip:dollar(roundTrip), perMile:'$'+fmt(perMile,3)+'/mile'};
+    var baseCPM=distance<500?0.20:distance<1500?0.12:distance<3000?0.10:0.08; var classMultiplier={economy:1,premium:1.7,business:3.5,first:6}; var timingMultiplier={lastmin:1.8,short:1.3,advance:1,early:0.9}; var oneWay=distance*baseCPM*classMultiplier[seatClass]*timingMultiplier[timing]; oneWay=Math.max(oneWay,49); var roundTrip=oneWay*1.8; var perMile=oneWay/distance;     document.getElementById('estimate').textContent = dollar(oneWay);
+    document.getElementById('roundTrip').textContent = dollar(roundTrip);
+    document.getElementById('perMile').textContent = '$'+fmt(perMile,3)+'/mile';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

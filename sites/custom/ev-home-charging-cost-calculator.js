@@ -15,7 +15,9 @@
     var electricRate = parseFloat(document.getElementById('electricRate').value) || 0;
 
     // Calculation logic
-    var kwhNeeded = batteryKwh * (targetCharge - currentCharge) / 100 / 0.9; var chargeCost = kwhNeeded * electricRate; var totalRange = batteryKwh * (targetCharge/100) * 3.5; var costPerMile = (chargeCost / (kwhNeeded * 0.9 * 3.5)) * 100; return {kwhNeeded: fmt(kwhNeeded,1), chargeCost: dollar(chargeCost), costPerMile: fmt(costPerMile,1)};
+    var kwhNeeded = batteryKwh * (targetCharge - currentCharge) / 100 / 0.9; var chargeCost = kwhNeeded * electricRate; var totalRange = batteryKwh * (targetCharge/100) * 3.5; var costPerMile = (chargeCost / (kwhNeeded * 0.9 * 3.5)) * 100;     document.getElementById('kwhNeeded').textContent = fmt(kwhNeeded,1);
+    document.getElementById('chargeCost').textContent = dollar(chargeCost);
+    document.getElementById('costPerMile').textContent = fmt(costPerMile,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

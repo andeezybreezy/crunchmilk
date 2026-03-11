@@ -300,31 +300,31 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="chargerType">Charger Type</label>
-      <select id="chargerType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="chargerType"><option value="Level 2 (7-19 kW)" selected>Level 2 (7-19 kW)</option><option value="DC Fast (50 kW)">DC Fast (50 kW)</option><option value="DC Fast (150 kW)">DC Fast (150 kW)</option><option value="chargerType">chargerType</option><option value=", ">, </option></select>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="numChargers">Number of Chargers</label>
-      <input type="number" id="numChargers" value="undefined" min="1" max="20" step="1" inputmode="decimal">
+      <input type="number" id="numChargers" value="" min="1" max="20" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="sessionsPerDay">Avg Sessions per Day per Charger</label>
-      <input type="number" id="sessionsPerDay" value="undefined" min="1" max="30" step="1" inputmode="decimal">
+      <input type="number" id="sessionsPerDay" value="" min="1" max="30" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="avgKwhPerSession">Avg kWh per Session</label>
-      <input type="number" id="avgKwhPerSession" value="undefined" min="5" max="80" step="5" inputmode="decimal">
+      <input type="number" id="avgKwhPerSession" value="" min="5" max="80" step="5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="rateCharged">Rate Charged to Drivers ($/kWh)</label>
-      <input type="number" id="rateCharged" value="undefined" min="0.1" max="1" step="0.05" inputmode="decimal">
+      <input type="number" id="rateCharged" value="" min="0.1" max="1" step="0.05" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="electricityCost">Your Electricity Cost ($/kWh)</label>
-      <input type="number" id="electricityCost" value="undefined" min="0.05" max="0.4" step="0.01" inputmode="decimal">
+      <input type="number" id="electricityCost" value="" min="0.05" max="0.4" step="0.01" inputmode="decimal">
     </div>
   </div>
 
@@ -368,7 +368,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This ev charging station roi calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Payback Period</strong> — Payback = Install Cost / Monthly Net Profit — <em>Total investment divided by monthly revenue minus electricity and maintenance costs.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -381,13 +381,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much does it cost to install an EV charger?</h3>
+      <p>Level 2 chargers cost $3,000-$10,000 installed. DC fast chargers range from $30,000-$150,000+ depending on power output.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Are EV charging stations profitable?</h3>
+      <p>In high-traffic locations with 4+ sessions/day, Level 2 chargers can pay back in 2-3 years. DC fast chargers need higher utilization but earn more per session.</p>
     </div>
 
   </div>
@@ -400,7 +400,7 @@ footer a:hover{color:#fff}
     <h2 style="font-size:1.25rem;margin-bottom:16px">Related Tools</h2>
     <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
       <a href="/ev-vs-gas-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">EV vs. Gas Car Cost Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Compare the true cost of driving electric versus gas over 5+ years</span></a>
-      <a href="/solar-payback-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Solar Panel Payback Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how long solar panels take to pay for themselves and your 25-year return on investment</span></a>
+      <a href="/solar-payback-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Solar Payback Period Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how long solar panels take to pay for themselves and your 25-year return on investment</span></a>
     </div>
   </div>
 
@@ -442,7 +442,10 @@ footer a:hover{color:#fff}
     var electricityCost = parseFloat(document.getElementById('electricityCost').value) || 0;
 
     // Calculation logic
-    var installPrices = {'Level 2 (7-19 kW)': 6000, 'DC Fast (50 kW)': 50000, 'DC Fast (150 kW)': 120000}; var installCost = (installPrices[chargerType] || 6000) * numChargers; var dailyKwh = sessionsPerDay * avgKwhPerSession * numChargers; var monthlyRevenue = dailyKwh * rateCharged * 30; var monthlyElectricity = dailyKwh * electricityCost * 30; var monthlyMaintenance = numChargers * 50; var monthlyProfit = monthlyRevenue - monthlyElectricity - monthlyMaintenance; var paybackMonths = monthlyProfit > 0 ? Math.ceil(installCost / monthlyProfit) : 0; return {installCost: dollar(installCost), monthlyRevenue: dollar(monthlyRevenue), monthlyProfit: dollar(monthlyProfit), paybackMonths: paybackMonths > 0 ? fmt(paybackMonths, 0) : 'N/A'};
+    var installPrices = {'Level 2 (7-19 kW)': 6000, 'DC Fast (50 kW)': 50000, 'DC Fast (150 kW)': 120000}; var installCost = (installPrices[chargerType] || 6000) * numChargers; var dailyKwh = sessionsPerDay * avgKwhPerSession * numChargers; var monthlyRevenue = dailyKwh * rateCharged * 30; var monthlyElectricity = dailyKwh * electricityCost * 30; var monthlyMaintenance = numChargers * 50; var monthlyProfit = monthlyRevenue - monthlyElectricity - monthlyMaintenance; var paybackMonths = monthlyProfit > 0 ? Math.ceil(installCost / monthlyProfit) : 0;     document.getElementById('installCost').textContent = dollar(installCost);
+    document.getElementById('monthlyRevenue').textContent = dollar(monthlyRevenue);
+    document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);
+    document.getElementById('paybackMonths').textContent = paybackMonths > 0 ? fmt(paybackMonths, 0) : 'N/A';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

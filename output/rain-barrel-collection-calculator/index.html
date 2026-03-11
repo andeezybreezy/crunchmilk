@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="roofArea">Roof Collection Area (sq ft)</label>
-      <input type="number" id="roofArea" value="undefined" min="100" max="10000" step="100" inputmode="decimal">
+      <input type="number" id="roofArea" value="" min="100" max="10000" step="100" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="rainfall">Annual Rainfall (inches)</label>
-      <input type="number" id="rainfall" value="undefined" min="5" max="100" step="1" inputmode="decimal">
+      <input type="number" id="rainfall" value="" min="5" max="100" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="efficiency">Collection Efficiency (%)</label>
-      <input type="number" id="efficiency" value="undefined" min="50" max="95" step="5" inputmode="decimal">
+      <input type="number" id="efficiency" value="" min="50" max="95" step="5" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This rain barrel collection calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Collection</strong> — Gallons = Roof Area × Rainfall/12 × 7.48 × Efficiency — <em>Roof area times depth of rain times gallons per cubic foot.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How much water can I collect?</h3>
+      <p>A 1000 sq ft roof in 40 inches of rain = ~20,000 gallons per year.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Is collected rainwater safe?</h3>
+      <p>For irrigation yes. For drinking, it needs filtration and treatment.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
 
     // Calculation logic
-    var gallonsYear = roofArea * (rainfall / 12) * 7.48 * (efficiency/100); var gallonsMonth = gallonsYear / 12; var barrels = Math.ceil(gallonsMonth / 55); return {gallonsYear: fmt(gallonsYear,0), gallonsMonth: fmt(gallonsMonth,0), barrels: fmt(barrels,0)};
+    var gallonsYear = roofArea * (rainfall / 12) * 7.48 * (efficiency/100); var gallonsMonth = gallonsYear / 12; var barrels = Math.ceil(gallonsMonth / 55);     document.getElementById('gallonsYear').textContent = fmt(gallonsYear,0);
+    document.getElementById('gallonsMonth').textContent = fmt(gallonsMonth,0);
+    document.getElementById('barrels').textContent = fmt(barrels,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

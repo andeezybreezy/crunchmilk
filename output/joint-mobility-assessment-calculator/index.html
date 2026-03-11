@@ -300,21 +300,21 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="shoulderROM">Shoulder Reach Behind Back (inches)</label>
-      <input type="number" id="shoulderROM" value="undefined" min="0" max="20" step="1" inputmode="decimal">
+      <input type="number" id="shoulderROM" value="" min="0" max="20" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="hamstring">Sit-and-Reach (inches past toes)</label>
-      <input type="number" id="hamstring" value="undefined" min="-10" max="15" step="1" inputmode="decimal">
+      <input type="number" id="hamstring" value="" min="-10" max="15" step="1" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="hipFlexion">Hip Flexion (degrees)</label>
-      <input type="number" id="hipFlexion" value="undefined" min="45" max="135" step="5" inputmode="decimal">
+      <input type="number" id="hipFlexion" value="" min="45" max="135" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="age">Age</label>
-      <input type="number" id="age" value="undefined" min="18" max="90" step="1" inputmode="decimal">
+      <input type="number" id="age" value="" min="18" max="90" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This joint mobility score calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Mobility Score</strong> — Score = Shoulder + Hamstring + Hip components — <em>Composite score from three key mobility tests.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why does joint mobility matter?</h3>
+      <p>Good mobility reduces injury risk, improves posture, and maintains independence with age.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How to improve mobility?</h3>
+      <p>Daily stretching, yoga, foam rolling, and joint-specific mobility exercises.</p>
     </div>
 
   </div>
@@ -414,7 +414,8 @@ footer a:hover{color:#fff}
     var age = parseFloat(document.getElementById('age').value) || 0;
 
     // Calculation logic
-    var shoulderScore = Math.min(shoulderROM * 4, 30); var hamScore = Math.min((hamstring + 10) * 1.5, 30); var hipScore = Math.min((hipFlexion - 45) * 0.44, 40); var ageBonus = age > 50 ? 5 : 0; var score = Math.min(shoulderScore + hamScore + hipScore + ageBonus, 100); var rating = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Average' : 'Needs Improvement'; return {score: fmt(score,0), rating: rating};
+    var shoulderScore = Math.min(shoulderROM * 4, 30); var hamScore = Math.min((hamstring + 10) * 1.5, 30); var hipScore = Math.min((hipFlexion - 45) * 0.44, 40); var ageBonus = age > 50 ? 5 : 0; var score = Math.min(shoulderScore + hamScore + hipScore + ageBonus, 100); var rating = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Average' : 'Needs Improvement';     document.getElementById('score').textContent = fmt(score,0);
+    document.getElementById('rating').textContent = rating;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

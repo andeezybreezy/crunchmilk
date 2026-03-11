@@ -409,7 +409,10 @@ footer a:hover{color:#fff}
     var attempts = parseFloat(document.getElementById('attempts').value) || 0;
 
     // Calculation logic
-    var p=dropRate/100; var noDropAll=Math.pow(1-p,attempts); var atLeastOne=(1-noDropAll)*100; var expected=attempts*p; var for50=Math.ceil(Math.log(0.5)/Math.log(1-p)); var for99=Math.ceil(Math.log(0.01)/Math.log(1-p)); return {atLeastOne:fmt(atLeastOne,2)+'%', expected:fmt(expected,2)+' drops', for50pct:for50+' attempts', for99pct:for99+' attempts'};
+    var p=dropRate/100; var noDropAll=Math.pow(1-p,attempts); var atLeastOne=(1-noDropAll)*100; var expected=attempts*p; var for50=Math.ceil(Math.log(0.5)/Math.log(1-p)); var for99=Math.ceil(Math.log(0.01)/Math.log(1-p));     document.getElementById('atLeastOne').textContent = fmt(atLeastOne,2)+'%';
+    document.getElementById('expected').textContent = fmt(expected,2)+' drops';
+    document.getElementById('for50pct').textContent = for50+' attempts';
+    document.getElementById('for99pct').textContent = for99+' attempts';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

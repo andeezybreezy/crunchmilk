@@ -300,15 +300,15 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="elevation">Property Elevation (ft above sea level)</label>
-      <input type="number" id="elevation" value="undefined" min="0" max="200" step="1" inputmode="decimal">
+      <input type="number" id="elevation" value="" min="0" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="distance">Distance from Coast (miles)</label>
-      <input type="number" id="distance" value="undefined" min="0" max="100" step="0.5" inputmode="decimal">
+      <input type="number" id="distance" value="" min="0" max="100" step="0.5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="timeframe">Timeframe (years)</label>
-      <input type="number" id="timeframe" value="undefined" min="10" max="100" step="10" inputmode="decimal">
+      <input type="number" id="timeframe" value="" min="10" max="100" step="10" inputmode="decimal">
     </div>
   </div>
 
@@ -348,7 +348,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This sea level rise impact calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Projected Rise</strong> — Rise = Annual Rate × Years + Acceleration Factor — <em>Linear rise plus acceleration for longer timeframes.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -361,13 +361,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How fast is sea level rising?</h3>
+      <p>Currently about 3.6mm (0.14 inches) per year, accelerating over time.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Should I worry about my coastal property?</h3>
+      <p>Properties under 10ft elevation within 1 mile of coast face increasing risk over 30+ years.</p>
     </div>
 
   </div>
@@ -413,7 +413,9 @@ footer a:hover{color:#fff}
     var timeframe = parseFloat(document.getElementById('timeframe').value) || 0;
 
     // Calculation logic
-    var annualRise = 0.013; var projected = (annualRise * timeframe) + (timeframe > 30 ? timeframe * 0.005 : 0); var safetyMargin = elevation - projected; var riskLevel = safetyMargin < 0 ? 'Extreme' : safetyMargin < 3 ? 'High' : safetyMargin < 10 ? 'Moderate' : 'Low'; return {projected: fmt(projected,1), riskLevel: riskLevel, safetyMargin: fmt(safetyMargin,1)};
+    var annualRise = 0.013; var projected = (annualRise * timeframe) + (timeframe > 30 ? timeframe * 0.005 : 0); var safetyMargin = elevation - projected; var riskLevel = safetyMargin < 0 ? 'Extreme' : safetyMargin < 3 ? 'High' : safetyMargin < 10 ? 'Moderate' : 'Low';     document.getElementById('projected').textContent = fmt(projected,1);
+    document.getElementById('riskLevel').textContent = riskLevel;
+    document.getElementById('safetyMargin').textContent = fmt(safetyMargin,1);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

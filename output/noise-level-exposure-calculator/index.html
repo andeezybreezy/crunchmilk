@@ -300,7 +300,7 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="decibels">Noise Level (dB)</label>
-      <input type="number" id="decibels" value="undefined" min="60" max="140" step="1" inputmode="decimal">
+      <input type="number" id="decibels" value="" min="60" max="140" step="1" inputmode="decimal">
     </div>
   </div>
 
@@ -340,7 +340,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This noise exposure calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>OSHA Limit</strong> — Hours = 8 / 2^((dB - 90) / 5) — <em>OSHA permissible exposure halves for every 5 dB increase above 90.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -353,13 +353,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What noise level causes hearing damage?</h3>
+      <p>Prolonged exposure above 85 dB can cause hearing loss. Above 120 dB causes immediate pain.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>What are common noise levels?</h3>
+      <p>Conversation: 60 dB, lawn mower: 90 dB, rock concert: 110 dB, gunshot: 140+ dB.</p>
     </div>
 
   </div>
@@ -403,7 +403,9 @@ footer a:hover{color:#fff}
     var decibels = parseFloat(document.getElementById('decibels').value) || 0;
 
     // Calculation logic
-    var oshaHours = 8 / Math.pow(2, (decibels - 90) / 5); var nioshHours = 8 / Math.pow(2, (decibels - 85) / 3); var safeTime = oshaHours >= 8 ? fmt(oshaHours,1) + ' hours' : oshaHours >= 1 ? fmt(oshaHours,1) + ' hours' : fmt(oshaHours * 60,0) + ' minutes'; var nioshTime = nioshHours >= 1 ? fmt(nioshHours,1) + ' hours' : fmt(nioshHours * 60,0) + ' minutes'; var risk = decibels >= 120 ? 'Immediate damage possible' : decibels >= 100 ? 'High - limit exposure' : decibels >= 85 ? 'Moderate - use protection' : 'Low'; return {safeTime: safeTime, nioshLimit: nioshTime, risk: risk};
+    var oshaHours = 8 / Math.pow(2, (decibels - 90) / 5); var nioshHours = 8 / Math.pow(2, (decibels - 85) / 3); var safeTime = oshaHours >= 8 ? fmt(oshaHours,1) + ' hours' : oshaHours >= 1 ? fmt(oshaHours,1) + ' hours' : fmt(oshaHours * 60,0) + ' minutes'; var nioshTime = nioshHours >= 1 ? fmt(nioshHours,1) + ' hours' : fmt(nioshHours * 60,0) + ' minutes'; var risk = decibels >= 120 ? 'Immediate damage possible' : decibels >= 100 ? 'High - limit exposure' : decibels >= 85 ? 'Moderate - use protection' : 'Low';     document.getElementById('safeTime').textContent = safeTime;
+    document.getElementById('nioshLimit').textContent = nioshTime;
+    document.getElementById('risk').textContent = risk;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,8 @@
     var overlap = parseFloat(document.getElementById('overlap').value) || 0;
 
     // Calculation logic
-    var ratios = {'Regular Knit': 0.85, 'Woven Non-Roll': 0.90, 'Fold-Over': 0.80, 'Clear Elastic': 0.75}; var ratio = ratios[elasticType] || 0.85; var cutLength = (bodyMeasure * ratio) + overlap; var stretchRatio = ((1/ratio) - 1) * 100; return {cutLength: fmt(cutLength,1), stretchRatio: fmt(stretchRatio,0)};
+    var ratios = {'Regular Knit': 0.85, 'Woven Non-Roll': 0.90, 'Fold-Over': 0.80, 'Clear Elastic': 0.75}; var ratio = ratios[elasticType] || 0.85; var cutLength = (bodyMeasure * ratio) + overlap; var stretchRatio = ((1/ratio) - 1) * 100;     document.getElementById('cutLength').textContent = fmt(cutLength,1);
+    document.getElementById('stretchRatio').textContent = fmt(stretchRatio,0);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

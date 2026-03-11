@@ -300,11 +300,11 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="latitude">Latitude (degrees)</label>
-      <input type="number" id="latitude" value="undefined" min="-90" max="90" step="1" inputmode="decimal">
+      <input type="number" id="latitude" value="" min="-90" max="90" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="month">Month</label>
-      <select id="month"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="month"><option value="month" selected>month</option><option value="January">January</option><option value="February">February</option><option value="March">March</option><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option><option value="October">October</option><option value="November">November</option><option value="December">December</option></select>
     </div>
   </div>
 
@@ -338,7 +338,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This golden hour duration calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Duration</strong> — Duration ≈ 30 + (Latitude × 0.3) ± Season — <em>Higher latitudes have longer golden hours, especially in winter.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates based on standard formulas. Verify with current local data for your specific situation.</p>
   </div>
@@ -351,13 +351,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>When is golden hour?</h3>
+      <p>The hour after sunrise and before sunset when light is warm and soft.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Why is golden hour better for photos?</h3>
+      <p>Low sun angle creates warm colors, long shadows, and diffused light.</p>
     </div>
 
   </div>
@@ -402,7 +402,8 @@ footer a:hover{color:#fff}
     var month = document.getElementById('month').value;
 
     // Calculation logic
-    var monthIdx = ['January','February','March','April','May','June','July','August','September','October','November','December'].indexOf(month); var absLat = Math.abs(latitude); var baseDuration = 30; var latBonus = absLat * 0.3; var seasonMod = Math.abs(monthIdx - 5.5) <= 3 ? 5 : -5; if (absLat > 50) seasonMod *= 2; var duration = baseDuration + latBonus + seasonMod; var quality = absLat > 35 ? 'Rich warm tones' : 'Bright golden light'; return {duration: fmt(Math.max(duration, 15),0), quality: quality};
+    var monthIdx = ['January','February','March','April','May','June','July','August','September','October','November','December'].indexOf(month); var absLat = Math.abs(latitude); var baseDuration = 30; var latBonus = absLat * 0.3; var seasonMod = Math.abs(monthIdx - 5.5) <= 3 ? 5 : -5; if (absLat > 50) seasonMod *= 2; var duration = baseDuration + latBonus + seasonMod; var quality = absLat > 35 ? 'Rich warm tones' : 'Bright golden light';     document.getElementById('duration').textContent = fmt(Math.max(duration, 15),0);
+    document.getElementById('quality').textContent = quality;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -300,26 +300,26 @@ footer a:hover{color:#fff}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="dailyUsage">Daily Energy Usage (kWh)</label>
-      <input type="number" id="dailyUsage" value="undefined" min="1" max="200" step="1" inputmode="decimal">
+      <input type="number" id="dailyUsage" value="" min="1" max="200" step="1" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="backupDays">Days of Backup</label>
-      <input type="number" id="backupDays" value="undefined" min="0.5" max="7" step="0.5" inputmode="decimal">
+      <input type="number" id="backupDays" value="" min="0.5" max="7" step="0.5" inputmode="decimal">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="depthOfDischarge">Depth of Discharge (%)</label>
-      <input type="number" id="depthOfDischarge" value="undefined" min="50" max="95" step="5" inputmode="decimal">
+      <input type="number" id="depthOfDischarge" value="" min="50" max="95" step="5" inputmode="decimal">
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="batteryVoltage">System Voltage</label>
-      <select id="batteryVoltage"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="batteryVoltage"><option value="12V" selected>12V</option><option value="24V">24V</option><option value="48V">48V</option><option value="batteryVoltage">batteryVoltage</option><option value=", ">, </option></select>
     </div>
   </div>
     <div class="input-group">
       <label for="batteryType">Battery Type</label>
-      <select id="batteryType"><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option><option value="undefined" selected>undefined</option></select>
+      <select id="batteryType"><option value="Lithium (LFP)" selected>Lithium (LFP)</option><option value="Lead-Acid (AGM)">Lead-Acid (AGM)</option><option value="Lead-Acid (Flooded)">Lead-Acid (Flooded)</option><option value="batteryType">batteryType</option></select>
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -362,7 +362,7 @@ footer a:hover{color:#fff}
     <p style="margin-bottom:12px">This solar battery sizing calculator uses established formulas to provide accurate results.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li>[object Object]</li>
+      <li><strong>Battery Capacity</strong> — Total kWh = Daily Usage x Backup Days / Depth of Discharge — <em>The total battery capacity accounts for the fact that you should not fully discharge batteries.</em></li>
     </ul>
     <p style="font-size:0.9rem;color:var(--text-light)">Energy costs and incentives change by region and season. Check with your local utility for current rates.</p>
   </div>
@@ -375,13 +375,13 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>How many batteries do I need for off-grid solar?</h3>
+      <p>It depends on your daily usage and backup days. A typical home using 30 kWh/day needs 60-75 kWh of battery capacity for 2 days of autonomy.</p>
     </div>
 
     <div class="faq-item">
-      <h3>undefined</h3>
-      <p>undefined</p>
+      <h3>Lithium vs lead-acid for solar storage?</h3>
+      <p>Lithium (LFP) costs more upfront but lasts 10+ years with deeper discharge. Lead-acid is cheaper initially but needs replacement every 3-5 years.</p>
     </div>
 
   </div>
@@ -395,7 +395,7 @@ footer a:hover{color:#fff}
     <div class="related-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
       <a href="/home-battery-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Home Battery Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Find out how many batteries you need for backup power and how much it costs after tax credits</span></a>
       <a href="/off-grid-battery-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Off-Grid Battery Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Size your off-grid battery bank for reliable energy storage and backup power</span></a>
-      <a href="/solar-payback-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Solar Panel Payback Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how long solar panels take to pay for themselves and your 25-year return on investment</span></a>
+      <a href="/solar-payback-calculator/" style="display:block;padding:16px;background:#f5f5f5;border-radius:8px;text-decoration:none;color:var(--text);border:2px solid var(--border);transition:border-color 0.2s"><strong style="display:block;font-size:0.95rem;margin-bottom:4px">Solar Payback Period Calculator</strong><span style="font-size:0.8rem;color:var(--text-light)">Calculate how long solar panels take to pay for themselves and your 25-year return on investment</span></a>
     </div>
   </div>
 
@@ -436,7 +436,10 @@ footer a:hover{color:#fff}
     var batteryType = document.getElementById('batteryType').value;
 
     // Calculation logic
-    var usableKwh = dailyUsage * backupDays; var totalKwh = usableKwh / (depthOfDischarge / 100); var voltMap = {'12V': 12, '24V': 24, '48V': 48}; var volts = voltMap[batteryVoltage] || 48; var ampHours = (totalKwh * 1000) / volts; var costPerKwh = {'Lithium (LFP)': 400, 'Lead-Acid (AGM)': 250, 'Lead-Acid (Flooded)': 150}; var estimatedCost = totalKwh * (costPerKwh[batteryType] || 400); return {totalKwh: fmt(totalKwh, 1), usableKwh: fmt(usableKwh, 1), ampHours: fmt(ampHours, 0), estimatedCost: dollar(estimatedCost)};
+    var usableKwh = dailyUsage * backupDays; var totalKwh = usableKwh / (depthOfDischarge / 100); var voltMap = {'12V': 12, '24V': 24, '48V': 48}; var volts = voltMap[batteryVoltage] || 48; var ampHours = (totalKwh * 1000) / volts; var costPerKwh = {'Lithium (LFP)': 400, 'Lead-Acid (AGM)': 250, 'Lead-Acid (Flooded)': 150}; var estimatedCost = totalKwh * (costPerKwh[batteryType] || 400);     document.getElementById('totalKwh').textContent = fmt(totalKwh, 1);
+    document.getElementById('usableKwh').textContent = fmt(usableKwh, 1);
+    document.getElementById('ampHours').textContent = fmt(ampHours, 0);
+    document.getElementById('estimatedCost').textContent = dollar(estimatedCost);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';
