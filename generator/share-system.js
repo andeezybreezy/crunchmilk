@@ -109,7 +109,8 @@ const SHARE_SYSTEM_JS = `
 
     switch (type) {
       case 'x':
-        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        var tweet = 'My ' + TOOL_NAME + ' result: ' + text + '\\n\\nTry it yourself: ' + url;
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(tweet), '_blank', 'width=550,height=420');
         break;
       case 'fb':
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
@@ -137,44 +138,86 @@ const SHARE_SYSTEM_JS = `
     canvas.height = 630;
     var ctx = canvas.getContext('2d');
 
-    // Background
-    var style = getComputedStyle(document.documentElement);
-    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
-    ctx.fillStyle = primary;
+    // Background — navy
+    ctx.fillStyle = '#1D3557';
     ctx.fillRect(0, 0, 1200, 630);
+
+    // Accent bar at top
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#E63946';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 8);
 
     // White card
     ctx.fillStyle = '#ffffff';
-    roundRect(ctx, 40, 40, 1120, 550, 20);
+    roundRect(ctx, 60, 50, 1080, 480, 16);
     ctx.fill();
 
-    // Tool name
+    // CrunchMilk brand
     ctx.fillStyle = primary;
-    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(TOOL_NAME, 80, 110);
+    roundRect(ctx, 80, 75, 44, 44, 8);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText('CM', 88, 104);
+
+    // Tool name
+    ctx.fillStyle = '#1D3557';
+    ctx.font = 'bold 34px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 140, 108);
+
+    // Divider line
+    ctx.strokeStyle = '#E8E6E1';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(80, 140);
+    ctx.lineTo(1100, 140);
+    ctx.stroke();
 
     // Result lines
-    ctx.fillStyle = '#1a1a1a';
-    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
     var lines = text.split(' | ');
     var y = 200;
     lines.forEach(function(line) {
-      if (y < 480) {
-        ctx.fillText(line, 80, y);
-        y += 70;
+      if (y < 460) {
+        var parts = line.split(': ');
+        if (parts.length === 2) {
+          ctx.fillStyle = '#999';
+          ctx.font = '18px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.fillText(parts[0].toUpperCase(), 80, y);
+          ctx.fillStyle = primary;
+          ctx.font = 'bold 44px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.fillText(parts[1], 80, y + 48);
+          y += 100;
+        } else {
+          ctx.fillStyle = '#1a1a1a';
+          ctx.font = 'bold 44px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.fillText(line, 80, y + 30);
+          y += 80;
+        }
       }
     });
 
-    // URL footer
-    ctx.fillStyle = '#999';
-    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(BASE_URL, 80, 550);
+    // Footer bar
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.fillRect(0, 560, 1200, 70);
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText('crunchmilk.com', 60, 602);
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.font = '18px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText('Free calculator \u2022 No signup required', 700, 602);
 
-    // Download
-    var link = document.createElement('a');
-    link.download = TOOL_SLUG + '-result.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    // Download at full quality
+    canvas.toBlob(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.download = TOOL_SLUG + '-result.png';
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 'image/png');
   }
 
   function roundRect(ctx, x, y, w, h, r) {

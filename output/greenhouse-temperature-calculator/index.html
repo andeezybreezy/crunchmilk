@@ -581,7 +581,8 @@ footer a:hover{color:#fff}
 
     switch (type) {
       case 'x':
-        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'width=550,height=420');
+        var tweet = 'My ' + TOOL_NAME + ' result: ' + text + '\n\nTry it yourself: ' + url;
+        window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(tweet), '_blank', 'width=550,height=420');
         break;
       case 'fb':
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=550,height=420');
@@ -609,44 +610,86 @@ footer a:hover{color:#fff}
     canvas.height = 630;
     var ctx = canvas.getContext('2d');
 
-    // Background
-    var style = getComputedStyle(document.documentElement);
-    var primary = style.getPropertyValue('--primary').trim() || '#e85d04';
-    ctx.fillStyle = primary;
+    // Background — navy
+    ctx.fillStyle = '#1D3557';
     ctx.fillRect(0, 0, 1200, 630);
+
+    // Accent bar at top
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue('--primary').trim() || '#E63946';
+    ctx.fillStyle = primary;
+    ctx.fillRect(0, 0, 1200, 8);
 
     // White card
     ctx.fillStyle = '#ffffff';
-    roundRect(ctx, 40, 40, 1120, 550, 20);
+    roundRect(ctx, 60, 50, 1080, 480, 16);
     ctx.fill();
 
-    // Tool name
+    // CrunchMilk brand
     ctx.fillStyle = primary;
-    ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(TOOL_NAME, 80, 110);
+    roundRect(ctx, 80, 75, 44, 44, 8);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText('CM', 88, 104);
+
+    // Tool name
+    ctx.fillStyle = '#1D3557';
+    ctx.font = 'bold 34px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText(TOOL_NAME, 140, 108);
+
+    // Divider line
+    ctx.strokeStyle = '#E8E6E1';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(80, 140);
+    ctx.lineTo(1100, 140);
+    ctx.stroke();
 
     // Result lines
-    ctx.fillStyle = '#1a1a1a';
-    ctx.font = 'bold 48px -apple-system, BlinkMacSystemFont, sans-serif';
     var lines = text.split(' | ');
     var y = 200;
     lines.forEach(function(line) {
-      if (y < 480) {
-        ctx.fillText(line, 80, y);
-        y += 70;
+      if (y < 460) {
+        var parts = line.split(': ');
+        if (parts.length === 2) {
+          ctx.fillStyle = '#999';
+          ctx.font = '18px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.fillText(parts[0].toUpperCase(), 80, y);
+          ctx.fillStyle = primary;
+          ctx.font = 'bold 44px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.fillText(parts[1], 80, y + 48);
+          y += 100;
+        } else {
+          ctx.fillStyle = '#1a1a1a';
+          ctx.font = 'bold 44px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.fillText(line, 80, y + 30);
+          y += 80;
+        }
       }
     });
 
-    // URL footer
-    ctx.fillStyle = '#999';
-    ctx.font = '24px -apple-system, BlinkMacSystemFont, sans-serif';
-    ctx.fillText(BASE_URL, 80, 550);
+    // Footer bar
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.fillRect(0, 560, 1200, 70);
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = '22px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText('crunchmilk.com', 60, 602);
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.font = '18px -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.fillText('Free calculator • No signup required', 700, 602);
 
-    // Download
-    var link = document.createElement('a');
-    link.download = TOOL_SLUG + '-result.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    // Download at full quality
+    canvas.toBlob(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.download = TOOL_SLUG + '-result.png';
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 'image/png');
   }
 
   function roundRect(ctx, x, y, w, h, r) {
@@ -692,40 +735,6 @@ footer a:hover{color:#fff}
   observeResult();
 })();
 
-</script>
-<script>
-/* Result image generator */
-(function(){
-  var canvas,ctx;
-  function initCanvas(){
-    canvas=document.createElement('canvas');canvas.width=1200;canvas.height=630;
-    ctx=canvas.getContext('2d');
-  }
-  window.generateResultImage=function(){
-    if(!canvas)initCanvas();
-    var results=document.querySelectorAll('.result-value');
-    var labels=document.querySelectorAll('.result-label');
-    var toolName='Greenhouse Temperature Calculator';
-    ctx.fillStyle='#1D3557';ctx.fillRect(0,0,1200,630);
-    ctx.fillStyle='#E63946';ctx.fillRect(0,0,1200,6);
-    ctx.font='bold 42px sans-serif';ctx.fillStyle='#fff';ctx.fillText(toolName,60,80);
-    ctx.font='20px sans-serif';ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fillText('crunchmilk.com',60,590);
-    var y=160;
-    for(var i=0;i<Math.min(results.length,4);i++){
-      var label=labels[i]?labels[i].textContent:'Result';
-      var value=results[i].textContent;
-      ctx.font='16px sans-serif';ctx.fillStyle='rgba(255,255,255,0.6)';ctx.fillText(label.toUpperCase(),60,y);
-      ctx.font='bold 48px sans-serif';ctx.fillStyle='#E63946';ctx.fillText(value,60,y+50);
-      y+=120;
-    }
-    canvas.toBlob(function(blob){
-      var url=URL.createObjectURL(blob);
-      var a=document.createElement('a');a.href=url;a.download=toolName.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-result.png';
-      document.body.appendChild(a);a.click();document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    },'image/png',1.0);
-  };
-})();
 </script>
 
 </body>
