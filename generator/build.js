@@ -299,7 +299,8 @@ const CATEGORY_META = {
   'travel': { name: 'Travel Calculators', slug: 'travel-calculators' },
   'gaming': { name: 'Gaming Calculators', slug: 'gaming-calculators' },
   'electrical': { name: 'Electrical Calculators', slug: 'electrical-calculators' },
-  'plumbing': { name: 'Plumbing Calculators', slug: 'plumbing-calculators' }
+  'plumbing': { name: 'Plumbing Calculators', slug: 'plumbing-calculators' },
+  'geopolitical-energy': { name: 'Geopolitical & Energy Calculators', slug: 'geopolitical-energy-calculators' }
 };
 
 // Top 20 emotionally charged tools that get aggressive share CTAs

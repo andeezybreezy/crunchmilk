@@ -1,0 +1,275 @@
+[
+  {
+    "slug": "oil-tanker-shipping-rate-calculator",
+    "toolName": "Oil Tanker Shipping Rate Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How tanker shipping rates affect what you pay for gas and goods",
+    "metaDescription": "Calculate how oil tanker shipping rate increases affect consumer gas prices and goods. Understand the hidden supply chain cost of maritime disruptions.",
+    "keywords": "oil tanker rates, shipping cost, maritime oil transport, tanker rate calculator, Suez Canal, shipping premium",
+    "inputs": [
+      {"id": "rateIncrease", "label": "Shipping Rate Increase (%)", "default": 100, "min": 10, "max": 500, "step": 10},
+      {"id": "insurancePremium", "label": "War Risk Insurance Increase (%)", "default": 200, "min": 0, "max": 1000, "step": 50},
+      {"id": "reroutePct", "label": "Ships Rerouted (%)", "default": 40, "min": 0, "max": 100, "step": 10},
+      {"id": "gasPrice", "label": "Current Gas Price ($/gal)", "default": 3.50, "min": 2, "max": 6, "step": 0.05}
+    ],
+    "results": [
+      {"id": "costPerBarrel", "label": "Extra Cost Per Barrel"},
+      {"id": "gasPriceImpact", "label": "Gas Price Impact"},
+      {"id": "dailyGlobalCost", "label": "Daily Global Extra Cost"},
+      {"id": "consumerImpact", "label": "Your Annual Extra Cost"},
+      {"id": "transitDelay", "label": "Average Transit Delay"}
+    ],
+    "calcFn": "var baseShipping = 2.50; var baseInsurance = 0.30; var shippingCost = baseShipping * (1 + v.rateIncrease / 100); var insuranceCost = baseInsurance * (1 + v.insurancePremium / 100); var rerouteCost = v.reroutePct / 100 * 4; var totalExtra = (shippingCost - baseShipping) + (insuranceCost - baseInsurance) + rerouteCost; var gasImpact = totalExtra / 42 * 0.6; var globalDaily = totalExtra * 50e6; var annualConsumer = gasImpact * (1200 / 25) * 12; var delay = Math.round(v.reroutePct / 100 * 14); return {costPerBarrel: '+$' + totalExtra.toFixed(2) + '/barrel', gasPriceImpact: '+$' + gasImpact.toFixed(3) + '/gal', dailyGlobalCost: '$' + Math.round(globalDaily / 1e6) + ' million/day', consumerImpact: '+$' + Math.round(annualConsumer) + '/year', transitDelay: '+' + delay + ' days (Cape of Good Hope route)'};",
+    "faq": [
+      {"question": "How do Houthi attacks affect shipping?", "answer": "Since late 2023, Houthi attacks in the Red Sea have forced many ships to reroute around Africa via the Cape of Good Hope, adding 10-14 days to voyages. This increased shipping costs 200-400% and war risk insurance 10x for Red Sea routes."}
+    ],
+    "formulas": ["Extra cost = shipping increase + insurance increase + reroute cost", "Gas impact = extra cost / 42 gallons × 0.6 passthrough"]
+  },
+  {
+    "slug": "energy-cost-household-income-calculator",
+    "toolName": "Energy Cost as % of Household Income Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What percentage of your income goes to energy? Compare to the national danger threshold.",
+    "metaDescription": "Calculate what percentage of your household income goes to energy costs. When energy exceeds 10% of income, it signals economic distress.",
+    "keywords": "energy burden, energy cost percentage, household energy cost, energy affordability, energy poverty calculator",
+    "inputs": [
+      {"id": "annualIncome", "label": "Annual Household Income ($)", "default": 65000, "min": 15000, "max": 300000, "step": 5000},
+      {"id": "monthlyGas", "label": "Monthly Gasoline Cost ($)", "default": 200, "min": 0, "max": 800, "step": 25},
+      {"id": "monthlyElectric", "label": "Monthly Electric Bill ($)", "default": 150, "min": 50, "max": 500, "step": 25},
+      {"id": "monthlyHeating", "label": "Monthly Heating Cost ($)", "default": 100, "min": 0, "max": 500, "step": 25}
+    ],
+    "results": [
+      {"id": "annualEnergy", "label": "Total Annual Energy Cost"},
+      {"id": "incomePercent", "label": "% of Income on Energy"},
+      {"id": "status", "label": "Energy Burden Status"},
+      {"id": "nationalAvg", "label": "vs National Average"},
+      {"id": "crisisImpact", "label": "If Prices Doubled"}
+    ],
+    "calcFn": "var annual = (v.monthlyGas + v.monthlyElectric + v.monthlyHeating) * 12; var pct = (annual / v.annualIncome * 100); var status = pct > 10 ? 'Energy Poverty — exceeds 10% threshold' : pct > 6 ? 'High Energy Burden' : pct > 3 ? 'Moderate — within normal range' : 'Low Energy Burden'; var natAvg = 3.5; var doubled = annual * 2; var doubledPct = (doubled / v.annualIncome * 100); return {annualEnergy: '$' + Math.round(annual).toLocaleString() + '/year', incomePercent: pct.toFixed(1) + '%', status: status, nationalAvg: 'National average: ' + natAvg + '% (yours: ' + (pct > natAvg ? 'above' : 'below') + ')', crisisImpact: doubledPct.toFixed(1) + '% of income ($' + Math.round(doubled).toLocaleString() + '/yr)'};",
+    "faq": [
+      {"question": "What is energy poverty?", "answer": "When a household spends more than 10% of income on energy, it's considered energy poverty. About 30% of US households experience high energy burden (>6%), with low-income households spending up to 20% on energy."}
+    ],
+    "formulas": ["Energy burden = annual energy cost / annual income × 100", "Energy poverty threshold = 10% of income"]
+  },
+  {
+    "slug": "sanctions-effectiveness-calculator",
+    "toolName": "Sanctions Effectiveness Score by Country",
+    "category": "geopolitical-energy",
+    "tagline": "How effective are sanctions against different countries? Score the impact.",
+    "metaDescription": "Calculate the effectiveness of economic sanctions against different countries. Compare GDP impact, trade disruption, and behavioral change metrics.",
+    "keywords": "sanctions effectiveness, economic sanctions, sanctions impact, sanctions calculator, trade sanctions score",
+    "inputs": [
+      {"id": "target", "label": "Sanctioned Country", "default": "russia", "type": "select", "options": [{"value": "russia", "label": "Russia"}, {"value": "iran", "label": "Iran"}, {"value": "north-korea", "label": "North Korea"}, {"value": "cuba", "label": "Cuba"}, {"value": "venezuela", "label": "Venezuela"}, {"value": "syria", "label": "Syria"}, {"value": "myanmar", "label": "Myanmar"}, {"value": "china-tech", "label": "China (tech sanctions)"}]}
+    ],
+    "results": [
+      {"id": "effectivenessScore", "label": "Effectiveness Score"},
+      {"id": "gdpImpact", "label": "GDP Impact"},
+      {"id": "tradeDisruption", "label": "Trade Disruption"},
+      {"id": "behaviorChange", "label": "Achieved Behavior Change?"},
+      {"id": "evasion", "label": "Sanctions Evasion Level"},
+      {"id": "civilianImpact", "label": "Civilian Impact"}
+    ],
+    "calcFn": "var data = {russia: {score: 35, gdp: '-3 to -5% initially, adapted', trade: '45% of exports redirected to Asia', behavior: 'No — continued military operations', evasion: 'High — shadow fleet, China/India trade', civilian: 'Moderate — inflation but resilient'}, iran: {score: 55, gdp: '-15% vs potential, chronic', trade: '70% oil exports restricted', behavior: 'Partial — JCPOA deal in 2015, then reversed', evasion: 'Moderate — China buying, ship-to-ship', civilian: 'Severe — medicine and food shortages'}, 'north-korea': {score: 40, gdp: 'Economy shrunk but nuclear program continued', trade: '90% trade restricted on paper', behavior: 'No — expanded nuclear arsenal', evasion: 'High — China border, cyber theft', civilian: 'Extreme — humanitarian crisis'}, cuba: {score: 20, gdp: 'Chronic poverty but regime survived 60+ years', trade: 'Near-total trade embargo', behavior: 'No — Communist government endured', evasion: 'Moderate — tourism, remittances', civilian: 'Severe — chronic shortages'}, venezuela: {score: 45, gdp: '-75% GDP collapse (also mismanagement)', trade: 'Oil exports dropped 80%', behavior: 'Partial — some electoral concessions', evasion: 'Moderate — Iran, Russia support', civilian: 'Extreme — 7M+ refugees'}, syria: {score: 30, gdp: 'Economy destroyed (war + sanctions)', trade: 'Near-total isolation', behavior: 'No — Assad stayed (until 2024)', evasion: 'Moderate — Iran/Russia lifelines', civilian: 'Catastrophic'}, myanmar: {score: 25, gdp: '-10% but military retains control', trade: 'Limited enforcement', behavior: 'No — military junta continues', evasion: 'High — China/Russia/India trade', civilian: 'Severe — humanitarian crisis'}, 'china-tech': {score: 50, gdp: 'Slowed tech advancement 2-5 years', trade: 'Advanced chips restricted', behavior: 'Partial — accelerated domestic development', evasion: 'Moderate — third countries, stockpiling', civilian: 'Minimal — targeted at industry'}}; var d = data[v.target]; return {effectivenessScore: d.score + '/100', gdpImpact: d.gdp, tradeDisruption: d.trade, behaviorChange: d.behavior, evasion: d.evasion, civilianImpact: d.civilian};",
+    "faq": [
+      {"question": "Do sanctions work?", "answer": "Research shows sanctions achieve their stated policy goals only about 30-40% of the time. They're most effective when targeting specific industries, backed by multilateral coalitions, and combined with diplomatic engagement. Unilateral sanctions are least effective."}
+    ],
+    "formulas": ["Effectiveness score based on GDP impact, trade disruption, behavior change, and evasion levels"]
+  },
+  {
+    "slug": "us-military-deployment-cost-calculator",
+    "toolName": "US Military Deployment Cost Per Day Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "How much does it cost to deploy US military forces per day in different regions?",
+    "metaDescription": "Calculate daily US military deployment costs by operation size and region. See per-soldier, per-aircraft, and total operational costs.",
+    "keywords": "military deployment cost, US military spending, deployment calculator, military operations cost, defense spending",
+    "inputs": [
+      {"id": "deployment", "label": "Deployment Type", "default": "carrier", "type": "select", "options": [{"value": "carrier", "label": "Carrier Strike Group"}, {"value": "brigade", "label": "Army Brigade (5,000 troops)"}, {"value": "air", "label": "Air Wing (48 fighters)"}, {"value": "special", "label": "Special Operations Team"}, {"value": "base", "label": "Forward Operating Base"}]},
+      {"id": "region", "label": "Region", "default": "mideast", "type": "select", "options": [{"value": "mideast", "label": "Middle East"}, {"value": "pacific", "label": "Indo-Pacific"}, {"value": "europe", "label": "Europe"}, {"value": "africa", "label": "Africa"}]},
+      {"id": "days", "label": "Deployment Duration (days)", "default": 180, "min": 1, "max": 365, "step": 30}
+    ],
+    "results": [
+      {"id": "dailyCost", "label": "Daily Cost"},
+      {"id": "totalCost", "label": "Total Deployment Cost"},
+      {"id": "personnel", "label": "Personnel Involved"},
+      {"id": "perSoldier", "label": "Cost Per Service Member/Day"},
+      {"id": "taxpayerShare", "label": "Your Taxpayer Share"}
+    ],
+    "calcFn": "var costs = {carrier: {daily: 6.5, personnel: 7500, name: 'Carrier Strike Group'}, brigade: {daily: 4.2, personnel: 5000, name: 'Army Brigade'}, air: {daily: 8.5, personnel: 2000, name: 'Air Wing'}, special: {daily: 1.8, personnel: 200, name: 'Special Operations'}, base: {daily: 2.5, personnel: 3000, name: 'Forward Base'}}; var regionMult = {mideast: 1.0, pacific: 0.85, europe: 0.75, africa: 0.9}; var c = costs[v.deployment]; var mult = regionMult[v.region]; var daily = c.daily * mult; var total = daily * v.days; var perSoldier = (daily * 1e6) / c.personnel; var taxpayerShare = (total * 1e6) / 150e6; return {dailyCost: '$' + daily.toFixed(1) + ' million/day', totalCost: '$' + total.toFixed(0) + ' million (' + (total / 1e3).toFixed(2) + ' billion)', personnel: c.personnel.toLocaleString() + ' service members', perSoldier: '$' + Math.round(perSoldier).toLocaleString() + '/person/day', taxpayerShare: '$' + taxpayerShare.toFixed(2) + ' per US taxpayer'};",
+    "faq": [
+      {"question": "How much does a carrier strike group cost per day?", "answer": "A full carrier strike group (aircraft carrier + escorts + air wing + ~7,500 personnel) costs approximately $6-7 million per day to operate, including fuel, munitions, food, maintenance, and personnel costs."}
+    ],
+    "formulas": ["Daily cost = base deployment cost × region multiplier", "Per soldier = daily cost / personnel count"]
+  },
+  {
+    "slug": "tariff-oil-impact-calculator",
+    "toolName": "Tariff and Oil Price Combined Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Tariffs + oil spikes: the double hit to your wallet. Calculate the combined damage.",
+    "metaDescription": "Calculate the combined impact of trade tariffs AND oil price increases on your household costs. Model the double squeeze on consumer prices.",
+    "keywords": "tariff impact, oil price impact, trade war, consumer cost calculator, tariff oil combined, inflation calculator",
+    "inputs": [
+      {"id": "tariffRate", "label": "Average Tariff Rate (%)", "default": 20, "min": 5, "max": 60, "step": 5},
+      {"id": "oilIncrease", "label": "Oil Price Increase (%)", "default": 40, "min": 0, "max": 200, "step": 10},
+      {"id": "householdIncome", "label": "Household Income ($)", "default": 65000, "min": 25000, "max": 300000, "step": 5000},
+      {"id": "householdSize", "label": "Household Size", "default": 3, "min": 1, "max": 8, "step": 1}
+    ],
+    "results": [
+      {"id": "tariffCost", "label": "Annual Tariff Cost to You"},
+      {"id": "oilCost", "label": "Annual Oil/Energy Cost Increase"},
+      {"id": "combinedCost", "label": "Total Combined Annual Cost"},
+      {"id": "monthlyHit", "label": "Extra Monthly Cost"},
+      {"id": "effectiveTax", "label": "Effective Tax on Your Income"},
+      {"id": "inflationImpact", "label": "Inflation Impact"}
+    ],
+    "calcFn": "var importedGoodsSpend = v.householdIncome * 0.15; var tariffCost = importedGoodsSpend * (v.tariffRate / 100) * 0.7; var energyCost = (v.householdSize * 1800 + 2400) * (v.oilIncrease / 100) * 0.4; var combined = tariffCost + energyCost; var monthlyHit = combined / 12; var effectiveTax = (combined / v.householdIncome * 100); var inflation = v.tariffRate * 0.15 + v.oilIncrease * 0.08; return {tariffCost: '+$' + Math.round(tariffCost).toLocaleString() + '/yr', oilCost: '+$' + Math.round(energyCost).toLocaleString() + '/yr', combinedCost: '+$' + Math.round(combined).toLocaleString() + '/yr', monthlyHit: '+$' + Math.round(monthlyHit) + '/mo', effectiveTax: effectiveTax.toFixed(1) + '% of your income', inflationImpact: '+' + inflation.toFixed(1) + '% to inflation rate'};",
+    "faq": [
+      {"question": "How do tariffs and oil prices interact?", "answer": "They create a compounding effect. Tariffs raise prices on imported goods. Oil increases raise transportation and energy costs. Together, they can push inflation significantly higher than either factor alone, squeezing consumer spending power from both sides."}
+    ],
+    "formulas": ["Tariff cost = imported goods spending × tariff rate × passthrough", "Oil cost = base energy spending × oil increase × passthrough", "Combined = tariff cost + oil cost"]
+  },
+  {
+    "slug": "doge-federal-cut-impact-calculator",
+    "toolName": "DOGE Federal Spending Cut Impact by State Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How would DOGE's proposed federal spending cuts affect YOUR state?",
+    "metaDescription": "Calculate the impact of DOGE-proposed federal spending cuts on your state. See job losses, program cuts, and economic impact per resident.",
+    "keywords": "DOGE spending cuts, federal budget cuts, government efficiency, state impact calculator, federal spending by state",
+    "contentIntro": "The Department of Government Efficiency (DOGE) has proposed cutting hundreds of billions in federal spending. But federal spending isn't distributed equally — some states receive far more federal dollars per capita than others. States like Virginia, New Mexico, and Alaska receive over $3 in federal spending for every $1 their residents pay in federal taxes. This calculator shows how proposed cuts would hit YOUR state.",
+    "howToSteps": ["Select your state", "Enter the proposed spending cut percentage", "See the specific dollar impact on your state's economy, jobs, and programs"],
+    "tipsAndConsiderations": ["States with large military bases, federal facilities, and retiree populations are most vulnerable to cuts", "Medicaid and Medicare account for the largest share of federal spending to states", "Federal contractor jobs are concentrated in the DC metro area, but spread across all 50 states", "Rural states tend to be more dependent on federal spending per capita than urban states"],
+    "inputs": [
+      {"id": "state", "label": "Your State", "default": "tx", "type": "select", "options": [{"value": "ca", "label": "California"}, {"value": "tx", "label": "Texas"}, {"value": "fl", "label": "Florida"}, {"value": "ny", "label": "New York"}, {"value": "pa", "label": "Pennsylvania"}, {"value": "il", "label": "Illinois"}, {"value": "oh", "label": "Ohio"}, {"value": "va", "label": "Virginia"}, {"value": "az", "label": "Arizona"}, {"value": "nm", "label": "New Mexico"}, {"value": "ak", "label": "Alaska"}, {"value": "ms", "label": "Mississippi"}, {"value": "wv", "label": "West Virginia"}, {"value": "ky", "label": "Kentucky"}]},
+      {"id": "cutPct", "label": "Spending Cut (%)", "default": 15, "min": 5, "max": 50, "step": 5}
+    ],
+    "results": [
+      {"id": "federalToState", "label": "Federal $ to Your State"},
+      {"id": "cutAmount", "label": "Amount Cut"},
+      {"id": "perResident", "label": "Cut Per Resident"},
+      {"id": "jobsAtRisk", "label": "Jobs at Risk"},
+      {"id": "topPrograms", "label": "Programs Most Affected"},
+      {"id": "dependency", "label": "Federal Dependency Ratio"}
+    ],
+    "calcFn": "var states = {ca: {fed: 436, pop: 39.5, jobs: 380000, programs: 'Medi-Cal, defense contracts, UC research', dep: 0.85}, tx: {fed: 304, pop: 30.5, jobs: 290000, programs: 'Military bases, Medicaid, NASA, border security', dep: 0.92}, fl: {fed: 268, pop: 22.6, jobs: 195000, programs: 'Medicare, VA hospitals, military bases', dep: 1.15}, ny: {fed: 280, pop: 19.7, jobs: 210000, programs: 'Medicaid, federal courts, transit, housing', dep: 0.78}, pa: {fed: 175, pop: 13.0, jobs: 155000, programs: 'Medicare, VA, defense contractors', dep: 1.05}, il: {fed: 152, pop: 12.5, jobs: 130000, programs: 'Medicaid, SNAP, federal agencies', dep: 0.82}, oh: {fed: 155, pop: 11.8, jobs: 145000, programs: 'Medicare, Wright-Patterson AFB, VA', dep: 1.10}, va: {fed: 195, pop: 8.6, jobs: 350000, programs: 'Pentagon, military bases, federal HQ, contractors', dep: 1.85}, az: {fed: 95, pop: 7.4, jobs: 85000, programs: 'Military bases, border patrol, tribal programs', dep: 1.20}, nm: {fed: 45, pop: 2.1, jobs: 60000, programs: 'Los Alamos, Sandia Labs, Kirtland AFB, tribal', dep: 2.10}, ak: {fed: 18, pop: 0.73, jobs: 35000, programs: 'Military bases, native programs, Coast Guard', dep: 2.30}, ms: {fed: 48, pop: 2.9, jobs: 55000, programs: 'Medicaid, military bases, SNAP, rural programs', dep: 2.15}, wv: {fed: 28, pop: 1.8, jobs: 32000, programs: 'Medicare, Medicaid, VA, coal transition', dep: 2.40}, ky: {fed: 65, pop: 4.5, jobs: 65000, programs: 'Fort Knox, VA, Medicaid, rural programs', dep: 1.95}}; var s = states[v.state]; var cut = s.fed * (v.cutPct / 100); var perRes = Math.round(cut * 1e9 / (s.pop * 1e6)); var jobsLost = Math.round(s.jobs * (v.cutPct / 100)); return {federalToState: '$' + s.fed + ' billion/year', cutAmount: '-$' + cut.toFixed(1) + ' billion', perResident: '-$' + perRes.toLocaleString() + '/resident', jobsAtRisk: jobsLost.toLocaleString() + ' jobs', topPrograms: s.programs, dependency: s.dep.toFixed(2) + ':1 (receives $' + s.dep.toFixed(2) + ' per $1 in federal taxes)'};",
+    "faq": [
+      {"question": "What is DOGE?", "answer": "The Department of Government Efficiency (DOGE) is an initiative aimed at identifying and cutting wasteful federal spending. It has proposed cutting hundreds of billions from federal agencies, contracts, and programs."},
+      {"question": "Which states are most dependent on federal spending?", "answer": "States like West Virginia (2.4:1 ratio), Alaska (2.3:1), Mississippi (2.15:1), and New Mexico (2.1:1) receive the most federal dollars per tax dollar paid. These states would be disproportionately affected by across-the-board cuts."},
+      {"question": "What federal spending goes to states?", "answer": "The largest categories are Medicare/Medicaid (40%+), Social Security (25%+), military/defense (15%), and federal grants for infrastructure, education, and social programs (20%)."}
+    ],
+    "formulas": ["Cut amount = federal spending to state × cut percentage", "Per resident = cut amount / state population", "Jobs at risk = federal-dependent jobs × cut percentage"]
+  },
+  {
+    "slug": "military-draft-lottery-calculator",
+    "toolName": "Military Draft Lottery Odds Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What are your odds of being drafted? Calculate based on age, gender, and conflict size.",
+    "metaDescription": "Calculate your military draft lottery odds based on age, conflict size, and historical draft data. See your probability of being called up in different scenarios.",
+    "keywords": "military draft, draft lottery, selective service, draft odds calculator, military conscription, draft probability",
+    "contentIntro": "The US military draft was last used during the Vietnam War, when 2.2 million men were drafted from 1964-1973. While the draft ended in 1973, Selective Service registration remains mandatory for men ages 18-25. In 2024, Congress considered expanding registration to include women. This calculator models draft probability based on historical patterns and potential conflict scenarios. With rising global tensions, understanding these numbers matters.",
+    "howToSteps": ["Enter your age and gender", "Select a conflict scenario that would trigger a draft", "See your lottery odds based on historical draft patterns and demographic data"],
+    "tipsAndConsiderations": ["The last draft lottery was in 1972 — numbers 1-95 were called that year", "During Vietnam, roughly 1 in 4 eligible men were drafted. During WWII, it was nearly 1 in 2", "Deferments for college students were eliminated in 1971. Medical and hardship deferments still applied", "A modern draft would likely be very different from Vietnam — potentially including women and cyber/tech roles"],
+    "inputs": [
+      {"id": "age", "label": "Your Age", "default": 22, "min": 18, "max": 35, "step": 1},
+      {"id": "gender", "label": "Gender", "default": "male", "type": "select", "options": [{"value": "male", "label": "Male"}, {"value": "female", "label": "Female (if expanded)"}]},
+      {"id": "scenario", "label": "Conflict Scenario", "default": "major", "type": "select", "options": [{"value": "limited", "label": "Limited Conflict (500K troops)"}, {"value": "major", "label": "Major War (1-2M troops)"}, {"value": "world", "label": "World War Scale (5M+ troops)"}]}
+    ],
+    "results": [
+      {"id": "draftOdds", "label": "Your Draft Probability"},
+      {"id": "eligiblePool", "label": "Eligible Pool Size"},
+      {"id": "troopsNeeded", "label": "Troops Needed Beyond Volunteers"},
+      {"id": "ageRisk", "label": "Your Age Group Risk"},
+      {"id": "historicalComp", "label": "Historical Comparison"},
+      {"id": "lotteryNumber", "label": "If Lottery System Used"}
+    ],
+    "calcFn": "var malePool = 16e6; var femalePool = v.gender === 'female' ? 16e6 : 0; var totalPool = v.gender === 'male' ? malePool : malePool + femalePool; var activeForce = 1.3e6; var scenarios = {limited: {needed: 500000, extra: 200000, comp: 'Similar to Gulf War scale'}, major: {needed: 1500000, extra: 800000, comp: 'Similar to Korea/Vietnam scale'}, world: {needed: 5000000, extra: 3500000, comp: 'Similar to WWII scale'}}; var s = scenarios[v.scenario]; var poolForGender = v.gender === 'male' ? malePool : femalePool; var odds = Math.min(95, (s.extra / poolForGender * 100)); var ageFactor = v.age <= 20 ? 1.4 : v.age <= 25 ? 1.2 : v.age <= 30 ? 0.8 : 0.5; var adjustedOdds = Math.min(95, odds * ageFactor); var lotteryMax = Math.round(366 * (adjustedOdds / 100)); return {draftOdds: adjustedOdds.toFixed(1) + '%', eligiblePool: (poolForGender / 1e6).toFixed(0) + ' million', troopsNeeded: (s.extra / 1e6).toFixed(1) + ' million beyond volunteers', ageRisk: v.age <= 20 ? 'Highest risk — called first' : v.age <= 25 ? 'High risk — primary pool' : v.age <= 30 ? 'Moderate risk — secondary pool' : 'Lower risk — called last', historicalComp: s.comp, lotteryNumber: 'Numbers 1-' + lotteryMax + ' out of 366 would be called'};",
+    "faq": [
+      {"question": "Could there be a draft today?", "answer": "Legally, yes. The Selective Service System still exists and all male US residents ages 18-25 must register. Activating a draft requires an act of Congress and presidential approval. No draft has been activated since 1973."},
+      {"question": "How did the Vietnam draft lottery work?", "answer": "Each day of the year (1-366) was assigned a random number. Men born on dates with low numbers were called first. In 1970, numbers 1-195 were called. In 1972, only 1-95."},
+      {"question": "Who would be exempt from a draft?", "answer": "Historical exemptions include: medical conditions, sole surviving son, conscientious objectors (assigned alternative service), and certain critical civilian occupations. College deferments were eliminated in 1971."}
+    ],
+    "formulas": ["Base odds = troops needed beyond volunteers / eligible pool × 100", "Age-adjusted odds = base × age factor (younger = higher risk)", "Lottery numbers called = 366 × adjusted probability"]
+  },
+  {
+    "slug": "billionaire-wealth-per-second-calculator",
+    "toolName": "Billionaire Wealth Per Second Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much does a billionaire earn per second compared to what you earn?",
+    "metaDescription": "Calculate how much billionaires earn per second, minute, and hour compared to average workers. Visualize the wealth gap in real time.",
+    "keywords": "billionaire wealth, wealth per second, income inequality, wealth comparison, billionaire vs worker, wealth gap calculator",
+    "contentIntro": "In 2024, the world's top 10 billionaires saw their wealth increase by an average of $45 billion each. That's $1,427 per second — while the median American household earns about $0.009 per second. This calculator lets you compare your earnings to any billionaire and visualize the gap. It takes Jeff Bezos roughly 15 seconds to earn what the median American household makes in an entire year.",
+    "howToSteps": ["Select a billionaire or enter a custom net worth", "Enter your annual income for comparison", "See the per-second, per-minute, and per-hour wealth comparison"],
+    "tipsAndConsiderations": ["Billionaire wealth is mostly in stock, not cash — it fluctuates daily", "The comparison uses annual wealth change, not income — billionaires often have near-zero taxable income", "During market downturns, billionaires can 'lose' billions per day on paper", "The bottom 50% of Americans hold just 2.6% of total US household wealth"],
+    "inputs": [
+      {"id": "billionaire", "label": "Billionaire", "default": "bezos", "type": "select", "options": [{"value": "musk", "label": "Elon Musk ($240B)"}, {"value": "bezos", "label": "Jeff Bezos ($200B)"}, {"value": "zuckerberg", "label": "Mark Zuckerberg ($180B)"}, {"value": "gates", "label": "Bill Gates ($130B)"}, {"value": "buffett", "label": "Warren Buffett ($130B)"}, {"value": "ellison", "label": "Larry Ellison ($145B)"}, {"value": "custom", "label": "Custom Amount"}]},
+      {"id": "customWealth", "label": "Custom Net Worth ($B)", "default": 100, "min": 1, "max": 500, "step": 1},
+      {"id": "yourIncome", "label": "Your Annual Income ($)", "default": 55000, "min": 15000, "max": 500000, "step": 5000}
+    ],
+    "results": [
+      {"id": "wealthPerSecond", "label": "Their Wealth Per Second"},
+      {"id": "wealthPerMinute", "label": "Their Wealth Per Minute"},
+      {"id": "yourPerSecond", "label": "Your Income Per Second"},
+      {"id": "ratio", "label": "They Earn X Times More"},
+      {"id": "timeToEarnYourSalary", "label": "Time to Earn Your Annual Salary"},
+      {"id": "youToEarnTheirs", "label": "Time for You to Earn Their Wealth"}
+    ],
+    "calcFn": "var wealths = {musk: 240, bezos: 200, zuckerberg: 180, gates: 130, buffett: 130, ellison: 145, custom: v.customWealth}; var wealth = wealths[v.billionaire] * 1e9; var annualGain = wealth * 0.15; var perSecond = annualGain / (365.25 * 24 * 3600); var perMinute = perSecond * 60; var yourPerSecond = v.yourIncome / (365.25 * 24 * 3600); var ratio = Math.round(perSecond / yourPerSecond); var timeForSalary = v.yourIncome / perSecond; var timeStr = timeForSalary < 60 ? Math.round(timeForSalary) + ' seconds' : timeForSalary < 3600 ? (timeForSalary / 60).toFixed(1) + ' minutes' : (timeForSalary / 3600).toFixed(1) + ' hours'; var yearsToWealth = Math.round(wealth / v.yourIncome); var yearsStr = yearsToWealth > 1e6 ? (yearsToWealth / 1e6).toFixed(1) + ' million years' : yearsToWealth.toLocaleString() + ' years'; return {wealthPerSecond: '$' + Math.round(perSecond).toLocaleString() + '/sec', wealthPerMinute: '$' + Math.round(perMinute).toLocaleString() + '/min', yourPerSecond: '$' + yourPerSecond.toFixed(4) + '/sec', ratio: ratio.toLocaleString() + 'x your rate', timeToEarnYourSalary: timeStr, youToEarnTheirs: yearsStr + ' (no spending)'};",
+    "faq": [
+      {"question": "Do billionaires really earn per second?", "answer": "Not exactly. Billionaire wealth is primarily in stock holdings that fluctuate. This calculator uses average annual wealth growth (estimated at 15% of net worth) converted to per-second rates. On any given day, they may gain or lose billions."},
+      {"question": "How does this compare historically?", "answer": "The current wealth concentration is the highest since the Gilded Age (1870s-1900s). The top 1% now holds more wealth than the bottom 90% combined. In 1978, a CEO earned 30x the median worker; today it's 300-400x."},
+      {"question": "Why 15% annual growth?", "answer": "The S&P 500 has averaged roughly 10% returns historically, but top billionaires often outperform through concentrated stock positions and leveraged growth. 15% is a moderate estimate for top wealth growth."}
+    ],
+    "formulas": ["Wealth per second = (net worth × 15% annual growth) / seconds per year", "Ratio = billionaire per second / your per second", "Time to earn your salary = your salary / their per-second rate"]
+  },
+  {
+    "slug": "iran-oil-sanctions-gas-price-calculator",
+    "toolName": "Iran Oil Sanctions and Your Gas Price Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How do Iran oil sanctions directly affect what you pay at the pump?",
+    "metaDescription": "Calculate how tightening or loosening Iran oil sanctions impacts your personal gas prices. See the direct connection between geopolitics and your wallet.",
+    "keywords": "iran sanctions gas price, iran oil impact, sanctions pump price, iran oil calculator, gas price impact",
+    "inputs": [
+      {"id": "policyChange", "label": "Policy Direction", "default": "tighten", "type": "select", "options": [{"value": "tighten", "label": "Tighten Sanctions (maximum pressure)"}, {"value": "maintain", "label": "Maintain Current Sanctions"}, {"value": "loosen", "label": "Loosen Sanctions (waivers)"}, {"value": "lift", "label": "Lift Sanctions (JCPOA return)"}]},
+      {"id": "gasPrice", "label": "Current Gas Price ($/gal)", "default": 3.50, "min": 2, "max": 6, "step": 0.05},
+      {"id": "monthlyMiles", "label": "Monthly Miles", "default": 1200, "min": 100, "max": 5000, "step": 100}
+    ],
+    "results": [
+      {"id": "supplyChange", "label": "Oil Supply Change"},
+      {"id": "oilPriceChange", "label": "Oil Price Impact"},
+      {"id": "newGasPrice", "label": "New Gas Price"},
+      {"id": "monthlyCostChange", "label": "Your Monthly Cost Change"},
+      {"id": "annualCostChange", "label": "Your Annual Cost Change"}
+    ],
+    "calcFn": "var impacts = {tighten: {supply: -1.5, oilPct: 8, desc: '-1.5M bpd from market'}, maintain: {supply: 0, oilPct: 0, desc: 'No change'}, loosen: {supply: 0.8, oilPct: -4, desc: '+0.8M bpd to market'}, lift: {supply: 1.5, oilPct: -8, desc: '+1.5M bpd to market'}}; var i = impacts[v.policyChange]; var gasChange = i.oilPct / 100 * 0.6; var newGas = v.gasPrice * (1 + gasChange); var gallonsPerMonth = v.monthlyMiles / 25; var monthlyCost = gallonsPerMonth * (newGas - v.gasPrice); var sign = monthlyCost >= 0 ? '+' : ''; return {supplyChange: i.desc, oilPriceChange: (i.oilPct >= 0 ? '+' : '') + i.oilPct + '% crude price', newGasPrice: '$' + newGas.toFixed(2) + '/gal', monthlyCostChange: sign + '$' + monthlyCost.toFixed(0) + '/mo', annualCostChange: sign + '$' + Math.round(monthlyCost * 12) + '/yr'};",
+    "faq": [
+      {"question": "How much do Iran sanctions affect gas prices?", "answer": "Maximum pressure sanctions remove about 1.5 million barrels per day from global markets, which translates to roughly $0.15-0.25/gallon at the pump. Lifting sanctions and allowing full Iranian exports would add similar supply and reduce prices by a comparable amount."}
+    ],
+    "formulas": ["Gas change = oil % change × 0.6 passthrough", "Monthly impact = gallons used × price change"]
+  },
+  {
+    "slug": "conflict-escalation-risk-index",
+    "toolName": "Global Conflict Escalation Risk Index",
+    "category": "geopolitical-energy",
+    "tagline": "Score the overall global conflict risk across all active hotspots simultaneously",
+    "metaDescription": "Calculate a global conflict escalation risk score based on active wars, nuclear threats, alliance tensions, and economic warfare indicators.",
+    "keywords": "global conflict risk, war risk index, escalation risk, world tension calculator, geopolitical risk score",
+    "inputs": [
+      {"id": "ukraine", "label": "Ukraine/Russia Intensity (1-10)", "default": 7, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "mideast", "label": "Middle East Intensity (1-10)", "default": 8, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "taiwan", "label": "Taiwan Strait Tension (1-10)", "default": 5, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "tradeWar", "label": "Trade War Severity (1-10)", "default": 7, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "nuclear", "label": "Nuclear Threat Level (1-10)", "default": 4, "min": 1, "max": 10, "step": 1, "type": "range"}
+    ],
+    "results": [
+      {"id": "globalRisk", "label": "Global Risk Score"},
+      {"id": "riskLevel", "label": "Risk Category"},
+      {"id": "marketImpact", "label": "Financial Market Risk"},
+      {"id": "oilRiskPremium", "label": "Oil War Premium"},
+      {"id": "historicalComp", "label": "Historical Comparison"},
+      {"id": "primaryThreat", "label": "Primary Threat Vector"}
+    ],
+    "calcFn": "var score = v.ukraine * 0.2 + v.mideast * 0.25 + v.taiwan * 0.2 + v.tradeWar * 0.15 + v.nuclear * 0.2; var normalized = (score * 10).toFixed(0); var level = score > 7.5 ? 'Critical — multiple simultaneous crises' : score > 6 ? 'High — elevated risk across multiple theaters' : score > 4 ? 'Elevated — significant tensions' : 'Moderate — baseline tensions'; var market = score > 7 ? 'S&P 500 at -10 to -20% risk, VIX likely 30+' : score > 5 ? 'Market volatility elevated, defense stocks outperform' : 'Markets pricing in moderate risk premium'; var oilPremium = '$' + Math.round(score * 4) + '-' + Math.round(score * 6) + '/barrel'; var comp = score > 7 ? 'Similar to 1962 Cuban Missile Crisis + 1973 Oil Embargo combined risk' : score > 5 ? 'Similar to 2003 Iraq invasion era or 2014 Crimea annexation' : 'Within post-Cold War baseline'; var threats = []; if (v.mideast >= v.ukraine && v.mideast >= v.taiwan) threats.push('Middle East'); if (v.ukraine >= v.mideast && v.ukraine >= v.taiwan) threats.push('Ukraine-Russia'); if (v.taiwan >= 7) threats.push('Taiwan Strait'); return {globalRisk: normalized + '/100', riskLevel: level, marketImpact: market, oilRiskPremium: oilPremium, historicalComp: comp, primaryThreat: threats.join(', ') || 'Distributed risk'};",
+    "faq": [
+      {"question": "Is global conflict risk higher now than usual?", "answer": "By most metrics, yes. Multiple simultaneous conflicts (Ukraine, Middle East, Red Sea), great power competition (US-China-Russia), and nuclear saber-rattling create a risk environment not seen since the early 1980s Cold War peak."}
+    ],
+    "formulas": ["Global score = Ukraine(20%) + Middle East(25%) + Taiwan(20%) + Trade War(15%) + Nuclear(20%)", "Each factor 1-10, weighted by severity and geographic scope"]
+  }
+]

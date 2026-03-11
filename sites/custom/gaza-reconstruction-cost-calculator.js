@@ -1,0 +1,29 @@
+(function() {
+  'use strict';
+
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function dollar(n) { return '$' + fmt(n, 2); }
+  function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
+
+  function calculate() {
+    var destructionLevel = parseFloat(document.getElementById('destructionLevel').value) || 0;
+    var populationK = parseFloat(document.getElementById('populationK').value) || 0;
+    var timeline = document.getElementById('timeline').value;
+
+    // Calculation logic
+    var baseCost = 80; var adjusted = baseCost * (v.destructionLevel / 100); var housing = adjusted * 0.4; var infra = adjusted * 0.35; var annual = adjusted / parseInt(v.timeline); var perCapita = Math.round(adjusted * 1e9 / (v.populationK * 1e3)); var comp = adjusted > 60 ? 'Comparable to Marshall Plan for a single country' : adjusted > 30 ? 'Similar to Iraq reconstruction scale' : 'Comparable to Lebanon 2006 rebuilding'; return {totalCost: '$' + adjusted.toFixed(0) + ' billion', housingCost: '$' + housing.toFixed(0) + ' billion', infraCost: '$' + infra.toFixed(0) + ' billion', annualSpend: '$' + annual.toFixed(1) + ' billion/year', perCapitaCost: '$' + perCapita.toLocaleString() + '/person', historicalComp: comp};
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  ['destructionLevel', 'populationK', 'timeline'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  });
+})();

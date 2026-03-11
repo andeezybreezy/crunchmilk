@@ -61,7 +61,8 @@ const CATEGORY_META = {
   'travel':              { name: 'Travel',                slug: 'travel-calculators',               icon: SVG('<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>') },
   'gaming':              { name: 'Gaming',                slug: 'gaming-calculators',               icon: SVG('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/>') },
   'electrical':          { name: 'Electrical',            slug: 'electrical-calculators',           icon: SVG('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>') },
-  'plumbing':            { name: 'Plumbing',              slug: 'plumbing-calculators',             icon: SVG('<path d="M6 12h6"/><path d="M12 6v12"/><circle cx="12" cy="12" r="10"/>') }
+  'plumbing':            { name: 'Plumbing',              slug: 'plumbing-calculators',             icon: SVG('<path d="M6 12h6"/><path d="M12 6v12"/><circle cx="12" cy="12" r="10"/>') },
+  'geopolitical-energy': { name: 'Geopolitical & Energy', slug: 'geopolitical-energy-calculators',  icon: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>') }
 };
 
 function main() {

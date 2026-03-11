@@ -1,0 +1,519 @@
+[
+  {
+    "slug": "war-risk-premium-oil-calculator",
+    "toolName": "War Risk Premium Calculator for Oil Prices",
+    "category": "geopolitical-energy",
+    "tagline": "How much of today's oil price is 'war premium' from geopolitical tension?",
+    "metaDescription": "Calculate the war risk premium embedded in current oil prices. Estimate how much geopolitical tensions add to what you pay at the pump.",
+    "keywords": "war risk premium, oil price premium, geopolitical risk oil, conflict premium calculator",
+    "inputs": [
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 75, "min": 40, "max": 200, "step": 1},
+      {"id": "peacePrice", "label": "Estimated Peace Price ($/barrel)", "default": 55, "min": 30, "max": 100, "step": 1},
+      {"id": "gasPrice", "label": "Your Gas Price ($/gal)", "default": 3.50, "min": 2, "max": 8, "step": 0.05},
+      {"id": "monthlyMiles", "label": "Monthly Miles", "default": 1200, "min": 100, "max": 5000, "step": 100}
+    ],
+    "results": [
+      {"id": "warPremium", "label": "War Premium Per Barrel"},
+      {"id": "premiumPct", "label": "War Premium %"},
+      {"id": "gasPremium", "label": "War Premium in Your Gas Price"},
+      {"id": "monthlyWarCost", "label": "You Pay Monthly for War Risk"},
+      {"id": "annualWarCost", "label": "Annual War Premium Cost"}
+    ],
+    "calcFn": "var premium = v.currentOil - v.peacePrice; var pct = (premium / v.currentOil * 100); var gasPremium = (premium / v.currentOil) * v.gasPrice * 0.6; var gallons = v.monthlyMiles / 25; var monthly = gallons * gasPremium; return {warPremium: '$' + premium.toFixed(0) + '/barrel', premiumPct: pct.toFixed(1) + '%', gasPremium: '$' + gasPremium.toFixed(2) + '/gal', monthlyWarCost: '$' + monthly.toFixed(0) + '/mo', annualWarCost: '$' + Math.round(monthly * 12) + '/yr'};",
+    "faq": [
+      {"question": "What is the oil war risk premium?", "answer": "The additional amount oil costs above its fundamental supply-demand price due to geopolitical tensions and conflict risk. Analysts estimate the premium typically ranges from $5-20/barrel during moderate tensions and can exceed $30 during active conflicts."}
+    ],
+    "formulas": ["War premium = current price - estimated peace price", "Gas premium = (premium/current) × gas price × 0.6 passthrough"]
+  },
+  {
+    "slug": "middle-east-oil-dependency-calculator",
+    "toolName": "Middle East Oil Dependency Calculator by Country",
+    "category": "geopolitical-energy",
+    "tagline": "How dependent is your country on Middle East oil? See the vulnerability.",
+    "metaDescription": "Calculate any country's dependency on Middle East oil imports. See vulnerability percentages and alternative supply options.",
+    "keywords": "middle east oil dependency, oil imports, energy dependency, oil vulnerability, import dependency calculator",
+    "inputs": [
+      {"id": "country", "label": "Country", "default": "japan", "type": "select", "options": [{"value": "us", "label": "United States"}, {"value": "china", "label": "China"}, {"value": "japan", "label": "Japan"}, {"value": "india", "label": "India"}, {"value": "south-korea", "label": "South Korea"}, {"value": "germany", "label": "Germany"}, {"value": "uk", "label": "United Kingdom"}, {"value": "france", "label": "France"}]}
+    ],
+    "results": [
+      {"id": "meDependency", "label": "Middle East Oil Dependency"},
+      {"id": "dailyImports", "label": "Daily ME Imports"},
+      {"id": "topSuppliers", "label": "Top ME Suppliers"},
+      {"id": "vulnerabilityScore", "label": "Vulnerability Score"},
+      {"id": "sprDays", "label": "Strategic Reserve Coverage"}
+    ],
+    "calcFn": "var data = {us: {dep: 11, imports: 0.5, suppliers: 'Saudi Arabia, Iraq', vuln: 'Low', spr: 90}, china: {dep: 47, imports: 5.2, suppliers: 'Saudi Arabia, Iraq, UAE, Oman', vuln: 'High', spr: 40}, japan: {dep: 87, imports: 2.8, suppliers: 'Saudi Arabia, UAE, Kuwait, Qatar', vuln: 'Critical', spr: 145}, india: {dep: 62, imports: 2.8, suppliers: 'Iraq, Saudi Arabia, UAE', vuln: 'Very High', spr: 10}, 'south-korea': {dep: 72, imports: 2.1, suppliers: 'Saudi Arabia, Kuwait, Iraq', vuln: 'Very High', spr: 90}, germany: {dep: 8, imports: 0.15, suppliers: 'Kazakhstan, Libya (non-ME mainly)', vuln: 'Low', spr: 90}, uk: {dep: 6, imports: 0.08, suppliers: 'Mostly North Sea, some Saudi', vuln: 'Low', spr: 60}, france: {dep: 18, imports: 0.25, suppliers: 'Saudi Arabia, Libya, Algeria', vuln: 'Moderate', spr: 90}}; var d = data[v.country]; return {meDependency: d.dep + '% of oil from Middle East', dailyImports: d.imports + ' million bpd', topSuppliers: d.suppliers, vulnerabilityScore: d.vuln, sprDays: d.spr + ' days of strategic reserves'};",
+    "faq": [
+      {"question": "Which country is most dependent on Middle East oil?", "answer": "Japan imports about 87% of its oil from the Middle East, making it the most vulnerable major economy to regional disruptions. South Korea (72%) and India (62%) are also highly dependent."}
+    ],
+    "formulas": ["Dependency = Middle East imports / total oil consumption × 100"]
+  },
+  {
+    "slug": "israel-defense-spending-calculator",
+    "toolName": "Israel Defense Spending Per Capita Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Compare Israel's defense spending per person to other nations worldwide",
+    "metaDescription": "Calculate and compare Israel's defense spending per capita with other countries. See how military budgets break down per person.",
+    "keywords": "israel defense spending, military spending per capita, defense budget comparison, military spending calculator",
+    "inputs": [
+      {"id": "compareCountry", "label": "Compare With", "default": "us", "type": "select", "options": [{"value": "us", "label": "United States"}, {"value": "uk", "label": "United Kingdom"}, {"value": "china", "label": "China"}, {"value": "russia", "label": "Russia"}, {"value": "france", "label": "France"}, {"value": "germany", "label": "Germany"}, {"value": "saudi", "label": "Saudi Arabia"}, {"value": "iran", "label": "Iran"}, {"value": "egypt", "label": "Egypt"}, {"value": "turkey", "label": "Turkey"}, {"value": "india", "label": "India"}, {"value": "japan", "label": "Japan"}]}
+    ],
+    "results": [
+      {"id": "israelTotal", "label": "Israel Defense Budget"},
+      {"id": "israelPerCapita", "label": "Israel Per Capita"},
+      {"id": "israelGDP", "label": "Israel % of GDP"},
+      {"id": "compareTotal", "label": "Comparison Country Budget"},
+      {"id": "comparePerCapita", "label": "Comparison Per Capita"},
+      {"id": "ratio", "label": "Per Capita Ratio"}
+    ],
+    "calcFn": "var israelBudget = 24; var israelPop = 9.8; var israelGDP = 5.2; var countries = {us: {budget: 886, pop: 334, gdp: 3.5}, uk: {budget: 75, pop: 67, gdp: 2.3}, china: {budget: 296, pop: 1412, gdp: 1.7}, russia: {budget: 109, pop: 144, gdp: 5.9}, france: {budget: 56, pop: 68, gdp: 2.1}, germany: {budget: 68, pop: 84, gdp: 1.6}, saudi: {budget: 75, pop: 36, gdp: 6.8}, iran: {budget: 7, pop: 88, gdp: 2.4}, egypt: {budget: 4.6, pop: 105, gdp: 1.2}, turkey: {budget: 16, pop: 85, gdp: 1.4}, india: {budget: 74, pop: 1420, gdp: 2.4}, japan: {budget: 50, pop: 125, gdp: 1.1}}; var c = countries[v.compareCountry]; var iPC = Math.round(israelBudget * 1e9 / (israelPop * 1e6)); var cPC = Math.round(c.budget * 1e9 / (c.pop * 1e6)); var ratio = (iPC / cPC).toFixed(1); return {israelTotal: '$' + israelBudget + ' billion', israelPerCapita: '$' + iPC.toLocaleString() + '/person', israelGDP: israelGDP + '% of GDP', compareTotal: '$' + c.budget + ' billion', comparePerCapita: '$' + cPC.toLocaleString() + '/person', ratio: 'Israel spends ' + ratio + 'x more per person'};",
+    "faq": [
+      {"question": "How much does Israel spend on defense?", "answer": "Israel's defense budget is approximately $24 billion annually, about 5.2% of GDP. This makes it one of the highest per-capita defense spenders in the world at roughly $2,449 per person."}
+    ],
+    "formulas": ["Per capita = total budget / population", "GDP % = defense budget / GDP × 100"]
+  },
+  {
+    "slug": "gaza-reconstruction-cost-calculator",
+    "toolName": "Gaza Reconstruction Cost Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "Estimate the cost and timeline to rebuild Gaza based on damage assessments",
+    "metaDescription": "Calculate Gaza reconstruction costs based on damage levels, infrastructure needs, and historical rebuilding precedents from past conflicts.",
+    "keywords": "gaza reconstruction, rebuilding cost, conflict reconstruction, infrastructure rebuilding, war damage cost",
+    "inputs": [
+      {"id": "destructionLevel", "label": "Infrastructure Destruction", "default": 70, "min": 10, "max": 100, "step": 5, "type": "range"},
+      {"id": "populationK", "label": "Displaced Population (thousands)", "default": 1700, "min": 100, "max": 2300, "step": 100},
+      {"id": "timeline", "label": "Rebuild Timeline", "default": "10", "type": "select", "options": [{"value": "5", "label": "5 years (accelerated)"}, {"value": "10", "label": "10 years (standard)"}, {"value": "15", "label": "15 years (constrained)"}, {"value": "20", "label": "20 years (slow reconstruction)"}]}
+    ],
+    "results": [
+      {"id": "totalCost", "label": "Estimated Total Cost"},
+      {"id": "housingCost", "label": "Housing Reconstruction"},
+      {"id": "infraCost", "label": "Infrastructure"},
+      {"id": "annualSpend", "label": "Required Annual Spending"},
+      {"id": "perCapitaCost", "label": "Cost Per Displaced Person"},
+      {"id": "historicalComp", "label": "Historical Comparison"}
+    ],
+    "calcFn": "var baseCost = 80; var adjusted = baseCost * (v.destructionLevel / 100); var housing = adjusted * 0.4; var infra = adjusted * 0.35; var annual = adjusted / parseInt(v.timeline); var perCapita = Math.round(adjusted * 1e9 / (v.populationK * 1e3)); var comp = adjusted > 60 ? 'Comparable to Marshall Plan for a single country' : adjusted > 30 ? 'Similar to Iraq reconstruction scale' : 'Comparable to Lebanon 2006 rebuilding'; return {totalCost: '$' + adjusted.toFixed(0) + ' billion', housingCost: '$' + housing.toFixed(0) + ' billion', infraCost: '$' + infra.toFixed(0) + ' billion', annualSpend: '$' + annual.toFixed(1) + ' billion/year', perCapitaCost: '$' + perCapita.toLocaleString() + '/person', historicalComp: comp};",
+    "faq": [
+      {"question": "How much would it cost to rebuild Gaza?", "answer": "The UN estimated reconstruction costs at $40-80+ billion depending on the extent of destruction. Previous Gaza reconstruction after smaller conflicts cost $4-10 billion and took years due to access restrictions."}
+    ],
+    "formulas": ["Total cost = base estimate × destruction percentage", "Housing = 40% of total, Infrastructure = 35%", "Annual spend = total / timeline years"]
+  },
+  {
+    "slug": "refugee-cost-estimator-calculator",
+    "toolName": "Regional Conflict Refugee Cost Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "Calculate the economic cost of refugee displacement from regional conflicts",
+    "metaDescription": "Estimate the economic cost of refugee populations from Middle East and regional conflicts. Calculate per-person costs for hosting, resettlement, and aid.",
+    "keywords": "refugee cost calculator, displacement cost, humanitarian aid cost, refugee hosting cost, conflict refugee estimator",
+    "inputs": [
+      {"id": "refugees", "label": "Number of Refugees", "default": 1000000, "min": 10000, "max": 10000000, "step": 50000},
+      {"id": "hostCountryIncome", "label": "Host Country Income Level", "default": "middle", "type": "select", "options": [{"value": "low", "label": "Low Income (Jordan, Lebanon)"}, {"value": "middle", "label": "Middle Income (Turkey)"}, {"value": "high", "label": "High Income (Germany, US)"}]},
+      {"id": "duration", "label": "Expected Duration (years)", "default": 5, "min": 1, "max": 20, "step": 1}
+    ],
+    "results": [
+      {"id": "annualCost", "label": "Annual Cost"},
+      {"id": "totalCost", "label": "Total Cost Over Duration"},
+      {"id": "perRefugeeCost", "label": "Annual Cost Per Refugee"},
+      {"id": "components", "label": "Cost Breakdown"},
+      {"id": "gdpImpact", "label": "Economic Context"}
+    ],
+    "calcFn": "var perPerson = {low: 3500, middle: 8000, high: 25000}; var pp = perPerson[v.hostCountryIncome]; var annual = v.refugees * pp; var total = annual * v.duration; var shelter = Math.round(pp * 0.35); var food = Math.round(pp * 0.25); var health = Math.round(pp * 0.15); var education = Math.round(pp * 0.10); var comp = 'Shelter: $' + shelter + ', Food: $' + food + ', Health: $' + health + ', Education: $' + education + '/person/yr'; var context = annual > 10e9 ? 'Major GDP burden for most host countries' : annual > 1e9 ? 'Significant fiscal impact, needs international support' : 'Manageable with international aid coordination'; return {annualCost: '$' + (annual / 1e9).toFixed(1) + ' billion/year', totalCost: '$' + (total / 1e9).toFixed(1) + ' billion', perRefugeeCost: '$' + pp.toLocaleString() + '/person/year', components: comp, gdpImpact: context};",
+    "faq": [
+      {"question": "How much does it cost to host a refugee?", "answer": "Costs vary dramatically. In low-income countries like Jordan and Lebanon, basic support runs $3,000-5,000/person/year. In high-income countries like Germany, integration costs reach $20,000-30,000/person/year including housing, language training, and social services."}
+    ],
+    "formulas": ["Annual cost = refugees × per-person cost", "Per-person cost varies by host country income level"]
+  },
+  {
+    "slug": "defense-contractor-revenue-calculator",
+    "toolName": "Defense Contractor Revenue Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much do defense contractors earn from Middle East military operations?",
+    "metaDescription": "Calculate defense contractor revenue from Middle East conflicts. See how military spending flows to major defense companies.",
+    "keywords": "defense contractor revenue, military spending, arms sales, defense industry, military industrial complex calculator",
+    "inputs": [
+      {"id": "annualDefense", "label": "Annual ME Defense Spend ($B)", "default": 50, "min": 10, "max": 200, "step": 5},
+      {"id": "contractorShare", "label": "Contractor Share (%)", "default": 55, "min": 30, "max": 70, "step": 5},
+      {"id": "years", "label": "Years of Operations", "default": 23, "min": 1, "max": 30, "step": 1}
+    ],
+    "results": [
+      {"id": "annualRevenue", "label": "Annual Contractor Revenue"},
+      {"id": "totalRevenue", "label": "Total Over Period"},
+      {"id": "perDay", "label": "Revenue Per Day"},
+      {"id": "perHour", "label": "Revenue Per Hour"},
+      {"id": "topContractors", "label": "Top 5 Recipients"}
+    ],
+    "calcFn": "var annual = v.annualDefense * (v.contractorShare / 100); var total = annual * v.years; var perDay = annual * 1e9 / 365; var perHour = perDay / 24; return {annualRevenue: '$' + annual.toFixed(1) + ' billion/year', totalRevenue: '$' + total.toFixed(0) + ' billion', perDay: '$' + Math.round(perDay / 1e6) + ' million/day', perHour: '$' + Math.round(perHour / 1e6) + ' million/hour', topContractors: 'Lockheed Martin, Boeing, Raytheon, General Dynamics, Northrop Grumman'};",
+    "faq": [
+      {"question": "How much do defense contractors earn from Middle East operations?", "answer": "The top 5 US defense contractors earn roughly $150-200 billion annually combined from all contracts. Middle East operations have generated an estimated $1.5-2 trillion in defense contractor revenue since 2001."}
+    ],
+    "formulas": ["Annual contractor revenue = defense spending × contractor share %", "Total = annual × years of operations"]
+  },
+  {
+    "slug": "middle-east-stability-index-calculator",
+    "toolName": "Middle East Stability Index by Country",
+    "category": "geopolitical-energy",
+    "tagline": "Rate the political and economic stability of any Middle East country on a 0-100 scale",
+    "metaDescription": "Assess Middle East country stability scores based on political, economic, military, and social factors. Compare risk levels across the region.",
+    "keywords": "middle east stability, country risk score, political stability calculator, conflict risk index, middle east risk assessment",
+    "inputs": [
+      {"id": "country", "label": "Country", "default": "iran", "type": "select", "options": [{"value": "saudi", "label": "Saudi Arabia"}, {"value": "iran", "label": "Iran"}, {"value": "iraq", "label": "Iraq"}, {"value": "israel", "label": "Israel"}, {"value": "uae", "label": "UAE"}, {"value": "qatar", "label": "Qatar"}, {"value": "turkey", "label": "Turkey"}, {"value": "egypt", "label": "Egypt"}, {"value": "jordan", "label": "Jordan"}, {"value": "lebanon", "label": "Lebanon"}, {"value": "syria", "label": "Syria"}, {"value": "yemen", "label": "Yemen"}]}
+    ],
+    "results": [
+      {"id": "overallScore", "label": "Overall Stability Score"},
+      {"id": "politicalScore", "label": "Political Stability"},
+      {"id": "economicScore", "label": "Economic Stability"},
+      {"id": "securityScore", "label": "Security Score"},
+      {"id": "oilImpact", "label": "Oil Market Impact Risk"},
+      {"id": "outlook", "label": "12-Month Outlook"}
+    ],
+    "calcFn": "var data = {saudi: {overall: 62, political: 55, economic: 70, security: 60, oil: 'High — swing producer', outlook: 'Stable with reform risks'}, iran: {overall: 30, political: 20, economic: 25, security: 35, oil: 'Critical — sanctions & strait', outlook: 'Elevated risk — nuclear tensions'}, iraq: {overall: 35, political: 30, economic: 40, security: 30, oil: 'High — 5M bpd producer', outlook: 'Fragile stability, militia tensions'}, israel: {overall: 55, political: 45, economic: 75, security: 40, oil: 'Moderate — regional conflict risk', outlook: 'Elevated risk from regional conflict'}, uae: {overall: 80, political: 75, economic: 85, security: 80, oil: 'Moderate — 4M bpd', outlook: 'Stable, diversified economy'}, qatar: {overall: 78, political: 70, economic: 85, security: 80, oil: 'Moderate — LNG leader', outlook: 'Stable'}, turkey: {overall: 45, political: 35, economic: 40, security: 50, oil: 'Low — transit country', outlook: 'Economic pressures, political uncertainty'}, egypt: {overall: 40, political: 35, economic: 35, security: 45, oil: 'Low — Suez Canal risk', outlook: 'Economic stress, IMF dependency'}, jordan: {overall: 55, political: 60, economic: 40, security: 60, oil: 'Low — no production', outlook: 'Stable but aid-dependent'}, lebanon: {overall: 15, political: 10, economic: 8, security: 20, oil: 'Low — Hezbollah conflict risk', outlook: 'Systemic collapse ongoing'}, syria: {overall: 10, political: 5, economic: 5, security: 10, oil: 'Low — minimal production', outlook: 'Ongoing instability, reconstruction uncertain'}, yemen: {overall: 12, political: 8, economic: 5, security: 10, oil: 'Moderate — Houthi shipping attacks', outlook: 'Active conflict, humanitarian crisis'}}; var d = data[v.country]; return {overallScore: d.overall + '/100', politicalScore: d.political + '/100', economicScore: d.economic + '/100', securityScore: d.security + '/100', oilImpact: d.oil, outlook: d.outlook};",
+    "faq": [
+      {"question": "What factors determine Middle East stability?", "answer": "Key factors include government legitimacy, economic diversification, sectarian tensions, external threat levels, military capabilities, and oil revenue dependency. Countries heavily dependent on oil with limited political freedom tend to be less stable long-term."}
+    ],
+    "formulas": ["Stability scores based on political, economic, and security indices from public risk assessment data"]
+  },
+  {
+    "slug": "arms-deal-value-calculator",
+    "toolName": "Arms Deal Value Calculator by Country",
+    "category": "geopolitical-energy",
+    "tagline": "How much do countries spend on weapons imports and which suppliers profit most?",
+    "metaDescription": "Calculate and compare arms deal values by country. See who sells weapons to whom and the financial scale of the global arms trade.",
+    "keywords": "arms deal calculator, weapons sales, military imports, arms trade, defense exports, weapons spending",
+    "inputs": [
+      {"id": "buyer", "label": "Buyer Country", "default": "saudi", "type": "select", "options": [{"value": "saudi", "label": "Saudi Arabia"}, {"value": "india", "label": "India"}, {"value": "egypt", "label": "Egypt"}, {"value": "qatar", "label": "Qatar"}, {"value": "uae", "label": "UAE"}, {"value": "australia", "label": "Australia"}, {"value": "japan", "label": "Japan"}, {"value": "taiwan", "label": "Taiwan"}, {"value": "poland", "label": "Poland"}, {"value": "israel", "label": "Israel"}]}
+    ],
+    "results": [
+      {"id": "annualImports", "label": "Annual Arms Imports"},
+      {"id": "topSupplier", "label": "Top Supplier"},
+      {"id": "defBudget", "label": "Total Defense Budget"},
+      {"id": "importPct", "label": "Imports % of Budget"},
+      {"id": "keyDeals", "label": "Notable Recent Deals"}
+    ],
+    "calcFn": "var data = {saudi: {imports: 8.5, supplier: 'USA (73%)', budget: 75, deals: 'F-15 fleet, THAAD missiles, naval vessels'}, india: {imports: 7.2, supplier: 'Russia (45%), France (29%)', budget: 74, deals: 'Rafale jets, S-400 systems, submarines'}, egypt: {imports: 3.1, supplier: 'USA (43%), France (28%)', budget: 4.6, deals: 'F-16s, Rafale jets, Mistral ships'}, qatar: {imports: 3.8, supplier: 'USA (50%), France (25%)', budget: 15, deals: 'F-15QA, Rafale, NH90 helicopters'}, uae: {imports: 4.5, supplier: 'USA (60%), France (20%)', budget: 23, deals: 'F-35 (negotiating), Patriot, drones'}, australia: {imports: 3.2, supplier: 'USA (70%), UK (15%)', budget: 32, deals: 'AUKUS submarines, F-35, Abrams tanks'}, japan: {imports: 2.8, supplier: 'USA (95%)', budget: 50, deals: 'F-35, Aegis systems, Osprey'}, taiwan: {imports: 2.5, supplier: 'USA (100%)', budget: 19, deals: 'F-16V, M1 Abrams, Harpoon missiles'}, poland: {imports: 3.5, supplier: 'South Korea (40%), USA (40%)', budget: 30, deals: 'K2 tanks, FA-50 jets, HIMARS'}, israel: {imports: 2.4, supplier: 'USA (90%)', budget: 24, deals: 'F-35, Iron Dome, KC-46 tankers'}}; var d = data[v.buyer]; var pct = (d.imports / d.budget * 100).toFixed(0); return {annualImports: '$' + d.imports + ' billion/year', topSupplier: d.supplier, defBudget: '$' + d.budget + ' billion', importPct: pct + '% spent on imports', keyDeals: d.deals};",
+    "faq": [
+      {"question": "Who is the world's largest arms exporter?", "answer": "The United States dominates global arms exports with approximately 40% market share, followed by Russia (~16%), France (~11%), and China (~5%). The US had $238 billion in active Foreign Military Sales agreements as of 2023."}
+    ],
+    "formulas": ["Import percentage = annual arms imports / total defense budget × 100"]
+  },
+  {
+    "slug": "energy-weapon-effectiveness-calculator",
+    "toolName": "Energy Weapon Effectiveness Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much can Russia or Iran hurt Europe by weaponizing energy exports?",
+    "metaDescription": "Calculate the effectiveness of energy weaponization — how much damage can oil and gas export restrictions cause to target economies?",
+    "keywords": "energy weapon, energy coercion, gas weaponization, oil weapon, energy security, energy dependence",
+    "inputs": [
+      {"id": "aggressor", "label": "Energy Aggressor", "default": "russia", "type": "select", "options": [{"value": "russia", "label": "Russia (gas + oil)"}, {"value": "iran", "label": "Iran (oil + strait)"}, {"value": "opec", "label": "OPEC Cartel (oil)"}, {"value": "qatar", "label": "Qatar (LNG)"}]},
+      {"id": "target", "label": "Target Region", "default": "eu", "type": "select", "options": [{"value": "eu", "label": "European Union"}, {"value": "japan", "label": "Japan"}, {"value": "india", "label": "India"}, {"value": "us", "label": "United States"}]}
+    ],
+    "results": [
+      {"id": "effectivenessScore", "label": "Effectiveness Score"},
+      {"id": "supplyLeverage", "label": "Supply Leverage"},
+      {"id": "economicDamage", "label": "Potential Economic Damage"},
+      {"id": "mitigationTime", "label": "Time to Mitigate"},
+      {"id": "historicalUse", "label": "Historical Precedent"}
+    ],
+    "calcFn": "var data = {'russia-eu': {score: 85, leverage: '40% of EU gas supply pre-2022', damage: '2-5% GDP reduction', time: '2-3 years to diversify', history: 'Used in 2022 — reduced gas 80%, caused energy crisis'}, 'russia-japan': {score: 30, leverage: '8% of LNG imports', damage: '0.5% GDP', time: '6 months', history: 'Limited leverage — Japan diversified after 2011'}, 'russia-india': {score: 15, leverage: 'Minor oil supplier', damage: 'Minimal', time: 'Immediate alternatives', history: 'India actually increased Russian oil imports post-2022'}, 'russia-us': {score: 5, leverage: 'Minimal dependency', damage: 'Negligible direct', time: 'N/A', history: 'US is net energy exporter'}, 'iran-eu': {score: 40, leverage: 'Strait of Hormuz chokepoint', damage: '1-3% GDP if strait closed', time: '3-6 months via alternatives', history: 'Threatened multiple times, never fully executed'}, 'iran-japan': {score: 75, leverage: '87% of oil transits Hormuz', damage: '4-8% GDP', time: '6-12 months', history: 'Japan extremely vulnerable to strait closure'}, 'iran-india': {score: 55, leverage: '62% from ME via Hormuz', damage: '2-4% GDP', time: '6-12 months', history: 'India has limited strategic reserves'}, 'iran-us': {score: 20, leverage: 'Indirect via global price', damage: '0.5-1% GDP', time: 'SPR covers 90 days', history: 'US mostly insulated but faces price spikes'}, 'opec-eu': {score: 60, leverage: 'Controls 30% of global supply', damage: '2-4% GDP', time: '12+ months', history: '1973 embargo devastated West'}, 'opec-japan': {score: 70, leverage: 'Near-total dependency', damage: '5-8% GDP', time: '12+ months', history: '1973 embargo caused severe recession'}, 'opec-india': {score: 55, leverage: 'Major importer', damage: '3-5% GDP', time: '12+ months', history: 'Rising vulnerability with growth'}, 'opec-us': {score: 25, leverage: 'Limited since shale boom', damage: '0.5-1% GDP via prices', time: '3-6 months', history: '1973 embargo led to SPR creation'}, 'qatar-eu': {score: 35, leverage: '15% of EU LNG', damage: '0.5-1% GDP', time: '6-12 months', history: 'Replaced some Russian gas post-2022'}, 'qatar-japan': {score: 45, leverage: '12% of LNG imports', damage: '1-2% GDP', time: '6-12 months', history: 'Important but diversified LNG sources'}, 'qatar-india': {score: 40, leverage: '40% of LNG imports', damage: '1-2% GDP', time: '12+ months', history: 'Growing dependency'}, 'qatar-us': {score: 5, leverage: 'Minimal', damage: 'Negligible', time: 'N/A', history: 'US is LNG exporter'}}; var key = v.aggressor + '-' + v.target; var d = data[key] || {score: 20, leverage: 'Limited data', damage: 'Unknown', time: 'Unknown', history: 'No major precedent'}; return {effectivenessScore: d.score + '/100', supplyLeverage: d.leverage, economicDamage: d.damage, mitigationTime: d.time, historicalUse: d.history};",
+    "faq": [
+      {"question": "Can energy be used as a weapon?", "answer": "Yes. Russia demonstrated this clearly in 2022 by cutting gas supplies to Europe by ~80%, causing energy prices to spike 300-400% and contributing to double-digit inflation across the EU. The 1973 Arab oil embargo is the classic example."}
+    ],
+    "formulas": ["Effectiveness score based on supply leverage, alternative availability, and strategic reserve coverage"]
+  },
+  {
+    "slug": "lng-terminal-capacity-calculator",
+    "toolName": "LNG Terminal Capacity vs Demand Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Can LNG terminals replace pipeline gas? Check the capacity gap for any region.",
+    "metaDescription": "Calculate LNG terminal import capacity versus regional demand. See if liquefied natural gas can replace pipeline supplies during disruptions.",
+    "keywords": "LNG terminal capacity, natural gas calculator, LNG import capacity, gas supply calculator, energy infrastructure",
+    "inputs": [
+      {"id": "region", "label": "Region", "default": "eu", "type": "select", "options": [{"value": "eu", "label": "European Union"}, {"value": "japan", "label": "Japan"}, {"value": "china", "label": "China"}, {"value": "india", "label": "India"}, {"value": "south-korea", "label": "South Korea"}, {"value": "uk", "label": "United Kingdom"}]},
+      {"id": "disruption", "label": "Pipeline Disruption (%)", "default": 50, "min": 0, "max": 100, "step": 10}
+    ],
+    "results": [
+      {"id": "lngCapacity", "label": "LNG Import Capacity"},
+      {"id": "totalDemand", "label": "Total Gas Demand"},
+      {"id": "pipelineGap", "label": "Pipeline Supply Lost"},
+      {"id": "canLngCover", "label": "LNG Coverage"},
+      {"id": "deficit", "label": "Supply Deficit/Surplus"}
+    ],
+    "calcFn": "var data = {eu: {lng: 270, demand: 400, pipeline: 200}, japan: {lng: 210, demand: 100, pipeline: 0}, china: {lng: 120, demand: 380, pipeline: 80}, india: {lng: 60, demand: 65, pipeline: 0}, 'south-korea': {lng: 90, demand: 55, pipeline: 0}, uk: {lng: 50, demand: 80, pipeline: 40}}; var d = data[v.region]; var pipelineLost = d.pipeline * (v.disruption / 100); var nonPipeline = d.demand - d.pipeline; var needed = nonPipeline + pipelineLost; var coverage = Math.min(100, (d.lng / needed * 100)); var deficit = d.lng - needed; return {lngCapacity: d.lng + ' bcm/year', totalDemand: d.demand + ' bcm/year', pipelineGap: Math.round(pipelineLost) + ' bcm lost', canLngCover: coverage.toFixed(0) + '% of non-pipeline demand', deficit: deficit > 0 ? 'Surplus: ' + deficit + ' bcm' : 'Deficit: ' + Math.abs(Math.round(deficit)) + ' bcm'};",
+    "faq": [
+      {"question": "Can LNG fully replace Russian pipeline gas to Europe?", "answer": "Europe has rapidly expanded LNG capacity since 2022, but full replacement is challenging. EU LNG terminal capacity is ~270 bcm/year vs ~155 bcm of pre-war Russian pipeline gas. However, global LNG supply is finite and competition from Asia keeps prices high."}
+    ],
+    "formulas": ["Pipeline supply lost = pipeline imports × disruption %", "LNG coverage = LNG capacity / (demand - remaining pipeline) × 100"]
+  },
+  {
+    "slug": "china-oil-dependency-calculator",
+    "toolName": "China Oil Dependency Risk Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How vulnerable is China's economy to oil supply disruptions?",
+    "metaDescription": "Calculate China's oil import dependency and vulnerability to supply disruptions. Analyze the strategic risks of China's growing energy needs.",
+    "keywords": "china oil dependency, china energy security, oil imports china, china vulnerability, energy risk calculator",
+    "inputs": [
+      {"id": "disruptionPct", "label": "Import Disruption (%)", "default": 30, "min": 10, "max": 100, "step": 5},
+      {"id": "sprDays", "label": "China SPR Coverage (days)", "default": 40, "min": 20, "max": 100, "step": 5},
+      {"id": "oilPrice", "label": "Current Oil Price ($/barrel)", "default": 75, "min": 40, "max": 200, "step": 1}
+    ],
+    "results": [
+      {"id": "importDependency", "label": "Oil Import Dependency"},
+      {"id": "dailyImports", "label": "Daily Oil Imports"},
+      {"id": "supplyLoss", "label": "Supply Disrupted"},
+      {"id": "sprCoverage", "label": "SPR Would Last"},
+      {"id": "economicImpact", "label": "GDP Impact Estimate"},
+      {"id": "mainRoutes", "label": "Vulnerable Supply Routes"}
+    ],
+    "calcFn": "var totalConsumption = 15.4; var domesticProd = 4.1; var imports = totalConsumption - domesticProd; var depPct = (imports / totalConsumption * 100); var disrupted = imports * (v.disruptionPct / 100); var sprBarrels = v.sprDays * disrupted; var actualSprDays = Math.round(sprBarrels / disrupted); var gdpImpact = (v.disruptionPct / 100) * 3.5; return {importDependency: depPct.toFixed(0) + '% of oil imported', dailyImports: imports.toFixed(1) + ' million bpd', supplyLoss: disrupted.toFixed(1) + ' million bpd cut', sprCoverage: actualSprDays + ' days at disrupted rate', economicImpact: gdpImpact.toFixed(1) + '% GDP reduction (est.)', mainRoutes: 'Strait of Malacca (80%), Middle East (47% of imports)'};",
+    "faq": [
+      {"question": "How dependent is China on oil imports?", "answer": "China imports approximately 73% of its oil, roughly 11 million barrels per day. The majority transits through the Strait of Malacca, a chokepoint that US naval forces could theoretically blockade during a conflict."}
+    ],
+    "formulas": ["Import dependency = (consumption - production) / consumption × 100", "SPR coverage = reserve barrels / daily disruption"]
+  },
+  {
+    "slug": "taiwan-semiconductor-supply-impact-calculator",
+    "toolName": "Taiwan Conflict Semiconductor Supply Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What happens to the global tech supply chain if Taiwan is disrupted?",
+    "metaDescription": "Calculate the semiconductor supply chain impact of a Taiwan conflict. See how chip shortages would affect industries from cars to phones to military equipment.",
+    "keywords": "taiwan semiconductor, chip supply chain, TSMC impact, taiwan conflict, semiconductor shortage calculator",
+    "inputs": [
+      {"id": "scenario", "label": "Disruption Scenario", "default": "blockade", "type": "select", "options": [{"value": "sanctions", "label": "Trade Sanctions Only"}, {"value": "blockade", "label": "Naval Blockade"}, {"value": "invasion", "label": "Military Invasion"}, {"value": "destruction", "label": "Fab Destruction/Scorched Earth"}]},
+      {"id": "duration", "label": "Duration (months)", "default": 6, "min": 1, "max": 24, "step": 1}
+    ],
+    "results": [
+      {"id": "chipSupplyLoss", "label": "Global Chip Supply Lost"},
+      {"id": "industriesHit", "label": "Industries Most Affected"},
+      {"id": "gdpImpact", "label": "Global GDP Impact"},
+      {"id": "recoveryTime", "label": "Full Recovery Timeline"},
+      {"id": "deviceImpact", "label": "Consumer Impact"},
+      {"id": "carImpact", "label": "Auto Industry Impact"}
+    ],
+    "calcFn": "var scenarios = {sanctions: {chipLoss: 30, gdp: 0.5, recovery: '12-18 months', devices: 'Phone/PC prices up 20-40%', cars: '2-4 million fewer cars produced', industries: 'Consumer electronics, automotive, AI/data centers'}, blockade: {chipLoss: 65, gdp: 1.5, recovery: '2-3 years', devices: 'Severe shortages — phone prices double', cars: '8-12 million fewer cars', industries: 'Nearly all tech sectors, medical devices, military'}, invasion: {chipLoss: 85, gdp: 3, recovery: '3-5 years', devices: 'Critical shortage — rationing likely', cars: '15+ million fewer cars globally', industries: 'All manufacturing dependent on advanced chips'}, destruction: {chipLoss: 92, gdp: 5, recovery: '5-10 years to rebuild capacity', devices: 'Technology regression — no new advanced chips', cars: 'Auto production halved globally', industries: 'Every sector — catastrophic cascading failure'}}; var s = scenarios[v.scenario]; var durationFactor = Math.min(2, v.duration / 6); return {chipSupplyLoss: s.chipLoss + '% of advanced chips', industriesHit: s.industries, gdpImpact: '$' + (s.gdp * durationFactor * 1000).toFixed(0) + ' billion global GDP loss', recoveryTime: s.recovery, deviceImpact: s.devices, carImpact: s.cars};",
+    "faq": [
+      {"question": "Why is Taiwan so important for semiconductors?", "answer": "TSMC (Taiwan Semiconductor Manufacturing Company) produces over 90% of the world's most advanced chips (sub-7nm). These chips power everything from iPhones to F-35 fighters to data centers running AI. No other facility on Earth can produce these chips at scale."},
+      {"question": "Could chip production be moved elsewhere?", "answer": "TSMC is building fabs in Arizona and Japan, but they won't match Taiwan's capacity for 5-10 years. A single advanced fab costs $20+ billion and takes 3-4 years to build. Taiwan has dozens of such fabs."}
+    ],
+    "formulas": ["Chip supply loss based on TSMC market share and scenario severity", "GDP impact = base impact × duration factor"]
+  },
+  {
+    "slug": "rare-earth-supply-disruption-calculator",
+    "toolName": "Rare Earth Mineral Supply Disruption Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What happens if China restricts rare earth mineral exports?",
+    "metaDescription": "Calculate the impact of rare earth mineral supply disruptions on defense, tech, and clean energy industries. China controls 60%+ of global production.",
+    "keywords": "rare earth minerals, supply chain disruption, china rare earth, critical minerals, supply disruption calculator",
+    "inputs": [
+      {"id": "restrictionLevel", "label": "Export Restriction Level", "default": "50", "type": "select", "options": [{"value": "25", "label": "25% reduction"}, {"value": "50", "label": "50% reduction"}, {"value": "75", "label": "75% reduction"}, {"value": "100", "label": "Full embargo"}]},
+      {"id": "sector", "label": "Focus Sector", "default": "all", "type": "select", "options": [{"value": "defense", "label": "Defense/Military"}, {"value": "ev", "label": "Electric Vehicles"}, {"value": "wind", "label": "Wind Energy"}, {"value": "electronics", "label": "Consumer Electronics"}, {"value": "all", "label": "All Sectors"}]}
+    ],
+    "results": [
+      {"id": "supplyGap", "label": "Supply Gap"},
+      {"id": "priceImpact", "label": "Price Impact"},
+      {"id": "sectorImpact", "label": "Sector Impact"},
+      {"id": "alternativeTimeline", "label": "Alternative Source Timeline"},
+      {"id": "stockpile", "label": "US Strategic Stockpile"}
+    ],
+    "calcFn": "var restriction = parseInt(v.restrictionLevel); var chinaShare = 60; var supplyGap = restriction * chinaShare / 100; var priceMultiplier = 1 + (supplyGap / 100 * 5); var sectorData = {defense: 'F-35: 920 lbs of rare earths each. Virginia-class sub: 9,200 lbs. Production delays 12-24 months.', ev: 'Each EV motor needs 1-2 kg of rare earths. Production could drop 30-60%. Prices up $2,000-8,000/vehicle.', wind: 'Each wind turbine uses 600+ lbs. New installations delayed 50-80%. Clean energy transition slowed 5-10 years.', electronics: 'Smartphones, laptops, displays affected. Consumer prices up 10-30%.', all: 'Defense, EVs, wind, electronics all face shortages. Price increases 50-400% across critical minerals.'}; return {supplyGap: supplyGap.toFixed(0) + '% of global supply removed', priceImpact: '+' + ((priceMultiplier - 1) * 100).toFixed(0) + '% price increase', sectorImpact: sectorData[v.sector], alternativeTimeline: restriction > 50 ? '5-10 years for alternative mines' : '2-5 years for alternative mines', stockpile: 'US has ~42 days of critical mineral reserves'};",
+    "faq": [
+      {"question": "Has China ever restricted rare earth exports?", "answer": "Yes. In 2010, China cut rare earth exports to Japan by 40% during a territorial dispute. Prices spiked 300-600%. The WTO ruled against China in 2014, but China still controls the processing infrastructure."}
+    ],
+    "formulas": ["Supply gap = restriction % × China market share %", "Price impact = gap × elasticity factor"]
+  },
+  {
+    "slug": "petrodollar-decline-calculator",
+    "toolName": "Petrodollar Decline Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What happens to the US dollar if oil is traded in other currencies?",
+    "metaDescription": "Calculate the impact of petrodollar decline on US dollar strength, interest rates, and borrowing costs. Model de-dollarization scenarios.",
+    "keywords": "petrodollar, de-dollarization, oil currency, USD decline, dollar reserve currency, petrodollar calculator",
+    "inputs": [
+      {"id": "nonDollarPct", "label": "Oil Traded in Non-USD (%)", "default": 20, "min": 5, "max": 80, "step": 5},
+      {"id": "timeline", "label": "Transition Timeline", "default": "10", "type": "select", "options": [{"value": "5", "label": "5 years (rapid)"}, {"value": "10", "label": "10 years (gradual)"}, {"value": "20", "label": "20 years (slow)"}]}
+    ],
+    "results": [
+      {"id": "dollarImpact", "label": "USD Value Impact"},
+      {"id": "interestRateImpact", "label": "Interest Rate Impact"},
+      {"id": "debtCostIncrease", "label": "Extra US Debt Cost/Year"},
+      {"id": "inflationImpact", "label": "Inflation Impact"},
+      {"id": "importCostIncrease", "label": "Import Cost Increase"}
+    ],
+    "calcFn": "var oilMarketT = 3; var totalReserves = 12; var reserveShift = v.nonDollarPct / 100 * 0.3; var dollarDecline = reserveShift * 15; var rateIncrease = dollarDecline * 0.05; var debtCost = 34e12 * rateIncrease / 100; var inflation = dollarDecline * 0.1; var importInc = dollarDecline * 0.8; var years = parseInt(v.timeline); return {dollarImpact: '-' + dollarDecline.toFixed(1) + '% over ' + years + ' years', interestRateImpact: '+' + rateIncrease.toFixed(2) + '% on Treasury yields', debtCostIncrease: '+$' + Math.round(debtCost / 1e9) + ' billion/year', inflationImpact: '+' + inflation.toFixed(1) + '% additional inflation', importCostIncrease: '+' + importInc.toFixed(1) + '% on imported goods'};",
+    "faq": [
+      {"question": "What is the petrodollar system?", "answer": "Since the 1970s, oil has been predominantly traded in US dollars globally, creating constant demand for USD. This gives the US the ability to borrow cheaply and run trade deficits — the 'exorbitant privilege.' Countries like Saudi Arabia, China, and Russia have begun exploring non-dollar oil trade."}
+    ],
+    "formulas": ["Dollar decline = reserve shift × impact factor", "Extra debt cost = US debt × rate increase"]
+  },
+  {
+    "slug": "gold-vs-oil-ratio-calculator",
+    "toolName": "Gold Price vs Oil Price Ratio Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Track the gold-to-oil ratio — a key indicator of economic stress and crisis",
+    "metaDescription": "Calculate the gold-to-oil price ratio and compare to historical averages. This ratio is a key indicator of economic crisis and geopolitical stress.",
+    "keywords": "gold oil ratio, gold vs oil, commodity ratio calculator, crisis indicator, gold oil price",
+    "inputs": [
+      {"id": "goldPrice", "label": "Gold Price ($/oz)", "default": 2300, "min": 500, "max": 5000, "step": 10},
+      {"id": "oilPrice", "label": "Oil Price ($/barrel)", "default": 70, "min": 20, "max": 200, "step": 1}
+    ],
+    "results": [
+      {"id": "ratio", "label": "Gold/Oil Ratio"},
+      {"id": "historicalAvg", "label": "Historical Average"},
+      {"id": "signal", "label": "Market Signal"},
+      {"id": "barrelsPerOz", "label": "Barrels Per Gold Ounce"},
+      {"id": "interpretation", "label": "What This Means"}
+    ],
+    "calcFn": "var ratio = v.goldPrice / v.oilPrice; var avgRatio = 16; var signal = ''; var interp = ''; if (ratio > 30) { signal = 'Extreme Fear — gold very expensive vs oil'; interp = 'Markets pricing in severe economic risk or oil demand destruction. Similar to 2020 COVID crash.'; } else if (ratio > 22) { signal = 'Elevated Stress — risk-off sentiment'; interp = 'Investors prefer safe havens over growth assets. Potential recession indicator.'; } else if (ratio > 12) { signal = 'Normal Range'; interp = 'Markets balanced between growth and safety expectations.'; } else { signal = 'Risk-On — oil expensive vs gold'; interp = 'Strong economic activity driving oil demand. Similar to 2008 pre-crisis or commodity booms.'; } return {ratio: ratio.toFixed(1) + ':1', historicalAvg: avgRatio + ':1 (40-year average)', signal: signal, barrelsPerOz: '1 oz gold buys ' + ratio.toFixed(1) + ' barrels of oil', interpretation: interp};",
+    "faq": [
+      {"question": "What does the gold/oil ratio tell us?", "answer": "The gold/oil ratio measures how many barrels of oil one ounce of gold can buy. When the ratio is high (>25), it signals economic fear — investors prefer gold's safety. When low (<12), it signals economic confidence and strong oil demand. The 40-year average is about 16:1."}
+    ],
+    "formulas": ["Gold/Oil Ratio = gold price per ounce / oil price per barrel"]
+  },
+  {
+    "slug": "currency-devaluation-oil-shock-calculator",
+    "toolName": "Currency Devaluation from Oil Shock Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much would your country's currency devalue from a major oil price shock?",
+    "metaDescription": "Calculate potential currency devaluation from oil price shocks for importing nations. Model how energy crises weaken currencies of oil-dependent economies.",
+    "keywords": "currency devaluation, oil shock, forex calculator, currency crisis, oil price currency impact",
+    "inputs": [
+      {"id": "country", "label": "Currency", "default": "inr", "type": "select", "options": [{"value": "eur", "label": "Euro (EUR)"}, {"value": "gbp", "label": "British Pound (GBP)"}, {"value": "jpy", "label": "Japanese Yen (JPY)"}, {"value": "inr", "label": "Indian Rupee (INR)"}, {"value": "try", "label": "Turkish Lira (TRY)"}, {"value": "krw", "label": "South Korean Won (KRW)"}, {"value": "pkr", "label": "Pakistani Rupee (PKR)"}, {"value": "egp", "label": "Egyptian Pound (EGP)"}]},
+      {"id": "oilSpike", "label": "Oil Price Increase (%)", "default": 50, "min": 10, "max": 200, "step": 10}
+    ],
+    "results": [
+      {"id": "devaluation", "label": "Expected Devaluation"},
+      {"id": "importCost", "label": "Import Cost Increase"},
+      {"id": "inflationImpact", "label": "Inflation Impact"},
+      {"id": "vulnerability", "label": "Vulnerability Level"},
+      {"id": "reserves", "label": "Forex Reserve Buffer"}
+    ],
+    "calcFn": "var vuln = {eur: {sensitivity: 0.08, reserves: 'Strong', vuln: 'Low'}, gbp: {sensitivity: 0.10, reserves: 'Strong', vuln: 'Low-Moderate'}, jpy: {sensitivity: 0.12, reserves: 'Very Strong', vuln: 'Moderate'}, inr: {sensitivity: 0.20, reserves: 'Adequate', vuln: 'High'}, try: {sensitivity: 0.35, reserves: 'Weak', vuln: 'Very High'}, krw: {sensitivity: 0.15, reserves: 'Strong', vuln: 'Moderate'}, pkr: {sensitivity: 0.40, reserves: 'Critical', vuln: 'Extreme'}, egp: {sensitivity: 0.45, reserves: 'Critical', vuln: 'Extreme'}}; var d = vuln[v.country]; var deval = v.oilSpike * d.sensitivity / 100; var importCostInc = deval * 0.6 + v.oilSpike / 100 * 0.3; var inflation = deval * 0.4 + v.oilSpike / 100 * 0.15; return {devaluation: '-' + (deval * 100).toFixed(1) + '% vs USD', importCost: '+' + (importCostInc * 100).toFixed(1) + '% overall', inflationImpact: '+' + (inflation * 100).toFixed(1) + '% additional inflation', vulnerability: d.vuln, reserves: d.reserves + ' forex reserves'};",
+    "faq": [
+      {"question": "Why do oil shocks cause currency devaluation?", "answer": "Oil-importing countries must buy USD to pay for oil. A price spike increases USD demand while draining the importer's foreign reserves. Countries with weak reserves (Turkey, Pakistan, Egypt) see the most severe currency declines."}
+    ],
+    "formulas": ["Devaluation = oil spike % × currency sensitivity factor", "Import cost increase = devaluation + direct oil cost increase"]
+  },
+  {
+    "slug": "iranian-rial-collapse-calculator",
+    "toolName": "Iranian Rial Collapse Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Track the collapse of Iran's currency under sanctions and see purchasing power loss",
+    "metaDescription": "Calculate Iranian rial purchasing power decline under different sanctions scenarios. Model how sanctions erode currency value and living standards.",
+    "keywords": "iranian rial, iran currency, rial collapse, sanctions impact, iran inflation, rial to usd",
+    "inputs": [
+      {"id": "sanctionLevel", "label": "Sanctions Severity", "default": "max", "type": "select", "options": [{"value": "jcpoa", "label": "JCPOA era (2015-2018)"}, {"value": "moderate", "label": "Moderate sanctions"}, {"value": "strict", "label": "Strict (pre-2023)"}, {"value": "max", "label": "Maximum pressure"}]},
+      {"id": "salary", "label": "Monthly Salary (million rial)", "default": 100, "min": 20, "max": 500, "step": 10}
+    ],
+    "results": [
+      {"id": "officialRate", "label": "Official Rate"},
+      {"id": "blackMarketRate", "label": "Black Market Rate"},
+      {"id": "salaryUSD", "label": "Salary in USD"},
+      {"id": "purchasingPower", "label": "Purchasing Power Loss"},
+      {"id": "inflation", "label": "Annual Inflation"}
+    ],
+    "calcFn": "var rates = {jcpoa: {official: 32000, black: 38000, inflation: 12}, moderate: {official: 42000, black: 180000, inflation: 30}, strict: {official: 42000, black: 350000, inflation: 45}, max: {official: 42000, black: 550000, inflation: 55}}; var r = rates[v.sanctionLevel]; var salaryRial = v.salary * 1e6; var salaryUSDblack = salaryRial / r.black; var preJCPOArate = 32000; var powerLoss = ((r.black - preJCPOArate) / r.black * 100); return {officialRate: '1 USD = ' + r.official.toLocaleString() + ' rial (gov)', blackMarketRate: '1 USD = ' + r.black.toLocaleString() + ' rial (market)', salaryUSD: '$' + Math.round(salaryUSDblack) + '/month (at market rate)', purchasingPower: '-' + powerLoss.toFixed(0) + '% vs pre-sanctions', inflation: r.inflation + '% annually'};",
+    "faq": [
+      {"question": "Why are there two exchange rates?", "answer": "Iran maintains an official government rate (used for essential imports) and a free market rate that reflects actual currency demand. The gap between them has widened dramatically under sanctions, with the black market rate sometimes 10x the official rate."}
+    ],
+    "formulas": ["Salary in USD = salary in rial / black market rate", "Purchasing power loss = (current rate - pre-sanctions rate) / current rate × 100"]
+  },
+  {
+    "slug": "proxy-war-cost-calculator",
+    "toolName": "Proxy War Cost Estimator by Conflict",
+    "category": "geopolitical-energy",
+    "tagline": "How much do proxy wars cost the nations funding them?",
+    "metaDescription": "Calculate the financial cost of proxy wars by conflict. See how much nations spend supporting proxy forces compared to direct military action.",
+    "keywords": "proxy war cost, military proxy, conflict funding calculator, war funding, proxy conflict cost",
+    "inputs": [
+      {"id": "conflict", "label": "Proxy Conflict", "default": "yemen", "type": "select", "options": [{"value": "yemen", "label": "Yemen (Saudi/Iran)"}, {"value": "syria", "label": "Syria (multi-party)"}, {"value": "ukraine", "label": "Ukraine (US/NATO vs Russia)"}, {"value": "libya", "label": "Libya (Turkey/UAE/Egypt)"}, {"value": "lebanon", "label": "Lebanon/Hezbollah (Iran)"}]},
+      {"id": "years", "label": "Years of Involvement", "default": 5, "min": 1, "max": 15, "step": 1}
+    ],
+    "results": [
+      {"id": "sponsorCost", "label": "Sponsor Annual Cost"},
+      {"id": "totalSpent", "label": "Total Spent"},
+      {"id": "casualties", "label": "Estimated Casualties"},
+      {"id": "vsDirectWar", "label": "vs Direct War Cost"},
+      {"id": "mainSponsors", "label": "Primary Sponsors"}
+    ],
+    "calcFn": "var data = {yemen: {annual: 5, casualties: '377,000+', direct: '20x cheaper than direct invasion', sponsors: 'Saudi Arabia (~$100B total), Iran (~$1B/yr to Houthis)'}, syria: {annual: 4, casualties: '500,000+', direct: 'Multiple sponsors spent $50B+ combined', sponsors: 'Russia, Iran, USA, Turkey, Gulf states'}, ukraine: {annual: 45, casualties: '200,000+ military', direct: 'Most expensive modern proxy — approaching direct war cost', sponsors: 'USA ($75B+), EU ($50B+), Russia (domestic spending)'}, libya: {annual: 2, casualties: '50,000+', direct: '10x cheaper than direct intervention', sponsors: 'Turkey, UAE, Egypt, Russia (Wagner)'}, lebanon: {annual: 0.7, casualties: 'Varies by period', direct: 'Very cost-effective for Iran\\'s influence', sponsors: 'Iran ($700M-1B/yr to Hezbollah)'}}; var d = data[v.conflict]; var total = d.annual * v.years; return {sponsorCost: '$' + d.annual + ' billion/year (primary sponsor)', totalSpent: '$' + total + ' billion over ' + v.years + ' years', casualties: d.casualties, vsDirectWar: d.direct, mainSponsors: d.sponsors};",
+    "faq": [
+      {"question": "Why do countries fight proxy wars?", "answer": "Proxy wars let nations project power without the political cost of deploying their own troops. They're typically 5-20x cheaper than direct military action and carry less domestic political risk, though they often last much longer."}
+    ],
+    "formulas": ["Total cost = annual sponsor cost × years of involvement"]
+  },
+  {
+    "slug": "european-energy-independence-timeline-calculator",
+    "toolName": "European Energy Independence Timeline Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "When can Europe be fully independent from Russian and Middle East energy?",
+    "metaDescription": "Calculate Europe's timeline to energy independence from Russia and Middle East suppliers. Model renewable buildout and LNG diversification scenarios.",
+    "keywords": "european energy independence, EU energy timeline, russia gas replacement, renewable energy europe, energy diversification",
+    "inputs": [
+      {"id": "renewableGrowth", "label": "Renewable Growth Rate (%/yr)", "default": 8, "min": 3, "max": 15, "step": 1},
+      {"id": "lngExpansion", "label": "LNG Import Expansion (%/yr)", "default": 5, "min": 0, "max": 15, "step": 1},
+      {"id": "demandReduction", "label": "Demand Reduction (%/yr)", "default": 2, "min": 0, "max": 5, "step": 0.5}
+    ],
+    "results": [
+      {"id": "currentDependency", "label": "Current Dependency"},
+      {"id": "gasIndependence", "label": "Gas Independence Year"},
+      {"id": "oilIndependence", "label": "Oil Independence Year"},
+      {"id": "fullIndependence", "label": "Full Energy Independence"},
+      {"id": "investmentNeeded", "label": "Investment Required"}
+    ],
+    "calcFn": "var currentGasDep = 15; var currentOilDep = 25; var totalDep = 40; var annualReduction = v.renewableGrowth * 0.3 + v.lngExpansion * 0.2 + v.demandReduction; var gasYears = Math.ceil(currentGasDep / annualReduction); var oilYears = Math.ceil(currentOilDep / (annualReduction * 0.6)); var fullYears = Math.ceil(totalDep / annualReduction); var gasYear = 2026 + gasYears; var oilYear = 2026 + oilYears; var fullYear = 2026 + fullYears; var investment = fullYears * 120; return {currentDependency: totalDep + '% of energy from Russia/ME', gasIndependence: gasYear.toString() + ' (from Russian gas)', oilIndependence: oilYear.toString() + ' (from ME oil)', fullIndependence: fullYear.toString(), investmentNeeded: '~' + Math.round(investment / 1000 * 10) / 10 + ' trillion EUR over ' + fullYears + ' years'};",
+    "faq": [
+      {"question": "How dependent is Europe on Russian energy?", "answer": "Pre-2022, the EU imported ~40% of gas and ~25% of oil from Russia. By 2024, Russian gas dropped to ~15% of EU supply through LNG imports, demand reduction, and renewable expansion. Full independence remains years away."}
+    ],
+    "formulas": ["Annual dependency reduction = renewable growth × 0.3 + LNG expansion × 0.2 + demand reduction", "Years to independence = current dependency / annual reduction"]
+  },
+  {
+    "slug": "commodity-price-war-calculator",
+    "toolName": "Commodity Price War Impact Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "What happens when major producers flood the market to crash commodity prices?",
+    "metaDescription": "Calculate the impact of commodity price wars on producers and consumers. Model scenarios like the 2020 Saudi-Russia oil price war.",
+    "keywords": "price war, commodity price war, oil price war, OPEC price war, commodity market, price collapse calculator",
+    "inputs": [
+      {"id": "commodity", "label": "Commodity", "default": "oil", "type": "select", "options": [{"value": "oil", "label": "Crude Oil"}, {"value": "gas", "label": "Natural Gas"}, {"value": "lithium", "label": "Lithium"}, {"value": "wheat", "label": "Wheat"}]},
+      {"id": "overproduction", "label": "Overproduction (%)", "default": 10, "min": 5, "max": 30, "step": 5},
+      {"id": "duration", "label": "Price War Duration (months)", "default": 6, "min": 1, "max": 24, "step": 1}
+    ],
+    "results": [
+      {"id": "priceCollapse", "label": "Price Decline"},
+      {"id": "producerLosses", "label": "Producer Revenue Loss"},
+      {"id": "consumerSavings", "label": "Consumer Savings"},
+      {"id": "casualties", "label": "Industry Casualties"},
+      {"id": "precedent", "label": "Historical Precedent"}
+    ],
+    "calcFn": "var data = {oil: {base: 70, elasticity: 4, prodLoss: 200, savings: 150, casualties: 'US shale bankruptcies, layoffs in oil sector', precedent: '2020 Saudi-Russia price war: oil crashed to -$37/barrel'}, gas: {base: 3, elasticity: 5, prodLoss: 80, savings: 60, casualties: 'Gas producers, LNG project delays', precedent: '2020 gas glut crashed Henry Hub prices 60%'}, lithium: {base: 25000, elasticity: 3, prodLoss: 15, savings: 8, casualties: 'Junior miners, exploration companies', precedent: '2023-24: China overproduction crashed lithium 80%'}, wheat: {base: 7, elasticity: 2, prodLoss: 30, savings: 20, casualties: 'Small farmers, developing country exporters', precedent: 'EU dumping has historically devastated African farmers'}}; var d = data[v.commodity]; var decline = v.overproduction * d.elasticity; var loss = d.prodLoss * (decline / 100) * (v.duration / 12); var save = d.savings * (decline / 100) * (v.duration / 12); return {priceCollapse: '-' + decline + '% from current levels', producerLosses: '$' + Math.round(loss) + ' billion', consumerSavings: '$' + Math.round(save) + ' billion', casualties: d.casualties, precedent: d.precedent};",
+    "faq": [
+      {"question": "What was the 2020 oil price war?", "answer": "In March 2020, Saudi Arabia and Russia failed to agree on production cuts, leading Saudi Arabia to flood the market. Combined with COVID demand collapse, oil briefly went negative (-$37/barrel) for the first time in history."}
+    ],
+    "formulas": ["Price decline = overproduction % × price elasticity", "Revenue loss = base market size × decline × duration"]
+  },
+  {
+    "slug": "middle-east-escalation-risk-index",
+    "toolName": "Middle East Conflict Escalation Risk Index",
+    "category": "geopolitical-energy",
+    "tagline": "Score the current risk of Middle East conflict escalation based on key indicators",
+    "metaDescription": "Calculate Middle East conflict escalation risk based on military deployments, diplomatic tensions, proxy activity, and oil market signals.",
+    "keywords": "conflict risk index, escalation risk, middle east tensions, war probability, conflict calculator, geopolitical risk",
+    "inputs": [
+      {"id": "militaryActivity", "label": "Military Activity Level", "default": 7, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "diplomaticTension", "label": "Diplomatic Tension Level", "default": 8, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "proxyConflict", "label": "Proxy Conflict Intensity", "default": 7, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "oilMarketStress", "label": "Oil Market Stress", "default": 5, "min": 1, "max": 10, "step": 1, "type": "range"},
+      {"id": "nuclearThreat", "label": "Nuclear Threat Level", "default": 6, "min": 1, "max": 10, "step": 1, "type": "range"}
+    ],
+    "results": [
+      {"id": "overallRisk", "label": "Overall Escalation Risk"},
+      {"id": "riskLevel", "label": "Risk Category"},
+      {"id": "oilPriceRisk", "label": "Oil Price Risk Premium"},
+      {"id": "historicalComp", "label": "Historical Comparison"},
+      {"id": "keyDrivers", "label": "Primary Risk Drivers"}
+    ],
+    "calcFn": "var weighted = v.militaryActivity * 0.25 + v.diplomaticTension * 0.15 + v.proxyConflict * 0.25 + v.oilMarketStress * 0.15 + v.nuclearThreat * 0.20; var score = (weighted * 10).toFixed(0); var level = weighted > 8 ? 'Critical' : weighted > 6 ? 'High' : weighted > 4 ? 'Elevated' : weighted > 2 ? 'Moderate' : 'Low'; var oilRisk = '$' + Math.round(weighted * 3) + '-' + Math.round(weighted * 5) + '/barrel war premium'; var comp = weighted > 7 ? 'Similar to pre-Gulf War 1990 or 2019 Iran tensions' : weighted > 5 ? 'Comparable to Arab Spring 2011 or ISIS expansion 2014' : 'Within normal geopolitical baseline'; var maxFactor = Math.max(v.militaryActivity, v.diplomaticTension, v.proxyConflict, v.oilMarketStress, v.nuclearThreat); var drivers = []; if (v.nuclearThreat >= maxFactor) drivers.push('Nuclear program'); if (v.militaryActivity >= maxFactor) drivers.push('Military buildup'); if (v.proxyConflict >= maxFactor) drivers.push('Proxy escalation'); return {overallRisk: score + '/100', riskLevel: level, oilPriceRisk: oilRisk, historicalComp: comp, keyDrivers: drivers.join(', ') || 'Multiple factors elevated'};",
+    "faq": [
+      {"question": "How is escalation risk calculated?", "answer": "This index weighs five key factors: military activity (25%), proxy conflict intensity (25%), nuclear threat (20%), diplomatic tension (15%), and oil market stress (15%). Each is scored 1-10 based on observable indicators like troop deployments, missile tests, diplomatic recalls, and insurance premiums on oil tankers."}
+    ],
+    "formulas": ["Overall risk = military(25%) + proxy(25%) + nuclear(20%) + diplomatic(15%) + oil stress(15%)", "Each factor scored 1-10, weighted and normalized to 0-100"]
+  }
+]

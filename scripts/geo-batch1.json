@@ -1,0 +1,469 @@
+[
+  {
+    "slug": "strait-of-hormuz-gas-price-calculator",
+    "toolName": "Strait of Hormuz Gas Price Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "If Iran closes the Strait of Hormuz, what would YOU pay at the pump?",
+    "metaDescription": "Calculate how a Strait of Hormuz closure would impact your gas prices. See personal fuel cost increases based on disruption severity and duration.",
+    "keywords": "strait of hormuz, gas prices, iran oil, oil supply disruption, fuel cost calculator, iran tensions",
+    "contentIntro": "Roughly 21% of global oil passes through the Strait of Hormuz daily — about 17 million barrels. Any disruption to this narrow 21-mile-wide chokepoint between Iran and Oman sends shockwaves through global energy markets within hours. Historical precedent from the 1990 Gulf War saw oil spike 140% in 3 months. This calculator uses real supply/demand elasticity models to estimate your personal fuel cost impact based on disruption severity.",
+    "howToSteps": ["Enter your current gas price per gallon", "Select the disruption severity level (partial blockade to full closure)", "Enter how many miles you drive per month", "Enter your vehicle's MPG to see your monthly cost increase"],
+    "tipsAndConsiderations": ["Even a partial disruption (25% reduction) historically causes 30-50% price spikes due to panic buying and speculation", "The US Strategic Petroleum Reserve can offset roughly 90 days of disrupted imports at current levels", "Gas prices typically lag crude oil spikes by 2-3 weeks at the pump", "Insurance rates for oil tankers through the strait have already risen 300% during past tensions"],
+    "inputs": [
+      {"id": "gasPrice", "label": "Current Gas Price ($/gal)", "default": 3.50, "min": 1, "max": 10, "step": 0.01},
+      {"id": "disruption", "label": "Disruption Level (%)", "default": 50, "min": 10, "max": 100, "step": 5, "type": "range"},
+      {"id": "monthlyMiles", "label": "Monthly Miles Driven", "default": 1200, "min": 100, "max": 5000, "step": 50},
+      {"id": "mpg", "label": "Vehicle MPG", "default": 25, "min": 10, "max": 60, "step": 1}
+    ],
+    "results": [
+      {"id": "newGasPrice", "label": "Projected Gas Price"},
+      {"id": "priceIncrease", "label": "Price Increase"},
+      {"id": "monthlyCostNow", "label": "Current Monthly Fuel Cost"},
+      {"id": "monthlyCostNew", "label": "Projected Monthly Fuel Cost"},
+      {"id": "monthlyHit", "label": "Extra Monthly Cost to You"},
+      {"id": "annualHit", "label": "Extra Annual Cost to You"}
+    ],
+    "calcFn": "var d = v.disruption / 100; var globalSupplyLoss = 0.21 * d; var priceMultiplier = 1 + (globalSupplyLoss * 4.5); var newPrice = v.gasPrice * priceMultiplier; var gallonsNow = v.monthlyMiles / v.mpg; var costNow = gallonsNow * v.gasPrice; var costNew = gallonsNow * newPrice; return {newGasPrice: '$' + newPrice.toFixed(2), priceIncrease: '+' + ((priceMultiplier - 1) * 100).toFixed(0) + '%', monthlyCostNow: '$' + costNow.toFixed(0), monthlyCostNew: '$' + costNew.toFixed(0), monthlyHit: '+$' + (costNew - costNow).toFixed(0) + '/mo', annualHit: '+$' + ((costNew - costNow) * 12).toFixed(0) + '/yr'};",
+    "faq": [
+      {"question": "How much oil flows through the Strait of Hormuz?", "answer": "Approximately 17 million barrels per day, representing about 21% of global oil consumption and roughly one-third of all seaborne oil trade."},
+      {"question": "Has the Strait of Hormuz ever been closed?", "answer": "It has never been fully closed, but Iran has threatened closure multiple times. During the Iran-Iraq War (1980-88), both nations attacked tankers in the strait. In 2019, Iran seized a British-flagged tanker, briefly disrupting traffic."},
+      {"question": "How quickly would gas prices rise if the strait closed?", "answer": "Oil futures would spike within hours. Pump prices typically follow within 1-3 weeks. During past Middle East crises, gas prices have risen 30-80% within weeks."},
+      {"question": "Could the US military keep the strait open?", "answer": "The US 5th Fleet is based in Bahrain specifically to protect strait shipping. However, Iran has extensive anti-ship missile capabilities, mines, and fast-attack boats that could disrupt traffic even against military opposition."}
+    ],
+    "formulas": ["Price multiplier = 1 + (global supply loss × price elasticity factor)", "Global supply loss = 0.21 × disruption percentage", "Monthly fuel cost = (monthly miles / MPG) × gas price"]
+  },
+  {
+    "slug": "oil-price-household-cost-calculator",
+    "toolName": "Household Cost if Oil Hits $150 Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much more would YOUR household pay if oil prices spike to crisis levels?",
+    "metaDescription": "Calculate your household's total cost increase if oil hits $150/barrel. See impact on gas, heating, groceries, and goods based on your family size and location.",
+    "keywords": "oil price impact, household energy cost, oil crisis calculator, gas price spike, inflation calculator, oil $150",
+    "contentIntro": "Oil doesn't just fill your gas tank — it's embedded in everything you buy. When crude oil hit $147/barrel in 2008, the average American household spent an extra $2,300 per year on energy alone. But the hidden costs in food (diesel transports 70% of goods), plastics, and consumer products added another $1,500+. This calculator models the full ripple effect of oil price spikes on your specific household.",
+    "howToSteps": ["Enter the target oil price scenario (default $150/barrel)", "Enter your household size and monthly driving miles", "Select your home heating type", "See your total annual cost increase across all categories"],
+    "tipsAndConsiderations": ["Food prices rise roughly 0.5% for every $10 increase in oil prices due to transportation and fertilizer costs", "Households heating with oil see the most direct impact — a $50/barrel increase can add $1,200+ to annual heating bills", "The 2008 oil spike contributed to the recession — consumer spending dropped as energy absorbed more household income", "Electric vehicle owners avoid direct fuel costs but still face indirect price increases on goods and food"],
+    "inputs": [
+      {"id": "oilTarget", "label": "Oil Price Scenario ($/barrel)", "default": 150, "min": 80, "max": 300, "step": 5},
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 40, "max": 120, "step": 1},
+      {"id": "householdSize", "label": "Household Size", "default": 3, "min": 1, "max": 8, "step": 1},
+      {"id": "monthlyMiles", "label": "Monthly Driving Miles", "default": 1200, "min": 0, "max": 5000, "step": 100},
+      {"id": "heatingType", "label": "Heating Type", "default": "gas", "type": "select", "options": [{"value": "gas", "label": "Natural Gas"}, {"value": "oil", "label": "Heating Oil"}, {"value": "electric", "label": "Electric"}, {"value": "none", "label": "No Heating/Mild Climate"}]}
+    ],
+    "results": [
+      {"id": "gasCostIncrease", "label": "Extra Gas Cost/Year"},
+      {"id": "heatingIncrease", "label": "Extra Heating Cost/Year"},
+      {"id": "foodIncrease", "label": "Extra Food Cost/Year"},
+      {"id": "goodsIncrease", "label": "Extra Goods/Services/Year"},
+      {"id": "totalAnnual", "label": "Total Extra Annual Cost"},
+      {"id": "totalMonthly", "label": "Extra Per Month"}
+    ],
+    "calcFn": "var pctChange = (v.oilTarget - v.currentOil) / v.currentOil; var gasInc = (v.monthlyMiles / 25) * v.gasPrice * pctChange * 0.6 * 12; var gasInc2 = (v.monthlyMiles / 25) * 3.5 * pctChange * 0.6 * 12; var heatMult = v.heatingType === 'oil' ? 1.0 : v.heatingType === 'gas' ? 0.5 : v.heatingType === 'electric' ? 0.3 : 0; var heatInc = 1800 * heatMult * pctChange; var foodInc = v.householdSize * 250 * 12 * pctChange * 0.05; var goodsInc = v.householdSize * 150 * pctChange * 0.3; var total = gasInc2 + heatInc + foodInc + goodsInc; return {gasCostIncrease: '+$' + Math.round(gasInc2), heatingIncrease: '+$' + Math.round(heatInc), foodIncrease: '+$' + Math.round(foodInc), goodsIncrease: '+$' + Math.round(goodsInc), totalAnnual: '+$' + Math.round(total), totalMonthly: '+$' + Math.round(total/12) + '/mo'};",
+    "faq": [
+      {"question": "How does oil price affect food prices?", "answer": "Oil impacts food through diesel fuel for transportation (trucks move 70% of US goods), petroleum-based fertilizers, and plastic packaging. Historically, a $10/barrel increase raises food prices about 0.5% within 3-6 months."},
+      {"question": "What was the highest oil price ever?", "answer": "Oil hit $147.27/barrel in July 2008. Adjusted for inflation, that's roughly $215 in 2024 dollars. The spike contributed to the 2008 financial crisis."},
+      {"question": "Would $150 oil cause a recession?", "answer": "Historically, oil price spikes above 100% of the trailing average have preceded recessions. The 1973, 1979, 1990, and 2008 recessions were all preceded by major oil price increases."}
+    ],
+    "formulas": ["Gas cost increase = (miles/MPG) × gas price × oil % change × 0.6 passthrough × 12", "Heating increase = base cost × heating type multiplier × oil % change", "Food increase = household size × monthly food × 12 × oil % change × 0.05"]
+  },
+  {
+    "slug": "middle-east-conflict-oil-price-calculator",
+    "toolName": "Middle East Conflict Oil Price Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "How would an escalation in Middle East tensions affect oil and gas prices?",
+    "metaDescription": "Estimate oil and gas price impacts from Middle East conflict escalation. Model scenarios from diplomatic tensions to full regional war.",
+    "keywords": "middle east conflict, oil prices, war oil impact, iran israel, gas price calculator, geopolitical risk",
+    "contentIntro": "The Middle East holds 48% of the world's proven oil reserves. Every major conflict in the region since 1973 has triggered an oil price shock. The 1973 Arab embargo quadrupled prices. The 1990 Gulf War doubled them. Even limited conflicts like the 2019 Abqaiq drone attack on Saudi Arabia caused a 15% overnight spike. This calculator models price impacts across five escalation scenarios based on historical precedent and current supply dynamics.",
+    "howToSteps": ["Select the conflict escalation scenario", "Enter the current oil price per barrel", "Enter your current gas price for personal impact", "See projected oil prices, gas prices, and economic indicators"],
+    "tipsAndConsiderations": ["Oil markets often 'price in' conflict risk before actual hostilities begin through a 'war premium'", "The severity of oil impact depends heavily on whether oil infrastructure is directly targeted", "Saudi Arabia and UAE have limited spare capacity (~3-4 million bpd) to offset disruptions", "US shale production can increase but takes 6-12 months to meaningfully ramp up"],
+    "inputs": [
+      {"id": "scenario", "label": "Escalation Scenario", "default": "regional", "type": "select", "options": [{"value": "tensions", "label": "Heightened Tensions (sanctions/threats)"}, {"value": "proxy", "label": "Proxy War Escalation"}, {"value": "limited", "label": "Limited Direct Conflict"}, {"value": "regional", "label": "Regional War (multiple countries)"}, {"value": "full", "label": "Full Regional War + Strait Closure"}]},
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 40, "max": 150, "step": 1},
+      {"id": "gasPrice", "label": "Current Gas Price ($/gal)", "default": 3.50, "min": 1, "max": 8, "step": 0.01}
+    ],
+    "results": [
+      {"id": "projectedOil", "label": "Projected Oil Price"},
+      {"id": "oilChange", "label": "Oil Price Change"},
+      {"id": "projectedGas", "label": "Projected Gas Price"},
+      {"id": "gasChange", "label": "Gas Price Change"},
+      {"id": "supplyLoss", "label": "Est. Supply Disruption"},
+      {"id": "duration", "label": "Expected Duration"}
+    ],
+    "calcFn": "var scenarios = {tensions: {mult: 1.15, supply: '1-2 million bpd', dur: 'Weeks to months'}, proxy: {mult: 1.30, supply: '2-3 million bpd', dur: 'Months'}, limited: {mult: 1.50, supply: '3-5 million bpd', dur: '3-6 months'}, regional: {mult: 2.0, supply: '5-8 million bpd', dur: '6-18 months'}, full: {mult: 3.0, supply: '15-20 million bpd', dur: '1-3 years'}}; var s = scenarios[v.scenario]; var newOil = v.currentOil * s.mult; var gasMultiplier = 1 + (s.mult - 1) * 0.6; var newGas = v.gasPrice * gasMultiplier; return {projectedOil: '$' + newOil.toFixed(0) + '/barrel', oilChange: '+' + ((s.mult - 1) * 100).toFixed(0) + '%', projectedGas: '$' + newGas.toFixed(2) + '/gal', gasChange: '+' + ((gasMultiplier - 1) * 100).toFixed(0) + '%', supplyLoss: s.supply, duration: s.dur};",
+    "faq": [
+      {"question": "How much oil comes from the Middle East?", "answer": "The Middle East produces about 31 million barrels per day, roughly 31% of global production. Saudi Arabia alone produces ~10 million bpd, making it the swing producer."},
+      {"question": "What's the worst-case oil price scenario?", "answer": "A full regional war with Strait of Hormuz closure could push oil above $200/barrel based on 2008 precedent. In 1973, the Arab oil embargo quadrupled prices in months."},
+      {"question": "How fast do oil prices react to conflict?", "answer": "Oil futures react within minutes. The 2019 Abqaiq attack caused a 15% spike overnight. Physical delivery prices adjust within days, and pump prices follow in 1-3 weeks."}
+    ],
+    "formulas": ["Projected oil = current price × scenario multiplier", "Gas multiplier = 1 + (oil multiplier - 1) × 0.6 passthrough rate"]
+  },
+  {
+    "slug": "iran-nuclear-timeline-calculator",
+    "toolName": "Iran Nuclear Timeline Estimator",
+    "category": "geopolitical-energy",
+    "tagline": "Based on publicly available enrichment data, how close is Iran to a nuclear weapon?",
+    "metaDescription": "Estimate Iran's nuclear weapon timeline based on enrichment rates, stockpile data, and weaponization factors from public IAEA reports.",
+    "keywords": "iran nuclear, nuclear timeline, iran enrichment, nuclear weapon calculator, IAEA iran, iran breakout time",
+    "contentIntro": "Iran's nuclear program has been the subject of intense international scrutiny since 2002. The IAEA reports that Iran has enriched uranium to 60% purity — weapons-grade is 90%. Under the 2015 JCPOA, Iran's breakout time was estimated at 12+ months. After withdrawing from the deal, that window has shrunk significantly. This calculator uses publicly available IAEA data on enrichment capacity, stockpile size, and centrifuge numbers to model potential timelines.",
+    "inputs": [
+      {"id": "enrichmentPct", "label": "Current Enrichment Level (%)", "default": 60, "min": 3.67, "max": 90, "step": 0.1},
+      {"id": "stockpileKg", "label": "HEU Stockpile (kg)", "default": 120, "min": 10, "max": 1000, "step": 10},
+      {"id": "centrifuges", "label": "Operating Centrifuges", "default": 6000, "min": 1000, "max": 20000, "step": 500},
+      {"id": "centrifugeType", "label": "Centrifuge Generation", "default": "ir6", "type": "select", "options": [{"value": "ir1", "label": "IR-1 (1st gen, slow)"}, {"value": "ir2", "label": "IR-2m (2nd gen)"}, {"value": "ir4", "label": "IR-4 (4th gen)"}, {"value": "ir6", "label": "IR-6 (6th gen, fastest)"}]}
+    ],
+    "results": [
+      {"id": "breakoutTime", "label": "Est. Breakout Time"},
+      {"id": "weaponsGradeNeeded", "label": "Weapons-Grade U Needed"},
+      {"id": "currentProgress", "label": "Enrichment Progress"},
+      {"id": "enrichmentGap", "label": "Remaining Enrichment Gap"},
+      {"id": "swuCapacity", "label": "Est. SWU Capacity/Year"}
+    ],
+    "calcFn": "var swuPerCentrifuge = {ir1: 0.8, ir2: 3, ir4: 4.5, ir6: 10}; var swuRate = v.centrifuges * (swuPerCentrifuge[v.centrifugeType] || 3); var weaponsKg = 25; var swuToWeaponsGrade = 5000; var pctDone = v.enrichmentPct / 90 * 100; var swuRemaining = swuToWeaponsGrade * (1 - v.enrichmentPct / 90) * (weaponsKg / Math.max(v.stockpileKg, 1)); var daysToBreakout = Math.max(1, Math.round((swuRemaining / swuRate) * 365)); var timeStr = daysToBreakout < 30 ? daysToBreakout + ' days' : daysToBreakout < 365 ? Math.round(daysToBreakout / 30) + ' months' : (daysToBreakout / 365).toFixed(1) + ' years'; return {breakoutTime: timeStr, weaponsGradeNeeded: weaponsKg + ' kg at 90%', currentProgress: pctDone.toFixed(1) + '% to weapons-grade', enrichmentGap: (90 - v.enrichmentPct).toFixed(1) + '% remaining', swuCapacity: Math.round(swuRate).toLocaleString() + ' SWU/yr'};",
+    "faq": [
+      {"question": "What is nuclear breakout time?", "answer": "Breakout time is the estimated period needed to produce enough weapons-grade (90%+) highly enriched uranium for one nuclear weapon, typically about 25 kg. It does not include weaponization — building the actual device."},
+      {"question": "What is the IAEA's role?", "answer": "The International Atomic Energy Agency conducts inspections and monitoring of Iran's nuclear facilities. Their quarterly reports provide the most authoritative public data on Iran's enrichment activities, stockpile sizes, and centrifuge deployments."},
+      {"question": "How accurate is this calculator?", "answer": "This uses simplified models based on publicly available data. Actual breakout estimates by intelligence agencies factor in classified information about facility hardening, weaponization expertise, and delivery systems that are not publicly known."}
+    ],
+    "formulas": ["SWU capacity = centrifuges × SWU per centrifuge per year", "Breakout time = remaining SWU needed / annual SWU capacity", "Progress = current enrichment / 90% weapons grade"]
+  },
+  {
+    "slug": "us-military-middle-east-cost-calculator",
+    "toolName": "US Military Middle East Cost Per Taxpayer Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much have YOU personally paid for US military operations in the Middle East?",
+    "metaDescription": "Calculate your personal share of US military spending in the Middle East. See lifetime cost per taxpayer for deployments, bases, and operations since 2001.",
+    "keywords": "military spending calculator, middle east war cost, defense spending per taxpayer, military budget, us military cost",
+    "contentIntro": "The Brown University Costs of War project estimates the US has spent over $8 trillion on post-9/11 military operations, with the majority in the Middle East. With approximately 150 million US taxpayers, that works out to over $53,000 per taxpayer — and counting. This calculator breaks down your personal share based on your tax bracket and years of taxpaying, and shows what that money could have funded domestically.",
+    "howToSteps": ["Enter your annual income for tax bracket estimation", "Enter how many years you've been paying taxes", "See your personal lifetime contribution to Middle East military spending", "Compare what that money could have funded alternatively"],
+    "tipsAndConsiderations": ["The $8 trillion figure includes direct war spending, veteran care, interest on war debt, and homeland security increases since 2001", "The US maintains roughly 45,000 troops across Middle East bases even in peacetime, costing approximately $50 billion/year", "Interest on war-related debt will continue for decades — the total cost is still growing", "These costs are shared across all taxpayers proportional to their tax burden, with higher earners paying a larger share"],
+    "inputs": [
+      {"id": "income", "label": "Annual Income ($)", "default": 65000, "min": 15000, "max": 500000, "step": 5000},
+      {"id": "taxYears", "label": "Years Paying Taxes", "default": 20, "min": 1, "max": 50, "step": 1}
+    ],
+    "results": [
+      {"id": "lifetimeShare", "label": "Your Lifetime Share"},
+      {"id": "annualShare", "label": "Your Annual Share"},
+      {"id": "monthlyShare", "label": "Your Monthly Share"},
+      {"id": "dailyShare", "label": "Your Daily Share"},
+      {"id": "altUse", "label": "Could Have Funded"}
+    ],
+    "calcFn": "var totalCost = 8000000000000; var taxpayers = 150000000; var avgShare = totalCost / taxpayers; var brackets = [[11000,0.1],[44725,0.12],[95375,0.22],[182100,0.24],[231250,0.32],[578125,0.35],[Infinity,0.37]]; var effectiveRate = 0; var remaining = v.income; for (var i = 0; i < brackets.length && remaining > 0; i++) { var prev = i > 0 ? brackets[i-1][0] : 0; var taxable = Math.min(remaining, brackets[i][0] - prev); effectiveRate += taxable * brackets[i][1]; remaining -= taxable; } effectiveRate = effectiveRate / v.income; var avgRate = 0.18; var myMultiplier = effectiveRate / avgRate; var myAnnualShare = (totalCost / taxpayers / 23) * myMultiplier; var myLifetime = myAnnualShare * v.taxYears; var altUses = []; if (myLifetime > 30000) altUses.push('a year of college'); if (myLifetime > 50000) altUses.push('a down payment on a home'); if (myLifetime > 100000) altUses.push('starting a small business'); var alt = altUses.length > 0 ? altUses.join(', ') : 'months of groceries'; return {lifetimeShare: '$' + Math.round(myLifetime).toLocaleString(), annualShare: '$' + Math.round(myAnnualShare).toLocaleString() + '/yr', monthlyShare: '$' + Math.round(myAnnualShare / 12) + '/mo', dailyShare: '$' + (myAnnualShare / 365).toFixed(2) + '/day', altUse: alt};",
+    "faq": [
+      {"question": "Where does the $8 trillion figure come from?", "answer": "The Brown University Costs of War project, the most comprehensive academic accounting of post-9/11 military spending. It includes direct war appropriations, DOD base budget increases, veteran care, interest on war-related debt, and homeland security spending."},
+      {"question": "Is this still being paid?", "answer": "Yes. Veteran care costs are projected to peak around 2048. Interest on war debt continues indefinitely. The US still maintains significant military presence across the Middle East, spending roughly $50 billion annually on regional operations."},
+      {"question": "How does this compare to other countries?", "answer": "The US spends more on its military than the next 10 countries combined. Middle East operations represent roughly 15-20% of total defense spending in any given year since 2001."}
+    ],
+    "formulas": ["Annual share = (total cost / taxpayers / years) × tax bracket multiplier", "Tax bracket multiplier = your effective rate / average effective rate", "Lifetime share = annual share × years paying taxes"]
+  },
+  {
+    "slug": "oil-price-gas-pump-calculator",
+    "toolName": "Oil Price to Gas Pump Price Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "See exactly how crude oil prices translate to what you pay at the pump",
+    "metaDescription": "Convert crude oil barrel prices to gas pump prices. Understand the breakdown of taxes, refining costs, and margins in your gas price.",
+    "keywords": "crude oil to gas price, oil price calculator, gas price breakdown, refining cost, fuel price estimator",
+    "inputs": [
+      {"id": "crudePrice", "label": "Crude Oil ($/barrel)", "default": 70, "min": 20, "max": 200, "step": 1},
+      {"id": "stateTax", "label": "State Gas Tax ($/gal)", "default": 0.35, "min": 0, "max": 0.80, "step": 0.01},
+      {"id": "refiningCost", "label": "Refining Cost ($/gal)", "default": 0.40, "min": 0.15, "max": 1.00, "step": 0.05}
+    ],
+    "results": [
+      {"id": "crudePerGallon", "label": "Crude Oil Per Gallon"},
+      {"id": "federalTax", "label": "Federal Tax"},
+      {"id": "totalTax", "label": "Total Taxes"},
+      {"id": "retailMargin", "label": "Retailer Margin"},
+      {"id": "estimatedGas", "label": "Estimated Gas Price"},
+      {"id": "crudePct", "label": "Crude % of Gas Price"}
+    ],
+    "calcFn": "var crudePerGal = v.crudePrice / 42; var fedTax = 0.184; var totalTax = fedTax + v.stateTax; var margin = 0.15; var est = crudePerGal + v.refiningCost + totalTax + margin; var crudePct = (crudePerGal / est * 100); return {crudePerGallon: '$' + crudePerGal.toFixed(2), federalTax: '$' + fedTax.toFixed(3), totalTax: '$' + totalTax.toFixed(3), retailMargin: '$' + margin.toFixed(2), estimatedGas: '$' + est.toFixed(2) + '/gal', crudePct: crudePct.toFixed(0) + '%'};",
+    "faq": [
+      {"question": "How many gallons of gas come from a barrel of oil?", "answer": "One barrel of crude oil (42 gallons) produces approximately 19-20 gallons of gasoline, plus diesel, jet fuel, and other products."},
+      {"question": "Why doesn't gas price drop as fast as oil?", "answer": "Gas prices are 'sticky' on the way down. Refiners and retailers maintain margins during price drops, a phenomenon economists call 'rockets and feathers' — prices rise like rockets but fall like feathers."}
+    ],
+    "formulas": ["Crude per gallon = barrel price / 42", "Estimated gas = crude/gal + refining + taxes + margin"]
+  },
+  {
+    "slug": "home-heating-oil-cost-calculator",
+    "toolName": "Home Heating Oil Cost Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Estimate your heating oil costs for the season based on home size and climate zone",
+    "metaDescription": "Calculate home heating oil costs by region, home size, and winter severity. Plan your heating budget with real consumption estimates.",
+    "keywords": "heating oil calculator, home heating cost, oil heating budget, winter fuel cost, heating oil consumption",
+    "inputs": [
+      {"id": "homeSqft", "label": "Home Size (sq ft)", "default": 2000, "min": 500, "max": 6000, "step": 100},
+      {"id": "oilPrice", "label": "Heating Oil Price ($/gal)", "default": 4.00, "min": 2, "max": 8, "step": 0.10},
+      {"id": "climate", "label": "Climate Zone", "default": "cold", "type": "select", "options": [{"value": "mild", "label": "Mild (Mid-Atlantic)"}, {"value": "cold", "label": "Cold (Northeast)"}, {"value": "severe", "label": "Severe (Northern New England)"}]},
+      {"id": "insulation", "label": "Insulation Quality", "default": "average", "type": "select", "options": [{"value": "poor", "label": "Poor (old home)"}, {"value": "average", "label": "Average"}, {"value": "good", "label": "Well Insulated"}]}
+    ],
+    "results": [
+      {"id": "gallonsPerSeason", "label": "Gallons Per Season"},
+      {"id": "seasonCost", "label": "Season Cost"},
+      {"id": "monthlyCost", "label": "Monthly (heating months)"},
+      {"id": "costPerSqft", "label": "Cost Per Sq Ft"}
+    ],
+    "calcFn": "var climateMultiplier = {mild: 0.7, cold: 1.0, severe: 1.35}; var insulationMultiplier = {poor: 1.3, average: 1.0, good: 0.75}; var baseGallons = v.homeSqft * 0.45; var gallons = Math.round(baseGallons * climateMultiplier[v.climate] * insulationMultiplier[v.insulation]); var cost = gallons * v.oilPrice; return {gallonsPerSeason: gallons.toLocaleString() + ' gal', seasonCost: '$' + Math.round(cost).toLocaleString(), monthlyCost: '$' + Math.round(cost / 6) + '/mo', costPerSqft: '$' + (cost / v.homeSqft).toFixed(2) + '/sqft'};",
+    "faq": [
+      {"question": "How many gallons of heating oil does an average home use?", "answer": "A 2,000 sq ft home in the Northeast uses roughly 800-1,000 gallons per heating season (October through March), depending on insulation and winter severity."},
+      {"question": "How is heating oil price related to crude oil?", "answer": "Heating oil is refined from crude oil and its price tracks crude closely with about a $0.50-1.00/gallon premium for refining, transportation, and margins."}
+    ],
+    "formulas": ["Base gallons = sq ft × 0.45", "Adjusted gallons = base × climate factor × insulation factor", "Season cost = gallons × price per gallon"]
+  },
+  {
+    "slug": "diesel-cost-per-mile-calculator",
+    "toolName": "Diesel Fuel Cost Per Mile Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Calculate your diesel fuel cost per mile for trucks, fleets, and commercial vehicles",
+    "metaDescription": "Calculate diesel fuel cost per mile for commercial vehicles, trucks, and fleets. Track fuel expenses and optimize routes based on current diesel prices.",
+    "keywords": "diesel cost per mile, trucking fuel cost, fleet fuel calculator, diesel price calculator, commercial vehicle fuel",
+    "inputs": [
+      {"id": "dieselPrice", "label": "Diesel Price ($/gal)", "default": 4.10, "min": 2, "max": 8, "step": 0.05},
+      {"id": "mpg", "label": "Vehicle MPG", "default": 6.5, "min": 3, "max": 30, "step": 0.5},
+      {"id": "dailyMiles", "label": "Daily Miles", "default": 500, "min": 50, "max": 1000, "step": 50},
+      {"id": "daysPerWeek", "label": "Days Per Week", "default": 5, "min": 1, "max": 7, "step": 1}
+    ],
+    "results": [
+      {"id": "costPerMile", "label": "Cost Per Mile"},
+      {"id": "dailyCost", "label": "Daily Fuel Cost"},
+      {"id": "weeklyCost", "label": "Weekly Fuel Cost"},
+      {"id": "monthlyCost", "label": "Monthly Fuel Cost"},
+      {"id": "annualCost", "label": "Annual Fuel Cost"}
+    ],
+    "calcFn": "var cpm = v.dieselPrice / v.mpg; var daily = cpm * v.dailyMiles; var weekly = daily * v.daysPerWeek; var monthly = weekly * 4.33; var annual = weekly * 52; return {costPerMile: '$' + cpm.toFixed(3), dailyCost: '$' + Math.round(daily).toLocaleString(), weeklyCost: '$' + Math.round(weekly).toLocaleString(), monthlyCost: '$' + Math.round(monthly).toLocaleString(), annualCost: '$' + Math.round(annual).toLocaleString()};",
+    "faq": [
+      {"question": "What's the average MPG for a semi truck?", "answer": "A loaded Class 8 semi truck averages 5.5-6.5 MPG. Empty trucks can achieve 7-8 MPG. Newer aerodynamic models may reach 8-10 MPG."},
+      {"question": "How does diesel price affect shipping costs?", "answer": "Fuel is typically 30-40% of trucking operating costs. A $1/gallon increase in diesel adds roughly $0.15 per mile, or about $70-80 per day for a long-haul trucker."}
+    ],
+    "formulas": ["Cost per mile = diesel price / MPG", "Daily cost = cost per mile × daily miles"]
+  },
+  {
+    "slug": "oil-price-recession-calculator",
+    "toolName": "Oil Price Recession Probability Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Historically, oil spikes precede recessions. What does the current price signal?",
+    "metaDescription": "Calculate recession probability based on oil price changes. Uses historical correlation between oil spikes and economic downturns since 1973.",
+    "keywords": "oil price recession, recession calculator, oil spike economic impact, recession probability, oil economics",
+    "inputs": [
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 30, "max": 200, "step": 1},
+      {"id": "yearAgoOil", "label": "Oil Price 1 Year Ago ($/barrel)", "default": 65, "min": 20, "max": 200, "step": 1},
+      {"id": "gdpGrowth", "label": "Current GDP Growth (%)", "default": 2.5, "min": -3, "max": 6, "step": 0.1}
+    ],
+    "results": [
+      {"id": "yoyChange", "label": "Year-Over-Year Oil Change"},
+      {"id": "riskLevel", "label": "Recession Risk Level"},
+      {"id": "probability", "label": "Historical Probability"},
+      {"id": "precedent", "label": "Historical Precedent"},
+      {"id": "timeline", "label": "If Recession, Likely Timing"}
+    ],
+    "calcFn": "var yoy = ((v.currentOil - v.yearAgoOil) / v.yearAgoOil) * 100; var prob = 0; var risk = ''; var precedent = ''; if (yoy > 100) { prob = 85; risk = 'Very High'; precedent = 'Similar to 1973, 1979, 2008'; } else if (yoy > 70) { prob = 65; risk = 'High'; precedent = 'Similar to 1990 Gulf War'; } else if (yoy > 40) { prob = 40; risk = 'Elevated'; precedent = 'Similar to 2000, 2011'; } else if (yoy > 20) { prob = 20; risk = 'Moderate'; precedent = 'Manageable if temporary'; } else { prob = 10; risk = 'Low'; precedent = 'Within normal volatility'; } if (v.gdpGrowth < 1) prob = Math.min(95, prob + 15); var timeline = prob > 50 ? '6-18 months after sustained spike' : '12-24 months if prices stay elevated'; return {yoyChange: (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%', riskLevel: risk, probability: prob + '%', precedent: precedent, timeline: timeline};",
+    "faq": [
+      {"question": "How often do oil spikes cause recessions?", "answer": "Since 1973, 6 of 7 US recessions were preceded by significant oil price increases. The exception was the 2020 COVID recession which was pandemic-driven. When oil doubles year-over-year, recession has followed within 18 months in 85% of cases."},
+      {"question": "Why does oil price affect the whole economy?", "answer": "Oil is embedded in transportation (70% of oil use), manufacturing, agriculture, and heating. When oil spikes, it acts as a tax on consumers and businesses, reducing spending power across the entire economy."}
+    ],
+    "formulas": ["Year-over-year change = (current - year ago) / year ago × 100", "Probability based on historical correlation of oil % change to recession frequency"]
+  },
+  {
+    "slug": "strategic-petroleum-reserve-calculator",
+    "toolName": "Strategic Petroleum Reserve Depletion Timeline",
+    "category": "geopolitical-energy",
+    "tagline": "How long would the US Strategic Petroleum Reserve last in a supply crisis?",
+    "metaDescription": "Calculate how long the US Strategic Petroleum Reserve would last under different crisis scenarios. Current levels, drawdown rates, and depletion timelines.",
+    "keywords": "strategic petroleum reserve, SPR calculator, oil reserve, emergency oil supply, US oil stockpile, energy security",
+    "inputs": [
+      {"id": "sprLevel", "label": "Current SPR Level (million barrels)", "default": 370, "min": 100, "max": 700, "step": 10},
+      {"id": "dailyUse", "label": "US Daily Oil Use (million bpd)", "default": 20, "min": 15, "max": 25, "step": 0.5},
+      {"id": "disruptionPct", "label": "Import Disruption (%)", "default": 30, "min": 10, "max": 100, "step": 5},
+      {"id": "maxDrawdown", "label": "Max SPR Release Rate (million bpd)", "default": 4.4, "min": 1, "max": 4.4, "step": 0.1}
+    ],
+    "results": [
+      {"id": "daysOfCover", "label": "Days of Coverage"},
+      {"id": "monthsOfCover", "label": "Months of Coverage"},
+      {"id": "barrelGap", "label": "Daily Supply Gap"},
+      {"id": "sprPctFull", "label": "SPR % Full"},
+      {"id": "depletionDate", "label": "Depletion Date (from today)"}
+    ],
+    "calcFn": "var dailyGap = v.dailyUse * (v.disruptionPct / 100); var effectiveRelease = Math.min(v.maxDrawdown, dailyGap); var days = Math.round(v.sprLevel / effectiveRelease); var months = (days / 30.44).toFixed(1); var capacity = 714; var pctFull = (v.sprLevel / capacity * 100).toFixed(1); var depDate = new Date(); depDate.setDate(depDate.getDate() + days); var dateStr = depDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'}); return {daysOfCover: days + ' days', monthsOfCover: months + ' months', barrelGap: dailyGap.toFixed(1) + ' million bpd', sprPctFull: pctFull + '% of 714M capacity', depletionDate: dateStr};",
+    "faq": [
+      {"question": "How much oil is in the Strategic Petroleum Reserve?", "answer": "As of early 2024, the SPR holds approximately 370 million barrels, down from a peak of 727 million in 2009. The Biden administration released 180 million barrels in 2022 and has been slowly refilling."},
+      {"question": "What is the maximum SPR release rate?", "answer": "The maximum drawdown rate is 4.4 million barrels per day, though actual releases have typically been 1-2 million bpd to avoid flooding the market."},
+      {"question": "When was the SPR created?", "answer": "The SPR was established in 1975 after the 1973-74 Arab oil embargo. It's stored in salt caverns along the Gulf Coast in Texas and Louisiana."}
+    ],
+    "formulas": ["Days of coverage = SPR level / effective daily release rate", "Effective release = min(max drawdown rate, daily supply gap)", "Daily supply gap = US daily use × disruption %"]
+  },
+  {
+    "slug": "opec-production-cut-price-calculator",
+    "toolName": "OPEC Production Cut Consumer Price Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "See how OPEC production cuts directly impact your gas and energy prices",
+    "metaDescription": "Calculate how OPEC oil production cuts impact gas prices and your household energy costs. Model different cut scenarios and see personal price effects.",
+    "keywords": "opec production cut, oil production impact, gas price calculator, opec oil price, energy cost increase",
+    "inputs": [
+      {"id": "cutSize", "label": "Production Cut (million bpd)", "default": 2.0, "min": 0.5, "max": 5.0, "step": 0.5},
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 40, "max": 150, "step": 1},
+      {"id": "gasPrice", "label": "Current Gas Price ($/gal)", "default": 3.50, "min": 2, "max": 6, "step": 0.05},
+      {"id": "monthlyMiles", "label": "Monthly Miles Driven", "default": 1200, "min": 100, "max": 5000, "step": 100}
+    ],
+    "results": [
+      {"id": "oilPriceImpact", "label": "New Oil Price"},
+      {"id": "gasPriceImpact", "label": "New Gas Price"},
+      {"id": "monthlyExtraCost", "label": "Extra Monthly Fuel Cost"},
+      {"id": "annualExtraCost", "label": "Extra Annual Fuel Cost"},
+      {"id": "globalImpact", "label": "Global Supply Reduction"}
+    ],
+    "calcFn": "var globalSupply = 100; var pctCut = v.cutSize / globalSupply; var priceElasticity = 8; var oilIncrease = pctCut * priceElasticity; var newOil = v.currentOil * (1 + oilIncrease); var gasIncrease = oilIncrease * 0.6; var newGas = v.gasPrice * (1 + gasIncrease); var gallonsPerMonth = v.monthlyMiles / 25; var extraMonthly = gallonsPerMonth * (newGas - v.gasPrice); return {oilPriceImpact: '$' + newOil.toFixed(0) + '/barrel (+' + (oilIncrease * 100).toFixed(0) + '%)', gasPriceImpact: '$' + newGas.toFixed(2) + '/gal', monthlyExtraCost: '+$' + extraMonthly.toFixed(0) + '/mo', annualExtraCost: '+$' + Math.round(extraMonthly * 12) + '/yr', globalImpact: v.cutSize + ' million bpd = ' + (pctCut * 100).toFixed(1) + '% of global supply'};",
+    "faq": [
+      {"question": "How much oil does OPEC produce?", "answer": "OPEC produces approximately 28-30 million barrels per day, about 30% of global supply. OPEC+ (including Russia and others) controls roughly 40% of global production."},
+      {"question": "Why does OPEC cut production?", "answer": "OPEC cuts production to increase oil prices when they fall below levels member nations need to balance their government budgets. Saudi Arabia needs roughly $80/barrel, while other members need $60-120."}
+    ],
+    "formulas": ["Oil price increase = (cut size / global supply) × price elasticity factor", "Gas price increase = oil increase × 0.6 passthrough rate"]
+  },
+  {
+    "slug": "iran-sanctions-oil-supply-calculator",
+    "toolName": "Iran Sanctions Oil Supply Impact Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "How much do Iran sanctions reduce global oil supply and increase your costs?",
+    "metaDescription": "Calculate the impact of Iran sanctions on global oil supply and consumer prices. Model enforcement levels from partial to maximum pressure.",
+    "keywords": "iran sanctions, oil supply impact, iran oil production, sanctions calculator, oil market impact",
+    "inputs": [
+      {"id": "enforcementLevel", "label": "Sanctions Enforcement", "default": "strict", "type": "select", "options": [{"value": "loose", "label": "Loose (waivers, slow enforcement)"}, {"value": "moderate", "label": "Moderate (partial waivers)"}, {"value": "strict", "label": "Strict (full enforcement)"}, {"value": "maximum", "label": "Maximum Pressure + secondary)"}]},
+      {"id": "iranBaseline", "label": "Iran Baseline Production (million bpd)", "default": 3.2, "min": 2, "max": 4, "step": 0.1},
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 40, "max": 150, "step": 1},
+      {"id": "gasPrice", "label": "Current Gas Price ($/gal)", "default": 3.50, "min": 2, "max": 6, "step": 0.05}
+    ],
+    "results": [
+      {"id": "iranExports", "label": "Iran Exports Remaining"},
+      {"id": "supplyLoss", "label": "Global Supply Loss"},
+      {"id": "oilPriceImpact", "label": "Oil Price Impact"},
+      {"id": "gasPriceImpact", "label": "Gas Price Impact"},
+      {"id": "iranRevenueLoss", "label": "Iran Revenue Loss/Year"}
+    ],
+    "calcFn": "var levels = {loose: {exportPct: 0.70, desc: '70%'}, moderate: {exportPct: 0.45, desc: '45%'}, strict: {exportPct: 0.20, desc: '20%'}, maximum: {exportPct: 0.05, desc: '5%'}}; var l = levels[v.enforcementLevel]; var exportsRemaining = v.iranBaseline * l.exportPct; var supplyLoss = v.iranBaseline * (1 - l.exportPct); var pctLoss = supplyLoss / 100; var oilInc = pctLoss * 8; var newOil = v.currentOil * (1 + oilInc); var gasInc = oilInc * 0.6; var newGas = v.gasPrice * (1 + gasInc); var revLoss = supplyLoss * (1 - l.exportPct) * v.currentOil * 365; return {iranExports: exportsRemaining.toFixed(1) + ' million bpd (' + l.desc + ' of baseline)', supplyLoss: supplyLoss.toFixed(1) + ' million bpd removed', oilPriceImpact: '$' + newOil.toFixed(0) + '/barrel (+' + (oilInc * 100).toFixed(0) + '%)', gasPriceImpact: '$' + newGas.toFixed(2) + '/gal', iranRevenueLoss: '$' + Math.round(supplyLoss * v.currentOil * 365 / 1e9) + ' billion/year'};",
+    "faq": [
+      {"question": "How much oil does Iran produce?", "answer": "Iran's production capacity is approximately 3.5-4 million barrels per day. Under maximum sanctions, exports dropped to under 500,000 bpd. With looser enforcement, Iran has exported 1.5-2 million bpd."},
+      {"question": "Who buys Iranian oil under sanctions?", "answer": "China is the primary buyer, purchasing roughly 80-90% of Iran's sanctioned exports, often at a significant discount. India, Syria, and Venezuela have also purchased Iranian oil."}
+    ],
+    "formulas": ["Exports remaining = baseline × enforcement export percentage", "Supply loss = baseline × (1 - export percentage)", "Oil price impact = (supply loss / global supply) × elasticity"]
+  },
+  {
+    "slug": "oil-supply-disruption-price-calculator",
+    "toolName": "Oil Supply Disruption Price Spike Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "Model how supply disruptions from any source affect oil and gas prices worldwide",
+    "metaDescription": "Calculate oil price spikes from supply disruptions. Model scenarios from pipeline attacks to full embargo and see consumer price impacts.",
+    "keywords": "oil supply disruption, price spike calculator, oil shock, energy crisis, supply disruption impact",
+    "inputs": [
+      {"id": "disruptionType", "label": "Disruption Type", "default": "country", "type": "select", "options": [{"value": "pipeline", "label": "Pipeline/Infrastructure Attack"}, {"value": "country", "label": "Single Country Disruption"}, {"value": "multi", "label": "Multi-Country Disruption"}, {"value": "embargo", "label": "Full Embargo/Blockade"}]},
+      {"id": "supplyLoss", "label": "Supply Loss (million bpd)", "default": 3, "min": 0.5, "max": 20, "step": 0.5},
+      {"id": "duration", "label": "Expected Duration (days)", "default": 60, "min": 7, "max": 365, "step": 7},
+      {"id": "currentOil", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 40, "max": 150, "step": 1}
+    ],
+    "results": [
+      {"id": "peakOil", "label": "Peak Oil Price"},
+      {"id": "avgOil", "label": "Avg Price During Disruption"},
+      {"id": "gasImpact", "label": "Gas Price Impact"},
+      {"id": "globalCost", "label": "Global Economic Cost"},
+      {"id": "recoveryTime", "label": "Price Recovery Timeline"}
+    ],
+    "calcFn": "var pctLoss = v.supplyLoss / 100; var panicMultiplier = v.duration > 90 ? 1.3 : v.duration > 30 ? 1.15 : 1.0; var typeMultiplier = {pipeline: 0.8, country: 1.0, multi: 1.3, embargo: 1.6}; var tm = typeMultiplier[v.disruptionType]; var priceSpike = pctLoss * 8 * panicMultiplier * tm; var peakOil = v.currentOil * (1 + priceSpike); var avgOil = v.currentOil * (1 + priceSpike * 0.7); var gasImpact = '+$' + (priceSpike * 0.6 * 3.5).toFixed(2) + '/gal'; var globalCostB = Math.round(v.supplyLoss * (peakOil - v.currentOil) * v.duration / 1e3); var recovery = v.duration < 30 ? '2-4 weeks after resolution' : v.duration < 90 ? '1-3 months' : '3-6 months'; return {peakOil: '$' + peakOil.toFixed(0) + '/barrel', avgOil: '$' + avgOil.toFixed(0) + '/barrel', gasImpact: gasImpact, globalCost: '$' + globalCostB + ' billion (est.)', recoveryTime: recovery};",
+    "faq": [
+      {"question": "What's the biggest oil supply disruption in history?", "answer": "The 1973 Arab Oil Embargo removed roughly 5 million bpd from markets, quadrupling prices. The 1990 Gulf War removed about 4.3 million bpd. The 2019 Abqaiq attack briefly removed 5.7 million bpd from Saudi Arabia."},
+      {"question": "Can other countries make up for lost supply?", "answer": "OPEC spare capacity is currently 3-4 million bpd, mostly in Saudi Arabia and UAE. US shale can increase but takes 6-12 months. For disruptions above 5 million bpd, there is no quick replacement."}
+    ],
+    "formulas": ["Price spike = (supply loss / global supply) × elasticity × panic factor × type factor", "Peak oil = current × (1 + spike)", "Gas impact = spike × 0.6 passthrough × base gas price"]
+  },
+  {
+    "slug": "energy-independence-score-calculator",
+    "toolName": "Energy Independence Score by Country",
+    "category": "geopolitical-energy",
+    "tagline": "How energy independent is your country? Score from 0 (fully dependent) to 100 (self-sufficient)",
+    "metaDescription": "Calculate any country's energy independence score based on domestic production, imports, reserves, and renewable capacity. Compare vulnerability to supply shocks.",
+    "keywords": "energy independence, energy security, oil dependency, energy self-sufficiency, country energy score",
+    "inputs": [
+      {"id": "country", "label": "Country", "default": "us", "type": "select", "options": [{"value": "us", "label": "United States"}, {"value": "china", "label": "China"}, {"value": "eu", "label": "European Union"}, {"value": "japan", "label": "Japan"}, {"value": "india", "label": "India"}, {"value": "uk", "label": "United Kingdom"}, {"value": "russia", "label": "Russia"}, {"value": "saudi", "label": "Saudi Arabia"}, {"value": "brazil", "label": "Brazil"}, {"value": "canada", "label": "Canada"}]}
+    ],
+    "results": [
+      {"id": "score", "label": "Independence Score"},
+      {"id": "production", "label": "Domestic Production"},
+      {"id": "consumption", "label": "Domestic Consumption"},
+      {"id": "importDep", "label": "Import Dependency"},
+      {"id": "renewablePct", "label": "Renewable Share"},
+      {"id": "vulnerability", "label": "Vulnerability Level"}
+    ],
+    "calcFn": "var data = {us: {prod: 20.2, cons: 20.0, renew: 13, score: 88}, china: {prod: 4.1, cons: 15.4, renew: 16, score: 38}, eu: {prod: 1.0, cons: 10.5, renew: 23, score: 32}, japan: {prod: 0.02, cons: 3.2, renew: 22, score: 18}, india: {prod: 0.8, cons: 5.1, renew: 11, score: 28}, uk: {prod: 0.7, cons: 1.4, renew: 25, score: 55}, russia: {prod: 10.8, cons: 3.5, renew: 4, score: 95}, saudi: {prod: 10.5, cons: 3.7, renew: 1, score: 98}, brazil: {prod: 3.7, cons: 3.0, renew: 28, score: 82}, canada: {prod: 5.6, cons: 2.5, renew: 18, score: 92}}; var d = data[v.country]; var importDep = Math.max(0, ((d.cons - d.prod) / d.cons * 100)); var vuln = d.score > 80 ? 'Low' : d.score > 50 ? 'Moderate' : d.score > 30 ? 'High' : 'Very High'; return {score: d.score + '/100', production: d.prod + ' million bpd', consumption: d.cons + ' million bpd', importDep: importDep.toFixed(0) + '%', renewablePct: d.renew + '%', vulnerability: vuln};",
+    "faq": [
+      {"question": "Is the US energy independent?", "answer": "The US became a net petroleum exporter in 2019 for the first time since the 1950s, thanks to the shale revolution. It scores high on energy independence but still imports specific crude grades and is affected by global pricing."},
+      {"question": "Why does energy independence matter?", "answer": "Energy dependent nations are vulnerable to supply disruptions, price manipulation by exporters, and geopolitical coercion. Countries like Japan import 97% of their oil, making them extremely vulnerable to Middle East instability."}
+    ],
+    "formulas": ["Import dependency = (consumption - production) / consumption × 100", "Score factors in domestic production, reserves, renewable share, and strategic stockpiles"]
+  },
+  {
+    "slug": "oil-country-budget-breakeven-calculator",
+    "toolName": "Oil Price Breakeven by Country Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What oil price does each nation need to balance its government budget?",
+    "metaDescription": "Compare oil price breakeven points for OPEC nations and oil-producing countries. See which countries profit and which face deficits at current prices.",
+    "keywords": "oil breakeven price, OPEC budget, petro state calculator, oil country budget, fiscal breakeven oil",
+    "inputs": [
+      {"id": "oilPrice", "label": "Current Oil Price ($/barrel)", "default": 70, "min": 20, "max": 200, "step": 1}
+    ],
+    "results": [
+      {"id": "results", "label": "Country Budget Status"}
+    ],
+    "calcFn": "var countries = [{name:'Saudi Arabia',breakeven:80},{name:'Russia',breakeven:55},{name:'UAE',breakeven:60},{name:'Iraq',breakeven:70},{name:'Iran',breakeven:90},{name:'Nigeria',breakeven:85},{name:'Venezuela',breakeven:120},{name:'Kuwait',breakeven:50},{name:'Qatar',breakeven:45},{name:'Libya',breakeven:95},{name:'Algeria',breakeven:100},{name:'Norway',breakeven:30},{name:'US Shale',breakeven:48},{name:'Canada Oil Sands',breakeven:55}]; var lines = countries.map(function(c) { var surplus = v.oilPrice >= c.breakeven; var diff = v.oilPrice - c.breakeven; return c.name + ': $' + c.breakeven + '/bbl — ' + (surplus ? 'SURPLUS (+$' + diff + ')' : 'DEFICIT (-$' + Math.abs(diff) + ')'); }); return {results: lines.join(' | ')};",
+    "faq": [
+      {"question": "What is the fiscal breakeven oil price?", "answer": "The oil price a country needs to balance its government budget. Countries heavily dependent on oil revenue (like Saudi Arabia, Russia, Venezuela) need high prices to fund government spending, social programs, and military."},
+      {"question": "Why do breakeven prices vary so much?", "answer": "It depends on how much a government relies on oil revenue, population size, government spending levels, and alternative revenue sources. Norway has a sovereign wealth fund that buffers low prices, while Venezuela has no such cushion."}
+    ],
+    "formulas": ["Budget status = current price - breakeven price", "Surplus when current price > breakeven, deficit when below"]
+  },
+  {
+    "slug": "gasoline-price-history-calculator",
+    "toolName": "Gas Price Historical Comparison Calculator",
+    "category": "geopolitical-energy",
+    "tagline": "What would gas cost today at past crisis prices, adjusted for inflation?",
+    "metaDescription": "Compare historical gas prices adjusted for inflation. See what past energy crises would cost at today's dollars and compare to current prices.",
+    "keywords": "gas price history, inflation adjusted gas price, historical gas prices, gas price comparison, fuel cost history",
+    "inputs": [
+      {"id": "era", "label": "Historical Era", "default": "2008", "type": "select", "options": [{"value": "1973", "label": "1973 Arab Oil Embargo"}, {"value": "1979", "label": "1979 Iranian Revolution"}, {"value": "1990", "label": "1990 Gulf War"}, {"value": "2005", "label": "2005 Hurricane Katrina"}, {"value": "2008", "label": "2008 Oil Peak ($147/bbl)"}, {"value": "2011", "label": "2011 Arab Spring"}, {"value": "2022", "label": "2022 Russia-Ukraine War"}]},
+      {"id": "currentGas", "label": "What You Pay Now ($/gal)", "default": 3.50, "min": 2, "max": 6, "step": 0.05}
+    ],
+    "results": [
+      {"id": "historicalPrice", "label": "Price at the Time"},
+      {"id": "adjustedPrice", "label": "Adjusted to Today's Dollars"},
+      {"id": "comparison", "label": "Compared to Your Price"},
+      {"id": "oilAtTime", "label": "Oil Price at the Time"},
+      {"id": "cause", "label": "What Caused It"}
+    ],
+    "calcFn": "var eras = {'1973': {price: 0.39, adjusted: 2.75, oil: 12, cause: 'Arab OPEC embargo against US/allies'}, '1979': {price: 0.86, adjusted: 3.90, oil: 40, cause: 'Iranian Revolution + Iran-Iraq War'}, '1990': {price: 1.35, adjusted: 3.20, oil: 41, cause: 'Iraq invades Kuwait, Gulf War'}, '2005': {price: 3.07, adjusted: 4.85, oil: 70, cause: 'Hurricane Katrina destroyed Gulf refineries'}, '2008': {price: 4.11, adjusted: 5.95, oil: 147, cause: 'Speculation + China demand + peak oil fears'}, '2011': {price: 3.53, adjusted: 4.90, oil: 113, cause: 'Arab Spring disrupted Libya/Egypt supply'}, '2022': {price: 5.02, adjusted: 5.40, oil: 120, cause: 'Russia-Ukraine war + sanctions'}}; var e = eras[v.era]; var diff = e.adjusted - v.currentGas; var comp = diff > 0 ? 'That crisis was $' + diff.toFixed(2) + ' MORE than today' : 'Today is $' + Math.abs(diff).toFixed(2) + ' MORE than that crisis'; return {historicalPrice: '$' + e.price.toFixed(2) + '/gal', adjustedPrice: '$' + e.adjusted.toFixed(2) + '/gal (today\\'s dollars)', comparison: comp, oilAtTime: '$' + e.oil + '/barrel', cause: e.cause};",
+    "faq": [
+      {"question": "What was the highest gas price in US history?", "answer": "The national average peaked at $5.02/gallon in June 2022 during the Russia-Ukraine war. Adjusted for inflation, the 2008 peak of $4.11 equals roughly $5.95 in 2024 dollars, making it the all-time inflation-adjusted record."},
+      {"question": "Are gas prices higher now than in the past?", "answer": "Adjusted for inflation, gas prices today are moderate compared to crisis peaks. The 1979 Iranian Revolution created gas that cost $3.90 in today's dollars, and the 2008 peak was nearly $6 adjusted."}
+    ],
+    "formulas": ["Inflation-adjusted price uses CPI data to convert historical prices to current dollars", "Comparison = adjusted historical price - current price"]
+  },
+  {
+    "slug": "fuel-hedging-calculator",
+    "toolName": "Fuel Hedging Savings Calculator for Businesses",
+    "category": "geopolitical-energy",
+    "tagline": "Calculate potential savings from fuel price hedging for your fleet or business",
+    "metaDescription": "Calculate fuel hedging savings for commercial fleets and businesses. See how locking in fuel prices protects against oil price spikes.",
+    "keywords": "fuel hedging, fuel cost savings, fleet fuel management, diesel hedging, fuel price lock, business fuel calculator",
+    "inputs": [
+      {"id": "monthlyGallons", "label": "Monthly Fuel Use (gallons)", "default": 5000, "min": 500, "max": 100000, "step": 500},
+      {"id": "currentPrice", "label": "Current Fuel Price ($/gal)", "default": 3.80, "min": 2, "max": 8, "step": 0.05},
+      {"id": "hedgePrice", "label": "Hedge Lock-in Price ($/gal)", "default": 3.90, "min": 2, "max": 8, "step": 0.05},
+      {"id": "priceSpike", "label": "Projected Crisis Price ($/gal)", "default": 5.50, "min": 3, "max": 10, "step": 0.10},
+      {"id": "hedgeMonths", "label": "Hedge Duration (months)", "default": 12, "min": 3, "max": 24, "step": 3}
+    ],
+    "results": [
+      {"id": "hedgeCost", "label": "Total Hedged Cost"},
+      {"id": "unhegdedCost", "label": "Unhedged Cost (at spike)"},
+      {"id": "savings", "label": "Potential Savings"},
+      {"id": "hedgePremium", "label": "Hedge Premium"},
+      {"id": "breakeven", "label": "Breakeven Fuel Price"}
+    ],
+    "calcFn": "var totalGallons = v.monthlyGallons * v.hedgeMonths; var hedgeCost = totalGallons * v.hedgePrice; var unhedgedCost = totalGallons * v.priceSpike; var savings = unhedgedCost - hedgeCost; var premium = totalGallons * (v.hedgePrice - v.currentPrice); return {hedgeCost: '$' + Math.round(hedgeCost).toLocaleString(), unhegdedCost: '$' + Math.round(unhedgedCost).toLocaleString(), savings: '$' + Math.round(savings).toLocaleString(), hedgePremium: '$' + Math.round(premium).toLocaleString() + ' (cost to lock in)', breakeven: '$' + v.hedgePrice.toFixed(2) + '/gal'};",
+    "faq": [
+      {"question": "What is fuel hedging?", "answer": "Fuel hedging locks in a future purchase price for fuel using financial contracts. Airlines, trucking companies, and large fleets use hedging to protect against price spikes. Southwest Airlines famously saved $3.5 billion through fuel hedging during the 2008 oil spike."}
+    ],
+    "formulas": ["Total hedged cost = monthly gallons × hedge price × months", "Savings = unhedged cost - hedged cost", "Premium = gallons × (hedge price - current price)"]
+  }
+]
