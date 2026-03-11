@@ -1,0 +1,471 @@
+[
+  {
+    "slug": "ai-content-roi-calculator",
+    "toolName": "AI Content ROI Calculator",
+    "category": "ai-automation",
+    "tagline": "Calculate the return on investment of using AI for content creation vs human writers",
+    "keywords": "AI content ROI, AI writing cost, content automation, AI vs human writer",
+    "inputs": [
+      {"id": "articlesPerMonth", "label": "Articles per Month", "default": 20},
+      {"id": "humanCostPerArticle", "label": "Human Writer Cost per Article", "default": 150, "unit": "$"},
+      {"id": "aiToolCost", "label": "AI Tool Monthly Cost", "default": 100, "unit": "$"},
+      {"id": "humanTimeHrs", "label": "Human Time per Article", "default": 4, "unit": "hours"},
+      {"id": "aiTimeHrs", "label": "AI + Editing Time per Article", "default": 1, "unit": "hours"},
+      {"id": "hourlyRate", "label": "Editor Hourly Rate", "default": 40, "unit": "$"}
+    ],
+    "results": [
+      {"id": "humanMonthlyCost", "label": "Human-Only Monthly Cost"},
+      {"id": "aiMonthlyCost", "label": "AI-Assisted Monthly Cost"},
+      {"id": "monthlySavings", "label": "Monthly Savings"},
+      {"id": "timeSaved", "label": "Time Saved per Month"},
+      {"id": "annualROI", "label": "Annual ROI"}
+    ],
+    "calcFn": "var humanTotal = articlesPerMonth * humanCostPerArticle;\n    var aiEditCost = articlesPerMonth * aiTimeHrs * hourlyRate;\n    var aiTotal = aiToolCost + aiEditCost;\n    var savings = humanTotal - aiTotal;\n    var timeSaved = articlesPerMonth * (humanTimeHrs - aiTimeHrs);\n    var annualSave = savings * 12;\n    var annualCost = aiToolCost * 12;\n    var roi = (annualSave / annualCost) * 100;\n    document.getElementById('humanMonthlyCost').textContent = dollar(humanTotal);\n    document.getElementById('aiMonthlyCost').textContent = dollar(aiTotal);\n    document.getElementById('monthlySavings').textContent = dollar(savings);\n    document.getElementById('timeSaved').textContent = fmt(timeSaved, 0) + ' hours';\n    document.getElementById('annualROI').textContent = fmt(roi, 0) + '%';",
+    "faq": [
+      {"question": "How much can AI content tools save?", "answer": "Most businesses save 50-80% on content costs with AI assistance. A company spending $3,000/month on content can typically reduce this to $900-$1,500 with AI tools plus human editing."},
+      {"question": "Is AI-generated content as good as human writing?", "answer": "AI excels at first drafts, outlines, and research synthesis. Human editing is still essential for accuracy, voice, expertise, and nuance. The best results combine AI efficiency with human quality control."},
+      {"question": "What AI content costs should I include?", "answer": "Include: AI tool subscription, editor time for review/revision, fact-checking time, SEO optimization time, and any premium API costs for high-volume usage."}
+    ],
+    "formulas": [
+      "Human Cost = Articles × Cost per Article",
+      "AI Cost = Tool Subscription + (Articles × Edit Time × Editor Rate)",
+      "Savings = Human Cost - AI Cost",
+      "ROI = (Annual Savings ÷ Annual AI Tool Cost) × 100%"
+    ],
+    "relatedTools": ["chatbot-savings-calculator", "automation-payback-calculator", "ai-training-cost-calculator"]
+  },
+  {
+    "slug": "chatbot-savings-calculator",
+    "toolName": "Chatbot Savings Calculator",
+    "category": "ai-automation",
+    "tagline": "Estimate how much an AI chatbot can save in customer support costs",
+    "keywords": "chatbot savings, AI customer support, chatbot ROI, support automation",
+    "inputs": [
+      {"id": "monthlyTickets", "label": "Monthly Support Tickets", "default": 2000},
+      {"id": "avgHandleTime", "label": "Avg Handle Time", "default": 12, "unit": "minutes"},
+      {"id": "agentHourlyRate", "label": "Agent Hourly Rate", "default": 22, "unit": "$"},
+      {"id": "deflectionRate", "label": "Bot Deflection Rate", "default": 40, "unit": "%"},
+      {"id": "chatbotCost", "label": "Chatbot Monthly Cost", "default": 500, "unit": "$"}
+    ],
+    "results": [
+      {"id": "currentCost", "label": "Current Monthly Support Cost"},
+      {"id": "ticketsDeflected", "label": "Tickets Deflected by Bot"},
+      {"id": "newCost", "label": "New Monthly Cost (agents + bot)"},
+      {"id": "monthlySavings", "label": "Monthly Savings"},
+      {"id": "yearlyROI", "label": "Yearly ROI"}
+    ],
+    "calcFn": "var totalMinutes = monthlyTickets * avgHandleTime;\n    var totalHours = totalMinutes / 60;\n    var currentCost = totalHours * agentHourlyRate;\n    var deflected = Math.round(monthlyTickets * deflectionRate / 100);\n    var remainingTickets = monthlyTickets - deflected;\n    var newAgentCost = (remainingTickets * avgHandleTime / 60) * agentHourlyRate;\n    var newTotal = newAgentCost + chatbotCost;\n    var savings = currentCost - newTotal;\n    var yearROI = ((savings * 12) / (chatbotCost * 12)) * 100;\n    document.getElementById('currentCost').textContent = dollar(currentCost);\n    document.getElementById('ticketsDeflected').textContent = fmt(deflected, 0) + '/month';\n    document.getElementById('newCost').textContent = dollar(newTotal);\n    document.getElementById('monthlySavings').textContent = dollar(savings);\n    document.getElementById('yearlyROI').textContent = fmt(yearROI, 0) + '%';",
+    "faq": [
+      {"question": "What is chatbot deflection rate?", "answer": "Deflection rate is the percentage of customer inquiries fully resolved by the chatbot without human intervention. Well-implemented bots achieve 30-60% deflection on common questions."},
+      {"question": "How much does a customer support chatbot cost?", "answer": "Basic rule-based chatbots: $50-$200/month. AI-powered chatbots: $200-$1,000/month. Enterprise solutions: $1,000-$10,000+/month. Costs vary by volume and complexity."},
+      {"question": "Will a chatbot replace my support team?", "answer": "Chatbots handle routine inquiries (password resets, order tracking, FAQs), freeing agents for complex issues. Most companies reduce headcount by 20-40% while improving response times."}
+    ],
+    "formulas": [
+      "Current Cost = (Tickets × Handle Time ÷ 60) × Hourly Rate",
+      "Tickets Deflected = Total Tickets × Deflection Rate",
+      "New Cost = Remaining Agent Cost + Bot Subscription",
+      "ROI = (Annual Savings ÷ Annual Bot Cost) × 100%"
+    ],
+    "relatedTools": ["ai-content-roi-calculator", "automation-payback-calculator", "robot-roi-calculator"]
+  },
+  {
+    "slug": "automation-payback-calculator",
+    "toolName": "Automation Payback Calculator",
+    "category": "ai-automation",
+    "tagline": "Calculate how quickly a business process automation project pays for itself",
+    "keywords": "automation ROI, payback period, process automation, RPA calculator",
+    "inputs": [
+      {"id": "implementationCost", "label": "Implementation Cost", "default": 25000, "unit": "$"},
+      {"id": "monthlyMaintenance", "label": "Monthly Maintenance", "default": 500, "unit": "$"},
+      {"id": "hoursAutoPerMonth", "label": "Hours Automated per Month", "default": 80},
+      {"id": "laborRate", "label": "Fully-Loaded Labor Rate", "default": 45, "unit": "$/hr"},
+      {"id": "errorReduction", "label": "Error Cost Reduction", "default": 500, "unit": "$/month"}
+    ],
+    "results": [
+      {"id": "monthlySavings", "label": "Monthly Savings"},
+      {"id": "netMonthlySavings", "label": "Net Monthly Savings"},
+      {"id": "paybackMonths", "label": "Payback Period"},
+      {"id": "threeYearROI", "label": "3-Year Net Benefit"}
+    ],
+    "calcFn": "var laborSaving = hoursAutoPerMonth * laborRate;\n    var grossSaving = laborSaving + errorReduction;\n    var netSaving = grossSaving - monthlyMaintenance;\n    var payback = netSaving > 0 ? implementationCost / netSaving : Infinity;\n    var threeYearBenefit = (netSaving * 36) - implementationCost;\n    document.getElementById('monthlySavings').textContent = dollar(grossSaving);\n    document.getElementById('netMonthlySavings').textContent = dollar(netSaving);\n    document.getElementById('paybackMonths').textContent = payback === Infinity ? 'Never' : fmt(payback, 1) + ' months';\n    document.getElementById('threeYearROI').textContent = dollar(threeYearBenefit);",
+    "faq": [
+      {"question": "What is a good payback period for automation?", "answer": "Most companies target 12-18 months for automation payback. Under 6 months is excellent. Over 24 months carries more risk from changing requirements. Simple RPA bots often pay back in 3-6 months."},
+      {"question": "What costs should I include in automation implementation?", "answer": "Include: software licenses, development/configuration time, integration costs, testing, training, change management, and a contingency buffer of 15-20% for unexpected issues."},
+      {"question": "How do I calculate the fully-loaded labor rate?", "answer": "Fully-loaded rate includes salary, benefits (typically 25-40% of salary), office space, equipment, and management overhead. A $60K salary usually has a fully-loaded rate of $40-$50/hour."}
+    ],
+    "formulas": [
+      "Monthly Savings = (Hours Saved × Labor Rate) + Error Cost Reduction",
+      "Net Savings = Monthly Savings - Maintenance Cost",
+      "Payback Period = Implementation Cost ÷ Net Monthly Savings",
+      "3-Year ROI = (Net Savings × 36) - Implementation Cost"
+    ],
+    "relatedTools": ["chatbot-savings-calculator", "robot-roi-calculator", "ai-content-roi-calculator"]
+  },
+  {
+    "slug": "ai-training-cost-calculator",
+    "toolName": "AI Training Cost Calculator",
+    "category": "ai-automation",
+    "tagline": "Estimate the cost of training or fine-tuning AI models based on compute and data requirements",
+    "keywords": "AI training cost, GPU cost, model training, fine-tuning cost, machine learning",
+    "inputs": [
+      {"id": "modelSize", "label": "Model Parameters", "default": "7", "options": [{"value":"0.1","label":"100M (small)"},{"value":"1","label":"1B (medium)"},{"value":"7","label":"7B (large)"},{"value":"13","label":"13B"},{"value":"70","label":"70B (very large)"}]},
+      {"id": "gpuType", "label": "GPU Type", "default": "3.50", "options": [{"value":"1.50","label":"A100 40GB ($1.50/hr)"},{"value":"3.50","label":"A100 80GB ($3.50/hr)"},{"value":"8.00","label":"H100 ($8.00/hr)"}]},
+      {"id": "trainingType", "label": "Training Type", "default": "finetune", "options": [{"value":"finetune","label":"Fine-tuning (LoRA/QLoRA)"},{"value":"full","label":"Full fine-tuning"},{"value":"pretrain","label":"Pre-training from scratch"}]},
+      {"id": "datasetSize", "label": "Dataset Size (tokens)", "default": 10, "unit": "million"}
+    ],
+    "results": [
+      {"id": "gpuHours", "label": "Estimated GPU Hours"},
+      {"id": "numGPUs", "label": "GPUs Needed"},
+      {"id": "totalCost", "label": "Estimated Total Cost"},
+      {"id": "wallTime", "label": "Wall Clock Time"}
+    ],
+    "calcFn": "var params = parseFloat(modelSize);\n    var gpuRate = parseFloat(gpuType);\n    var tokens = datasetSize * 1e6;\n    var flopsPerToken, gpuFlops, memPerParam;\n    if (trainingType === 'finetune') {\n      flopsPerToken = params * 1e9 * 2;\n      memPerParam = 2;\n    } else if (trainingType === 'full') {\n      flopsPerToken = params * 1e9 * 6;\n      memPerParam = 16;\n    } else {\n      flopsPerToken = params * 1e9 * 6;\n      memPerParam = 16;\n      tokens = tokens * 10;\n    }\n    var totalFlops = flopsPerToken * tokens;\n    var gpuTflops = gpuRate <= 2 ? 312e12 : gpuRate <= 4 ? 312e12 : 989e12;\n    var effectiveUtil = 0.4;\n    var gpuSeconds = totalFlops / (gpuTflops * effectiveUtil);\n    var gpuHrs = gpuSeconds / 3600;\n    var memNeeded = params * memPerParam;\n    var gpuMem = gpuRate <= 2 ? 40 : gpuRate <= 4 ? 80 : 80;\n    var numGPU = Math.max(1, Math.ceil(memNeeded / gpuMem));\n    var wallHrs = gpuHrs / numGPU;\n    var cost = gpuHrs * gpuRate;\n    document.getElementById('gpuHours').textContent = fmt(gpuHrs, 1) + ' GPU-hours';\n    document.getElementById('numGPUs').textContent = numGPU + ' GPU(s) minimum';\n    document.getElementById('totalCost').textContent = dollar(cost);\n    document.getElementById('wallTime').textContent = wallHrs >= 24 ? fmt(wallHrs / 24, 1) + ' days' : fmt(wallHrs, 1) + ' hours';",
+    "faq": [
+      {"question": "How much does it cost to fine-tune an AI model?", "answer": "Fine-tuning costs vary enormously. LoRA fine-tuning a 7B model: $10-$100. Full fine-tuning a 7B model: $500-$5,000. Pre-training a large model from scratch: $100K-$10M+."},
+      {"question": "What is LoRA fine-tuning?", "answer": "LoRA (Low-Rank Adaptation) trains only a small number of additional parameters instead of updating all weights. It's 10-100× cheaper than full fine-tuning while achieving similar quality for most tasks."},
+      {"question": "How much GPU memory do I need?", "answer": "Rough rule: 2× model parameters in GB for inference, 16× for full training. A 7B model needs ~14GB for inference but ~112GB for full training. LoRA reduces training memory to ~16-20GB."}
+    ],
+    "formulas": [
+      "FLOPs per token ≈ 6 × Parameters (full training) or 2 × Parameters (LoRA)",
+      "Total FLOPs = FLOPs per Token × Total Tokens",
+      "GPU Hours = Total FLOPs ÷ (GPU TFLOPS × Utilization)",
+      "Cost = GPU Hours × Hourly Rate"
+    ],
+    "relatedTools": ["ai-content-roi-calculator", "automation-payback-calculator", "robot-roi-calculator"]
+  },
+  {
+    "slug": "robot-roi-calculator",
+    "toolName": "Robot ROI Calculator",
+    "category": "ai-automation",
+    "tagline": "Calculate the return on investment for deploying robots or cobots in manufacturing",
+    "keywords": "robot ROI, cobot calculator, industrial robot cost, manufacturing automation",
+    "inputs": [
+      {"id": "robotCost", "label": "Robot System Cost", "default": 75000, "unit": "$"},
+      {"id": "installCost", "label": "Installation & Integration", "default": 25000, "unit": "$"},
+      {"id": "workersReplaced", "label": "Workers Redeployed", "default": 2},
+      {"id": "workerAnnualCost", "label": "Worker Annual Cost (loaded)", "default": 55000, "unit": "$"},
+      {"id": "annualMaintenance", "label": "Annual Maintenance", "default": 5000, "unit": "$"},
+      {"id": "productivityGain", "label": "Productivity Gain", "default": 30, "unit": "%"}
+    ],
+    "results": [
+      {"id": "totalInvestment", "label": "Total Investment"},
+      {"id": "annualSavings", "label": "Annual Labor Savings"},
+      {"id": "paybackPeriod", "label": "Payback Period"},
+      {"id": "fiveYearROI", "label": "5-Year Net Benefit"}
+    ],
+    "calcFn": "var totalInv = robotCost + installCost;\n    var laborSavings = workersReplaced * workerAnnualCost;\n    var prodGainValue = laborSavings * (productivityGain / 100);\n    var annualBenefit = laborSavings + prodGainValue - annualMaintenance;\n    var payback = annualBenefit > 0 ? totalInv / annualBenefit : Infinity;\n    var fiveYear = (annualBenefit * 5) - totalInv;\n    document.getElementById('totalInvestment').textContent = dollar(totalInv);\n    document.getElementById('annualSavings').textContent = dollar(annualBenefit);\n    document.getElementById('paybackPeriod').textContent = payback === Infinity ? 'Never' : fmt(payback * 12, 0) + ' months (' + fmt(payback, 1) + ' years)';\n    document.getElementById('fiveYearROI').textContent = dollar(fiveYear);",
+    "faq": [
+      {"question": "How much does an industrial robot cost?", "answer": "Collaborative robots (cobots): $25,000-$75,000. Industrial robots: $50,000-$400,000. Total system cost including integration, tooling, and safety: 2-3× the robot price."},
+      {"question": "What is a typical payback period for a robot?", "answer": "Most industrial robots pay back in 1-3 years. Cobots often pay back faster (6-18 months) due to lower installation costs and no safety fencing requirements."},
+      {"question": "Does a robot truly replace workers?", "answer": "Robots typically handle repetitive, ergonomically challenging, or dangerous tasks. Workers are usually redeployed to higher-value roles. Companies that communicate this see better adoption."}
+    ],
+    "formulas": [
+      "Total Investment = Robot Cost + Installation/Integration",
+      "Annual Benefit = Labor Savings + Productivity Gain Value - Maintenance",
+      "Payback Period = Total Investment ÷ Annual Benefit",
+      "5-Year ROI = (Annual Benefit × 5) - Total Investment"
+    ],
+    "relatedTools": ["automation-payback-calculator", "chatbot-savings-calculator", "ai-training-cost-calculator"]
+  },
+  {
+    "slug": "water-purification-calculator",
+    "toolName": "Water Purification Calculator",
+    "category": "survival",
+    "tagline": "Calculate water purification needs for emergency preparedness and outdoor survival",
+    "keywords": "water purification, survival water, emergency water, water treatment, water tablets",
+    "inputs": [
+      {"id": "numPeople", "label": "Number of People", "default": 4},
+      {"id": "numDays", "label": "Number of Days", "default": 7},
+      {"id": "gallonsPerDay", "label": "Gallons per Person per Day", "default": 1, "step": 0.25},
+      {"id": "method", "label": "Purification Method", "default": "boil", "options": [{"value":"boil","label":"Boiling"},{"value":"tablets","label":"Purification Tablets"},{"value":"filter","label":"Pump Filter"},{"value":"uv","label":"UV Sterilizer"},{"value":"bleach","label":"Household Bleach"}]}
+    ],
+    "results": [
+      {"id": "totalWater", "label": "Total Water Needed"},
+      {"id": "purifyDetails", "label": "Purification Requirements"},
+      {"id": "fuelOrSupply", "label": "Supply Needed"},
+      {"id": "timeRequired", "label": "Time Required"}
+    ],
+    "calcFn": "var totalGal = numPeople * numDays * gallonsPerDay;\n    var totalLiters = totalGal * 3.785;\n    var details, supply, time;\n    if (method === 'boil') {\n      details = 'Rolling boil for 1 minute (3 min above 6,500 ft)';\n      var fuelLbs = totalLiters * 0.1;\n      supply = fmt(fuelLbs, 1) + ' lbs firewood or ' + fmt(totalLiters * 0.02, 1) + ' lbs propane';\n      time = fmt(totalLiters * 12, 0) + ' minutes total boiling time';\n    } else if (method === 'tablets') {\n      var tablets = Math.ceil(totalLiters);\n      details = '1 tablet per liter, wait 30 minutes';\n      supply = tablets + ' purification tablets';\n      time = '30 min wait per batch';\n    } else if (method === 'filter') {\n      details = 'Pump through 0.2 micron filter';\n      supply = '1 filter (good for ~1,000L). Yours treats ' + fmt(totalLiters, 0) + 'L';\n      time = fmt(totalLiters * 1.5, 0) + ' minutes pumping';\n    } else if (method === 'uv') {\n      details = 'UV light for 60 seconds per liter (clear water only)';\n      supply = fmt(Math.ceil(totalLiters / 80), 0) + ' sets of batteries';\n      time = fmt(totalLiters, 0) + ' minutes treatment time';\n    } else {\n      var drops = totalLiters * 2;\n      details = '2 drops unscented bleach (8.25%) per liter, wait 30 min';\n      supply = fmt(drops / 20, 1) + ' mL bleach (' + fmt(drops / 20 / 5, 2) + ' teaspoons)';\n      time = '30 min wait per batch';\n    }\n    document.getElementById('totalWater').textContent = fmt(totalGal, 1) + ' gallons (' + fmt(totalLiters, 1) + ' liters)';\n    document.getElementById('purifyDetails').textContent = details;\n    document.getElementById('fuelOrSupply').textContent = supply;\n    document.getElementById('timeRequired').textContent = time;",
+    "faq": [
+      {"question": "How much water do I need per day in a survival situation?", "answer": "Minimum 1 gallon (3.8L) per person per day for drinking and basic hygiene. In hot weather or with physical activity, increase to 1.5-2 gallons. Children, nursing mothers, and ill people need more."},
+      {"question": "What is the safest water purification method?", "answer": "Boiling is the most reliable method — it kills all pathogens. Filters remove bacteria and parasites but may miss viruses. Chemical treatment (tablets/bleach) is lightweight but takes time. UV works on clear water only."},
+      {"question": "Can I drink rainwater without purification?", "answer": "Freshly collected rainwater in clean containers is generally safe, but rooftop collection can contain contaminants. Always purify water from streams, lakes, or questionable sources."}
+    ],
+    "formulas": [
+      "Total Water = People × Days × Gallons per Person per Day",
+      "Boiling: 1 minute rolling boil (3 min above 6,500 ft elevation)",
+      "Bleach: 2 drops per liter of 8.25% sodium hypochlorite",
+      "Tablets: 1 per liter, 30 minute contact time"
+    ],
+    "relatedTools": ["food-storage-calculator", "firewood-calculator", "emergency-power-calculator"]
+  },
+  {
+    "slug": "food-storage-calculator",
+    "toolName": "Food Storage Calculator",
+    "category": "survival",
+    "tagline": "Calculate emergency food storage needs based on calories, people, and duration",
+    "keywords": "food storage, emergency food, survival food, long-term food storage, prepper food",
+    "inputs": [
+      {"id": "numPeople", "label": "Number of People", "default": 4},
+      {"id": "numDays", "label": "Number of Days", "default": 30},
+      {"id": "caloriesPerDay", "label": "Calories per Person per Day", "default": 2000},
+      {"id": "storageType", "label": "Storage Type", "default": "mixed", "options": [{"value":"freeze","label":"Freeze-dried ($0.06/cal)"},{"value":"canned","label":"Canned goods ($0.01/cal)"},{"value":"bulk","label":"Bulk staples ($0.004/cal)"},{"value":"mixed","label":"Mixed ($0.02/cal)"}]}
+    ],
+    "results": [
+      {"id": "totalCalories", "label": "Total Calories Needed"},
+      {"id": "estimatedWeight", "label": "Estimated Food Weight"},
+      {"id": "estimatedCost", "label": "Estimated Cost"},
+      {"id": "shelfLife", "label": "Expected Shelf Life"}
+    ],
+    "calcFn": "var totalCal = numPeople * numDays * caloriesPerDay;\n    var costPerCal = {freeze: 0.06, canned: 0.01, bulk: 0.004, mixed: 0.02};\n    var calPerLb = {freeze: 1800, canned: 600, bulk: 1600, mixed: 1000};\n    var shelfYrs = {freeze: '25-30 years', canned: '2-5 years', bulk: '20-30 years', mixed: '5-15 years'};\n    var cost = totalCal * (costPerCal[storageType] / 1);\n    var weightLbs = totalCal / calPerLb[storageType];\n    document.getElementById('totalCalories').textContent = fmt(totalCal, 0) + ' calories';\n    document.getElementById('estimatedWeight').textContent = fmt(weightLbs, 0) + ' lbs (' + fmt(weightLbs * 0.454, 0) + ' kg)';\n    document.getElementById('estimatedCost').textContent = dollar(cost);\n    document.getElementById('shelfLife').textContent = shelfYrs[storageType];",
+    "faq": [
+      {"question": "How much food should I store for emergencies?", "answer": "FEMA recommends a minimum 3-day supply. Many preppers target 30-90 days. A 30-day supply for a family of 4 requires about 240,000 calories — roughly 240 lbs of mixed food."},
+      {"question": "What are the best foods for long-term storage?", "answer": "Best shelf life: white rice (25+ years), dried beans (25+ years), freeze-dried foods (25+ years), honey (indefinite), powdered milk (25 years). Store in cool, dark, dry conditions."},
+      {"question": "How many calories per day do I need in survival?", "answer": "Minimum survival: 1,200 calories. Sedentary adult: 1,600-2,000. Active/physical labor: 2,500-3,500. In cold weather, increase by 500-1,000 calories for body heat generation."}
+    ],
+    "formulas": [
+      "Total Calories = People × Days × Calories per Day",
+      "Weight (lbs) = Total Calories ÷ Calories per Pound",
+      "Cost = Total Calories × Cost per Calorie",
+      "Bulk staples average 1,600 cal/lb; canned goods ~600 cal/lb"
+    ],
+    "relatedTools": ["water-purification-calculator", "firewood-calculator", "bug-out-bag-weight-calculator"]
+  },
+  {
+    "slug": "bug-out-bag-weight-calculator",
+    "toolName": "Bug-Out Bag Weight Calculator",
+    "category": "survival",
+    "tagline": "Calculate and optimize your bug-out bag weight by category for a 72-hour emergency kit",
+    "keywords": "bug out bag weight, BOB weight, emergency kit, 72 hour kit, survival pack",
+    "inputs": [
+      {"id": "bodyWeight", "label": "Your Body Weight", "default": 170, "unit": "lbs"},
+      {"id": "waterLbs", "label": "Water Weight", "default": 8.3, "unit": "lbs"},
+      {"id": "foodLbs", "label": "Food Weight", "default": 4, "unit": "lbs"},
+      {"id": "shelterLbs", "label": "Shelter/Sleep Gear", "default": 5, "unit": "lbs"},
+      {"id": "fireLbs", "label": "Fire/Light Gear", "default": 1, "unit": "lbs"},
+      {"id": "firstAidLbs", "label": "First Aid/Hygiene", "default": 2, "unit": "lbs"},
+      {"id": "toolsLbs", "label": "Tools/Navigation", "default": 3, "unit": "lbs"},
+      {"id": "clothingLbs", "label": "Extra Clothing", "default": 3, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "totalWeight", "label": "Total Pack Weight"},
+      {"id": "bodyPct", "label": "Percentage of Body Weight"},
+      {"id": "assessment", "label": "Weight Assessment"},
+      {"id": "heaviestCategory", "label": "Heaviest Category"}
+    ],
+    "calcFn": "var total = waterLbs + foodLbs + shelterLbs + fireLbs + firstAidLbs + toolsLbs + clothingLbs;\n    var pct = (total / bodyWeight) * 100;\n    var assessment;\n    if (pct <= 15) assessment = 'Excellent — comfortable for most fitness levels';\n    else if (pct <= 20) assessment = 'Good — manageable for fit adults';\n    else if (pct <= 25) assessment = 'Heavy — may slow you down significantly';\n    else assessment = 'Too heavy — reduce weight or improve fitness first';\n    var cats = [{n:'Water',w:waterLbs},{n:'Food',w:foodLbs},{n:'Shelter',w:shelterLbs},{n:'Fire/Light',w:fireLbs},{n:'First Aid',w:firstAidLbs},{n:'Tools',w:toolsLbs},{n:'Clothing',w:clothingLbs}];\n    cats.sort(function(a,b){return b.w-a.w;});\n    var heaviest = cats[0].n + ' (' + fmt(cats[0].w, 1) + ' lbs, ' + fmt(cats[0].w/total*100, 0) + '%)';\n    document.getElementById('totalWeight').textContent = fmt(total, 1) + ' lbs (' + fmt(total * 0.454, 1) + ' kg)';\n    document.getElementById('bodyPct').textContent = fmt(pct, 1) + '% of body weight';\n    document.getElementById('assessment').textContent = assessment;\n    document.getElementById('heaviestCategory').textContent = heaviest;",
+    "faq": [
+      {"question": "How heavy should a bug-out bag be?", "answer": "Target 15-20% of your body weight. For a 170 lb person, that's 25-34 lbs. Military standard is 30% for trained soldiers, but civilians should aim lighter. Over 25% severely impacts mobility."},
+      {"question": "What are the essentials for a 72-hour bag?", "answer": "Priority order: Water (1 gallon/day), shelter (tarp/bivy), fire-starting, first aid, food (2,000+ cal/day), navigation, knife/multi-tool, flashlight, extra socks, rain gear, and documents."},
+      {"question": "How can I reduce bug-out bag weight?", "answer": "Replace heavy items with ultralight alternatives. Carry a water filter instead of all 3 days of water. Use a tarp instead of a tent. Choose calorie-dense foods. Eliminate duplicates and 'just in case' items."}
+    ],
+    "formulas": [
+      "Total Weight = Sum of all category weights",
+      "Body Weight % = (Total Pack Weight ÷ Body Weight) × 100",
+      "Target: 15-20% of body weight for civilian use",
+      "Water weighs 8.34 lbs per gallon"
+    ],
+    "relatedTools": ["food-storage-calculator", "water-purification-calculator", "firewood-calculator"]
+  },
+  {
+    "slug": "firewood-calculator",
+    "toolName": "Firewood Calculator",
+    "category": "survival",
+    "tagline": "Calculate how much firewood you need for heating, camping, or emergency preparedness",
+    "keywords": "firewood calculator, cord of wood, firewood BTU, heating wood, firewood amount",
+    "inputs": [
+      {"id": "purpose", "label": "Purpose", "default": "heating", "options": [{"value":"heating","label":"Home heating"},{"value":"campfire","label":"Campfire"},{"value":"cooking","label":"Cooking fire"},{"value":"survival","label":"Survival (24/7 fire)"}]},
+      {"id": "hours", "label": "Hours per Day", "default": 8},
+      {"id": "numDays", "label": "Number of Days", "default": 30},
+      {"id": "woodType", "label": "Wood Type", "default": "24", "options": [{"value":"24","label":"Oak/Hickory (24M BTU/cord)"},{"value":"20","label":"Maple/Ash (20M BTU/cord)"},{"value":"16","label":"Pine/Fir (16M BTU/cord)"},{"value":"14","label":"Softwood mix (14M BTU/cord)"}]}
+    ],
+    "results": [
+      {"id": "cordsNeeded", "label": "Cords Needed"},
+      {"id": "cubicFeet", "label": "Volume (cubic feet)"},
+      {"id": "weightLbs", "label": "Approximate Weight"},
+      {"id": "costEstimate", "label": "Cost Estimate"}
+    ],
+    "calcFn": "var btuPerCord = parseFloat(woodType) * 1e6;\n    var btuPerHour = {heating: 40000, campfire: 15000, cooking: 10000, survival: 25000};\n    var totalBTU = btuPerHour[purpose] * hours * numDays;\n    var efficiency = purpose === 'heating' ? 0.7 : 0.3;\n    var effectiveBTU = totalBTU / efficiency;\n    var cords = effectiveBTU / btuPerCord;\n    var cubFt = cords * 128;\n    var weight = cords * 3500;\n    var costPerCord = 250;\n    var cost = cords * costPerCord;\n    document.getElementById('cordsNeeded').textContent = fmt(cords, 2) + ' cords';\n    document.getElementById('cubicFeet').textContent = fmt(cubFt, 0) + ' cu ft';\n    document.getElementById('weightLbs').textContent = fmt(weight, 0) + ' lbs';\n    document.getElementById('costEstimate').textContent = dollar(cost) + ' (at ~$250/cord)';",
+    "faq": [
+      {"question": "How much is a cord of firewood?", "answer": "A cord is a stack 4 feet wide × 4 feet tall × 8 feet long (128 cubic feet). Prices range from $150-$400 depending on location, wood type, and whether it's seasoned. A face cord is 1/3 of a full cord."},
+      {"question": "How much firewood do I need for winter?", "answer": "For a primary heat source, plan 3-6 cords per season depending on climate, home insulation, and wood stove efficiency. Supplemental heating typically uses 1-2 cords."},
+      {"question": "What burns best — hardwood or softwood?", "answer": "Hardwoods (oak, maple, hickory) burn longer and hotter, producing 20-30% more BTUs per cord. Softwoods (pine, fir) ignite easily and are great for kindling but burn faster."}
+    ],
+    "formulas": [
+      "Total BTU needed = BTU/hour × Hours/day × Days",
+      "Effective BTU = Total BTU ÷ Combustion Efficiency",
+      "Cords = Effective BTU ÷ BTU per Cord",
+      "1 cord = 128 cubic feet ≈ 3,500 lbs (average)"
+    ],
+    "relatedTools": ["water-purification-calculator", "food-storage-calculator", "emergency-power-calculator"]
+  },
+  {
+    "slug": "emergency-power-calculator",
+    "toolName": "Emergency Power Calculator",
+    "category": "survival",
+    "tagline": "Calculate generator size and fuel needs for emergency power during outages",
+    "keywords": "emergency generator, power outage, generator sizing, fuel calculator, backup power",
+    "inputs": [
+      {"id": "fridge", "label": "Refrigerator", "default": 150, "unit": "watts"},
+      {"id": "freezer", "label": "Freezer", "default": 100, "unit": "watts"},
+      {"id": "lights", "label": "Lights (LED)", "default": 100, "unit": "watts"},
+      {"id": "medical", "label": "Medical Devices", "default": 0, "unit": "watts"},
+      {"id": "other", "label": "Other Essentials", "default": 200, "unit": "watts"},
+      {"id": "outageHours", "label": "Expected Outage", "default": 72, "unit": "hours"},
+      {"id": "fuelType", "label": "Generator Fuel", "default": "gas", "options": [{"value":"gas","label":"Gasoline (0.75 gal/hr per 3500W)"},{"value":"propane","label":"Propane (1.5 gal/hr per 3500W)"},{"value":"dual","label":"Dual Fuel"}]}
+    ],
+    "results": [
+      {"id": "totalWatts", "label": "Total Continuous Load"},
+      {"id": "generatorSize", "label": "Minimum Generator Size"},
+      {"id": "fuelNeeded", "label": "Fuel Required"},
+      {"id": "dailyCost", "label": "Daily Fuel Cost"}
+    ],
+    "calcFn": "var total = fridge + freezer + lights + medical + other;\n    var startingWatts = total * 2.5;\n    var genSize = Math.ceil(startingWatts / 500) * 500;\n    var loadRatio = total / genSize;\n    var galPerHour;\n    if (fuelType === 'gas' || fuelType === 'dual') galPerHour = (genSize / 3500) * 0.75 * loadRatio;\n    else galPerHour = (genSize / 3500) * 1.5 * loadRatio;\n    var totalFuel = galPerHour * outageHours;\n    var fuelPrice = fuelType === 'propane' ? 3.5 : 3.5;\n    var dailyCost = galPerHour * 24 * fuelPrice;\n    document.getElementById('totalWatts').textContent = fmt(total, 0) + 'W running / ' + fmt(startingWatts, 0) + 'W starting';\n    document.getElementById('generatorSize').textContent = fmt(genSize, 0) + ' watts minimum';\n    document.getElementById('fuelNeeded').textContent = fmt(totalFuel, 1) + ' gallons of ' + (fuelType === 'propane' ? 'propane' : 'gasoline');\n    document.getElementById('dailyCost').textContent = dollar(dailyCost) + '/day';",
+    "faq": [
+      {"question": "What size generator do I need for my house?", "answer": "For essentials only (fridge, lights, phones): 2,000-3,500W. For essentials plus well pump or AC window unit: 5,000-7,500W. Whole-house backup: 10,000-20,000W."},
+      {"question": "How much fuel does a generator use?", "answer": "A typical 3,500W generator uses about 0.5-0.75 gallons of gas per hour at 50% load. At full load, expect 1+ gallon per hour. A 72-hour outage at half load needs about 36-54 gallons."},
+      {"question": "Why do I need more watts for starting than running?", "answer": "Motors in refrigerators, freezers, and pumps need 2-3× their running wattage to start (surge/starting watts). Your generator must handle the highest starting load in addition to running loads."}
+    ],
+    "formulas": [
+      "Total Running Load = Sum of all device wattages",
+      "Starting Load ≈ Running Load × 2.5 (for motor loads)",
+      "Fuel per Hour ≈ (Generator Size ÷ 3500) × 0.75 × Load Ratio",
+      "Total Fuel = Fuel per Hour × Outage Duration"
+    ],
+    "relatedTools": ["firewood-calculator", "water-purification-calculator", "food-storage-calculator"]
+  },
+  {
+    "slug": "import-tariff-calculator",
+    "toolName": "Import Tariff Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate the total landed cost of imported goods including tariffs, duties, and fees",
+    "keywords": "import tariff, customs duty, landed cost, import duty calculator, tariff rate",
+    "inputs": [
+      {"id": "goodsValue", "label": "Goods Value (FOB)", "default": 10000, "unit": "$"},
+      {"id": "freightCost", "label": "Freight/Shipping Cost", "default": 1500, "unit": "$"},
+      {"id": "insurancePct", "label": "Insurance", "default": 0.5, "unit": "% of value"},
+      {"id": "dutyRate", "label": "Duty Rate", "default": 5, "unit": "%"},
+      {"id": "additionalTariff", "label": "Additional Tariff (e.g., Section 301)", "default": 25, "unit": "%"}
+    ],
+    "results": [
+      {"id": "cifValue", "label": "CIF Value (Customs Value)"},
+      {"id": "dutyAmount", "label": "Base Duty Amount"},
+      {"id": "additionalTariffAmt", "label": "Additional Tariff Amount"},
+      {"id": "totalLanded", "label": "Total Landed Cost"},
+      {"id": "effectiveRate", "label": "Effective Tariff Rate"}
+    ],
+    "calcFn": "var insurance = goodsValue * (insurancePct / 100);\n    var cif = goodsValue + freightCost + insurance;\n    var duty = cif * (dutyRate / 100);\n    var addTariff = goodsValue * (additionalTariff / 100);\n    var totalDuties = duty + addTariff;\n    var mPF = Math.min(Math.max(cif * 0.003464, 31.67), 614.35);\n    var hmf = cif * 0.00125;\n    var landed = cif + totalDuties + mPF + hmf;\n    var effectiveRate = ((landed - goodsValue) / goodsValue) * 100;\n    document.getElementById('cifValue').textContent = dollar(cif);\n    document.getElementById('dutyAmount').textContent = dollar(duty) + ' (' + dutyRate + '%)';\n    document.getElementById('additionalTariffAmt').textContent = dollar(addTariff) + ' (' + additionalTariff + '%)';\n    document.getElementById('totalLanded').textContent = dollar(landed);\n    document.getElementById('effectiveRate').textContent = fmt(effectiveRate, 1) + '% total cost increase';",
+    "faq": [
+      {"question": "What is CIF value?", "answer": "CIF (Cost, Insurance, and Freight) is the customs value used to calculate duties. It includes the goods value (FOB), shipping/freight costs, and insurance. Most countries base duties on CIF value."},
+      {"question": "What are Section 301 tariffs?", "answer": "Section 301 tariffs are additional duties imposed by the US on specific goods from countries found to have unfair trade practices. Currently, many Chinese goods face 7.5-25% additional tariffs on top of regular duties."},
+      {"question": "What is the Merchandise Processing Fee?", "answer": "The MPF is a US Customs fee of 0.3464% of the CIF value, with a minimum of $31.67 and maximum of $614.35 per entry. It applies to most formal entries."}
+    ],
+    "formulas": [
+      "CIF = Goods Value + Freight + Insurance",
+      "Base Duty = CIF × Duty Rate%",
+      "Additional Tariff = Goods Value × Additional Rate%",
+      "MPF = CIF × 0.3464% (min $31.67, max $614.35)",
+      "Landed Cost = CIF + All Duties + MPF + HMF"
+    ],
+    "relatedTools": ["tariff-savings-calculator", "trade-war-impact-calculator", "tariff-refund-calculator"]
+  },
+  {
+    "slug": "tariff-savings-calculator",
+    "toolName": "Tariff Savings Calculator",
+    "category": "tariffs",
+    "tagline": "Compare sourcing from different countries to find tariff savings opportunities",
+    "keywords": "tariff savings, sourcing comparison, trade agreement, duty savings, FTA",
+    "inputs": [
+      {"id": "annualSpend", "label": "Annual Import Spend", "default": 500000, "unit": "$"},
+      {"id": "currentTariff", "label": "Current Tariff Rate", "default": 25, "unit": "%"},
+      {"id": "altTariff", "label": "Alternative Country Tariff", "default": 5, "unit": "%"},
+      {"id": "altPricePremium", "label": "Alternative Price Premium", "default": 10, "unit": "%"},
+      {"id": "transitionCost", "label": "One-Time Transition Cost", "default": 25000, "unit": "$"}
+    ],
+    "results": [
+      {"id": "currentCost", "label": "Current Annual Total (with tariff)"},
+      {"id": "altCost", "label": "Alternative Annual Total"},
+      {"id": "annualSavings", "label": "Annual Savings"},
+      {"id": "paybackPeriod", "label": "Transition Payback Period"}
+    ],
+    "calcFn": "var currentTotal = annualSpend * (1 + currentTariff / 100);\n    var altGoods = annualSpend * (1 + altPricePremium / 100);\n    var altTotal = altGoods * (1 + altTariff / 100);\n    var savings = currentTotal - altTotal;\n    var payback = savings > 0 ? transitionCost / savings * 12 : Infinity;\n    document.getElementById('currentCost').textContent = dollar(currentTotal);\n    document.getElementById('altCost').textContent = dollar(altTotal);\n    document.getElementById('annualSavings').textContent = savings > 0 ? dollar(savings) + '/year' : 'No savings (current is cheaper)';\n    document.getElementById('paybackPeriod').textContent = payback === Infinity ? 'N/A' : fmt(payback, 1) + ' months';",
+    "faq": [
+      {"question": "How can I reduce tariff costs?", "answer": "Options include: sourcing from free trade agreement (FTA) countries, using foreign trade zones, tariff engineering (reclassifying products), first-sale valuation, and applying for tariff exclusions."},
+      {"question": "What are the major US free trade agreements?", "answer": "USMCA (Canada/Mexico), KORUS (South Korea), CAFTA-DR (Central America/DR), Australia FTA, Singapore FTA, Chile FTA, and others. Products qualifying under these may enter duty-free."},
+      {"question": "Is it worth switching suppliers to save on tariffs?", "answer": "If savings exceed 5-10% of annual spend, it's usually worth investigating. Factor in quality differences, lead times, minimum orders, intellectual property risks, and supplier transition costs."}
+    ],
+    "formulas": [
+      "Current Total = Annual Spend × (1 + Current Tariff%)",
+      "Alt Total = (Annual Spend × (1 + Price Premium%)) × (1 + Alt Tariff%)",
+      "Savings = Current Total - Alternative Total",
+      "Payback = Transition Cost ÷ (Monthly Savings)"
+    ],
+    "relatedTools": ["import-tariff-calculator", "reshoring-cost-calculator", "trade-war-impact-calculator"]
+  },
+  {
+    "slug": "trade-war-impact-calculator",
+    "toolName": "Trade War Impact Calculator",
+    "category": "tariffs",
+    "tagline": "Estimate how tariffs and trade disputes affect product prices and business margins",
+    "keywords": "trade war impact, tariff impact, price increase, margin impact, trade dispute",
+    "inputs": [
+      {"id": "productCost", "label": "Product Unit Cost", "default": 50, "unit": "$"},
+      {"id": "importContent", "label": "Imported Content", "default": 60, "unit": "%"},
+      {"id": "tariffRate", "label": "New Tariff Rate", "default": 25, "unit": "%"},
+      {"id": "sellingPrice", "label": "Current Selling Price", "default": 100, "unit": "$"},
+      {"id": "unitsPerYear", "label": "Annual Unit Sales", "default": 10000},
+      {"id": "passThrough", "label": "Price Pass-Through", "default": 50, "unit": "%"}
+    ],
+    "results": [
+      {"id": "costIncrease", "label": "Cost Increase per Unit"},
+      {"id": "newPrice", "label": "New Selling Price"},
+      {"id": "marginImpact", "label": "Margin Impact"},
+      {"id": "annualImpact", "label": "Annual Profit Impact"}
+    ],
+    "calcFn": "var importedCost = productCost * (importContent / 100);\n    var tariffCost = importedCost * (tariffRate / 100);\n    var newCost = productCost + tariffCost;\n    var priceIncrease = tariffCost * (passThrough / 100);\n    var absorbedCost = tariffCost - priceIncrease;\n    var newPrice = sellingPrice + priceIncrease;\n    var oldMargin = ((sellingPrice - productCost) / sellingPrice) * 100;\n    var newMargin = ((newPrice - newCost) / newPrice) * 100;\n    var annualImpact = absorbedCost * unitsPerYear;\n    document.getElementById('costIncrease').textContent = '+' + dollar(tariffCost) + ' per unit';\n    document.getElementById('newPrice').textContent = dollar(newPrice) + ' (was ' + dollar(sellingPrice) + ')';\n    document.getElementById('marginImpact').textContent = fmt(newMargin, 1) + '% (was ' + fmt(oldMargin, 1) + '%)';\n    document.getElementById('annualImpact').textContent = '-' + dollar(annualImpact) + ' annual profit loss';",
+    "faq": [
+      {"question": "Who pays for tariffs — importers or consumers?", "answer": "Initially, importers pay the tariff. Studies show that 60-100% of tariff costs eventually pass through to consumers as higher prices, depending on market competition and demand elasticity."},
+      {"question": "How do tariffs affect profit margins?", "answer": "If you can't fully pass costs to consumers, your margin shrinks. A 25% tariff on 60% imported content adds $7.50 to a $50 product. Absorbing even half means $3.75 less profit per unit."},
+      {"question": "What is tariff pass-through rate?", "answer": "Pass-through is the percentage of tariff costs passed to consumers via higher prices. Competitive markets with many alternatives see lower pass-through (30-50%). Unique products can pass through 80-100%."}
+    ],
+    "formulas": [
+      "Cost Increase = Product Cost × Import Content% × Tariff Rate%",
+      "Price Increase = Cost Increase × Pass-Through Rate%",
+      "Absorbed Cost = Cost Increase - Price Increase",
+      "Annual Impact = Absorbed Cost × Annual Units"
+    ],
+    "relatedTools": ["import-tariff-calculator", "tariff-savings-calculator", "reshoring-cost-calculator"]
+  },
+  {
+    "slug": "tariff-refund-calculator",
+    "toolName": "Tariff Refund (Drawback) Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate potential duty drawback refunds on re-exported imported goods",
+    "keywords": "duty drawback, tariff refund, customs refund, re-export, drawback calculator",
+    "inputs": [
+      {"id": "importValue", "label": "Import Value", "default": 100000, "unit": "$"},
+      {"id": "dutyPaid", "label": "Total Duties Paid", "default": 25000, "unit": "$"},
+      {"id": "exportPct", "label": "Percentage Re-exported", "default": 60, "unit": "%"},
+      {"id": "drawbackType", "label": "Drawback Type", "default": "99", "options": [{"value":"99","label":"Manufacturing (99% refund)"},{"value":"99u","label":"Unused Merchandise (99%)"},{"value":"lesser","label":"Substitution (lesser of duty)"}]}
+    ],
+    "results": [
+      {"id": "eligibleDuty", "label": "Eligible Duty Amount"},
+      {"id": "refundAmount", "label": "Estimated Refund"},
+      {"id": "netDuty", "label": "Net Duty After Refund"},
+      {"id": "effectiveRate", "label": "Effective Duty Rate"}
+    ],
+    "calcFn": "var eligibleDuty = dutyPaid * (exportPct / 100);\n    var refundRate = drawbackType === 'lesser' ? 0.95 : 0.99;\n    var refund = eligibleDuty * refundRate;\n    var netDuty = dutyPaid - refund;\n    var effectiveRate = (netDuty / importValue) * 100;\n    document.getElementById('eligibleDuty').textContent = dollar(eligibleDuty);\n    document.getElementById('refundAmount').textContent = dollar(refund);\n    document.getElementById('netDuty').textContent = dollar(netDuty);\n    document.getElementById('effectiveRate').textContent = fmt(effectiveRate, 2) + '%';",
+    "faq": [
+      {"question": "What is duty drawback?", "answer": "Duty drawback is a refund of up to 99% of customs duties paid on imported goods that are subsequently exported, either in their original form or after manufacturing. It's one of the oldest trade facilitation programs."},
+      {"question": "Who qualifies for duty drawback?", "answer": "Any US importer who re-exports imported goods or products made from imported materials. You have 5 years from importation to file a drawback claim. The goods must be exported within 5 years."},
+      {"question": "How long does it take to receive a drawback refund?", "answer": "Standard processing takes 3-12 months. Accelerated payment (for qualified claimants) can provide refunds within 2-3 weeks. Filing electronically through ACE speeds up processing."}
+    ],
+    "formulas": [
+      "Eligible Duty = Total Duties × Re-export Percentage",
+      "Refund = Eligible Duty × Drawback Rate (99% for manufacturing/unused)",
+      "Net Duty = Total Duties Paid - Refund",
+      "Effective Rate = Net Duty ÷ Import Value × 100%"
+    ],
+    "relatedTools": ["import-tariff-calculator", "tariff-savings-calculator", "trade-war-impact-calculator"]
+  }
+]

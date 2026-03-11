@@ -1,0 +1,195 @@
+[
+  {
+    "slug": "depth-of-field-calculator",
+    "toolName": "Depth of Field Calculator",
+    "category": "photography",
+    "tagline": "Calculate depth of field, hyperfocal distance, and near/far focus limits for any lens",
+    "keywords": "depth of field, DOF calculator, hyperfocal distance, bokeh, sharp zone",
+    "inputs": [
+      {"id": "focalLength", "label": "Focal Length", "default": 50, "unit": "mm"},
+      {"id": "aperture", "label": "Aperture (f-stop)", "default": 2.8},
+      {"id": "focusDist", "label": "Focus Distance", "default": 10, "unit": "feet"},
+      {"id": "sensorSize", "label": "Sensor", "default": "0.029", "options": [{"value":"0.029","label":"Full Frame (CoC 0.029mm)"},{"value":"0.019","label":"APS-C (CoC 0.019mm)"},{"value":"0.015","label":"Micro 4/3 (CoC 0.015mm)"}]}
+    ],
+    "results": [
+      {"id": "dof", "label": "Total Depth of Field"},
+      {"id": "nearLimit", "label": "Near Sharp Limit"},
+      {"id": "farLimit", "label": "Far Sharp Limit"},
+      {"id": "hyperfocal", "label": "Hyperfocal Distance"}
+    ],
+    "calcFn": "var coc = parseFloat(sensorSize);\n    var distMM = focusDist * 304.8;\n    var h = (focalLength * focalLength) / (aperture * coc);\n    var nearMM = (h * distMM) / (h + (distMM - focalLength));\n    var farMM = distMM < h ? (h * distMM) / (h - (distMM - focalLength)) : Infinity;\n    var dofMM = farMM === Infinity ? Infinity : farMM - nearMM;\n    var nearFt = nearMM / 304.8;\n    var farFt = farMM === Infinity ? Infinity : farMM / 304.8;\n    var dofFt = dofMM === Infinity ? Infinity : dofMM / 304.8;\n    var hFt = h / 304.8;\n    document.getElementById('dof').textContent = dofFt === Infinity ? 'Infinite (beyond hyperfocal)' : fmt(dofFt, 2) + ' ft (' + fmt(dofFt * 12, 0) + ' in)';\n    document.getElementById('nearLimit').textContent = fmt(nearFt, 2) + ' ft';\n    document.getElementById('farLimit').textContent = farFt === Infinity ? 'Infinity' : fmt(farFt, 2) + ' ft';\n    document.getElementById('hyperfocal').textContent = fmt(hFt, 1) + ' ft (' + fmt(hFt * 0.3048, 1) + ' m)';",
+    "faq": [
+      {"question": "What is depth of field?", "answer": "Depth of field (DOF) is the range of distances in a photo that appear acceptably sharp. A shallow DOF (like f/1.4) blurs backgrounds for portraits. A deep DOF (like f/11) keeps everything sharp for landscapes."},
+      {"question": "What affects depth of field the most?", "answer": "Aperture has the biggest effect (wider = shallower DOF). Focus distance is next (closer = shallower). Focal length and sensor size also matter. Portraits at f/1.4 on a 85mm lens give very shallow DOF."},
+      {"question": "What is hyperfocal distance?", "answer": "The hyperfocal distance is the focus point that maximizes DOF from half that distance to infinity. It's critical for landscape photography. At f/11 on a 24mm full-frame lens, the hyperfocal distance is about 5.5 feet."}
+    ],
+    "formulas": [
+      "Hyperfocal Distance H = f² / (N × CoC)",
+      "Near Limit = (H × D) / (H + (D - f))",
+      "Far Limit = (H × D) / (H - (D - f))",
+      "DOF = Far Limit - Near Limit"
+    ],
+    "relatedTools": ["exposure-calculator", "focal-length-crop-calculator", "shutter-speed-calculator"]
+  },
+  {
+    "slug": "customs-duty-lookup-calculator",
+    "toolName": "Customs Duty Lookup Calculator",
+    "category": "tariffs",
+    "tagline": "Estimate customs duties for common product categories imported to the US",
+    "keywords": "customs duty, HTS code, import duty rate, customs tariff, product tariff",
+    "inputs": [
+      {"id": "productCategory", "label": "Product Category", "default": "electronics", "options": [{"value":"electronics","label":"Electronics (0-5%)"},{"value":"clothing","label":"Clothing/Textiles (12-32%)"},{"value":"furniture","label":"Furniture (0-5%)"},{"value":"automotive","label":"Auto Parts (2.5-5%)"},{"value":"food","label":"Food/Beverage (0-20%)"},{"value":"toys","label":"Toys/Games (0-6.5%)"},{"value":"steel","label":"Steel/Aluminum (0-25%)"},{"value":"machinery","label":"Machinery (0-5%)"}]},
+      {"id": "declaredValue", "label": "Declared Value", "default": 5000, "unit": "$"},
+      {"id": "originCountry", "label": "Origin Country Risk", "default": "0", "options": [{"value":"0","label":"FTA Country (0% additional)"},{"value":"0","label":"Normal Trade (MFN rates)"},{"value":"25","label":"Section 301 Country (+25%)"},{"value":"10","label":"Section 232 Country (+10%)"}]}
+    ],
+    "results": [
+      {"id": "baseDutyRate", "label": "Base Duty Rate"},
+      {"id": "baseDuty", "label": "Base Duty Amount"},
+      {"id": "additionalDuty", "label": "Additional Tariffs"},
+      {"id": "totalDuty", "label": "Total Estimated Duty"},
+      {"id": "disclaimer", "label": "Important Note"}
+    ],
+    "calcFn": "var rates = {electronics:[0,5], clothing:[12,32], furniture:[0,5], automotive:[2.5,5], food:[0,20], toys:[0,6.5], steel:[0,25], machinery:[0,5]};\n    var r = rates[productCategory];\n    var avgRate = (r[0] + r[1]) / 2;\n    var baseDuty = declaredValue * (avgRate / 100);\n    var addRate = parseFloat(originCountry);\n    var addDuty = declaredValue * (addRate / 100);\n    var total = baseDuty + addDuty;\n    document.getElementById('baseDutyRate').textContent = r[0] + '-' + r[1] + '% (avg ' + fmt(avgRate, 1) + '%)';\n    document.getElementById('baseDuty').textContent = dollar(baseDuty) + ' (at avg rate)';\n    document.getElementById('additionalDuty').textContent = addRate > 0 ? dollar(addDuty) + ' (' + addRate + '% additional)' : 'None';\n    document.getElementById('totalDuty').textContent = dollar(total);\n    document.getElementById('disclaimer').textContent = 'Rates are estimates. Actual duty depends on specific HTS code. Consult a customs broker for exact rates.';",
+    "faq": [
+      {"question": "How do I find the exact duty rate for my product?", "answer": "Look up your product's HTS (Harmonized Tariff Schedule) code at hts.usitc.gov. Each product has a specific 10-digit code with an exact duty rate. A customs broker can classify your goods."},
+      {"question": "What products have the highest import duties?", "answer": "Clothing/textiles (up to 32%), footwear (up to 48%), dairy products (up to 25%), and tobacco products face the highest US import duties. Electronics and machinery often enter at 0-5%."},
+      {"question": "Do I pay duty on personal purchases shipped from abroad?", "answer": "US residents get an $800 duty-free exemption per person for goods purchased abroad. Above $800, you'll pay duty on the excess amount. De minimis threshold for imports is $800 (raised from $200 in 2016)."}
+    ],
+    "formulas": [
+      "Base Duty = Declared Value × Duty Rate%",
+      "Additional Tariff = Declared Value × Additional Rate%",
+      "Total Duty = Base Duty + Additional Tariffs + Fees",
+      "Actual rates vary by specific HTS classification"
+    ],
+    "relatedTools": ["import-tariff-calculator", "tariff-savings-calculator", "trade-war-impact-calculator"]
+  },
+  {
+    "slug": "gig-worker-tax-calculator",
+    "toolName": "Gig Worker Tax Calculator",
+    "category": "niche-finance",
+    "tagline": "Calculate quarterly estimated taxes for gig workers, freelancers, and 1099 contractors",
+    "keywords": "gig worker tax, 1099 tax, quarterly taxes, self employment tax, freelance tax",
+    "inputs": [
+      {"id": "quarterlyIncome", "label": "Quarterly Gross Income", "default": 8000, "unit": "$"},
+      {"id": "quarterlyExpenses", "label": "Quarterly Business Expenses", "default": 1500, "unit": "$"},
+      {"id": "mileage", "label": "Quarterly Business Miles", "default": 1500},
+      {"id": "filingStatus", "label": "Filing Status", "default": "single", "options": [{"value":"single","label":"Single"},{"value":"married","label":"Married Filing Jointly"},{"value":"hoh","label":"Head of Household"}]},
+      {"id": "otherIncome", "label": "Other Annual Income (W-2)", "default": 0, "unit": "$"}
+    ],
+    "results": [
+      {"id": "netIncome", "label": "Net Self-Employment Income"},
+      {"id": "seTax", "label": "Self-Employment Tax (quarterly)"},
+      {"id": "incomeTax", "label": "Estimated Income Tax (quarterly)"},
+      {"id": "totalPayment", "label": "Quarterly Estimated Payment"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"}
+    ],
+    "calcFn": "var mileageDeduction = mileage * 0.67;\n    var netIncome = quarterlyIncome - quarterlyExpenses - mileageDeduction;\n    var seTax = netIncome * 0.9235 * 0.153;\n    var seDeduction = seTax * 0.5;\n    var taxableIncome = netIncome - seDeduction;\n    var annualTaxable = (taxableIncome * 4) + otherIncome;\n    var taxRate;\n    if (annualTaxable <= 11600) taxRate = 0.10;\n    else if (annualTaxable <= 47150) taxRate = 0.12;\n    else if (annualTaxable <= 100525) taxRate = 0.22;\n    else if (annualTaxable <= 191950) taxRate = 0.24;\n    else taxRate = 0.32;\n    var incomeTax = taxableIncome * taxRate;\n    var totalPayment = Math.max(0, seTax + incomeTax);\n    var effectiveRate = quarterlyIncome > 0 ? (totalPayment / quarterlyIncome) * 100 : 0;\n    document.getElementById('netIncome').textContent = dollar(netIncome);\n    document.getElementById('seTax').textContent = dollar(Math.max(0, seTax));\n    document.getElementById('incomeTax').textContent = dollar(Math.max(0, incomeTax));\n    document.getElementById('totalPayment').textContent = dollar(totalPayment);\n    document.getElementById('effectiveRate').textContent = fmt(effectiveRate, 1) + '%';",
+    "faq": [
+      {"question": "When are quarterly estimated taxes due?", "answer": "Q1: April 15, Q2: June 15, Q3: September 15, Q4: January 15 (next year). If the due date falls on a weekend/holiday, the deadline moves to the next business day."},
+      {"question": "How much should gig workers set aside for taxes?", "answer": "A safe rule is 25-30% of net income. This covers both self-employment tax (15.3%) and federal income tax (10-24% for most gig workers). State taxes may add another 3-10%."},
+      {"question": "What is the 2024 standard mileage rate?", "answer": "The IRS standard mileage rate for 2024 is 67 cents per mile for business use. Track all business miles — for gig workers (Uber, DoorDash, etc.), this is often the largest deduction."}
+    ],
+    "formulas": [
+      "Net Income = Gross - Expenses - Mileage Deduction",
+      "SE Tax = Net × 0.9235 × 15.3%",
+      "SE Deduction = SE Tax × 50% (deductible on income tax)",
+      "Quarterly Payment = SE Tax + Estimated Income Tax"
+    ],
+    "relatedTools": ["side-hustle-income-calculator", "emergency-fund-calculator"]
+  },
+  {
+    "slug": "numerology-calculator",
+    "toolName": "Numerology Calculator",
+    "category": "paranormal",
+    "tagline": "Calculate your life path number, destiny number, and personal year from your birth date",
+    "keywords": "numerology calculator, life path number, destiny number, personal year, numerology meaning",
+    "inputs": [
+      {"id": "birthMonth", "label": "Birth Month", "default": 7, "min": 1, "max": 12},
+      {"id": "birthDay", "label": "Birth Day", "default": 15, "min": 1, "max": 31},
+      {"id": "birthYear", "label": "Birth Year", "default": 1990}
+    ],
+    "results": [
+      {"id": "lifePath", "label": "Life Path Number"},
+      {"id": "meaning", "label": "Life Path Meaning"},
+      {"id": "personalYear", "label": "Personal Year (2026)"},
+      {"id": "personalYearMeaning", "label": "Personal Year Meaning"}
+    ],
+    "calcFn": "function reduceToSingle(n) {\n      while (n > 9 && n !== 11 && n !== 22 && n !== 33) {\n        var sum = 0; var s = n.toString();\n        for (var i = 0; i < s.length; i++) sum += parseInt(s[i]);\n        n = sum;\n      }\n      return n;\n    }\n    var m = reduceToSingle(birthMonth);\n    var d = reduceToSingle(birthDay);\n    var yDigits = birthYear.toString().split('').map(Number);\n    var ySum = yDigits.reduce(function(a,b){return a+b;}, 0);\n    var y = reduceToSingle(ySum);\n    var lifePath = reduceToSingle(m + d + y);\n    var meanings = {\n      1: 'The Leader — Independent, ambitious, pioneering. Born to lead and innovate.',\n      2: 'The Mediator — Diplomatic, cooperative, sensitive. Natural peacemaker and partner.',\n      3: 'The Communicator — Creative, expressive, social. Born to inspire through art and words.',\n      4: 'The Builder — Practical, disciplined, hardworking. Creates lasting foundations.',\n      5: 'The Adventurer — Freedom-loving, versatile, dynamic. Thrives on change and experience.',\n      6: 'The Nurturer — Responsible, caring, harmonious. Natural caretaker and counselor.',\n      7: 'The Seeker — Analytical, introspective, spiritual. Driven by knowledge and truth.',\n      8: 'The Powerhouse — Ambitious, authoritative, successful. Natural leader in business.',\n      9: 'The Humanitarian — Compassionate, generous, idealistic. Devoted to serving others.',\n      11: 'Master Number 11 — Intuitive, visionary, inspiring. Heightened spiritual awareness.',\n      22: 'Master Number 22 — Master Builder, powerful manifestor. Turns dreams into reality.',\n      33: 'Master Number 33 — Master Teacher, selfless, devoted. Highest spiritual calling.'\n    };\n    var currentYear = 2026;\n    var py = reduceToSingle(reduceToSingle(birthMonth) + reduceToSingle(birthDay) + reduceToSingle(currentYear.toString().split('').map(Number).reduce(function(a,b){return a+b;},0)));\n    var pyMeanings = {\n      1:'New beginnings, fresh start, planting seeds',\n      2:'Patience, partnerships, cooperation',\n      3:'Creativity, self-expression, social expansion',\n      4:'Hard work, building foundations, discipline',\n      5:'Change, freedom, adventure, unexpected shifts',\n      6:'Home, family, responsibility, love',\n      7:'Reflection, spiritual growth, inner work',\n      8:'Achievement, abundance, material success',\n      9:'Completion, release, endings, transformation'\n    };\n    document.getElementById('lifePath').textContent = 'Life Path ' + lifePath;\n    document.getElementById('meaning').textContent = meanings[lifePath] || 'Unique path with special significance.';\n    document.getElementById('personalYear').textContent = 'Personal Year ' + py;\n    document.getElementById('personalYearMeaning').textContent = pyMeanings[py] || 'Master number year — powerful potential.';",
+    "faq": [
+      {"question": "What is a life path number?", "answer": "Your life path number is calculated by reducing your full birth date to a single digit (or master number 11, 22, 33). It's considered the most important number in numerology, revealing your life purpose and key traits."},
+      {"question": "What are master numbers in numerology?", "answer": "Master numbers (11, 22, 33) are not reduced to single digits. They carry heightened energy and potential. 11 is the Intuitive, 22 is the Master Builder, and 33 is the Master Teacher."},
+      {"question": "How do personal year cycles work?", "answer": "Personal years run in 9-year cycles. Calculate by reducing your birth month + birth day + current year. Each year has a theme: Year 1 is new beginnings, Year 9 is completions and endings."}
+    ],
+    "formulas": [
+      "Life Path = Reduce(Month) + Reduce(Day) + Reduce(Year) → reduce to single digit",
+      "Personal Year = Reduce(Birth Month + Birth Day + Current Year)",
+      "Reduce: sum digits repeatedly until single digit (or master number)",
+      "Master Numbers (11, 22, 33) are not reduced further"
+    ],
+    "relatedTools": ["chinese-zodiac-calculator", "biorhythm-calculator", "tarot-probability-calculator"]
+  },
+  {
+    "slug": "aura-color-calculator",
+    "toolName": "Aura Color Calculator",
+    "category": "paranormal",
+    "tagline": "Discover your aura color based on personality traits and energy assessment",
+    "keywords": "aura color, aura reading, energy color, chakra color, spiritual assessment",
+    "inputs": [
+      {"id": "dominant", "label": "Dominant Trait", "default": "creative", "options": [{"value":"leader","label":"Leadership & ambition"},{"value":"creative","label":"Creativity & expression"},{"value":"healer","label":"Healing & compassion"},{"value":"thinker","label":"Analysis & intellect"},{"value":"spiritual","label":"Spirituality & intuition"},{"value":"energetic","label":"Energy & passion"},{"value":"peaceful","label":"Peace & balance"}]},
+      {"id": "stress", "label": "Current Stress Level", "default": "3", "options": [{"value":"1","label":"Very low — calm & centered"},{"value":"3","label":"Moderate — some tension"},{"value":"5","label":"High — overwhelmed"},{"value":"7","label":"Very high — burnout risk"}]},
+      {"id": "social", "label": "Social Energy", "default": "extrovert", "options": [{"value":"introvert","label":"Introvert — recharge alone"},{"value":"ambivert","label":"Ambivert — balanced"},{"value":"extrovert","label":"Extrovert — energized by people"}]},
+      {"id": "birthMonth", "label": "Birth Month", "default": 6, "min": 1, "max": 12}
+    ],
+    "results": [
+      {"id": "primaryAura", "label": "Primary Aura Color"},
+      {"id": "secondaryAura", "label": "Secondary Aura Color"},
+      {"id": "chakra", "label": "Strongest Chakra"},
+      {"id": "advice", "label": "Energy Guidance"}
+    ],
+    "calcFn": "var colors = {\n      leader: {primary:'Red',secondary:'Orange',chakra:'Root (Muladhara)',hex:'#FF0000'},\n      creative: {primary:'Orange',secondary:'Yellow',chakra:'Sacral (Svadhisthana)',hex:'#FF8C00'},\n      healer: {primary:'Green',secondary:'Pink',chakra:'Heart (Anahata)',hex:'#00CC66'},\n      thinker: {primary:'Blue',secondary:'Indigo',chakra:'Throat (Vishuddha)',hex:'#0066CC'},\n      spiritual: {primary:'Violet',secondary:'White',chakra:'Crown (Sahasrara)',hex:'#8B00FF'},\n      energetic: {primary:'Yellow',secondary:'Gold',chakra:'Solar Plexus (Manipura)',hex:'#FFD700'},\n      peaceful: {primary:'Indigo',secondary:'Turquoise',chakra:'Third Eye (Ajna)',hex:'#4B0082'}\n    };\n    var c = colors[dominant];\n    var stressLevel = parseInt(stress);\n    var advice;\n    if (stressLevel <= 2) advice = 'Your aura is vibrant and clear. Continue your current self-care practices.';\n    else if (stressLevel <= 4) advice = 'Some cloudiness detected. Meditation and time in nature can brighten your aura.';\n    else advice = 'Your aura may be dim or muddy. Prioritize rest, grounding exercises, and energy clearing.';\n    var socialMod = '';\n    if (social === 'introvert') socialMod = ' with a protective, inward-facing quality';\n    else if (social === 'extrovert') socialMod = ' with a radiant, expansive quality';\n    else socialMod = ' with a balanced, adaptive quality';\n    document.getElementById('primaryAura').textContent = c.primary + socialMod;\n    document.getElementById('secondaryAura').textContent = c.secondary;\n    document.getElementById('chakra').textContent = c.chakra;\n    document.getElementById('advice').textContent = advice;",
+    "faq": [
+      {"question": "What is an aura?", "answer": "In spiritual traditions, an aura is an energy field surrounding the body. Different colors are believed to reflect personality, emotional state, and spiritual development. While not scientifically validated, aura reading is a popular self-reflection tool."},
+      {"question": "What does each aura color mean?", "answer": "Red: passionate, strong, grounded. Orange: creative, adventurous. Yellow: optimistic, intellectual. Green: healing, nurturing. Blue: calm, communicative. Indigo: intuitive, wise. Violet: spiritual, visionary. White: pure, transcendent."},
+      {"question": "Can your aura color change?", "answer": "Yes. Aura colors are believed to shift based on emotional state, health, spiritual growth, and life circumstances. Your core aura color tends to remain stable, but secondary colors fluctuate regularly."}
+    ],
+    "formulas": [
+      "Primary color mapped from dominant personality trait",
+      "Secondary color complements the primary energy",
+      "Chakra alignment follows the traditional 7-chakra system",
+      "Stress level affects aura clarity and vibrancy"
+    ],
+    "relatedTools": ["numerology-calculator", "biorhythm-calculator", "chinese-zodiac-calculator"]
+  },
+  {
+    "slug": "compost-ratio-calculator",
+    "toolName": "Compost Ratio Calculator",
+    "category": "gardening",
+    "tagline": "Calculate the ideal carbon-to-nitrogen ratio for your compost pile using common materials",
+    "keywords": "compost ratio, carbon nitrogen ratio, composting calculator, C:N ratio, compost mix",
+    "inputs": [
+      {"id": "brownType", "label": "Brown Material (Carbon)", "default": "60", "options": [{"value":"60","label":"Dry leaves (C:N 60:1)"},{"value":"80","label":"Straw (80:1)"},{"value":"400","label":"Cardboard/paper (400:1)"},{"value":"170","label":"Wood chips (170:1)"},{"value":"25","label":"Corn stalks (25:1)"}]},
+      {"id": "brownLbs", "label": "Brown Material Amount", "default": 20, "unit": "lbs"},
+      {"id": "greenType", "label": "Green Material (Nitrogen)", "default": "15", "options": [{"value":"15","label":"Grass clippings (15:1)"},{"value":"20","label":"Vegetable scraps (20:1)"},{"value":"7","label":"Coffee grounds (7:1)"},{"value":"6","label":"Chicken manure (6:1)"},{"value":"12","label":"Fruit waste (12:1)"}]},
+      {"id": "greenLbs", "label": "Green Material Amount", "default": 10, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "currentRatio", "label": "Current C:N Ratio"},
+      {"id": "idealAssessment", "label": "Assessment"},
+      {"id": "adjustment", "label": "Suggested Adjustment"},
+      {"id": "compostTime", "label": "Estimated Composting Time"}
+    ],
+    "calcFn": "var brownCN = parseInt(brownType);\n    var greenCN = parseInt(greenType);\n    var totalCarbon = brownLbs * brownCN + greenLbs * greenCN;\n    var totalNitrogen = brownLbs + greenLbs;\n    var ratio = totalCarbon / totalNitrogen;\n    var assessment, adjustment, time;\n    if (ratio >= 25 && ratio <= 35) {\n      assessment = 'Ideal range! Your compost should decompose efficiently.';\n      adjustment = 'No adjustment needed. Maintain moisture like a wrung-out sponge.';\n      time = '2-4 months (turned regularly)';\n    } else if (ratio > 35) {\n      var greenNeeded = (totalCarbon - 30 * totalNitrogen) / (30 - greenCN);\n      assessment = 'Too carbon-heavy (slow decomposition).';\n      adjustment = 'Add ' + fmt(Math.max(0, greenNeeded), 0) + ' lbs more green material to reach ideal 30:1.';\n      time = '6-12 months (slow due to excess carbon)';\n    } else {\n      var brownNeeded = (30 * totalNitrogen - totalCarbon) / (brownCN - 30);\n      assessment = 'Too nitrogen-heavy (may smell bad).';\n      adjustment = 'Add ' + fmt(Math.max(0, brownNeeded), 0) + ' lbs more brown material to reach ideal 30:1.';\n      time = '1-2 months (fast but may be smelly)';\n    }\n    document.getElementById('currentRatio').textContent = fmt(ratio, 0) + ':1 (ideal: 25-35:1)';\n    document.getElementById('idealAssessment').textContent = assessment;\n    document.getElementById('adjustment').textContent = adjustment;\n    document.getElementById('compostTime').textContent = time;",
+    "faq": [
+      {"question": "What is the ideal compost ratio?", "answer": "The ideal carbon-to-nitrogen (C:N) ratio for composting is 25:1 to 35:1, with 30:1 being optimal. This provides the right balance for microorganisms to decompose materials efficiently."},
+      {"question": "What are browns and greens in composting?", "answer": "Browns are carbon-rich materials: dry leaves, straw, cardboard, wood chips. Greens are nitrogen-rich: grass clippings, food scraps, coffee grounds, manure. You need roughly 3 parts brown to 1 part green by volume."},
+      {"question": "Why does my compost smell bad?", "answer": "A smelly compost pile usually has too much nitrogen (green material). Add more browns (dry leaves, cardboard), turn the pile for aeration, and ensure it's not too wet. A healthy pile should smell earthy."}
+    ],
+    "formulas": [
+      "Weighted C:N = (Brown lbs × Brown C:N + Green lbs × Green C:N) ÷ Total lbs",
+      "Ideal ratio: 25:1 to 35:1 (target 30:1)",
+      "General rule: 3 parts brown to 1 part green by volume",
+      "Composting time decreases with optimal ratio, moisture, and aeration"
+    ],
+    "relatedTools": ["mulch-calculator", "greenhouse-temperature-calculator"]
+  }
+]

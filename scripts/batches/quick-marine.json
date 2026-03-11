@@ -1,0 +1,179 @@
+[
+  {
+    "slug": "boat-loan-calculator",
+    "toolName": "Boat Loan Calculator",
+    "category": "marine",
+    "tagline": "Calculate monthly payments for boat financing",
+    "keywords": "boat loan calculator, marine financing, boat payment calculator, boat interest rate",
+    "relatedTools": ["boat-fuel-calculator", "boat-speed-calculator", "anchor-rode-calculator"],
+    "inputs": [
+      {"id": "boatPrice", "label": "Boat Price", "default": 45000},
+      {"id": "downPay", "label": "Down Payment", "default": 9000},
+      {"id": "rate", "label": "Interest Rate", "default": 7.5, "unit": "%", "step": 0.1},
+      {"id": "term", "label": "Loan Term", "default": 10, "unit": "years"}
+    ],
+    "results": [
+      {"id": "monthlyPay", "label": "Monthly Payment"},
+      {"id": "totalInt", "label": "Total Interest"},
+      {"id": "totalCost", "label": "Total Cost"}
+    ],
+    "calcFn": "var loan = boatPrice - downPay; var r = rate / 100 / 12; var n = term * 12; var pmt = r > 0 ? loan * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1) : loan/n; document.getElementById('monthlyPay').textContent = dollar(pmt); document.getElementById('totalInt').textContent = dollar(pmt*n - loan); document.getElementById('totalCost').textContent = dollar(pmt*n + downPay);",
+    "formulas": ["Monthly Payment = P × [r(1+r)^n] / [(1+r)^n – 1]", "Total Interest = (Payment × Months) – Principal"],
+    "faq": [
+      {"question": "What is a typical boat loan rate?", "answer": "Boat loan rates range from 5-10% for new boats with good credit. Used boats typically carry rates 1-2% higher. Credit unions often offer the best marine lending rates."},
+      {"question": "How long can you finance a boat?", "answer": "Boat loans range from 2-20 years depending on the amount. Loans under $25K typically max at 12 years. Over $100K can extend to 20 years."},
+      {"question": "Should I finance or pay cash for a boat?", "answer": "Financing preserves cash for maintenance and slip fees. However, boats depreciate 10-15% per year, so long-term financing means you may owe more than it's worth. A 20% down payment helps avoid being underwater."}
+    ]
+  },
+  {
+    "slug": "anchor-rode-calculator",
+    "toolName": "Anchor Rode Calculator",
+    "category": "marine",
+    "tagline": "Calculate anchor line scope for safe anchoring",
+    "keywords": "anchor rode calculator, anchor scope calculator, anchor line length, anchoring depth",
+    "relatedTools": ["boat-speed-calculator", "boat-fuel-calculator", "boat-loan-calculator"],
+    "inputs": [
+      {"id": "depth", "label": "Water Depth", "default": 15, "unit": "feet"},
+      {"id": "freeboard", "label": "Bow Height Above Water", "default": 4, "unit": "feet"},
+      {"id": "scope", "label": "Scope Ratio", "default": 7, "options": [{"value":"5","label":"5:1 (calm, lunch hook)"},{"value":"7","label":"7:1 (standard overnight)"},{"value":"10","label":"10:1 (storm conditions)"}]}
+    ],
+    "results": [
+      {"id": "rodeLength", "label": "Total Rode Needed"},
+      {"id": "chainLength", "label": "Recommended Chain"},
+      {"id": "swingRadius", "label": "Swing Radius"}
+    ],
+    "calcFn": "var s = parseFloat(scope); var totalDepth = depth + freeboard; var rode = totalDepth * s; var chain = Math.max(totalDepth, rode * 0.15); document.getElementById('rodeLength').textContent = fmt(rode, 0) + ' ft'; document.getElementById('chainLength').textContent = fmt(chain, 0) + ' ft of chain'; document.getElementById('swingRadius').textContent = fmt(rode + 30, 0) + ' ft'; document.getElementById('resultTip').textContent = 'Always account for tidal changes — add expected tide rise to depth.';",
+    "formulas": ["Rode Length = (Water Depth + Bow Height) × Scope Ratio", "Chain = at least 1 boat length or 15% of rode", "Swing Radius = Rode Length + Boat Length"],
+    "faq": [
+      {"question": "What is anchor scope?", "answer": "Scope is the ratio of anchor rode length to water depth. A 7:1 scope in 10 feet of water means 70 feet of rode. Greater scope means a more horizontal pull on the anchor, which increases holding power."},
+      {"question": "What scope ratio should I use?", "answer": "5:1 minimum for calm conditions and lunch stops. 7:1 for standard overnight anchoring. 10:1 for storms or high winds. All-chain rode can reduce scope to 5:1 in moderate conditions."},
+      {"question": "Chain vs rope for anchor rode?", "answer": "Chain is heavier, creating a catenary curve that absorbs shock and keeps pull horizontal. Rope is lighter and easier to handle. Most cruisers use a combination: chain on the bottom (1 boat length minimum) with rope above."}
+    ]
+  },
+  {
+    "slug": "boat-speed-calculator",
+    "toolName": "Boat Hull Speed Calculator",
+    "category": "marine",
+    "tagline": "Calculate theoretical hull speed from waterline length",
+    "keywords": "hull speed calculator, boat speed calculator, waterline length speed, displacement hull speed",
+    "relatedTools": ["boat-fuel-calculator", "anchor-rode-calculator", "nautical-mile-converter"],
+    "inputs": [
+      {"id": "lwl", "label": "Waterline Length", "default": 30, "unit": "feet"}
+    ],
+    "results": [
+      {"id": "hullSpeed", "label": "Hull Speed"},
+      {"id": "hullSpeedMph", "label": "Hull Speed (MPH)"},
+      {"id": "hullSpeedKmh", "label": "Hull Speed (km/h)"}
+    ],
+    "calcFn": "var hs = 1.34 * Math.sqrt(lwl); document.getElementById('hullSpeed').textContent = fmt(hs, 2) + ' knots'; document.getElementById('hullSpeedMph').textContent = fmt(hs * 1.15078, 2) + ' mph'; document.getElementById('hullSpeedKmh').textContent = fmt(hs * 1.852, 2) + ' km/h'; document.getElementById('resultTip').textContent = 'Displacement hulls cannot efficiently exceed this speed without planing.';",
+    "formulas": ["Hull Speed (knots) = 1.34 × √(Waterline Length in feet)", "Applies to displacement hulls — planing hulls can exceed this", "1 knot = 1.15078 mph = 1.852 km/h"],
+    "faq": [
+      {"question": "What is hull speed?", "answer": "Hull speed is the maximum efficient speed of a displacement hull, determined by waterline length. At this speed, the bow and stern waves merge. Pushing past hull speed requires exponentially more power."},
+      {"question": "Can a boat go faster than hull speed?", "answer": "Displacement hulls (sailboats, trawlers) are limited near hull speed. Planing hulls (speedboats, sportfish) can break through and ride on top of their bow wave, achieving much higher speeds."},
+      {"question": "Where is hull speed 1.34 from?", "answer": "The constant 1.34 comes from the relationship between wave speed and wavelength. A wave's speed in knots equals 1.34 times the square root of its wavelength in feet. At hull speed, the boat's bow wave wavelength equals the waterline length."}
+    ]
+  },
+  {
+    "slug": "marine-battery-calculator",
+    "toolName": "Marine Battery Calculator",
+    "category": "marine",
+    "tagline": "Size your boat's battery bank for house loads",
+    "keywords": "marine battery calculator, boat battery sizing, marine battery bank, boat electrical",
+    "relatedTools": ["boat-fuel-calculator", "anchor-rode-calculator", "boat-speed-calculator"],
+    "inputs": [
+      {"id": "dailyAh", "label": "Daily Use", "default": 120, "unit": "Ah"},
+      {"id": "daysAnchor", "label": "Days at Anchor", "default": 2, "min": 1},
+      {"id": "battType", "label": "Battery Type", "default": "agm", "options": [{"value":"fla","label":"Flooded Lead Acid (50% DoD)"},{"value":"agm","label":"AGM (50% DoD)"},{"value":"lifepo4","label":"LiFePO4 (80% DoD)"}]}
+    ],
+    "results": [
+      {"id": "totalAh", "label": "Total Ah Needed"},
+      {"id": "bankSize", "label": "Battery Bank Size"},
+      {"id": "batteries", "label": "Batteries Needed (100Ah)"},
+      {"id": "estCost", "label": "Estimated Cost"}
+    ],
+    "calcFn": "var dod = {fla: 0.50, agm: 0.50, lifepo4: 0.80}; var costs = {fla: 1.5, agm: 2.5, lifepo4: 5}; var maxDod = dod[battType] || 0.50; var costPerAh = costs[battType] || 2.5; var totalNeed = dailyAh * daysAnchor; var bankAh = Math.ceil(totalNeed / maxDod); var numBatt = Math.ceil(bankAh / 100); var cost = bankAh * costPerAh; document.getElementById('totalAh').textContent = fmt(totalNeed, 0) + ' Ah'; document.getElementById('bankSize').textContent = fmt(bankAh, 0) + ' Ah'; document.getElementById('batteries').textContent = numBatt + ' × 100Ah'; document.getElementById('estCost').textContent = dollar(cost);",
+    "formulas": ["Total Ah Needed = Daily Use × Days at Anchor", "Bank Size = Total Ah ÷ Max Depth of Discharge", "Lead acid: 50% DoD max, LiFePO4: 80% DoD max"],
+    "faq": [
+      {"question": "How do I calculate daily amp-hour usage?", "answer": "Add up each device's amps × hours of use. Example: LED lights (2A × 5hr = 10Ah) + fridge (5A × 24hr = 120Ah) + instruments (1A × 12hr = 12Ah). Use a clamp meter for accurate readings."},
+      {"question": "AGM vs LiFePO4 for boats?", "answer": "LiFePO4 costs 2-3× more upfront but lasts 5-10× longer, weighs 60% less, charges faster, and provides 80% usable capacity vs 50% for AGM. For frequent cruising, LiFePO4 has lower lifetime cost."},
+      {"question": "What depth of discharge is safe?", "answer": "Flooded and AGM lead-acid: 50% maximum to preserve lifespan. LiFePO4: 80% regularly, 100% occasionally. Discharging lead-acid below 50% dramatically reduces cycle life."}
+    ]
+  },
+  {
+    "slug": "boat-bottom-paint-calculator",
+    "toolName": "Boat Bottom Paint Calculator",
+    "category": "marine",
+    "tagline": "Calculate antifouling paint needed for your hull",
+    "keywords": "boat bottom paint calculator, antifouling paint coverage, hull paint calculator, boat paint amount",
+    "relatedTools": ["boat-speed-calculator", "boat-fuel-calculator", "boat-loan-calculator"],
+    "inputs": [
+      {"id": "loa", "label": "Length Overall", "default": 30, "unit": "feet"},
+      {"id": "beam", "label": "Beam (Width)", "default": 10, "unit": "feet"},
+      {"id": "draft", "label": "Draft", "default": 4, "unit": "feet"},
+      {"id": "coats", "label": "Number of Coats", "default": 2, "min": 1, "max": 4}
+    ],
+    "results": [
+      {"id": "hullArea", "label": "Hull Area (below waterline)"},
+      {"id": "gallons", "label": "Paint Needed"},
+      {"id": "estCost", "label": "Estimated Paint Cost"}
+    ],
+    "calcFn": "var area = loa * (beam + draft) * 0.85; var totalArea = area * coats; var gal = totalArea / 400; document.getElementById('hullArea').textContent = fmt(area, 0) + ' sq ft'; document.getElementById('gallons').textContent = fmt(gal, 1) + ' gallons'; document.getElementById('estCost').textContent = dollar(gal * 180); document.getElementById('resultTip').textContent = 'Coverage assumes 400 sq ft/gallon. Apply 2 coats minimum for full-season protection.';",
+    "formulas": ["Hull Area ≈ LOA × (Beam + Draft) × 0.85", "Paint Gallons = (Hull Area × Coats) ÷ 400 sq ft/gal", "Antifouling paint averages ~$160-200/gallon"],
+    "faq": [
+      {"question": "How much bottom paint do I need?", "answer": "A 30-foot boat typically needs 2-3 gallons for two coats. Most antifouling paints cover about 350-450 square feet per gallon. Always apply at least two coats, with extra on the waterline and high-wear areas."},
+      {"question": "How often should I repaint my boat bottom?", "answer": "Most ablative antifouling paints last 1-2 seasons. Hard paints can last 2-3 seasons but build up over time and eventually need stripping. In warm tropical waters, repaint annually."},
+      {"question": "What type of bottom paint should I use?", "answer": "Ablative paints are best for sailboats and seasonal boats — they wear away gradually. Hard modified epoxy paints suit powerboats and year-round boats. Water-based paints are easier to apply and lower VOC."}
+    ]
+  },
+  {
+    "slug": "boat-trailer-weight-calculator",
+    "toolName": "Boat Trailer Weight Calculator",
+    "category": "marine",
+    "tagline": "Calculate towing weight and trailer requirements",
+    "keywords": "boat trailer weight calculator, boat towing calculator, trailer capacity, boat and trailer weight",
+    "relatedTools": ["boat-fuel-calculator", "boat-loan-calculator", "boat-speed-calculator"],
+    "inputs": [
+      {"id": "boatWeight", "label": "Boat Dry Weight", "default": 4000, "unit": "lbs"},
+      {"id": "fuel", "label": "Fuel Aboard", "default": 30, "unit": "gallons"},
+      {"id": "gear", "label": "Gear Weight", "default": 200, "unit": "lbs"},
+      {"id": "trailerWeight", "label": "Trailer Weight", "default": 1200, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "totalTow", "label": "Total Tow Weight"},
+      {"id": "tongueWeight", "label": "Est. Tongue Weight"},
+      {"id": "minTowRating", "label": "Min Tow Vehicle Rating"},
+      {"id": "boatLoaded", "label": "Loaded Boat Weight"}
+    ],
+    "calcFn": "var fuelWeight = fuel * 6.1; var loadedBoat = boatWeight + fuelWeight + gear; var total = loadedBoat + trailerWeight; var tongue = total * 0.10; document.getElementById('totalTow').textContent = fmt(total, 0) + ' lbs'; document.getElementById('tongueWeight').textContent = fmt(tongue, 0) + ' lbs'; document.getElementById('minTowRating').textContent = fmt(total * 1.15, 0) + ' lbs'; document.getElementById('boatLoaded').textContent = fmt(loadedBoat, 0) + ' lbs'; document.getElementById('resultTip').textContent = 'Tow vehicle should be rated 15%+ above total tow weight for safety margin.';",
+    "formulas": ["Fuel weight = gallons × 6.1 lbs/gal (gasoline)", "Total tow = boat + fuel + gear + trailer", "Tongue weight ≈ 10-15% of total tow weight", "Tow vehicle should be rated 15% above total"],
+    "faq": [
+      {"question": "How much does a boat and trailer weigh?", "answer": "Small boats (16-18ft): 2,000-3,500 lbs total. Medium boats (20-24ft): 4,000-7,000 lbs. Large boats (25-30ft): 7,000-12,000+ lbs. Always weigh at a truck scale for accuracy."},
+      {"question": "What is tongue weight and why does it matter?", "answer": "Tongue weight is the downward force on the hitch ball, typically 10-15% of total trailer weight. Too little causes trailer sway. Too much overloads the tow vehicle's rear axle. Adjust by moving the boat position on the trailer."},
+      {"question": "What tow vehicle do I need for my boat?", "answer": "Match your total tow weight to the vehicle's tow rating with 15% margin. Most mid-size trucks handle 6,000-8,000 lbs. Full-size trucks: 10,000-15,000 lbs. Large SUVs: 5,000-8,500 lbs."}
+    ]
+  },
+  {
+    "slug": "nautical-mile-converter",
+    "toolName": "Nautical Mile Converter",
+    "category": "marine",
+    "tagline": "Convert between nautical miles, statute miles, and kilometers",
+    "keywords": "nautical mile converter, nm to miles, knots to mph, nautical mile calculator",
+    "relatedTools": ["boat-speed-calculator", "boat-fuel-calculator", "anchor-rode-calculator"],
+    "inputs": [
+      {"id": "value", "label": "Distance Value", "default": 100},
+      {"id": "fromUnit", "label": "From Unit", "default": "nm", "options": [{"value":"nm","label":"Nautical Miles"},{"value":"mi","label":"Statute Miles"},{"value":"km","label":"Kilometers"}]}
+    ],
+    "results": [
+      {"id": "nautical", "label": "Nautical Miles"},
+      {"id": "statute", "label": "Statute Miles"},
+      {"id": "kilometers", "label": "Kilometers"}
+    ],
+    "calcFn": "var nm, mi, km; if (fromUnit === 'nm') { nm = value; mi = value * 1.15078; km = value * 1.852; } else if (fromUnit === 'mi') { mi = value; nm = value / 1.15078; km = value * 1.60934; } else { km = value; nm = value / 1.852; mi = value / 1.60934; } document.getElementById('nautical').textContent = fmt(nm, 4) + ' NM'; document.getElementById('statute').textContent = fmt(mi, 4) + ' mi'; document.getElementById('kilometers').textContent = fmt(km, 4) + ' km';",
+    "formulas": ["1 Nautical Mile = 1.15078 Statute Miles = 1.852 Kilometers", "1 Nautical Mile = 1 minute of latitude", "Knots = Nautical Miles per Hour"],
+    "faq": [
+      {"question": "Why do sailors use nautical miles?", "answer": "A nautical mile equals one minute of latitude, making it directly tied to Earth's geometry. This makes navigation calculations on charts straightforward — 1 degree of latitude always equals 60 nautical miles."},
+      {"question": "What is the difference between a knot and mph?", "answer": "A knot is one nautical mile per hour (1.15 mph). So 10 knots = 11.5 mph = 18.5 km/h. The term comes from counting knots on a line dragged behind sailing ships to measure speed."},
+      {"question": "How long is a nautical mile?", "answer": "A nautical mile is 6,076 feet (1,852 meters), compared to a statute mile at 5,280 feet (1,609 meters). A nautical mile is about 15% longer than a statute mile."}
+    ]
+  }
+]

@@ -1,0 +1,425 @@
+[
+  {
+    "slug": "pendulum-calculator",
+    "toolName": "Pendulum Calculator",
+    "category": "science",
+    "tagline": "Calculate the period, frequency, and length of a simple pendulum at any gravity",
+    "keywords": "pendulum period, pendulum calculator, simple harmonic motion, pendulum length",
+    "inputs": [
+      {"id": "length", "label": "Pendulum Length", "default": 1, "unit": "meters", "step": 0.01},
+      {"id": "gravity", "label": "Gravitational Acceleration", "default": 9.81, "unit": "m/s²", "step": 0.01},
+      {"id": "amplitude", "label": "Swing Amplitude", "default": 15, "unit": "degrees"}
+    ],
+    "results": [
+      {"id": "period", "label": "Period (one full swing)"},
+      {"id": "frequency", "label": "Frequency"},
+      {"id": "correctedPeriod", "label": "Corrected Period (large amplitude)"},
+      {"id": "equivalentLength", "label": "1-Second Pendulum Length"}
+    ],
+    "calcFn": "var T = 2 * Math.PI * Math.sqrt(length / gravity);\n    var freq = 1 / T;\n    var thetaRad = amplitude * Math.PI / 180;\n    var correction = 1 + (1/16) * Math.pow(thetaRad, 2) + (11/3072) * Math.pow(thetaRad, 4);\n    var Tcorrected = T * correction;\n    var oneSecLen = gravity / (4 * Math.PI * Math.PI);\n    document.getElementById('period').textContent = fmt(T, 4) + ' seconds (small angle approx.)';\n    document.getElementById('frequency').textContent = fmt(freq, 4) + ' Hz';\n    document.getElementById('correctedPeriod').textContent = fmt(Tcorrected, 4) + ' seconds (at ' + amplitude + '°)';\n    document.getElementById('equivalentLength').textContent = fmt(oneSecLen, 4) + ' m (' + fmt(oneSecLen * 100, 2) + ' cm)';",
+    "faq": [
+      {"question": "What is the period of a 1-meter pendulum?", "answer": "On Earth (g = 9.81 m/s²), a 1-meter pendulum has a period of about 2.006 seconds. This is close to 2 seconds, which is why grandfather clock pendulums are approximately 1 meter long."},
+      {"question": "Does the mass of the pendulum affect the period?", "answer": "No. For a simple pendulum, the period depends only on length and gravity — not mass. This was first demonstrated by Galileo. (Air resistance makes heavy bobs slightly more practical.)"},
+      {"question": "What is the small angle approximation?", "answer": "The simple formula T = 2π√(L/g) assumes small swings (under ~15°). For larger amplitudes, the period increases. At 45°, the period is about 4% longer than the small-angle prediction."}
+    ],
+    "formulas": [
+      "Period T = 2π × √(L / g) (small angle approximation)",
+      "Frequency f = 1 / T",
+      "Large angle correction: T_corrected = T × (1 + θ²/16 + 11θ⁴/3072 + ...)",
+      "1-second pendulum length = g / (4π²) ≈ 0.2485 m"
+    ],
+    "relatedTools": ["buoyancy-calculator", "acceleration-calculator"]
+  },
+  {
+    "slug": "buoyancy-calculator",
+    "toolName": "Buoyancy Calculator",
+    "category": "science",
+    "tagline": "Calculate buoyant force, displaced volume, and whether an object floats or sinks",
+    "keywords": "buoyancy calculator, Archimedes principle, buoyant force, float or sink, displacement",
+    "inputs": [
+      {"id": "objectMass", "label": "Object Mass", "default": 5, "unit": "kg"},
+      {"id": "objectVolume", "label": "Object Volume", "default": 0.008, "unit": "m³", "step": 0.001},
+      {"id": "fluidDensity", "label": "Fluid Density", "default": "1000", "options": [{"value":"1000","label":"Fresh Water (1,000 kg/m³)"},{"value":"1025","label":"Seawater (1,025 kg/m³)"},{"value":"13600","label":"Mercury (13,600 kg/m³)"},{"value":"1.225","label":"Air (1.225 kg/m³)"},{"value":"789","label":"Ethanol (789 kg/m³)"}]}
+    ],
+    "results": [
+      {"id": "buoyantForce", "label": "Buoyant Force"},
+      {"id": "objectWeight", "label": "Object Weight"},
+      {"id": "netForce", "label": "Net Force"},
+      {"id": "floatOrSink", "label": "Float or Sink?"},
+      {"id": "submergedPct", "label": "Submerged Percentage (if floating)"}
+    ],
+    "calcFn": "var fluidD = parseFloat(fluidDensity);\n    var g = 9.81;\n    var objectDensity = objectMass / objectVolume;\n    var buoyantF = fluidD * objectVolume * g;\n    var weightF = objectMass * g;\n    var netF = buoyantF - weightF;\n    var floats = objectDensity < fluidD;\n    var subPct = floats ? (objectDensity / fluidD) * 100 : 100;\n    document.getElementById('buoyantForce').textContent = fmt(buoyantF, 2) + ' N';\n    document.getElementById('objectWeight').textContent = fmt(weightF, 2) + ' N';\n    document.getElementById('netForce').textContent = fmt(netF, 2) + ' N (' + (netF > 0 ? 'upward' : 'downward') + ')';\n    document.getElementById('floatOrSink').textContent = floats ? 'FLOATS (density ' + fmt(objectDensity, 0) + ' < fluid ' + fmt(fluidD, 0) + ' kg/m³)' : 'SINKS (density ' + fmt(objectDensity, 0) + ' > fluid ' + fmt(fluidD, 0) + ' kg/m³)';\n    document.getElementById('submergedPct').textContent = floats ? fmt(subPct, 1) + '% submerged' : '100% submerged (sinking)';",
+    "faq": [
+      {"question": "What is Archimedes' principle?", "answer": "Any object submerged in a fluid experiences an upward buoyant force equal to the weight of the fluid it displaces. If this force exceeds the object's weight, it floats."},
+      {"question": "Why do objects float?", "answer": "An object floats when its average density is less than the fluid. Ice (917 kg/m³) floats in water (1,000 kg/m³) with about 92% submerged. Steel ships float because their average density (including air inside) is less than water."},
+      {"question": "Why is it easier to float in salt water?", "answer": "Seawater (1,025 kg/m³) is denser than fresh water (1,000 kg/m³), creating a stronger buoyant force. The Dead Sea (1,240 kg/m³) makes floating even easier due to its extreme salt content."}
+    ],
+    "formulas": [
+      "Buoyant Force = Fluid Density × Object Volume × g",
+      "Object Weight = Mass × g (9.81 m/s²)",
+      "Net Force = Buoyant Force - Weight (positive = floats)",
+      "% Submerged (floating) = Object Density ÷ Fluid Density × 100"
+    ],
+    "relatedTools": ["pendulum-calculator", "acceleration-calculator"]
+  },
+  {
+    "slug": "tie-dye-calculator",
+    "toolName": "Tie-Dye Calculator",
+    "category": "crafts",
+    "tagline": "Calculate the right amount of dye, soda ash, and water for your tie-dye project",
+    "keywords": "tie dye calculator, dye amount, soda ash, tie dye ratio, fiber reactive dye",
+    "inputs": [
+      {"id": "numItems", "label": "Number of Items", "default": 6},
+      {"id": "itemWeight", "label": "Avg Item Weight (dry)", "default": 6, "unit": "oz"},
+      {"id": "numColors", "label": "Number of Colors", "default": 3},
+      {"id": "dyeStrength", "label": "Dye Strength", "default": "medium", "options": [{"value":"light","label":"Light/Pastel"},{"value":"medium","label":"Medium/Standard"},{"value":"dark","label":"Dark/Saturated"},{"value":"black","label":"Black/Very dark"}]}
+    ],
+    "results": [
+      {"id": "totalFabric", "label": "Total Fabric Weight"},
+      {"id": "dyePerColor", "label": "Dye Powder per Color"},
+      {"id": "sodaAsh", "label": "Soda Ash Needed"},
+      {"id": "waterTotal", "label": "Total Water Needed"}
+    ],
+    "calcFn": "var totalOz = numItems * itemWeight;\n    var totalLbs = totalOz / 16;\n    var dyeRates = {light: 0.5, medium: 1.5, dark: 3, black: 6};\n    var tspPerLb = dyeRates[dyeStrength];\n    var totalDyeTsp = totalLbs * tspPerLb;\n    var perColor = totalDyeTsp / numColors;\n    var sodaAshTsp = totalLbs * 4;\n    var waterCups = totalLbs * 8;\n    var sodaWaterGal = totalLbs * 0.5;\n    document.getElementById('totalFabric').textContent = fmt(totalOz, 0) + ' oz (' + fmt(totalLbs, 1) + ' lbs)';\n    document.getElementById('dyePerColor').textContent = fmt(perColor, 1) + ' tsp per color (' + fmt(perColor * 3, 1) + ' tsp = ' + fmt(perColor / 3, 1) + ' tbsp total dye)';\n    document.getElementById('sodaAsh').textContent = fmt(sodaAshTsp, 0) + ' tsp (1 cup per gallon of soak water)';\n    document.getElementById('waterTotal').textContent = fmt(waterCups, 0) + ' cups for dye solution + ' + fmt(sodaWaterGal, 1) + ' gallon(s) soak water';",
+    "faq": [
+      {"question": "How much dye do I need per shirt?", "answer": "A medium-weight t-shirt (6 oz) needs about 0.5-1.5 teaspoons of fiber reactive dye total across all colors for medium saturation. Use more for dark colors, less for pastels."},
+      {"question": "What is soda ash and why do I need it?", "answer": "Soda ash (sodium carbonate) raises pH to activate fiber reactive dyes, creating a permanent chemical bond with cotton fibers. Without it, colors wash out. Soak items for 15-20 minutes before dyeing."},
+      {"question": "How long should I let tie-dye sit?", "answer": "Let wrapped items cure for 12-24 hours at room temperature (minimum 70°F). Longer curing = more vibrant colors. Keep items damp during curing by sealing in plastic bags or wrap."}
+    ],
+    "formulas": [
+      "Total Fabric = Number of Items × Average Weight",
+      "Dye per Color = (Total Lbs × Dye Rate) ÷ Number of Colors",
+      "Soda Ash = ~1 cup per gallon of soak water",
+      "Dye rates: Light 0.5 tsp/lb, Medium 1.5, Dark 3, Black 6 tsp/lb"
+    ],
+    "relatedTools": ["macrame-cord-calculator"]
+  },
+  {
+    "slug": "macrame-cord-calculator",
+    "toolName": "Macrame Cord Calculator",
+    "category": "crafts",
+    "tagline": "Calculate how much macrame cord you need for any project based on design and knot type",
+    "keywords": "macrame cord length, macrame calculator, cord needed, macrame supplies",
+    "inputs": [
+      {"id": "finishedLength", "label": "Finished Length", "default": 36, "unit": "inches"},
+      {"id": "numCords", "label": "Number of Working Cords", "default": 16},
+      {"id": "knotType", "label": "Primary Knot Type", "default": "4", "options": [{"value":"3","label":"Spiral/Half hitch (3× length)"},{"value":"4","label":"Square knots (4× length)"},{"value":"5","label":"Berry knots / Dense (5× length)"},{"value":"7","label":"Gathering knots / Very dense (7× length)"}]},
+      {"id": "fringeLength", "label": "Fringe/Tassel Length", "default": 8, "unit": "inches"},
+      {"id": "cordPrice", "label": "Cord Price", "default": 15, "unit": "$/100 ft"}
+    ],
+    "results": [
+      {"id": "cordPerStrand", "label": "Length per Strand (before folding)"},
+      {"id": "totalCord", "label": "Total Cord Needed"},
+      {"id": "totalFeet", "label": "Total in Feet"},
+      {"id": "cordCost", "label": "Estimated Cord Cost"}
+    ],
+    "calcFn": "var multiplier = parseInt(knotType);\n    var perStrand = (finishedLength * multiplier) + (fringeLength * 2);\n    var foldedLength = perStrand * 2;\n    var totalInches = foldedLength * (numCords / 2);\n    var totalFt = totalInches / 12;\n    var cost = (totalFt / 100) * cordPrice;\n    document.getElementById('cordPerStrand').textContent = fmt(foldedLength, 0) + '\" (' + fmt(foldedLength / 12, 1) + ' ft) — cut length before folding in half';\n    document.getElementById('totalCord').textContent = fmt(totalInches, 0) + '\" total';\n    document.getElementById('totalFeet').textContent = fmt(totalFt, 0) + ' ft (' + fmt(totalFt / 3, 1) + ' yards)';\n    document.getElementById('cordCost').textContent = dollar(cost);",
+    "faq": [
+      {"question": "How much cord do I need for macrame?", "answer": "General rule: cut cords 3-7× the finished length, depending on knot density. Square knots use 4× length, spiral knots 3×, and dense patterns up to 7×. Always add 10-20% extra to be safe."},
+      {"question": "Why do I fold the cord in half?", "answer": "Most macrame projects start by folding cords in half and attaching them to a dowel or ring with a lark's head knot. This means each cut piece creates two working strands, so cut pieces at 2× the per-strand length."},
+      {"question": "What size macrame cord should I use?", "answer": "3mm cord: delicate jewelry and small projects. 4-5mm: plant hangers and medium wall hangings. 6-8mm: large wall hangings and curtains. Single-strand cord is best for detailed knot work."}
+    ],
+    "formulas": [
+      "Per Strand = (Finished Length × Knot Multiplier) + (Fringe × 2)",
+      "Cut Length = Per Strand × 2 (folded in half for lark's head)",
+      "Total Cord = Cut Length × (Number of Cords ÷ 2)",
+      "Knot multipliers: Spiral 3×, Square 4×, Dense 5-7×"
+    ],
+    "relatedTools": ["tie-dye-calculator"]
+  },
+  {
+    "slug": "homework-time-calculator",
+    "toolName": "Homework Time Calculator",
+    "category": "education",
+    "tagline": "Estimate how long homework will take based on assignment type, volume, and difficulty",
+    "keywords": "homework time, study time calculator, homework estimate, assignment time",
+    "inputs": [
+      {"id": "readingPages", "label": "Reading Pages", "default": 20},
+      {"id": "mathProblems", "label": "Math Problems", "default": 15},
+      {"id": "writingWords", "label": "Writing Assignment (words)", "default": 500},
+      {"id": "difficulty", "label": "Difficulty Level", "default": "1.0", "options": [{"value":"0.7","label":"Easy / Review material"},{"value":"1.0","label":"Average"},{"value":"1.3","label":"Challenging"},{"value":"1.6","label":"Very difficult / New material"}]},
+      {"id": "gradeLevel", "label": "Grade Level", "default": "hs", "options": [{"value":"elem","label":"Elementary (K-5)"},{"value":"ms","label":"Middle School (6-8)"},{"value":"hs","label":"High School (9-12)"},{"value":"college","label":"College"}]}
+    ],
+    "results": [
+      {"id": "readingTime", "label": "Reading Time"},
+      {"id": "mathTime", "label": "Math Time"},
+      {"id": "writingTime", "label": "Writing Time"},
+      {"id": "totalTime", "label": "Total Estimated Time"},
+      {"id": "breakSchedule", "label": "Suggested Break Schedule"}
+    ],
+    "calcFn": "var diff = parseFloat(difficulty);\n    var speeds = {elem: {read: 3, math: 5, write: 8}, ms: {read: 2.5, math: 4, write: 6}, hs: {read: 2, math: 5, write: 5}, college: {read: 3, math: 6, write: 4}};\n    var s = speeds[gradeLevel];\n    var readMin = readingPages * s.read * diff;\n    var mathMin = mathProblems * s.math * diff;\n    var writeMin = (writingWords / 100) * s.write * diff;\n    var total = readMin + mathMin + writeMin;\n    var hrs = Math.floor(total / 60);\n    var mins = Math.round(total % 60);\n    var breaks = Math.floor(total / 25);\n    var breakSched = breaks > 0 ? breaks + ' breaks (Pomodoro: 25 min work, 5 min break)' : 'No breaks needed (under 25 min)';\n    document.getElementById('readingTime').textContent = fmt(readMin, 0) + ' min';\n    document.getElementById('mathTime').textContent = fmt(mathMin, 0) + ' min';\n    document.getElementById('writingTime').textContent = fmt(writeMin, 0) + ' min';\n    document.getElementById('totalTime').textContent = (hrs > 0 ? hrs + 'h ' : '') + mins + ' min';\n    document.getElementById('breakSchedule').textContent = breakSched;",
+    "faq": [
+      {"question": "How much homework should students have?", "answer": "The '10-minute rule' suggests 10 minutes per grade level per night (1st grade = 10 min, 6th = 60 min, 12th = 120 min). Research shows diminishing returns beyond 2 hours for high school students."},
+      {"question": "How fast does the average student read?", "answer": "Elementary: 100-150 words/min. Middle school: 150-200. High school: 200-250. College: 200-300. Academic texts are read more slowly than fiction (about 50-70% of normal reading speed)."},
+      {"question": "How can students complete homework faster?", "answer": "Use the Pomodoro technique (25 min focused work + 5 min break), eliminate distractions (phone away), start with the hardest subject, and break large assignments into smaller chunks."}
+    ],
+    "formulas": [
+      "Reading Time = Pages × Minutes per Page × Difficulty Factor",
+      "Math Time = Problems × Minutes per Problem × Difficulty Factor",
+      "Writing Time = (Words ÷ 100) × Minutes per 100 Words × Difficulty",
+      "Total = Reading + Math + Writing Time"
+    ],
+    "relatedTools": ["tutoring-cost-calculator"]
+  },
+  {
+    "slug": "tutoring-cost-calculator",
+    "toolName": "Tutoring Cost Calculator",
+    "category": "education",
+    "tagline": "Compare tutoring costs across different formats and estimate total investment",
+    "keywords": "tutoring cost, tutor rates, tutoring budget, private tutor cost, online tutoring",
+    "inputs": [
+      {"id": "sessionsPerWeek", "label": "Sessions per Week", "default": 2},
+      {"id": "sessionLength", "label": "Session Length", "default": 60, "unit": "minutes"},
+      {"id": "numWeeks", "label": "Number of Weeks", "default": 16},
+      {"id": "tutorType", "label": "Tutor Type", "default": "65", "options": [{"value":"30","label":"Peer/College student ($30/hr)"},{"value":"50","label":"Online platform ($50/hr)"},{"value":"65","label":"Private tutor ($65/hr)"},{"value":"100","label":"Specialized/Test prep ($100/hr)"},{"value":"150","label":"Elite/Ivy League prep ($150/hr)"}]}
+    ],
+    "results": [
+      {"id": "costPerSession", "label": "Cost per Session"},
+      {"id": "weeklyCost", "label": "Weekly Cost"},
+      {"id": "totalCost", "label": "Total Program Cost"},
+      {"id": "totalHours", "label": "Total Tutoring Hours"}
+    ],
+    "calcFn": "var rate = parseInt(tutorType);\n    var sessionHrs = sessionLength / 60;\n    var perSession = rate * sessionHrs;\n    var weekly = perSession * sessionsPerWeek;\n    var total = weekly * numWeeks;\n    var totalHrs = sessionsPerWeek * sessionHrs * numWeeks;\n    document.getElementById('costPerSession').textContent = dollar(perSession) + ' (' + sessionLength + ' min)';\n    document.getElementById('weeklyCost').textContent = dollar(weekly);\n    document.getElementById('totalCost').textContent = dollar(total);\n    document.getElementById('totalHours').textContent = fmt(totalHrs, 0) + ' hours';",
+    "faq": [
+      {"question": "How much does a private tutor cost?", "answer": "Average rates: peer tutors $20-35/hr, online platforms $40-60/hr, private in-person $50-80/hr, test prep specialists $80-150/hr, and elite prep consultants $150-300+/hr."},
+      {"question": "How many tutoring sessions are needed to see results?", "answer": "Most students show measurable improvement after 8-12 sessions (about 1-2 months of regular tutoring). Test prep typically requires 20-40 hours of total instruction for significant score gains."},
+      {"question": "Is online or in-person tutoring better?", "answer": "Both are effective. In-person is better for younger students and hands-on subjects. Online tutoring offers more flexibility, wider tutor selection, and typically lower cost (20-30% less)."}
+    ],
+    "formulas": [
+      "Cost per Session = Hourly Rate × Session Length (hours)",
+      "Weekly Cost = Cost per Session × Sessions per Week",
+      "Total Cost = Weekly Cost × Number of Weeks",
+      "Total Hours = Sessions/Week × Hours/Session × Weeks"
+    ],
+    "relatedTools": ["homework-time-calculator"]
+  },
+  {
+    "slug": "greenhouse-temperature-calculator",
+    "toolName": "Greenhouse Temperature Calculator",
+    "category": "gardening",
+    "tagline": "Calculate the expected temperature inside a greenhouse based on outside conditions and design",
+    "keywords": "greenhouse temperature, greenhouse heating, temperature gain, greenhouse design",
+    "inputs": [
+      {"id": "outsideTemp", "label": "Outside Temperature", "default": 45, "unit": "°F"},
+      {"id": "sunIntensity", "label": "Sun Conditions", "default": "1.0", "options": [{"value":"0.3","label":"Overcast"},{"value":"0.6","label":"Partly cloudy"},{"value":"0.8","label":"Hazy sun"},{"value":"1.0","label":"Full sun"}]},
+      {"id": "glazing", "label": "Glazing Type", "default": "0.85", "options": [{"value":"0.85","label":"Single glass (85% transmission)"},{"value":"0.78","label":"Double glass (78%)"},{"value":"0.82","label":"Polycarbonate twin-wall (82%)"},{"value":"0.70","label":"Polyethylene film (70%)"}]},
+      {"id": "sqft", "label": "Floor Area", "default": 100, "unit": "sq ft"},
+      {"id": "ventilation", "label": "Ventilation", "default": "closed", "options": [{"value":"closed","label":"Fully closed"},{"value":"partial","label":"Partially open"},{"value":"open","label":"Fully ventilated"}]}
+    ],
+    "results": [
+      {"id": "insideTemp", "label": "Estimated Inside Temperature"},
+      {"id": "tempGain", "label": "Temperature Gain"},
+      {"id": "heatingNeeded", "label": "Heating BTU Needed (to reach 65°F)"},
+      {"id": "plantZone", "label": "Effective Growing Zone"}
+    ],
+    "calcFn": "var sun = parseFloat(sunIntensity);\n    var glaze = parseFloat(glazing);\n    var ventFactor = {closed: 1.0, partial: 0.5, open: 0.2};\n    var vf = ventFactor[ventilation];\n    var solarGain = 30 * sun * glaze * vf;\n    var insideT = outsideTemp + solarGain;\n    var btuNeeded = 0;\n    if (insideT < 65) {\n      var heatLoss = sqft * 1.1 * (65 - insideT);\n      btuNeeded = heatLoss;\n    }\n    var zone;\n    var minTemp = outsideTemp + solarGain * 0.3;\n    if (minTemp >= 60) zone = 'Zone 10+ (tropical plants OK)';\n    else if (minTemp >= 50) zone = 'Zone 9-10 (warm season crops)';\n    else if (minTemp >= 40) zone = 'Zone 8-9 (cool season crops)';\n    else if (minTemp >= 32) zone = 'Zone 7-8 (frost protection only)';\n    else zone = 'Below freezing — supplemental heat required';\n    document.getElementById('insideTemp').textContent = fmt(insideT, 0) + '°F (' + fmt((insideT - 32) * 5/9, 1) + '°C)';\n    document.getElementById('tempGain').textContent = '+' + fmt(solarGain, 0) + '°F above outside';\n    document.getElementById('heatingNeeded').textContent = btuNeeded > 0 ? fmt(btuNeeded, 0) + ' BTU/hr to reach 65°F' : 'None needed — above 65°F';\n    document.getElementById('plantZone').textContent = zone;",
+    "faq": [
+      {"question": "How much warmer is it inside a greenhouse?", "answer": "A closed greenhouse in full sun is typically 20-30°F warmer than outside. On cloudy days, the gain drops to 5-10°F. At night with no sun, a greenhouse provides only 5-10°F of protection from cold."},
+      {"question": "Do greenhouses need heating?", "answer": "In most climates, yes — at least for winter growing. Greenhouses lose heat rapidly at night. Options include propane heaters, electric heaters, thermal mass (water barrels), and ground-source heating."},
+      {"question": "What temperature should I keep my greenhouse?", "answer": "Cool-season crops (lettuce, spinach): 40-70°F. Warm-season crops (tomatoes, peppers): 60-85°F. Tropical plants: 65-80°F minimum. Most food plants grow best between 65-75°F."}
+    ],
+    "formulas": [
+      "Solar Gain ≈ 30°F × Sun Intensity × Glazing Transmission × Ventilation Factor",
+      "Inside Temp = Outside Temp + Solar Gain",
+      "Heating BTU = Floor Area × Heat Loss Coefficient × Temperature Difference",
+      "Night temperatures drop to near outside temps without thermal mass"
+    ],
+    "relatedTools": ["mulch-calculator"]
+  },
+  {
+    "slug": "wind-speed-converter",
+    "toolName": "Wind Speed Converter",
+    "category": "weather",
+    "tagline": "Convert wind speeds between mph, km/h, knots, m/s, and Beaufort scale",
+    "keywords": "wind speed converter, knots to mph, beaufort scale, wind conversion",
+    "inputs": [
+      {"id": "windValue", "label": "Wind Speed Value", "default": 25},
+      {"id": "fromUnit", "label": "From Unit", "default": "mph", "options": [{"value":"mph","label":"mph"},{"value":"kmh","label":"km/h"},{"value":"kts","label":"knots"},{"value":"ms","label":"m/s"},{"value":"beaufort","label":"Beaufort scale"}]}
+    ],
+    "results": [
+      {"id": "mph", "label": "Miles per Hour (mph)"},
+      {"id": "kmh", "label": "Kilometers per Hour (km/h)"},
+      {"id": "kts", "label": "Knots"},
+      {"id": "ms", "label": "Meters per Second (m/s)"},
+      {"id": "beaufort", "label": "Beaufort Scale"},
+      {"id": "description", "label": "Wind Description"}
+    ],
+    "calcFn": "var mphVal;\n    if (fromUnit === 'mph') mphVal = windValue;\n    else if (fromUnit === 'kmh') mphVal = windValue * 0.621371;\n    else if (fromUnit === 'kts') mphVal = windValue * 1.15078;\n    else if (fromUnit === 'ms') mphVal = windValue * 2.23694;\n    else {\n      var beaufortSpeeds = [0,1,4,8,13,19,25,32,39,47,55,64,73];\n      var b = Math.min(12, Math.max(0, Math.round(windValue)));\n      mphVal = beaufortSpeeds[b];\n    }\n    var kmhVal = mphVal * 1.60934;\n    var ktsVal = mphVal * 0.868976;\n    var msVal = mphVal * 0.44704;\n    var bft;\n    if (mphVal < 1) bft = 0;\n    else if (mphVal < 4) bft = 1;\n    else if (mphVal < 8) bft = 2;\n    else if (mphVal < 13) bft = 3;\n    else if (mphVal < 19) bft = 4;\n    else if (mphVal < 25) bft = 5;\n    else if (mphVal < 32) bft = 6;\n    else if (mphVal < 39) bft = 7;\n    else if (mphVal < 47) bft = 8;\n    else if (mphVal < 55) bft = 9;\n    else if (mphVal < 64) bft = 10;\n    else if (mphVal < 73) bft = 11;\n    else bft = 12;\n    var descs = ['Calm','Light air','Light breeze','Gentle breeze','Moderate breeze','Fresh breeze','Strong breeze','Near gale','Gale','Strong gale','Storm','Violent storm','Hurricane force'];\n    document.getElementById('mph').textContent = fmt(mphVal, 1) + ' mph';\n    document.getElementById('kmh').textContent = fmt(kmhVal, 1) + ' km/h';\n    document.getElementById('kts').textContent = fmt(ktsVal, 1) + ' knots';\n    document.getElementById('ms').textContent = fmt(msVal, 1) + ' m/s';\n    document.getElementById('beaufort').textContent = 'Force ' + bft;\n    document.getElementById('description').textContent = descs[bft];",
+    "faq": [
+      {"question": "How do you convert knots to mph?", "answer": "Multiply knots by 1.15078 to get mph. So 20 knots = 23 mph. Knots are used in aviation and marine because 1 knot = 1 nautical mile per hour, which maps cleanly to latitude degrees."},
+      {"question": "What is the Beaufort scale?", "answer": "The Beaufort scale rates wind force from 0 (calm) to 12 (hurricane force ≥73 mph). Originally created for sailing ships in 1805, it's still used to describe wind conditions: Force 5 (fresh breeze) to Force 10 (storm)."},
+      {"question": "What wind speed is dangerous?", "answer": "25-30 mph: difficult to walk, small branches break. 40-50 mph: structural damage possible. 60-70 mph: significant damage. 74+ mph: hurricane force — extremely dangerous."}
+    ],
+    "formulas": [
+      "1 mph = 1.60934 km/h = 0.868976 knots = 0.44704 m/s",
+      "1 knot = 1.15078 mph = 1.852 km/h",
+      "Beaufort 0=calm, 6=strong breeze(25-31mph), 12=hurricane(73+mph)",
+      "Wind force on objects scales with velocity squared"
+    ],
+    "relatedTools": ["barometric-pressure-calculator"]
+  },
+  {
+    "slug": "barometric-pressure-calculator",
+    "toolName": "Barometric Pressure Calculator",
+    "category": "weather",
+    "tagline": "Convert barometric pressure between units and estimate pressure at altitude",
+    "keywords": "barometric pressure, pressure converter, inHg to hPa, altitude pressure, weather pressure",
+    "inputs": [
+      {"id": "pressureValue", "label": "Pressure Value", "default": 29.92},
+      {"id": "fromUnit", "label": "From Unit", "default": "inHg", "options": [{"value":"inHg","label":"inches Hg (inHg)"},{"value":"hPa","label":"hectopascals (hPa/mbar)"},{"value":"mmHg","label":"millimeters Hg (mmHg)"},{"value":"atm","label":"atmospheres (atm)"},{"value":"psi","label":"pounds/sq inch (psi)"}]},
+      {"id": "altitude", "label": "Altitude", "default": 0, "unit": "feet"}
+    ],
+    "results": [
+      {"id": "inHg", "label": "Inches of Mercury (inHg)"},
+      {"id": "hPa", "label": "Hectopascals (hPa/mbar)"},
+      {"id": "mmHg", "label": "Millimeters of Mercury"},
+      {"id": "atm", "label": "Atmospheres"},
+      {"id": "altPressure", "label": "Pressure at Altitude"},
+      {"id": "weather", "label": "Weather Indication"}
+    ],
+    "calcFn": "var inhg;\n    if (fromUnit === 'inHg') inhg = pressureValue;\n    else if (fromUnit === 'hPa') inhg = pressureValue * 0.02953;\n    else if (fromUnit === 'mmHg') inhg = pressureValue * 0.03937;\n    else if (fromUnit === 'atm') inhg = pressureValue * 29.9213;\n    else inhg = pressureValue * 2.03602;\n    var hpa = inhg / 0.02953;\n    var mmhg = inhg / 0.03937;\n    var atm = inhg / 29.9213;\n    var psi = inhg / 2.03602;\n    var altMeters = altitude * 0.3048;\n    var altFactor = Math.pow(1 - (0.0000225577 * altMeters), 5.25588);\n    var altPressInHg = inhg * altFactor;\n    var weather;\n    if (inhg >= 30.2) weather = 'High pressure — generally fair, clear skies';\n    else if (inhg >= 29.8) weather = 'Normal pressure — typical conditions';\n    else if (inhg >= 29.5) weather = 'Falling pressure — change in weather likely';\n    else weather = 'Low pressure — stormy or unsettled weather';\n    document.getElementById('inHg').textContent = fmt(inhg, 2) + ' inHg';\n    document.getElementById('hPa').textContent = fmt(hpa, 1) + ' hPa (mbar)';\n    document.getElementById('mmHg').textContent = fmt(mmhg, 1) + ' mmHg';\n    document.getElementById('atm').textContent = atm.toFixed(4) + ' atm';\n    document.getElementById('altPressure').textContent = altitude > 0 ? fmt(altPressInHg, 2) + ' inHg at ' + fmt(altitude, 0) + ' ft (' + fmt(altPressInHg / 0.02953, 0) + ' hPa)' : 'Enter altitude for adjustment';\n    document.getElementById('weather').textContent = weather;",
+    "faq": [
+      {"question": "What is normal barometric pressure?", "answer": "Standard atmospheric pressure at sea level is 29.92 inHg (1013.25 hPa/mbar, 760 mmHg, 1 atm, 14.696 psi). Normal range is 29.5-30.5 inHg."},
+      {"question": "How does barometric pressure affect weather?", "answer": "High pressure (above 30.2 inHg) generally means clear, fair weather. Low pressure (below 29.8 inHg) indicates clouds, rain, or storms. Rapidly falling pressure signals approaching storms."},
+      {"question": "How does altitude affect barometric pressure?", "answer": "Pressure drops about 1 inHg per 1,000 feet of elevation. At 5,000 feet, pressure is about 24.9 inHg (83% of sea level). Weather stations report 'corrected' pressure adjusted to sea level."}
+    ],
+    "formulas": [
+      "1 atm = 29.92 inHg = 1013.25 hPa = 760 mmHg = 14.696 psi",
+      "Pressure at altitude: P = P₀ × (1 - 0.0000225577 × h)^5.25588",
+      "h = altitude in meters",
+      "~1 inHg decrease per 1,000 feet elevation"
+    ],
+    "relatedTools": ["wind-speed-converter"]
+  },
+  {
+    "slug": "marine-fuel-consumption-calculator",
+    "toolName": "Marine Fuel Consumption Calculator",
+    "category": "marine",
+    "tagline": "Calculate boat fuel consumption, range, and cost for any trip",
+    "keywords": "boat fuel consumption, marine fuel calculator, boat MPG, fuel range, boat trip cost",
+    "inputs": [
+      {"id": "fuelRate", "label": "Fuel Burn Rate", "default": 15, "unit": "gallons/hour"},
+      {"id": "speed", "label": "Cruising Speed", "default": 25, "unit": "knots"},
+      {"id": "distance", "label": "Trip Distance", "default": 50, "unit": "nautical miles"},
+      {"id": "fuelPrice", "label": "Fuel Price", "default": 5.5, "unit": "$/gallon", "step": 0.1},
+      {"id": "tankSize", "label": "Fuel Tank Size", "default": 100, "unit": "gallons"}
+    ],
+    "results": [
+      {"id": "tripTime", "label": "Trip Duration"},
+      {"id": "fuelUsed", "label": "Fuel Used"},
+      {"id": "tripCost", "label": "Trip Fuel Cost"},
+      {"id": "range", "label": "Maximum Range (1/3 rule)"},
+      {"id": "nmpg", "label": "Nautical Miles per Gallon"}
+    ],
+    "calcFn": "var tripHours = distance / speed;\n    var fuelUsed = fuelRate * tripHours;\n    var cost = fuelUsed * fuelPrice;\n    var nmpg = speed / fuelRate;\n    var maxRange = (tankSize / 3) * nmpg;\n    var hrs = Math.floor(tripHours);\n    var mins = Math.round((tripHours - hrs) * 60);\n    document.getElementById('tripTime').textContent = hrs + 'h ' + mins + 'm';\n    document.getElementById('fuelUsed').textContent = fmt(fuelUsed, 1) + ' gallons';\n    document.getElementById('tripCost').textContent = dollar(cost);\n    document.getElementById('range').textContent = fmt(maxRange, 0) + ' nm (1/3 out, 1/3 back, 1/3 reserve)';\n    document.getElementById('nmpg').textContent = fmt(nmpg, 2) + ' NMPG';",
+    "faq": [
+      {"question": "How much fuel does a boat use per hour?", "answer": "It varies enormously: sailboat under power 1-3 GPH, pontoon boat 3-8 GPH, center console 8-20 GPH, cruiser 15-40 GPH, sportfisher 30-80+ GPH. Fuel consumption scales roughly with displacement and speed."},
+      {"question": "What is the 1/3 fuel rule?", "answer": "The 1/3 rule: use 1/3 of fuel going out, 1/3 returning, and keep 1/3 in reserve for emergencies. This means your usable range is based on only 1/3 of your tank capacity."},
+      {"question": "How do I calculate nautical miles per gallon?", "answer": "NMPG = Speed (knots) ÷ Fuel Consumption (GPH). For example, 25 knots using 15 GPH = 1.67 NMPG. Boats are far less fuel-efficient than cars, especially at high speeds."}
+    ],
+    "formulas": [
+      "Trip Duration = Distance ÷ Speed",
+      "Fuel Used = Burn Rate × Trip Duration",
+      "NMPG = Speed (knots) ÷ Burn Rate (GPH)",
+      "Safe Range = (Tank ÷ 3) × NMPG (1/3 fuel rule)"
+    ],
+    "relatedTools": ["anchor-rode-calculator"]
+  },
+  {
+    "slug": "volumetric-weight-calculator",
+    "toolName": "Volumetric Weight Calculator",
+    "category": "shipping",
+    "tagline": "Calculate volumetric (dimensional) weight for shipping with UPS, FedEx, DHL, and more",
+    "keywords": "volumetric weight, dimensional weight, DIM weight, shipping weight, package weight",
+    "inputs": [
+      {"id": "length", "label": "Length", "default": 18, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 14, "unit": "inches"},
+      {"id": "height", "label": "Height", "default": 10, "unit": "inches"},
+      {"id": "actualWeight", "label": "Actual Weight", "default": 8, "unit": "lbs"},
+      {"id": "carrier", "label": "Carrier / DIM Factor", "default": "139", "options": [{"value":"139","label":"UPS/FedEx Domestic (139)"},{"value":"166","label":"UPS/FedEx Daily Rates (166)"},{"value":"5000","label":"International (5000 cm³/kg)"}]}
+    ],
+    "results": [
+      {"id": "dimWeight", "label": "Volumetric Weight"},
+      {"id": "billableWeight", "label": "Billable Weight"},
+      {"id": "cubicFt", "label": "Cubic Volume"},
+      {"id": "savings", "label": "Packaging Suggestion"}
+    ],
+    "calcFn": "var factor = parseInt(carrier);\n    var dimWeight;\n    if (factor >= 5000) {\n      var cmL = length * 2.54;\n      var cmW = width * 2.54;\n      var cmH = height * 2.54;\n      dimWeight = (cmL * cmW * cmH) / factor;\n      dimWeight = dimWeight * 2.20462;\n    } else {\n      dimWeight = (length * width * height) / factor;\n    }\n    var billable = Math.max(dimWeight, actualWeight);\n    var cubicIn = length * width * height;\n    var cubicFt = cubicIn / 1728;\n    var suggestion;\n    if (dimWeight > actualWeight * 1.5) suggestion = 'Box is oversized for contents. Reduce box size to save on shipping.';\n    else if (dimWeight > actualWeight) suggestion = 'Volumetric weight applies. Consider a slightly smaller box.';\n    else suggestion = 'Actual weight applies. Box size is appropriate.';\n    document.getElementById('dimWeight').textContent = fmt(dimWeight, 1) + ' lbs (DIM)';\n    document.getElementById('billableWeight').textContent = fmt(billable, 1) + ' lbs (' + (billable === dimWeight ? 'DIM weight used' : 'actual weight used') + ')';\n    document.getElementById('cubicFt').textContent = fmt(cubicFt, 2) + ' cu ft (' + fmt(cubicIn, 0) + ' cu in)';\n    document.getElementById('savings').textContent = suggestion;",
+    "faq": [
+      {"question": "What is volumetric (dimensional) weight?", "answer": "Volumetric weight reflects how much space a package occupies vs its actual weight. Carriers charge based on whichever is greater: actual weight or DIM weight. This prevents light, bulky packages from being shipped cheaply."},
+      {"question": "How do UPS and FedEx calculate DIM weight?", "answer": "DIM Weight (lbs) = (Length × Width × Height in inches) ÷ 139 for domestic shipments. International shipments use metric: (L × W × H in cm) ÷ 5,000 = kg."},
+      {"question": "How can I avoid DIM weight charges?", "answer": "Use the smallest box possible, fill void space with air pillows (not peanuts), consider poly mailers for soft goods, and compare carriers — some have more favorable DIM factors."}
+    ],
+    "formulas": [
+      "DIM Weight (domestic) = (L × W × H in inches) ÷ 139",
+      "DIM Weight (international) = (L × W × H in cm) ÷ 5,000 (in kg)",
+      "Billable Weight = max(DIM Weight, Actual Weight)",
+      "DIM factor of 139 = 1 lb per 139 cubic inches"
+    ],
+    "relatedTools": []
+  },
+  {
+    "slug": "age-demographics-calculator",
+    "toolName": "Age Demographics Calculator",
+    "category": "demographics",
+    "tagline": "Calculate generational cohort, life statistics, and demographic data by birth year",
+    "keywords": "age demographics, generation calculator, birth year generation, age statistics",
+    "inputs": [
+      {"id": "birthYear", "label": "Birth Year", "default": 1990},
+      {"id": "country", "label": "Country", "default": "us", "options": [{"value":"us","label":"United States"},{"value":"uk","label":"United Kingdom"},{"value":"ca","label":"Canada"},{"value":"au","label":"Australia"},{"value":"jp","label":"Japan"}]}
+    ],
+    "results": [
+      {"id": "currentAge", "label": "Current Age"},
+      {"id": "generation", "label": "Generation"},
+      {"id": "lifeExpectancy", "label": "Life Expectancy at Birth"},
+      {"id": "milestones", "label": "Key Milestones"},
+      {"id": "worldPop", "label": "World Population at Birth"}
+    ],
+    "calcFn": "var currentYear = new Date().getFullYear();\n    var age = currentYear - birthYear;\n    var gen;\n    if (birthYear >= 2013) gen = 'Generation Alpha (2013-present)';\n    else if (birthYear >= 1997) gen = 'Gen Z (1997-2012)';\n    else if (birthYear >= 1981) gen = 'Millennial / Gen Y (1981-1996)';\n    else if (birthYear >= 1965) gen = 'Generation X (1965-1980)';\n    else if (birthYear >= 1946) gen = 'Baby Boomer (1946-1964)';\n    else if (birthYear >= 1928) gen = 'Silent Generation (1928-1945)';\n    else gen = 'Greatest Generation (before 1928)';\n    var lifeExp = {us: 77, uk: 81, ca: 82, au: 83, jp: 84};\n    var le = lifeExp[country];\n    var retirement = birthYear + 67;\n    var milestone = 'Retirement (age 67): ' + retirement;\n    if (age < 18) milestone = 'Turn 18: ' + (birthYear + 18) + ' | College: ' + (birthYear + 18);\n    else if (age < 30) milestone = 'Turn 30: ' + (birthYear + 30) + ' | Retirement: ' + retirement;\n    var popByDecade = {1940:2300, 1950:2500, 1960:3000, 1970:3700, 1980:4400, 1990:5300, 2000:6100, 2010:6900, 2020:7800, 2030:8500};\n    var decade = Math.floor(birthYear / 10) * 10;\n    var pop = popByDecade[decade] || 8000;\n    document.getElementById('currentAge').textContent = age + ' years old (born ' + birthYear + ')';\n    document.getElementById('generation').textContent = gen;\n    document.getElementById('lifeExpectancy').textContent = le + ' years (' + (le - age) + ' years remaining on average)';\n    document.getElementById('milestones').textContent = milestone;\n    document.getElementById('worldPop').textContent = '~' + fmt(pop, 0) + ' million (' + fmt(pop / 1000, 1) + ' billion)';",
+    "faq": [
+      {"question": "What year does each generation start and end?", "answer": "Greatest: before 1928. Silent: 1928-1945. Boomers: 1946-1964. Gen X: 1965-1980. Millennials: 1981-1996. Gen Z: 1997-2012. Gen Alpha: 2013-present. Exact boundaries vary by source."},
+      {"question": "What is the average life expectancy?", "answer": "Global average: ~73 years. Japan: ~84. Australia/Canada/UK: ~81-83. US: ~77 (lower due to healthcare access, obesity, and violence). Life expectancy has increased ~30 years since 1900."},
+      {"question": "How many people are in my generation?", "answer": "Baby Boomers: ~76 million (US). Gen X: ~65 million. Millennials: ~72 million. Gen Z: ~68 million. Millennials are currently the largest living generation in the US workforce."}
+    ],
+    "formulas": [
+      "Age = Current Year - Birth Year",
+      "Generation determined by birth year ranges",
+      "Remaining Life = Life Expectancy - Current Age",
+      "Retirement age: 67 for most current workers"
+    ],
+    "relatedTools": []
+  },
+  {
+    "slug": "seam-allowance-calculator",
+    "toolName": "Seam Allowance Calculator",
+    "category": "sewing",
+    "tagline": "Calculate pattern piece dimensions with seam allowances for any sewing project",
+    "keywords": "seam allowance, sewing calculator, pattern size, cutting dimensions, fabric cutting",
+    "inputs": [
+      {"id": "finishedWidth", "label": "Finished Width", "default": 12, "unit": "inches"},
+      {"id": "finishedHeight", "label": "Finished Height", "default": 16, "unit": "inches"},
+      {"id": "seamAllowance", "label": "Seam Allowance", "default": "0.625", "options": [{"value":"0.25","label":"1/4\" (quilting)"},{"value":"0.375","label":"3/8\" (lightweight)"},{"value":"0.5","label":"1/2\" (standard light)"},{"value":"0.625","label":"5/8\" (standard)"},{"value":"1","label":"1\" (heavy fabric)"},{"value":"1.5","label":"1.5\" (coats)"}]},
+      {"id": "numPieces", "label": "Number of Pieces", "default": 2},
+      {"id": "hemAllowance", "label": "Hem Allowance", "default": 1, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "cutWidth", "label": "Cut Width"},
+      {"id": "cutHeight", "label": "Cut Height"},
+      {"id": "fabricPerPiece", "label": "Fabric per Piece"},
+      {"id": "totalFabric", "label": "Total Fabric Needed"}
+    ],
+    "calcFn": "var sa = parseFloat(seamAllowance);\n    var cutW = finishedWidth + (sa * 2);\n    var cutH = finishedHeight + (sa * 2) + hemAllowance;\n    var sqInPerPiece = cutW * cutH;\n    var sqInTotal = sqInPerPiece * numPieces;\n    var fabricWidth = 45;\n    var piecesAcross = Math.floor(fabricWidth / cutW);\n    var rows = Math.ceil(numPieces / piecesAcross);\n    var fabricLength = rows * cutH;\n    document.getElementById('cutWidth').textContent = fmt(cutW, 3) + '\" (finished ' + fmt(finishedWidth, 1) + '\" + ' + fmt(sa * 2, 3) + '\" seam)';\n    document.getElementById('cutHeight').textContent = fmt(cutH, 3) + '\" (finished ' + fmt(finishedHeight, 1) + '\" + ' + fmt(sa * 2, 3) + '\" seam + ' + fmt(hemAllowance, 1) + '\" hem)';\n    document.getElementById('fabricPerPiece').textContent = fmt(sqInPerPiece, 1) + ' sq in (' + fmt(sqInPerPiece / 144, 2) + ' sq ft)';\n    document.getElementById('totalFabric').textContent = fmt(fabricLength, 1) + '\" of 45\"-wide fabric (' + fmt(fabricLength / 36, 2) + ' yards)';",
+    "faq": [
+      {"question": "What is the standard seam allowance?", "answer": "Commercial patterns: 5/8\" (15mm). Quilting: 1/4\". European patterns: 1 cm. Home sewing: 1/2\" to 5/8\". Specialty (lingerie, activewear): 1/4\" to 3/8\". Always check your pattern instructions."},
+      {"question": "Why is 5/8\" the standard seam allowance?", "answer": "5/8\" provides enough fabric for finishing (serging, French seams, flat-fell), allows for fitting adjustments, and is easy to measure on most sewing machine throat plates."},
+      {"question": "Should I add seam allowance to all edges?", "answer": "Add seam allowance to all edges that will be sewn to another piece. Edges on a fold get no seam allowance on the fold line. Bottom hems usually get a separate, larger hem allowance (1-2\")."}
+    ],
+    "formulas": [
+      "Cut Width = Finished Width + (2 × Seam Allowance)",
+      "Cut Height = Finished Height + (2 × Seam Allowance) + Hem Allowance",
+      "Fabric Length = (ceil(Pieces ÷ Pieces Across)) × Cut Height",
+      "Standard seam allowance: 5/8\" (commercial), 1/4\" (quilting)"
+    ],
+    "relatedTools": []
+  }
+]

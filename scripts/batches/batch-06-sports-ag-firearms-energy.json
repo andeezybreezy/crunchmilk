@@ -1,0 +1,392 @@
+[
+  {
+    "slug": "boxing-reach-calculator",
+    "toolName": "Boxing Reach Calculator",
+    "category": "sports",
+    "tagline": "Calculate your boxing reach advantage, ape index, and optimal fighting distance",
+    "keywords": "boxing reach, reach advantage, ape index, wingspan, fighting distance",
+    "inputs": [
+      {"id": "height", "label": "Height", "default": 70, "unit": "inches"},
+      {"id": "wingspan", "label": "Wingspan (fingertip to fingertip)", "default": 72, "unit": "inches"},
+      {"id": "oppHeight", "label": "Opponent Height", "default": 70, "unit": "inches"},
+      {"id": "oppWingspan", "label": "Opponent Wingspan", "default": 69, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "reach", "label": "Your Reach"},
+      {"id": "apeIndex", "label": "Your Ape Index"},
+      {"id": "reachAdvantage", "label": "Reach Advantage"},
+      {"id": "optimalRange", "label": "Optimal Fighting Strategy"}
+    ],
+    "calcFn": "var reach = wingspan / 2;\n    var oppReach = oppWingspan / 2;\n    var apeIndex = wingspan - height;\n    var oppApe = oppWingspan - oppHeight;\n    var advantage = wingspan - oppWingspan;\n    var strategy;\n    if (advantage > 3) strategy = 'Strong reach advantage — fight at distance, use jabs and straight punches';\n    else if (advantage > 0) strategy = 'Slight reach advantage — mix distance fighting with combinations';\n    else if (advantage > -3) strategy = 'Similar reach — versatile approach, focus on timing and footwork';\n    else strategy = 'Reach disadvantage — work inside, cut angles, use body shots and hooks';\n    document.getElementById('reach').textContent = fmt(reach, 1) + '\" (' + fmt(wingspan, 1) + '\" wingspan)';\n    document.getElementById('apeIndex').textContent = (apeIndex >= 0 ? '+' : '') + fmt(apeIndex, 1) + '\" (avg is 0, positive is advantageous)';\n    document.getElementById('reachAdvantage').textContent = (advantage >= 0 ? '+' : '') + fmt(advantage, 1) + '\" over opponent';\n    document.getElementById('optimalRange').textContent = strategy;",
+    "faq": [
+      {"question": "What is the ape index?", "answer": "Ape index is your wingspan minus your height. A positive ape index means your arms are longer than you are tall — an advantage in boxing, climbing, and swimming. The average is 0 (wingspan equals height)."},
+      {"question": "How important is reach in boxing?", "answer": "Reach is one of the most significant physical advantages. Fighters with longer reach can hit opponents while staying out of range. However, shorter-armed fighters can overcome this with head movement and inside fighting."},
+      {"question": "What is the average boxing reach?", "answer": "Average reach is approximately equal to height. Professional boxers average about 71-73 inches at middleweight. Notable long reaches include Tyson Fury (85\") and Thomas Hearns (78\")."}
+    ],
+    "formulas": [
+      "Reach = Wingspan ÷ 2 (arm length from center chest)",
+      "Ape Index = Wingspan - Height",
+      "Reach Advantage = Your Wingspan - Opponent Wingspan",
+      "Positive ape index = longer arms relative to height"
+    ],
+    "relatedTools": ["5k-pace-calculator", "cycling-power-calculator-v2", "lacrosse-shot-speed-calculator"]
+  },
+  {
+    "slug": "cycling-power-calculator-v2",
+    "toolName": "Cycling Power Calculator",
+    "category": "sports",
+    "tagline": "Calculate cycling power output, watts per kilo, and climbing speed",
+    "keywords": "cycling power, watts per kg, FTP calculator, cycling watts, climbing speed",
+    "inputs": [
+      {"id": "weight", "label": "Rider + Bike Weight", "default": 180, "unit": "lbs"},
+      {"id": "ftp", "label": "FTP (Functional Threshold Power)", "default": 250, "unit": "watts"},
+      {"id": "gradient", "label": "Road Gradient", "default": 6, "unit": "%"},
+      {"id": "effort", "label": "Effort Level", "default": "1.0", "options": [{"value":"0.75","label":"Endurance (75% FTP)"},{"value":"0.88","label":"Tempo (88% FTP)"},{"value":"0.95","label":"Threshold (95% FTP)"},{"value":"1.0","label":"FTP (100%)"},{"value":"1.2","label":"VO2max (120% FTP)"}]}
+    ],
+    "results": [
+      {"id": "power", "label": "Power Output"},
+      {"id": "wpk", "label": "Watts per Kilogram"},
+      {"id": "climbSpeed", "label": "Climbing Speed"},
+      {"id": "category", "label": "Rider Category"}
+    ],
+    "calcFn": "var effort = parseFloat(effort);\n    var watts = ftp * effort;\n    var weightKg = weight * 0.4536;\n    var riderKg = weightKg * 0.88;\n    var wpk = watts / riderKg;\n    var gravForce = weightKg * 9.81 * (gradient / 100);\n    var rollingR = weightKg * 9.81 * 0.005;\n    var speedMs = watts / (gravForce + rollingR);\n    var speedKmh = speedMs * 3.6;\n    var speedMph = speedKmh / 1.609;\n    var cat;\n    if (wpk >= 5.5) cat = 'Professional / World Tour level';\n    else if (wpk >= 4.5) cat = 'Cat 1 / Elite amateur';\n    else if (wpk >= 3.8) cat = 'Cat 2 / Strong amateur';\n    else if (wpk >= 3.2) cat = 'Cat 3 / Club racer';\n    else if (wpk >= 2.5) cat = 'Cat 4 / Recreational cyclist';\n    else cat = 'Beginner / Casual rider';\n    document.getElementById('power').textContent = fmt(watts, 0) + ' watts at ' + fmt(effort * 100, 0) + '% FTP';\n    document.getElementById('wpk').textContent = fmt(wpk, 2) + ' W/kg';\n    document.getElementById('climbSpeed').textContent = fmt(speedMph, 1) + ' mph (' + fmt(speedKmh, 1) + ' km/h) on ' + gradient + '% grade';\n    document.getElementById('category').textContent = cat;",
+    "faq": [
+      {"question": "What is a good watts per kg for cycling?", "answer": "Beginner: 1.5-2.5 W/kg. Recreational: 2.5-3.2. Club racer: 3.2-4.0. Competitive amateur: 4.0-5.0. Professional: 5.5-7.0 W/kg. World Tour winners sustain 6.0-6.5 W/kg on major climbs."},
+      {"question": "What is FTP in cycling?", "answer": "Functional Threshold Power (FTP) is the highest average power you can sustain for approximately one hour. It's the gold standard for measuring cycling fitness and setting training zones."},
+      {"question": "How does weight affect climbing speed?", "answer": "On steep climbs, watts per kilogram determines speed. Losing 1 kg at the same power is equivalent to gaining about 3-5 watts on a 7% climb. This is why climbers tend to be lighter."}
+    ],
+    "formulas": [
+      "Watts per Kg = Power ÷ (Rider Weight in kg)",
+      "Climbing Speed ≈ Power ÷ (Weight × g × Gradient + Rolling Resistance)",
+      "Rolling Resistance ≈ Weight × g × 0.005",
+      "FTP zones: Endurance 55-75%, Tempo 75-90%, Threshold 90-105%"
+    ],
+    "relatedTools": ["5k-pace-calculator", "boxing-reach-calculator", "lacrosse-shot-speed-calculator"]
+  },
+  {
+    "slug": "lacrosse-shot-speed-calculator",
+    "toolName": "Lacrosse Shot Speed Calculator",
+    "category": "sports",
+    "tagline": "Estimate lacrosse shot speed based on stick speed, technique, and ball energy",
+    "keywords": "lacrosse shot speed, shooting velocity, lacrosse mph, stick speed",
+    "inputs": [
+      {"id": "stickLength", "label": "Stick Length", "default": 42, "unit": "inches", "options": [{"value":"40","label":"Attack (40\")"},{"value":"42","label":"Midfield (42\")"},{"value":"52","label":"Defense (52\")"},{"value":"60","label":"Long pole (60\")"}]},
+      {"id": "armSpeed", "label": "Arm Speed Rating", "default": "70", "options": [{"value":"50","label":"Beginner (50%)"},{"value":"65","label":"Intermediate (65%)"},{"value":"75","label":"Advanced (75%)"},{"value":"85","label":"Collegiate (85%)"},{"value":"95","label":"Pro (95%)"}]},
+      {"id": "technique", "label": "Shot Type", "default": "1.0", "options": [{"value":"1.0","label":"Overhand"},{"value":"0.9","label":"Sidearm"},{"value":"0.7","label":"Underhand"},{"value":"0.85","label":"Behind the back"}]},
+      {"id": "weight", "label": "Player Weight", "default": 180, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "shotSpeed", "label": "Estimated Shot Speed"},
+      {"id": "kineticEnergy", "label": "Ball Kinetic Energy"},
+      {"id": "reactionTime", "label": "Goalie Reaction Time (15 yds)"},
+      {"id": "comparison", "label": "Speed Comparison"}
+    ],
+    "calcFn": "var stickLen = parseInt(stickLength);\n    var armSpd = parseInt(armSpeed);\n    var techFactor = parseFloat(technique);\n    var leverFactor = stickLen / 42;\n    var strengthFactor = Math.pow(weight / 180, 0.3);\n    var baseSpeed = 110;\n    var shotMph = baseSpeed * (armSpd / 100) * techFactor * leverFactor * strengthFactor;\n    var shotMs = shotMph * 0.4470;\n    var ballMass = 0.142;\n    var ke = 0.5 * ballMass * shotMs * shotMs;\n    var distanceM = 15 * 0.9144;\n    var reactionTime = distanceM / shotMs;\n    var comparison;\n    if (shotMph >= 100) comparison = 'Pro-level speed. Comparable to professional lacrosse.';\n    else if (shotMph >= 85) comparison = 'College-level speed. Very competitive.';\n    else if (shotMph >= 70) comparison = 'High school varsity level.';\n    else comparison = 'Developing player. Focus on technique and core strength.';\n    document.getElementById('shotSpeed').textContent = fmt(shotMph, 0) + ' mph (' + fmt(shotMph * 1.609, 0) + ' km/h)';\n    document.getElementById('kineticEnergy').textContent = fmt(ke, 1) + ' joules';\n    document.getElementById('reactionTime').textContent = fmt(reactionTime * 1000, 0) + ' ms from 15 yards';\n    document.getElementById('comparison').textContent = comparison;",
+    "faq": [
+      {"question": "How fast do lacrosse players shoot?", "answer": "Youth: 40-60 mph. High school: 60-80 mph. College: 80-100 mph. Professional MLL/PLL: 95-115 mph. The fastest recorded lacrosse shot is around 116 mph."},
+      {"question": "Does stick length affect shot speed?", "answer": "Longer sticks provide more leverage for faster shots but are harder to control. Attack sticks (40\") offer quick release, while long poles (60\") can generate more power with proper technique."},
+      {"question": "How can I increase my lacrosse shot speed?", "answer": "Focus on: hip and core rotation (the primary power source), wrist snap at release, proper weight transfer from back to front foot, and using the full range of the stick's flex."}
+    ],
+    "formulas": [
+      "Shot Speed ≈ Base × Arm Speed% × Technique Factor × Lever Factor × Strength Factor",
+      "Kinetic Energy = ½ × Ball Mass × Velocity²",
+      "Goalie Reaction Time = Distance ÷ Ball Velocity",
+      "Ball mass = 142g (5 oz), standard lacrosse ball"
+    ],
+    "relatedTools": ["boxing-reach-calculator", "5k-pace-calculator", "cycling-power-calculator-v2"]
+  },
+  {
+    "slug": "crop-yield-calculator",
+    "toolName": "Crop Yield Calculator",
+    "category": "agriculture",
+    "tagline": "Estimate crop yield per acre and total harvest for common field crops",
+    "keywords": "crop yield, yield per acre, harvest calculator, farm production, bushels per acre",
+    "inputs": [
+      {"id": "crop", "label": "Crop Type", "default": "corn", "options": [{"value":"corn","label":"Corn (175 bu/acre avg)"},{"value":"soybeans","label":"Soybeans (50 bu/acre)"},{"value":"wheat","label":"Wheat (47 bu/acre)"},{"value":"rice","label":"Rice (7,500 lbs/acre)"},{"value":"cotton","label":"Cotton (800 lbs/acre)"}]},
+      {"id": "acres", "label": "Total Acres", "default": 100},
+      {"id": "yieldFactor", "label": "Expected Yield vs Average", "default": 100, "unit": "%"},
+      {"id": "pricePerUnit", "label": "Market Price per Bushel/lb", "default": 4.5, "unit": "$", "step": 0.1}
+    ],
+    "results": [
+      {"id": "yieldPerAcre", "label": "Yield per Acre"},
+      {"id": "totalYield", "label": "Total Yield"},
+      {"id": "grossRevenue", "label": "Gross Revenue"},
+      {"id": "revenuePerAcre", "label": "Revenue per Acre"}
+    ],
+    "calcFn": "var avgYields = {corn: 175, soybeans: 50, wheat: 47, rice: 7500, cotton: 800};\n    var units = {corn: 'bu', soybeans: 'bu', wheat: 'bu', rice: 'lbs', cotton: 'lbs'};\n    var baseYield = avgYields[crop];\n    var unit = units[crop];\n    var actualYield = baseYield * (yieldFactor / 100);\n    var total = actualYield * acres;\n    var revenue = total * pricePerUnit;\n    var revPerAcre = revenue / acres;\n    document.getElementById('yieldPerAcre').textContent = fmt(actualYield, 1) + ' ' + unit + '/acre';\n    document.getElementById('totalYield').textContent = fmt(total, 0) + ' ' + unit;\n    document.getElementById('grossRevenue').textContent = dollar(revenue);\n    document.getElementById('revenuePerAcre').textContent = dollar(revPerAcre) + '/acre';",
+    "faq": [
+      {"question": "What is the average corn yield per acre?", "answer": "The US national average corn yield is about 175 bushels per acre (2023). Top farmers in the Corn Belt can achieve 250-300+ bushels. Yield depends heavily on soil quality, weather, hybrid selection, and management."},
+      {"question": "How much is a bushel of corn worth?", "answer": "Corn prices fluctuate between $3.50-$7.00 per bushel depending on market conditions. A bushel of corn weighs 56 lbs. At $4.50/bushel and 175 bu/acre, gross revenue is about $788/acre."},
+      {"question": "What factors affect crop yield?", "answer": "Key factors: soil fertility, rainfall/irrigation, seed genetics, planting date and density, pest and disease pressure, weed management, and weather conditions (especially during pollination for corn)."}
+    ],
+    "formulas": [
+      "Yield per Acre = Average Yield × (Yield Factor%)",
+      "Total Yield = Yield per Acre × Total Acres",
+      "Gross Revenue = Total Yield × Market Price",
+      "Revenue per Acre = Gross Revenue ÷ Acres"
+    ],
+    "relatedTools": ["livestock-feed-calculator", "farm-profit-calculator"]
+  },
+  {
+    "slug": "livestock-feed-calculator",
+    "toolName": "Livestock Feed Calculator",
+    "category": "agriculture",
+    "tagline": "Calculate daily feed requirements and costs for cattle, hogs, poultry, and other livestock",
+    "keywords": "livestock feed, cattle feed, animal feed cost, feed calculator, hay calculator",
+    "inputs": [
+      {"id": "animal", "label": "Animal Type", "default": "beef", "options": [{"value":"beef","label":"Beef Cattle (1,200 lbs)"},{"value":"dairy","label":"Dairy Cow (1,400 lbs)"},{"value":"hog","label":"Finishing Hog (250 lbs)"},{"value":"chicken","label":"Laying Hens"},{"value":"sheep","label":"Sheep (150 lbs)"}]},
+      {"id": "headCount", "label": "Number of Head", "default": 50},
+      {"id": "feedCost", "label": "Feed Cost per Ton", "default": 250, "unit": "$"},
+      {"id": "numDays", "label": "Feeding Period", "default": 120, "unit": "days"}
+    ],
+    "results": [
+      {"id": "dailyPerHead", "label": "Daily Feed per Head"},
+      {"id": "dailyTotal", "label": "Daily Feed (total herd)"},
+      {"id": "totalFeed", "label": "Total Feed Needed"},
+      {"id": "totalCost", "label": "Total Feed Cost"}
+    ],
+    "calcFn": "var dailyLbs = {beef: 26, dairy: 45, hog: 7, chicken: 0.25, sheep: 4};\n    var daily = dailyLbs[animal];\n    var dailyTotal = daily * headCount;\n    var totalLbs = dailyTotal * numDays;\n    var totalTons = totalLbs / 2000;\n    var cost = totalTons * feedCost;\n    var costPerHead = cost / headCount;\n    document.getElementById('dailyPerHead').textContent = fmt(daily, 2) + ' lbs/day';\n    document.getElementById('dailyTotal').textContent = fmt(dailyTotal, 0) + ' lbs/day (' + fmt(dailyTotal / 2000, 2) + ' tons)';\n    document.getElementById('totalFeed').textContent = fmt(totalTons, 1) + ' tons (' + fmt(totalLbs, 0) + ' lbs)';\n    document.getElementById('totalCost').textContent = dollar(cost) + ' total (' + dollar(costPerHead) + '/head)';",
+    "faq": [
+      {"question": "How much does a beef cow eat per day?", "answer": "A 1,200 lb beef cow eats about 24-30 lbs of dry matter daily (2-2.5% of body weight). This could be 30-35 lbs of hay or a mix of hay and grain. Lactating cows eat more."},
+      {"question": "How much hay does a cow need per year?", "answer": "A beef cow needs about 4-5 tons of hay per year (roughly 25-30 lbs/day × 365 days). If supplementing with grain or pasture, hay needs decrease proportionally."},
+      {"question": "What is the feed conversion ratio?", "answer": "Feed conversion ratio (FCR) is pounds of feed per pound of gain. Beef cattle: 6-8:1. Hogs: 3-4:1. Chickens (broiler): 1.8-2:1. Lower is more efficient. Poultry is the most feed-efficient livestock."}
+    ],
+    "formulas": [
+      "Daily Feed = Animal Daily Requirement × Head Count",
+      "Total Feed = Daily Feed × Feeding Period (days)",
+      "Total Cost = (Total Feed ÷ 2000) × Cost per Ton",
+      "Feed as % of body weight: 2-3% for cattle, 3-5% for hogs"
+    ],
+    "relatedTools": ["crop-yield-calculator", "farm-profit-calculator"]
+  },
+  {
+    "slug": "farm-profit-calculator",
+    "toolName": "Farm Profit Calculator",
+    "category": "agriculture",
+    "tagline": "Calculate net farm profit per acre including all input costs and revenue",
+    "keywords": "farm profit, farming income, cost per acre, agricultural profit, farm budget",
+    "inputs": [
+      {"id": "acres", "label": "Total Acres", "default": 500},
+      {"id": "grossRevenue", "label": "Gross Revenue per Acre", "default": 750, "unit": "$"},
+      {"id": "seedCost", "label": "Seed Cost per Acre", "default": 120, "unit": "$"},
+      {"id": "fertCost", "label": "Fertilizer per Acre", "default": 150, "unit": "$"},
+      {"id": "chemCost", "label": "Chemicals/Herbicide per Acre", "default": 50, "unit": "$"},
+      {"id": "machineCost", "label": "Machinery & Fuel per Acre", "default": 80, "unit": "$"},
+      {"id": "landCost", "label": "Land Rent/Mortgage per Acre", "default": 200, "unit": "$"},
+      {"id": "insuranceCost", "label": "Crop Insurance per Acre", "default": 30, "unit": "$"}
+    ],
+    "results": [
+      {"id": "totalRevenue", "label": "Total Gross Revenue"},
+      {"id": "totalCosts", "label": "Total Costs"},
+      {"id": "netProfit", "label": "Net Profit"},
+      {"id": "profitPerAcre", "label": "Profit per Acre"},
+      {"id": "breakeven", "label": "Breakeven Yield (at $4.50/bu)"}
+    ],
+    "calcFn": "var revenue = grossRevenue * acres;\n    var costsPerAcre = seedCost + fertCost + chemCost + machineCost + landCost + insuranceCost;\n    var totalCosts = costsPerAcre * acres;\n    var profit = revenue - totalCosts;\n    var profitPA = profit / acres;\n    var breakEvenYield = costsPerAcre / 4.5;\n    document.getElementById('totalRevenue').textContent = dollar(revenue);\n    document.getElementById('totalCosts').textContent = dollar(totalCosts) + ' (' + dollar(costsPerAcre) + '/acre)';\n    document.getElementById('netProfit').textContent = (profit >= 0 ? '' : '-') + dollar(Math.abs(profit));\n    document.getElementById('profitPerAcre').textContent = (profitPA >= 0 ? '' : '-') + dollar(Math.abs(profitPA)) + '/acre';\n    document.getElementById('breakeven').textContent = fmt(breakEvenYield, 0) + ' bu/acre';",
+    "faq": [
+      {"question": "What is the average profit per acre for farming?", "answer": "Net profit varies widely: $50-$200/acre for corn in good years, but losses are common in bad years. The 2023 USDA average for corn was about $120/acre net return. Specialty crops can earn $500-$2,000+/acre."},
+      {"question": "What are the biggest farming expenses?", "answer": "Typical breakdown: Land costs (25-35%), fertilizer (15-20%), machinery/fuel (10-15%), seed (10-15%), chemicals (5-8%), crop insurance (3-5%), and labor (5-10% for row crops)."},
+      {"question": "How do farmers make a profit with thin margins?", "answer": "Scale is key — 500+ acres spreads fixed costs. Also: forward contracting to lock in prices, crop insurance, government programs, diversification, precision agriculture to optimize inputs, and value-added processing."}
+    ],
+    "formulas": [
+      "Total Revenue = Revenue per Acre × Acres",
+      "Total Costs = (Seed + Fertilizer + Chemicals + Machinery + Land + Insurance) × Acres",
+      "Net Profit = Total Revenue - Total Costs",
+      "Breakeven Yield = Costs per Acre ÷ Price per Bushel"
+    ],
+    "relatedTools": ["crop-yield-calculator", "livestock-feed-calculator"]
+  },
+  {
+    "slug": "muzzle-energy-calculator",
+    "toolName": "Muzzle Energy Calculator",
+    "category": "firearms",
+    "tagline": "Calculate bullet muzzle energy, momentum, and power factor from velocity and weight",
+    "keywords": "muzzle energy, bullet energy, foot-pounds, power factor, ballistics",
+    "inputs": [
+      {"id": "bulletWeight", "label": "Bullet Weight", "default": 124, "unit": "grains"},
+      {"id": "velocity", "label": "Muzzle Velocity", "default": 1150, "unit": "fps"},
+      {"id": "bulletDia", "label": "Bullet Diameter", "default": 0.355, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "energy", "label": "Muzzle Energy"},
+      {"id": "momentum", "label": "Momentum"},
+      {"id": "powerFactor", "label": "Power Factor (USPSA)"},
+      {"id": "taylorKO", "label": "Taylor Knockout Index"}
+    ],
+    "calcFn": "var weightLbs = bulletWeight / 7000;\n    var energy = (bulletWeight * velocity * velocity) / 450240;\n    var momentum = weightLbs * velocity;\n    var pf = (bulletWeight * velocity) / 1000;\n    var tko = (bulletWeight * velocity * bulletDia) / 7000;\n    document.getElementById('energy').textContent = fmt(energy, 0) + ' ft-lbs (' + fmt(energy * 1.356, 0) + ' joules)';\n    document.getElementById('momentum').textContent = fmt(momentum, 2) + ' lb·ft/s';\n    document.getElementById('powerFactor').textContent = fmt(pf, 1) + (pf >= 165 ? ' (Major)' : pf >= 125 ? ' (Minor)' : ' (Below minimum)');\n    document.getElementById('taylorKO').textContent = fmt(tko, 1);",
+    "faq": [
+      {"question": "How do you calculate muzzle energy?", "answer": "Muzzle energy (ft-lbs) = (Bullet Weight in grains × Velocity² in fps) ÷ 450,240. For example, a 124gr 9mm at 1,150 fps produces about 364 ft-lbs of energy."},
+      {"question": "What is a good muzzle energy for self-defense?", "answer": "Most experts recommend a minimum of 250-300 ft-lbs for self-defense. Standard 9mm (124gr at 1,150 fps) produces ~364 ft-lbs. .45 ACP (230gr at 830 fps) produces ~352 ft-lbs."},
+      {"question": "What is Power Factor?", "answer": "Power Factor = (Bullet Weight × Velocity) ÷ 1,000. In USPSA competition: Major requires 165+ PF, Minor requires 125+ PF. Higher PF means larger scoring zones count in competition."}
+    ],
+    "formulas": [
+      "Energy (ft-lbs) = (Weight (gr) × Velocity²) ÷ 450,240",
+      "Momentum = (Weight ÷ 7000) × Velocity",
+      "Power Factor = (Weight × Velocity) ÷ 1,000",
+      "Taylor KO = (Weight × Velocity × Diameter) ÷ 7,000"
+    ],
+    "relatedTools": ["recoil-calculator", "shotgun-pattern-calculator"]
+  },
+  {
+    "slug": "shotgun-pattern-calculator",
+    "toolName": "Shotgun Pattern Calculator",
+    "category": "firearms",
+    "tagline": "Calculate shotgun pattern spread, pellet count, and density at various distances",
+    "keywords": "shotgun pattern, spread calculator, choke pattern, pellet density, shot size",
+    "inputs": [
+      {"id": "distance", "label": "Distance", "default": 30, "unit": "yards"},
+      {"id": "choke", "label": "Choke", "default": "0.65", "options": [{"value":"0.45","label":"Cylinder (no choke)"},{"value":"0.55","label":"Improved Cylinder"},{"value":"0.65","label":"Modified"},{"value":"0.75","label":"Improved Modified"},{"value":"0.85","label":"Full"}]},
+      {"id": "shotSize", "label": "Shot Size", "default": "7.5", "options": [{"value":"9","label":"#9 (350 pellets/oz)"},{"value":"8","label":"#8 (410 pellets/oz)"},{"value":"7.5","label":"#7.5 (350 pellets/oz)"},{"value":"6","label":"#6 (225 pellets/oz)"},{"value":"4","label":"#4 (135 pellets/oz)"},{"value":"2","label":"#2 (90 pellets/oz)"},{"value":"00","label":"00 Buck (8 pellets)"}]},
+      {"id": "loadOz", "label": "Shot Charge", "default": 1.125, "unit": "oz", "step": 0.125}
+    ],
+    "results": [
+      {"id": "spreadDia", "label": "Pattern Diameter"},
+      {"id": "pelletCount", "label": "Total Pellets"},
+      {"id": "inCircle", "label": "Pellets in 30\" Circle"},
+      {"id": "density", "label": "Pattern Density"}
+    ],
+    "calcFn": "var chokePct = parseFloat(choke);\n    var pelletsPerOz = {'9':585,'8':410,'7.5':350,'6':225,'4':135,'2':90,'00':8};\n    var ppo = pelletsPerOz[shotSize] || 350;\n    var totalPellets = shotSize === '00' ? Math.round(8 * loadOz / 1.125) : Math.round(ppo * loadOz);\n    var spreadInches = distance * 1.0 * (1 - chokePct) * 3 + 10;\n    if (distance <= 10) spreadInches = 8 + distance * 0.5;\n    var circleArea = Math.PI * 15 * 15;\n    var patternArea = Math.PI * Math.pow(spreadInches / 2, 2);\n    var inCircle = Math.round(totalPellets * chokePct * Math.min(1, circleArea / patternArea));\n    inCircle = Math.min(inCircle, totalPellets);\n    var density = inCircle / circleArea;\n    document.getElementById('spreadDia').textContent = fmt(spreadInches, 0) + '\" diameter at ' + distance + ' yards';\n    document.getElementById('pelletCount').textContent = fmt(totalPellets, 0) + ' pellets';\n    document.getElementById('inCircle').textContent = fmt(inCircle, 0) + ' pellets (' + fmt(inCircle / totalPellets * 100, 0) + '% in 30\" circle)';\n    document.getElementById('density').textContent = fmt(density, 2) + ' pellets per sq inch';",
+    "faq": [
+      {"question": "What choke should I use for trap/skeet?", "answer": "Skeet: Skeet or Improved Cylinder for close shots. Trap: Modified to Full for longer shots. Sporting clays: start with Improved Cylinder/Modified and adjust based on station distances."},
+      {"question": "How far does a shotgun pattern spread?", "answer": "With a Modified choke, expect roughly 30\" spread at 30 yards, with about 65% of pellets in a 30\" circle. Tighter chokes concentrate the pattern; open chokes spread it faster."},
+      {"question": "What is pattern percentage?", "answer": "Pattern percentage is the fraction of pellets landing within a 30-inch circle at 40 yards. Full choke: 70-80%. Modified: 55-65%. Improved Cylinder: 45-55%. Cylinder: 35-45%."}
+    ],
+    "formulas": [
+      "Pattern Diameter ≈ Base + Distance × (1 - Choke%) × Spread Factor",
+      "Total Pellets = Pellets per Oz × Shot Charge (oz)",
+      "Pellets in Circle ≈ Total × Choke% × (Circle Area ÷ Pattern Area)",
+      "Density = Pellets in Circle ÷ Circle Area (sq inches)"
+    ],
+    "relatedTools": ["muzzle-energy-calculator", "recoil-calculator"]
+  },
+  {
+    "slug": "recoil-calculator",
+    "toolName": "Recoil Calculator",
+    "category": "firearms",
+    "tagline": "Calculate firearm recoil energy, velocity, and impulse from load data",
+    "keywords": "recoil calculator, recoil energy, free recoil, felt recoil, gun recoil",
+    "inputs": [
+      {"id": "bulletWeight", "label": "Bullet Weight", "default": 150, "unit": "grains"},
+      {"id": "muzzleVelocity", "label": "Muzzle Velocity", "default": 2800, "unit": "fps"},
+      {"id": "chargeWeight", "label": "Powder Charge", "default": 47, "unit": "grains"},
+      {"id": "gunWeight", "label": "Firearm Weight", "default": 8, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "recoilVelocity", "label": "Recoil Velocity"},
+      {"id": "recoilEnergy", "label": "Free Recoil Energy"},
+      {"id": "recoilImpulse", "label": "Recoil Impulse"},
+      {"id": "rating", "label": "Recoil Rating"}
+    ],
+    "calcFn": "var bulletLbs = bulletWeight / 7000;\n    var chargeLbs = chargeWeight / 7000;\n    var gasVelocity = muzzleVelocity * 1.75;\n    var recoilVel = ((bulletLbs * muzzleVelocity) + (chargeLbs * gasVelocity)) / gunWeight;\n    var recoilE = (gunWeight * recoilVel * recoilVel) / (2 * 32.174);\n    var impulse = gunWeight * recoilVel / 32.174;\n    var rating;\n    if (recoilE < 8) rating = 'Light — comfortable for all shooters';\n    else if (recoilE < 15) rating = 'Moderate — manageable for most shooters';\n    else if (recoilE < 25) rating = 'Heavy — noticeable recoil, technique important';\n    else if (recoilE < 40) rating = 'Very heavy — experienced shooters only';\n    else rating = 'Severe — magnum/dangerous game class';\n    document.getElementById('recoilVelocity').textContent = fmt(recoilVel, 1) + ' fps';\n    document.getElementById('recoilEnergy').textContent = fmt(recoilE, 1) + ' ft-lbs';\n    document.getElementById('recoilImpulse').textContent = fmt(impulse, 2) + ' lb-s';\n    document.getElementById('rating').textContent = rating;",
+    "faq": [
+      {"question": "How is recoil calculated?", "answer": "Free recoil uses Newton's third law: the gun's momentum equals the bullet + gas momentum. Recoil energy = (Gun Weight × Recoil Velocity²) ÷ (2 × 32.174). Heavier guns absorb more recoil."},
+      {"question": "What is a comfortable recoil level?", "answer": "Under 10 ft-lbs: very comfortable (9mm pistol, .223). 10-20 ft-lbs: moderate (.308, 12ga field load). 20-30 ft-lbs: stout (12ga magnum, .300 Win Mag). Over 40 ft-lbs: punishing (.375 H&H, .458)."},
+      {"question": "How can I reduce recoil?", "answer": "Heavier gun (most effective), muzzle brake (30-50% reduction), recoil pad, gas-operated action (vs bolt), lighter bullets at same energy, or smaller powder charge."}
+    ],
+    "formulas": [
+      "Recoil Velocity = (Bullet Mass × MV + Powder Mass × Gas Velocity) ÷ Gun Mass",
+      "Gas Velocity ≈ Muzzle Velocity × 1.75",
+      "Recoil Energy = (Gun Weight × Recoil Velocity²) ÷ (2 × 32.174)",
+      "Recoil Impulse = Gun Weight × Recoil Velocity ÷ 32.174"
+    ],
+    "relatedTools": ["muzzle-energy-calculator", "shotgun-pattern-calculator"]
+  },
+  {
+    "slug": "wind-turbine-calculator",
+    "toolName": "Wind Turbine Calculator",
+    "category": "energy-independence",
+    "tagline": "Calculate wind turbine energy output and payback period based on wind speed and turbine size",
+    "keywords": "wind turbine output, wind energy calculator, wind power, small wind turbine",
+    "inputs": [
+      {"id": "avgWindSpeed", "label": "Average Wind Speed", "default": 12, "unit": "mph"},
+      {"id": "rotorDiameter", "label": "Rotor Diameter", "default": 15, "unit": "feet"},
+      {"id": "turbineCost", "label": "System Cost (installed)", "default": 30000, "unit": "$"},
+      {"id": "electricRate", "label": "Electricity Rate", "default": 0.13, "unit": "$/kWh", "step": 0.01}
+    ],
+    "results": [
+      {"id": "ratedPower", "label": "Rated Power"},
+      {"id": "annualOutput", "label": "Annual Energy Output"},
+      {"id": "monthlySavings", "label": "Monthly Savings"},
+      {"id": "payback", "label": "Payback Period"}
+    ],
+    "calcFn": "var windMs = avgWindSpeed * 0.44704;\n    var rotorM = rotorDiameter * 0.3048;\n    var area = Math.PI * Math.pow(rotorM / 2, 2);\n    var airDensity = 1.225;\n    var betzLimit = 0.35;\n    var ratedPower = 0.5 * airDensity * area * Math.pow(windMs, 3) * betzLimit;\n    var capacityFactor = 0.25;\n    var annualKWH = ratedPower * 8760 * capacityFactor / 1000;\n    var monthlySav = (annualKWH / 12) * electricRate;\n    var annualSav = annualKWH * electricRate;\n    var payback = annualSav > 0 ? turbineCost / annualSav : Infinity;\n    document.getElementById('ratedPower').textContent = fmt(ratedPower, 0) + ' watts (' + fmt(ratedPower / 1000, 1) + ' kW)';\n    document.getElementById('annualOutput').textContent = fmt(annualKWH, 0) + ' kWh/year';\n    document.getElementById('monthlySavings').textContent = dollar(monthlySav) + '/month (' + dollar(annualSav) + '/year)';\n    document.getElementById('payback').textContent = payback === Infinity ? 'Never' : fmt(payback, 1) + ' years';",
+    "faq": [
+      {"question": "How much power does a small wind turbine produce?", "answer": "A small residential turbine (10-15 ft rotor) in 12 mph average winds produces 2,000-5,000 kWh/year — about 20-40% of average US home usage. Output scales with the cube of wind speed."},
+      {"question": "What wind speed do I need for a wind turbine?", "answer": "Minimum average of 9-10 mph for viability. 12+ mph average is ideal. Wind resources vary greatly even within small areas — get a proper wind assessment before investing."},
+      {"question": "Is a home wind turbine worth it?", "answer": "Depends on wind resource, electricity costs, and incentives. In good wind areas (12+ mph avg) with high electricity rates ($0.15+/kWh), payback can be 10-15 years. Tax credits can cut this significantly."}
+    ],
+    "formulas": [
+      "Power = ½ × Air Density × Swept Area × Wind Speed³ × Efficiency",
+      "Swept Area = π × (Rotor Diameter / 2)²",
+      "Annual Output = Rated Power × 8,760 hours × Capacity Factor",
+      "Capacity Factor ≈ 0.20-0.35 for small turbines"
+    ],
+    "relatedTools": ["off-grid-battery-calculator", "geothermal-savings-calculator"]
+  },
+  {
+    "slug": "geothermal-savings-calculator",
+    "toolName": "Geothermal Savings Calculator",
+    "category": "energy-independence",
+    "tagline": "Calculate savings from installing a geothermal heat pump vs traditional HVAC",
+    "keywords": "geothermal savings, ground source heat pump, geothermal cost, GSHP calculator",
+    "inputs": [
+      {"id": "homeSqFt", "label": "Home Size", "default": 2000, "unit": "sq ft"},
+      {"id": "currentBill", "label": "Current Annual Heating/Cooling Bill", "default": 3000, "unit": "$"},
+      {"id": "systemCost", "label": "Geothermal System Cost", "default": 25000, "unit": "$"},
+      {"id": "taxCredit", "label": "Federal Tax Credit", "default": 30, "unit": "%"},
+      {"id": "cop", "label": "Geothermal COP", "default": 4.0, "step": 0.1}
+    ],
+    "results": [
+      {"id": "netCost", "label": "Net System Cost (after credits)"},
+      {"id": "annualSavings", "label": "Annual Savings"},
+      {"id": "payback", "label": "Payback Period"},
+      {"id": "twentyYearSavings", "label": "20-Year Net Savings"}
+    ],
+    "calcFn": "var credit = systemCost * (taxCredit / 100);\n    var netCost = systemCost - credit;\n    var geoEfficiency = cop / 1.0;\n    var geoBill = currentBill / geoEfficiency;\n    var savings = currentBill - geoBill;\n    var payback = savings > 0 ? netCost / savings : Infinity;\n    var twentyYear = (savings * 20) - netCost;\n    document.getElementById('netCost').textContent = dollar(netCost) + ' (after ' + dollar(credit) + ' tax credit)';\n    document.getElementById('annualSavings').textContent = dollar(savings) + '/year (' + fmt(savings / currentBill * 100, 0) + '% reduction)';\n    document.getElementById('payback').textContent = payback === Infinity ? 'N/A' : fmt(payback, 1) + ' years';\n    document.getElementById('twentyYearSavings').textContent = dollar(twentyYear);",
+    "faq": [
+      {"question": "How much does geothermal save on heating and cooling?", "answer": "Geothermal heat pumps typically reduce heating and cooling costs by 50-70%. With a COP of 4.0, you get 4 units of heating for every 1 unit of electricity — 3-4× more efficient than conventional systems."},
+      {"question": "How much does a geothermal system cost?", "answer": "Residential geothermal: $15,000-$35,000 installed, depending on home size and loop type. The 30% federal tax credit (through 2032) brings this down significantly. Systems last 25-50 years."},
+      {"question": "What is COP (Coefficient of Performance)?", "answer": "COP measures heat pump efficiency: heat output ÷ electrical input. A COP of 4.0 means 400% efficiency — 4 units of heat per 1 unit of electricity. Geothermal COP ranges from 3.5-5.0."}
+    ],
+    "formulas": [
+      "Net Cost = System Cost - (System Cost × Tax Credit%)",
+      "Geothermal Bill = Current Bill ÷ COP",
+      "Annual Savings = Current Bill - Geothermal Bill",
+      "Payback = Net Cost ÷ Annual Savings"
+    ],
+    "relatedTools": ["wind-turbine-calculator", "off-grid-battery-calculator"]
+  },
+  {
+    "slug": "off-grid-battery-calculator",
+    "toolName": "Off-Grid Battery Calculator",
+    "category": "energy-independence",
+    "tagline": "Size your off-grid battery bank for reliable energy storage and backup power",
+    "keywords": "off grid battery, battery bank sizing, solar battery, energy storage, battery backup",
+    "inputs": [
+      {"id": "dailyUsage", "label": "Daily Energy Usage", "default": 30, "unit": "kWh"},
+      {"id": "autonomyDays", "label": "Days of Autonomy", "default": 3},
+      {"id": "depthOfDischarge", "label": "Depth of Discharge", "default": 80, "unit": "%"},
+      {"id": "batteryVoltage", "label": "System Voltage", "default": "48", "options": [{"value":"12","label":"12V"},{"value":"24","label":"24V"},{"value":"48","label":"48V"}]},
+      {"id": "batteryType", "label": "Battery Type", "default": "lithium", "options": [{"value":"lithium","label":"LiFePO4 ($400/kWh)"},{"value":"agm","label":"AGM Lead-Acid ($200/kWh)"},{"value":"flooded","label":"Flooded Lead-Acid ($150/kWh)"}]}
+    ],
+    "results": [
+      {"id": "totalCapacity", "label": "Total Battery Capacity Needed"},
+      {"id": "ampHours", "label": "Amp-Hours Needed"},
+      {"id": "estimatedCost", "label": "Estimated Battery Cost"},
+      {"id": "batteryLife", "label": "Expected Battery Life"}
+    ],
+    "calcFn": "var totalKWH = dailyUsage * autonomyDays;\n    var usableKWH = totalKWH / (depthOfDischarge / 100);\n    var voltage = parseInt(batteryVoltage);\n    var ah = (usableKWH * 1000) / voltage;\n    var costPerKWH = {lithium: 400, agm: 200, flooded: 150};\n    var lifeYears = {lithium: '10-15 years (5000+ cycles)', agm: '4-6 years (1000 cycles)', flooded: '5-8 years (1500 cycles)'};\n    var cost = usableKWH * costPerKWH[batteryType];\n    document.getElementById('totalCapacity').textContent = fmt(usableKWH, 1) + ' kWh (' + fmt(totalKWH, 1) + ' kWh usable)';\n    document.getElementById('ampHours').textContent = fmt(ah, 0) + ' Ah at ' + voltage + 'V';\n    document.getElementById('estimatedCost').textContent = dollar(cost);\n    document.getElementById('batteryLife').textContent = lifeYears[batteryType];",
+    "faq": [
+      {"question": "How many batteries do I need for off-grid?", "answer": "For a home using 30 kWh/day with 3 days autonomy at 80% DOD: you need about 112.5 kWh of battery capacity. In 48V LiFePO4, that's about 2,344 Ah — roughly 5-8 large battery modules."},
+      {"question": "LiFePO4 vs lead-acid for off-grid?", "answer": "LiFePO4 costs 2× more upfront but lasts 3-5× longer, has 80% DOD (vs 50% for lead-acid), weighs 1/3 as much, and needs no maintenance. Lifetime cost is usually lower with lithium."},
+      {"question": "What is depth of discharge (DOD)?", "answer": "DOD is how much of the battery's capacity you use. LiFePO4: 80-90% DOD safely. AGM: 50% max recommended. Flooded lead-acid: 50% max. Deeper discharge shortens battery life."}
+    ],
+    "formulas": [
+      "Total Capacity = (Daily Usage × Autonomy Days) ÷ Depth of Discharge",
+      "Amp-Hours = Total Capacity (Wh) ÷ System Voltage",
+      "Battery Cost = Capacity (kWh) × Cost per kWh",
+      "LiFePO4: 5000+ cycles at 80% DOD; Lead-acid: 1000 at 50% DOD"
+    ],
+    "relatedTools": ["wind-turbine-calculator", "geothermal-savings-calculator"]
+  }
+]

@@ -1,0 +1,298 @@
+[
+  {
+    "slug": "blood-alcohol-elimination-calculator",
+    "toolName": "Blood Alcohol Elimination Calculator",
+    "category": "niche-health",
+    "tagline": "Estimate how long it takes for your body to eliminate alcohol based on drinks consumed",
+    "keywords": "BAC elimination, alcohol metabolism, sober up time, alcohol elimination rate",
+    "inputs": [
+      {"id": "drinks", "label": "Standard Drinks Consumed", "default": 4},
+      {"id": "bodyWeight", "label": "Body Weight", "default": 170, "unit": "lbs"},
+      {"id": "gender", "label": "Gender", "default": "male", "options": [{"value":"male","label":"Male (r=0.68)"},{"value":"female","label":"Female (r=0.55)"}]},
+      {"id": "hoursAgo", "label": "Hours Since First Drink", "default": 2},
+      {"id": "hoursSpan", "label": "Drinking Duration", "default": 3, "unit": "hours"}
+    ],
+    "results": [
+      {"id": "peakBAC", "label": "Estimated Peak BAC"},
+      {"id": "currentBAC", "label": "Estimated Current BAC"},
+      {"id": "soberTime", "label": "Time to Reach 0.00%"},
+      {"id": "legalTime", "label": "Time to Reach 0.08%"}
+    ],
+    "calcFn": "var weightKg = bodyWeight * 0.4536;\n    var r = gender === 'male' ? 0.68 : 0.55;\n    var gramsAlcohol = drinks * 14;\n    var peakBac = (gramsAlcohol / (weightKg * r * 10)) - (0.015 * hoursSpan * 0.5);\n    peakBac = Math.max(0, peakBac);\n    var eliminationRate = 0.015;\n    var elapsed = Math.max(0, hoursAgo - hoursSpan);\n    var currentBac = Math.max(0, peakBac - (eliminationRate * elapsed));\n    var timeToZero = currentBac / eliminationRate;\n    var timeToLegal = Math.max(0, (currentBac - 0.08) / eliminationRate);\n    document.getElementById('peakBAC').textContent = peakBac.toFixed(3) + '%';\n    document.getElementById('currentBAC').textContent = currentBac.toFixed(3) + '%';\n    document.getElementById('soberTime').textContent = currentBac <= 0 ? 'Already at 0.00%' : fmt(timeToZero, 1) + ' hours from now';\n    document.getElementById('legalTime').textContent = currentBac <= 0.08 ? 'Already below 0.08%' : fmt(timeToLegal, 1) + ' hours from now';",
+    "faq": [
+      {"question": "How fast does the body eliminate alcohol?", "answer": "The average person eliminates alcohol at about 0.015% BAC per hour (roughly one standard drink per hour). This rate is relatively constant and cannot be sped up by coffee, food, or cold showers."},
+      {"question": "What is a standard drink?", "answer": "One standard drink contains 14 grams of pure alcohol: 12 oz beer (5%), 5 oz wine (12%), or 1.5 oz spirits (40%). Craft beers, large glasses, and strong cocktails may count as 1.5-3 standard drinks."},
+      {"question": "Why do women metabolize alcohol differently?", "answer": "Women typically have a lower water-to-body-weight ratio (r=0.55 vs 0.68 for men) and less of the enzyme alcohol dehydrogenase. This means the same number of drinks produces a higher BAC in women."}
+    ],
+    "formulas": [
+      "BAC = (Alcohol in grams ÷ (Body Weight kg × r × 10)) - (0.015 × hours drinking × 0.5)",
+      "r = 0.68 (male) or 0.55 (female) — Widmark factor",
+      "Elimination rate ≈ 0.015% per hour",
+      "Time to Sober = Current BAC ÷ 0.015"
+    ],
+    "relatedTools": ["hydration-calculator", "hearing-loss-calculator", "allergy-severity-calculator"]
+  },
+  {
+    "slug": "hearing-loss-calculator",
+    "toolName": "Hearing Loss Risk Calculator",
+    "category": "niche-health",
+    "tagline": "Estimate cumulative hearing damage risk from noise exposure over time",
+    "keywords": "hearing loss, noise exposure, decibel damage, hearing protection, NIOSH",
+    "inputs": [
+      {"id": "noiseLevel", "label": "Noise Level", "default": 95, "unit": "dB"},
+      {"id": "hoursPerDay", "label": "Hours Exposed per Day", "default": 4},
+      {"id": "daysPerWeek", "label": "Days per Week", "default": 5},
+      {"id": "yearsExposure", "label": "Years of Exposure", "default": 10},
+      {"id": "hearingProtection", "label": "Hearing Protection", "default": "0", "options": [{"value":"0","label":"None"},{"value":"15","label":"Foam earplugs (NRR 15)"},{"value":"22","label":"Over-ear muffs (NRR 22)"},{"value":"30","label":"Custom molded (NRR 30)"},{"value":"36","label":"Double protection (NRR 36)"}]}
+    ],
+    "results": [
+      {"id": "effectiveNoise", "label": "Effective Noise Level"},
+      {"id": "allowableTime", "label": "NIOSH Allowable Daily Exposure"},
+      {"id": "dosePercent", "label": "Daily Noise Dose"},
+      {"id": "riskLevel", "label": "Hearing Loss Risk"}
+    ],
+    "calcFn": "var nrr = parseInt(hearingProtection);\n    var effective = noiseLevel - (nrr > 0 ? (nrr - 7) * 0.5 : 0);\n    var allowable = 8 / Math.pow(2, (effective - 85) / 3);\n    var dose = (hoursPerDay / allowable) * 100;\n    var lifetimeDose = dose * daysPerWeek * 52 * yearsExposure / 100;\n    var risk;\n    if (dose <= 50) risk = 'Low risk — within safe limits';\n    else if (dose <= 100) risk = 'Moderate risk — near the limit';\n    else if (dose <= 200) risk = 'High risk — exceeds safe limits, hearing damage likely over time';\n    else risk = 'Very high risk — immediate hearing damage possible';\n    document.getElementById('effectiveNoise').textContent = fmt(effective, 0) + ' dB (after protection)';\n    document.getElementById('allowableTime').textContent = allowable >= 24 ? 'No time limit (safe)' : fmt(allowable, 1) + ' hours/day max';\n    document.getElementById('dosePercent').textContent = fmt(dose, 0) + '% of daily limit';\n    document.getElementById('riskLevel').textContent = risk;",
+    "faq": [
+      {"question": "At what level does noise cause hearing damage?", "answer": "NIOSH recommends limiting exposure to 85 dB for 8 hours. Every 3 dB increase halves the safe exposure time: 88 dB = 4 hours, 91 dB = 2 hours, 100 dB = 15 minutes, 115 dB = 30 seconds."},
+      {"question": "How effective is hearing protection?", "answer": "Real-world protection is about 50% of the Noise Reduction Rating (NRR) minus 7 dB. So NRR 30 earplugs provide about (30-7)×0.5 = 11.5 dB of real reduction. Proper fit is critical."},
+      {"question": "Is hearing loss from noise permanent?", "answer": "Yes. Noise-induced hearing loss (NIHL) is permanent and irreversible. The hair cells in the inner ear do not regenerate. Tinnitus (ringing) is often the first warning sign."}
+    ],
+    "formulas": [
+      "Effective Level = Noise - (NRR - 7) × 0.5",
+      "Allowable Time = 8 ÷ 2^((dB - 85) / 3) hours (NIOSH)",
+      "Noise Dose = (Exposure Time ÷ Allowable Time) × 100%",
+      "Every 3 dB doubles the sound energy and halves safe time"
+    ],
+    "relatedTools": ["blood-alcohol-elimination-calculator", "sun-exposure-vitamin-d-calculator", "decibel-calculator"]
+  },
+  {
+    "slug": "hydration-calculator",
+    "toolName": "Hydration Calculator",
+    "category": "niche-health",
+    "tagline": "Calculate your daily water intake needs based on weight, activity, and climate",
+    "keywords": "hydration calculator, water intake, daily water needs, how much water",
+    "inputs": [
+      {"id": "bodyWeight", "label": "Body Weight", "default": 160, "unit": "lbs"},
+      {"id": "activityLevel", "label": "Activity Level", "default": "1.3", "options": [{"value":"1.0","label":"Sedentary (desk job)"},{"value":"1.3","label":"Lightly active"},{"value":"1.5","label":"Moderately active"},{"value":"1.7","label":"Very active (athlete)"},{"value":"2.0","label":"Extremely active (heavy labor)"}]},
+      {"id": "climate", "label": "Climate", "default": "1.0", "options": [{"value":"1.0","label":"Temperate / Indoor"},{"value":"1.2","label":"Warm (75-90°F)"},{"value":"1.4","label":"Hot (90°F+)"},{"value":"1.1","label":"Cold / Dry winter"}]},
+      {"id": "caffeine", "label": "Daily Caffeine Drinks", "default": 2}
+    ],
+    "results": [
+      {"id": "dailyOz", "label": "Daily Water Intake"},
+      {"id": "dailyLiters", "label": "In Liters"},
+      {"id": "glassesPerDay", "label": "Glasses (8 oz) per Day"},
+      {"id": "hourlyRate", "label": "Target Hourly Intake (16hr day)"}
+    ],
+    "calcFn": "var activity = parseFloat(activityLevel);\n    var climateFactor = parseFloat(climate);\n    var baseOz = bodyWeight * 0.5;\n    var adjustedOz = baseOz * activity * climateFactor;\n    var caffeineOz = caffeine * 4;\n    var totalOz = adjustedOz + caffeineOz;\n    var liters = totalOz * 0.02957;\n    var glasses = totalOz / 8;\n    var hourly = totalOz / 16;\n    document.getElementById('dailyOz').textContent = fmt(totalOz, 0) + ' oz';\n    document.getElementById('dailyLiters').textContent = fmt(liters, 1) + ' L';\n    document.getElementById('glassesPerDay').textContent = fmt(glasses, 1) + ' glasses';\n    document.getElementById('hourlyRate').textContent = fmt(hourly, 0) + ' oz/hour';",
+    "faq": [
+      {"question": "How much water should I drink daily?", "answer": "A common baseline is half your body weight in ounces (a 160 lb person = 80 oz). Active people, hot climates, and caffeine/alcohol consumption increase needs. Most adults need 64-128 oz (2-4 liters) daily."},
+      {"question": "Does caffeine dehydrate you?", "answer": "Mildly. Caffeine is a mild diuretic, but the water in coffee/tea mostly offsets this. Add about 4 extra ounces of water per caffeinated drink to fully compensate."},
+      {"question": "What are signs of dehydration?", "answer": "Mild: dark yellow urine, thirst, dry mouth. Moderate: headache, fatigue, dizziness. Severe: rapid heartbeat, confusion, no urination. Pale/light yellow urine indicates good hydration."}
+    ],
+    "formulas": [
+      "Base Intake = Body Weight (lbs) × 0.5 (in ounces)",
+      "Adjusted = Base × Activity Factor × Climate Factor",
+      "Caffeine Addition = Caffeinated Drinks × 4 oz",
+      "Total = Adjusted + Caffeine Addition"
+    ],
+    "relatedTools": ["blood-alcohol-elimination-calculator", "sun-exposure-vitamin-d-calculator", "allergy-severity-calculator"]
+  },
+  {
+    "slug": "sun-exposure-vitamin-d-calculator",
+    "toolName": "Sun Exposure & Vitamin D Calculator",
+    "category": "niche-health",
+    "tagline": "Estimate vitamin D production from sun exposure based on skin type, time, and location",
+    "keywords": "vitamin D, sun exposure, UV calculator, vitamin D from sun, sunlight calculator",
+    "inputs": [
+      {"id": "skinType", "label": "Skin Type (Fitzpatrick)", "default": "3", "options": [{"value":"1","label":"Type I (very fair, always burns)"},{"value":"2","label":"Type II (fair, usually burns)"},{"value":"3","label":"Type III (medium, sometimes burns)"},{"value":"4","label":"Type IV (olive, rarely burns)"},{"value":"5","label":"Type V (brown, very rarely burns)"},{"value":"6","label":"Type VI (dark brown/black)"}]},
+      {"id": "uvIndex", "label": "UV Index", "default": 6},
+      {"id": "skinExposed", "label": "Skin Exposed", "default": "25", "options": [{"value":"10","label":"Face & hands (10%)"},{"value":"25","label":"Arms & face (25%)"},{"value":"40","label":"Shorts & t-shirt (40%)"},{"value":"80","label":"Swimsuit (80%)"}]},
+      {"id": "minutes", "label": "Minutes in Sun", "default": 20}
+    ],
+    "results": [
+      {"id": "vitaminD", "label": "Estimated Vitamin D Produced"},
+      {"id": "optimalTime", "label": "Optimal Exposure Time"},
+      {"id": "burnTime", "label": "Estimated Time to Sunburn"},
+      {"id": "recommendation", "label": "Recommendation"}
+    ],
+    "calcFn": "var skin = parseInt(skinType);\n    var exposed = parseInt(skinExposed);\n    var baseProdRate = [1000, 800, 600, 400, 250, 150];\n    var ratePerMin = baseProdRate[skin - 1] * (uvIndex / 6) * (exposed / 25) / 20;\n    var totalIU = ratePerMin * minutes;\n    var burnTimes = [10, 15, 20, 30, 50, 70];\n    var burnTime = burnTimes[skin - 1] * (6 / uvIndex);\n    var optimalMin = Math.min(burnTime * 0.5, 30);\n    var rec;\n    if (minutes < optimalMin) rec = 'You could safely stay longer. Optimal: ' + fmt(optimalMin, 0) + ' min.';\n    else if (minutes < burnTime) rec = 'Good exposure. Apply sunscreen if staying longer.';\n    else rec = 'Risk of sunburn! Apply SPF 30+ sunscreen or seek shade.';\n    document.getElementById('vitaminD').textContent = fmt(totalIU, 0) + ' IU (target: 600-4000 IU/day)';\n    document.getElementById('optimalTime').textContent = fmt(optimalMin, 0) + ' minutes (before sunscreen needed)';\n    document.getElementById('burnTime').textContent = fmt(burnTime, 0) + ' minutes at UV ' + uvIndex;\n    document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "How much sun do I need for vitamin D?", "answer": "Most people need 10-30 minutes of midday sun on arms and face, 2-3 times per week. Fair-skinned people need less time; darker skin tones need more. UV index must be above 3 for meaningful production."},
+      {"question": "Can I get vitamin D through a window?", "answer": "No. Glass blocks UVB rays, which are needed for vitamin D synthesis. You must be outdoors or in direct, unfiltered sunlight. UVA rays (which cause aging) do pass through glass."},
+      {"question": "Does sunscreen prevent vitamin D production?", "answer": "SPF 30 blocks about 97% of UVB rays, significantly reducing vitamin D production. Get your brief unprotected sun exposure first, then apply sunscreen for extended time outdoors."}
+    ],
+    "formulas": [
+      "Vitamin D ≈ Base Rate × (UV Index ÷ 6) × (Skin Exposed % ÷ 25) × Minutes",
+      "Base rates vary by skin type (1000 IU/session for Type I to 150 for Type VI)",
+      "Burn Time ≈ Base Burn Time × (6 ÷ UV Index)",
+      "Optimal exposure = 50% of burn time, max 30 minutes"
+    ],
+    "relatedTools": ["hydration-calculator", "allergy-severity-calculator", "blood-alcohol-elimination-calculator"]
+  },
+  {
+    "slug": "allergy-severity-calculator",
+    "toolName": "Allergy Severity Score Calculator",
+    "category": "niche-health",
+    "tagline": "Track and score your allergy symptoms to monitor severity and treatment effectiveness",
+    "keywords": "allergy score, symptom tracker, allergy severity, TNSS, allergy symptoms",
+    "inputs": [
+      {"id": "sneezing", "label": "Sneezing (0=none, 3=severe)", "default": 2, "min": 0, "max": 3},
+      {"id": "congestion", "label": "Nasal Congestion (0-3)", "default": 2, "min": 0, "max": 3},
+      {"id": "runnyNose", "label": "Runny Nose (0-3)", "default": 1, "min": 0, "max": 3},
+      {"id": "itchyEyes", "label": "Itchy/Watery Eyes (0-3)", "default": 2, "min": 0, "max": 3},
+      {"id": "itchyThroat", "label": "Itchy Throat/Ears (0-3)", "default": 1, "min": 0, "max": 3},
+      {"id": "sleepImpact", "label": "Sleep Disruption (0-3)", "default": 1, "min": 0, "max": 3},
+      {"id": "activityImpact", "label": "Daily Activity Impact (0-3)", "default": 1, "min": 0, "max": 3}
+    ],
+    "results": [
+      {"id": "totalScore", "label": "Total Symptom Score (TNSS)"},
+      {"id": "severity", "label": "Severity Category"},
+      {"id": "qualityImpact", "label": "Quality of Life Impact"},
+      {"id": "recommendation", "label": "Treatment Suggestion"}
+    ],
+    "calcFn": "var tnss = sneezing + congestion + runnyNose + itchyEyes + itchyThroat;\n    var qol = sleepImpact + activityImpact;\n    var total = tnss + qol;\n    var maxScore = 21;\n    var pct = (total / maxScore) * 100;\n    var severity, rec;\n    if (total <= 5) { severity = 'Mild'; rec = 'Over-the-counter antihistamine may be sufficient. Try nasal saline rinses.'; }\n    else if (total <= 10) { severity = 'Moderate'; rec = 'Consider daily antihistamine + nasal corticosteroid spray. Minimize allergen exposure.'; }\n    else if (total <= 15) { severity = 'Moderate-Severe'; rec = 'See an allergist. May benefit from prescription medications or immunotherapy.'; }\n    else { severity = 'Severe'; rec = 'Consult an allergist promptly. Immunotherapy (allergy shots/drops) may be recommended.'; }\n    var qolText = qol <= 1 ? 'Minimal impact' : qol <= 3 ? 'Moderate impact' : 'Significant impact on daily life';\n    document.getElementById('totalScore').textContent = total + ' / ' + maxScore + ' (' + fmt(pct, 0) + '%)';\n    document.getElementById('severity').textContent = severity;\n    document.getElementById('qualityImpact').textContent = qolText;\n    document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "What is the TNSS allergy score?", "answer": "The Total Nasal Symptom Score (TNSS) rates four nasal symptoms (sneezing, congestion, runny nose, itchy nose) from 0-3 each. It's used in clinical trials and by allergists to track treatment effectiveness."},
+      {"question": "When should I see an allergist?", "answer": "See an allergist if: symptoms persist more than 2 weeks, over-the-counter medications aren't helping, symptoms affect sleep or daily activities, or you have complications like sinus infections or asthma."},
+      {"question": "How do I track allergy severity over time?", "answer": "Score your symptoms at the same time daily (morning is typical). Track scores over weeks to identify patterns, triggers, and medication effectiveness. A consistent score drop of 30%+ indicates effective treatment."}
+    ],
+    "formulas": [
+      "TNSS = Sneezing + Congestion + Runny Nose + Itchy Eyes + Itchy Throat (0-3 each)",
+      "Quality of Life Score = Sleep Impact + Activity Impact (0-3 each)",
+      "Total Score = TNSS + QoL (0-21 scale)",
+      "Mild: 0-5, Moderate: 6-10, Moderate-Severe: 11-15, Severe: 16-21"
+    ],
+    "relatedTools": ["hydration-calculator", "sun-exposure-vitamin-d-calculator", "blood-alcohol-elimination-calculator"]
+  },
+  {
+    "slug": "chinese-zodiac-calculator",
+    "toolName": "Chinese Zodiac Calculator",
+    "category": "paranormal",
+    "tagline": "Find your Chinese zodiac animal, element, and compatibility based on birth year",
+    "keywords": "Chinese zodiac, Chinese astrology, zodiac animal, birth year animal, zodiac compatibility",
+    "inputs": [
+      {"id": "birthYear", "label": "Birth Year", "default": 1990},
+      {"id": "partnerYear", "label": "Partner's Birth Year (optional)", "default": 1992}
+    ],
+    "results": [
+      {"id": "animal", "label": "Your Zodiac Animal"},
+      {"id": "element", "label": "Your Element"},
+      {"id": "traits", "label": "Key Traits"},
+      {"id": "compatibility", "label": "Compatibility"}
+    ],
+    "calcFn": "var animals = ['Monkey','Rooster','Dog','Pig','Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat'];\n    var elements = ['Metal','Metal','Water','Water','Wood','Wood','Fire','Fire','Earth','Earth'];\n    var traits = {'Rat':'Clever, resourceful, versatile','Ox':'Dependable, strong, determined','Tiger':'Brave, confident, competitive','Rabbit':'Gentle, elegant, alert','Dragon':'Confident, ambitious, energetic','Snake':'Wise, intuitive, graceful','Horse':'Active, energetic, free-spirited','Goat':'Calm, gentle, creative','Monkey':'Witty, intelligent, playful','Rooster':'Observant, hardworking, courageous','Dog':'Loyal, honest, kind','Pig':'Compassionate, generous, diligent'};\n    var idx = birthYear % 12;\n    var animal = animals[idx];\n    var elemIdx = birthYear % 10;\n    var element = elements[elemIdx];\n    var pIdx = partnerYear % 12;\n    var pAnimal = animals[pIdx];\n    var bestMatch = {'Rat':'Dragon, Monkey, Ox','Ox':'Rat, Snake, Rooster','Tiger':'Horse, Dog, Pig','Rabbit':'Goat, Dog, Pig','Dragon':'Rat, Monkey, Rooster','Snake':'Ox, Rooster, Monkey','Horse':'Tiger, Goat, Dog','Goat':'Rabbit, Horse, Pig','Monkey':'Rat, Dragon, Snake','Rooster':'Ox, Dragon, Snake','Dog':'Tiger, Rabbit, Horse','Pig':'Tiger, Rabbit, Goat'};\n    var best = bestMatch[animal] || '';\n    var isMatch = best.indexOf(pAnimal) !== -1;\n    document.getElementById('animal').textContent = animal + ' (' + birthYear + ')';\n    document.getElementById('element').textContent = element + ' ' + animal;\n    document.getElementById('traits').textContent = traits[animal];\n    document.getElementById('compatibility').textContent = animal + ' + ' + pAnimal + ': ' + (isMatch ? 'Excellent match!' : 'Challenging — requires understanding') + ' | Best matches for ' + animal + ': ' + best;",
+    "faq": [
+      {"question": "What is the Chinese zodiac?", "answer": "The Chinese zodiac is a 12-year cycle, with each year represented by an animal: Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, and Pig. Your birth year determines your sign."},
+      {"question": "What do the five elements mean?", "answer": "Each zodiac year is also associated with one of five elements: Metal, Water, Wood, Fire, or Earth. The element adds nuance to your personality. The full cycle (12 animals × 5 elements) repeats every 60 years."},
+      {"question": "Is Chinese zodiac based on the solar or lunar calendar?", "answer": "The Chinese zodiac follows the lunar calendar. Chinese New Year falls between January 21 and February 20. If born in January or early February, you may belong to the previous year's animal."}
+    ],
+    "formulas": [
+      "Animal = Birth Year mod 12 (mapped to animal cycle)",
+      "Element = Birth Year mod 10 (mapped to element cycle)",
+      "12-year animal cycle × 5 elements = 60-year grand cycle",
+      "Compatibility based on traditional trine groupings"
+    ],
+    "relatedTools": ["moon-phase-calculator", "biorhythm-calculator", "tarot-probability-calculator"]
+  },
+  {
+    "slug": "tarot-probability-calculator",
+    "toolName": "Tarot Probability Calculator",
+    "category": "paranormal",
+    "tagline": "Calculate the mathematical probability of drawing specific tarot cards or combinations",
+    "keywords": "tarot probability, tarot odds, card probability, tarot math, tarot statistics",
+    "inputs": [
+      {"id": "deckSize", "label": "Deck Size", "default": 78, "options": [{"value":"78","label":"Full deck (78 cards)"},{"value":"22","label":"Major Arcana only (22)"},{"value":"56","label":"Minor Arcana only (56)"}]},
+      {"id": "cardsDrawn", "label": "Cards in Spread", "default": 3, "options": [{"value":"1","label":"1 card"},{"value":"3","label":"3 cards (past/present/future)"},{"value":"5","label":"5 cards (cross)"},{"value":"10","label":"10 cards (Celtic Cross)"}]},
+      {"id": "targetCards", "label": "Specific Cards to Find", "default": 1},
+      {"id": "reversed", "label": "Include Reversals?", "default": "no", "options": [{"value":"no","label":"No (78 possibilities)"},{"value":"yes","label":"Yes (156 possibilities)"}]}
+    ],
+    "results": [
+      {"id": "exactProb", "label": "Probability of Drawing Specific Card(s)"},
+      {"id": "majorArcanaProb", "label": "Probability of All Major Arcana"},
+      {"id": "suitProb", "label": "Probability of Same Suit"},
+      {"id": "totalCombinations", "label": "Total Possible Spreads"}
+    ],
+    "calcFn": "var deck = parseInt(deckSize);\n    var drawn = parseInt(cardsDrawn);\n    var target = Math.min(targetCards, drawn);\n    var rev = reversed === 'yes';\n    function factorial(n) { if (n <= 1) return 1; var r = 1; for (var i = 2; i <= n; i++) r *= i; return r; }\n    function comb(n, k) { if (k > n || k < 0) return 0; if (k === 0 || k === n) return 1; var r = 1; for (var i = 0; i < k; i++) { r *= (n - i); r /= (i + 1); } return r; }\n    var totalCombs = comb(deck, drawn);\n    var probExact = comb(target, target) * comb(deck - target, drawn - target) / totalCombs;\n    var majors = deck === 78 ? 22 : (deck === 22 ? 22 : 0);\n    var probAllMajor = majors > 0 ? comb(majors, drawn) / totalCombs : 0;\n    var suitSize = deck === 78 ? 14 : (deck === 56 ? 14 : deck);\n    var probSameSuit = deck >= 56 ? (4 * comb(suitSize, drawn)) / totalCombs : 1;\n    if (rev) { totalCombs = Math.pow(deck * 2, drawn); probExact = Math.pow(1/(deck*2), target); }\n    document.getElementById('exactProb').textContent = (probExact * 100).toFixed(4) + '% (1 in ' + fmt(1/probExact, 0) + ')';\n    document.getElementById('majorArcanaProb').textContent = majors > 0 ? (probAllMajor * 100).toFixed(2) + '%' : 'N/A for this deck';\n    document.getElementById('suitProb').textContent = deck >= 56 ? (probSameSuit * 100).toFixed(2) + '%' : 'N/A';\n    document.getElementById('totalCombinations').textContent = totalCombs > 1e15 ? totalCombs.toExponential(2) : fmt(totalCombs, 0);",
+    "faq": [
+      {"question": "What are the odds of drawing a specific tarot card?", "answer": "In a 78-card deck, the probability of drawing one specific card in a single draw is 1/78 = 1.28%. In a 3-card spread, it's about 3.85%. For the Celtic Cross (10 cards), it's about 12.8%."},
+      {"question": "What are the odds of drawing all Major Arcana in a spread?", "answer": "For a 3-card spread from a full 78-card deck: the probability of all 3 being Major Arcana is about 2.1%. For a 10-card Celtic Cross spread, it drops to roughly 0.0001%."},
+      {"question": "Does the math disprove tarot readings?", "answer": "The math shows probabilities of random draws. Tarot practitioners view the cards as tools for intuition and self-reflection, not random predictions. The value lies in interpretation, not statistical probability."}
+    ],
+    "formulas": [
+      "Combinations C(n,k) = n! / (k! × (n-k)!)",
+      "P(specific card in spread) = C(target, target) × C(remaining, other) / C(deck, drawn)",
+      "With reversals: each card has 2 orientations, doubling possibilities",
+      "P(all Major Arcana) = C(22, drawn) / C(78, drawn)"
+    ],
+    "relatedTools": ["moon-phase-calculator", "biorhythm-calculator", "chinese-zodiac-calculator"]
+  },
+  {
+    "slug": "side-hustle-income-calculator",
+    "toolName": "Side Hustle Income Calculator",
+    "category": "niche-finance",
+    "tagline": "Calculate your real take-home pay from side hustles after taxes and expenses",
+    "keywords": "side hustle income, gig economy tax, freelance income, side job calculator",
+    "inputs": [
+      {"id": "grossIncome", "label": "Monthly Gross Income", "default": 2000, "unit": "$"},
+      {"id": "expenses", "label": "Monthly Business Expenses", "default": 200, "unit": "$"},
+      {"id": "hoursPerMonth", "label": "Hours per Month", "default": 40},
+      {"id": "taxBracket", "label": "Marginal Tax Bracket", "default": "22", "options": [{"value":"10","label":"10%"},{"value":"12","label":"12%"},{"value":"22","label":"22%"},{"value":"24","label":"24%"},{"value":"32","label":"32%"}]},
+      {"id": "selfEmployTax", "label": "Self-Employment Tax", "default": 15.3, "unit": "%"}
+    ],
+    "results": [
+      {"id": "netIncome", "label": "Net Income (after expenses)"},
+      {"id": "totalTax", "label": "Estimated Tax Owed"},
+      {"id": "takeHome", "label": "Take-Home Pay"},
+      {"id": "effectiveHourly", "label": "Effective Hourly Rate"}
+    ],
+    "calcFn": "var net = grossIncome - expenses;\n    var seTax = net * (selfEmployTax / 100);\n    var seDeduction = seTax * 0.5;\n    var taxableIncome = net - seDeduction;\n    var incomeTax = taxableIncome * (parseInt(taxBracket) / 100);\n    var totalTax = seTax + incomeTax;\n    var takeHome = net - totalTax;\n    var hourlyRate = hoursPerMonth > 0 ? takeHome / hoursPerMonth : 0;\n    document.getElementById('netIncome').textContent = dollar(net) + '/month';\n    document.getElementById('totalTax').textContent = dollar(totalTax) + ' (SE: ' + dollar(seTax) + ' + Income: ' + dollar(incomeTax) + ')';\n    document.getElementById('takeHome').textContent = dollar(takeHome) + '/month (' + dollar(takeHome * 12) + '/year)';\n    document.getElementById('effectiveHourly').textContent = dollar(hourlyRate) + '/hour';",
+    "faq": [
+      {"question": "Do I have to pay self-employment tax on side hustle income?", "answer": "Yes, if you earn more than $400/year from self-employment. Self-employment tax is 15.3% (12.4% Social Security + 2.9% Medicare) on net earnings. You can deduct half of this on your income tax."},
+      {"question": "What expenses can I deduct from side hustle income?", "answer": "Common deductions: vehicle mileage (67¢/mile in 2024), home office, phone/internet, supplies, software, professional development, and health insurance premiums if you qualify."},
+      {"question": "How much should I set aside for taxes?", "answer": "Set aside 25-35% of your net side hustle income for taxes. At the 22% bracket: ~30% covers self-employment tax + income tax. Pay quarterly estimated taxes to avoid penalties."}
+    ],
+    "formulas": [
+      "Net Income = Gross Income - Business Expenses",
+      "SE Tax = Net Income × 15.3%",
+      "Income Tax = (Net - SE Deduction) × Tax Bracket%",
+      "Take-Home = Net - SE Tax - Income Tax",
+      "Effective Hourly = Take-Home ÷ Hours Worked"
+    ],
+    "relatedTools": ["wedding-budget-calculator", "emergency-fund-calculator"]
+  },
+  {
+    "slug": "wedding-budget-calculator",
+    "toolName": "Wedding Budget Calculator",
+    "category": "niche-finance",
+    "tagline": "Break down your wedding budget by category with recommended percentages",
+    "keywords": "wedding budget, wedding cost, wedding planner, wedding breakdown, wedding expenses",
+    "inputs": [
+      {"id": "totalBudget", "label": "Total Wedding Budget", "default": 30000, "unit": "$"},
+      {"id": "guestCount", "label": "Guest Count", "default": 120},
+      {"id": "region", "label": "Region Cost Factor", "default": "1.0", "options": [{"value":"0.7","label":"Rural / Low cost area"},{"value":"1.0","label":"Average / Suburban"},{"value":"1.3","label":"Major city"},{"value":"1.6","label":"NYC / SF / Premium"}]}
+    ],
+    "results": [
+      {"id": "venueFood", "label": "Venue & Catering (45%)"},
+      {"id": "photoVideo", "label": "Photography & Video (12%)"},
+      {"id": "flowers", "label": "Flowers & Decor (8%)"},
+      {"id": "music", "label": "Music & Entertainment (7%)"},
+      {"id": "attire", "label": "Attire & Beauty (8%)"},
+      {"id": "perGuest", "label": "Cost per Guest"}
+    ],
+    "calcFn": "var factor = parseFloat(region);\n    var adjusted = totalBudget;\n    var venue = adjusted * 0.45;\n    var photo = adjusted * 0.12;\n    var floral = adjusted * 0.08;\n    var music = adjusted * 0.07;\n    var attire = adjusted * 0.08;\n    var perGuest = adjusted / guestCount;\n    document.getElementById('venueFood').textContent = dollar(venue);\n    document.getElementById('photoVideo').textContent = dollar(photo);\n    document.getElementById('flowers').textContent = dollar(floral);\n    document.getElementById('music').textContent = dollar(music);\n    document.getElementById('attire').textContent = dollar(attire);\n    document.getElementById('perGuest').textContent = dollar(perGuest) + '/guest (industry avg: ' + dollar(200 * factor) + ')';",
+    "faq": [
+      {"question": "How much does the average wedding cost?", "answer": "The average US wedding costs about $30,000-$35,000 (2024). This varies enormously by region: $20,000 in rural areas to $75,000+ in major cities. Your guest count is the single biggest cost driver."},
+      {"question": "What is the biggest wedding expense?", "answer": "Venue and catering typically consume 40-50% of the budget. At $150-$250 per guest for food and drinks alone, a 150-person wedding easily reaches $22,500-$37,500 just for dining."},
+      {"question": "How can I save money on a wedding?", "answer": "Biggest savings: choose an off-peak day (Friday/Sunday), limit guest count, book in off-season (Nov-March), use a non-traditional venue, DIY flowers/centerpieces, and skip the full open bar."}
+    ],
+    "formulas": [
+      "Venue & Catering: 40-50% of budget",
+      "Photography/Video: 10-15%",
+      "Flowers & Decor: 8-10%",
+      "Music: 5-8%",
+      "Attire & Beauty: 5-10%",
+      "Other (invites, favors, transport, cake, rings): 15-20%"
+    ],
+    "relatedTools": ["side-hustle-income-calculator", "emergency-fund-calculator"]
+  }
+]

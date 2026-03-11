@@ -1,0 +1,188 @@
+[
+  {
+    "slug": "freight-class-calculator",
+    "toolName": "Freight Class Calculator",
+    "category": "shipping",
+    "tagline": "Estimate NMFC freight class from density",
+    "keywords": "freight class calculator, nmfc class, ltl freight class, freight density calculator",
+    "relatedTools": ["dimensional-weight-calculator", "pallet-calculator", "container-load-calculator"],
+    "inputs": [
+      {"id": "weight", "label": "Total Weight", "default": 500, "unit": "lbs"},
+      {"id": "length", "label": "Length", "default": 48, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 40, "unit": "inches"},
+      {"id": "height", "label": "Height", "default": 48, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "density", "label": "Freight Density"},
+      {"id": "freightClass", "label": "Estimated Class"},
+      {"id": "cubicFt", "label": "Cubic Feet"}
+    ],
+    "calcFn": "var cf = (length * width * height) / 1728; var dens = weight / cf; var cls = dens >= 50 ? '50' : dens >= 35 ? '55' : dens >= 30 ? '60' : dens >= 22.5 ? '65' : dens >= 15 ? '70' : dens >= 13.5 ? '77.5' : dens >= 12 ? '85' : dens >= 10.5 ? '92.5' : dens >= 9 ? '100' : dens >= 8 ? '110' : dens >= 7 ? '125' : dens >= 6 ? '150' : dens >= 5 ? '175' : dens >= 4 ? '200' : dens >= 3 ? '250' : dens >= 2 ? '300' : dens >= 1 ? '400' : '500'; document.getElementById('density').textContent = fmt(dens, 2) + ' lbs/cu ft'; document.getElementById('freightClass').textContent = 'Class ' + cls; document.getElementById('cubicFt').textContent = fmt(cf, 2) + ' cu ft';",
+    "formulas": ["Cubic Feet = (L × W × H) ÷ 1,728", "Density = Weight ÷ Cubic Feet", "Class is determined by density: higher density = lower class = lower cost"],
+    "faq": [
+      {"question": "What is freight class?", "answer": "Freight class (50-500) is an NMFC classification used for LTL shipping rates. Lower classes (higher density) cost less to ship. Class is based on density, handling, liability, and stowability."},
+      {"question": "How does freight class affect shipping cost?", "answer": "Class 50 (densest) can cost 3-5× less per pound than Class 500 (lightest). Moving from Class 100 to Class 85 can save 10-15% on LTL rates."},
+      {"question": "What if my actual NMFC class differs from density-based?", "answer": "Some commodities have fixed classes regardless of density (e.g., tires are always Class 77.5). Check the NMFC tariff for your specific commodity. This calculator provides a density-based estimate."}
+    ]
+  },
+  {
+    "slug": "shipping-cost-estimator",
+    "toolName": "Shipping Cost Estimator",
+    "category": "shipping",
+    "tagline": "Compare shipping costs across major carriers",
+    "keywords": "shipping cost calculator, shipping rate estimator, ups fedex usps rates, package shipping cost",
+    "relatedTools": ["dimensional-weight-calculator", "freight-class-calculator", "package-insurance-calculator"],
+    "inputs": [
+      {"id": "weight", "label": "Package Weight", "default": 5, "unit": "lbs"},
+      {"id": "length", "label": "Length", "default": 12, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 10, "unit": "inches"},
+      {"id": "height", "label": "Height", "default": 8, "unit": "inches"},
+      {"id": "zone", "label": "Shipping Zone", "default": "5", "options": [{"value":"2","label":"Zone 2 (Local)"},{"value":"3","label":"Zone 3"},{"value":"4","label":"Zone 4"},{"value":"5","label":"Zone 5 (Regional)"},{"value":"6","label":"Zone 6"},{"value":"7","label":"Zone 7"},{"value":"8","label":"Zone 8 (Cross-Country)"}]}
+    ],
+    "results": [
+      {"id": "dimWeight", "label": "Dimensional Weight"},
+      {"id": "billWeight", "label": "Billable Weight"},
+      {"id": "groundEst", "label": "Est. Ground Rate"},
+      {"id": "expressEst", "label": "Est. Express (2-Day)"}
+    ],
+    "calcFn": "var z = parseFloat(zone); var dimW = (length * width * height) / 139; var billW = Math.max(weight, dimW); var baseGround = 7.5 + (billW * 0.45) + (z * 1.2); var baseExpress = 15 + (billW * 0.85) + (z * 2.5); document.getElementById('dimWeight').textContent = fmt(dimW, 1) + ' lbs'; document.getElementById('billWeight').textContent = fmt(billW, 1) + ' lbs'; document.getElementById('groundEst').textContent = dollar(baseGround); document.getElementById('expressEst').textContent = dollar(baseExpress); document.getElementById('resultTip').textContent = dimW > weight ? 'DIM weight exceeds actual — you are billed for dimensional weight.' : 'Actual weight is used for billing.';",
+    "formulas": ["DIM Weight = (L × W × H) ÷ 139 (UPS/FedEx divisor)", "Billable Weight = max(Actual Weight, DIM Weight)", "Rates vary by carrier, zone, and service level"],
+    "faq": [
+      {"question": "What is dimensional weight?", "answer": "DIM weight prices large, lightweight packages based on size rather than weight. Carriers use L×W×H÷139 (in inches) for UPS/FedEx. USPS uses 166 as the divisor. You're billed whichever is higher: actual or DIM weight."},
+      {"question": "Which carrier is cheapest?", "answer": "USPS is usually cheapest for packages under 2 lbs (First Class) and flat-rate options. UPS/FedEx are competitive for heavier packages with negotiated rates. Regional carriers can be 20-30% cheaper for specific lanes."},
+      {"question": "How do shipping zones work?", "answer": "Zones (2-8) represent distance from origin. Zone 2 is local, Zone 8 is cross-country. Each zone increase adds roughly $1-3 for ground and $3-5 for express. USPS Priority flat rate ignores zones."}
+    ]
+  },
+  {
+    "slug": "pallet-calculator",
+    "toolName": "Pallet Calculator",
+    "category": "shipping",
+    "tagline": "Calculate how many boxes fit on a pallet",
+    "keywords": "pallet calculator, boxes per pallet, pallet stacking calculator, pallet load optimizer",
+    "relatedTools": ["container-load-calculator", "freight-class-calculator", "shipping-cost-estimator"],
+    "inputs": [
+      {"id": "boxL", "label": "Box Length", "default": 12, "unit": "inches"},
+      {"id": "boxW", "label": "Box Width", "default": 10, "unit": "inches"},
+      {"id": "boxH", "label": "Box Height", "default": 8, "unit": "inches"},
+      {"id": "palletL", "label": "Pallet Length", "default": 48, "unit": "inches"},
+      {"id": "palletW", "label": "Pallet Width", "default": 40, "unit": "inches"},
+      {"id": "maxHeight", "label": "Max Stack Height", "default": 60, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "perLayer", "label": "Boxes Per Layer"},
+      {"id": "layers", "label": "Number of Layers"},
+      {"id": "totalBoxes", "label": "Total Boxes Per Pallet"},
+      {"id": "efficiency", "label": "Space Efficiency"}
+    ],
+    "calcFn": "var across = Math.floor(palletL / boxL) * Math.floor(palletW / boxW); var rotated = Math.floor(palletL / boxW) * Math.floor(palletW / boxL); var perLayer = Math.max(across, rotated); var numLayers = Math.floor(maxHeight / boxH); var total = perLayer * numLayers; var palletVol = palletL * palletW * maxHeight; var usedVol = total * boxL * boxW * boxH; var eff = (usedVol / palletVol) * 100; document.getElementById('perLayer').textContent = perLayer; document.getElementById('layers').textContent = numLayers; document.getElementById('totalBoxes').textContent = total; document.getElementById('efficiency').textContent = pct(eff);",
+    "formulas": ["Boxes per layer = floor(Pallet L ÷ Box L) × floor(Pallet W ÷ Box W)", "Also check rotated orientation and use whichever fits more", "Layers = floor(Max Height ÷ Box Height)", "Total = Boxes per layer × Layers"],
+    "faq": [
+      {"question": "What is a standard pallet size?", "answer": "The most common pallet in North America is 48×40 inches (GMA pallet). Euro pallets are 47.2×31.5 inches. Retail and grocery typically require GMA pallets."},
+      {"question": "What is the maximum pallet height for shipping?", "answer": "Standard max height is 48-60 inches including the pallet (5-6 inches). Most LTL carriers limit total height to 96 inches. Warehouses typically limit stack height to 48-60 inches of product."},
+      {"question": "How much weight can a standard pallet hold?", "answer": "A standard GMA pallet holds 2,500-3,000 lbs in static loading. Dynamic (forklift) capacity is about 2,500 lbs. However, LTL carriers often limit pallet weight to 2,000-2,500 lbs for handling safety."}
+    ]
+  },
+  {
+    "slug": "container-load-calculator",
+    "toolName": "Container Load Calculator",
+    "category": "shipping",
+    "tagline": "Calculate how many units fit in a shipping container",
+    "keywords": "container load calculator, shipping container capacity, container packing, container cargo",
+    "relatedTools": ["pallet-calculator", "freight-class-calculator", "customs-duty-calculator"],
+    "inputs": [
+      {"id": "boxL", "label": "Box Length", "default": 24, "unit": "inches"},
+      {"id": "boxW", "label": "Box Width", "default": 18, "unit": "inches"},
+      {"id": "boxH", "label": "Box Height", "default": 16, "unit": "inches"},
+      {"id": "boxWt", "label": "Box Weight", "default": 25, "unit": "lbs"},
+      {"id": "container", "label": "Container Size", "default": "40", "options": [{"value":"20","label":"20ft Standard"},{"value":"40","label":"40ft Standard"},{"value":"40hc","label":"40ft High Cube"}]}
+    ],
+    "results": [
+      {"id": "maxByVol", "label": "Max by Volume"},
+      {"id": "maxByWt", "label": "Max by Weight"},
+      {"id": "actual", "label": "Practical Load"},
+      {"id": "fillPct", "label": "Volume Utilization"}
+    ],
+    "calcFn": "var dims = {'20':{l:234,w:93,h:93,wt:47900},'40':{l:474,w:93,h:93,wt:58600},'40hc':{l:474,w:93,h:102,wt:58600}}; var c = dims[container] || dims['40']; var a1 = Math.floor(c.l/boxL)*Math.floor(c.w/boxW)*Math.floor(c.h/boxH); var a2 = Math.floor(c.l/boxW)*Math.floor(c.w/boxL)*Math.floor(c.h/boxH); var byVol = Math.max(a1, a2); var byWt = Math.floor(c.wt / boxWt); var actual = Math.min(byVol, byWt); var usedVol = actual*boxL*boxW*boxH; var contVol = c.l*c.w*c.h; document.getElementById('maxByVol').textContent = fmt(byVol,0)+' boxes'; document.getElementById('maxByWt').textContent = fmt(byWt,0)+' boxes'; document.getElementById('actual').textContent = fmt(Math.floor(actual*0.85),0)+' boxes'; document.getElementById('fillPct').textContent = pct(usedVol/contVol*100);",
+    "formulas": ["Container dims (40ft std): 474×93×93 inches internal", "Max by volume: product of floor divisions in each dimension", "Max by weight: Container max payload ÷ box weight", "Practical load ≈ 85% of theoretical max (stacking, access)"],
+    "faq": [
+      {"question": "What is the internal size of a 40ft container?", "answer": "40ft standard: 39'5\" × 7'8\" × 7'10\" (474 × 93 × 93 inches). 40ft high cube: same length and width but 102\" tall internally. Usable volume: ~2,390 cu ft (standard) or ~2,694 cu ft (high cube)."},
+      {"question": "How much weight can a shipping container hold?", "answer": "20ft container: max payload ~47,900 lbs. 40ft standard: ~58,600 lbs. However, road weight limits (44,000 lbs for truck + container) often limit you to 39,000-44,000 lbs of cargo."},
+      {"question": "What is the difference between FCL and LCL?", "answer": "FCL (Full Container Load) means you rent the whole container. LCL (Less than Container Load) shares space with other shippers. FCL is cheaper per unit when you can fill 50%+ of a container."}
+    ]
+  },
+  {
+    "slug": "customs-duty-calculator",
+    "toolName": "Customs Duty Calculator",
+    "category": "shipping",
+    "tagline": "Estimate import duties and taxes on international shipments",
+    "keywords": "customs duty calculator, import duty estimator, tariff calculator, import tax calculator",
+    "relatedTools": ["container-load-calculator", "shipping-cost-estimator", "freight-class-calculator"],
+    "inputs": [
+      {"id": "goodsValue", "label": "Declared Value of Goods", "default": 5000, "unit": "$"},
+      {"id": "shippingCost", "label": "Shipping Cost", "default": 500, "unit": "$"},
+      {"id": "insuranceCost", "label": "Insurance Cost", "default": 50, "unit": "$"},
+      {"id": "dutyRate", "label": "Duty Rate", "default": 5, "unit": "%", "step": 0.1}
+    ],
+    "results": [
+      {"id": "customsValue", "label": "Customs Value (CIF)"},
+      {"id": "dutyAmount", "label": "Duty Amount"},
+      {"id": "mpfFee", "label": "Merchandise Processing Fee"},
+      {"id": "totalLanded", "label": "Total Landed Cost"}
+    ],
+    "calcFn": "var cif = goodsValue + shippingCost + insuranceCost; var duty = cif * (dutyRate / 100); var mpf = Math.min(Math.max(cif * 0.003464, 31.67), 614.35); var total = cif + duty + mpf; document.getElementById('customsValue').textContent = dollar(cif); document.getElementById('dutyAmount').textContent = dollar(duty); document.getElementById('mpfFee').textContent = dollar(mpf); document.getElementById('totalLanded').textContent = dollar(total); document.getElementById('resultTip').textContent = 'Duty rate varies by HTS code. Check hts.usitc.gov for exact rates.';",
+    "formulas": ["Customs Value (CIF) = Goods Value + Shipping + Insurance", "Duty = Customs Value × Duty Rate %", "Merchandise Processing Fee = 0.3464% of value (min $31.67, max $614.35)", "Total Landed Cost = CIF + Duty + MPF"],
+    "faq": [
+      {"question": "How are import duties calculated?", "answer": "US Customs assesses duty on the CIF value (Cost + Insurance + Freight). The duty rate depends on the Harmonized Tariff Schedule (HTS) code for your product and the country of origin. Rates range from 0% to 37.5%+."},
+      {"question": "Is there a duty-free threshold?", "answer": "Yes. US Section 321 allows imports valued under $800 to enter duty-free for personal shipments. This is the 'de minimis' threshold. Commercial shipments have different rules and may still require formal entry."},
+      {"question": "What is the Merchandise Processing Fee?", "answer": "The MPF is a fee charged on all formal entries (goods over $2,500). It's 0.3464% of the customs value, with a minimum of $31.67 and maximum of $614.35 per entry. Informal entries pay a flat $2-9 fee."}
+    ]
+  },
+  {
+    "slug": "shipping-transit-time-calculator",
+    "toolName": "Shipping Transit Time Calculator",
+    "category": "shipping",
+    "tagline": "Estimate delivery dates by shipping method",
+    "keywords": "shipping transit time, delivery time calculator, shipping speed estimator, package delivery date",
+    "relatedTools": ["shipping-cost-estimator", "dimensional-weight-calculator", "package-insurance-calculator"],
+    "inputs": [
+      {"id": "zone", "label": "Shipping Zone", "default": "5", "options": [{"value":"2","label":"Zone 2 (150 mi)"},{"value":"3","label":"Zone 3 (300 mi)"},{"value":"4","label":"Zone 4 (600 mi)"},{"value":"5","label":"Zone 5 (1000 mi)"},{"value":"6","label":"Zone 6 (1400 mi)"},{"value":"7","label":"Zone 7 (1800 mi)"},{"value":"8","label":"Zone 8 (2000+ mi)"}]},
+      {"id": "service", "label": "Service Level", "default": "ground", "options": [{"value":"overnight","label":"Overnight / Next Day"},{"value":"2day","label":"2-Day Express"},{"value":"3day","label":"3-Day Select"},{"value":"ground","label":"Ground"},{"value":"economy","label":"Economy / SurePost"}]}
+    ],
+    "results": [
+      {"id": "transitDays", "label": "Transit Time"},
+      {"id": "deliveryBy", "label": "Estimated Delivery"},
+      {"id": "cutoffTime", "label": "Shipping Cutoff"}
+    ],
+    "calcFn": "var z = parseFloat(zone); var days = {overnight:1, '2day':2, '3day':3, ground: Math.min(z, 7), economy: z + 2}; var d = days[service] || 5; var now = new Date(); var delivery = new Date(now); var biz = 0; while(biz < d) { delivery.setDate(delivery.getDate()+1); if(delivery.getDay()!==0 && delivery.getDay()!==6) biz++; } var opts = {weekday:'long',month:'long',day:'numeric'}; document.getElementById('transitDays').textContent = d + ' business day' + (d>1?'s':''); document.getElementById('deliveryBy').textContent = delivery.toLocaleDateString('en-US', opts); document.getElementById('cutoffTime').textContent = service === 'overnight' ? 'Ship by 2:00 PM today' : service === '2day' ? 'Ship by 5:00 PM today' : 'Ship by end of business today';",
+    "formulas": ["Overnight: 1 business day", "2-Day: 2 business days", "Ground: varies by zone (2-7 business days)", "Economy: zone transit + 2 days"],
+    "faq": [
+      {"question": "How long does ground shipping take?", "answer": "Ground shipping takes 1-7 business days depending on distance. Zone 2 (local): 1-2 days. Zone 5 (regional): 4-5 days. Zone 8 (cross-country): 6-7 days. UPS and FedEx Ground are comparable."},
+      {"question": "Do shipping times include weekends?", "answer": "Standard transit times are business days (Monday-Friday). Saturday delivery is available from UPS and FedEx for an extra $16-20. USPS delivers on Saturdays at no extra charge."},
+      {"question": "What is the cutoff time for same-day shipping?", "answer": "Most carriers have a 2:00-5:00 PM cutoff. Overnight packages typically must ship by 2:00 PM. Ground packages shipped by 5:00 PM count as that day's ship date. Check your specific carrier and location."}
+    ]
+  },
+  {
+    "slug": "package-insurance-calculator",
+    "toolName": "Package Insurance Calculator",
+    "category": "shipping",
+    "tagline": "Calculate shipping insurance costs by value",
+    "keywords": "shipping insurance calculator, package insurance cost, parcel insurance, declared value shipping",
+    "relatedTools": ["shipping-cost-estimator", "dimensional-weight-calculator", "customs-duty-calculator"],
+    "inputs": [
+      {"id": "declaredValue", "label": "Declared Value", "default": 500, "unit": "$"},
+      {"id": "carrier", "label": "Carrier", "default": "ups", "options": [{"value":"ups","label":"UPS"},{"value":"fedex","label":"FedEx"},{"value":"usps","label":"USPS"},{"value":"third","label":"Third-Party (Shipsurance etc.)"}]}
+    ],
+    "results": [
+      {"id": "insuranceCost", "label": "Insurance Cost"},
+      {"id": "costPct", "label": "Cost as % of Value"},
+      {"id": "freeIncluded", "label": "Free Coverage Included"}
+    ],
+    "calcFn": "var freeCov = {ups: 100, fedex: 100, usps: 0, third: 0}; var rates = {ups: 0.025, fedex: 0.025, usps: 0.021, third: 0.012}; var free = freeCov[carrier] || 0; var insurable = Math.max(0, declaredValue - free); var cost = carrier === 'usps' ? (declaredValue <= 50 ? 2.45 : declaredValue <= 100 ? 2.95 : declaredValue <= 200 ? 3.45 : 3.45 + Math.ceil((declaredValue - 200)/100) * 1.0) : insurable * rates[carrier]; document.getElementById('insuranceCost').textContent = dollar(cost); document.getElementById('costPct').textContent = pct(cost / declaredValue * 100, 2); document.getElementById('freeIncluded').textContent = free > 0 ? dollar(free) + ' included free' : 'No free coverage';",
+    "formulas": ["UPS/FedEx: ~$2.50 per $100 of declared value (first $100 free)", "USPS: tiered rates starting at $2.45 for up to $50", "Third-party insurers: ~$1.00-1.50 per $100"],
+    "faq": [
+      {"question": "Is shipping insurance worth it?", "answer": "For items over $100, yes. Carrier liability for uninsured packages is typically limited to $100 (UPS/FedEx) or $0 (USPS). The cost of insurance (1-3% of value) is cheap compared to the risk of loss or damage."},
+      {"question": "What does shipping insurance cover?", "answer": "Shipping insurance covers loss, theft, and damage during transit. It does not cover items improperly packaged, perishable goods, or prohibited items. Claims require proof of value and documentation of damage."},
+      {"question": "Are third-party insurers cheaper?", "answer": "Yes, typically 40-60% cheaper than carrier-declared value. Companies like Shipsurance, U-PIC, and Parcel Insurance Plan offer rates around $1-1.50 per $100 vs $2.50 at UPS/FedEx. Claims processing may take longer."}
+    ]
+  }
+]

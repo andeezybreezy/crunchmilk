@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "oil-change-cost-calculator",
+    "toolName": "Oil Change Cost Calculator",
+    "category": "automotive",
+    "tagline": "Estimate oil change cost by vehicle and oil type",
+    "keywords": "oil change cost calculator, oil change price, synthetic oil change cost, conventional oil change cost, oil change estimate, car maintenance cost, oil change frequency, vehicle oil change",
+    "relatedTools": [
+      "car-payment-calculator",
+      "ev-vs-gas-calculator",
+      "fuel-cost-calculator",
+      "tire-size-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How much does an oil change typically cost?",
+        "answer": "A conventional oil change ranges from $25-$55, a synthetic blend runs $45-$70, and a full synthetic oil change costs $65-$125. Prices vary by vehicle type, oil capacity, and whether you go to a dealer, shop, or do it yourself."
+      },
+      {
+        "question": "How often should I change my oil?",
+        "answer": "Most modern vehicles using synthetic oil can go 7,500-10,000 miles between changes. Conventional oil typically requires changes every 3,000-5,000 miles. Always check your owner's manual for the manufacturer's recommendation for your specific vehicle."
+      },
+      {
+        "question": "Is synthetic oil worth the extra cost?",
+        "answer": "Yes, for most vehicles. Synthetic oil lasts 2-3 times longer than conventional, provides better engine protection at extreme temperatures, and reduces engine wear. The longer interval between changes often makes the annual cost comparable to conventional oil."
+      },
+      {
+        "question": "Does the oil filter matter for cost?",
+        "answer": "Yes. A standard oil filter costs $5-$15, while a premium or OEM filter runs $10-$25. High-quality filters provide better filtration and last longer, which can protect your engine and save money on repairs long-term."
+      },
+      {
+        "question": "Is it cheaper to change oil myself?",
+        "answer": "DIY oil changes typically save 40-60% compared to a shop. You'll pay only for oil and a filter, usually $25-$50 for synthetic. However, factor in disposal costs, tools, and your time. Many quick-lube shops offer competitive pricing that makes DIY savings modest."
+      }
+    ],
+    "formulas": [
+      "Oil Cost = Oil Capacity (quarts) x Price Per Quart",
+      "Total DIY Cost = Oil Cost + Filter Cost",
+      "Total Shop Cost = Oil Cost + Filter Cost + Labor Cost",
+      "Annual Cost = Cost Per Change x (Annual Miles / Change Interval Miles)",
+      "Cost Per Mile = Total Cost Per Change / Change Interval Miles"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Oil Change Cost Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate your oil change cost based on vehicle specs and oil type.</p>\n\n    <div class=\"input-group\">\n      <label for=\"oilType\">Oil Type</label>\n      <div class=\"input-row\">\n        <select id=\"oilType\">\n          <option value=\"conventional\">Conventional</option>\n          <option value=\"blend\">Synthetic Blend</option>\n          <option value=\"synthetic\" selected>Full Synthetic</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"oilCapacity\">Oil Capacity (quarts)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"oilCapacity\" value=\"5\" step=\"0.5\" min=\"1\" max=\"16\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"oilPriceQt\">Price Per Quart ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"oilPriceQt\" value=\"9.50\" step=\"0.25\" min=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"filterCost\">Oil Filter Cost ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"filterCost\" value=\"12\" step=\"1\" min=\"1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"laborCost\">Labor / Shop Fee ($, 0 for DIY)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"laborCost\" value=\"35\" step=\"5\" min=\"0\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"changeInterval\">Change Interval (miles)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"changeInterval\" value=\"7500\" step=\"500\" min=\"1000\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"annualMiles\">Annual Miles Driven</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"annualMiles\" value=\"12000\" step=\"1000\" min=\"1000\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Oil Change Cost</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Oil Cost</div>\n          <div class=\"result-value\" id=\"oilCostOut\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Total Per Change</div>\n          <div class=\"result-value\" id=\"totalPerChange\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Changes Per Year</div>\n          <div class=\"result-value\" id=\"changesPerYear\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Annual Cost</div>\n          <div class=\"result-value\" id=\"annualCost\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cost Per Mile</div>\n          <div class=\"result-value\" id=\"costPerMile\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
+    "customJS": "(function() {\n  'use strict';\n\n  function f(id) { return parseFloat(document.getElementById(id).value) || 0; }\n  function $(n) { return '$' + n.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n\n  var calcBtn = document.getElementById('calcBtn');\n  var resultEl = document.getElementById('result');\n\n  var oilTypeEl = document.getElementById('oilType');\n  var oilPriceEl = document.getElementById('oilPriceQt');\n  var changeIntervalEl = document.getElementById('changeInterval');\n\n  var defaults = {\n    conventional: { price: 4.50, interval: 5000 },\n    blend: { price: 6.75, interval: 6000 },\n    synthetic: { price: 9.50, interval: 7500 }\n  };\n\n  oilTypeEl.addEventListener('change', function() {\n    var type = oilTypeEl.value;\n    oilPriceEl.value = defaults[type].price.toFixed(2);\n    changeIntervalEl.value = defaults[type].interval;\n  });\n\n  function calculate() {\n    var capacity = f('oilCapacity');\n    var pricePerQt = f('oilPriceQt');\n    var filterCost = f('filterCost');\n    var laborCost = f('laborCost');\n    var interval = f('changeInterval');\n    var annualMiles = f('annualMiles');\n\n    if (capacity <= 0 || pricePerQt <= 0 || interval <= 0 || annualMiles <= 0) return;\n\n    var oilCost = capacity * pricePerQt;\n    var totalPerChange = oilCost + filterCost + laborCost;\n    var changesPerYear = annualMiles / interval;\n    var annualCost = totalPerChange * changesPerYear;\n    var costPerMile = totalPerChange / interval;\n\n    document.getElementById('oilCostOut').textContent = $(oilCost);\n    document.getElementById('totalPerChange').textContent = $(totalPerChange);\n    document.getElementById('changesPerYear').textContent = changesPerYear.toFixed(1);\n    document.getElementById('annualCost').textContent = $(annualCost);\n    document.getElementById('costPerMile').textContent = '$' + costPerMile.toFixed(4);\n\n    resultEl.classList.add('visible');\n    resultEl.style.display = 'block';\n  }\n\n  calcBtn.addEventListener('click', function() {\n    calculate();\n    if (resultEl.classList.contains('visible')) {\n      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });\n    }\n  });\n\n  ['oilCapacity', 'oilPriceQt', 'filterCost', 'laborCost', 'changeInterval', 'annualMiles'].forEach(function(id) {\n    var el = document.getElementById(id);\n    if (el) {\n      el.addEventListener('keydown', function(e) {\n        if (e.key === 'Enter') calculate();\n      });\n    }\n  });\n\n})();"
+  }
+]

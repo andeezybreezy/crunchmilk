@@ -1,0 +1,486 @@
+[
+  {
+    "slug": "filament-cost-calculator",
+    "toolName": "Filament Cost Calculator",
+    "category": "3d-printing",
+    "tagline": "Calculate the exact filament cost for any 3D print based on weight, material, and spool price",
+    "keywords": "filament cost, 3d printing cost, filament price per gram, PLA cost, ABS cost",
+    "inputs": [
+      {"id": "spoolPrice", "label": "Spool Price", "default": 25, "unit": "$"},
+      {"id": "spoolWeight", "label": "Spool Weight", "default": 1000, "unit": "g"},
+      {"id": "printWeight", "label": "Print Weight", "default": 50, "unit": "g"},
+      {"id": "failRate", "label": "Expected Fail Rate", "default": 5, "unit": "%"}
+    ],
+    "results": [
+      {"id": "costPerGram", "label": "Cost per Gram"},
+      {"id": "printCost", "label": "Print Cost"},
+      {"id": "adjustedCost", "label": "Adjusted Cost (w/ failures)"},
+      {"id": "printsPerSpool", "label": "Prints per Spool"}
+    ],
+    "calcFn": "var cpg = spoolPrice / spoolWeight;\n    var baseCost = cpg * printWeight;\n    var adjusted = baseCost * (1 + failRate / 100);\n    var pps = Math.floor(spoolWeight / printWeight);\n    document.getElementById('costPerGram').textContent = dollar(cpg).replace('$', '$') + '/g';\n    document.getElementById('printCost').textContent = dollar(baseCost);\n    document.getElementById('adjustedCost').textContent = dollar(adjusted);\n    document.getElementById('printsPerSpool').textContent = fmt(pps, 0);",
+    "faq": [
+      {"question": "How much does 3D printing filament cost per gram?", "answer": "Most PLA filament costs $0.02-$0.03 per gram ($20-$30 per 1kg spool). Specialty filaments like carbon fiber or flexible TPU can cost $0.04-$0.10 per gram."},
+      {"question": "How do I estimate the weight of my 3D print?", "answer": "Most slicing software (Cura, PrusaSlicer) shows estimated print weight. As a rough guide, a solid 1cm cube of PLA weighs about 1.24 grams."},
+      {"question": "Should I account for failed prints in my cost estimate?", "answer": "Yes. Beginners typically have a 10-20% fail rate, while experienced users average 2-5%. Factor this into cost calculations for accurate budgeting."}
+    ],
+    "formulas": [
+      "Cost per Gram = Spool Price ÷ Spool Weight",
+      "Print Cost = Cost per Gram × Print Weight",
+      "Adjusted Cost = Print Cost × (1 + Fail Rate / 100)",
+      "Prints per Spool = Spool Weight ÷ Print Weight (rounded down)"
+    ],
+    "relatedTools": ["3d-print-cost-calculator", "print-time-estimator", "resin-volume-calculator"]
+  },
+  {
+    "slug": "print-time-estimator",
+    "toolName": "3D Print Time Estimator",
+    "category": "3d-printing",
+    "tagline": "Estimate how long your 3D print will take based on volume, layer height, and print speed",
+    "keywords": "3d print time, print duration, print speed calculator, layer height time",
+    "inputs": [
+      {"id": "volume", "label": "Print Volume", "default": 30, "unit": "cm³"},
+      {"id": "layerHeight", "label": "Layer Height", "default": 0.2, "unit": "mm", "step": 0.04},
+      {"id": "printSpeed", "label": "Print Speed", "default": 50, "unit": "mm/s"},
+      {"id": "infillPct", "label": "Infill Percentage", "default": 20, "unit": "%"}
+    ],
+    "results": [
+      {"id": "totalLayers", "label": "Total Layers"},
+      {"id": "estTime", "label": "Estimated Print Time"},
+      {"id": "filamentUsed", "label": "Est. Filament Used (g)"}
+    ],
+    "calcFn": "var sideLen = Math.pow(volume, 1/3) * 10;\n    var heightMM = sideLen;\n    var layers = Math.ceil(heightMM / layerHeight);\n    var effectiveInfill = infillPct / 100;\n    var shellPerimeter = sideLen * 4;\n    var infillPerLayer = sideLen * sideLen * effectiveInfill / (0.4);\n    var totalPathLength = layers * (shellPerimeter + infillPerLayer);\n    var timeSeconds = totalPathLength / printSpeed;\n    var timeMinutes = timeSeconds / 60;\n    var hours = Math.floor(timeMinutes / 60);\n    var mins = Math.round(timeMinutes % 60);\n    var filGrams = volume * 1.24 * (0.3 + effectiveInfill * 0.7);\n    document.getElementById('totalLayers').textContent = fmt(layers, 0);\n    document.getElementById('estTime').textContent = hours + 'h ' + mins + 'm';\n    document.getElementById('filamentUsed').textContent = fmt(filGrams, 1) + ' g';",
+    "faq": [
+      {"question": "How accurate are 3D print time estimates?", "answer": "Software estimates are typically within 10-20% of actual print time. Factors like acceleration, retraction, travel moves, and warm-up time can add to the total."},
+      {"question": "Does layer height affect print time?", "answer": "Yes, significantly. Halving the layer height (e.g., 0.2mm to 0.1mm) roughly doubles print time since twice as many layers are needed."},
+      {"question": "What print speed should I use?", "answer": "Most FDM printers work well at 40-60 mm/s. Faster speeds (80-100+ mm/s) are possible on CoreXY printers. Slower speeds (20-30 mm/s) improve quality for detailed prints."}
+    ],
+    "formulas": [
+      "Total Layers = Object Height (mm) ÷ Layer Height",
+      "Path Length per Layer ≈ Shell Perimeter + (Infill Area ÷ Line Width)",
+      "Print Time ≈ Total Path Length ÷ Print Speed"
+    ],
+    "relatedTools": ["filament-cost-calculator", "3d-print-cost-calculator", "infill-calculator"]
+  },
+  {
+    "slug": "infill-calculator",
+    "toolName": "Infill Calculator",
+    "category": "3d-printing",
+    "tagline": "Determine optimal infill percentage for strength, weight, and material usage",
+    "keywords": "3d printing infill, infill percentage, infill strength, infill material usage",
+    "inputs": [
+      {"id": "volume", "label": "Part Volume", "default": 50, "unit": "cm³"},
+      {"id": "infillPct", "label": "Infill Percentage", "default": 20, "unit": "%"},
+      {"id": "wallThickness", "label": "Wall Thickness", "default": 1.2, "unit": "mm"},
+      {"id": "density", "label": "Material Density", "default": 1.24, "unit": "g/cm³"}
+    ],
+    "results": [
+      {"id": "totalWeight", "label": "Estimated Weight"},
+      {"id": "materialSaved", "label": "Material Saved vs Solid"},
+      {"id": "strengthRating", "label": "Relative Strength"}
+    ],
+    "calcFn": "var shellFraction = Math.min(0.95, wallThickness * 0.1);\n    var infillFraction = (1 - shellFraction) * (infillPct / 100);\n    var totalFillFraction = shellFraction + infillFraction;\n    var weight = volume * density * totalFillFraction;\n    var solidWeight = volume * density;\n    var saved = ((1 - totalFillFraction) * 100);\n    var strength = Math.round(totalFillFraction * 100);\n    if (infillPct >= 80) strength = Math.min(98, strength);\n    document.getElementById('totalWeight').textContent = fmt(weight, 1) + ' g';\n    document.getElementById('materialSaved').textContent = fmt(saved, 1) + '%';\n    document.getElementById('strengthRating').textContent = strength + '% of solid';",
+    "faq": [
+      {"question": "What infill percentage should I use?", "answer": "For decorative items: 5-15%. For functional parts: 20-40%. For structural or load-bearing parts: 50-80%. 100% infill is rarely needed and wastes material."},
+      {"question": "Does infill pattern matter?", "answer": "Yes. Grid and triangles are strongest. Gyroid provides good strength with flexibility. Honeycomb is popular for a balance of strength and weight."},
+      {"question": "How much material does infill save?", "answer": "At 20% infill, you save roughly 60-70% of material compared to a solid print, while retaining about 40-50% of the strength."}
+    ],
+    "formulas": [
+      "Fill Fraction = Shell Fraction + (1 - Shell Fraction) × (Infill% / 100)",
+      "Estimated Weight = Volume × Density × Fill Fraction",
+      "Material Saved = (1 - Fill Fraction) × 100%"
+    ],
+    "relatedTools": ["filament-cost-calculator", "print-time-estimator", "3d-print-cost-calculator"]
+  },
+  {
+    "slug": "nozzle-flow-rate-calculator",
+    "toolName": "Nozzle Flow Rate Calculator",
+    "category": "3d-printing",
+    "tagline": "Calculate your 3D printer nozzle's volumetric flow rate for optimal print quality",
+    "keywords": "nozzle flow rate, volumetric flow, extrusion rate, 3d printer nozzle",
+    "inputs": [
+      {"id": "nozzleDia", "label": "Nozzle Diameter", "default": 0.4, "unit": "mm", "step": 0.1},
+      {"id": "layerHeight", "label": "Layer Height", "default": 0.2, "unit": "mm", "step": 0.04},
+      {"id": "printSpeed", "label": "Print Speed", "default": 50, "unit": "mm/s"},
+      {"id": "lineWidth", "label": "Line Width", "default": 0.44, "unit": "mm", "step": 0.01}
+    ],
+    "results": [
+      {"id": "flowRate", "label": "Volumetric Flow Rate"},
+      {"id": "maxSpeed", "label": "Max Speed at Flow Limit"},
+      {"id": "extrusionRate", "label": "Linear Extrusion Rate"}
+    ],
+    "calcFn": "var flow = layerHeight * lineWidth * printSpeed;\n    var maxFlow = 15;\n    var maxSpd = maxFlow / (layerHeight * lineWidth);\n    var filDia = 1.75;\n    var filArea = Math.PI * Math.pow(filDia / 2, 2);\n    var extRate = flow / filArea;\n    document.getElementById('flowRate').textContent = fmt(flow, 2) + ' mm³/s';\n    document.getElementById('maxSpeed').textContent = fmt(maxSpd, 0) + ' mm/s';\n    document.getElementById('extrusionRate').textContent = fmt(extRate, 2) + ' mm/s';",
+    "faq": [
+      {"question": "What is a normal volumetric flow rate for 3D printing?", "answer": "Most standard hotends handle 5-15 mm³/s. High-flow hotends can reach 25-50 mm³/s. Going above your hotend's limit causes under-extrusion."},
+      {"question": "How does nozzle size affect flow rate?", "answer": "Larger nozzles allow higher flow rates because more material can pass through. A 0.6mm nozzle can typically handle 1.5-2x the flow of a 0.4mm nozzle."},
+      {"question": "What happens if I exceed the maximum flow rate?", "answer": "You'll see under-extrusion: weak layers, gaps in walls, and poor layer adhesion. The hotend can't melt filament fast enough to keep up with the print speed."}
+    ],
+    "formulas": [
+      "Volumetric Flow Rate = Layer Height × Line Width × Print Speed (mm³/s)",
+      "Max Print Speed = Max Flow Rate ÷ (Layer Height × Line Width)",
+      "Linear Extrusion Rate = Volumetric Flow ÷ Filament Cross-Section Area"
+    ],
+    "relatedTools": ["print-time-estimator", "filament-cost-calculator", "infill-calculator"]
+  },
+  {
+    "slug": "resin-volume-calculator",
+    "toolName": "Resin Volume Calculator",
+    "category": "3d-printing",
+    "tagline": "Calculate resin usage and cost for SLA/DLP 3D prints",
+    "keywords": "resin volume, resin cost, SLA printing cost, DLP resin calculator",
+    "inputs": [
+      {"id": "partVolume", "label": "Part Volume", "default": 25, "unit": "cm³"},
+      {"id": "supportPct", "label": "Support Material", "default": 15, "unit": "%"},
+      {"id": "bottlePrice", "label": "Resin Bottle Price", "default": 35, "unit": "$"},
+      {"id": "bottleVolume", "label": "Bottle Volume", "default": 1000, "unit": "mL"}
+    ],
+    "results": [
+      {"id": "totalResin", "label": "Total Resin Needed"},
+      {"id": "resinCost", "label": "Resin Cost"},
+      {"id": "partsPerBottle", "label": "Parts per Bottle"}
+    ],
+    "calcFn": "var totalML = partVolume * (1 + supportPct / 100);\n    var costPerML = bottlePrice / bottleVolume;\n    var cost = totalML * costPerML;\n    var ppb = Math.floor(bottleVolume / totalML);\n    document.getElementById('totalResin').textContent = fmt(totalML, 1) + ' mL';\n    document.getElementById('resinCost').textContent = dollar(cost);\n    document.getElementById('partsPerBottle').textContent = fmt(ppb, 0);",
+    "faq": [
+      {"question": "How much resin does a typical print use?", "answer": "Small miniatures use 3-10 mL, medium parts 15-50 mL, and large prints can use 100+ mL. Support structures typically add 10-25% more resin usage."},
+      {"question": "Is resin printing more expensive than filament?", "answer": "Per volume, resin costs 2-5x more than PLA filament. However, resin prints are typically smaller and more detailed, so the cost per print can be comparable."},
+      {"question": "How much resin is wasted on supports?", "answer": "Support structures typically account for 10-25% of total resin usage. Orienting your model to minimize supports can significantly reduce waste and cost."}
+    ],
+    "formulas": [
+      "Total Resin = Part Volume × (1 + Support % / 100)",
+      "Resin Cost = Total Resin × (Bottle Price ÷ Bottle Volume)",
+      "Parts per Bottle = Bottle Volume ÷ Total Resin per Part"
+    ],
+    "relatedTools": ["filament-cost-calculator", "3d-print-cost-calculator", "printer-power-cost-calculator"]
+  },
+  {
+    "slug": "printer-power-cost-calculator",
+    "toolName": "3D Printer Power Cost Calculator",
+    "category": "3d-printing",
+    "tagline": "Calculate electricity costs for running your 3D printer",
+    "keywords": "3d printer electricity cost, printer power usage, print energy cost",
+    "inputs": [
+      {"id": "wattage", "label": "Printer Wattage", "default": 200, "unit": "W"},
+      {"id": "printHours", "label": "Print Time", "default": 8, "unit": "hours"},
+      {"id": "electricRate", "label": "Electricity Rate", "default": 0.12, "unit": "$/kWh", "step": 0.01},
+      {"id": "printsPerMonth", "label": "Prints per Month", "default": 15}
+    ],
+    "results": [
+      {"id": "costPerPrint", "label": "Cost per Print"},
+      {"id": "monthlyCost", "label": "Monthly Electricity Cost"},
+      {"id": "kwhPerPrint", "label": "kWh per Print"}
+    ],
+    "calcFn": "var kwh = (wattage / 1000) * printHours;\n    var costPrint = kwh * electricRate;\n    var monthly = costPrint * printsPerMonth;\n    document.getElementById('costPerPrint').textContent = dollar(costPrint);\n    document.getElementById('monthlyCost').textContent = dollar(monthly);\n    document.getElementById('kwhPerPrint').textContent = fmt(kwh, 2) + ' kWh';",
+    "faq": [
+      {"question": "How much electricity does a 3D printer use?", "answer": "Most FDM printers draw 100-300W during printing. Heated beds account for 50-70% of power usage. Resin printers typically use 50-100W."},
+      {"question": "Does a 3D printer use a lot of electricity?", "answer": "A typical 8-hour print on a 200W printer costs about $0.15-$0.25 in electricity. Monthly costs for hobbyist use are usually $2-$10."},
+      {"question": "How can I reduce 3D printer energy costs?", "answer": "Use a printer enclosure to retain heat, print with materials that don't need a heated bed (like PLA), and optimize print orientation to reduce print time."}
+    ],
+    "formulas": [
+      "Energy per Print (kWh) = Printer Wattage ÷ 1000 × Print Hours",
+      "Cost per Print = kWh × Electricity Rate",
+      "Monthly Cost = Cost per Print × Prints per Month"
+    ],
+    "relatedTools": ["filament-cost-calculator", "3d-print-cost-calculator", "print-time-estimator"]
+  },
+  {
+    "slug": "filament-length-calculator",
+    "toolName": "Filament Length Calculator",
+    "category": "3d-printing",
+    "tagline": "Convert between filament weight and length for any diameter and material",
+    "keywords": "filament length, filament weight to length, spool length, 1kg filament meters",
+    "inputs": [
+      {"id": "weight", "label": "Filament Weight", "default": 1000, "unit": "g"},
+      {"id": "diameter", "label": "Filament Diameter", "default": 1.75, "unit": "mm", "options": [{"value": "1.75", "label": "1.75mm"}, {"value": "2.85", "label": "2.85mm"}]},
+      {"id": "density", "label": "Material Density", "default": 1.24, "unit": "g/cm³", "options": [{"value": "1.24", "label": "PLA (1.24)"}, {"value": "1.04", "label": "ABS (1.04)"}, {"value": "1.12", "label": "PETG (1.12)"}, {"value": "1.21", "label": "TPU (1.21)"}, {"value": "1.13", "label": "Nylon (1.13)"}]}
+    ],
+    "results": [
+      {"id": "lengthM", "label": "Filament Length (m)"},
+      {"id": "lengthFt", "label": "Filament Length (ft)"},
+      {"id": "costPerMeter", "label": "Cost per Meter (at $25/kg)"}
+    ],
+    "calcFn": "var dia = parseFloat(diameter);\n    var dens = parseFloat(density);\n    var radiusCM = dia / 20;\n    var areaCM2 = Math.PI * radiusCM * radiusCM;\n    var volumeCM3 = weight / dens;\n    var lengthCM = volumeCM3 / areaCM2;\n    var meters = lengthCM / 100;\n    var feet = meters * 3.28084;\n    var cpm = 25 / meters;\n    document.getElementById('lengthM').textContent = fmt(meters, 1) + ' m';\n    document.getElementById('lengthFt').textContent = fmt(feet, 0) + ' ft';\n    document.getElementById('costPerMeter').textContent = dollar(cpm) + '/m';",
+    "faq": [
+      {"question": "How many meters of filament are on a 1kg spool?", "answer": "A 1kg spool of 1.75mm PLA contains approximately 335 meters. ABS has about 400m and PETG about 370m per kg due to different densities."},
+      {"question": "Why does material type affect filament length?", "answer": "Different materials have different densities. Lighter materials (like ABS at 1.04 g/cm³) yield more length per kilogram than denser materials (like PLA at 1.24 g/cm³)."},
+      {"question": "Does 1.75mm vs 2.85mm filament affect length?", "answer": "Yes, significantly. 2.85mm filament is about 2.65x thicker in cross-section, so a 1kg spool contains roughly 1/2.65 the length of 1.75mm filament."}
+    ],
+    "formulas": [
+      "Cross-Section Area = π × (Diameter / 2)²",
+      "Volume = Weight ÷ Density",
+      "Length = Volume ÷ Cross-Section Area"
+    ],
+    "relatedTools": ["filament-cost-calculator", "3d-print-cost-calculator", "infill-calculator"]
+  },
+  {
+    "slug": "print-bed-area-calculator",
+    "toolName": "Print Bed Area Calculator",
+    "category": "3d-printing",
+    "tagline": "Calculate usable print bed area and determine if your model fits",
+    "keywords": "print bed size, build volume, 3d printer bed area, model fit calculator",
+    "inputs": [
+      {"id": "bedX", "label": "Bed Width (X)", "default": 220, "unit": "mm"},
+      {"id": "bedY", "label": "Bed Depth (Y)", "default": 220, "unit": "mm"},
+      {"id": "bedZ", "label": "Bed Height (Z)", "default": 250, "unit": "mm"},
+      {"id": "margin", "label": "Edge Margin", "default": 5, "unit": "mm"}
+    ],
+    "results": [
+      {"id": "usableArea", "label": "Usable Print Area"},
+      {"id": "buildVolume", "label": "Total Build Volume"},
+      {"id": "usableVolume", "label": "Usable Build Volume"}
+    ],
+    "calcFn": "var usableX = bedX - 2 * margin;\n    var usableY = bedY - 2 * margin;\n    var area = usableX * usableY;\n    var totalVol = bedX * bedY * bedZ / 1000;\n    var usableVol = usableX * usableY * bedZ / 1000;\n    document.getElementById('usableArea').textContent = fmt(area, 0) + ' mm² (' + fmt(usableX, 0) + '×' + fmt(usableY, 0) + ')';\n    document.getElementById('buildVolume').textContent = fmt(totalVol, 0) + ' cm³';\n    document.getElementById('usableVolume').textContent = fmt(usableVol, 0) + ' cm³';",
+    "faq": [
+      {"question": "What is a good print bed size for beginners?", "answer": "220×220mm is the most popular size for beginners (Ender 3 class). It's large enough for most projects while being affordable. 300×300mm gives more flexibility for larger prints."},
+      {"question": "Why do I need an edge margin?", "answer": "The outer 3-10mm of most print beds have uneven heating or clips that prevent printing. Keeping a 5mm margin ensures reliable first-layer adhesion."},
+      {"question": "Can I print objects larger than my build volume?", "answer": "Yes, by splitting the model into pieces and assembling after printing. Design interlocking joints or use adhesive to join sections."}
+    ],
+    "formulas": [
+      "Usable Area = (Bed Width - 2 × Margin) × (Bed Depth - 2 × Margin)",
+      "Build Volume = Width × Depth × Height ÷ 1000 (cm³)",
+      "Usable Volume = Usable Width × Usable Depth × Height ÷ 1000"
+    ],
+    "relatedTools": ["print-time-estimator", "filament-cost-calculator", "3d-print-cost-calculator"]
+  },
+  {
+    "slug": "ink-cost-calculator",
+    "toolName": "Ink Cost Calculator",
+    "category": "printing",
+    "tagline": "Calculate your true cost per page and per print for inkjet and laser printers",
+    "keywords": "ink cost per page, printer ink calculator, cost per print, toner cost",
+    "inputs": [
+      {"id": "cartridgePrice", "label": "Cartridge/Toner Price", "default": 30, "unit": "$"},
+      {"id": "pageYield", "label": "Page Yield (pages per cartridge)", "default": 300},
+      {"id": "pagesPerMonth", "label": "Pages per Month", "default": 100},
+      {"id": "numCartridges", "label": "Number of Cartridges", "default": 4, "options": [{"value": "1", "label": "1 (Black only)"}, {"value": "4", "label": "4 (CMYK)"}, {"value": "6", "label": "6 (Photo set)"}]}
+    ],
+    "results": [
+      {"id": "costPerPage", "label": "Cost per Page"},
+      {"id": "monthlyCost", "label": "Monthly Ink Cost"},
+      {"id": "yearlyCost", "label": "Yearly Ink Cost"},
+      {"id": "replacementFreq", "label": "Replacement Frequency"}
+    ],
+    "calcFn": "var nCart = parseInt(numCartridges);\n    var cpp = (cartridgePrice * nCart) / pageYield;\n    var monthly = cpp * pagesPerMonth;\n    var yearly = monthly * 12;\n    var monthsPerSet = pageYield / pagesPerMonth;\n    document.getElementById('costPerPage').textContent = '$' + (cpp).toFixed(3);\n    document.getElementById('monthlyCost').textContent = dollar(monthly);\n    document.getElementById('yearlyCost').textContent = dollar(yearly);\n    document.getElementById('replacementFreq').textContent = fmt(monthsPerSet, 1) + ' months';",
+    "faq": [
+      {"question": "What is the average cost per page for an inkjet printer?", "answer": "Inkjet printers typically cost $0.05-$0.20 per page for color and $0.02-$0.08 for black and white. Laser printers are usually $0.01-$0.05 per page."},
+      {"question": "Are third-party ink cartridges worth it?", "answer": "Third-party cartridges can save 50-80% on ink costs. Quality varies, but reputable brands often produce comparable results for everyday printing."},
+      {"question": "How is page yield calculated?", "answer": "Page yield is based on ISO/IEC 24711 standards using 5% page coverage. Actual yield varies with print density, graphics, and photos."}
+    ],
+    "formulas": [
+      "Cost per Page = (Cartridge Price × Number of Cartridges) ÷ Page Yield",
+      "Monthly Cost = Cost per Page × Pages per Month",
+      "Replacement Frequency = Page Yield ÷ Pages per Month"
+    ],
+    "relatedTools": ["business-card-cost-calculator", "print-dpi-calculator", "poster-size-calculator"]
+  },
+  {
+    "slug": "paper-weight-calculator",
+    "toolName": "Paper Weight Converter",
+    "category": "printing",
+    "tagline": "Convert between paper weight systems — GSM, bond, cover, index, and more",
+    "keywords": "paper weight converter, gsm to bond, paper thickness, cardstock weight",
+    "inputs": [
+      {"id": "weightValue", "label": "Paper Weight Value", "default": 80},
+      {"id": "fromUnit", "label": "From Unit", "default": "gsm", "options": [{"value": "gsm", "label": "GSM (g/m²)"}, {"value": "bond", "label": "Bond (lb)"}, {"value": "cover", "label": "Cover (lb)"}, {"value": "index", "label": "Index (lb)"}]}
+    ],
+    "results": [
+      {"id": "gsmResult", "label": "GSM (g/m²)"},
+      {"id": "bondResult", "label": "Bond Weight (lb)"},
+      {"id": "coverResult", "label": "Cover Weight (lb)"},
+      {"id": "thicknessMils", "label": "Approx. Thickness (mils)"}
+    ],
+    "calcFn": "var gsm;\n    if (fromUnit === 'gsm') gsm = weightValue;\n    else if (fromUnit === 'bond') gsm = weightValue * 3.76;\n    else if (fromUnit === 'cover') gsm = weightValue * 2.708;\n    else if (fromUnit === 'index') gsm = weightValue * 1.81;\n    var bond = gsm / 3.76;\n    var cover = gsm / 2.708;\n    var idx = gsm / 1.81;\n    var mils = gsm * 0.06;\n    document.getElementById('gsmResult').textContent = fmt(gsm, 1) + ' g/m²';\n    document.getElementById('bondResult').textContent = fmt(bond, 1) + ' lb';\n    document.getElementById('coverResult').textContent = fmt(cover, 1) + ' lb';\n    document.getElementById('thicknessMils').textContent = fmt(mils, 1) + ' mils';",
+    "faq": [
+      {"question": "What does GSM mean for paper?", "answer": "GSM stands for grams per square meter. It's the international standard for measuring paper weight. Standard copy paper is 75-90 GSM, and business cards are typically 300-350 GSM."},
+      {"question": "What is the difference between bond and cover weight?", "answer": "Bond weight uses a 17×22 inch basis size (for writing papers), while cover weight uses a 20×26 inch basis size (for cardstock). 80lb cover is much heavier than 80lb bond."},
+      {"question": "What paper weight should I use for business cards?", "answer": "Business cards are typically 300-350 GSM (110lb cover or 80lb cover minimum). Thicker stock (400+ GSM) feels more premium."}
+    ],
+    "formulas": [
+      "GSM from Bond: GSM = Bond Weight × 3.76",
+      "GSM from Cover: GSM = Cover Weight × 2.708",
+      "GSM from Index: GSM = Index Weight × 1.81",
+      "Approximate Thickness (mils) ≈ GSM × 0.06"
+    ],
+    "relatedTools": ["ink-cost-calculator", "print-dpi-calculator", "business-card-cost-calculator"]
+  },
+  {
+    "slug": "bleed-margin-calculator",
+    "toolName": "Bleed & Margin Calculator",
+    "category": "printing",
+    "tagline": "Calculate proper bleed, margin, and safe zone dimensions for professional printing",
+    "keywords": "print bleed, bleed margin, safe zone, trim size, print dimensions",
+    "inputs": [
+      {"id": "docWidth", "label": "Document Width", "default": 8.5, "unit": "in"},
+      {"id": "docHeight", "label": "Document Height", "default": 11, "unit": "in"},
+      {"id": "bleed", "label": "Bleed Size", "default": 0.125, "unit": "in", "step": 0.0625},
+      {"id": "safeMargin", "label": "Safe Margin", "default": 0.25, "unit": "in", "step": 0.0625}
+    ],
+    "results": [
+      {"id": "bleedSize", "label": "Document + Bleed Size"},
+      {"id": "safeZone", "label": "Safe Zone Size"},
+      {"id": "bleedSizeMM", "label": "Document + Bleed (mm)"},
+      {"id": "safeZoneMM", "label": "Safe Zone (mm)"}
+    ],
+    "calcFn": "var bleedW = docWidth + 2 * bleed;\n    var bleedH = docHeight + 2 * bleed;\n    var safeW = docWidth - 2 * safeMargin;\n    var safeH = docHeight - 2 * safeMargin;\n    document.getElementById('bleedSize').textContent = fmt(bleedW, 3) + '\" × ' + fmt(bleedH, 3) + '\"';\n    document.getElementById('safeZone').textContent = fmt(safeW, 3) + '\" × ' + fmt(safeH, 3) + '\"';\n    document.getElementById('bleedSizeMM').textContent = fmt(bleedW * 25.4, 1) + ' × ' + fmt(bleedH * 25.4, 1) + ' mm';\n    document.getElementById('safeZoneMM').textContent = fmt(safeW * 25.4, 1) + ' × ' + fmt(safeH * 25.4, 1) + ' mm';",
+    "faq": [
+      {"question": "What is print bleed and why do I need it?", "answer": "Bleed is the area beyond the trim edge where your design extends. It ensures no white edges appear after cutting. Standard bleed is 0.125 inches (3mm)."},
+      {"question": "What is the safe zone in printing?", "answer": "The safe zone (or live area) is where all important content like text and logos should stay. It's typically 0.25 inches (6mm) inside the trim line to avoid being cut off."},
+      {"question": "What bleed size should I use?", "answer": "Standard bleed is 0.125\" (3mm) for most commercial printing. Some large-format printers may request 0.25\" (6mm) or more."}
+    ],
+    "formulas": [
+      "Total Document Size = Trim Size + (2 × Bleed) on each dimension",
+      "Safe Zone = Trim Size - (2 × Safe Margin) on each dimension",
+      "1 inch = 25.4 mm"
+    ],
+    "relatedTools": ["print-dpi-calculator", "poster-size-calculator", "business-card-cost-calculator"]
+  },
+  {
+    "slug": "print-dpi-calculator",
+    "toolName": "Print DPI Calculator",
+    "category": "printing",
+    "tagline": "Calculate the required resolution for sharp prints at any size",
+    "keywords": "print dpi, resolution calculator, pixels to print size, image resolution",
+    "inputs": [
+      {"id": "pixelWidth", "label": "Image Width", "default": 3000, "unit": "px"},
+      {"id": "pixelHeight", "label": "Image Height", "default": 2000, "unit": "px"},
+      {"id": "targetDPI", "label": "Target DPI", "default": 300, "options": [{"value": "72", "label": "72 DPI (Screen)"}, {"value": "150", "label": "150 DPI (Draft)"}, {"value": "300", "label": "300 DPI (Photo Quality)"}, {"value": "600", "label": "600 DPI (Fine Art)"}]}
+    ],
+    "results": [
+      {"id": "printWidth", "label": "Max Print Width"},
+      {"id": "printHeight", "label": "Max Print Height"},
+      {"id": "megapixels", "label": "Megapixels"}
+    ],
+    "calcFn": "var dpi = parseInt(targetDPI);\n    var pw = pixelWidth / dpi;\n    var ph = pixelHeight / dpi;\n    var mp = (pixelWidth * pixelHeight) / 1000000;\n    document.getElementById('printWidth').textContent = fmt(pw, 2) + '\" (' + fmt(pw * 2.54, 1) + ' cm)';\n    document.getElementById('printHeight').textContent = fmt(ph, 2) + '\" (' + fmt(ph * 2.54, 1) + ' cm)';\n    document.getElementById('megapixels').textContent = fmt(mp, 1) + ' MP';",
+    "faq": [
+      {"question": "What DPI do I need for printing?", "answer": "300 DPI is the gold standard for photo-quality prints viewed up close. 150 DPI is acceptable for posters viewed from a distance. 72 DPI is screen-only resolution."},
+      {"question": "How many pixels do I need for an 8×10 print?", "answer": "For a sharp 8×10\" print at 300 DPI, you need 2400×3000 pixels (7.2 megapixels minimum). Most modern smartphone cameras exceed this."},
+      {"question": "Does higher DPI always mean better quality?", "answer": "Above 300 DPI, the human eye cannot perceive improvement at normal viewing distances. For large prints viewed from farther away, 150 DPI is often sufficient."}
+    ],
+    "formulas": [
+      "Max Print Size = Image Pixels ÷ DPI (in inches)",
+      "Required Pixels = Print Size (inches) × DPI",
+      "Megapixels = (Width × Height) ÷ 1,000,000"
+    ],
+    "relatedTools": ["bleed-margin-calculator", "poster-size-calculator", "photo-file-size-calculator"]
+  },
+  {
+    "slug": "booklet-imposition-calculator",
+    "toolName": "Booklet Imposition Calculator",
+    "category": "printing",
+    "tagline": "Calculate page imposition layout, sheet count, and signatures for booklet printing",
+    "keywords": "booklet imposition, saddle stitch, page layout, signature printing, booklet pages",
+    "inputs": [
+      {"id": "numPages", "label": "Number of Pages", "default": 24},
+      {"id": "pagesPerSig", "label": "Pages per Signature", "default": 16, "options": [{"value": "4", "label": "4 (Single fold)"}, {"value": "8", "label": "8 (Quarter fold)"}, {"value": "16", "label": "16 (Standard)"}, {"value": "32", "label": "32 (Large press)"}]},
+      {"id": "sheetCost", "label": "Sheet Cost", "default": 0.05, "unit": "$", "step": 0.01}
+    ],
+    "results": [
+      {"id": "totalSheets", "label": "Total Sheets Needed"},
+      {"id": "signatures", "label": "Number of Signatures"},
+      {"id": "blankPages", "label": "Blank Pages to Add"},
+      {"id": "sheetsCost", "label": "Paper Cost"}
+    ],
+    "calcFn": "var pps = parseInt(pagesPerSig);\n    var roundedPages = Math.ceil(numPages / pps) * pps;\n    var blanks = roundedPages - numPages;\n    var sigs = roundedPages / pps;\n    var sheetsPerSig = pps / 4;\n    var totalSheets = sigs * sheetsPerSig;\n    var cost = totalSheets * sheetCost;\n    document.getElementById('totalSheets').textContent = fmt(totalSheets, 0) + ' sheets';\n    document.getElementById('signatures').textContent = fmt(sigs, 0);\n    document.getElementById('blankPages').textContent = fmt(blanks, 0) + ' blank pages';\n    document.getElementById('sheetsCost').textContent = dollar(cost);",
+    "faq": [
+      {"question": "What is imposition in printing?", "answer": "Imposition is arranging pages on a press sheet so they appear in the correct order after folding, cutting, and binding. A single sheet produces 4 pages (front and back, both sides)."},
+      {"question": "Why does my booklet need blank pages?", "answer": "Booklets must have a page count divisible by 4 (saddle-stitch) or the signature size. Extra blank pages are added to the end to reach the required count."},
+      {"question": "What is a signature in printing?", "answer": "A signature is a large sheet folded into a section of pages. Standard signatures contain 8, 16, or 32 pages. Multiple signatures are bound together to create thicker books."}
+    ],
+    "formulas": [
+      "Rounded Pages = ceil(Pages ÷ Pages per Signature) × Pages per Signature",
+      "Blank Pages = Rounded Pages - Actual Pages",
+      "Total Sheets = Signatures × (Pages per Signature ÷ 4)"
+    ],
+    "relatedTools": ["ink-cost-calculator", "paper-weight-calculator", "bleed-margin-calculator"]
+  },
+  {
+    "slug": "poster-size-calculator",
+    "toolName": "Poster Size Calculator",
+    "category": "printing",
+    "tagline": "Find the ideal poster size and verify your image resolution is print-ready",
+    "keywords": "poster size, large format printing, poster resolution, poster dimensions",
+    "inputs": [
+      {"id": "imgWidth", "label": "Image Width", "default": 4000, "unit": "px"},
+      {"id": "imgHeight", "label": "Image Height", "default": 6000, "unit": "px"},
+      {"id": "viewDist", "label": "Viewing Distance", "default": 3, "unit": "feet"},
+      {"id": "pricePerSqFt", "label": "Print Cost", "default": 5, "unit": "$/sq ft", "step": 0.5}
+    ],
+    "results": [
+      {"id": "maxSize300", "label": "Max Size at 300 DPI"},
+      {"id": "maxSize150", "label": "Max Size at 150 DPI"},
+      {"id": "recommendedDPI", "label": "Recommended DPI"},
+      {"id": "printCost", "label": "Estimated Print Cost"}
+    ],
+    "calcFn": "var w300 = imgWidth / 300;\n    var h300 = imgHeight / 300;\n    var w150 = imgWidth / 150;\n    var h150 = imgHeight / 150;\n    var recDPI = Math.max(72, Math.round(3438 / (viewDist * 12)));\n    var wRec = imgWidth / recDPI;\n    var hRec = imgHeight / recDPI;\n    var sqft = (wRec * hRec) / 144;\n    var cost = sqft * pricePerSqFt;\n    document.getElementById('maxSize300').textContent = fmt(w300, 1) + '\" × ' + fmt(h300, 1) + '\"';\n    document.getElementById('maxSize150').textContent = fmt(w150, 1) + '\" × ' + fmt(h150, 1) + '\"';\n    document.getElementById('recommendedDPI').textContent = recDPI + ' DPI (at ' + viewDist + 'ft → ' + fmt(wRec, 1) + '\" × ' + fmt(hRec, 1) + '\")';\n    document.getElementById('printCost').textContent = dollar(cost) + ' (' + fmt(sqft, 1) + ' sq ft)';",
+    "faq": [
+      {"question": "What resolution do I need for a poster?", "answer": "It depends on viewing distance. Close-up posters need 200-300 DPI. Wall posters viewed from 3+ feet away look sharp at 100-150 DPI. Billboards can be as low as 15-30 DPI."},
+      {"question": "What are standard poster sizes?", "answer": "Common sizes: 11×17\" (small), 18×24\" (medium), 24×36\" (large/movie poster), 27×40\" (theatrical). A2 (16.5×23.4\") and A1 (23.4×33.1\") are international standards."},
+      {"question": "How much does poster printing cost?", "answer": "Basic poster printing costs $2-$8 per square foot. Photo-quality glossy or canvas prints run $5-$15/sq ft. Rush orders and mounting add to the cost."}
+    ],
+    "formulas": [
+      "Max Print Size = Pixel Dimensions ÷ DPI",
+      "Recommended DPI ≈ 3438 ÷ (Viewing Distance in inches)",
+      "Print Cost = (Width × Height ÷ 144) × Price per Square Foot"
+    ],
+    "relatedTools": ["print-dpi-calculator", "bleed-margin-calculator", "photo-file-size-calculator"]
+  },
+  {
+    "slug": "business-card-cost-calculator",
+    "toolName": "Business Card Cost Calculator",
+    "category": "printing",
+    "tagline": "Calculate the cost of printing business cards with different options and quantities",
+    "keywords": "business card cost, printing cost, business card price, card printing calculator",
+    "inputs": [
+      {"id": "quantity", "label": "Quantity", "default": 500},
+      {"id": "basePrice", "label": "Base Price per 100", "default": 8, "unit": "$"},
+      {"id": "doubleSided", "label": "Printing Sides", "default": "1.5", "options": [{"value": "1", "label": "Single-sided"}, {"value": "1.5", "label": "Double-sided (+50%)"}]},
+      {"id": "finish", "label": "Finish", "default": "1", "options": [{"value": "1", "label": "Matte (standard)"}, {"value": "1.2", "label": "Glossy (+20%)"}, {"value": "1.5", "label": "Spot UV (+50%)"}, {"value": "2", "label": "Foil stamping (+100%)"}]}
+    ],
+    "results": [
+      {"id": "totalCost", "label": "Total Cost"},
+      {"id": "costPerCard", "label": "Cost per Card"},
+      {"id": "costPer100", "label": "Cost per 100"}
+    ],
+    "calcFn": "var sides = parseFloat(doubleSided);\n    var fin = parseFloat(finish);\n    var baseCost = (quantity / 100) * basePrice;\n    var total = baseCost * sides * fin;\n    var perCard = total / quantity;\n    var per100 = total / (quantity / 100);\n    document.getElementById('totalCost').textContent = dollar(total);\n    document.getElementById('costPerCard').textContent = '$' + perCard.toFixed(3);\n    document.getElementById('costPer100').textContent = dollar(per100);",
+    "faq": [
+      {"question": "How much do 500 business cards cost?", "answer": "Basic 500 business cards cost $15-$40 for standard matte. Premium options with foil, spot UV, or thick stock run $50-$150+. Online printers are usually cheapest."},
+      {"question": "What is the standard business card size?", "answer": "Standard US business cards are 3.5 × 2 inches (89 × 51 mm). European cards are slightly different at 85 × 55 mm (3.346 × 2.165 inches)."},
+      {"question": "Should I get matte or glossy business cards?", "answer": "Matte is easier to write on and has a professional feel. Glossy makes colors pop and is more durable. Matte is generally preferred for business settings."}
+    ],
+    "formulas": [
+      "Base Cost = (Quantity ÷ 100) × Base Price per 100",
+      "Total Cost = Base Cost × Sides Multiplier × Finish Multiplier",
+      "Cost per Card = Total Cost ÷ Quantity"
+    ],
+    "relatedTools": ["ink-cost-calculator", "paper-weight-calculator", "label-sheet-calculator"]
+  },
+  {
+    "slug": "label-sheet-calculator",
+    "toolName": "Label Sheet Calculator",
+    "category": "printing",
+    "tagline": "Calculate how many labels you need and the number of sheets to buy",
+    "keywords": "label calculator, label sheets, labels per sheet, Avery labels, label printing",
+    "inputs": [
+      {"id": "totalLabels", "label": "Total Labels Needed", "default": 150},
+      {"id": "labelsPerSheet", "label": "Labels per Sheet", "default": 30, "options": [{"value": "6", "label": "6 (3.33×4\")"}, {"value": "10", "label": "10 (2×4\")"}, {"value": "14", "label": "14 (1.33×4\")"}, {"value": "20", "label": "20 (1×4\")"}, {"value": "30", "label": "30 (1×2.625\")"}, {"value": "80", "label": "80 (0.5×1.75\")"}]},
+      {"id": "sheetPrice", "label": "Price per Sheet", "default": 0.15, "unit": "$", "step": 0.01},
+      {"id": "wastePct", "label": "Waste Allowance", "default": 10, "unit": "%"}
+    ],
+    "results": [
+      {"id": "sheetsNeeded", "label": "Sheets Needed"},
+      {"id": "totalLabelsOnSheets", "label": "Total Labels Available"},
+      {"id": "leftoverLabels", "label": "Leftover Labels"},
+      {"id": "totalCost", "label": "Total Cost"}
+    ],
+    "calcFn": "var lps = parseInt(labelsPerSheet);\n    var adjustedLabels = Math.ceil(totalLabels * (1 + wastePct / 100));\n    var sheets = Math.ceil(adjustedLabels / lps);\n    var totalAvailable = sheets * lps;\n    var leftover = totalAvailable - totalLabels;\n    var cost = sheets * sheetPrice;\n    document.getElementById('sheetsNeeded').textContent = fmt(sheets, 0) + ' sheets';\n    document.getElementById('totalLabelsOnSheets').textContent = fmt(totalAvailable, 0);\n    document.getElementById('leftoverLabels').textContent = fmt(leftover, 0);\n    document.getElementById('totalCost').textContent = dollar(cost);",
+    "faq": [
+      {"question": "How many labels are on a standard sheet?", "answer": "The most common Avery label layout is 30 labels per sheet (1\" × 2-5/8\", template 5160). Other popular sizes: 10/sheet (2×4\"), 14/sheet, and 20/sheet."},
+      {"question": "Why should I add a waste allowance?", "answer": "Printer jams, misalignment, and test prints waste labels. A 10% allowance is standard. For critical jobs or older printers, use 15-20%."},
+      {"question": "Can I print labels on any printer?", "answer": "Both inkjet and laser printers can print labels, but use the correct label type. Laser labels withstand heat; inkjet labels have absorbent coatings for ink. Using the wrong type causes jams or smearing."}
+    ],
+    "formulas": [
+      "Adjusted Labels = Total Needed × (1 + Waste % / 100)",
+      "Sheets Needed = ceil(Adjusted Labels ÷ Labels per Sheet)",
+      "Leftover = (Sheets × Labels per Sheet) - Total Needed"
+    ],
+    "relatedTools": ["business-card-cost-calculator", "ink-cost-calculator", "paper-weight-calculator"]
+  }
+]

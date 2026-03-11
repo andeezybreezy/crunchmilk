@@ -1,0 +1,422 @@
+[
+  {
+    "slug": "speaker-box-calculator",
+    "toolName": "Speaker Box Calculator",
+    "category": "audio",
+    "tagline": "Calculate the optimal sealed or ported speaker enclosure volume for any driver",
+    "keywords": "speaker box volume, enclosure calculator, subwoofer box, sealed box, ported box",
+    "inputs": [
+      {"id": "driverSize", "label": "Driver Size", "default": 12, "unit": "inches"},
+      {"id": "vas", "label": "Vas (driver compliance)", "default": 60, "unit": "liters"},
+      {"id": "qts", "label": "Qts (total Q)", "default": 0.45, "step": 0.01},
+      {"id": "boxType", "label": "Box Type", "default": "sealed", "options": [{"value":"sealed","label":"Sealed (tight bass)"},{"value":"ported","label":"Ported (louder bass)"}]}
+    ],
+    "results": [
+      {"id": "boxVolume", "label": "Box Volume"},
+      {"id": "boxDimensions", "label": "Suggested Dimensions"},
+      {"id": "portInfo", "label": "Port / F3 Info"},
+      {"id": "efficiency", "label": "Relative Efficiency"}
+    ],
+    "calcFn": "var vol, f3Info;\n    if (boxType === 'sealed') {\n      vol = vas * Math.pow(qts, 2.87) * 0.7;\n      var qtc = 0.707;\n      f3Info = 'F3 ≈ ' + fmt(42 * Math.pow(12 / driverSize, 0.8) / qtc, 0) + ' Hz (Butterworth alignment)';\n    } else {\n      vol = vas * 1.0;\n      var fb = 28 * Math.pow(12 / driverSize, 0.5);\n      var portDia = driverSize * 0.4;\n      var portLen = (23562 * portDia * portDia) / (vol * 1000 * fb * fb) - 0.825 * portDia;\n      f3Info = 'Tune: ' + fmt(fb, 0) + ' Hz | Port: ' + fmt(portDia, 1) + '\" dia × ' + fmt(Math.abs(portLen), 1) + '\" long';\n    }\n    var volCuFt = vol / 28.317;\n    var side = Math.pow(vol * 1000, 1/3) / 10;\n    var w = side * 1.0;\n    var h = side * 1.2;\n    var d = side * 0.8;\n    var eff = boxType === 'ported' ? '+3 dB vs sealed' : 'Reference';\n    document.getElementById('boxVolume').textContent = fmt(vol, 1) + ' L (' + fmt(volCuFt, 2) + ' cu ft)';\n    document.getElementById('boxDimensions').textContent = fmt(w * 2.54, 1) + '\" W × ' + fmt(h * 2.54, 1) + '\" H × ' + fmt(d * 2.54, 1) + '\" D (internal)';\n    document.getElementById('portInfo').textContent = f3Info;\n    document.getElementById('efficiency').textContent = eff;",
+    "faq": [
+      {"question": "What size box do I need for a 12-inch subwoofer?", "answer": "A sealed 12\" sub typically needs 1.0-1.75 cubic feet. A ported 12\" sub needs 1.5-3.0 cubic feet. Always check the manufacturer's Thiele-Small parameters for best results."},
+      {"question": "Should I build a sealed or ported box?", "answer": "Sealed boxes give tighter, more accurate bass and are simpler to build. Ported boxes are louder (about +3 dB) and go deeper but are larger and less forgiving of design errors."},
+      {"question": "What are Thiele-Small parameters?", "answer": "Thiele-Small (T/S) parameters describe a speaker driver's electromechanical properties. The key ones for box design are Vas (compliance volume), Qts (total Q factor), and Fs (resonant frequency)."}
+    ],
+    "formulas": [
+      "Sealed Volume ≈ Vas × Qts^2.87 × 0.7 (Butterworth alignment)",
+      "Ported Volume ≈ Vas × 1.0 (for EBS alignment)",
+      "Port Length = (23562 × D²) ÷ (V × Fb²) - 0.825 × D"
+    ],
+    "relatedTools": ["crossover-frequency-calculator", "decibel-calculator", "audio-file-size-calculator"]
+  },
+  {
+    "slug": "decibel-calculator",
+    "toolName": "Decibel Calculator",
+    "category": "audio",
+    "tagline": "Convert between decibels, watts, and voltages — add or compare sound levels",
+    "keywords": "decibel calculator, dB converter, sound level, power to dB, voltage to dB",
+    "inputs": [
+      {"id": "mode", "label": "Calculation Mode", "default": "add", "options": [{"value":"add","label":"Add dB levels"},{"value":"power","label":"Power (watts) to dB"},{"value":"voltage","label":"Voltage to dB"},{"value":"distance","label":"dB at distance"}]},
+      {"id": "val1", "label": "Value 1 (dB or watts or volts)", "default": 85},
+      {"id": "val2", "label": "Value 2 (dB or reference)", "default": 82},
+      {"id": "distance", "label": "Distance (meters, for distance mode)", "default": 1}
+    ],
+    "results": [
+      {"id": "result1", "label": "Result"},
+      {"id": "result2", "label": "Detail"},
+      {"id": "perception", "label": "Perception"}
+    ],
+    "calcFn": "var r1, r2, percept;\n    if (mode === 'add') {\n      var combined = 10 * Math.log10(Math.pow(10, val1/10) + Math.pow(10, val2/10));\n      r1 = fmt(combined, 1) + ' dB combined';\n      r2 = 'Difference: ' + fmt(Math.abs(val1 - val2), 1) + ' dB';\n      var diff = combined - Math.max(val1, val2);\n      percept = '+' + fmt(diff, 1) + ' dB over loudest source';\n    } else if (mode === 'power') {\n      var dbP = 10 * Math.log10(val1 / (val2 || 0.001));\n      r1 = fmt(dbP, 2) + ' dB';\n      r2 = fmt(val1, 3) + 'W vs ' + fmt(val2, 3) + 'W reference';\n      percept = dbP >= 10 ? 'Perceived as ~' + fmt(Math.pow(2, dbP/10), 1) + '× louder' : 'Moderate difference';\n    } else if (mode === 'voltage') {\n      var dbV = 20 * Math.log10(val1 / (val2 || 0.001));\n      r1 = fmt(dbV, 2) + ' dB';\n      r2 = fmt(val1, 3) + 'V vs ' + fmt(val2, 3) + 'V reference';\n      percept = 'Voltage ratio: ' + fmt(val1/val2, 2) + ':1';\n    } else {\n      var dbAtDist = val1 - 20 * Math.log10(distance / (val2 || 1));\n      r1 = fmt(dbAtDist, 1) + ' dB at ' + fmt(distance, 1) + 'm';\n      r2 = 'Source: ' + fmt(val1, 0) + ' dB at ' + fmt(val2, 1) + 'm';\n      percept = 'Drops ' + fmt(val1 - dbAtDist, 1) + ' dB over distance';\n    }\n    document.getElementById('result1').textContent = r1;\n    document.getElementById('result2').textContent = r2;\n    document.getElementById('perception').textContent = percept;",
+    "faq": [
+      {"question": "How do you add decibels together?", "answer": "You can't simply add dB values. Two sources at 80 dB don't make 160 dB — they make 83 dB. Use: combined = 10 × log₁₀(10^(dB1/10) + 10^(dB2/10))."},
+      {"question": "How much louder is 10 dB?", "answer": "A 10 dB increase is perceived as roughly twice as loud. A 3 dB increase doubles the acoustic power. A 1 dB change is the smallest difference most people can detect."},
+      {"question": "How does distance affect sound level?", "answer": "Sound drops 6 dB each time distance doubles (inverse square law in free field). A speaker at 90 dB/1m will be about 84 dB at 2m and 78 dB at 4m."}
+    ],
+    "formulas": [
+      "Adding: dB_total = 10 × log₁₀(10^(dB₁/10) + 10^(dB₂/10))",
+      "Power: dB = 10 × log₁₀(P₁ / P₂)",
+      "Voltage: dB = 20 × log₁₀(V₁ / V₂)",
+      "Distance: dB₂ = dB₁ - 20 × log₁₀(d₂ / d₁)"
+    ],
+    "relatedTools": ["speaker-box-calculator", "reverb-time-calculator", "crossover-frequency-calculator"]
+  },
+  {
+    "slug": "reverb-time-calculator",
+    "toolName": "Reverb Time (RT60) Calculator",
+    "category": "audio",
+    "tagline": "Calculate the reverberation time of a room based on volume and surface absorption",
+    "keywords": "reverb time, RT60 calculator, room acoustics, Sabine equation, reverberation",
+    "inputs": [
+      {"id": "roomLength", "label": "Room Length", "default": 20, "unit": "feet"},
+      {"id": "roomWidth", "label": "Room Width", "default": 15, "unit": "feet"},
+      {"id": "roomHeight", "label": "Room Height", "default": 9, "unit": "feet"},
+      {"id": "roomType", "label": "Room Treatment", "default": "0.25", "options": [{"value":"0.10","label":"Hard surfaces (concrete, tile)"},{"value":"0.25","label":"Typical room (mixed)"},{"value":"0.40","label":"Furnished room (carpet, drapes)"},{"value":"0.60","label":"Treated studio"},{"value":"0.80","label":"Heavily treated/anechoic"}]}
+    ],
+    "results": [
+      {"id": "rt60", "label": "RT60 (reverberation time)"},
+      {"id": "roomVolume", "label": "Room Volume"},
+      {"id": "totalAbsorption", "label": "Total Absorption"},
+      {"id": "ideal", "label": "Ideal RT60 for This Room"}
+    ],
+    "calcFn": "var vol = roomLength * roomWidth * roomHeight;\n    var avgAlpha = parseFloat(roomType);\n    var surfArea = 2 * (roomLength * roomWidth + roomLength * roomHeight + roomWidth * roomHeight);\n    var totalAbs = surfArea * avgAlpha;\n    var rt60 = 0.049 * vol / totalAbs;\n    var idealRT = 0.3 + 0.002 * Math.pow(vol, 0.5);\n    document.getElementById('rt60').textContent = fmt(rt60, 2) + ' seconds';\n    document.getElementById('roomVolume').textContent = fmt(vol, 0) + ' cu ft (' + fmt(vol * 0.0283, 0) + ' m³)';\n    document.getElementById('totalAbsorption').textContent = fmt(totalAbs, 0) + ' sabins';\n    document.getElementById('ideal').textContent = fmt(idealRT, 2) + 's (music studio) / ' + fmt(idealRT * 0.6, 2) + 's (speech)';",
+    "faq": [
+      {"question": "What is RT60?", "answer": "RT60 is the time it takes for sound to decay by 60 dB (become inaudible) after the source stops. A large cathedral might have RT60 of 5+ seconds; a recording studio aims for 0.3-0.5 seconds."},
+      {"question": "What RT60 is ideal for a home studio?", "answer": "For music recording: 0.3-0.5 seconds. For speech/podcasting: 0.2-0.4 seconds. For mixing/mastering: 0.3-0.6 seconds. Living rooms typically measure 0.4-0.8 seconds."},
+      {"question": "How do I reduce reverberation?", "answer": "Add absorption: acoustic panels, thick curtains, carpet, upholstered furniture, bookshelves. Each material has a specific absorption coefficient at different frequencies. Treat first reflection points first."}
+    ],
+    "formulas": [
+      "Sabine equation: RT60 = 0.049 × V / A (imperial)",
+      "V = Room Volume (cubic feet)",
+      "A = Total Absorption (sabins) = Surface Area × Average Absorption Coefficient",
+      "Ideal RT60 ≈ 0.3 + 0.002 × √Volume (for music)"
+    ],
+    "relatedTools": ["decibel-calculator", "speaker-box-calculator", "cable-length-calculator"]
+  },
+  {
+    "slug": "cable-length-calculator",
+    "toolName": "Audio Cable Length Calculator",
+    "category": "audio",
+    "tagline": "Calculate maximum cable run lengths and signal loss for audio installations",
+    "keywords": "audio cable length, signal loss, cable run, balanced cable, speaker wire gauge",
+    "inputs": [
+      {"id": "cableType", "label": "Cable Type", "default": "balanced", "options": [{"value":"balanced","label":"Balanced (XLR/TRS)"},{"value":"unbalanced","label":"Unbalanced (TS/RCA)"},{"value":"speaker","label":"Speaker Wire"},{"value":"digital","label":"Digital (S/PDIF)"}]},
+      {"id": "length", "label": "Cable Length", "default": 50, "unit": "feet"},
+      {"id": "gauge", "label": "Wire Gauge (AWG)", "default": "18", "options": [{"value":"12","label":"12 AWG"},{"value":"14","label":"14 AWG"},{"value":"16","label":"16 AWG"},{"value":"18","label":"18 AWG"},{"value":"22","label":"22 AWG"},{"value":"24","label":"24 AWG"}]},
+      {"id": "impedance", "label": "Speaker Impedance", "default": 8, "unit": "ohms"}
+    ],
+    "results": [
+      {"id": "signalLoss", "label": "Signal Loss"},
+      {"id": "maxRecommended", "label": "Max Recommended Length"},
+      {"id": "resistance", "label": "Total Wire Resistance"},
+      {"id": "powerLoss", "label": "Power Loss (speaker wire)"}
+    ],
+    "calcFn": "var awg = parseInt(gauge);\n    var resistancePerFt = {12: 0.00162, 14: 0.00258, 16: 0.00409, 18: 0.00651, 22: 0.0165, 24: 0.0262};\n    var rPerFt = resistancePerFt[awg] || 0.00651;\n    var totalR = rPerFt * length * 2;\n    var maxLen, loss, pwrLoss;\n    if (cableType === 'balanced') {\n      maxLen = 1000;\n      loss = length * 0.01;\n      pwrLoss = 'N/A (line level)';\n    } else if (cableType === 'unbalanced') {\n      maxLen = 25;\n      loss = length * 0.05;\n      pwrLoss = 'N/A (line level)';\n    } else if (cableType === 'speaker') {\n      maxLen = impedance / (rPerFt * 2 * 0.05);\n      loss = (totalR / (totalR + impedance)) * 100;\n      var dampingFactor = impedance / totalR;\n      pwrLoss = fmt(loss, 2) + '% (Damping factor: ' + fmt(dampingFactor, 0) + ')';\n    } else {\n      maxLen = 30;\n      loss = length > 30 ? 'Risk of data errors' : 0;\n      pwrLoss = 'N/A (digital)';\n    }\n    document.getElementById('signalLoss').textContent = typeof loss === 'string' ? loss : fmt(loss, 2) + ' dB';\n    document.getElementById('maxRecommended').textContent = fmt(maxLen, 0) + ' feet';\n    document.getElementById('resistance').textContent = fmt(totalR, 3) + ' ohms';\n    document.getElementById('powerLoss').textContent = pwrLoss;",
+    "faq": [
+      {"question": "How long can a balanced audio cable be?", "answer": "Balanced cables (XLR, TRS) can run up to 1000 feet with minimal signal loss thanks to common-mode noise rejection. Most professional installations use runs up to 300 feet without issues."},
+      {"question": "What gauge speaker wire do I need?", "answer": "For runs under 50 feet: 16 AWG is fine for most speakers. 50-100 feet: use 14 AWG. Over 100 feet: use 12 AWG. Higher-powered systems and lower-impedance speakers need thicker wire."},
+      {"question": "Why are unbalanced cables limited to 25 feet?", "answer": "Unbalanced cables (TS, RCA) pick up electromagnetic interference that increases with length. Beyond 25 feet, noise becomes noticeable. Use balanced cables (XLR) for longer runs."}
+    ],
+    "formulas": [
+      "Wire Resistance = Resistance per Foot × Length × 2 (round trip)",
+      "Speaker Power Loss % = Wire Resistance ÷ (Wire Resistance + Speaker Impedance) × 100",
+      "Damping Factor = Speaker Impedance ÷ Wire Resistance",
+      "Max Speaker Wire Length ≈ Impedance ÷ (Resistance/ft × 2 × 0.05)"
+    ],
+    "relatedTools": ["decibel-calculator", "speaker-box-calculator", "crossover-frequency-calculator"]
+  },
+  {
+    "slug": "crossover-frequency-calculator",
+    "toolName": "Crossover Frequency Calculator",
+    "category": "audio",
+    "tagline": "Calculate crossover filter component values for passive speaker crossovers",
+    "keywords": "crossover frequency, speaker crossover, low pass filter, high pass filter, crossover calculator",
+    "inputs": [
+      {"id": "crossoverFreq", "label": "Crossover Frequency", "default": 3000, "unit": "Hz"},
+      {"id": "impedance", "label": "Speaker Impedance", "default": 8, "unit": "ohms"},
+      {"id": "order", "label": "Filter Order", "default": "2", "options": [{"value":"1","label":"1st order (6 dB/oct)"},{"value":"2","label":"2nd order (12 dB/oct)"},{"value":"3","label":"3rd order (18 dB/oct)"}]}
+    ],
+    "results": [
+      {"id": "lpCap", "label": "Low-Pass Capacitor"},
+      {"id": "lpInd", "label": "Low-Pass Inductor"},
+      {"id": "hpCap", "label": "High-Pass Capacitor"},
+      {"id": "hpInd", "label": "High-Pass Inductor"}
+    ],
+    "calcFn": "var f = crossoverFreq;\n    var z = impedance;\n    var ord = parseInt(order);\n    var pi = Math.PI;\n    var lpC, lpL, hpC, hpL;\n    if (ord === 1) {\n      lpC = 1 / (2 * pi * f * z);\n      lpL = z / (2 * pi * f);\n      hpC = lpC;\n      hpL = lpL;\n    } else if (ord === 2) {\n      lpC = Math.sqrt(2) / (4 * pi * f * z);\n      lpL = (z * Math.sqrt(2)) / (2 * pi * f);\n      hpC = 1 / (Math.sqrt(2) * pi * f * z);\n      hpL = z / (Math.sqrt(2) * pi * f);\n    } else {\n      lpC = 2 / (3 * 2 * pi * f * z);\n      lpL = 3 * z / (4 * 2 * pi * f);\n      hpC = 1 / (3 * 2 * pi * f * z * 0.5);\n      hpL = z / (2 * pi * f * 0.75);\n    }\n    var uf = function(c) { var v = c * 1e6; return v >= 1 ? fmt(v, 1) + ' µF' : fmt(v * 1000, 1) + ' nF'; };\n    var mh = function(l) { var v = l * 1000; return fmt(v, 2) + ' mH'; };\n    document.getElementById('lpCap').textContent = uf(lpC);\n    document.getElementById('lpInd').textContent = mh(lpL);\n    document.getElementById('hpCap').textContent = uf(hpC);\n    document.getElementById('hpInd').textContent = mh(hpL);",
+    "faq": [
+      {"question": "What crossover frequency should I use?", "answer": "Common choices: Sub/mid crossover at 80-200 Hz. Mid/tweeter crossover at 2,000-4,000 Hz. Always cross over above the tweeter's resonant frequency (usually 800-1500 Hz)."},
+      {"question": "What order crossover is best?", "answer": "1st order: simplest, best phase response, gentle slope. 2nd order (Butterworth): most common, good balance. 3rd order: steeper rolloff protects tweeters, but more components and phase shift."},
+      {"question": "Do I need a passive or active crossover?", "answer": "Passive crossovers are simpler (no power needed) and go between the amp and speakers. Active crossovers go before the amps, giving better control but requiring multiple amplifiers."}
+    ],
+    "formulas": [
+      "1st order LP: C = 1/(2πfZ), L = Z/(2πf)",
+      "2nd order LP (Butterworth): C = √2/(4πfZ), L = Z√2/(2πf)",
+      "High-pass is the inverse: swap C and L roles",
+      "Higher orders add additional filter stages"
+    ],
+    "relatedTools": ["speaker-box-calculator", "decibel-calculator", "cable-length-calculator"]
+  },
+  {
+    "slug": "bpm-to-ms-calculator",
+    "toolName": "BPM to Milliseconds Calculator",
+    "category": "audio",
+    "tagline": "Convert BPM to delay times, note values, and frequency for music production",
+    "keywords": "bpm to ms, delay time calculator, tempo calculator, note duration, music production",
+    "inputs": [
+      {"id": "bpm", "label": "Tempo (BPM)", "default": 120},
+      {"id": "noteType", "label": "Note Subdivision", "default": "1", "options": [{"value":"4","label":"Whole note"},{"value":"2","label":"Half note"},{"value":"1","label":"Quarter note"},{"value":"0.5","label":"Eighth note"},{"value":"0.25","label":"Sixteenth note"},{"value":"0.125","label":"Thirty-second note"}]},
+      {"id": "modifier", "label": "Modifier", "default": "1", "options": [{"value":"1","label":"Straight"},{"value":"1.5","label":"Dotted"},{"value":"0.6667","label":"Triplet"}]}
+    ],
+    "results": [
+      {"id": "msResult", "label": "Duration (ms)"},
+      {"id": "secondsResult", "label": "Duration (seconds)"},
+      {"id": "freqResult", "label": "Frequency (Hz)"},
+      {"id": "allNotes", "label": "Common Delay Times"}
+    ],
+    "calcFn": "var beatMs = 60000 / bpm;\n    var noteVal = parseFloat(noteType);\n    var mod = parseFloat(modifier);\n    var ms = beatMs * noteVal * mod;\n    var sec = ms / 1000;\n    var freq = 1000 / ms;\n    var quarter = beatMs;\n    var eighth = quarter / 2;\n    var sixteenth = quarter / 4;\n    document.getElementById('msResult').textContent = fmt(ms, 1) + ' ms';\n    document.getElementById('secondsResult').textContent = fmt(sec, 3) + ' s';\n    document.getElementById('freqResult').textContent = fmt(freq, 2) + ' Hz';\n    document.getElementById('allNotes').textContent = '1/4: ' + fmt(quarter, 0) + 'ms | 1/8: ' + fmt(eighth, 0) + 'ms | 1/16: ' + fmt(sixteenth, 0) + 'ms | 1/8d: ' + fmt(eighth * 1.5, 0) + 'ms | 1/8t: ' + fmt(eighth * 0.667, 0) + 'ms';",
+    "faq": [
+      {"question": "Why convert BPM to milliseconds?", "answer": "Delay effects, reverb pre-delay, and LFO rates sound best when synced to the song tempo. Setting a delay to the exact ms value of a note division keeps it rhythmically in time."},
+      {"question": "What is a dotted note?", "answer": "A dotted note is 1.5× the duration of the regular note. A dotted eighth note at 120 BPM = 375ms (vs 250ms for a straight eighth). Dotted delays create a bouncing rhythmic feel."},
+      {"question": "What is a triplet delay?", "answer": "A triplet divides a note into 3 equal parts instead of 2. A triplet eighth note at 120 BPM = 167ms (vs 250ms for straight). Triplet delays create a shuffle or swing feel."}
+    ],
+    "formulas": [
+      "Quarter note (ms) = 60,000 ÷ BPM",
+      "Other notes = Quarter × Note Value × Modifier",
+      "Dotted = Duration × 1.5",
+      "Triplet = Duration × 2/3",
+      "Frequency (Hz) = 1000 ÷ Duration (ms)"
+    ],
+    "relatedTools": ["audio-file-size-calculator", "decibel-calculator", "reverb-time-calculator"]
+  },
+  {
+    "slug": "audio-file-size-calculator",
+    "toolName": "Audio File Size Calculator",
+    "category": "audio",
+    "tagline": "Calculate audio file sizes for WAV, FLAC, MP3, and other formats",
+    "keywords": "audio file size, wav size, mp3 size, audio bitrate, recording size",
+    "inputs": [
+      {"id": "duration", "label": "Duration", "default": 180, "unit": "seconds"},
+      {"id": "sampleRate", "label": "Sample Rate", "default": "44100", "options": [{"value":"22050","label":"22.05 kHz"},{"value":"44100","label":"44.1 kHz (CD)"},{"value":"48000","label":"48 kHz (Video)"},{"value":"96000","label":"96 kHz (Hi-Res)"},{"value":"192000","label":"192 kHz (Studio)"}]},
+      {"id": "bitDepth", "label": "Bit Depth", "default": "16", "options": [{"value":"16","label":"16-bit (CD)"},{"value":"24","label":"24-bit (Studio)"},{"value":"32","label":"32-bit float"}]},
+      {"id": "channels", "label": "Channels", "default": "2", "options": [{"value":"1","label":"Mono (1 ch)"},{"value":"2","label":"Stereo (2 ch)"},{"value":"6","label":"5.1 Surround (6 ch)"}]}
+    ],
+    "results": [
+      {"id": "wavSize", "label": "WAV (uncompressed)"},
+      {"id": "flacSize", "label": "FLAC (lossless)"},
+      {"id": "mp3Size", "label": "MP3 320kbps"},
+      {"id": "bitrate", "label": "Uncompressed Bitrate"}
+    ],
+    "calcFn": "var sr = parseInt(sampleRate);\n    var bd = parseInt(bitDepth);\n    var ch = parseInt(channels);\n    var bytesPerSec = sr * (bd / 8) * ch;\n    var wavBytes = bytesPerSec * duration;\n    var wavMB = wavBytes / (1024 * 1024);\n    var flacMB = wavMB * 0.55;\n    var mp3MB = (320 * 1000 / 8) * duration / (1024 * 1024) * (ch > 1 ? 1 : 0.5);\n    var bitrateKbps = bytesPerSec * 8 / 1000;\n    var mins = Math.floor(duration / 60);\n    var secs = duration % 60;\n    document.getElementById('wavSize').textContent = fmt(wavMB, 1) + ' MB';\n    document.getElementById('flacSize').textContent = fmt(flacMB, 1) + ' MB (~55% of WAV)';\n    document.getElementById('mp3Size').textContent = fmt(mp3MB, 1) + ' MB';\n    document.getElementById('bitrate').textContent = fmt(bitrateKbps, 0) + ' kbps (' + fmt(bitrateKbps / 1000, 1) + ' Mbps)';",
+    "faq": [
+      {"question": "How big is a 3-minute WAV file?", "answer": "A 3-minute stereo 44.1kHz/16-bit WAV file is about 30 MB. At 48kHz/24-bit (studio quality), it's about 50 MB. Higher sample rates and bit depths increase size proportionally."},
+      {"question": "How much smaller is FLAC than WAV?", "answer": "FLAC typically compresses to 50-60% of the WAV size with zero quality loss. A 30 MB WAV becomes about 16-18 MB FLAC. Compression varies with audio content."},
+      {"question": "What sample rate and bit depth should I record at?", "answer": "For most recording: 48kHz/24-bit is the professional standard. 44.1kHz/16-bit is CD quality. 96kHz is useful for recordings that will be heavily processed or pitch-shifted."}
+    ],
+    "formulas": [
+      "WAV Size = Sample Rate × (Bit Depth ÷ 8) × Channels × Duration",
+      "FLAC ≈ WAV × 0.55 (typical compression)",
+      "MP3 Size = Bitrate × Duration ÷ 8",
+      "Uncompressed Bitrate = Sample Rate × Bit Depth × Channels"
+    ],
+    "relatedTools": ["bpm-to-ms-calculator", "decibel-calculator", "reverb-time-calculator"]
+  },
+  {
+    "slug": "crypto-profit-calculator",
+    "toolName": "Crypto Profit Calculator",
+    "category": "crypto",
+    "tagline": "Calculate your cryptocurrency profit or loss including fees",
+    "keywords": "crypto profit, crypto gain loss, bitcoin profit, crypto ROI, investment return",
+    "inputs": [
+      {"id": "buyPrice", "label": "Buy Price", "default": 30000, "unit": "$"},
+      {"id": "sellPrice", "label": "Current/Sell Price", "default": 45000, "unit": "$"},
+      {"id": "amount", "label": "Amount Invested", "default": 1000, "unit": "$"},
+      {"id": "buyFee", "label": "Buy Fee", "default": 0.5, "unit": "%"},
+      {"id": "sellFee", "label": "Sell Fee", "default": 0.5, "unit": "%"}
+    ],
+    "results": [
+      {"id": "coinsOwned", "label": "Coins/Tokens Owned"},
+      {"id": "currentValue", "label": "Current Value"},
+      {"id": "profitLoss", "label": "Profit / Loss"},
+      {"id": "roi", "label": "Return on Investment"}
+    ],
+    "calcFn": "var afterBuyFee = amount * (1 - buyFee / 100);\n    var coins = afterBuyFee / buyPrice;\n    var grossValue = coins * sellPrice;\n    var afterSellFee = grossValue * (1 - sellFee / 100);\n    var profit = afterSellFee - amount;\n    var roi = (profit / amount) * 100;\n    document.getElementById('coinsOwned').textContent = coins.toFixed(8);\n    document.getElementById('currentValue').textContent = dollar(afterSellFee);\n    document.getElementById('profitLoss').textContent = (profit >= 0 ? '+' : '') + dollar(profit);\n    document.getElementById('roi').textContent = (roi >= 0 ? '+' : '') + fmt(roi, 2) + '%';",
+    "faq": [
+      {"question": "How do I calculate crypto profit?", "answer": "Profit = (Sell Price × Coins Owned × (1 - Sell Fee)) - Original Investment. Always account for exchange fees on both buying and selling, which typically range from 0.1% to 1.5%."},
+      {"question": "Do I have to pay taxes on crypto profits?", "answer": "In most countries, yes. Crypto gains are typically taxed as capital gains. Short-term gains (held less than 1 year) are taxed at higher rates than long-term gains in the US."},
+      {"question": "What is ROI in crypto?", "answer": "Return on Investment (ROI) = (Profit ÷ Investment) × 100%. An ROI of 50% means you earned $500 on a $1,000 investment. Crypto ROI can be highly volatile."}
+    ],
+    "formulas": [
+      "Coins Owned = (Investment × (1 - Buy Fee%)) ÷ Buy Price",
+      "Current Value = Coins × Sell Price × (1 - Sell Fee%)",
+      "Profit = Current Value - Original Investment",
+      "ROI = (Profit ÷ Investment) × 100%"
+    ],
+    "relatedTools": ["crypto-tax-calculator", "dollar-cost-average-calculator", "mining-profitability-calculator"]
+  },
+  {
+    "slug": "mining-profitability-calculator",
+    "toolName": "Mining Profitability Calculator",
+    "category": "crypto",
+    "tagline": "Calculate if your crypto mining setup is profitable after electricity and hardware costs",
+    "keywords": "mining profitability, crypto mining calculator, bitcoin mining, hashrate profit",
+    "inputs": [
+      {"id": "hashrate", "label": "Hashrate", "default": 100, "unit": "TH/s"},
+      {"id": "power", "label": "Power Consumption", "default": 3000, "unit": "watts"},
+      {"id": "electricRate", "label": "Electricity Rate", "default": 0.10, "unit": "$/kWh", "step": 0.01},
+      {"id": "coinPerDay", "label": "Coins Earned per TH/day", "default": 0.0000001, "step": 0.0000001},
+      {"id": "coinPrice", "label": "Coin Price", "default": 60000, "unit": "$"},
+      {"id": "hardwareCost", "label": "Hardware Cost", "default": 5000, "unit": "$"}
+    ],
+    "results": [
+      {"id": "dailyRevenue", "label": "Daily Revenue"},
+      {"id": "dailyElectricity", "label": "Daily Electricity Cost"},
+      {"id": "dailyProfit", "label": "Daily Profit"},
+      {"id": "monthlyProfit", "label": "Monthly Profit"},
+      {"id": "breakeven", "label": "Breakeven Time"}
+    ],
+    "calcFn": "var dailyCoins = hashrate * coinPerDay;\n    var revenue = dailyCoins * coinPrice;\n    var dailyKWH = (power / 1000) * 24;\n    var dailyElec = dailyKWH * electricRate;\n    var dailyProf = revenue - dailyElec;\n    var monthlyProf = dailyProf * 30;\n    var breakDays = dailyProf > 0 ? hardwareCost / dailyProf : Infinity;\n    var breakStr = breakDays === Infinity ? 'Never (unprofitable)' : fmt(breakDays, 0) + ' days (' + fmt(breakDays / 30, 1) + ' months)';\n    document.getElementById('dailyRevenue').textContent = dollar(revenue);\n    document.getElementById('dailyElectricity').textContent = dollar(dailyElec);\n    document.getElementById('dailyProfit').textContent = (dailyProf >= 0 ? '+' : '') + dollar(dailyProf);\n    document.getElementById('monthlyProfit').textContent = (monthlyProf >= 0 ? '+' : '') + dollar(monthlyProf);\n    document.getElementById('breakeven').textContent = breakStr;",
+    "faq": [
+      {"question": "Is crypto mining still profitable?", "answer": "It depends on electricity costs, hardware efficiency, and coin price. At $0.05/kWh or less, mining can be profitable. Above $0.10/kWh, only the most efficient machines profit. Always run the numbers."},
+      {"question": "What affects mining profitability most?", "answer": "Electricity cost is the biggest factor, followed by hardware efficiency (hashrate per watt), network difficulty, and coin price. A 50% drop in electricity cost can turn a loss into profit."},
+      {"question": "How long does it take for a mining rig to pay for itself?", "answer": "Typical breakeven is 12-24 months under favorable conditions. If breakeven exceeds 18 months, the risk increases as difficulty adjustments and price changes could eliminate profits."}
+    ],
+    "formulas": [
+      "Daily Revenue = Hashrate × Coins per TH/day × Coin Price",
+      "Daily Electricity = (Watts ÷ 1000) × 24 hours × Rate per kWh",
+      "Daily Profit = Revenue - Electricity Cost",
+      "Breakeven = Hardware Cost ÷ Daily Profit"
+    ],
+    "relatedTools": ["crypto-profit-calculator", "gas-fee-calculator", "crypto-tax-calculator"]
+  },
+  {
+    "slug": "defi-yield-calculator",
+    "toolName": "DeFi Yield Calculator",
+    "category": "crypto",
+    "tagline": "Calculate DeFi staking and liquidity pool returns with compounding",
+    "keywords": "defi yield, APY calculator, staking returns, liquidity pool, yield farming",
+    "inputs": [
+      {"id": "principal", "label": "Amount Staked", "default": 10000, "unit": "$"},
+      {"id": "apy", "label": "APY (Annual Yield)", "default": 12, "unit": "%"},
+      {"id": "compoundFreq", "label": "Compounding", "default": "365", "options": [{"value":"1","label":"Yearly"},{"value":"12","label":"Monthly"},{"value":"52","label":"Weekly"},{"value":"365","label":"Daily"}]},
+      {"id": "duration", "label": "Duration", "default": 12, "unit": "months"},
+      {"id": "impLoss", "label": "Impermanent Loss Risk", "default": 0, "unit": "%"}
+    ],
+    "results": [
+      {"id": "finalValue", "label": "Final Value"},
+      {"id": "totalEarnings", "label": "Total Earnings"},
+      {"id": "effectiveAPY", "label": "Effective APY"},
+      {"id": "afterIL", "label": "After Impermanent Loss"}
+    ],
+    "calcFn": "var n = parseInt(compoundFreq);\n    var years = duration / 12;\n    var rate = apy / 100;\n    var finalVal = principal * Math.pow(1 + rate / n, n * years);\n    var earnings = finalVal - principal;\n    var effectiveRate = (Math.pow(finalVal / principal, 1 / years) - 1) * 100;\n    var ilLoss = finalVal * (impLoss / 100);\n    var afterILVal = finalVal - ilLoss;\n    document.getElementById('finalValue').textContent = dollar(finalVal);\n    document.getElementById('totalEarnings').textContent = dollar(earnings);\n    document.getElementById('effectiveAPY').textContent = fmt(effectiveRate, 2) + '%';\n    document.getElementById('afterIL').textContent = impLoss > 0 ? dollar(afterILVal) + ' (-' + dollar(ilLoss) + ' IL)' : 'No IL risk (single-sided staking)';",
+    "faq": [
+      {"question": "What is APY vs APR in DeFi?", "answer": "APR is the simple annual rate without compounding. APY includes the effect of compounding. A 12% APR compounded daily gives about 12.75% APY. Always compare APY to APY."},
+      {"question": "What is impermanent loss?", "answer": "Impermanent loss occurs in liquidity pools when one token's price changes relative to the other. A 50% price change in one token causes about 5.7% impermanent loss. It's 'impermanent' because it reverses if prices return to original levels."},
+      {"question": "Are high DeFi yields sustainable?", "answer": "Extremely high APYs (100%+) are usually temporary and decrease as more capital enters the pool. Sustainable yields are typically 3-15% for stablecoins and 10-30% for volatile pairs."}
+    ],
+    "formulas": [
+      "Final Value = Principal × (1 + APY/n)^(n × years)",
+      "n = compounding frequency per year",
+      "Effective APY = ((Final/Principal)^(1/years) - 1) × 100",
+      "Impermanent Loss ≈ 2√(price ratio) / (1 + price ratio) - 1"
+    ],
+    "relatedTools": ["crypto-profit-calculator", "dollar-cost-average-calculator", "crypto-tax-calculator"]
+  },
+  {
+    "slug": "crypto-tax-calculator",
+    "toolName": "Crypto Tax Calculator",
+    "category": "crypto",
+    "tagline": "Estimate capital gains tax on cryptocurrency profits (US tax rates)",
+    "keywords": "crypto tax, capital gains tax, bitcoin tax, crypto tax rate, tax calculator",
+    "inputs": [
+      {"id": "purchasePrice", "label": "Total Purchase Price", "default": 5000, "unit": "$"},
+      {"id": "salePrice", "label": "Total Sale Price", "default": 12000, "unit": "$"},
+      {"id": "holdingPeriod", "label": "Holding Period", "default": "long", "options": [{"value":"short","label":"Short-term (< 1 year)"},{"value":"long","label":"Long-term (≥ 1 year)"}]},
+      {"id": "taxBracket", "label": "Income Tax Bracket", "default": "24", "options": [{"value":"10","label":"10% bracket"},{"value":"12","label":"12% bracket"},{"value":"22","label":"22% bracket"},{"value":"24","label":"24% bracket"},{"value":"32","label":"32% bracket"},{"value":"35","label":"35% bracket"},{"value":"37","label":"37% bracket"}]}
+    ],
+    "results": [
+      {"id": "capitalGain", "label": "Capital Gain"},
+      {"id": "taxRate", "label": "Applicable Tax Rate"},
+      {"id": "taxOwed", "label": "Estimated Tax"},
+      {"id": "netProfit", "label": "Net Profit After Tax"}
+    ],
+    "calcFn": "var gain = salePrice - purchasePrice;\n    var rate;\n    if (holdingPeriod === 'short') {\n      rate = parseInt(taxBracket);\n    } else {\n      var bracket = parseInt(taxBracket);\n      if (bracket <= 12) rate = 0;\n      else if (bracket <= 35) rate = 15;\n      else rate = 20;\n    }\n    var tax = Math.max(0, gain * rate / 100);\n    var netProfit = gain - tax;\n    document.getElementById('capitalGain').textContent = (gain >= 0 ? '+' : '') + dollar(gain);\n    document.getElementById('taxRate').textContent = rate + '% (' + holdingPeriod + '-term)';\n    document.getElementById('taxOwed').textContent = dollar(tax);\n    document.getElementById('netProfit').textContent = dollar(netProfit);",
+    "faq": [
+      {"question": "How is cryptocurrency taxed in the US?", "answer": "The IRS treats crypto as property. Selling, trading, or spending crypto triggers capital gains tax. Short-term gains (held < 1 year) are taxed as ordinary income. Long-term gains get preferential rates of 0%, 15%, or 20%."},
+      {"question": "Do I owe tax on crypto I haven't sold?", "answer": "No. Unrealized gains (crypto you still hold) are not taxable. Tax is only triggered when you sell, trade crypto-to-crypto, or spend crypto on goods/services."},
+      {"question": "Can I offset crypto losses against gains?", "answer": "Yes. Crypto losses can offset crypto gains dollar-for-dollar. Excess losses can offset up to $3,000 of ordinary income per year, with remaining losses carried forward."}
+    ],
+    "formulas": [
+      "Capital Gain = Sale Price - Purchase Price",
+      "Short-term Tax = Gain × Ordinary Income Tax Rate",
+      "Long-term Tax = Gain × (0%, 15%, or 20% depending on bracket)",
+      "Net Profit = Capital Gain - Tax Owed"
+    ],
+    "relatedTools": ["crypto-profit-calculator", "defi-yield-calculator", "dollar-cost-average-calculator"]
+  },
+  {
+    "slug": "dollar-cost-average-calculator",
+    "toolName": "Dollar Cost Average Calculator",
+    "category": "crypto",
+    "tagline": "See how dollar-cost averaging performs vs lump-sum investing in volatile assets",
+    "keywords": "dollar cost averaging, DCA calculator, recurring investment, crypto DCA",
+    "inputs": [
+      {"id": "monthlyAmount", "label": "Monthly Investment", "default": 200, "unit": "$"},
+      {"id": "months", "label": "Number of Months", "default": 12},
+      {"id": "startPrice", "label": "Starting Price", "default": 40000, "unit": "$"},
+      {"id": "endPrice", "label": "Ending Price", "default": 55000, "unit": "$"},
+      {"id": "volatility", "label": "Price Volatility", "default": "medium", "options": [{"value":"low","label":"Low (±10%)"},{"value":"medium","label":"Medium (±25%)"},{"value":"high","label":"High (±50%)"}]}
+    ],
+    "results": [
+      {"id": "totalInvested", "label": "Total Invested"},
+      {"id": "avgPrice", "label": "Average Purchase Price (DCA)"},
+      {"id": "dcaValue", "label": "DCA Final Value"},
+      {"id": "lumpValue", "label": "Lump Sum Final Value"},
+      {"id": "dcaReturn", "label": "DCA Return"}
+    ],
+    "calcFn": "var totalInv = monthlyAmount * months;\n    var volFactor = volatility === 'low' ? 0.1 : volatility === 'medium' ? 0.25 : 0.5;\n    var totalCoins = 0;\n    var midPrice = (startPrice + endPrice) / 2;\n    for (var i = 0; i < months; i++) {\n      var progress = i / (months - 1 || 1);\n      var price = startPrice + (endPrice - startPrice) * progress;\n      var wobble = Math.sin(progress * Math.PI * 4) * volFactor * midPrice;\n      var monthPrice = Math.max(price + wobble, startPrice * 0.1);\n      totalCoins += monthlyAmount / monthPrice;\n    }\n    var avgPrice = totalInv / totalCoins;\n    var dcaVal = totalCoins * endPrice;\n    var lumpCoins = totalInv / startPrice;\n    var lumpVal = lumpCoins * endPrice;\n    var dcaReturn = ((dcaVal - totalInv) / totalInv) * 100;\n    document.getElementById('totalInvested').textContent = dollar(totalInv);\n    document.getElementById('avgPrice').textContent = dollar(avgPrice);\n    document.getElementById('dcaValue').textContent = dollar(dcaVal);\n    document.getElementById('lumpValue').textContent = dollar(lumpVal);\n    document.getElementById('dcaReturn').textContent = (dcaReturn >= 0 ? '+' : '') + fmt(dcaReturn, 1) + '%';",
+    "faq": [
+      {"question": "What is dollar-cost averaging (DCA)?", "answer": "DCA means investing a fixed amount at regular intervals regardless of price. You buy more when prices are low and less when high, which can lower your average purchase price in volatile markets."},
+      {"question": "Is DCA better than lump-sum investing?", "answer": "Historically, lump-sum beats DCA about 2/3 of the time in rising markets. However, DCA reduces risk of bad timing and is psychologically easier. In volatile or declining markets, DCA often wins."},
+      {"question": "How often should I DCA?", "answer": "Weekly or monthly are most common. More frequent DCA (weekly) provides slightly better averaging but the difference is small. Choose whatever schedule you can stick to consistently."}
+    ],
+    "formulas": [
+      "Total Invested = Monthly Amount × Number of Months",
+      "Average Price = Total Invested ÷ Total Coins Purchased",
+      "DCA Value = Total Coins × End Price",
+      "DCA Return = (Final Value - Total Invested) ÷ Total Invested × 100%"
+    ],
+    "relatedTools": ["crypto-profit-calculator", "crypto-tax-calculator", "defi-yield-calculator"]
+  },
+  {
+    "slug": "gas-fee-calculator",
+    "toolName": "Gas Fee Calculator",
+    "category": "crypto",
+    "tagline": "Estimate Ethereum gas fees for transactions, swaps, and NFT mints",
+    "keywords": "gas fee, ethereum gas, gwei calculator, transaction fee, ETH gas cost",
+    "inputs": [
+      {"id": "gasPrice", "label": "Gas Price", "default": 30, "unit": "Gwei"},
+      {"id": "gasLimit", "label": "Gas Limit", "default": "21000", "options": [{"value":"21000","label":"Simple Transfer (21,000)"},{"value":"65000","label":"ERC-20 Transfer (65,000)"},{"value":"150000","label":"Uniswap Swap (150,000)"},{"value":"250000","label":"NFT Mint (250,000)"},{"value":"500000","label":"Complex DeFi (500,000)"}]},
+      {"id": "ethPrice", "label": "ETH Price", "default": 3000, "unit": "$"},
+      {"id": "priorityFee", "label": "Priority Fee (tip)", "default": 2, "unit": "Gwei"}
+    ],
+    "results": [
+      {"id": "totalGwei", "label": "Total Gas Cost (Gwei)"},
+      {"id": "ethCost", "label": "Cost in ETH"},
+      {"id": "usdCost", "label": "Cost in USD"},
+      {"id": "comparison", "label": "Cost Breakdown"}
+    ],
+    "calcFn": "var limit = parseInt(gasLimit);\n    var totalGwei = (gasPrice + priorityFee) * limit;\n    var ethCost = totalGwei / 1e9;\n    var usdCost = ethCost * ethPrice;\n    var baseFeeUSD = (gasPrice * limit / 1e9) * ethPrice;\n    var tipUSD = (priorityFee * limit / 1e9) * ethPrice;\n    document.getElementById('totalGwei').textContent = fmt(totalGwei, 0) + ' Gwei';\n    document.getElementById('ethCost').textContent = ethCost.toFixed(6) + ' ETH';\n    document.getElementById('usdCost').textContent = dollar(usdCost);\n    document.getElementById('comparison').textContent = 'Base: ' + dollar(baseFeeUSD) + ' + Tip: ' + dollar(tipUSD);",
+    "faq": [
+      {"question": "What are Ethereum gas fees?", "answer": "Gas fees are payments to validators for processing transactions on Ethereum. Fees = Gas Used × Gas Price (in Gwei). 1 Gwei = 0.000000001 ETH. Fees vary based on network congestion."},
+      {"question": "Why are gas fees so high sometimes?", "answer": "Gas fees spike during high network demand — NFT drops, DeFi events, or market volatility. When many users compete for block space, gas prices can exceed 200+ Gwei vs the typical 10-30 Gwei."},
+      {"question": "How can I reduce gas fees?", "answer": "Transact during off-peak hours (weekends, early AM UTC). Use Layer 2 solutions (Arbitrum, Optimism, Base) for 10-100× cheaper fees. Batch transactions when possible."}
+    ],
+    "formulas": [
+      "Gas Fee = (Base Fee + Priority Fee) × Gas Used",
+      "Cost in ETH = Gas Fee (Gwei) ÷ 1,000,000,000",
+      "Cost in USD = ETH Cost × ETH Price",
+      "1 Gwei = 10⁻⁹ ETH"
+    ],
+    "relatedTools": ["crypto-profit-calculator", "crypto-tax-calculator", "mining-profitability-calculator"]
+  }
+]

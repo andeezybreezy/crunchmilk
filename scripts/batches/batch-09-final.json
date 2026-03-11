@@ -1,0 +1,133 @@
+[
+  {
+    "slug": "lens-filter-calculator",
+    "toolName": "Lens Filter Size Calculator",
+    "category": "photography",
+    "tagline": "Find the right filter size and calculate ND filter exposure adjustments for long exposures",
+    "keywords": "ND filter calculator, lens filter, long exposure, filter stop calculator",
+    "inputs": [
+      {"id": "baseShutter", "label": "Base Shutter Speed (no filter)", "default": "0.004", "options": [{"value":"0.002","label":"1/500s"},{"value":"0.004","label":"1/250s"},{"value":"0.008","label":"1/125s"},{"value":"0.0167","label":"1/60s"},{"value":"0.0333","label":"1/30s"}]},
+      {"id": "ndStops", "label": "ND Filter Strength", "default": "6", "options": [{"value":"1","label":"ND2 (1 stop)"},{"value":"2","label":"ND4 (2 stops)"},{"value":"3","label":"ND8 (3 stops)"},{"value":"6","label":"ND64 (6 stops)"},{"value":"10","label":"ND1000 (10 stops)"},{"value":"15","label":"ND32000 (15 stops)"}]},
+      {"id": "baseAperture", "label": "Aperture", "default": 8},
+      {"id": "baseISO", "label": "ISO", "default": 100}
+    ],
+    "results": [
+      {"id": "newShutter", "label": "New Shutter Speed (with ND)"},
+      {"id": "filterFactor", "label": "Filter Factor"},
+      {"id": "lightReduction", "label": "Light Reduction"},
+      {"id": "tip", "label": "Shooting Tip"}
+    ],
+    "calcFn": "var stops = parseInt(ndStops);\n    var base = parseFloat(baseShutter);\n    var factor = Math.pow(2, stops);\n    var newShutter = base * factor;\n    var lightPct = (1 / factor) * 100;\n    var shutterStr;\n    if (newShutter >= 60) shutterStr = fmt(newShutter / 60, 1) + ' minutes';\n    else if (newShutter >= 1) shutterStr = fmt(newShutter, 1) + ' seconds';\n    else shutterStr = '1/' + fmt(1/newShutter, 0) + 's';\n    var tip;\n    if (newShutter >= 30) tip = 'Use bulb mode, remote shutter release, and sturdy tripod. Cover viewfinder to prevent light leak.';\n    else if (newShutter >= 1) tip = 'Use tripod and timer/remote. Mirror lock-up recommended for DSLRs.';\n    else tip = 'Handheld may work with stabilization. Tripod recommended for sharpest results.';\n    document.getElementById('newShutter').textContent = shutterStr;\n    document.getElementById('filterFactor').textContent = factor + '× (ND' + factor + ')';\n    document.getElementById('lightReduction').textContent = fmt(lightPct, stops > 6 ? 4 : 2) + '% of original light (' + stops + ' stops)';\n    document.getElementById('tip').textContent = tip;",
+    "faq": [
+      {"question": "What does an ND filter do?", "answer": "An ND (neutral density) filter reduces the amount of light entering the lens without affecting color. This lets you use slower shutter speeds in bright conditions for effects like smooth water, cloud streaks, or motion blur."},
+      {"question": "What ND filter strength should I get?", "answer": "ND64 (6-stop) is the most versatile for general long exposure work. ND1000 (10-stop) is great for multi-second daytime exposures. A variable ND (2-8 stops) offers flexibility but may vignette on wide lenses."},
+      {"question": "Do I need a specific filter size?", "answer": "Filters must match your lens diameter (marked on the lens, e.g., 77mm). Common sizes: 52mm, 58mm, 67mm, 72mm, 77mm, 82mm. Buy for your largest lens and use step-down rings for smaller lenses."}
+    ],
+    "formulas": [
+      "New Shutter = Base Shutter × 2^(ND stops)",
+      "Filter Factor = 2^stops (ND64 = 2⁶ = 64×)",
+      "Light Transmission = 1 / Filter Factor × 100%",
+      "1 stop = 50% light reduction, 10 stops = 0.1% light"
+    ],
+    "relatedTools": ["exposure-calculator", "shutter-speed-calculator", "focal-length-crop-calculator"]
+  },
+  {
+    "slug": "spirit-box-frequency-calculator",
+    "toolName": "Spirit Box Frequency Calculator",
+    "category": "paranormal",
+    "tagline": "Calculate sweep rates and frequency ranges for spirit box ghost hunting sessions",
+    "keywords": "spirit box, ghost hunting, EVP, paranormal investigation, frequency sweep",
+    "inputs": [
+      {"id": "sweepRate", "label": "Sweep Rate", "default": 150, "unit": "ms per channel"},
+      {"id": "startFreq", "label": "Start Frequency", "default": 88, "unit": "MHz"},
+      {"id": "endFreq", "label": "End Frequency", "default": 108, "unit": "MHz"},
+      {"id": "channelSpacing", "label": "Channel Spacing", "default": 0.2, "unit": "MHz", "step": 0.1},
+      {"id": "sessionMinutes", "label": "Session Duration", "default": 30, "unit": "minutes"}
+    ],
+    "results": [
+      {"id": "totalChannels", "label": "Total Channels Scanned"},
+      {"id": "fullSweepTime", "label": "Full Sweep Time"},
+      {"id": "sweepsPerSession", "label": "Sweeps per Session"},
+      {"id": "responseWindow", "label": "Response Window"}
+    ],
+    "calcFn": "var range = endFreq - startFreq;\n    var channels = Math.floor(range / channelSpacing);\n    var sweepTimeMs = channels * sweepRate;\n    var sweepTimeSec = sweepTimeMs / 1000;\n    var sessionMs = sessionMinutes * 60 * 1000;\n    var sweepsPerSession = Math.floor(sessionMs / sweepTimeMs);\n    var syllableMs = 250;\n    var channelsPerSyllable = Math.floor(syllableMs / sweepRate);\n    document.getElementById('totalChannels').textContent = fmt(channels, 0) + ' channels in ' + fmt(range, 1) + ' MHz range';\n    document.getElementById('fullSweepTime').textContent = fmt(sweepTimeSec, 1) + ' seconds per full sweep';\n    document.getElementById('sweepsPerSession').textContent = fmt(sweepsPerSession, 0) + ' complete sweeps in ' + sessionMinutes + ' min';\n    document.getElementById('responseWindow').textContent = sweepRate + 'ms per channel (' + channelsPerSyllable + ' channels per syllable at ' + syllableMs + 'ms/syllable)';",
+    "faq": [
+      {"question": "What is a spirit box?", "answer": "A spirit box (also called a ghost box or Frank's Box) rapidly scans AM/FM radio frequencies, creating white noise fragments. Paranormal investigators believe spirits can manipulate these audio snippets to form words or responses."},
+      {"question": "What sweep rate should I use?", "answer": "100-200ms per channel is standard. Slower sweeps (200ms+) allow clearer potential responses but increase false positives from radio stations. Faster sweeps (50-100ms) reduce radio bleed but make responses harder to discern."},
+      {"question": "Is there scientific evidence for spirit boxes?", "answer": "No scientific evidence supports spirit box communication. Responses are attributed to pareidolia (finding patterns in random noise), radio bleed-through, and audio matrixing. It remains a popular paranormal investigation tool nonetheless."}
+    ],
+    "formulas": [
+      "Total Channels = Frequency Range ÷ Channel Spacing",
+      "Sweep Time = Total Channels × Sweep Rate (ms)",
+      "Sweeps per Session = Session Duration ÷ Sweep Time",
+      "Response Window = Sweep Rate × channels needed for syllable"
+    ],
+    "relatedTools": ["moon-phase-calculator", "numerology-calculator", "biorhythm-calculator"]
+  },
+  {
+    "slug": "latte-factor-calculator",
+    "toolName": "Latte Factor Calculator",
+    "category": "niche-finance",
+    "tagline": "See how small daily spending adds up and what it could be worth if invested instead",
+    "keywords": "latte factor, daily spending, savings calculator, compound interest, small expenses",
+    "inputs": [
+      {"id": "dailySpend", "label": "Daily Discretionary Spend", "default": 7, "unit": "$"},
+      {"id": "daysPerWeek", "label": "Days per Week", "default": 5},
+      {"id": "years", "label": "Time Period", "default": 20, "unit": "years"},
+      {"id": "returnRate", "label": "If Invested (Annual Return)", "default": 8, "unit": "%"}
+    ],
+    "results": [
+      {"id": "weekly", "label": "Weekly Spending"},
+      {"id": "yearly", "label": "Yearly Spending"},
+      {"id": "totalSpent", "label": "Total Spent Over Period"},
+      {"id": "ifInvested", "label": "If Invested Instead"},
+      {"id": "difference", "label": "Opportunity Cost"}
+    ],
+    "calcFn": "var weekly = dailySpend * daysPerWeek;\n    var monthly = weekly * 4.333;\n    var yearly = weekly * 52;\n    var totalSpent = yearly * years;\n    var monthlyInvest = monthly;\n    var monthlyRate = returnRate / 100 / 12;\n    var months = years * 12;\n    var fv = monthlyInvest * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);\n    var diff = fv - totalSpent;\n    document.getElementById('weekly').textContent = dollar(weekly) + '/week (' + dollar(monthly) + '/month)';\n    document.getElementById('yearly').textContent = dollar(yearly) + '/year';\n    document.getElementById('totalSpent').textContent = dollar(totalSpent);\n    document.getElementById('ifInvested').textContent = dollar(fv) + ' (at ' + returnRate + '% annual return)';\n    document.getElementById('difference').textContent = dollar(diff) + ' in growth from compound interest';",
+    "faq": [
+      {"question": "What is the latte factor?", "answer": "Coined by David Bach, the 'latte factor' represents small daily expenses that seem insignificant but add up dramatically over time. A $7/day habit costs $1,820/year — or $182,000 over a decade."},
+      {"question": "How much could I save by cutting daily spending?", "answer": "Saving $7/day and investing at 8% annual return grows to about $95,000 in 10 years, $250,000 in 20 years, and over $580,000 in 30 years. Compound interest turns small savings into substantial wealth."},
+      {"question": "Should I actually stop buying coffee?", "answer": "The latte factor isn't just about coffee — it's about awareness. Track all small recurring expenses (subscriptions, impulse buys, convenience fees). Cutting even half of discretionary spending can fund meaningful financial goals."}
+    ],
+    "formulas": [
+      "Annual Spending = Daily Amount × Days per Week × 52",
+      "Future Value = Monthly Savings × ((1 + r)^n - 1) / r",
+      "r = annual return ÷ 12 (monthly rate)",
+      "Opportunity Cost = Investment Value - Total Spent"
+    ],
+    "relatedTools": ["side-hustle-income-calculator", "emergency-fund-calculator", "wedding-budget-calculator"]
+  },
+  {
+    "slug": "garden-watering-schedule-calculator",
+    "toolName": "Garden Watering Schedule Calculator",
+    "category": "gardening",
+    "tagline": "Calculate optimal watering frequency and amount for your garden based on plants, soil, and weather",
+    "keywords": "garden watering, irrigation schedule, watering calculator, plant water needs",
+    "inputs": [
+      {"id": "plantType", "label": "Plant Type", "default": "vegetable", "options": [{"value":"lawn","label":"Lawn (1\"/week)"},{"value":"vegetable","label":"Vegetables (1-1.5\"/week)"},{"value":"flower","label":"Flowers (1\"/week)"},{"value":"shrub","label":"Shrubs (0.5-1\"/week)"},{"value":"tree","label":"Trees (established, 1\"/2 weeks)"}]},
+      {"id": "sqft", "label": "Garden Area", "default": 200, "unit": "sq ft"},
+      {"id": "soilType", "label": "Soil Type", "default": "1.0", "options": [{"value":"0.7","label":"Sandy (drains fast, water more often)"},{"value":"1.0","label":"Loam (ideal, balanced)"},{"value":"1.3","label":"Clay (retains water, water less often)"}]},
+      {"id": "temperature", "label": "Average Temperature", "default": "1.0", "options": [{"value":"0.7","label":"Cool (below 70°F)"},{"value":"1.0","label":"Warm (70-85°F)"},{"value":"1.3","label":"Hot (85-95°F)"},{"value":"1.6","label":"Very hot (95°F+)"}]},
+      {"id": "recentRain", "label": "Rainfall This Week", "default": 0, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "weeklyNeed", "label": "Weekly Water Needed"},
+      {"id": "gallonsPerWeek", "label": "Gallons per Week"},
+      {"id": "wateringSchedule", "label": "Recommended Schedule"},
+      {"id": "perSession", "label": "Per Watering Session"}
+    ],
+    "calcFn": "var baseInches = {lawn: 1, vegetable: 1.25, flower: 1, shrub: 0.75, tree: 0.5};\n    var base = baseInches[plantType];\n    var soilFactor = parseFloat(soilType);\n    var tempFactor = parseFloat(temperature);\n    var weeklyInches = base * tempFactor - recentRain;\n    weeklyInches = Math.max(0, weeklyInches);\n    var gallonsPerSqFt = weeklyInches * 0.623;\n    var totalGallons = gallonsPerSqFt * sqft;\n    var sessions;\n    if (soilFactor <= 0.7) sessions = 3;\n    else if (soilFactor <= 1.0) sessions = 2;\n    else sessions = 1;\n    if (tempFactor >= 1.3) sessions = Math.min(sessions + 1, 4);\n    var perSession = totalGallons / sessions;\n    var scheduleText = sessions + ' times per week';\n    if (weeklyInches <= 0) scheduleText = 'No additional watering needed this week (sufficient rain)';\n    document.getElementById('weeklyNeed').textContent = fmt(weeklyInches, 2) + ' inches/week';\n    document.getElementById('gallonsPerWeek').textContent = fmt(totalGallons, 0) + ' gallons';\n    document.getElementById('wateringSchedule').textContent = scheduleText;\n    document.getElementById('perSession').textContent = weeklyInches > 0 ? fmt(perSession, 0) + ' gallons per session (' + fmt(perSession / sqft * 1.604, 2) + '\" per session)' : 'N/A — rain is sufficient';",
+    "faq": [
+      {"question": "How much should I water my garden?", "answer": "Most gardens need about 1 inch of water per week (rain + irrigation). Vegetables may need 1-1.5 inches. One inch of water on 100 sq ft = about 62 gallons. Deep, infrequent watering is better than shallow daily watering."},
+      {"question": "When is the best time to water?", "answer": "Early morning (6-10 AM) is ideal — less evaporation, leaves dry before evening (reducing disease). Avoid midday (high evaporation) and evening (wet leaves overnight encourage fungal growth)."},
+      {"question": "How do I know if I am overwatering?", "answer": "Signs of overwatering: yellowing lower leaves, wilting despite wet soil, root rot smell, fungus gnats, and mushy stems. Stick your finger 2 inches into soil — if it's moist, wait to water."}
+    ],
+    "formulas": [
+      "Weekly Need = Base Requirement × Temperature Factor - Rainfall",
+      "Gallons = Weekly Inches × 0.623 gallons/sq ft/inch × Area",
+      "Sandy soil: water 3×/week. Loam: 2×/week. Clay: 1-2×/week",
+      "1 inch of water per 100 sq ft ≈ 62 gallons"
+    ],
+    "relatedTools": ["compost-ratio-calculator", "greenhouse-temperature-calculator", "mulch-calculator"]
+  }
+]

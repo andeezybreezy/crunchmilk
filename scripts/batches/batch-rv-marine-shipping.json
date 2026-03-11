@@ -1,0 +1,860 @@
+[
+  {
+    "slug": "rv-loan-calculator",
+    "toolName": "RV Loan Calculator",
+    "category": "rv",
+    "tagline": "Calculate your monthly RV loan payment",
+    "keywords": "rv loan calculator, rv financing, rv monthly payment, motorhome loan, camper financing",
+    "subcategory": "financing",
+    "relatedTools": [
+      "rv-insurance-cost-calculator",
+      "rv-depreciation-calculator",
+      "rv-trip-planner-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is a typical RV loan interest rate?",
+        "answer": "RV loan rates typically range from 6% to 12% depending on credit score, loan term, and whether the RV is new or used. Excellent credit (750+) can qualify for rates around 6-7%, while lower scores may see 10-12%."
+      },
+      {
+        "question": "How long can I finance an RV?",
+        "answer": "RV loans commonly range from 5 to 20 years. Loans over $50,000 for new RVs may qualify for terms up to 20 years. Shorter terms mean higher payments but significantly less total interest paid."
+      },
+      {
+        "question": "Should I make a down payment on an RV?",
+        "answer": "A 10-20% down payment is recommended. It lowers your monthly payment, reduces total interest, and helps avoid being upside-down on the loan since RVs depreciate quickly in the first few years."
+      }
+    ],
+    "formulas": [
+      "Monthly Payment = P \u00d7 [r(1+r)^n] / [(1+r)^n - 1] where P = loan amount, r = monthly interest rate, n = total number of payments",
+      "Total Interest = (Monthly Payment \u00d7 n) - P",
+      "Loan Amount = Purchase Price - Down Payment"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Loan Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate your monthly RV loan payment and total interest.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rvPrice\">RV Price ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"rvPrice\" value=\"85000\" step=\"1000\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rvDown\">Down Payment ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"rvDown\" value=\"10000\" step=\"1000\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rvRate\">Interest Rate (%)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"rvRate\" value=\"7.5\" step=\"0.1\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rvTerm\">Loan Term (years)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"rvTerm\" value=\"15\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Monthly Payment</div><div class=\"result-value\" id=\"rvMonthly\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Interest</div><div class=\"result-value\" id=\"rvTotalInt\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Cost</div><div class=\"result-value\" id=\"rvTotalCost\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Loan Amount</div><div class=\"result-value\" id=\"rvLoanAmt\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var price = parseFloat(document.getElementById('rvPrice').value) || 0;\n    var down = parseFloat(document.getElementById('rvDown').value) || 0;\n    var rate = parseFloat(document.getElementById('rvRate').value) || 0;\n    var years = parseFloat(document.getElementById('rvTerm').value) || 0;\n    var P = price - down;\n    var r = rate / 100 / 12;\n    var n = years * 12;\n    var monthly = 0;\n    if (r > 0 && n > 0) {\n      monthly = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);\n    } else if (n > 0) {\n      monthly = P / n;\n    }\n    var totalCost = monthly * n;\n    var totalInt = totalCost - P;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('rvMonthly').textContent = $(monthly);\n    document.getElementById('rvTotalInt').textContent = $(totalInt);\n    document.getElementById('rvTotalCost').textContent = $(totalCost + down);\n    document.getElementById('rvLoanAmt').textContent = $(P);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#rvPrice,#rvDown,#rvRate,#rvTerm').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-fuel-cost-calculator",
+    "toolName": "RV Fuel Cost Calculator",
+    "category": "rv",
+    "tagline": "Estimate fuel costs for your RV road trip",
+    "keywords": "rv fuel cost calculator, rv gas mileage, rv mpg calculator, motorhome fuel cost, rv trip fuel",
+    "subcategory": "travel",
+    "relatedTools": [
+      "rv-trip-planner-calculator",
+      "rv-campground-cost-calculator",
+      "rv-weight-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is the average MPG for an RV?",
+        "answer": "Class A motorhomes average 6-10 MPG, Class B vans get 15-25 MPG, Class C motorhomes average 10-16 MPG, and travel trailers depend on the tow vehicle but typically reduce its MPG by 30-50%."
+      },
+      {
+        "question": "Does RV weight affect fuel economy?",
+        "answer": "Yes, significantly. Every 100 lbs of extra cargo can reduce MPG by about 1-2%. Driving at highway speeds with a fully loaded RV uses considerably more fuel than traveling light."
+      },
+      {
+        "question": "How can I improve my RV's fuel economy?",
+        "answer": "Drive 55-60 MPH instead of 70+, maintain proper tire pressure, reduce idling, avoid rapid acceleration, travel during low-wind conditions, and keep your RV's engine properly maintained."
+      }
+    ],
+    "formulas": [
+      "Gallons Needed = Trip Distance / Miles Per Gallon",
+      "Fuel Cost = Gallons Needed \u00d7 Price Per Gallon",
+      "Cost Per Mile = Price Per Gallon / Miles Per Gallon"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Fuel Cost Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate fuel costs for your next RV trip.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripDist\">Trip Distance (miles)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripDist\" value=\"500\" step=\"50\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rvMpg\">RV MPG</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"rvMpg\" value=\"10\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"gasPrice\">Gas Price ($/gal)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"gasPrice\" value=\"3.50\" step=\"0.10\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"fuelTrips\">Round Trip?</label>\n      <div class=\"input-row\"><select id=\"fuelTrips\"><option value=\"1\">One Way</option><option value=\"2\" selected>Round Trip</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Fuel Cost</div><div class=\"result-value\" id=\"fuelTotal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Gallons Needed</div><div class=\"result-value\" id=\"fuelGals\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Cost Per Mile</div><div class=\"result-value\" id=\"fuelCpm\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Miles</div><div class=\"result-value\" id=\"fuelMiles\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var dist = parseFloat(document.getElementById('tripDist').value) || 0;\n    var mpg = parseFloat(document.getElementById('rvMpg').value) || 1;\n    var price = parseFloat(document.getElementById('gasPrice').value) || 0;\n    var mult = parseFloat(document.getElementById('fuelTrips').value) || 1;\n    var totalMiles = dist * mult;\n    var gallons = totalMiles / mpg;\n    var cost = gallons * price;\n    var cpm = price / mpg;\n    document.getElementById('fuelTotal').textContent = '$' + cost.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('fuelGals').textContent = gallons.toFixed(1);\n    document.getElementById('fuelCpm').textContent = '$' + cpm.toFixed(2);\n    document.getElementById('fuelMiles').textContent = totalMiles.toLocaleString() + ' mi';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#tripDist,#rvMpg,#gasPrice,#fuelTrips').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-depreciation-calculator",
+    "toolName": "RV Depreciation Calculator",
+    "category": "rv",
+    "tagline": "See how your RV's value changes over time",
+    "keywords": "rv depreciation calculator, rv resale value, motorhome depreciation, rv value loss, camper depreciation",
+    "subcategory": "financing",
+    "relatedTools": [
+      "rv-loan-calculator",
+      "rv-insurance-cost-calculator",
+      "rv-trip-planner-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How fast do RVs depreciate?",
+        "answer": "RVs typically lose 20-25% of their value in the first year, then about 5-8% per year after that. After 5 years, most RVs are worth about 50-60% of their original price. By 10 years, expect 30-40% of original value."
+      },
+      {
+        "question": "Which RV types depreciate the slowest?",
+        "answer": "Airstream trailers and high-end Class B vans hold value best. Class A diesel pushers depreciate in dollar amount but hold a reasonable percentage. Pop-up campers and entry-level travel trailers depreciate the fastest."
+      },
+      {
+        "question": "Can I slow my RV's depreciation?",
+        "answer": "Keep mileage low, maintain it meticulously, store it covered or indoors, address repairs promptly, and keep detailed maintenance records. A well-maintained RV can be worth 10-20% more than a neglected one of the same age."
+      }
+    ],
+    "formulas": [
+      "Year 1 Value = Purchase Price \u00d7 (1 - First Year Depreciation Rate)",
+      "Subsequent Years: Value = Previous Year Value \u00d7 (1 - Annual Depreciation Rate)",
+      "Total Depreciation = Purchase Price - Current Value"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Depreciation Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate your RV's value over time.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"depPrice\">Purchase Price ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"depPrice\" value=\"85000\" step=\"5000\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"depYears\">Years to Calculate</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"depYears\" value=\"10\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"depFirst\">1st Year Depreciation (%)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"depFirst\" value=\"22\" step=\"1\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"depAnnual\">Annual Depreciation (%)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"depAnnual\" value=\"7\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Value After Period</div><div class=\"result-value\" id=\"depFinal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Value Lost</div><div class=\"result-value\" id=\"depLost\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Percent Remaining</div><div class=\"result-value\" id=\"depPct\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Value After Year 1</div><div class=\"result-value\" id=\"depY1\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var price = parseFloat(document.getElementById('depPrice').value) || 0;\n    var years = parseInt(document.getElementById('depYears').value) || 0;\n    var firstPct = parseFloat(document.getElementById('depFirst').value) / 100 || 0;\n    var annualPct = parseFloat(document.getElementById('depAnnual').value) / 100 || 0;\n    var value = price * (1 - firstPct);\n    var y1 = value;\n    for (var i = 1; i < years; i++) {\n      value = value * (1 - annualPct);\n    }\n    if (years === 0) value = price;\n    function $(v) { return '$' + v.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('depFinal').textContent = $(value);\n    document.getElementById('depLost').textContent = $(price - value);\n    document.getElementById('depPct').textContent = (value / price * 100).toFixed(1) + '%';\n    document.getElementById('depY1').textContent = $(y1);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#depPrice,#depYears,#depFirst,#depAnnual').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-campground-cost-calculator",
+    "toolName": "RV Campground Cost Calculator",
+    "category": "rv",
+    "tagline": "Estimate campsite costs for your RV trip",
+    "keywords": "rv campground cost, rv park rates, campsite calculator, rv camping budget, rv park fees",
+    "subcategory": "travel",
+    "relatedTools": [
+      "rv-trip-planner-calculator",
+      "rv-fuel-cost-calculator",
+      "rv-solar-panel-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How much do RV campsites cost per night?",
+        "answer": "Costs vary widely: BLM/free dispersed camping is $0, national forest sites run $10-25, state parks $20-40, private RV parks $35-75, and resort-style parks $50-150+ per night. Full hookups cost more than dry camping."
+      },
+      {
+        "question": "Are weekly or monthly RV rates cheaper?",
+        "answer": "Yes, most parks offer weekly discounts of 10-20% and monthly discounts of 30-50%. A $50/night park might charge $300/week or $800/month. Always ask about long-term rates if staying more than a few days."
+      },
+      {
+        "question": "What extra fees should I expect at RV parks?",
+        "answer": "Common extras include electric metering ($5-15/day for 50 amp), Wi-Fi upgrades ($3-5/day), pet fees ($3-5/day), extra vehicle fees ($5-10/day), and resort amenity fees. Budget an extra 15-20% above the base rate."
+      }
+    ],
+    "formulas": [
+      "Total Campground Cost = (Nightly Rate \u00d7 Number of Nights) + Extra Fees Per Night \u00d7 Nights",
+      "With Hookup Surcharge = Base Rate + Hookup Fee Per Night",
+      "Average Nightly Cost = Total Cost / Number of Nights"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Campground Cost Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate your total campsite expenses.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"campRate\">Avg. Nightly Rate ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"campRate\" value=\"45\" step=\"5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"campNights\">Number of Nights</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"campNights\" value=\"7\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"campHookup\">Hookup Fee/Night ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"campHookup\" value=\"10\" step=\"1\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"campExtra\">Extra Fees/Night ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"campExtra\" value=\"5\" step=\"1\" inputmode=\"decimal\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Campground Cost</div><div class=\"result-value\" id=\"campTotal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Effective Nightly Rate</div><div class=\"result-value\" id=\"campEffective\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Base Cost</div><div class=\"result-value\" id=\"campBase\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Fees</div><div class=\"result-value\" id=\"campFees\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var rate = parseFloat(document.getElementById('campRate').value) || 0;\n    var nights = parseFloat(document.getElementById('campNights').value) || 0;\n    var hookup = parseFloat(document.getElementById('campHookup').value) || 0;\n    var extra = parseFloat(document.getElementById('campExtra').value) || 0;\n    var baseCost = rate * nights;\n    var totalFees = (hookup + extra) * nights;\n    var total = baseCost + totalFees;\n    var effective = nights > 0 ? total / nights : 0;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('campTotal').textContent = $(total);\n    document.getElementById('campEffective').textContent = $(effective);\n    document.getElementById('campBase').textContent = $(baseCost);\n    document.getElementById('campFees').textContent = $(totalFees);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#campRate,#campNights,#campHookup,#campExtra').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-weight-calculator",
+    "toolName": "RV Weight Calculator",
+    "category": "rv",
+    "tagline": "Calculate cargo capacity and weight limits",
+    "keywords": "rv weight calculator, rv cargo capacity, gvwr calculator, rv payload, rv weight distribution",
+    "subcategory": "safety",
+    "relatedTools": [
+      "rv-fuel-cost-calculator",
+      "rv-generator-size-calculator",
+      "rv-solar-panel-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is GVWR and why does it matter?",
+        "answer": "GVWR (Gross Vehicle Weight Rating) is the maximum safe weight of your RV when fully loaded. Exceeding it stresses tires, brakes, suspension, and frame, increasing blowout and accident risk. It is also illegal and voids insurance."
+      },
+      {
+        "question": "How much does water weigh in an RV?",
+        "answer": "Water weighs 8.34 lbs per gallon. A full fresh water tank (40-100 gallons) adds 334-834 lbs. Many RVers travel with tanks only half full to save weight and fuel."
+      },
+      {
+        "question": "What is CCC vs payload capacity?",
+        "answer": "CCC (Cargo Carrying Capacity) is the weight available for passengers and cargo after the RV is loaded with full fluids and LP gas. Payload capacity is GVWR minus the dry/unloaded weight. CCC is the more practical number for packing."
+      }
+    ],
+    "formulas": [
+      "Cargo Carrying Capacity (CCC) = GVWR - Unloaded Vehicle Weight (UVW)",
+      "Available Cargo = CCC - Passenger Weight - Water Weight - Propane Weight",
+      "Water Weight = Gallons \u00d7 8.34 lbs, Propane Weight = Gallons \u00d7 4.2 lbs"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Weight Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Check your cargo capacity and weight limits.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"wtGvwr\">GVWR (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"wtGvwr\" value=\"14500\" step=\"500\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"wtUvw\">Unloaded Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"wtUvw\" value=\"11000\" step=\"500\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"wtPassengers\">Passengers (count)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"wtPassengers\" value=\"4\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"wtAvgWeight\">Avg Person Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"wtAvgWeight\" value=\"175\" step=\"5\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"wtWater\">Fresh Water (gallons)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"wtWater\" value=\"50\" step=\"5\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"wtPropane\">Propane (gallons)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"wtPropane\" value=\"14\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total CCC</div><div class=\"result-value\" id=\"wtCcc\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Available for Cargo</div><div class=\"result-value\" id=\"wtAvail\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Passenger Weight</div><div class=\"result-value\" id=\"wtPax\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Fluid Weight</div><div class=\"result-value\" id=\"wtFluids\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var gvwr = parseFloat(document.getElementById('wtGvwr').value) || 0;\n    var uvw = parseFloat(document.getElementById('wtUvw').value) || 0;\n    var pax = parseFloat(document.getElementById('wtPassengers').value) || 0;\n    var avgWt = parseFloat(document.getElementById('wtAvgWeight').value) || 0;\n    var water = parseFloat(document.getElementById('wtWater').value) || 0;\n    var propane = parseFloat(document.getElementById('wtPropane').value) || 0;\n    var ccc = gvwr - uvw;\n    var paxWt = pax * avgWt;\n    var fluidWt = (water * 8.34) + (propane * 4.2);\n    var avail = ccc - paxWt - fluidWt;\n    function fmt(v) { return v.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ' lbs'; }\n    document.getElementById('wtCcc').textContent = fmt(ccc);\n    document.getElementById('wtAvail').textContent = fmt(avail);\n    document.getElementById('wtPax').textContent = fmt(paxWt);\n    document.getElementById('wtFluids').textContent = fmt(fluidWt);\n    if (avail < 0) document.getElementById('wtAvail').style.color = '#ef4444';\n    else document.getElementById('wtAvail').style.color = '';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#wtGvwr,#wtUvw,#wtPassengers,#wtAvgWeight,#wtWater,#wtPropane').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-solar-panel-calculator",
+    "toolName": "RV Solar Panel Calculator",
+    "category": "rv",
+    "tagline": "Size your solar system for off-grid camping",
+    "keywords": "rv solar calculator, rv solar panel sizing, boondocking solar, rv off grid power, rv solar setup",
+    "subcategory": "power",
+    "relatedTools": [
+      "rv-generator-size-calculator",
+      "rv-weight-calculator",
+      "rv-campground-cost-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How many solar panels does an RV need?",
+        "answer": "Most RVers need 200-800 watts of solar. A minimalist setup (lights, phone charging, small fridge) needs ~200W. A moderate setup (residential fridge, TV, laptop) needs 400-600W. Running AC or heavy loads requires 800W+ plus a generator backup."
+      },
+      {
+        "question": "How many sun hours should I plan for?",
+        "answer": "Plan for 4-5 peak sun hours per day as a conservative average. The desert Southwest gets 6-7 hours, while the Pacific Northwest may only get 3-4. Winter reduces output by 30-50% compared to summer."
+      },
+      {
+        "question": "What size battery bank do I need with solar?",
+        "answer": "Your battery bank should store at least 2 days of usage for lead-acid (since you only use 50%) or 1.5 days for lithium (usable to 80-90%). For 100Ah daily use, you need 400Ah lead-acid or 150Ah lithium."
+      }
+    ],
+    "formulas": [
+      "Daily Wh Needed = Sum of (Device Watts \u00d7 Hours Used Per Day)",
+      "Solar Watts Needed = (Daily Wh / Peak Sun Hours) \u00d7 1.25 inefficiency factor",
+      "Battery Bank (Ah) = Daily Wh / Battery Voltage / Depth of Discharge"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Solar Panel Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate solar panel and battery needs for boondocking.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"solDaily\">Daily Usage (Wh)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"solDaily\" value=\"1500\" step=\"100\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"solSun\">Peak Sun Hours/Day</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"solSun\" value=\"5\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"solVolt\">Battery Voltage (V)</label>\n      <div class=\"input-row\"><select id=\"solVolt\"><option value=\"12\" selected>12V</option><option value=\"24\">24V</option><option value=\"48\">48V</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"solBattType\">Battery Type</label>\n      <div class=\"input-row\"><select id=\"solBattType\"><option value=\"0.5\">Lead-Acid (50% DoD)</option><option value=\"0.8\" selected>Lithium (80% DoD)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"solDays\">Days of Autonomy</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"solDays\" value=\"2\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"solPanelW\">Panel Wattage (W each)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"solPanelW\" value=\"200\" step=\"50\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Solar Watts Needed</div><div class=\"result-value\" id=\"solWatts\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Number of Panels</div><div class=\"result-value\" id=\"solPanels\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Battery Bank (Ah)</div><div class=\"result-value\" id=\"solBattAh\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Battery Bank (kWh)</div><div class=\"result-value\" id=\"solBattKwh\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var daily = parseFloat(document.getElementById('solDaily').value) || 0;\n    var sun = parseFloat(document.getElementById('solSun').value) || 1;\n    var volt = parseFloat(document.getElementById('solVolt').value) || 12;\n    var dod = parseFloat(document.getElementById('solBattType').value) || 0.5;\n    var days = parseFloat(document.getElementById('solDays').value) || 1;\n    var panelW = parseFloat(document.getElementById('solPanelW').value) || 200;\n    var solarWatts = (daily / sun) * 1.25;\n    var panels = Math.ceil(solarWatts / panelW);\n    var battAh = (daily * days) / (volt * dod);\n    var battKwh = (battAh * volt) / 1000;\n    document.getElementById('solWatts').textContent = Math.round(solarWatts) + 'W';\n    document.getElementById('solPanels').textContent = panels + ' \u00d7 ' + panelW + 'W';\n    document.getElementById('solBattAh').textContent = Math.round(battAh) + ' Ah';\n    document.getElementById('solBattKwh').textContent = battKwh.toFixed(1) + ' kWh';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#solDaily,#solSun,#solVolt,#solBattType,#solDays,#solPanelW').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-insurance-cost-calculator",
+    "toolName": "RV Insurance Cost Calculator",
+    "category": "rv",
+    "tagline": "Estimate your annual RV insurance premium",
+    "keywords": "rv insurance calculator, rv insurance cost, motorhome insurance, camper insurance estimate, rv coverage cost",
+    "subcategory": "financing",
+    "relatedTools": [
+      "rv-loan-calculator",
+      "rv-depreciation-calculator",
+      "rv-trip-planner-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How much does RV insurance cost?",
+        "answer": "RV insurance typically costs $1,000-$3,000 per year for motorhomes and $250-$800 for towable RVs. Full-timers pay more (similar to homeowners insurance). Factors include RV value, type, usage, driver age, and location."
+      },
+      {
+        "question": "Do I need full-timer RV insurance?",
+        "answer": "If you live in your RV more than 6 months per year, you need a full-time RV policy. It adds personal liability and contents coverage similar to homeowners insurance. Standard RV policies may deny claims if you are a full-timer."
+      },
+      {
+        "question": "What does RV insurance cover?",
+        "answer": "Basic coverage includes liability, collision, and comprehensive. Optional add-ons include full replacement cost, personal belongings, roadside assistance, vacation liability, and total loss replacement. Most policies also cover attached accessories."
+      }
+    ],
+    "formulas": [
+      "Estimated Premium = Base Rate \u00d7 RV Type Factor \u00d7 Age Factor \u00d7 Usage Factor \u00d7 Coverage Factor",
+      "Base Rate = RV Value \u00d7 Base Rate Percentage (typically 1.5-3.5% of value)",
+      "Full-timer surcharge adds approximately 40-60% to the base premium"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Insurance Cost Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate your annual RV insurance premium.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"insValue\">RV Value ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"insValue\" value=\"85000\" step=\"5000\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"insType\">RV Type</label>\n      <div class=\"input-row\"><select id=\"insType\"><option value=\"1.0\">Class A Motorhome</option><option value=\"0.85\" selected>Class C Motorhome</option><option value=\"0.7\">Class B Van</option><option value=\"0.5\">Travel Trailer</option><option value=\"0.35\">Pop-up/Folding</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"insUsage\">Usage</label>\n      <div class=\"input-row\"><select id=\"insUsage\"><option value=\"1.0\" selected>Occasional (Weekends)</option><option value=\"1.2\">Seasonal (Summer)</option><option value=\"1.5\">Full-Time</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"insCoverage\">Coverage Level</label>\n      <div class=\"input-row\"><select id=\"insCoverage\"><option value=\"0.7\">Basic Liability</option><option value=\"1.0\" selected>Standard</option><option value=\"1.4\">Full Coverage + Extras</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Estimated Annual Premium</div><div class=\"result-value\" id=\"insAnnual\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Monthly Cost</div><div class=\"result-value\" id=\"insMonthly\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Rate (% of Value)</div><div class=\"result-value\" id=\"insRate\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Daily Cost</div><div class=\"result-value\" id=\"insDaily\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var value = parseFloat(document.getElementById('insValue').value) || 0;\n    var typeFactor = parseFloat(document.getElementById('insType').value) || 1;\n    var usageFactor = parseFloat(document.getElementById('insUsage').value) || 1;\n    var covFactor = parseFloat(document.getElementById('insCoverage').value) || 1;\n    var baseRate = 0.02;\n    var annual = value * baseRate * typeFactor * usageFactor * covFactor;\n    annual = Math.max(annual, 250);\n    var monthly = annual / 12;\n    var daily = annual / 365;\n    var ratePct = (annual / value) * 100;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('insAnnual').textContent = $(annual);\n    document.getElementById('insMonthly').textContent = $(monthly);\n    document.getElementById('insRate').textContent = ratePct.toFixed(2) + '%';\n    document.getElementById('insDaily').textContent = $(daily);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#insValue,#insType,#insUsage,#insCoverage').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-trip-planner-calculator",
+    "toolName": "RV Trip Planner Calculator",
+    "category": "rv",
+    "tagline": "Estimate total cost of your RV road trip",
+    "keywords": "rv trip cost calculator, rv road trip budget, rv travel planner, rv trip expenses, rv vacation cost",
+    "subcategory": "travel",
+    "relatedTools": [
+      "rv-fuel-cost-calculator",
+      "rv-campground-cost-calculator",
+      "rv-weight-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How much does an RV trip cost per day?",
+        "answer": "Budget RV travelers spend $75-150/day, moderate travelers $150-250/day, and luxury travelers $250+/day. This includes fuel, campgrounds, food, and activities. Full-time RVers average $1,500-3,000/month total."
+      },
+      {
+        "question": "What are the biggest RV trip expenses?",
+        "answer": "Fuel is typically the largest expense (30-40% of total), followed by campground fees (25-35%), food (15-25%), and activities/entertainment (10-15%). Unexpected repairs can also add up \u2014 budget a maintenance reserve."
+      },
+      {
+        "question": "How can I reduce RV trip costs?",
+        "answer": "Use free or cheap camping (BLM, Harvest Hosts, Boondockers Welcome), cook instead of eating out, drive slower to save fuel, get loyalty cards for fuel discounts, and travel during shoulder season for lower campground rates."
+      }
+    ],
+    "formulas": [
+      "Fuel Cost = (Total Miles / MPG) \u00d7 Gas Price",
+      "Campground Cost = Nightly Rate \u00d7 Number of Nights",
+      "Total Trip Cost = Fuel + Campground + Food Per Day \u00d7 Days + Activities Per Day \u00d7 Days"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Trip Planner Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate the total cost of your RV road trip.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripMiles\">Total Miles</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripMiles\" value=\"1000\" step=\"100\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripMpg\">RV MPG</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripMpg\" value=\"10\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripGas\">Gas Price ($/gal)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripGas\" value=\"3.50\" step=\"0.10\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripNights\">Number of Nights</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripNights\" value=\"7\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripCamp\">Avg. Campsite $/Night</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripCamp\" value=\"45\" step=\"5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripFood\">Food $/Day</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripFood\" value=\"60\" step=\"5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripActivities\">Activities $/Day</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripActivities\" value=\"25\" step=\"5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tripPeople\">Number of People</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"tripPeople\" value=\"2\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Trip Cost</div><div class=\"result-value\" id=\"tripTotal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Cost Per Day</div><div class=\"result-value\" id=\"tripPerDay\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Fuel Cost</div><div class=\"result-value\" id=\"tripFuelCost\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Campground Total</div><div class=\"result-value\" id=\"tripCampCost\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Food Total</div><div class=\"result-value\" id=\"tripFoodCost\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Activities Total</div><div class=\"result-value\" id=\"tripActCost\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var miles = parseFloat(document.getElementById('tripMiles').value) || 0;\n    var mpg = parseFloat(document.getElementById('tripMpg').value) || 1;\n    var gas = parseFloat(document.getElementById('tripGas').value) || 0;\n    var nights = parseFloat(document.getElementById('tripNights').value) || 0;\n    var camp = parseFloat(document.getElementById('tripCamp').value) || 0;\n    var food = parseFloat(document.getElementById('tripFood').value) || 0;\n    var act = parseFloat(document.getElementById('tripActivities').value) || 0;\n    var people = parseFloat(document.getElementById('tripPeople').value) || 1;\n    var days = nights + 1;\n    var fuelCost = (miles / mpg) * gas;\n    var campCost = camp * nights;\n    var foodCost = food * days * people;\n    var actCost = act * days * people;\n    var total = fuelCost + campCost + foodCost + actCost;\n    var perDay = days > 0 ? total / days : 0;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('tripTotal').textContent = $(total);\n    document.getElementById('tripPerDay').textContent = $(perDay);\n    document.getElementById('tripFuelCost').textContent = $(fuelCost);\n    document.getElementById('tripCampCost').textContent = $(campCost);\n    document.getElementById('tripFoodCost').textContent = $(foodCost);\n    document.getElementById('tripActCost').textContent = $(actCost);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#tripMiles,#tripMpg,#tripGas,#tripNights,#tripCamp,#tripFood,#tripActivities,#tripPeople').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "rv-generator-size-calculator",
+    "toolName": "RV Generator Size Calculator",
+    "category": "rv",
+    "tagline": "Find the right generator wattage for your RV",
+    "keywords": "rv generator calculator, rv generator size, rv wattage calculator, rv power needs, rv generator sizing",
+    "subcategory": "power",
+    "relatedTools": [
+      "rv-solar-panel-calculator",
+      "rv-weight-calculator",
+      "rv-campground-cost-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What size generator do I need for my RV?",
+        "answer": "A 2,000W generator handles basics (lights, fridge, TV, charging). A 3,000-3,500W handles a 13,500 BTU AC. A 5,500W+ is needed for two ACs or high-draw appliances. Always check your AC's starting watts, which can be 2-3x running watts."
+      },
+      {
+        "question": "What is the difference between starting and running watts?",
+        "answer": "Running watts is the continuous power needed. Starting watts (surge watts) is the brief spike when a motor starts \u2014 typically 2-3x the running watts. Your generator must handle the highest possible starting watts surge."
+      },
+      {
+        "question": "Can I run my RV AC on a portable generator?",
+        "answer": "A single 13,500 BTU RV AC needs about 1,800 running watts and 2,800 starting watts, so a 3,000W+ generator works. A 15,000 BTU AC needs 3,500W+. Running two ACs requires 5,500W+ minimum. An EasyStart soft starter can reduce starting watts by 60-75%."
+      }
+    ],
+    "formulas": [
+      "Total Running Watts = Sum of all appliance running wattages",
+      "Peak Starting Watts = Total Running Watts + Highest Single Appliance Starting Watt Surge",
+      "Recommended Generator = Peak Starting Watts \u00d7 1.2 safety margin"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>RV Generator Size Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Add your appliances to find the right generator size.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"genAC\">Air Conditioner (qty)</label>\n      <div class=\"input-row\"><select id=\"genAC\"><option value=\"0\">None</option><option value=\"1\" selected>1 (13,500 BTU)</option><option value=\"2\">2 (13,500 BTU each)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"genFridge\">Refrigerator</label>\n      <div class=\"input-row\"><select id=\"genFridge\"><option value=\"0\">None</option><option value=\"1\" selected>Residential Fridge</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"genMicro\">Microwave</label>\n      <div class=\"input-row\"><select id=\"genMicro\"><option value=\"0\">None</option><option value=\"1\" selected>Standard (1000W)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"genTV\">TV/Entertainment</label>\n      <div class=\"input-row\"><select id=\"genTV\"><option value=\"0\">None</option><option value=\"1\" selected>TV + Streaming</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"genHeat\">Electric Heater</label>\n      <div class=\"input-row\"><select id=\"genHeat\"><option value=\"0\" selected>None</option><option value=\"1\">Space Heater (1500W)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"genExtra\">Additional Watts</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"genExtra\" value=\"0\" step=\"100\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Recommended Generator</div><div class=\"result-value\" id=\"genRec\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Peak Starting Watts</div><div class=\"result-value\" id=\"genPeak\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Running Watts</div><div class=\"result-value\" id=\"genRunning\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Largest Surge</div><div class=\"result-value\" id=\"genSurge\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  var appliances = {\n    genAC: { running: 1800, starting: 2800 },\n    genFridge: { running: 150, starting: 600 },\n    genMicro: { running: 1000, starting: 1500 },\n    genTV: { running: 200, starting: 200 },\n    genHeat: { running: 1500, starting: 1500 }\n  };\n  function calc() {\n    var totalRunning = 0;\n    var maxSurge = 0;\n    var ids = ['genAC', 'genFridge', 'genMicro', 'genTV', 'genHeat'];\n    ids.forEach(function(id) {\n      var qty = parseInt(document.getElementById(id).value) || 0;\n      var a = appliances[id];\n      totalRunning += a.running * qty;\n      var surge = (a.starting - a.running) * qty;\n      if (surge > maxSurge) maxSurge = surge;\n    });\n    var extra = parseFloat(document.getElementById('genExtra').value) || 0;\n    totalRunning += extra;\n    var peakStarting = totalRunning + maxSurge;\n    var recommended = Math.ceil((peakStarting * 1.2) / 500) * 500;\n    function fmt(v) { return v.toLocaleString() + 'W'; }\n    document.getElementById('genRec').textContent = fmt(recommended) + '+';\n    document.getElementById('genPeak').textContent = fmt(peakStarting);\n    document.getElementById('genRunning').textContent = fmt(totalRunning);\n    document.getElementById('genSurge').textContent = fmt(maxSurge);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#genAC,#genFridge,#genMicro,#genTV,#genHeat,#genExtra').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "boat-fuel-calculator",
+    "toolName": "Boat Fuel Calculator",
+    "category": "marine",
+    "tagline": "Calculate fuel consumption for your boat trip",
+    "keywords": "boat fuel calculator, boat gas consumption, marine fuel cost, boat fuel burn rate, boating fuel economy",
+    "subcategory": "fuel",
+    "relatedTools": [
+      "boat-speed-calculator",
+      "boat-loan-calculator",
+      "nautical-mile-converter"
+    ],
+    "faq": [
+      {
+        "question": "How much fuel does a boat use per hour?",
+        "answer": "Fuel burn varies enormously. Small outboards (25-75 HP) burn 2-6 GPH, mid-range (150-250 HP) burn 12-25 GPH, and large inboards (300+ HP) burn 20-50+ GPH. A rough estimate is 1 gallon per 10 HP per hour at full throttle."
+      },
+      {
+        "question": "How do I calculate boat fuel consumption?",
+        "answer": "Use the formula: GPH = (HP \u00d7 Load Factor) / (Specific Fuel Consumption \u00d7 6.1 for gas or 7.1 for diesel). For a quick estimate, multiply horsepower by 0.1 for gallons per hour at full throttle, or 0.06 at cruise speed."
+      },
+      {
+        "question": "What is the one-third fuel rule for boats?",
+        "answer": "The one-third rule: use one-third of your fuel going out, one-third coming back, and keep one-third in reserve for emergencies. This is a critical safety rule \u2014 never plan to use more than two-thirds of your total fuel capacity."
+      }
+    ],
+    "formulas": [
+      "Fuel Burn Rate (GPH) = Horsepower \u00d7 Throttle Factor (0.06 cruise, 0.10 WOT) for gasoline",
+      "Fuel Needed = GPH \u00d7 Hours of Operation",
+      "Trip Cost = Fuel Needed \u00d7 Price Per Gallon",
+      "Safe Fuel = Total Tank \u00d7 2/3 (one-third rule reserve)"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Boat Fuel Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate fuel consumption and cost for your boat trip.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"boatHp\">Engine Horsepower</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"boatHp\" value=\"200\" step=\"25\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"boatEngines\">Number of Engines</label>\n      <div class=\"input-row\"><select id=\"boatEngines\"><option value=\"1\" selected>Single</option><option value=\"2\">Twin</option><option value=\"3\">Triple</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"boatThrottle\">Throttle Setting</label>\n      <div class=\"input-row\"><select id=\"boatThrottle\"><option value=\"0.04\">Trolling (~40%)</option><option value=\"0.06\" selected>Cruise (~65%)</option><option value=\"0.08\">Fast Cruise (~80%)</option><option value=\"0.10\">WOT (100%)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"boatHours\">Trip Duration (hours)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"boatHours\" value=\"4\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"boatFuelPrice\">Fuel Price ($/gal)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"boatFuelPrice\" value=\"4.50\" step=\"0.10\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"boatTank\">Tank Size (gallons)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"boatTank\" value=\"100\" step=\"10\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Fuel Needed</div><div class=\"result-value\" id=\"boatFuelNeed\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Trip Fuel Cost</div><div class=\"result-value\" id=\"boatFuelCost\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Burn Rate (GPH)</div><div class=\"result-value\" id=\"boatGph\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Safe Range (hrs, 1/3 rule)</div><div class=\"result-value\" id=\"boatRange\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var hp = parseFloat(document.getElementById('boatHp').value) || 0;\n    var engines = parseFloat(document.getElementById('boatEngines').value) || 1;\n    var throttle = parseFloat(document.getElementById('boatThrottle').value) || 0.06;\n    var hours = parseFloat(document.getElementById('boatHours').value) || 0;\n    var price = parseFloat(document.getElementById('boatFuelPrice').value) || 0;\n    var tank = parseFloat(document.getElementById('boatTank').value) || 0;\n    var gph = hp * throttle * engines;\n    var fuelNeeded = gph * hours;\n    var cost = fuelNeeded * price;\n    var safeGallons = tank * (2 / 3);\n    var safeHours = gph > 0 ? safeGallons / gph : 0;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('boatFuelNeed').textContent = fuelNeeded.toFixed(1) + ' gal';\n    document.getElementById('boatFuelCost').textContent = $(cost);\n    document.getElementById('boatGph').textContent = gph.toFixed(1) + ' GPH';\n    document.getElementById('boatRange').textContent = safeHours.toFixed(1) + ' hrs';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#boatHp,#boatEngines,#boatThrottle,#boatHours,#boatFuelPrice,#boatTank').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "boat-loan-calculator",
+    "toolName": "Boat Loan Calculator",
+    "category": "marine",
+    "tagline": "Calculate monthly payments for boat financing",
+    "keywords": "boat loan calculator, boat financing, marine loan payment, boat payment calculator, yacht financing",
+    "subcategory": "financing",
+    "relatedTools": [
+      "boat-fuel-calculator",
+      "boat-trailer-weight-calculator",
+      "marine-battery-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What are typical boat loan rates?",
+        "answer": "Boat loan rates typically range from 6-10% for new boats with excellent credit, and 8-15% for used boats. Rates depend on credit score, loan amount, boat age, and loan term. Boats over $100K may qualify for better rates."
+      },
+      {
+        "question": "How long can I finance a boat?",
+        "answer": "Boat loans commonly range from 5-20 years. Loans under $25K usually max out at 10-12 years. Loans $25-75K can go 12-15 years. Over $75K may qualify for 15-20 year terms. Shorter terms save substantial interest."
+      },
+      {
+        "question": "Is a boat loan tax deductible?",
+        "answer": "If your boat has a berth, galley, and head (sleeping, cooking, bathroom facilities), it can qualify as a second home. This makes the interest tax-deductible under the mortgage interest deduction, subject to IRS limits."
+      }
+    ],
+    "formulas": [
+      "Monthly Payment = P \u00d7 [r(1+r)^n] / [(1+r)^n - 1]",
+      "P = Boat Price - Down Payment, r = Annual Rate / 12, n = Years \u00d7 12",
+      "Total Interest = (Monthly Payment \u00d7 n) - P"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Boat Loan Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate your monthly boat loan payment.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bltPrice\">Boat Price ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bltPrice\" value=\"65000\" step=\"5000\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bltDown\">Down Payment ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bltDown\" value=\"13000\" step=\"1000\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bltRate\">Interest Rate (%)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bltRate\" value=\"7.5\" step=\"0.1\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bltTerm\">Loan Term (years)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bltTerm\" value=\"10\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Monthly Payment</div><div class=\"result-value\" id=\"bltMonthly\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Interest</div><div class=\"result-value\" id=\"bltInterest\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Cost</div><div class=\"result-value\" id=\"bltTotal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Loan Amount</div><div class=\"result-value\" id=\"bltLoan\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var price = parseFloat(document.getElementById('bltPrice').value) || 0;\n    var down = parseFloat(document.getElementById('bltDown').value) || 0;\n    var rate = parseFloat(document.getElementById('bltRate').value) || 0;\n    var years = parseFloat(document.getElementById('bltTerm').value) || 0;\n    var P = price - down;\n    var r = rate / 100 / 12;\n    var n = years * 12;\n    var monthly = 0;\n    if (r > 0 && n > 0) {\n      monthly = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);\n    } else if (n > 0) {\n      monthly = P / n;\n    }\n    var totalCost = monthly * n + down;\n    var totalInt = monthly * n - P;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('bltMonthly').textContent = $(monthly);\n    document.getElementById('bltInterest').textContent = $(totalInt);\n    document.getElementById('bltTotal').textContent = $(totalCost);\n    document.getElementById('bltLoan').textContent = $(P);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#bltPrice,#bltDown,#bltRate,#bltTerm').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "anchor-rode-calculator",
+    "toolName": "Anchor Rode Calculator",
+    "category": "marine",
+    "tagline": "Calculate anchor line and chain needed",
+    "keywords": "anchor rode calculator, anchor scope, anchor chain length, anchoring calculator, anchor line needed",
+    "subcategory": "safety",
+    "relatedTools": [
+      "boat-speed-calculator",
+      "nautical-mile-converter",
+      "boat-fuel-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What scope ratio should I use for anchoring?",
+        "answer": "The standard scope is 7:1 (7 feet of rode for every 1 foot of depth) for all-rope rode in normal conditions. Use 5:1 for all-chain rode. In storms, increase to 10:1 or more. Never use less than 3:1 \u2014 that is emergency-only."
+      },
+      {
+        "question": "How do I calculate the total depth for scope?",
+        "answer": "Total depth = water depth at high tide + freeboard height (bow to waterline). If the water is 15 feet deep at high tide and your bow is 5 feet above water, your total depth is 20 feet, so 7:1 scope = 140 feet of rode."
+      },
+      {
+        "question": "Should I use chain or rope for anchor rode?",
+        "answer": "Most boats use a combination: 15-20 feet of chain at the anchor (adds weight for better holding, resists chafe on bottom), then nylon rope for the rest. All-chain rode is best for larger boats and coral/rocky bottoms but is very heavy."
+      }
+    ],
+    "formulas": [
+      "Total Depth = Water Depth + Tide Rise + Bow Height (freeboard)",
+      "Rode Needed = Total Depth \u00d7 Scope Ratio",
+      "Minimum Chain = 1 foot per foot of boat length (rule of thumb)"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Anchor Rode Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate how much anchor rode you need for safe anchoring.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ancDepth\">Water Depth (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"ancDepth\" value=\"15\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ancTide\">Max Tide Rise (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"ancTide\" value=\"4\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ancBow\">Bow Height / Freeboard (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"ancBow\" value=\"5\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ancScope\">Scope Ratio</label>\n      <div class=\"input-row\"><select id=\"ancScope\"><option value=\"5\">5:1 (All Chain, Calm)</option><option value=\"7\" selected>7:1 (Standard)</option><option value=\"10\">10:1 (Heavy Weather)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ancBoatLen\">Boat Length (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"ancBoatLen\" value=\"30\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Rode Needed</div><div class=\"result-value\" id=\"ancRode\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Depth Used</div><div class=\"result-value\" id=\"ancTotalD\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Min. Chain Length</div><div class=\"result-value\" id=\"ancChain\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Swing Radius</div><div class=\"result-value\" id=\"ancSwing\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var depth = parseFloat(document.getElementById('ancDepth').value) || 0;\n    var tide = parseFloat(document.getElementById('ancTide').value) || 0;\n    var bow = parseFloat(document.getElementById('ancBow').value) || 0;\n    var scope = parseFloat(document.getElementById('ancScope').value) || 7;\n    var boatLen = parseFloat(document.getElementById('ancBoatLen').value) || 0;\n    var totalDepth = depth + tide + bow;\n    var rode = totalDepth * scope;\n    var chain = boatLen;\n    var swing = rode + boatLen;\n    document.getElementById('ancRode').textContent = Math.ceil(rode) + ' ft';\n    document.getElementById('ancTotalD').textContent = totalDepth.toFixed(1) + ' ft';\n    document.getElementById('ancChain').textContent = Math.ceil(chain) + ' ft';\n    document.getElementById('ancSwing').textContent = Math.ceil(swing) + ' ft';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#ancDepth,#ancTide,#ancBow,#ancScope,#ancBoatLen').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "boat-speed-calculator",
+    "toolName": "Boat Speed Calculator",
+    "category": "marine",
+    "tagline": "Calculate hull speed from waterline length",
+    "keywords": "boat speed calculator, hull speed calculator, waterline length speed, boat knots calculator, theoretical hull speed",
+    "subcategory": "performance",
+    "relatedTools": [
+      "boat-fuel-calculator",
+      "nautical-mile-converter",
+      "anchor-rode-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is hull speed?",
+        "answer": "Hull speed is the maximum efficient speed of a displacement hull, where the bow wave and stern wave wavelength equals the waterline length. Beyond this speed, the boat must climb over its own bow wave, requiring exponentially more power."
+      },
+      {
+        "question": "Can a boat exceed hull speed?",
+        "answer": "Planing hulls (most powerboats) can exceed hull speed by rising up and riding on top of the water. Displacement hulls (sailboats, trawlers) are practically limited to hull speed. Semi-displacement hulls fall in between."
+      },
+      {
+        "question": "How is hull speed calculated?",
+        "answer": "Hull speed in knots = 1.34 \u00d7 square root of waterline length in feet. For example, a 36-foot waterline gives a hull speed of 1.34 \u00d7 6 = 8.04 knots. This is based on wave theory and the relationship between speed and wave length."
+      }
+    ],
+    "formulas": [
+      "Hull Speed (knots) = 1.34 \u00d7 \u221a(Waterline Length in feet)",
+      "Speed (MPH) = Speed (knots) \u00d7 1.15078",
+      "Speed (km/h) = Speed (knots) \u00d7 1.852"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Boat Speed Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate theoretical hull speed and convert speed units.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bsLwl\">Waterline Length (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bsLwl\" value=\"30\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bsConstant\">Speed-Length Ratio</label>\n      <div class=\"input-row\"><select id=\"bsConstant\"><option value=\"1.34\" selected>1.34 (Standard Hull)</option><option value=\"1.5\">1.50 (Light Displacement)</option><option value=\"1.2\">1.20 (Heavy Displacement)</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Hull Speed (knots)</div><div class=\"result-value\" id=\"bsKnots\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Hull Speed (MPH)</div><div class=\"result-value\" id=\"bsMph\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Hull Speed (km/h)</div><div class=\"result-value\" id=\"bsKmh\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Wave Length at Hull Speed</div><div class=\"result-value\" id=\"bsWave\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var lwl = parseFloat(document.getElementById('bsLwl').value) || 0;\n    var constant = parseFloat(document.getElementById('bsConstant').value) || 1.34;\n    var knots = constant * Math.sqrt(lwl);\n    var mph = knots * 1.15078;\n    var kmh = knots * 1.852;\n    var waveLen = lwl;\n    document.getElementById('bsKnots').textContent = knots.toFixed(2) + ' kn';\n    document.getElementById('bsMph').textContent = mph.toFixed(2) + ' mph';\n    document.getElementById('bsKmh').textContent = kmh.toFixed(2) + ' km/h';\n    document.getElementById('bsWave').textContent = waveLen.toFixed(1) + ' ft';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#bsLwl,#bsConstant').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "marine-battery-calculator",
+    "toolName": "Marine Battery Calculator",
+    "category": "marine",
+    "tagline": "Size your boat's battery bank correctly",
+    "keywords": "marine battery calculator, boat battery sizing, marine battery bank, boat house battery, marine electrical",
+    "subcategory": "electrical",
+    "relatedTools": [
+      "boat-fuel-calculator",
+      "boat-loan-calculator",
+      "anchor-rode-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How do I calculate my boat's electrical needs?",
+        "answer": "List each electrical device, its amp draw, and hours of daily use. Multiply amps \u00d7 hours for each to get amp-hours (Ah). Sum all devices for total daily Ah. Common loads: anchor light 1A\u00d710h=10Ah, fridge 5A\u00d712h=60Ah, electronics 3A\u00d78h=24Ah."
+      },
+      {
+        "question": "Should I use AGM or lithium marine batteries?",
+        "answer": "AGM batteries are cheaper upfront ($200-400 each) but only usable to 50% DoD with 400-800 cycle life. Lithium (LiFePO4) costs 3-4x more but offers 80-100% DoD, 3,000-5,000 cycles, is 60% lighter, and lasts 5-10x longer \u2014 often cheaper per cycle."
+      },
+      {
+        "question": "How many batteries do I need on my boat?",
+        "answer": "Start with daily Ah usage, divide by usable capacity per battery (50% for AGM, 80% for lithium), then add a safety margin. For 200Ah daily use with AGM (100Ah batteries at 50%), you need 200/50 = 4 batteries minimum. Add 1-2 more for reserve."
+      }
+    ],
+    "formulas": [
+      "Daily Amp-Hours = Sum of (Device Amps \u00d7 Hours Used Per Day)",
+      "Required Battery Capacity (Ah) = Daily Ah / Depth of Discharge",
+      "Number of Batteries = Required Capacity / Single Battery Ah Rating",
+      "Days of Autonomy = (Battery Bank Ah \u00d7 DoD) / Daily Ah"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Marine Battery Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Size your boat's battery bank for reliable power.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mbDaily\">Daily Usage (Ah)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"mbDaily\" value=\"150\" step=\"10\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mbDays\">Days of Autonomy</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"mbDays\" value=\"2\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mbType\">Battery Type</label>\n      <div class=\"input-row\"><select id=\"mbType\"><option value=\"0.5\">Lead-Acid/AGM (50% DoD)</option><option value=\"0.8\" selected>Lithium LiFePO4 (80% DoD)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mbBattAh\">Battery Rating (Ah each)</label>\n      <div class=\"input-row\"><select id=\"mbBattAh\"><option value=\"100\" selected>100 Ah</option><option value=\"200\">200 Ah</option><option value=\"300\">300 Ah</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mbVoltage\">System Voltage</label>\n      <div class=\"input-row\"><select id=\"mbVoltage\"><option value=\"12\" selected>12V</option><option value=\"24\">24V</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Required Capacity</div><div class=\"result-value\" id=\"mbCapacity\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Number of Batteries</div><div class=\"result-value\" id=\"mbCount\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Bank (kWh)</div><div class=\"result-value\" id=\"mbKwh\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Usable Energy (kWh)</div><div class=\"result-value\" id=\"mbUsable\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var daily = parseFloat(document.getElementById('mbDaily').value) || 0;\n    var days = parseFloat(document.getElementById('mbDays').value) || 1;\n    var dod = parseFloat(document.getElementById('mbType').value) || 0.5;\n    var battAh = parseFloat(document.getElementById('mbBattAh').value) || 100;\n    var voltage = parseFloat(document.getElementById('mbVoltage').value) || 12;\n    var requiredAh = (daily * days) / dod;\n    var numBatt = Math.ceil(requiredAh / battAh);\n    var totalKwh = (numBatt * battAh * voltage) / 1000;\n    var usableKwh = totalKwh * dod;\n    document.getElementById('mbCapacity').textContent = Math.round(requiredAh) + ' Ah';\n    document.getElementById('mbCount').textContent = numBatt + ' batteries';\n    document.getElementById('mbKwh').textContent = totalKwh.toFixed(1) + ' kWh';\n    document.getElementById('mbUsable').textContent = usableKwh.toFixed(1) + ' kWh';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#mbDaily,#mbDays,#mbType,#mbBattAh,#mbVoltage').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "boat-bottom-paint-calculator",
+    "toolName": "Boat Bottom Paint Calculator",
+    "category": "marine",
+    "tagline": "Calculate antifouling paint for your hull",
+    "keywords": "boat bottom paint calculator, antifouling paint coverage, hull paint calculator, boat paint needed, marine bottom paint",
+    "subcategory": "maintenance",
+    "relatedTools": [
+      "boat-trailer-weight-calculator",
+      "boat-loan-calculator",
+      "boat-fuel-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How do I estimate hull surface area?",
+        "answer": "A common approximation: Hull Area (sq ft) = Waterline Length \u00d7 (Beam + Draft) \u00d7 0.85. This accounts for the curved shape of most hulls. For precise numbers, check your boat manufacturer's specs or measure directly in drydock."
+      },
+      {
+        "question": "How many coats of bottom paint do I need?",
+        "answer": "Apply 2 coats minimum for proper protection, 3 coats on high-wear areas (waterline, keel, rudder, running gear). Each coat should be a different color so you can see when it is time to repaint. More coats = longer protection between haulouts."
+      },
+      {
+        "question": "How often should I repaint my boat bottom?",
+        "answer": "Most antifouling paint lasts 1-2 seasons for ablative types and 1-3 seasons for hard modified epoxy types. Boats in warm, high-growth waters need annual repainting. Cold-water boats may go 2-3 seasons between applications."
+      }
+    ],
+    "formulas": [
+      "Hull Surface Area \u2248 Waterline Length \u00d7 (Beam + Draft) \u00d7 0.85",
+      "Paint Needed (gallons) = (Hull Area \u00d7 Number of Coats) / Coverage Per Gallon",
+      "Typical coverage: 350-450 sq ft per gallon depending on paint type"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Boat Bottom Paint Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate how much antifouling paint you need.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bpLwl\">Waterline Length (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bpLwl\" value=\"30\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bpBeam\">Beam / Width (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bpBeam\" value=\"10\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bpDraft\">Draft (ft)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bpDraft\" value=\"4\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bpCoats\">Number of Coats</label>\n      <div class=\"input-row\"><select id=\"bpCoats\"><option value=\"2\" selected>2 Coats (Standard)</option><option value=\"3\">3 Coats (Heavy Duty)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bpCoverage\">Coverage (sq ft/gal)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bpCoverage\" value=\"400\" step=\"25\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bpPaintCost\">Paint Cost ($/gallon)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"bpPaintCost\" value=\"180\" step=\"10\" inputmode=\"decimal\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Hull Surface Area</div><div class=\"result-value\" id=\"bpArea\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Paint Needed</div><div class=\"result-value\" id=\"bpGallons\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Paint Cost</div><div class=\"result-value\" id=\"bpCost\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Coverage Area</div><div class=\"result-value\" id=\"bpTotalArea\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var lwl = parseFloat(document.getElementById('bpLwl').value) || 0;\n    var beam = parseFloat(document.getElementById('bpBeam').value) || 0;\n    var draft = parseFloat(document.getElementById('bpDraft').value) || 0;\n    var coats = parseFloat(document.getElementById('bpCoats').value) || 2;\n    var coverage = parseFloat(document.getElementById('bpCoverage').value) || 400;\n    var costPerGal = parseFloat(document.getElementById('bpPaintCost').value) || 0;\n    var area = lwl * (beam + draft) * 0.85;\n    var totalArea = area * coats;\n    var gallons = Math.ceil(totalArea / coverage);\n    var cost = gallons * costPerGal;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('bpArea').textContent = Math.round(area) + ' sq ft';\n    document.getElementById('bpGallons').textContent = gallons + ' gallons';\n    document.getElementById('bpCost').textContent = $(cost);\n    document.getElementById('bpTotalArea').textContent = Math.round(totalArea) + ' sq ft';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#bpLwl,#bpBeam,#bpDraft,#bpCoats,#bpCoverage,#bpPaintCost').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "boat-trailer-weight-calculator",
+    "toolName": "Boat Trailer Weight Calculator",
+    "category": "marine",
+    "tagline": "Calculate trailer and towing requirements",
+    "keywords": "boat trailer weight calculator, boat towing calculator, trailer capacity, boat towing requirements, trailer tongue weight",
+    "subcategory": "towing",
+    "relatedTools": [
+      "boat-fuel-calculator",
+      "boat-loan-calculator",
+      "boat-bottom-paint-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How do I calculate total towing weight for my boat?",
+        "answer": "Total towing weight = boat dry weight + engine weight + fuel weight (6.1 lbs/gal gas, 7.1 lbs/gal diesel) + gear weight + trailer weight. Most trailers weigh 15-25% of their rated capacity. Always stay under your tow vehicle's GCWR."
+      },
+      {
+        "question": "What should the tongue weight be?",
+        "answer": "Tongue weight should be 10-15% of total trailer weight for proper stability. Too little tongue weight causes trailer sway; too much overloads the tow vehicle's rear axle. Adjust by moving the boat fore or aft on the trailer."
+      },
+      {
+        "question": "What tow vehicle do I need for my boat?",
+        "answer": "Match your vehicle's tow rating to total weight with a 15-20% safety margin. A 5,000 lb boat+trailer combo needs at least a 6,000 lb tow rating. Consider tongue weight, payload capacity, cooling package, and transmission type too."
+      }
+    ],
+    "formulas": [
+      "Total Tow Weight = Boat Weight + Engine Weight + Fuel Weight + Gear + Trailer Weight",
+      "Fuel Weight = Gallons \u00d7 6.1 (gas) or \u00d7 7.1 (diesel)",
+      "Ideal Tongue Weight = Total Tow Weight \u00d7 0.10 to 0.15",
+      "Required Tow Rating = Total Tow Weight \u00d7 1.15 (safety margin)"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Boat Trailer Weight Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate total towing weight and requirements.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"twBoat\">Boat Dry Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"twBoat\" value=\"4500\" step=\"100\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"twTrailer\">Trailer Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"twTrailer\" value=\"1200\" step=\"100\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"twFuel\">Fuel on Board (gal)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"twFuel\" value=\"30\" step=\"5\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"twFuelType\">Fuel Type</label>\n      <div class=\"input-row\"><select id=\"twFuelType\"><option value=\"6.1\" selected>Gasoline (6.1 lb/gal)</option><option value=\"7.1\">Diesel (7.1 lb/gal)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"twGear\">Gear & Extras (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"twGear\" value=\"300\" step=\"50\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"twTowRating\">Vehicle Tow Rating (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"twTowRating\" value=\"7500\" step=\"500\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Tow Weight</div><div class=\"result-value\" id=\"twTotal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Tongue Weight (10-15%)</div><div class=\"result-value\" id=\"twTongue\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Tow Capacity Used</div><div class=\"result-value\" id=\"twUsed\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Remaining Capacity</div><div class=\"result-value\" id=\"twRemain\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var boat = parseFloat(document.getElementById('twBoat').value) || 0;\n    var trailer = parseFloat(document.getElementById('twTrailer').value) || 0;\n    var fuelGal = parseFloat(document.getElementById('twFuel').value) || 0;\n    var fuelLb = parseFloat(document.getElementById('twFuelType').value) || 6.1;\n    var gear = parseFloat(document.getElementById('twGear').value) || 0;\n    var towRating = parseFloat(document.getElementById('twTowRating').value) || 0;\n    var fuelWeight = fuelGal * fuelLb;\n    var total = boat + trailer + fuelWeight + gear;\n    var tongueLow = total * 0.10;\n    var tongueHigh = total * 0.15;\n    var usedPct = towRating > 0 ? (total / towRating * 100) : 0;\n    var remaining = towRating - total;\n    function fmt(v) { return v.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ' lbs'; }\n    document.getElementById('twTotal').textContent = fmt(total);\n    document.getElementById('twTongue').textContent = fmt(tongueLow) + ' \u2013 ' + fmt(tongueHigh);\n    document.getElementById('twUsed').textContent = usedPct.toFixed(1) + '%';\n    document.getElementById('twRemain').textContent = fmt(remaining);\n    if (remaining < 0) document.getElementById('twRemain').style.color = '#ef4444';\n    else document.getElementById('twRemain').style.color = '';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#twBoat,#twTrailer,#twFuel,#twFuelType,#twGear,#twTowRating').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "nautical-mile-converter",
+    "toolName": "Nautical Mile Converter",
+    "category": "marine",
+    "tagline": "Convert nautical and statute miles and knots",
+    "keywords": "nautical mile converter, knots to mph, nm to miles, nautical distance converter, knots converter",
+    "subcategory": "conversion",
+    "relatedTools": [
+      "boat-speed-calculator",
+      "boat-fuel-calculator",
+      "anchor-rode-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is a nautical mile?",
+        "answer": "A nautical mile equals 1.15078 statute miles or 1.852 kilometers. It is defined as one minute of latitude, which makes it naturally convenient for navigation on charts where latitude lines are clearly marked."
+      },
+      {
+        "question": "What is the difference between knots and MPH?",
+        "answer": "Knots measure speed in nautical miles per hour. 1 knot = 1.15078 MPH. Knots are used in maritime and aviation because they relate directly to latitude degrees, making navigation calculations simpler."
+      },
+      {
+        "question": "Why do sailors use nautical miles instead of regular miles?",
+        "answer": "Nautical miles correspond directly to degrees of latitude on charts: 1 nautical mile = 1 minute of latitude. This makes distance measurement on nautical charts intuitive \u2014 just measure the distance against the latitude scale on the chart edge."
+      }
+    ],
+    "formulas": [
+      "1 Nautical Mile = 1.15078 Statute Miles = 1.852 Kilometers",
+      "1 Knot = 1.15078 MPH = 1.852 km/h",
+      "1 Statute Mile = 0.86898 Nautical Miles"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Nautical Mile Converter</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Convert between nautical miles, statute miles, and kilometers.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"nmValue\">Distance / Speed Value</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"nmValue\" value=\"100\" step=\"1\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"nmFrom\">Convert From</label>\n      <div class=\"input-row\"><select id=\"nmFrom\"><option value=\"nm\" selected>Nautical Miles / Knots</option><option value=\"mi\">Statute Miles / MPH</option><option value=\"km\">Kilometers / km/h</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Convert</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Nautical Miles / Knots</div><div class=\"result-value\" id=\"nmNm\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Statute Miles / MPH</div><div class=\"result-value\" id=\"nmMi\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Kilometers / km/h</div><div class=\"result-value\" id=\"nmKm\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Meters</div><div class=\"result-value\" id=\"nmM\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var val = parseFloat(document.getElementById('nmValue').value) || 0;\n    var from = document.getElementById('nmFrom').value;\n    var nm, mi, km;\n    if (from === 'nm') {\n      nm = val; mi = val * 1.15078; km = val * 1.852;\n    } else if (from === 'mi') {\n      mi = val; nm = val * 0.86898; km = val * 1.60934;\n    } else {\n      km = val; nm = val / 1.852; mi = val / 1.60934;\n    }\n    var m = km * 1000;\n    document.getElementById('nmNm').textContent = nm.toFixed(4);\n    document.getElementById('nmMi').textContent = mi.toFixed(4);\n    document.getElementById('nmKm').textContent = km.toFixed(4);\n    document.getElementById('nmM').textContent = m.toFixed(1);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#nmValue,#nmFrom').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "dimensional-weight-calculator",
+    "toolName": "Dimensional Weight Calculator",
+    "category": "shipping",
+    "tagline": "Calculate DIM weight for UPS, FedEx, and USPS",
+    "keywords": "dimensional weight calculator, dim weight calculator, volumetric weight, ups dim weight, fedex dim weight, usps dim weight",
+    "subcategory": "parcel",
+    "relatedTools": [
+      "shipping-cost-estimator",
+      "pallet-calculator",
+      "package-insurance-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is dimensional weight?",
+        "answer": "Dimensional weight (DIM weight) is a pricing method that reflects package density. Carriers charge the greater of actual weight or DIM weight. Large, light packages cost more based on size rather than weight. This encourages efficient packaging."
+      },
+      {
+        "question": "What DIM factors do carriers use?",
+        "answer": "For domestic shipments: UPS and FedEx use a DIM factor of 139 (cubic inches / 139 = DIM lbs). USPS uses 166 for Priority Mail. International shipments typically use 139 or the metric equivalent of 5,000 (cubic cm / 5,000 = DIM kg)."
+      },
+      {
+        "question": "How can I reduce dimensional weight charges?",
+        "answer": "Use the smallest box possible, avoid oversized packaging, use poly mailers for soft goods, consider flat rate options for dense items, and right-size your packaging. Even 1 inch smaller on each dimension can meaningfully reduce DIM weight."
+      }
+    ],
+    "formulas": [
+      "DIM Weight (lbs) = (Length \u00d7 Width \u00d7 Height in inches) / DIM Factor",
+      "UPS/FedEx DIM Factor: 139 (domestic), USPS Priority: 166",
+      "Billable Weight = MAX(Actual Weight, DIM Weight)",
+      "Metric: DIM Weight (kg) = (L \u00d7 W \u00d7 H in cm) / 5,000"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Dimensional Weight Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate DIM weight to find your billable shipping weight.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dimL\">Length (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"dimL\" value=\"18\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dimW\">Width (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"dimW\" value=\"14\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dimH\">Height (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"dimH\" value=\"10\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dimActual\">Actual Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"dimActual\" value=\"8\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dimCarrier\">Carrier / DIM Factor</label>\n      <div class=\"input-row\"><select id=\"dimCarrier\"><option value=\"139\" selected>UPS / FedEx (139)</option><option value=\"166\">USPS Priority (166)</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">DIM Weight</div><div class=\"result-value\" id=\"dimWeight\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Billable Weight</div><div class=\"result-value\" id=\"dimBillable\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Actual Weight</div><div class=\"result-value\" id=\"dimActualOut\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Cubic Inches</div><div class=\"result-value\" id=\"dimCubic\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var l = parseFloat(document.getElementById('dimL').value) || 0;\n    var w = parseFloat(document.getElementById('dimW').value) || 0;\n    var h = parseFloat(document.getElementById('dimH').value) || 0;\n    var actual = parseFloat(document.getElementById('dimActual').value) || 0;\n    var factor = parseFloat(document.getElementById('dimCarrier').value) || 139;\n    var cubic = l * w * h;\n    var dimWt = Math.ceil(cubic / factor);\n    var billable = Math.max(actual, dimWt);\n    document.getElementById('dimWeight').textContent = dimWt + ' lbs';\n    document.getElementById('dimBillable').textContent = billable + ' lbs' + (dimWt > actual ? ' (DIM)' : ' (Actual)');\n    document.getElementById('dimActualOut').textContent = actual + ' lbs';\n    document.getElementById('dimCubic').textContent = cubic.toLocaleString() + ' in\\u00B3';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#dimL,#dimW,#dimH,#dimActual,#dimCarrier').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "freight-class-calculator",
+    "toolName": "Freight Class Calculator",
+    "category": "shipping",
+    "tagline": "Estimate NMFC freight class for LTL shipping",
+    "keywords": "freight class calculator, nmfc class, ltl freight class, freight density calculator, shipping class estimator",
+    "subcategory": "freight",
+    "relatedTools": [
+      "pallet-calculator",
+      "container-load-calculator",
+      "shipping-cost-estimator"
+    ],
+    "faq": [
+      {
+        "question": "What is freight class?",
+        "answer": "Freight class is an NMFC (National Motor Freight Classification) system ranging from 50 to 500 that standardizes LTL shipping pricing. Lower classes (50-85) are denser, easier to handle goods that cost less to ship. Higher classes (300-500) are light, bulky, or fragile items."
+      },
+      {
+        "question": "How is freight class determined?",
+        "answer": "The primary factor is density (lbs per cubic foot). Class 50 = 50+ lbs/ft3, Class 70 = 15-22.5 lbs/ft3, Class 100 = 8-10 lbs/ft3, Class 200 = 2-4 lbs/ft3, Class 500 = under 1 lb/ft3. Handling, liability, and stowability also factor in."
+      },
+      {
+        "question": "Why does freight class matter for shipping cost?",
+        "answer": "Freight class directly determines your LTL shipping rate. A Class 50 shipment might cost half as much as the same weight at Class 100. Accurate classification prevents reclassification fees, which add $50-200+ per shipment when carriers re-weigh and re-measure."
+      }
+    ],
+    "formulas": [
+      "Density (lbs/ft\u00b3) = Weight / (L \u00d7 W \u00d7 H / 1,728) where dimensions are in inches",
+      "Cubic Feet = (Length \u00d7 Width \u00d7 Height in inches) / 1,728",
+      "Freight class is determined by density ranges defined by NMFC"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Freight Class Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate NMFC freight class based on shipment density.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"fcL\">Length (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"fcL\" value=\"48\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"fcW\">Width (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"fcW\" value=\"40\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"fcH\">Height (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"fcH\" value=\"48\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"fcWeight\">Total Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"fcWeight\" value=\"500\" step=\"10\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Estimated Freight Class</div><div class=\"result-value\" id=\"fcClass\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Density</div><div class=\"result-value\" id=\"fcDensity\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Cubic Feet</div><div class=\"result-value\" id=\"fcCuFt\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Classification Note</div><div class=\"result-value\" id=\"fcNote\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function getClass(density) {\n    if (density >= 50) return { cls: '50', note: 'Heaviest \u2014 lowest rate' };\n    if (density >= 35) return { cls: '55', note: 'Very dense freight' };\n    if (density >= 30) return { cls: '60', note: 'Dense freight' };\n    if (density >= 22.5) return { cls: '65', note: 'Dense freight' };\n    if (density >= 15) return { cls: '70', note: 'Moderate density' };\n    if (density >= 13.5) return { cls: '77.5', note: 'Moderate density' };\n    if (density >= 12) return { cls: '85', note: 'Moderate density' };\n    if (density >= 10.5) return { cls: '92.5', note: 'Average density' };\n    if (density >= 9) return { cls: '100', note: 'Average density' };\n    if (density >= 8) return { cls: '110', note: 'Below average density' };\n    if (density >= 7) return { cls: '125', note: 'Low density' };\n    if (density >= 6) return { cls: '150', note: 'Low density' };\n    if (density >= 5) return { cls: '175', note: 'Very low density' };\n    if (density >= 4) return { cls: '200', note: 'Very low density' };\n    if (density >= 3) return { cls: '250', note: 'Extremely low density' };\n    if (density >= 2) return { cls: '300', note: 'Extremely low density' };\n    if (density >= 1) return { cls: '400', note: 'Lightest practical freight' };\n    return { cls: '500', note: 'Lowest density \u2014 highest rate' };\n  }\n  function calc() {\n    var l = parseFloat(document.getElementById('fcL').value) || 0;\n    var w = parseFloat(document.getElementById('fcW').value) || 0;\n    var h = parseFloat(document.getElementById('fcH').value) || 0;\n    var weight = parseFloat(document.getElementById('fcWeight').value) || 0;\n    var cuFt = (l * w * h) / 1728;\n    var density = cuFt > 0 ? weight / cuFt : 0;\n    var result_data = getClass(density);\n    document.getElementById('fcClass').textContent = 'Class ' + result_data.cls;\n    document.getElementById('fcDensity').textContent = density.toFixed(2) + ' lbs/ft\\u00B3';\n    document.getElementById('fcCuFt').textContent = cuFt.toFixed(2) + ' ft\\u00B3';\n    document.getElementById('fcNote').textContent = result_data.note;\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#fcL,#fcW,#fcH,#fcWeight').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "shipping-cost-estimator",
+    "toolName": "Shipping Cost Estimator",
+    "category": "shipping",
+    "tagline": "Compare estimated shipping rates by carrier",
+    "keywords": "shipping cost calculator, shipping rate comparison, ups fedex usps rates, package shipping cost, shipping estimate",
+    "subcategory": "parcel",
+    "relatedTools": [
+      "dimensional-weight-calculator",
+      "package-insurance-calculator",
+      "shipping-transit-time-calculator"
+    ],
+    "faq": [
+      {
+        "question": "Which carrier is cheapest for shipping?",
+        "answer": "USPS is typically cheapest for packages under 1 lb (First Class) and for small, heavy items (Flat Rate). UPS and FedEx are more competitive for heavier packages (10+ lbs) and offer better volume discounts. For very heavy items (70+ lbs), freight carriers are cheapest."
+      },
+      {
+        "question": "How are shipping rates calculated?",
+        "answer": "Rates depend on: billable weight (greater of actual or DIM weight), distance/zone, service speed, and surcharges. Additional costs include residential delivery ($4-6), fuel surcharge (5-15%), and peak season surcharges. Volume shippers get 20-50% discounts."
+      },
+      {
+        "question": "When should I use flat rate shipping?",
+        "answer": "USPS Flat Rate boxes are best for dense, heavy items that fit in the box: anything over 4-5 lbs going long distance. A small flat rate box ($10.40) beats weight-based pricing for anything heavy enough. Always compare flat rate vs. regular before choosing."
+      }
+    ],
+    "formulas": [
+      "Base Rate = Weight \u00d7 Rate Per Pound \u00d7 Zone Factor",
+      "Total Cost = Base Rate + Fuel Surcharge (% of base) + Residential Fee + Other Surcharges",
+      "Zone ranges from 1 (local) to 8 (coast-to-coast), affecting price significantly"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Shipping Cost Estimator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Get estimated shipping costs across carriers.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"scWeight\">Package Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"scWeight\" value=\"5\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"scZone\">Shipping Zone</label>\n      <div class=\"input-row\"><select id=\"scZone\"><option value=\"1.0\">Zone 1-2 (Local)</option><option value=\"1.2\">Zone 3 (Regional)</option><option value=\"1.4\">Zone 4</option><option value=\"1.6\" selected>Zone 5 (Medium)</option><option value=\"1.85\">Zone 6</option><option value=\"2.1\">Zone 7</option><option value=\"2.4\">Zone 8 (Cross-country)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"scService\">Service Speed</label>\n      <div class=\"input-row\"><select id=\"scService\"><option value=\"1.0\" selected>Ground (5-7 days)</option><option value=\"1.8\">3-Day Select</option><option value=\"2.5\">2-Day</option><option value=\"4.0\">Overnight</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"scResidential\">Delivery Type</label>\n      <div class=\"input-row\"><select id=\"scResidential\"><option value=\"0\">Commercial</option><option value=\"5\" selected>Residential (+~$5)</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Estimate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">UPS Estimate</div><div class=\"result-value\" id=\"scUps\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">FedEx Estimate</div><div class=\"result-value\" id=\"scFedex\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">USPS Estimate</div><div class=\"result-value\" id=\"scUsps\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Cheapest Option</div><div class=\"result-value\" id=\"scCheapest\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var weight = parseFloat(document.getElementById('scWeight').value) || 0;\n    var zone = parseFloat(document.getElementById('scZone').value) || 1;\n    var service = parseFloat(document.getElementById('scService').value) || 1;\n    var resi = parseFloat(document.getElementById('scResidential').value) || 0;\n    var upsBase = 2.50;\n    var fedexBase = 2.45;\n    var uspsBase = 2.00;\n    var upsRate = (upsBase + weight * 0.95) * zone * service + resi;\n    var upsFuel = upsRate * 0.125;\n    var ups = upsRate + upsFuel;\n    var fedexRate = (fedexBase + weight * 0.93) * zone * service + resi;\n    var fedexFuel = fedexRate * 0.12;\n    var fedex = fedexRate + fedexFuel;\n    var usps = (uspsBase + weight * 0.75) * zone * service * 0.9;\n    if (resi > 0) usps += 0;\n    function $(v) { return '$' + v.toFixed(2); }\n    document.getElementById('scUps').textContent = $(ups);\n    document.getElementById('scFedex').textContent = $(fedex);\n    document.getElementById('scUsps').textContent = $(usps);\n    var cheapest = Math.min(ups, fedex, usps);\n    var cheapName = cheapest === usps ? 'USPS' : (cheapest === fedex ? 'FedEx' : 'UPS');\n    document.getElementById('scCheapest').textContent = cheapName + ' \u2014 ' + $(cheapest);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#scWeight,#scZone,#scService,#scResidential').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "pallet-calculator",
+    "toolName": "Pallet Calculator",
+    "category": "shipping",
+    "tagline": "Calculate how many items fit on a pallet",
+    "keywords": "pallet calculator, pallet loading calculator, boxes per pallet, pallet optimization, pallet stacking calculator",
+    "subcategory": "freight",
+    "relatedTools": [
+      "container-load-calculator",
+      "freight-class-calculator",
+      "dimensional-weight-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What is a standard pallet size?",
+        "answer": "The most common pallet in North America is the GMA pallet: 48\" \u00d7 40\" (1,219 \u00d7 1,016 mm). Other common sizes include 42\u00d742 (telecom), 48\u00d748 (drums), and 40\u00d740 (dairy). The standard max height for a palletized load is 48-60 inches including the pallet."
+      },
+      {
+        "question": "How do I maximize boxes per pallet?",
+        "answer": "Try different box orientations (length vs width leading). Alternate layer patterns for stability. Consider column stacking for fragile items. Use overhang up to 1 inch if acceptable. Software optimization can increase pallet utilization by 10-20% over manual layouts."
+      },
+      {
+        "question": "What is the max weight for a pallet?",
+        "answer": "Standard GMA pallets support 2,500 lbs for floor stacking and 2,000 lbs for racked storage. Most carriers limit pallet shipments to 2,500-3,000 lbs per pallet. For heavier loads, use hardwood or reinforced pallets rated for the weight."
+      }
+    ],
+    "formulas": [
+      "Boxes Per Layer = floor(Pallet Length / Box Length) \u00d7 floor(Pallet Width / Box Width)",
+      "Number of Layers = floor(Max Stack Height / Box Height)",
+      "Total Boxes = Boxes Per Layer \u00d7 Number of Layers",
+      "Pallet Utilization = (Boxes Per Layer \u00d7 Box L \u00d7 Box W) / (Pallet L \u00d7 Pallet W) \u00d7 100%"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Pallet Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate how many boxes fit on a pallet.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palBoxL\">Box Length (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palBoxL\" value=\"12\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palBoxW\">Box Width (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palBoxW\" value=\"10\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palBoxH\">Box Height (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palBoxH\" value=\"8\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palBoxWt\">Box Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palBoxWt\" value=\"15\" step=\"1\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palL\">Pallet Length (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palL\" value=\"48\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palW\">Pallet Width (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palW\" value=\"40\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palMaxH\">Max Stack Height (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palMaxH\" value=\"48\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"palMaxWt\">Max Pallet Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"palMaxWt\" value=\"2500\" step=\"100\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Boxes Per Pallet</div><div class=\"result-value\" id=\"palTotal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Boxes Per Layer</div><div class=\"result-value\" id=\"palPerLayer\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Number of Layers</div><div class=\"result-value\" id=\"palLayers\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Weight</div><div class=\"result-value\" id=\"palWeight\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Pallet Utilization</div><div class=\"result-value\" id=\"palUtil\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Limiting Factor</div><div class=\"result-value\" id=\"palLimit\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var bL = parseFloat(document.getElementById('palBoxL').value) || 0;\n    var bW = parseFloat(document.getElementById('palBoxW').value) || 0;\n    var bH = parseFloat(document.getElementById('palBoxH').value) || 0;\n    var bWt = parseFloat(document.getElementById('palBoxWt').value) || 0;\n    var pL = parseFloat(document.getElementById('palL').value) || 48;\n    var pW = parseFloat(document.getElementById('palW').value) || 40;\n    var maxH = parseFloat(document.getElementById('palMaxH').value) || 48;\n    var maxWt = parseFloat(document.getElementById('palMaxWt').value) || 2500;\n    var orient1 = Math.floor(pL / bL) * Math.floor(pW / bW);\n    var orient2 = Math.floor(pL / bW) * Math.floor(pW / bL);\n    var perLayer = Math.max(orient1, orient2);\n    var bestL = orient1 >= orient2 ? bL : bW;\n    var bestW = orient1 >= orient2 ? bW : bL;\n    var layers = bH > 0 ? Math.floor(maxH / bH) : 0;\n    var totalBySpace = perLayer * layers;\n    var totalByWeight = bWt > 0 ? Math.floor(maxWt / bWt) : totalBySpace;\n    var total = Math.min(totalBySpace, totalByWeight);\n    var limiting = totalByWeight < totalBySpace ? 'Weight' : 'Height/Space';\n    var usedArea = perLayer * bestL * bestW;\n    var palletArea = pL * pW;\n    var util = palletArea > 0 ? (usedArea / palletArea * 100) : 0;\n    var totalWt = total * bWt;\n    document.getElementById('palTotal').textContent = total + ' boxes';\n    document.getElementById('palPerLayer').textContent = perLayer + ' boxes';\n    document.getElementById('palLayers').textContent = Math.min(layers, Math.ceil(total / perLayer));\n    document.getElementById('palWeight').textContent = totalWt.toLocaleString() + ' lbs';\n    document.getElementById('palUtil').textContent = util.toFixed(1) + '%';\n    document.getElementById('palLimit').textContent = limiting;\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#palBoxL,#palBoxW,#palBoxH,#palBoxWt,#palL,#palW,#palMaxH,#palMaxWt').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "container-load-calculator",
+    "toolName": "Container Load Calculator",
+    "category": "shipping",
+    "tagline": "Calculate how many units fit in a container",
+    "keywords": "container load calculator, container capacity, shipping container calculator, 20ft 40ft container, container loading plan",
+    "subcategory": "freight",
+    "relatedTools": [
+      "pallet-calculator",
+      "freight-class-calculator",
+      "customs-duty-calculator"
+    ],
+    "faq": [
+      {
+        "question": "What are standard shipping container sizes?",
+        "answer": "The most common are 20ft (internal: 19'4\" \u00d7 7'8\" \u00d7 7'10\", ~1,170 ft3, max 44,000 lbs) and 40ft (internal: 39'5\" \u00d7 7'8\" \u00d7 7'10\", ~2,390 ft3, max 59,000 lbs). High-cube 40ft containers add 1 foot of height (~2,700 ft3)."
+      },
+      {
+        "question": "How many pallets fit in a container?",
+        "answer": "A 20ft container fits 10 standard pallets (48\u00d740) single loaded or 11 turned sideways. A 40ft container fits 20-21 pallets single loaded. Double stacking pallets doubles capacity if weight allows. Always check weight limits too."
+      },
+      {
+        "question": "Should I use a 20ft or 40ft container?",
+        "answer": "A 40ft container costs about 25-40% more than a 20ft but offers double the space \u2014 much better value per unit if you can fill it. Use a 20ft for heavy, dense cargo that would exceed the 40ft weight limit, or if you cannot fill a 40ft."
+      }
+    ],
+    "formulas": [
+      "Units Per Row = floor(Container Length / Unit Length)",
+      "Rows Per Layer = floor(Container Width / Unit Width)",
+      "Layers = floor(Container Height / Unit Height)",
+      "Total Units = Units Per Row \u00d7 Rows Per Layer \u00d7 Layers (check weight limit)"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Container Load Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Calculate how many units fit in a shipping container.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"clContainer\">Container Type</label>\n      <div class=\"input-row\"><select id=\"clContainer\"><option value=\"232,92,94,44000\">20ft Standard</option><option value=\"472,92,94,59000\" selected>40ft Standard</option><option value=\"472,92,106,59000\">40ft High Cube</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"clUnitL\">Unit Length (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"clUnitL\" value=\"24\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"clUnitW\">Unit Width (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"clUnitW\" value=\"18\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"clUnitH\">Unit Height (in)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"clUnitH\" value=\"12\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"clUnitWt\">Unit Weight (lbs)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"clUnitWt\" value=\"25\" step=\"1\" inputmode=\"decimal\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Units (by volume)</div><div class=\"result-value\" id=\"clUnitsVol\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Units (by weight)</div><div class=\"result-value\" id=\"clUnitsWt\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Max Loadable</div><div class=\"result-value\" id=\"clMax\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Volume Utilization</div><div class=\"result-value\" id=\"clUtil\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Total Weight</div><div class=\"result-value\" id=\"clTotalWt\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Limiting Factor</div><div class=\"result-value\" id=\"clLimit\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var dims = document.getElementById('clContainer').value.split(',');\n    var cL = parseFloat(dims[0]); var cW = parseFloat(dims[1]);\n    var cH = parseFloat(dims[2]); var maxWt = parseFloat(dims[3]);\n    var uL = parseFloat(document.getElementById('clUnitL').value) || 0;\n    var uW = parseFloat(document.getElementById('clUnitW').value) || 0;\n    var uH = parseFloat(document.getElementById('clUnitH').value) || 0;\n    var uWt = parseFloat(document.getElementById('clUnitWt').value) || 0;\n    var o1 = Math.floor(cL / uL) * Math.floor(cW / uW) * Math.floor(cH / uH);\n    var o2 = Math.floor(cL / uW) * Math.floor(cW / uL) * Math.floor(cH / uH);\n    var volUnits = Math.max(o1, o2);\n    var wtUnits = uWt > 0 ? Math.floor(maxWt / uWt) : volUnits;\n    var maxLoad = Math.min(volUnits, wtUnits);\n    var unitVol = uL * uW * uH;\n    var containerVol = cL * cW * cH;\n    var util = containerVol > 0 ? ((maxLoad * unitVol) / containerVol * 100) : 0;\n    var totalWt = maxLoad * uWt;\n    var limiting = wtUnits < volUnits ? 'Weight' : 'Volume';\n    document.getElementById('clUnitsVol').textContent = volUnits.toLocaleString() + ' units';\n    document.getElementById('clUnitsWt').textContent = wtUnits.toLocaleString() + ' units';\n    document.getElementById('clMax').textContent = maxLoad.toLocaleString() + ' units';\n    document.getElementById('clUtil').textContent = util.toFixed(1) + '%';\n    document.getElementById('clTotalWt').textContent = totalWt.toLocaleString() + ' lbs';\n    document.getElementById('clLimit').textContent = limiting;\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#clContainer,#clUnitL,#clUnitW,#clUnitH,#clUnitWt').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "customs-duty-calculator",
+    "toolName": "Customs Duty Calculator",
+    "category": "shipping",
+    "tagline": "Estimate import duties and taxes on goods",
+    "keywords": "customs duty calculator, import duty calculator, tariff calculator, import tax estimator, customs fees calculator",
+    "subcategory": "international",
+    "relatedTools": [
+      "container-load-calculator",
+      "shipping-cost-estimator",
+      "freight-class-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How are customs duties calculated?",
+        "answer": "Duties are calculated as a percentage of the customs value (usually the transaction value including shipping to the port). The duty rate depends on the product's HS (Harmonized System) code and the country of origin. Rates range from 0% to 25%+ depending on the product."
+      },
+      {
+        "question": "What is the de minimis threshold?",
+        "answer": "In the US, shipments valued under $800 are generally duty-free (the de minimis threshold). This applies per person per day. Canada's threshold is CAD $20 for duties and CAD $40 for taxes. The EU has eliminated its de minimis for VAT."
+      },
+      {
+        "question": "What additional fees are there besides duties?",
+        "answer": "Beyond duties, expect: Merchandise Processing Fee (0.3464% of value, min $31.67, max $614.35 for US imports), Harbor Maintenance Fee (0.125% for ocean shipments), customs broker fees ($150-400), and potentially anti-dumping or countervailing duties."
+      }
+    ],
+    "formulas": [
+      "Duty Amount = Customs Value \u00d7 Duty Rate %",
+      "Customs Value = Product Cost + Shipping to Port + Insurance",
+      "MPF (US) = Customs Value \u00d7 0.3464% (min $31.67, max $614.35)",
+      "Total Import Cost = Customs Value + Duty + MPF + Broker Fees"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Customs Duty Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate import duties, taxes, and total landed cost.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cdValue\">Product Value ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"cdValue\" value=\"5000\" step=\"100\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cdShipping\">Shipping Cost ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"cdShipping\" value=\"500\" step=\"50\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cdInsurance\">Insurance ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"cdInsurance\" value=\"50\" step=\"10\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cdDutyRate\">Duty Rate (%)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"cdDutyRate\" value=\"5\" step=\"0.5\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cdBroker\">Customs Broker Fee ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"cdBroker\" value=\"200\" step=\"25\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cdMpf\">Include US MPF?</label>\n      <div class=\"input-row\"><select id=\"cdMpf\"><option value=\"1\" selected>Yes</option><option value=\"0\">No</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Customs Value</div><div class=\"result-value\" id=\"cdCustVal\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Duty Amount</div><div class=\"result-value\" id=\"cdDuty\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">MPF</div><div class=\"result-value\" id=\"cdMpfAmt\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Landed Cost</div><div class=\"result-value\" id=\"cdTotal\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Effective Duty Rate</div><div class=\"result-value\" id=\"cdEffRate\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Total Fees & Duties</div><div class=\"result-value\" id=\"cdFees\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  function calc() {\n    var value = parseFloat(document.getElementById('cdValue').value) || 0;\n    var shipping = parseFloat(document.getElementById('cdShipping').value) || 0;\n    var insurance = parseFloat(document.getElementById('cdInsurance').value) || 0;\n    var dutyRate = parseFloat(document.getElementById('cdDutyRate').value) / 100 || 0;\n    var broker = parseFloat(document.getElementById('cdBroker').value) || 0;\n    var includeMpf = parseInt(document.getElementById('cdMpf').value) || 0;\n    var custVal = value + shipping + insurance;\n    var duty = custVal * dutyRate;\n    var mpf = 0;\n    if (includeMpf && custVal > 0) {\n      mpf = custVal * 0.003464;\n      mpf = Math.max(mpf, 31.67);\n      mpf = Math.min(mpf, 614.35);\n    }\n    var totalFees = duty + mpf + broker;\n    var totalLanded = custVal + totalFees;\n    var effRate = value > 0 ? (totalFees / value * 100) : 0;\n    function $(v) { return '$' + v.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }\n    document.getElementById('cdCustVal').textContent = $(custVal);\n    document.getElementById('cdDuty').textContent = $(duty);\n    document.getElementById('cdMpfAmt').textContent = $(mpf);\n    document.getElementById('cdTotal').textContent = $(totalLanded);\n    document.getElementById('cdEffRate').textContent = effRate.toFixed(2) + '%';\n    document.getElementById('cdFees').textContent = $(totalFees);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#cdValue,#cdShipping,#cdInsurance,#cdDutyRate,#cdBroker,#cdMpf').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "shipping-transit-time-calculator",
+    "toolName": "Shipping Transit Time Calculator",
+    "category": "shipping",
+    "tagline": "Estimate delivery dates by shipping method",
+    "keywords": "shipping transit time calculator, delivery date estimator, shipping time calculator, package delivery estimate, shipping days calculator",
+    "subcategory": "parcel",
+    "relatedTools": [
+      "shipping-cost-estimator",
+      "dimensional-weight-calculator",
+      "package-insurance-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How long does ground shipping take?",
+        "answer": "UPS Ground and FedEx Ground take 1-5 business days depending on distance. Zone 1-2 (local) is typically 1-2 days, while Zone 8 (coast to coast) takes 5 business days. Add 1 day for residential delivery. Saturday/Sunday are not transit days for ground."
+      },
+      {
+        "question": "Does the ship date affect transit time?",
+        "answer": "Yes. Packages shipped on Friday via ground will not move over the weekend \u2014 Monday is the first transit day. Shipping earlier in the week maximizes the chance of same-week delivery. Holiday weeks add delays. Most carriers have a cutoff time (usually 3-5 PM) for same-day pickup."
+      },
+      {
+        "question": "What causes shipping delays?",
+        "answer": "Common delays: weather events (1-3 days), peak season volume (Dec, Prime Day), incorrect addresses (1-2 days for correction), customs clearance for international (1-5 days), remote/rural delivery areas, and carrier capacity issues."
+      }
+    ],
+    "formulas": [
+      "Estimated Delivery = Ship Date + Transit Days (business days only)",
+      "Business days exclude Saturday, Sunday, and major holidays",
+      "Transit days vary by service: Ground 1-5, 3-Day, 2-Day, Next Day"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Shipping Transit Time Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate delivery dates based on service and ship date.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ttShipDate\">Ship Date</label>\n      <div class=\"input-row\"><input type=\"date\" id=\"ttShipDate\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ttService\">Shipping Service</label>\n      <div class=\"input-row\"><select id=\"ttService\"><option value=\"5\" selected>Ground (5 business days)</option><option value=\"3\">3-Day Select</option><option value=\"2\">2nd Day Air</option><option value=\"1\">Next Day Air</option><option value=\"7\">USPS Priority (3-7 days)</option><option value=\"14\">Economy / Freight (7-14 days)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ttZone\">Distance / Zone</label>\n      <div class=\"input-row\"><select id=\"ttZone\"><option value=\"0.4\">Local (Zone 1-2)</option><option value=\"0.6\">Regional (Zone 3-4)</option><option value=\"0.8\" selected>Medium (Zone 5-6)</option><option value=\"1.0\">Cross-Country (Zone 7-8)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ttBuffer\">Add Buffer Days</label>\n      <div class=\"input-row\"><select id=\"ttBuffer\"><option value=\"0\">No Buffer</option><option value=\"1\" selected>+1 Day (Recommended)</option><option value=\"2\">+2 Days (Conservative)</option></select></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Estimated Delivery</div><div class=\"result-value\" id=\"ttDelivery\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Business Days in Transit</div><div class=\"result-value\" id=\"ttDays\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Calendar Days</div><div class=\"result-value\" id=\"ttCalDays\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Latest Possible</div><div class=\"result-value\" id=\"ttLatest\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  var shipDateInput = document.getElementById('ttShipDate');\n  var today = new Date();\n  shipDateInput.value = today.toISOString().split('T')[0];\n  function addBusinessDays(date, days) {\n    var d = new Date(date);\n    var added = 0;\n    while (added < days) {\n      d.setDate(d.getDate() + 1);\n      var dow = d.getDay();\n      if (dow !== 0 && dow !== 6) added++;\n    }\n    return d;\n  }\n  function formatDate(d) {\n    var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];\n    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];\n    return days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();\n  }\n  function calc() {\n    var shipDate = new Date(document.getElementById('ttShipDate').value + 'T12:00:00');\n    if (isNaN(shipDate.getTime())) return;\n    var maxTransit = parseInt(document.getElementById('ttService').value) || 5;\n    var zoneFactor = parseFloat(document.getElementById('ttZone').value) || 0.8;\n    var buffer = parseInt(document.getElementById('ttBuffer').value) || 0;\n    var transitDays = Math.max(1, Math.ceil(maxTransit * zoneFactor));\n    var estDelivery = addBusinessDays(shipDate, transitDays + buffer);\n    var latestDelivery = addBusinessDays(shipDate, maxTransit + buffer + 1);\n    var calDays = Math.round((estDelivery - shipDate) / (1000 * 60 * 60 * 24));\n    document.getElementById('ttDelivery').textContent = formatDate(estDelivery);\n    document.getElementById('ttDays').textContent = transitDays + ' days';\n    document.getElementById('ttCalDays').textContent = calDays + ' days';\n    document.getElementById('ttLatest').textContent = formatDate(latestDelivery);\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#ttShipDate,#ttService,#ttZone,#ttBuffer').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  },
+  {
+    "slug": "package-insurance-calculator",
+    "toolName": "Package Insurance Calculator",
+    "category": "shipping",
+    "tagline": "Calculate shipping insurance cost for packages",
+    "keywords": "package insurance calculator, shipping insurance cost, parcel insurance, ups insurance, fedex declared value",
+    "subcategory": "parcel",
+    "relatedTools": [
+      "shipping-cost-estimator",
+      "dimensional-weight-calculator",
+      "shipping-transit-time-calculator"
+    ],
+    "faq": [
+      {
+        "question": "How much does shipping insurance cost?",
+        "answer": "Carrier insurance (declared value) typically costs $1.05-$3.00 per $100 of value. UPS charges $1.05 per $100 above the included $100 coverage. FedEx is similar. Third-party insurers like Shipsurance or U-PIC offer rates of $0.50-$1.50 per $100, often 40-60% cheaper."
+      },
+      {
+        "question": "Is shipping insurance worth it?",
+        "answer": "For items over $100, usually yes. The break-even analysis: if your damage/loss rate is 1% and insurance costs 1% of value, it is neutral. But most damage rates are 1-3% for fragile items, making insurance a good value for anything you cannot afford to lose."
+      },
+      {
+        "question": "What does shipping insurance cover?",
+        "answer": "Standard carrier insurance covers loss, damage, and theft during transit. It typically does NOT cover improper packaging, perishable spoilage, inherent product defects, or delays. Some third-party insurers offer broader coverage including concealed damage."
+      }
+    ],
+    "formulas": [
+      "Carrier Insurance = ((Declared Value - Included Coverage) / 100) \u00d7 Rate Per $100",
+      "UPS: $100 included free, then $1.05 per additional $100",
+      "Third-Party Insurance \u2248 Declared Value \u00d7 0.8-1.5% (varies by provider)",
+      "Break-Even Loss Rate = Insurance Cost / Declared Value \u00d7 100"
+    ],
+    "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Package Insurance Calculator</h2>\n  <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Compare carrier and third-party insurance costs.</p>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"piValue\">Package Value ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"piValue\" value=\"500\" step=\"50\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"piCarrier\">Carrier</label>\n      <div class=\"input-row\"><select id=\"piCarrier\"><option value=\"ups\" selected>UPS ($1.05/100)</option><option value=\"fedex\">FedEx ($1.00/100)</option><option value=\"usps\">USPS ($2.70/100)</option></select></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"piIncluded\">Included Coverage ($)</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"piIncluded\" value=\"100\" step=\"50\" inputmode=\"decimal\"></div>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"piPackages\">Number of Packages</label>\n      <div class=\"input-row\"><input type=\"number\" id=\"piPackages\" value=\"1\" step=\"1\" inputmode=\"numeric\"></div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Carrier Insurance Cost</div><div class=\"result-value\" id=\"piCarrierCost\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Third-Party Estimate</div><div class=\"result-value\" id=\"piThirdParty\">\u2014</div></div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\"><div class=\"result-label\">Potential Savings</div><div class=\"result-value\" id=\"piSavings\">\u2014</div></div>\n      <div class=\"result-item\"><div class=\"result-label\">Cost as % of Value</div><div class=\"result-value\" id=\"piPct\">\u2014</div></div>\n    </div>\n  </div>\n</div>",
+    "customJS": "(function() {\n  'use strict';\n  var btn = document.getElementById('calcBtn');\n  var result = document.getElementById('result');\n  var rates = { ups: 1.05, fedex: 1.00, usps: 2.70 };\n  function calc() {\n    var value = parseFloat(document.getElementById('piValue').value) || 0;\n    var carrier = document.getElementById('piCarrier').value;\n    var included = parseFloat(document.getElementById('piIncluded').value) || 0;\n    var pkgs = parseFloat(document.getElementById('piPackages').value) || 1;\n    var rate = rates[carrier] || 1.05;\n    var insurable = Math.max(0, value - included);\n    var carrierCost = Math.ceil(insurable / 100) * rate * pkgs;\n    var thirdParty = (value * 0.008) * pkgs;\n    thirdParty = Math.max(thirdParty, 1.50 * pkgs);\n    var savings = carrierCost - thirdParty;\n    var pct = value > 0 ? (carrierCost / (value * pkgs) * 100) : 0;\n    function $(v) { return '$' + v.toFixed(2); }\n    document.getElementById('piCarrierCost').textContent = $(carrierCost);\n    document.getElementById('piThirdParty').textContent = '~' + $(thirdParty);\n    document.getElementById('piSavings').textContent = savings > 0 ? $(savings) + ' with 3rd party' : 'Carrier is cheaper';\n    document.getElementById('piPct').textContent = pct.toFixed(2) + '%';\n    result.classList.add('visible');\n  }\n  btn.addEventListener('click', calc);\n  document.querySelectorAll('#piValue,#piCarrier,#piIncluded,#piPackages').forEach(function(el) {\n    el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calc(); });\n  });\n})();"
+  }
+]

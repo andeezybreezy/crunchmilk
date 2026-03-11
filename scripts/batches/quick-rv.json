@@ -1,0 +1,241 @@
+[
+  {
+    "slug": "rv-loan-calculator",
+    "toolName": "RV Loan Calculator",
+    "category": "rv",
+    "tagline": "Calculate monthly payments for your RV loan",
+    "keywords": "rv loan calculator, rv payment calculator, motorhome financing, rv monthly payment",
+    "relatedTools": ["rv-fuel-cost-calculator", "rv-depreciation-calculator", "rv-insurance-cost-calculator"],
+    "inputs": [
+      {"id": "price", "label": "RV Price", "default": 75000, "min": 0},
+      {"id": "down", "label": "Down Payment", "default": 15000, "min": 0},
+      {"id": "rate", "label": "Interest Rate", "default": 6.5, "min": 0, "max": 30, "step": 0.1, "unit": "%"},
+      {"id": "term", "label": "Loan Term", "default": 15, "min": 1, "max": 30, "unit": "years"}
+    ],
+    "results": [
+      {"id": "monthly", "label": "Monthly Payment"},
+      {"id": "totalInterest", "label": "Total Interest"},
+      {"id": "totalCost", "label": "Total Cost"},
+      {"id": "loanAmount", "label": "Loan Amount"}
+    ],
+    "calcFn": "var loan = price - down; if (loan <= 0) return; var r = rate / 100 / 12; var n = term * 12; var payment = r > 0 ? loan * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1) : loan / n; var totalPaid = payment * n; document.getElementById('monthly').textContent = dollar(payment); document.getElementById('totalInterest').textContent = dollar(totalPaid - loan); document.getElementById('totalCost').textContent = dollar(totalPaid + down); document.getElementById('loanAmount').textContent = dollar(loan); document.getElementById('resultTip').textContent = 'Total interest is ' + pct((totalPaid - loan) / loan * 100, 1) + ' of your loan amount.';",
+    "formulas": ["Monthly Payment = P × [r(1+r)^n] / [(1+r)^n – 1]", "P = loan amount, r = monthly rate, n = total months", "Total Interest = (Monthly Payment × Months) – Loan Amount"],
+    "faq": [
+      {"question": "What is a typical RV loan interest rate?", "answer": "RV loan rates typically range from 5% to 12% depending on credit score, loan amount, and whether the RV is new or used. Excellent credit borrowers may qualify for rates under 5%."},
+      {"question": "How long can you finance an RV?", "answer": "RV loans can extend up to 20 years for loans over $50,000. Most common terms are 10-15 years. Shorter terms mean higher payments but significantly less total interest paid."},
+      {"question": "How much should I put down on an RV?", "answer": "Most lenders require 10-20% down. A larger down payment reduces your monthly payment and total interest, and may qualify you for a better rate."}
+    ]
+  },
+  {
+    "slug": "rv-fuel-cost-calculator",
+    "toolName": "RV Fuel Cost Calculator",
+    "category": "rv",
+    "tagline": "Estimate fuel costs for your RV road trip",
+    "keywords": "rv fuel cost calculator, rv gas mileage, motorhome fuel cost, rv trip fuel",
+    "relatedTools": ["rv-loan-calculator", "rv-trip-planner-calculator", "rv-campground-cost-calculator"],
+    "inputs": [
+      {"id": "distance", "label": "Trip Distance", "default": 500, "unit": "miles"},
+      {"id": "mpg", "label": "Fuel Economy", "default": 8, "min": 1, "max": 30, "unit": "MPG"},
+      {"id": "fuelPrice", "label": "Fuel Price", "default": 3.50, "step": 0.01, "unit": "$/gal"}
+    ],
+    "results": [
+      {"id": "gallons", "label": "Gallons Needed"},
+      {"id": "fuelCost", "label": "Total Fuel Cost"},
+      {"id": "costPerMile", "label": "Cost Per Mile"}
+    ],
+    "calcFn": "var gal = distance / mpg; var cost = gal * fuelPrice; var cpm = cost / distance; document.getElementById('gallons').textContent = fmt(gal, 1) + ' gal'; document.getElementById('fuelCost').textContent = dollar(cost); document.getElementById('costPerMile').textContent = dollar(cpm) + '/mi';",
+    "formulas": ["Gallons = Distance ÷ MPG", "Fuel Cost = Gallons × Price per Gallon", "Cost per Mile = Total Cost ÷ Distance"],
+    "faq": [
+      {"question": "What MPG does a typical RV get?", "answer": "Class A motorhomes: 6-10 MPG. Class C: 10-14 MPG. Travel trailers reduce tow vehicle MPG by 30-50%. Diesel pushers tend to get slightly better mileage than gas models."},
+      {"question": "Does driving speed affect RV fuel economy?", "answer": "Yes, significantly. Most RVs achieve best fuel economy between 55-60 MPH. Every 5 MPH over 60 is roughly equivalent to paying an extra $0.20-0.30 per gallon."},
+      {"question": "Should I use diesel or gas fuel prices?", "answer": "Use diesel prices for diesel pushers (Class A diesel), and gas prices for gas motorhomes and tow vehicles. Diesel is typically $0.30-0.80 more per gallon but diesel engines are more fuel-efficient."}
+    ]
+  },
+  {
+    "slug": "rv-depreciation-calculator",
+    "toolName": "RV Depreciation Calculator",
+    "category": "rv",
+    "tagline": "Estimate your RV's value over time",
+    "keywords": "rv depreciation calculator, rv value estimator, motorhome depreciation, rv resale value",
+    "relatedTools": ["rv-loan-calculator", "rv-insurance-cost-calculator", "rv-fuel-cost-calculator"],
+    "inputs": [
+      {"id": "purchasePrice", "label": "Purchase Price", "default": 80000, "min": 0},
+      {"id": "years", "label": "Years to Project", "default": 10, "min": 1, "max": 30},
+      {"id": "rvType", "label": "RV Type", "default": "classA", "options": [{"value": "classA", "label": "Class A Motorhome"}, {"value": "classC", "label": "Class C Motorhome"}, {"value": "travel", "label": "Travel Trailer"}, {"value": "fifth", "label": "Fifth Wheel"}]}
+    ],
+    "results": [
+      {"id": "currentValue", "label": "Estimated Value"},
+      {"id": "totalLoss", "label": "Total Depreciation"},
+      {"id": "yearlyLoss", "label": "Avg Yearly Loss"},
+      {"id": "retainedPct", "label": "Value Retained"}
+    ],
+    "calcFn": "var rates = {classA: 0.15, classC: 0.14, travel: 0.12, fifth: 0.13}; var rate = rates[rvType] || 0.14; var firstYearRate = rate + 0.05; var value = purchasePrice; if (years >= 1) value *= (1 - firstYearRate); for (var i = 1; i < years; i++) value *= (1 - rate); var loss = purchasePrice - value; document.getElementById('currentValue').textContent = dollar(value); document.getElementById('totalLoss').textContent = dollar(loss); document.getElementById('yearlyLoss').textContent = dollar(loss / years) + '/yr'; document.getElementById('retainedPct').textContent = pct(value / purchasePrice * 100, 1); document.getElementById('resultTip').textContent = 'RVs typically lose 20% in the first year and 12-15% per year after.';",
+    "formulas": ["Year 1: Value = Purchase Price × (1 - first year rate)", "Years 2+: Value = Previous Value × (1 - annual rate)", "Class A: ~15%/yr, Class C: ~14%/yr, Travel Trailer: ~12%/yr, Fifth Wheel: ~13%/yr"],
+    "faq": [
+      {"question": "How fast do RVs depreciate?", "answer": "RVs typically lose 15-20% of their value in the first year and 12-15% annually after that. After 5 years, most RVs retain about 40-55% of their original value."},
+      {"question": "Which type of RV holds value best?", "answer": "Travel trailers and fifth wheels tend to depreciate slower than motorhomes because they have no engine or drivetrain to maintain. Airstream trailers hold value exceptionally well."},
+      {"question": "When is the best time to buy a used RV?", "answer": "Fall and winter are the best times to buy — sellers are motivated before storage season. An RV that's 3-5 years old offers the best value as the steepest depreciation has already occurred."}
+    ]
+  },
+  {
+    "slug": "rv-campground-cost-calculator",
+    "toolName": "RV Campground Cost Calculator",
+    "category": "rv",
+    "tagline": "Estimate campsite costs for your RV trip",
+    "keywords": "rv campground cost, campsite cost calculator, rv park cost estimator, camping budget",
+    "relatedTools": ["rv-trip-planner-calculator", "rv-fuel-cost-calculator", "rv-loan-calculator"],
+    "inputs": [
+      {"id": "nights", "label": "Number of Nights", "default": 7, "min": 1},
+      {"id": "nightlyRate", "label": "Avg Nightly Rate", "default": 45, "min": 0, "unit": "$"},
+      {"id": "hookups", "label": "Hookup Type", "default": "full", "options": [{"value": "full", "label": "Full Hookups (+$10/night)"}, {"value": "water_electric", "label": "Water + Electric (+$5/night)"}, {"value": "dry", "label": "Dry Camping ($0 extra)"}]}
+    ],
+    "results": [
+      {"id": "totalCamp", "label": "Total Campground Cost"},
+      {"id": "avgNight", "label": "Effective Nightly Rate"},
+      {"id": "weeklyRate", "label": "Weekly Equivalent"}
+    ],
+    "calcFn": "var extras = {full: 10, water_electric: 5, dry: 0}; var extra = extras[hookups] || 0; var effective = nightlyRate + extra; var total = effective * nights; document.getElementById('totalCamp').textContent = dollar(total); document.getElementById('avgNight').textContent = dollar(effective) + '/night'; document.getElementById('weeklyRate').textContent = dollar(effective * 7) + '/week'; document.getElementById('resultTip').textContent = 'Tip: Weekly and monthly rates can save 15-30% at most RV parks.';",
+    "formulas": ["Total = (Base Nightly Rate + Hookup Surcharge) × Number of Nights", "Full hookups typically add $5-15/night over dry camping"],
+    "faq": [
+      {"question": "How much does an RV campsite cost per night?", "answer": "Average RV campsite costs range from $25-50 for basic sites to $50-100+ for premium RV resorts with full hookups. National parks average $25-35. Boondocking (dry camping) on public land is often free."},
+      {"question": "What are full hookups?", "answer": "Full hookups include water, electric (30 or 50 amp), and sewer connections at your campsite. This lets you use all RV systems without relying on onboard tanks or a generator."},
+      {"question": "How can I save on RV camping costs?", "answer": "Book weekly or monthly rates for 15-30% savings. Use Harvest Hosts, Boondockers Welcome, or free BLM land. Get a Thousand Trails membership for unlimited nights. Camp mid-week for lower rates."}
+    ]
+  },
+  {
+    "slug": "rv-weight-calculator",
+    "toolName": "RV Weight Calculator",
+    "category": "rv",
+    "tagline": "Calculate cargo capacity and weight distribution",
+    "keywords": "rv weight calculator, rv cargo capacity, rv payload calculator, gvwr calculator",
+    "relatedTools": ["rv-fuel-cost-calculator", "rv-loan-calculator", "rv-trip-planner-calculator"],
+    "inputs": [
+      {"id": "gvwr", "label": "GVWR", "default": 16000, "unit": "lbs"},
+      {"id": "uvw", "label": "Unloaded Vehicle Weight", "default": 12500, "unit": "lbs"},
+      {"id": "passengers", "label": "Passengers", "default": 2, "min": 1, "max": 10},
+      {"id": "water", "label": "Fresh Water", "default": 50, "min": 0, "unit": "gallons"}
+    ],
+    "results": [
+      {"id": "ccc", "label": "Cargo Carrying Capacity"},
+      {"id": "passengerWeight", "label": "Passenger Weight"},
+      {"id": "waterWeight", "label": "Water Weight"},
+      {"id": "remainingCargo", "label": "Remaining for Cargo"}
+    ],
+    "calcFn": "var totalCCC = gvwr - uvw; var pw = passengers * 154; var ww = water * 8.34; var remaining = totalCCC - pw - ww; document.getElementById('ccc').textContent = fmt(totalCCC, 0) + ' lbs'; document.getElementById('passengerWeight').textContent = fmt(pw, 0) + ' lbs'; document.getElementById('waterWeight').textContent = fmt(ww, 0) + ' lbs'; document.getElementById('remainingCargo').textContent = fmt(Math.max(0, remaining), 0) + ' lbs'; var pctUsed = ((pw + ww) / totalCCC * 100); document.getElementById('resultTip').textContent = remaining < 0 ? 'WARNING: Over GVWR by ' + fmt(Math.abs(remaining), 0) + ' lbs!' : fmt(pctUsed, 0) + '% of capacity used by passengers and water.';",
+    "formulas": ["CCC = GVWR – Unloaded Vehicle Weight", "Passenger weight: 154 lbs per person (RVIA standard)", "Water weight: 8.34 lbs per gallon", "Remaining cargo = CCC – passenger weight – water weight"],
+    "faq": [
+      {"question": "What is GVWR?", "answer": "Gross Vehicle Weight Rating (GVWR) is the maximum total weight your RV can safely carry including the vehicle itself, passengers, cargo, water, propane, and all fluids. Exceeding GVWR is dangerous and illegal."},
+      {"question": "How much does water weigh in an RV?", "answer": "Water weighs 8.34 pounds per gallon. A full 75-gallon fresh water tank adds 625 lbs. Many RVers travel with tanks only half-full to save weight and fuel."},
+      {"question": "What is the average RV cargo carrying capacity?", "answer": "CCC varies widely: Travel trailers typically have 1,000-3,000 lbs CCC, Class C motorhomes 1,500-3,500 lbs, and Class A motorhomes 2,000-5,000 lbs. Always check your specific RV's sticker."}
+    ]
+  },
+  {
+    "slug": "rv-solar-panel-calculator",
+    "toolName": "RV Solar Panel Calculator",
+    "category": "rv",
+    "tagline": "Size your RV solar system for off-grid camping",
+    "keywords": "rv solar calculator, rv solar panel sizing, boondocking solar, rv solar system",
+    "relatedTools": ["rv-generator-size-calculator", "rv-fuel-cost-calculator", "rv-trip-planner-calculator"],
+    "inputs": [
+      {"id": "dailyUse", "label": "Daily Power Use", "default": 100, "unit": "Ah"},
+      {"id": "sunHours", "label": "Peak Sun Hours", "default": 5, "min": 1, "max": 10},
+      {"id": "batteryVolts", "label": "Battery Voltage", "default": 12, "options": [{"value": "12", "label": "12V System"}, {"value": "24", "label": "24V System"}, {"value": "48", "label": "48V System"}]}
+    ],
+    "results": [
+      {"id": "wattsNeeded", "label": "Solar Watts Needed"},
+      {"id": "panels", "label": "100W Panels Needed"},
+      {"id": "batteryAh", "label": "Battery Bank (Ah)"},
+      {"id": "dailyWh", "label": "Daily Watt-Hours"}
+    ],
+    "calcFn": "var volts = parseFloat(batteryVolts) || 12; var dailyWh = dailyUse * volts; var wattsNeeded = dailyWh / sunHours / 0.85; var panels100 = Math.ceil(wattsNeeded / 100); var battAh = Math.ceil(dailyUse * 2); document.getElementById('wattsNeeded').textContent = fmt(wattsNeeded, 0) + 'W'; document.getElementById('panels').textContent = panels100 + ' panels'; document.getElementById('batteryAh').textContent = fmt(battAh, 0) + ' Ah'; document.getElementById('dailyWh').textContent = fmt(dailyWh, 0) + ' Wh'; document.getElementById('resultTip').textContent = 'Battery bank sized for 2 days autonomy (50% depth of discharge).';",
+    "formulas": ["Daily Wh = Daily Ah × System Voltage", "Solar Watts = Daily Wh ÷ Peak Sun Hours ÷ 0.85 (efficiency)", "Battery Bank = Daily Ah × 2 (for 50% DoD and 1 day reserve)"],
+    "faq": [
+      {"question": "How many solar panels does an RV need?", "answer": "Most RVers need 200-600W of solar. Light users (LED lights, phone charging): 200W. Moderate (TV, fridge): 400W. Heavy (AC, microwave): 800W+. Start by calculating your daily amp-hour usage."},
+      {"question": "What are peak sun hours?", "answer": "Peak sun hours represent the equivalent hours of full-intensity sunlight per day. In the US Southwest: 6-7 hours. Pacific Northwest: 3-4 hours. National average: 4-5 hours."},
+      {"question": "Can I run AC on RV solar?", "answer": "A small AC unit draws 1,200-1,500W. To run AC, you'd need at least 1,500W of solar with a large lithium battery bank (400+ Ah). It's possible but expensive. Most RVers use solar for everything except AC."}
+    ]
+  },
+  {
+    "slug": "rv-insurance-cost-calculator",
+    "toolName": "RV Insurance Cost Calculator",
+    "category": "rv",
+    "tagline": "Estimate annual insurance premiums for your RV",
+    "keywords": "rv insurance cost, rv insurance calculator, motorhome insurance estimate, rv coverage cost",
+    "relatedTools": ["rv-loan-calculator", "rv-depreciation-calculator", "rv-fuel-cost-calculator"],
+    "inputs": [
+      {"id": "rvValue", "label": "RV Value", "default": 75000, "min": 0},
+      {"id": "rvType", "label": "RV Type", "default": "classA", "options": [{"value": "classA", "label": "Class A Motorhome"}, {"value": "classC", "label": "Class C Motorhome"}, {"value": "travel", "label": "Travel Trailer"}, {"value": "fifth", "label": "Fifth Wheel"}]},
+      {"id": "fullTime", "label": "Usage", "default": "part", "options": [{"value": "full", "label": "Full-Time Living"}, {"value": "part", "label": "Part-Time / Vacations"}]}
+    ],
+    "results": [
+      {"id": "annual", "label": "Est. Annual Premium"},
+      {"id": "monthly", "label": "Monthly Cost"},
+      {"id": "perTrip", "label": "Per Trip (4 trips/yr)"}
+    ],
+    "calcFn": "var baseRates = {classA: 0.015, classC: 0.012, travel: 0.008, fifth: 0.009}; var baseRate = baseRates[rvType] || 0.012; if (fullTime === 'full') baseRate *= 1.4; var annual = Math.max(rvValue * baseRate, 500); document.getElementById('annual').textContent = dollar(annual); document.getElementById('monthly').textContent = dollar(annual / 12); document.getElementById('perTrip').textContent = dollar(annual / 4); document.getElementById('resultTip').textContent = fullTime === 'full' ? 'Full-time rates are typically 30-50% higher than part-time.' : 'Bundle with auto insurance for 5-15% savings.';",
+    "formulas": ["Annual Premium ≈ RV Value × Base Rate", "Class A: ~1.5%, Class C: ~1.2%, Travel Trailer: ~0.8%, Fifth Wheel: ~0.9%", "Full-time multiplier: 1.3-1.5× part-time rates"],
+    "faq": [
+      {"question": "How much does RV insurance cost?", "answer": "RV insurance typically costs $1,000-3,000/year for motorhomes and $500-1,500/year for towable RVs. Full-time RV insurance costs 30-50% more due to increased exposure."},
+      {"question": "Do I need special insurance for full-time RV living?", "answer": "Yes. Standard RV policies assume part-time use. Full-time policies include personal liability, personal property coverage, and emergency expense coverage similar to homeowner's insurance."},
+      {"question": "What does RV insurance cover?", "answer": "RV insurance typically covers collision, comprehensive (theft, weather), liability, uninsured motorist, personal belongings, and emergency expenses. Full-timer policies add loss of use and total loss replacement."}
+    ]
+  },
+  {
+    "slug": "rv-trip-planner-calculator",
+    "toolName": "RV Trip Cost Calculator",
+    "category": "rv",
+    "tagline": "Calculate total road trip costs including fuel and camping",
+    "keywords": "rv trip cost calculator, rv road trip budget, rv travel cost estimator, rv vacation cost",
+    "relatedTools": ["rv-fuel-cost-calculator", "rv-campground-cost-calculator", "rv-weight-calculator"],
+    "inputs": [
+      {"id": "miles", "label": "Total Miles", "default": 1000, "min": 0},
+      {"id": "mpg", "label": "RV MPG", "default": 8, "min": 1, "max": 25},
+      {"id": "gasPrice", "label": "Gas Price", "default": 3.50, "step": 0.01, "unit": "$/gal"},
+      {"id": "nights", "label": "Camping Nights", "default": 7, "min": 0},
+      {"id": "campRate", "label": "Avg Campsite Rate", "default": 45, "unit": "$/night"},
+      {"id": "foodBudget", "label": "Food Budget", "default": 50, "unit": "$/day"}
+    ],
+    "results": [
+      {"id": "fuelTotal", "label": "Fuel Cost"},
+      {"id": "campTotal", "label": "Campground Cost"},
+      {"id": "foodTotal", "label": "Food Cost"},
+      {"id": "grandTotal", "label": "Total Trip Cost"},
+      {"id": "perDay", "label": "Cost Per Day"},
+      {"id": "perMile", "label": "Cost Per Mile"}
+    ],
+    "calcFn": "var fuel = (miles / mpg) * gasPrice; var camp = nights * campRate; var food = (nights + 1) * foodBudget; var total = fuel + camp + food; var days = nights + 1; document.getElementById('fuelTotal').textContent = dollar(fuel); document.getElementById('campTotal').textContent = dollar(camp); document.getElementById('foodTotal').textContent = dollar(food); document.getElementById('grandTotal').textContent = dollar(total); document.getElementById('perDay').textContent = dollar(total / days); document.getElementById('perMile').textContent = dollar(total / miles);",
+    "formulas": ["Fuel Cost = (Miles ÷ MPG) × Gas Price", "Campground Cost = Nights × Nightly Rate", "Food Cost = Days × Daily Food Budget", "Total = Fuel + Campground + Food"],
+    "faq": [
+      {"question": "How much does an RV trip cost per day?", "answer": "A typical RV trip costs $150-300/day including fuel, campgrounds, and food. Budget travelers can manage $100/day with boondocking and cooking meals. Luxury RV resorts can push costs to $400+/day."},
+      {"question": "Is RV travel cheaper than hotels?", "answer": "For families of 3+, RV travel is often cheaper when you factor in avoiding restaurants and hotel rooms. Solo or couples may find it comparable to budget hotels. The break-even point is usually around 30-40 travel days per year."},
+      {"question": "What hidden costs should I budget for?", "answer": "Common extras include: propane ($20-40 to fill), dump station fees ($10-25), laundry ($5-10/load), tolls, generator fuel, and entertainment. Add 15-20% to your estimated budget for these."}
+    ]
+  },
+  {
+    "slug": "rv-generator-size-calculator",
+    "toolName": "RV Generator Size Calculator",
+    "category": "rv",
+    "tagline": "Find the right generator wattage for your RV",
+    "keywords": "rv generator size calculator, rv generator wattage, camping generator calculator, rv power needs",
+    "relatedTools": ["rv-solar-panel-calculator", "rv-fuel-cost-calculator", "rv-weight-calculator"],
+    "inputs": [
+      {"id": "ac", "label": "Air Conditioner", "default": 1, "options": [{"value": "0", "label": "None (0W)"}, {"value": "1", "label": "1 Unit (1800W)"}, {"value": "2", "label": "2 Units (3600W)"}]},
+      {"id": "microwave", "label": "Microwave", "default": "1", "options": [{"value": "0", "label": "No (0W)"}, {"value": "1", "label": "Yes (1000W)"}]},
+      {"id": "fridge", "label": "Fridge on Electric", "default": "1", "options": [{"value": "0", "label": "No (0W)"}, {"value": "1", "label": "Yes (600W)"}]},
+      {"id": "otherWatts", "label": "Other Loads", "default": 500, "unit": "watts"}
+    ],
+    "results": [
+      {"id": "runningWatts", "label": "Running Watts Needed"},
+      {"id": "startingWatts", "label": "Starting Watts Needed"},
+      {"id": "genSize", "label": "Recommended Generator"},
+      {"id": "fuelPerHr", "label": "Est. Fuel Use"}
+    ],
+    "calcFn": "var acW = parseFloat(ac) * 1800; var mwW = parseFloat(microwave) * 1000; var fridgeW = parseFloat(fridge) * 600; var running = acW + mwW + fridgeW + otherWatts; var starting = running + (acW > 0 ? 1200 : 0); var genRec = starting <= 2000 ? '2,000W Inverter' : starting <= 3500 ? '3,500W Inverter' : starting <= 5500 ? '5,500W Conventional' : starting <= 7500 ? '7,500W Conventional' : '10,000W+ Conventional'; var fuelRate = running / 1000 * 0.15; document.getElementById('runningWatts').textContent = fmt(running, 0) + 'W'; document.getElementById('startingWatts').textContent = fmt(starting, 0) + 'W'; document.getElementById('genSize').textContent = genRec; document.getElementById('fuelPerHr').textContent = fmt(fuelRate, 1) + ' gal/hr';",
+    "formulas": ["Running watts = sum of all appliance wattages", "Starting watts = running watts + AC startup surge (~1200W)", "Generator size should exceed starting watts by 10-20%", "Fuel use ≈ 0.15 gal/hr per 1000W running load"],
+    "faq": [
+      {"question": "What size generator do I need for my RV?", "answer": "Most RVs with one AC unit need a 3,000-3,500W generator. Two AC units require 5,500W+. If you only need lights, fridge, and charging, a 2,000W inverter generator is sufficient."},
+      {"question": "Inverter vs conventional generator for RV?", "answer": "Inverter generators are quieter (50-60 dB vs 70-80 dB), produce cleaner power for electronics, and are more fuel-efficient. They cost more but are preferred at campgrounds with noise restrictions."},
+      {"question": "How much fuel does an RV generator use?", "answer": "A 3,500W generator at 50% load uses about 0.25-0.5 gallons per hour. Running a generator 8 hours a day costs roughly $10-15 in fuel at current prices."}
+    ]
+  }
+]

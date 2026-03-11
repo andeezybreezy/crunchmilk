@@ -1,0 +1,189 @@
+[
+  {
+    "slug": "student-loan-calculator",
+    "toolName": "Student Loan Calculator",
+    "category": "education",
+    "tagline": "Calculate monthly payments and total cost of student loans",
+    "keywords": "student loan calculator, student loan payment, student debt calculator, loan repayment",
+    "relatedTools": ["gpa-calculator", "college-roi-calculator", "scholarship-calculator"],
+    "inputs": [
+      {"id": "balance", "label": "Loan Balance", "default": 35000},
+      {"id": "rate", "label": "Interest Rate", "default": 5.5, "unit": "%", "step": 0.1},
+      {"id": "term", "label": "Repayment Term", "default": 10, "unit": "years"}
+    ],
+    "results": [
+      {"id": "monthly", "label": "Monthly Payment"},
+      {"id": "totalPaid", "label": "Total Amount Paid"},
+      {"id": "totalInterest", "label": "Total Interest"},
+      {"id": "intPct", "label": "Interest as % of Principal"}
+    ],
+    "calcFn": "var r = rate / 100 / 12; var n = term * 12; var pmt = r > 0 ? balance * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1) : balance/n; var total = pmt * n; document.getElementById('monthly').textContent = dollar(pmt); document.getElementById('totalPaid').textContent = dollar(total); document.getElementById('totalInterest').textContent = dollar(total - balance); document.getElementById('intPct').textContent = pct((total - balance) / balance * 100);",
+    "formulas": ["Monthly Payment = P × [r(1+r)^n] / [(1+r)^n – 1]", "Federal student loan rates: 5.50% (2024-25 undergrad)", "Standard repayment: 10 years, Income-driven: 20-25 years"],
+    "faq": [
+      {"question": "What is the average student loan payment?", "answer": "The average monthly student loan payment is about $350-400. The average borrower owes roughly $35,000 in student debt. Payments vary widely based on balance, rate, and repayment plan chosen."},
+      {"question": "Should I choose standard or income-driven repayment?", "answer": "Standard 10-year repayment minimizes total interest. Income-driven plans (IBR, PAYE, SAVE) cap payments at 5-15% of discretionary income but extend the term to 20-25 years, resulting in more total interest."},
+      {"question": "Can I refinance student loans?", "answer": "Private refinancing can lower your rate if you have good credit and stable income. However, refinancing federal loans into private loans forfeits federal benefits like income-driven repayment, forbearance, and loan forgiveness programs."}
+    ]
+  },
+  {
+    "slug": "scholarship-calculator",
+    "toolName": "Scholarship Calculator",
+    "category": "education",
+    "tagline": "Calculate net college cost after scholarships and aid",
+    "keywords": "scholarship calculator, college cost after aid, net price calculator, financial aid calculator",
+    "relatedTools": ["student-loan-calculator", "college-roi-calculator", "gpa-calculator"],
+    "inputs": [
+      {"id": "tuition", "label": "Annual Tuition + Fees", "default": 25000},
+      {"id": "room", "label": "Room & Board", "default": 12000},
+      {"id": "scholarships", "label": "Scholarships / Grants", "default": 10000},
+      {"id": "fedAid", "label": "Federal Aid (Pell, etc.)", "default": 3000},
+      {"id": "years", "label": "Years of Study", "default": 4}
+    ],
+    "results": [
+      {"id": "annualNet", "label": "Annual Net Cost"},
+      {"id": "totalNet", "label": "Total 4-Year Net Cost"},
+      {"id": "covered", "label": "% Covered by Aid"},
+      {"id": "gap", "label": "Remaining to Finance"}
+    ],
+    "calcFn": "var annual = tuition + room; var aid = scholarships + fedAid; var net = Math.max(0, annual - aid); var totalNet = net * years; var covPct = Math.min(100, (aid / annual) * 100); document.getElementById('annualNet').textContent = dollar(net); document.getElementById('totalNet').textContent = dollar(totalNet); document.getElementById('covered').textContent = pct(covPct); document.getElementById('gap').textContent = dollar(totalNet);",
+    "formulas": ["Net Cost = (Tuition + Room & Board) – (Scholarships + Federal Aid)", "Total Cost = Annual Net Cost × Years", "Average aid covers 30-60% of total cost"],
+    "faq": [
+      {"question": "What is the average scholarship amount?", "answer": "The average private scholarship is $5,000-10,000 per year. Institutional merit scholarships average $7,000-15,000. Full-ride scholarships cover everything but are rare — less than 0.1% of students receive one."},
+      {"question": "Do scholarships affect financial aid?", "answer": "Outside scholarships may reduce need-based aid. Many schools reduce loans first (good), but some reduce grants (bad). Always ask the financial aid office about their scholarship displacement policy."},
+      {"question": "What is the average net price of college?", "answer": "After all aid, the average net price is $15,000-20,000/year at public universities and $25,000-35,000 at private colleges. This is significantly less than the sticker price that schools advertise."}
+    ]
+  },
+  {
+    "slug": "study-time-calculator",
+    "toolName": "Study Time Calculator",
+    "category": "education",
+    "tagline": "Calculate recommended study hours per course",
+    "keywords": "study time calculator, hours to study, study schedule planner, study hours per credit",
+    "relatedTools": ["gpa-calculator", "class-grade-calculator", "college-roi-calculator"],
+    "inputs": [
+      {"id": "credits", "label": "Credit Hours This Semester", "default": 15, "min": 1},
+      {"id": "difficulty", "label": "Average Difficulty", "default": "medium", "options": [{"value":"easy","label":"Easy (gen eds, familiar topics)"},{"value":"medium","label":"Medium (core courses)"},{"value":"hard","label":"Hard (STEM, graduate level)"}]},
+      {"id": "targetGpa", "label": "Target GPA", "default": 3.5, "min": 0, "max": 4, "step": 0.1}
+    ],
+    "results": [
+      {"id": "weeklyHrs", "label": "Study Hours / Week"},
+      {"id": "dailyHrs", "label": "Study Hours / Day"},
+      {"id": "totalWeek", "label": "Total Academic Hours / Week"},
+      {"id": "perCredit", "label": "Hours per Credit Hour"}
+    ],
+    "calcFn": "var mult = {easy: 1.5, medium: 2, hard: 3}; var gpaMult = targetGpa >= 3.5 ? 1.2 : targetGpa >= 3.0 ? 1.0 : 0.8; var m = (mult[difficulty] || 2) * gpaMult; var studyHrs = credits * m; var classHrs = credits; var total = studyHrs + classHrs; document.getElementById('weeklyHrs').textContent = fmt(studyHrs, 0) + ' hrs/week'; document.getElementById('dailyHrs').textContent = fmt(studyHrs / 7, 1) + ' hrs/day'; document.getElementById('totalWeek').textContent = fmt(total, 0) + ' hrs/week (class + study)'; document.getElementById('perCredit').textContent = fmt(m, 1) + ' study hrs per credit';",
+    "formulas": ["Standard rule: 2-3 hours of study per credit hour per week", "Easy courses: 1.5× credit hours", "Medium courses: 2× credit hours", "Hard/STEM courses: 3× credit hours", "Higher GPA targets require ~20% more study time"],
+    "faq": [
+      {"question": "How many hours should I study per week?", "answer": "The standard guideline is 2-3 hours of study for every credit hour. A 15-credit semester means 30-45 hours of study per week. STEM and graduate courses may require more. The key is consistency, not cramming."},
+      {"question": "Is studying 8 hours a day too much?", "answer": "Research shows diminishing returns after 4-5 focused hours. Quality beats quantity — use active recall and spaced repetition. Break study into 25-50 minute blocks with short breaks (Pomodoro technique)."},
+      {"question": "How do I study more effectively?", "answer": "Use active recall (practice testing) over passive re-reading. Space out sessions over days instead of cramming. Teach concepts to others. Use practice problems, not just notes. Sleep 7-9 hours — memory consolidation happens during sleep."}
+    ]
+  },
+  {
+    "slug": "college-roi-calculator",
+    "toolName": "College ROI Calculator",
+    "category": "education",
+    "tagline": "Calculate the return on investment for a college degree",
+    "keywords": "college roi calculator, degree value calculator, is college worth it, education roi",
+    "relatedTools": ["student-loan-calculator", "scholarship-calculator", "gpa-calculator"],
+    "inputs": [
+      {"id": "totalCost", "label": "Total College Cost", "default": 120000},
+      {"id": "yearsSchool", "label": "Years in School", "default": 4},
+      {"id": "salaryWithDegree", "label": "Expected Salary (with degree)", "default": 65000},
+      {"id": "salaryWithout", "label": "Salary Without Degree", "default": 35000},
+      {"id": "careerYears", "label": "Working Years", "default": 35}
+    ],
+    "results": [
+      {"id": "lifetimeGain", "label": "Lifetime Earnings Premium"},
+      {"id": "netRoi", "label": "Net ROI"},
+      {"id": "breakeven", "label": "Break-Even Year"},
+      {"id": "annualReturn", "label": "Annualized Return"}
+    ],
+    "calcFn": "var lostWages = salaryWithout * yearsSchool; var totalInvestment = totalCost + lostWages; var annualPremium = salaryWithDegree - salaryWithout; var lifetimeGain = annualPremium * careerYears; var netGain = lifetimeGain - totalInvestment; var breakeven = Math.ceil(totalInvestment / annualPremium); var annReturn = (Math.pow((lifetimeGain + totalInvestment) / totalInvestment, 1/careerYears) - 1) * 100; document.getElementById('lifetimeGain').textContent = dollar(lifetimeGain); document.getElementById('netRoi').textContent = dollar(netGain) + ' (' + pct(netGain / totalInvestment * 100, 0) + ')'; document.getElementById('breakeven').textContent = breakeven + ' years after graduation'; document.getElementById('annualReturn').textContent = pct(annReturn);",
+    "formulas": ["Total Investment = Tuition + Opportunity Cost (lost wages)", "Lifetime Premium = (Salary w/degree − Salary w/o) × Career Years", "Net ROI = Lifetime Premium − Total Investment", "Break-even = Total Investment ÷ Annual Salary Premium"],
+    "faq": [
+      {"question": "Is a college degree worth it financially?", "answer": "On average, yes. Bachelor's degree holders earn $1.2 million more over a lifetime than high school graduates. However, ROI varies enormously by major, school cost, and career field. STEM and business degrees typically have the highest ROI."},
+      {"question": "What is the average ROI of a college degree?", "answer": "The median bachelor's degree has an ROI of about 14% per year — better than stock market average returns. However, the bottom 25% of degrees have negative ROI, meaning students would have been better off financially without attending."},
+      {"question": "Which degrees have the best ROI?", "answer": "Engineering, computer science, nursing, and finance consistently show the highest ROI. Median mid-career salaries exceed $80K-120K. Art, education, and social work degrees have lower financial ROI but may have significant personal and social value."}
+    ]
+  },
+  {
+    "slug": "reading-level-calculator",
+    "toolName": "Reading Level Calculator",
+    "category": "education",
+    "tagline": "Calculate Flesch-Kincaid readability score for any text",
+    "keywords": "reading level calculator, flesch kincaid score, readability calculator, reading grade level",
+    "relatedTools": ["gpa-calculator", "study-time-calculator", "class-grade-calculator"],
+    "inputs": [
+      {"id": "words", "label": "Total Words", "default": 300, "min": 1},
+      {"id": "sentences", "label": "Total Sentences", "default": 15, "min": 1},
+      {"id": "syllables", "label": "Total Syllables", "default": 450, "min": 1}
+    ],
+    "results": [
+      {"id": "gradeLevel", "label": "Grade Level"},
+      {"id": "readingEase", "label": "Reading Ease Score"},
+      {"id": "audience", "label": "Recommended Audience"},
+      {"id": "avgSentLen", "label": "Avg Sentence Length"}
+    ],
+    "calcFn": "var asl = words / sentences; var asw = syllables / words; var grade = 0.39 * asl + 11.8 * asw - 15.59; var ease = 206.835 - 1.015 * asl - 84.6 * asw; var aud = ease >= 80 ? '5th Grade (Easy)' : ease >= 60 ? '8th-9th Grade (Standard)' : ease >= 40 ? 'College (Somewhat Difficult)' : ease >= 20 ? 'College Graduate (Difficult)' : 'Professional (Very Difficult)'; document.getElementById('gradeLevel').textContent = fmt(Math.max(0, grade), 1); document.getElementById('readingEase').textContent = fmt(Math.max(0, Math.min(100, ease)), 1) + ' / 100'; document.getElementById('audience').textContent = aud; document.getElementById('avgSentLen').textContent = fmt(asl, 1) + ' words/sentence';",
+    "formulas": ["Flesch-Kincaid Grade = 0.39 × (words/sentences) + 11.8 × (syllables/words) − 15.59", "Reading Ease = 206.835 − 1.015 × (words/sentences) − 84.6 × (syllables/words)", "Higher ease score = easier to read (60-70 is standard, 80+ is easy)"],
+    "faq": [
+      {"question": "What is a good Flesch-Kincaid score?", "answer": "For general audiences, aim for grade level 7-8 and a Reading Ease score of 60-70. Most newspapers write at grade 7-8. Academic papers score grade 12+. Web content performs best at grade 6-8."},
+      {"question": "How do I count syllables?", "answer": "Count vowel sounds in each word. 'Cat' = 1, 'happy' = 2, 'beautiful' = 3, 'understanding' = 4. Silent 'e' doesn't count. Adjacent vowels making one sound ('boat') count as one. Use online syllable counters for large texts."},
+      {"question": "How can I improve readability?", "answer": "Use shorter sentences (15-20 words average). Choose simpler words when possible. Break long paragraphs into shorter ones. Use active voice. Avoid jargon unless necessary for your audience. Aim for one idea per sentence."}
+    ]
+  },
+  {
+    "slug": "class-grade-calculator",
+    "toolName": "Final Grade Calculator",
+    "category": "education",
+    "tagline": "Calculate what you need on the final to get your target grade",
+    "keywords": "final grade calculator, what do i need on final, grade calculator, class grade calculator",
+    "relatedTools": ["gpa-calculator", "study-time-calculator", "college-roi-calculator"],
+    "inputs": [
+      {"id": "currentGrade", "label": "Current Grade", "default": 82, "unit": "%"},
+      {"id": "targetGrade", "label": "Target Grade", "default": 90, "unit": "%"},
+      {"id": "finalWeight", "label": "Final Exam Weight", "default": 25, "unit": "%"}
+    ],
+    "results": [
+      {"id": "neededScore", "label": "Score Needed on Final"},
+      {"id": "feasibility", "label": "Feasibility"},
+      {"id": "ifYouGet100", "label": "Grade if You Score 100%"},
+      {"id": "ifYouGet80", "label": "Grade if You Score 80%"}
+    ],
+    "calcFn": "var cw = (100 - finalWeight) / 100; var fw = finalWeight / 100; var needed = (targetGrade - currentGrade * cw) / fw; var if100 = currentGrade * cw + 100 * fw; var if80 = currentGrade * cw + 80 * fw; var feas = needed <= 0 ? 'Already achieved!' : needed <= 80 ? 'Very achievable' : needed <= 100 ? 'Achievable with solid study' : needed <= 110 ? 'Difficult — need extra credit' : 'Not possible without extra credit'; document.getElementById('neededScore').textContent = needed <= 0 ? 'Already there!' : fmt(needed, 1) + '%'; document.getElementById('feasibility').textContent = feas; document.getElementById('ifYouGet100').textContent = fmt(if100, 1) + '%'; document.getElementById('ifYouGet80').textContent = fmt(if80, 1) + '%';",
+    "formulas": ["Needed Score = (Target − Current × (1 − Final Weight)) ÷ Final Weight", "Final Grade = Current × (1 − FW) + Final Score × FW", "Example: 82% current, 25% final weight, want 90% → need 114% on final"],
+    "faq": [
+      {"question": "How much can a final exam change my grade?", "answer": "A final worth 20% can move your grade by up to 20 points. A final worth 30% can swing your grade by 30 points. The heavier the final's weight, the more impact it has — both positive and negative."},
+      {"question": "What if I need more than 100% on the final?", "answer": "If the needed score exceeds 100%, you can't reach your target with the final alone. Options: ask about extra credit, ensure all other assignments are submitted and maximized, or adjust your target grade to something achievable."},
+      {"question": "Should I focus on the final or remaining assignments?", "answer": "Calculate the impact of each. If the final is worth 25% and you have 10% of homework remaining, both matter. Missing assignments are guaranteed zeros — always submit everything, even incomplete work, for partial credit."}
+    ]
+  },
+  {
+    "slug": "teacher-salary-calculator",
+    "toolName": "Teacher Salary Calculator",
+    "category": "education",
+    "tagline": "Compare teacher salaries by experience and education level",
+    "keywords": "teacher salary calculator, teacher pay scale, teacher salary by state, teaching salary",
+    "relatedTools": ["student-loan-calculator", "college-roi-calculator", "gpa-calculator"],
+    "inputs": [
+      {"id": "baseSalary", "label": "Base Salary (Year 1)", "default": 42000},
+      {"id": "yearsExp", "label": "Years of Experience", "default": 10},
+      {"id": "stepIncrease", "label": "Annual Step Increase", "default": 2.5, "unit": "%", "step": 0.1},
+      {"id": "masters", "label": "Education Level", "default": "ba", "options": [{"value":"ba","label":"Bachelor's (+0%)"},{"value":"ma","label":"Master's (+10-15%)"},{"value":"phd","label":"Doctorate (+15-25%)"}]}
+    ],
+    "results": [
+      {"id": "currentSalary", "label": "Current Salary"},
+      {"id": "careerEarnings", "label": "Career Earnings (30 yr)"},
+      {"id": "monthlyTakeHome", "label": "Est. Monthly Take-Home"},
+      {"id": "degreeBump", "label": "Degree Premium"}
+    ],
+    "calcFn": "var degBump = {ba: 0, ma: 0.12, phd: 0.20}; var bump = degBump[masters] || 0; var salary = baseSalary; for (var i = 0; i < yearsExp; i++) salary *= (1 + stepIncrease/100); salary *= (1 + bump); var career = 0; var s = baseSalary * (1 + bump); for (var j = 0; j < 30; j++) { career += s; s *= (1 + stepIncrease/100); } var monthly = salary * 0.72 / 12; document.getElementById('currentSalary').textContent = dollar(salary); document.getElementById('careerEarnings').textContent = dollar(career); document.getElementById('monthlyTakeHome').textContent = dollar(monthly) + ' (est. after tax)'; document.getElementById('degreeBump').textContent = bump > 0 ? '+' + pct(bump * 100, 0) + ' (' + dollar(baseSalary * bump) + '/yr)' : 'None';",
+    "formulas": ["Current Salary = Base × (1 + step%)^years × (1 + degree bump)", "Master's bump: typically 10-15% over bachelor's", "Career earnings calculated over 30-year career with annual steps"],
+    "faq": [
+      {"question": "What is the average teacher salary?", "answer": "The US average teacher salary is about $65,000-70,000 (2024). Starting salaries range from $35,000-55,000 depending on state and district. Top of the pay scale can reach $80,000-120,000 with a master's degree and 20+ years experience."},
+      {"question": "Do teachers get paid over the summer?", "answer": "Most districts offer the option to spread 10 months of pay over 12 months. Teachers are contracted for the school year but can choose 12-month paycheck distribution. Some teachers take summer jobs for additional income."},
+      {"question": "Is a master's degree worth it for teachers?", "answer": "Financially, it depends on your district's pay scale. A master's typically adds $3,000-8,000/year. Over a 25-year career, that's $75,000-200,000 extra. Compare this to the $30,000-60,000 cost of the degree. Most districts, the answer is yes."}
+    ]
+  }
+]

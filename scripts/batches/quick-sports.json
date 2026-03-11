@@ -1,0 +1,134 @@
+[
+  {
+    "slug": "batting-average-calculator",
+    "toolName": "Batting Average Calculator",
+    "category": "sports",
+    "tagline": "Calculate batting average from hits and at-bats",
+    "keywords": "batting average calculator, baseball batting average, hits at bats, baseball stats calculator",
+    "relatedTools": ["era-calculator", "quarterback-rating-calculator", "bowling-handicap-calculator"],
+    "inputs": [
+      {"id": "hits", "label": "Hits", "default": 75, "min": 0},
+      {"id": "atBats", "label": "At Bats", "default": 250, "min": 1}
+    ],
+    "results": [
+      {"id": "avg", "label": "Batting Average"},
+      {"id": "rating", "label": "Rating"},
+      {"id": "hitsNeeded", "label": "Hits for .300"}
+    ],
+    "calcFn": "var ba = hits / atBats; var rating = ba >= 0.300 ? 'Excellent' : ba >= 0.270 ? 'Good' : ba >= 0.250 ? 'Average' : ba >= 0.220 ? 'Below Average' : 'Poor'; var needed300 = Math.ceil(0.300 * atBats) - hits; document.getElementById('avg').textContent = '.' + Math.round(ba * 1000).toString().padStart(3, '0'); document.getElementById('rating').textContent = rating; document.getElementById('hitsNeeded').textContent = needed300 > 0 ? needed300 + ' more hits' : 'Already above .300!';",
+    "formulas": ["Batting Average = Hits ÷ At Bats", "Walks, sacrifices, and hit-by-pitch are NOT counted as at-bats", ".300+ is excellent, .250-.270 is league average"],
+    "faq": [
+      {"question": "What is a good batting average?", "answer": "In MLB, .300+ is excellent, .270-.299 is good, .250-.269 is average, and below .230 is poor. The overall MLB average hovers around .250. In Little League and high school, averages tend to be higher."},
+      {"question": "What counts as an at-bat?", "answer": "An at-bat is any plate appearance that results in a hit, out, error, or fielder's choice. Walks, hit-by-pitches, sacrifices, and catcher's interference are NOT counted as at-bats."},
+      {"question": "Has anyone batted .400 in MLB?", "answer": "Ted Williams was the last player to hit .400, batting .406 in 1941. No player has hit .400 since, making it one of baseball's most elusive achievements."}
+    ]
+  },
+  {
+    "slug": "era-calculator",
+    "toolName": "ERA Calculator",
+    "category": "sports",
+    "tagline": "Calculate earned run average for pitchers",
+    "keywords": "era calculator, earned run average, pitcher stats, baseball era calculator",
+    "relatedTools": ["batting-average-calculator", "quarterback-rating-calculator", "fantasy-football-calculator"],
+    "inputs": [
+      {"id": "earnedRuns", "label": "Earned Runs", "default": 25, "min": 0},
+      {"id": "inningsPitched", "label": "Innings Pitched", "default": 90, "min": 0.1, "step": 0.1}
+    ],
+    "results": [
+      {"id": "era", "label": "ERA"},
+      {"id": "rating", "label": "Rating"},
+      {"id": "per9", "label": "Earned Runs per 9 IP"}
+    ],
+    "calcFn": "var e = (earnedRuns / inningsPitched) * 9; var rating = e <= 2.50 ? 'Ace/Elite' : e <= 3.50 ? 'Very Good' : e <= 4.00 ? 'Above Average' : e <= 4.50 ? 'Average' : e <= 5.00 ? 'Below Average' : 'Poor'; document.getElementById('era').textContent = e.toFixed(2); document.getElementById('rating').textContent = rating; document.getElementById('per9').textContent = e.toFixed(2) + ' ER per 9 innings';",
+    "formulas": ["ERA = (Earned Runs ÷ Innings Pitched) × 9", "Only earned runs count — runs from errors are excluded", "Partial innings: .1 = 1/3 inning, .2 = 2/3 inning"],
+    "faq": [
+      {"question": "What is a good ERA?", "answer": "In MLB: under 2.50 is elite, 2.50-3.50 is very good, 3.50-4.00 is above average, 4.00-4.50 is average, and above 5.00 is poor. In lower leagues, average ERAs tend to be higher."},
+      {"question": "What is the difference between ERA and earned runs?", "answer": "Earned runs are runs that score without the aid of fielding errors or passed balls. ERA normalizes this to a per-9-inning rate, allowing comparison between pitchers with different innings totals."},
+      {"question": "What is the lowest ERA in MLB history?", "answer": "The modern record (post-1900) is 0.96 by Dutch Leonard in 1914 (minimum 154 innings). Bob Gibson's 1.12 in 1968 is the most famous low ERA, which led to the lowering of the mound in 1969."}
+    ]
+  },
+  {
+    "slug": "quarterback-rating-calculator",
+    "toolName": "Quarterback Rating Calculator",
+    "category": "sports",
+    "tagline": "Calculate NFL passer rating from game stats",
+    "keywords": "quarterback rating calculator, nfl passer rating, qb rating formula, passer rating calculator",
+    "relatedTools": ["fantasy-football-calculator", "batting-average-calculator", "era-calculator"],
+    "inputs": [
+      {"id": "comp", "label": "Completions", "default": 22, "min": 0},
+      {"id": "att", "label": "Attempts", "default": 35, "min": 1},
+      {"id": "yards", "label": "Passing Yards", "default": 285, "min": 0},
+      {"id": "td", "label": "Touchdowns", "default": 3, "min": 0},
+      {"id": "ints", "label": "Interceptions", "default": 1, "min": 0}
+    ],
+    "results": [
+      {"id": "rating", "label": "Passer Rating"},
+      {"id": "grade", "label": "Performance Grade"},
+      {"id": "compPct", "label": "Completion %"},
+      {"id": "ypa", "label": "Yards Per Attempt"}
+    ],
+    "calcFn": "var a = Math.min(Math.max(((comp/att)-0.3)*5, 0), 2.375); var b = Math.min(Math.max(((yards/att)-3)*0.25, 0), 2.375); var c = Math.min(Math.max((td/att)*20, 0), 2.375); var d = Math.min(Math.max(2.375-((ints/att)*25), 0), 2.375); var pr = ((a+b+c+d)/6)*100; var grade = pr >= 100 ? 'Elite' : pr >= 90 ? 'Excellent' : pr >= 80 ? 'Good' : pr >= 70 ? 'Average' : 'Below Average'; document.getElementById('rating').textContent = fmt(pr, 1); document.getElementById('grade').textContent = grade; document.getElementById('compPct').textContent = pct(comp/att*100, 1); document.getElementById('ypa').textContent = fmt(yards/att, 1);",
+    "formulas": ["a = ((COMP/ATT) - 0.3) × 5, capped 0 to 2.375", "b = ((YDS/ATT) - 3) × 0.25, capped 0 to 2.375", "c = (TD/ATT) × 20, capped 0 to 2.375", "d = 2.375 - ((INT/ATT) × 25), capped 0 to 2.375", "Passer Rating = ((a + b + c + d) / 6) × 100"],
+    "faq": [
+      {"question": "What is a good NFL passer rating?", "answer": "A rating of 100+ is elite, 90-99 is excellent, 80-89 is good, 70-79 is average, and below 70 is poor. The all-time record for a season is 122.5 by Aaron Rodgers in 2011. Perfect rating is 158.3."},
+      {"question": "How is passer rating calculated?", "answer": "The NFL formula uses four components: completion percentage, yards per attempt, touchdown percentage, and interception percentage. Each is scaled and capped at 2.375, then averaged and multiplied by 100."},
+      {"question": "What is the difference between NFL and NCAA passer rating?", "answer": "The NCAA uses a different formula that produces higher numbers (scale of 0-1000+). An NCAA rating of 150 is roughly equivalent to an NFL rating of 100. The two systems are not directly comparable."}
+    ]
+  },
+  {
+    "slug": "fantasy-football-calculator",
+    "toolName": "Fantasy Football Points Calculator",
+    "category": "sports",
+    "tagline": "Calculate projected fantasy points from player stats",
+    "keywords": "fantasy football calculator, fantasy points calculator, fantasy football scoring, ppr calculator",
+    "relatedTools": ["quarterback-rating-calculator", "batting-average-calculator", "era-calculator"],
+    "inputs": [
+      {"id": "passYds", "label": "Passing Yards", "default": 280},
+      {"id": "passTD", "label": "Passing TDs", "default": 2, "min": 0},
+      {"id": "passInt", "label": "Interceptions", "default": 1, "min": 0},
+      {"id": "rushYds", "label": "Rushing Yards", "default": 15},
+      {"id": "rushTD", "label": "Rushing TDs", "default": 0, "min": 0},
+      {"id": "receptions", "label": "Receptions", "default": 0, "min": 0},
+      {"id": "recYds", "label": "Receiving Yards", "default": 0},
+      {"id": "recTD", "label": "Receiving TDs", "default": 0, "min": 0}
+    ],
+    "results": [
+      {"id": "stdPts", "label": "Standard Points"},
+      {"id": "halfPpr", "label": "Half-PPR Points"},
+      {"id": "fullPpr", "label": "Full PPR Points"}
+    ],
+    "calcFn": "var std = (passYds * 0.04) + (passTD * 4) + (passInt * -2) + (rushYds * 0.1) + (rushTD * 6) + (recYds * 0.1) + (recTD * 6); var half = std + (receptions * 0.5); var full = std + (receptions * 1.0); document.getElementById('stdPts').textContent = fmt(std, 1) + ' pts'; document.getElementById('halfPpr').textContent = fmt(half, 1) + ' pts'; document.getElementById('fullPpr').textContent = fmt(full, 1) + ' pts';",
+    "formulas": ["Passing: 1 pt per 25 yards, 4 pts per TD, -2 per INT", "Rushing: 1 pt per 10 yards, 6 pts per TD", "Receiving: 1 pt per 10 yards, 6 pts per TD", "PPR: +1 pt per reception, Half-PPR: +0.5 per reception"],
+    "faq": [
+      {"question": "What is PPR scoring?", "answer": "PPR (Points Per Reception) awards 1 point for each catch. Half-PPR awards 0.5 per catch. This boosts the value of pass-catching running backs and slot receivers compared to standard scoring."},
+      {"question": "How many fantasy points is a good game?", "answer": "For QBs: 20+ is good, 30+ is great. For RBs/WRs: 15+ is good in standard, 20+ in PPR. A player averaging 15+ points per week in PPR is typically a reliable fantasy starter."},
+      {"question": "Why do passing TDs only give 4 points?", "answer": "Passing TDs award 4 points (vs 6 for rushing/receiving TDs) because QBs accumulate yards and TDs at a much higher rate. This balances QB scoring with other positions to maintain competitive leagues."}
+    ]
+  },
+  {
+    "slug": "swimming-pace-calculator",
+    "toolName": "Swimming Pace Calculator",
+    "category": "sports",
+    "tagline": "Calculate swimming pace per 100m from time and distance",
+    "keywords": "swimming pace calculator, swim time calculator, swim pace per 100m, swimming split calculator",
+    "relatedTools": ["running-pace-calculator", "batting-average-calculator", "era-calculator"],
+    "inputs": [
+      {"id": "distance", "label": "Distance", "default": 1500, "unit": "meters"},
+      {"id": "minutes", "label": "Time (Minutes)", "default": 25, "min": 0},
+      {"id": "seconds", "label": "Time (Seconds)", "default": 30, "min": 0, "max": 59}
+    ],
+    "results": [
+      {"id": "pace100", "label": "Pace per 100m"},
+      {"id": "pace50", "label": "Pace per 50m"},
+      {"id": "totalSec", "label": "Total Time"},
+      {"id": "speed", "label": "Speed"}
+    ],
+    "calcFn": "var totalSec = minutes * 60 + seconds; var secPer100 = (totalSec / distance) * 100; var secPer50 = secPer100 / 2; var speedMph = (distance / totalSec) * 2.23694; var paceMin100 = Math.floor(secPer100 / 60); var paceSec100 = Math.round(secPer100 % 60); var paceMin50 = Math.floor(secPer50 / 60); var paceSec50 = Math.round(secPer50 % 60); document.getElementById('pace100').textContent = paceMin100 + ':' + paceSec100.toString().padStart(2, '0') + ' /100m'; document.getElementById('pace50').textContent = paceMin50 + ':' + paceSec50.toString().padStart(2, '0') + ' /50m'; document.getElementById('totalSec').textContent = minutes + ':' + seconds.toString().padStart(2, '0'); document.getElementById('speed').textContent = fmt(speedMph, 2) + ' mph';",
+    "formulas": ["Pace per 100m = (Total Seconds ÷ Distance) × 100", "Speed (m/s) = Distance ÷ Total Seconds", "1 m/s = 2.237 mph"],
+    "faq": [
+      {"question": "What is a good swimming pace per 100m?", "answer": "Beginner: 2:30-3:00/100m. Intermediate: 1:45-2:15/100m. Advanced: 1:20-1:45/100m. Competitive: under 1:20/100m. Elite Olympic swimmers race at 0:55-1:05/100m for distance events."},
+      {"question": "How do I improve my swimming pace?", "answer": "Focus on technique first (streamlining, catch, rotation), then build endurance with interval sets. Drill work improves efficiency more than raw effort. Even 5-10% technique improvement can drop your pace significantly."},
+      {"question": "How does pool length affect pace?", "answer": "Short course (25m pool) times are typically 1-3% faster than long course (50m pool) due to more wall turns and push-offs. When comparing times, note whether it was short or long course."}
+    ]
+  }
+]

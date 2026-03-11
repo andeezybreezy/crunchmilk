@@ -1,0 +1,402 @@
+[
+  {
+    "slug": "exposure-calculator",
+    "toolName": "Exposure Calculator",
+    "category": "photography",
+    "tagline": "Calculate equivalent exposure settings using the exposure triangle — aperture, shutter speed, and ISO",
+    "keywords": "exposure calculator, exposure triangle, EV calculator, aperture shutter ISO",
+    "inputs": [
+      {"id": "aperture", "label": "Aperture (f-stop)", "default": "5.6", "options": [{"value":"1.4","label":"f/1.4"},{"value":"2","label":"f/2"},{"value":"2.8","label":"f/2.8"},{"value":"4","label":"f/4"},{"value":"5.6","label":"f/5.6"},{"value":"8","label":"f/8"},{"value":"11","label":"f/11"},{"value":"16","label":"f/16"},{"value":"22","label":"f/22"}]},
+      {"id": "shutter", "label": "Shutter Speed (seconds)", "default": "0.008", "options": [{"value":"30","label":"30s"},{"value":"15","label":"15s"},{"value":"8","label":"8s"},{"value":"4","label":"4s"},{"value":"2","label":"2s"},{"value":"1","label":"1s"},{"value":"0.5","label":"1/2"},{"value":"0.25","label":"1/4"},{"value":"0.125","label":"1/8"},{"value":"0.0667","label":"1/15"},{"value":"0.0333","label":"1/30"},{"value":"0.0167","label":"1/60"},{"value":"0.008","label":"1/125"},{"value":"0.004","label":"1/250"},{"value":"0.002","label":"1/500"},{"value":"0.001","label":"1/1000"},{"value":"0.0005","label":"1/2000"}]},
+      {"id": "iso", "label": "ISO", "default": "100", "options": [{"value":"50","label":"50"},{"value":"100","label":"100"},{"value":"200","label":"200"},{"value":"400","label":"400"},{"value":"800","label":"800"},{"value":"1600","label":"1600"},{"value":"3200","label":"3200"},{"value":"6400","label":"6400"}]}
+    ],
+    "results": [
+      {"id": "ev", "label": "Exposure Value (EV)"},
+      {"id": "lux", "label": "Approx. Illuminance"},
+      {"id": "scene", "label": "Typical Scene"}
+    ],
+    "calcFn": "var f = parseFloat(aperture);\n    var t = parseFloat(shutter);\n    var isoVal = parseFloat(iso);\n    var ev100 = Math.log2(f * f / t) - Math.log2(isoVal / 100);\n    var luxApprox = Math.pow(2, ev100) * 2.5;\n    var scene = 'Unknown';\n    if (ev100 >= 15) scene = 'Bright sun on snow/sand';\n    else if (ev100 >= 13) scene = 'Bright daylight';\n    else if (ev100 >= 11) scene = 'Hazy sun / Overcast bright';\n    else if (ev100 >= 9) scene = 'Overcast / Open shade';\n    else if (ev100 >= 7) scene = 'Indoor, well-lit';\n    else if (ev100 >= 5) scene = 'Indoor, average lighting';\n    else if (ev100 >= 3) scene = 'Dim indoor / Dusk';\n    else if (ev100 >= 1) scene = 'Twilight / Candle-lit room';\n    else scene = 'Night / Very dark';\n    document.getElementById('ev').textContent = 'EV ' + fmt(ev100, 1);\n    document.getElementById('lux').textContent = fmt(luxApprox, 0) + ' lux';\n    document.getElementById('scene').textContent = scene;",
+    "faq": [
+      {"question": "What is exposure value (EV)?", "answer": "EV is a single number representing a combination of aperture, shutter speed, and ISO. EV 0 equals f/1.0 at 1 second at ISO 100. Each +1 EV halves the light reaching the sensor."},
+      {"question": "How do I use the exposure triangle?", "answer": "The three settings — aperture, shutter speed, and ISO — are interconnected. Changing one requires adjusting another to maintain the same exposure. Opening the aperture by 1 stop lets you double the shutter speed."},
+      {"question": "What EV is needed for outdoor photography?", "answer": "Bright sunny days are EV 14-16. Overcast skies are EV 10-12. Sunset/sunrise is EV 8-10. Night photography typically requires EV 0 or below."}
+    ],
+    "formulas": [
+      "EV₁₀₀ = log₂(f² / t) – log₂(ISO / 100)",
+      "Equivalent Exposure: EV stays constant when stops balance out",
+      "Approximate Lux ≈ 2^EV × 2.5"
+    ],
+    "relatedTools": ["shutter-speed-calculator", "flash-guide-number-calculator", "photo-file-size-calculator"]
+  },
+  {
+    "slug": "golden-ratio-calculator",
+    "toolName": "Golden Ratio Calculator",
+    "category": "photography",
+    "tagline": "Calculate golden ratio dimensions for photography composition and design",
+    "keywords": "golden ratio, phi, 1.618, golden section, composition calculator",
+    "inputs": [
+      {"id": "value", "label": "Known Value", "default": 1000, "unit": "px or any unit"},
+      {"id": "mode", "label": "Calculate", "default": "longer", "options": [{"value":"longer","label":"Longer side from shorter"},{"value":"shorter","label":"Shorter side from longer"},{"value":"both","label":"Both segments from total"}]}
+    ],
+    "results": [
+      {"id": "longSide", "label": "Longer Segment"},
+      {"id": "shortSide", "label": "Shorter Segment"},
+      {"id": "ratio", "label": "Ratio Check"},
+      {"id": "spiralPoints", "label": "Spiral Focus Points"}
+    ],
+    "calcFn": "var phi = 1.6180339887;\n    var longVal, shortVal;\n    if (mode === 'longer') { shortVal = value; longVal = value * phi; }\n    else if (mode === 'shorter') { longVal = value; shortVal = value / phi; }\n    else { longVal = value / (1 + 1/phi); shortVal = value - longVal; }\n    document.getElementById('longSide').textContent = fmt(longVal, 2);\n    document.getElementById('shortSide').textContent = fmt(shortVal, 2);\n    document.getElementById('ratio').textContent = fmt(longVal / shortVal, 10) + ' (φ = 1.6180339887...)';\n    document.getElementById('spiralPoints').textContent = 'Place subject at ' + fmt(longVal * 0.382, 1) + ' or ' + fmt(longVal * 0.618, 1) + ' from edge';",
+    "faq": [
+      {"question": "What is the golden ratio?", "answer": "The golden ratio (φ ≈ 1.618) is a mathematical proportion found in nature and art. Two quantities are in the golden ratio when their ratio equals the ratio of their sum to the larger quantity."},
+      {"question": "How do I use the golden ratio in photography?", "answer": "Place key subjects at golden ratio points (about 38.2% and 61.8% of the frame). This creates more dynamic compositions than centering, similar to but more refined than the rule of thirds."},
+      {"question": "Is the golden ratio better than the rule of thirds?", "answer": "They're similar — the rule of thirds divides at 33%/67%, while the golden ratio divides at 38.2%/61.8%. The golden ratio places subjects slightly closer to center, which many find more pleasing."}
+    ],
+    "formulas": [
+      "φ (phi) = (1 + √5) / 2 ≈ 1.6180339887",
+      "Longer = Shorter × φ",
+      "Shorter = Longer ÷ φ",
+      "Golden spiral points: 38.2% and 61.8% from edges"
+    ],
+    "relatedTools": ["exposure-calculator", "focal-length-crop-calculator", "print-size-calculator"]
+  },
+  {
+    "slug": "flash-guide-number-calculator",
+    "toolName": "Flash Guide Number Calculator",
+    "category": "photography",
+    "tagline": "Calculate flash-to-subject distance, required aperture, or flash power from the guide number",
+    "keywords": "guide number, flash calculator, GN calculator, flash distance, flash power",
+    "inputs": [
+      {"id": "guideNumber", "label": "Guide Number (GN)", "default": 36, "unit": "m at ISO 100"},
+      {"id": "aperture", "label": "Aperture (f-stop)", "default": 5.6},
+      {"id": "iso", "label": "ISO", "default": 100, "options": [{"value":"100","label":"100"},{"value":"200","label":"200"},{"value":"400","label":"400"},{"value":"800","label":"800"},{"value":"1600","label":"1600"}]}
+    ],
+    "results": [
+      {"id": "maxDist", "label": "Max Flash Distance"},
+      {"id": "reqAperture", "label": "Required f-stop at 5m"},
+      {"id": "effectiveGN", "label": "Effective GN at ISO"}
+    ],
+    "calcFn": "var isoVal = parseFloat(iso);\n    var isoFactor = Math.sqrt(isoVal / 100);\n    var effectGN = guideNumber * isoFactor;\n    var dist = effectGN / aperture;\n    var reqF = effectGN / 5;\n    document.getElementById('maxDist').textContent = fmt(dist, 1) + ' m (' + fmt(dist * 3.281, 1) + ' ft)';\n    document.getElementById('reqAperture').textContent = 'f/' + fmt(reqF, 1);\n    document.getElementById('effectiveGN').textContent = fmt(effectGN, 1) + ' (at ISO ' + isoVal + ')';",
+    "faq": [
+      {"question": "What is a flash guide number?", "answer": "The guide number (GN) indicates flash power. It equals flash-to-subject distance × f-number at ISO 100. A GN of 36 means the flash can illuminate a subject 36 meters away at f/1 (ISO 100)."},
+      {"question": "How does ISO affect flash range?", "answer": "Doubling ISO increases effective flash range by √2 (about 1.4×). Going from ISO 100 to 400 doubles your flash distance."},
+      {"question": "What is a good guide number for a flash?", "answer": "Built-in flashes: GN 8-12. Mid-range speedlights: GN 30-40. Professional speedlights: GN 50-60. Studio strobes can exceed GN 100."}
+    ],
+    "formulas": [
+      "Distance = Guide Number ÷ f-stop",
+      "Effective GN = GN × √(ISO ÷ 100)",
+      "Required f-stop = Guide Number ÷ Distance"
+    ],
+    "relatedTools": ["exposure-calculator", "shutter-speed-calculator", "focal-length-crop-calculator"]
+  },
+  {
+    "slug": "focal-length-crop-calculator",
+    "toolName": "Focal Length Crop Factor Calculator",
+    "category": "photography",
+    "tagline": "Calculate the equivalent focal length and field of view for different sensor sizes",
+    "keywords": "crop factor, equivalent focal length, sensor size, APS-C, field of view",
+    "inputs": [
+      {"id": "focalLength", "label": "Lens Focal Length", "default": 50, "unit": "mm"},
+      {"id": "cropFactor", "label": "Crop Factor", "default": "1.5", "options": [{"value":"1","label":"Full Frame (1.0×)"},{"value":"1.5","label":"APS-C Nikon/Sony (1.5×)"},{"value":"1.6","label":"APS-C Canon (1.6×)"},{"value":"2","label":"Micro 4/3 (2.0×)"},{"value":"2.7","label":"1-inch sensor (2.7×)"},{"value":"5.6","label":"Smartphone (5.6×)"}]},
+      {"id": "maxAperture", "label": "Lens Max Aperture", "default": 1.8}
+    ],
+    "results": [
+      {"id": "equivFL", "label": "Equivalent Focal Length"},
+      {"id": "equivAperture", "label": "Equivalent Aperture (DOF)"},
+      {"id": "fov", "label": "Horizontal Field of View"},
+      {"id": "minShutter", "label": "Min Handheld Shutter Speed"}
+    ],
+    "calcFn": "var cf = parseFloat(cropFactor);\n    var equiv = focalLength * cf;\n    var equivAp = maxAperture * cf;\n    var fovRad = 2 * Math.atan(36 / (2 * equiv));\n    var fovDeg = fovRad * 180 / Math.PI;\n    var minShut = 1 / equiv;\n    var shutStr = equiv <= 1 ? fmt(1/minShut, 0) + 's' : '1/' + fmt(equiv, 0) + 's';\n    document.getElementById('equivFL').textContent = fmt(equiv, 0) + 'mm equivalent';\n    document.getElementById('equivAperture').textContent = 'f/' + fmt(equivAp, 1) + ' (depth of field equivalent)';\n    document.getElementById('fov').textContent = fmt(fovDeg, 1) + '°';\n    document.getElementById('minShutter').textContent = shutStr + ' (reciprocal rule)';",
+    "faq": [
+      {"question": "What is crop factor?", "answer": "Crop factor is the ratio of a full-frame sensor diagonal (43.3mm) to your camera's sensor diagonal. APS-C sensors have a 1.5-1.6× crop factor, making a 50mm lens act like 75mm on full frame."},
+      {"question": "Does crop factor affect aperture?", "answer": "It doesn't change the actual aperture or exposure, but it does affect depth of field. A 50mm f/1.8 on APS-C gives similar DOF to a 75mm f/2.7 on full frame."},
+      {"question": "What is the reciprocal rule?", "answer": "For sharp handheld shots, use a shutter speed of at least 1/(equivalent focal length). A 200mm equivalent needs at least 1/200s. Image stabilization lets you go 2-5 stops slower."}
+    ],
+    "formulas": [
+      "Equivalent Focal Length = Actual FL × Crop Factor",
+      "Equivalent Aperture (DOF) = Actual Aperture × Crop Factor",
+      "Horizontal FOV = 2 × arctan(36mm ÷ (2 × Equivalent FL))",
+      "Min Shutter Speed = 1 ÷ Equivalent Focal Length"
+    ],
+    "relatedTools": ["exposure-calculator", "shutter-speed-calculator", "photo-file-size-calculator"]
+  },
+  {
+    "slug": "photo-file-size-calculator",
+    "toolName": "Photo File Size Calculator",
+    "category": "photography",
+    "tagline": "Estimate file sizes for RAW, JPEG, TIFF, and PNG images at any resolution",
+    "keywords": "photo file size, image size calculator, RAW file size, JPEG size estimate",
+    "inputs": [
+      {"id": "megapixels", "label": "Megapixels", "default": 24},
+      {"id": "bitDepth", "label": "Bit Depth", "default": "14", "options": [{"value":"8","label":"8-bit"},{"value":"12","label":"12-bit"},{"value":"14","label":"14-bit"},{"value":"16","label":"16-bit"}]},
+      {"id": "format", "label": "File Format", "default": "raw", "options": [{"value":"raw","label":"RAW (lossless compressed)"},{"value":"rawUncomp","label":"RAW (uncompressed)"},{"value":"jpeg_high","label":"JPEG (high quality)"},{"value":"jpeg_med","label":"JPEG (medium quality)"},{"value":"tiff","label":"TIFF (uncompressed)"},{"value":"png","label":"PNG"}]},
+      {"id": "numPhotos", "label": "Number of Photos", "default": 100}
+    ],
+    "results": [
+      {"id": "fileSize", "label": "Size per Image"},
+      {"id": "totalSize", "label": "Total Size"},
+      {"id": "cardsNeeded", "label": "Fits on 64GB Card"}
+    ],
+    "calcFn": "var bits = parseInt(bitDepth);\n    var fmt2 = format;\n    var pixels = megapixels * 1000000;\n    var bytesPerPixel;\n    if (fmt2 === 'rawUncomp') bytesPerPixel = bits * 3 / 8;\n    else if (fmt2 === 'raw') bytesPerPixel = bits * 3 / 8 * 0.6;\n    else if (fmt2 === 'jpeg_high') bytesPerPixel = 0.75;\n    else if (fmt2 === 'jpeg_med') bytesPerPixel = 0.35;\n    else if (fmt2 === 'tiff') bytesPerPixel = bits * 3 / 8;\n    else bytesPerPixel = bits * 3 / 8 * 0.5;\n    var fileSizeBytes = pixels * bytesPerPixel;\n    var fileSizeMB = fileSizeBytes / (1024 * 1024);\n    var totalMB = fileSizeMB * numPhotos;\n    var totalGB = totalMB / 1024;\n    var fitsOn64 = Math.floor(64 * 1024 / fileSizeMB);\n    var sizeStr = fileSizeMB >= 1 ? fmt(fileSizeMB, 1) + ' MB' : fmt(fileSizeBytes / 1024, 0) + ' KB';\n    var totalStr = totalGB >= 1 ? fmt(totalGB, 2) + ' GB' : fmt(totalMB, 0) + ' MB';\n    document.getElementById('fileSize').textContent = sizeStr;\n    document.getElementById('totalSize').textContent = totalStr;\n    document.getElementById('cardsNeeded').textContent = fmt(fitsOn64, 0) + ' photos';",
+    "faq": [
+      {"question": "How big is a RAW photo file?", "answer": "RAW file sizes depend on megapixels and bit depth. A 24MP camera at 14-bit produces ~25-30MB RAW files (compressed). A 45MP camera produces ~50-60MB RAW files."},
+      {"question": "Why are RAW files so much larger than JPEG?", "answer": "RAW files store all sensor data with minimal compression (12-14 bits per channel). JPEGs use lossy compression and only 8 bits per channel, reducing size by 5-10×."},
+      {"question": "How many photos fit on a 64GB memory card?", "answer": "At 24MP: ~2,100 RAW files, ~8,500 high-quality JPEGs. At 45MP: ~1,100 RAW, ~4,500 JPEGs. Shooting RAW+JPEG uses both amounts."}
+    ],
+    "formulas": [
+      "RAW (uncompressed) = Megapixels × 10⁶ × Bit Depth × 3 ÷ 8",
+      "RAW (compressed) ≈ Uncompressed × 0.6",
+      "JPEG High ≈ Megapixels × 10⁶ × 0.75 bytes",
+      "TIFF = Megapixels × 10⁶ × Bit Depth × 3 ÷ 8"
+    ],
+    "relatedTools": ["print-dpi-calculator", "exposure-calculator", "focal-length-crop-calculator"]
+  },
+  {
+    "slug": "shutter-speed-calculator",
+    "toolName": "Shutter Speed Calculator",
+    "category": "photography",
+    "tagline": "Calculate the right shutter speed for sharp photos based on focal length, motion, and conditions",
+    "keywords": "shutter speed, motion blur, sharp photos, reciprocal rule, night photography",
+    "inputs": [
+      {"id": "focalLength", "label": "Focal Length", "default": 50, "unit": "mm"},
+      {"id": "cropFactor", "label": "Crop Factor", "default": 1.5},
+      {"id": "subjectMotion", "label": "Subject Motion", "default": "still", "options": [{"value":"still","label":"Still subject"},{"value":"slow","label":"Slow walking"},{"value":"moderate","label":"Running/sports"},{"value":"fast","label":"Fast action/birds"}]},
+      {"id": "stabilization", "label": "Image Stabilization", "default": "0", "options": [{"value":"0","label":"No stabilization"},{"value":"2","label":"2-stop IS"},{"value":"3","label":"3-stop IS"},{"value":"5","label":"5-stop IBIS"}]}
+    ],
+    "results": [
+      {"id": "minShutter", "label": "Minimum Shutter Speed"},
+      {"id": "withIS", "label": "With Stabilization"},
+      {"id": "recommendation", "label": "Recommendation"}
+    ],
+    "calcFn": "var equiv = focalLength * cropFactor;\n    var motionFactor = 1;\n    if (subjectMotion === 'slow') motionFactor = 2;\n    else if (subjectMotion === 'moderate') motionFactor = 4;\n    else if (subjectMotion === 'fast') motionFactor = 8;\n    var isStops = parseInt(stabilization);\n    var minSpeed = equiv * motionFactor;\n    var withStab = minSpeed / Math.pow(2, isStops);\n    var rec;\n    if (minSpeed >= 1000) rec = 'Use fast glass (f/2.8+) and high ISO. Flash may help freeze motion.';\n    else if (minSpeed >= 250) rec = 'Good light or ISO 400-1600 needed. Continuous AF recommended.';\n    else if (minSpeed >= 60) rec = 'Standard conditions. Most cameras handle this easily.';\n    else rec = 'Tripod recommended for best results at this slow speed.';\n    function shutterStr(s) { return s >= 1 ? fmt(s, 0) + 's' : '1/' + fmt(s, 0) + 's'; }\n    document.getElementById('minShutter').textContent = shutterStr(minSpeed);\n    document.getElementById('withIS').textContent = shutterStr(withStab);\n    document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "What shutter speed stops motion blur?", "answer": "For still subjects: 1/focal length (equivalent). Walking people: 1/250s. Sports: 1/500-1/1000s. Birds in flight: 1/2000s+. Cars: 1/1000-1/4000s."},
+      {"question": "What is the reciprocal rule?", "answer": "Use a shutter speed of at least 1/(equivalent focal length) to avoid camera shake blur. A 200mm lens on APS-C (300mm equiv) needs at least 1/300s without stabilization."},
+      {"question": "How many stops does image stabilization help?", "answer": "Modern lens IS provides 2-4 stops of stabilization. In-body stabilization (IBIS) provides 3-7 stops. This means a 1/250s minimum could become 1/30s with 3-stop IS."}
+    ],
+    "formulas": [
+      "Minimum Speed = Equivalent Focal Length × Motion Factor",
+      "With IS = Minimum Speed ÷ 2^(IS stops)",
+      "Motion Factors: Still=1×, Walking=2×, Sports=4×, Fast action=8×"
+    ],
+    "relatedTools": ["exposure-calculator", "focal-length-crop-calculator", "flash-guide-number-calculator"]
+  },
+  {
+    "slug": "wood-glue-calculator",
+    "toolName": "Wood Glue Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate the right amount of wood glue for your joint area and project",
+    "keywords": "wood glue amount, glue coverage, woodworking adhesive, glue calculator",
+    "inputs": [
+      {"id": "jointLength", "label": "Joint Length", "default": 24, "unit": "inches"},
+      {"id": "jointWidth", "label": "Joint Width", "default": 0.75, "unit": "inches"},
+      {"id": "numJoints", "label": "Number of Joints", "default": 4},
+      {"id": "glueType", "label": "Glue Type", "default": "pva", "options": [{"value":"pva","label":"PVA (Titebond)"},{"value":"polyurethane","label":"Polyurethane (Gorilla)"},{"value":"epoxy","label":"Epoxy"},{"value":"hide","label":"Hide Glue"}]}
+    ],
+    "results": [
+      {"id": "totalArea", "label": "Total Glue Area"},
+      {"id": "glueNeeded", "label": "Glue Needed"},
+      {"id": "openTime", "label": "Open Time"},
+      {"id": "clampTime", "label": "Minimum Clamp Time"}
+    ],
+    "calcFn": "var areaSqIn = jointLength * jointWidth * numJoints * 2;\n    var coveragePerOz, openTime, clampTime;\n    if (glueType === 'pva') { coveragePerOz = 25; openTime = '5-10 min'; clampTime = '30-60 min'; }\n    else if (glueType === 'polyurethane') { coveragePerOz = 20; openTime = '15-20 min'; clampTime = '1-2 hours'; }\n    else if (glueType === 'epoxy') { coveragePerOz = 15; openTime = '5-30 min (varies)'; clampTime = '4-24 hours'; }\n    else { coveragePerOz = 22; openTime = '5-10 min'; clampTime = '45-90 min'; }\n    var ozNeeded = areaSqIn / coveragePerOz;\n    var mlNeeded = ozNeeded * 29.574;\n    document.getElementById('totalArea').textContent = fmt(areaSqIn, 1) + ' sq in (' + fmt(areaSqIn * 6.452, 0) + ' cm²)';\n    document.getElementById('glueNeeded').textContent = fmt(ozNeeded, 1) + ' oz (' + fmt(mlNeeded, 0) + ' mL)';\n    document.getElementById('openTime').textContent = openTime;\n    document.getElementById('clampTime').textContent = clampTime;",
+    "faq": [
+      {"question": "How much wood glue do I need?", "answer": "Apply a thin, even coat covering the entire joint surface. PVA glue covers about 25 square inches per ounce. A standard 8oz bottle handles most small to medium projects."},
+      {"question": "Should I apply glue to both surfaces?", "answer": "For PVA (yellow) glue, applying to both surfaces gives the strongest bond. For polyurethane glue, apply to one surface and dampen the other with water."},
+      {"question": "How long should I clamp wood glue?", "answer": "PVA: 30-60 minutes minimum, 24 hours for full cure. Polyurethane: 1-2 hours clamp, 24 hours full cure. Epoxy: varies by formula, 4-24 hours."}
+    ],
+    "formulas": [
+      "Total Area = Joint Length × Joint Width × Number of Joints × 2 (both surfaces)",
+      "Glue Needed (oz) = Total Area ÷ Coverage Rate",
+      "PVA coverage ≈ 25 sq in/oz, Polyurethane ≈ 20 sq in/oz"
+    ],
+    "relatedTools": ["lumber-cost-calculator", "miter-angle-calculator", "dovetail-spacing-calculator"]
+  },
+  {
+    "slug": "miter-angle-calculator",
+    "toolName": "Miter Angle Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate miter and bevel angles for any polygon, corner, or compound joint",
+    "keywords": "miter angle, miter saw angle, corner angle, compound miter, bevel angle",
+    "inputs": [
+      {"id": "cornerAngle", "label": "Desired Corner Angle", "default": 90, "unit": "degrees"},
+      {"id": "numSides", "label": "Number of Sides (polygon)", "default": 4, "min": 3, "max": 36},
+      {"id": "tiltAngle", "label": "Slope/Tilt Angle", "default": 0, "unit": "degrees (0=flat)"}
+    ],
+    "results": [
+      {"id": "miterAngle", "label": "Miter Saw Angle"},
+      {"id": "bevelAngle", "label": "Bevel Angle"},
+      {"id": "bladeAngle", "label": "Blade Tilt"},
+      {"id": "interiorAngle", "label": "Interior Angle"}
+    ],
+    "calcFn": "var interior = (numSides - 2) * 180 / numSides;\n    var miter = (180 - interior) / 2;\n    var tilt = tiltAngle * Math.PI / 180;\n    var miterRad = miter * Math.PI / 180;\n    var compMiter, compBevel;\n    if (tiltAngle === 0) {\n      compMiter = miter;\n      compBevel = 0;\n    } else {\n      compMiter = Math.atan(Math.sin(miterRad) * Math.cos(tilt)) * 180 / Math.PI;\n      compBevel = Math.atan(Math.cos(miterRad) * Math.sin(tilt)) * 180 / Math.PI;\n    }\n    document.getElementById('miterAngle').textContent = fmt(compMiter, 2) + '°';\n    document.getElementById('bevelAngle').textContent = fmt(compBevel, 2) + '°';\n    document.getElementById('bladeAngle').textContent = fmt(90 - compMiter, 2) + '° from fence';\n    document.getElementById('interiorAngle').textContent = fmt(interior, 2) + '°';",
+    "faq": [
+      {"question": "What miter angle do I need for a 90-degree corner?", "answer": "For a standard 90-degree corner (like a picture frame), set your miter saw to 45 degrees. Each piece gets cut at 45°, and together they form the 90° corner."},
+      {"question": "How do I calculate miter angles for a polygon?", "answer": "Miter angle = (180 - interior angle) ÷ 2. Interior angle = (n-2) × 180 ÷ n, where n is the number of sides. For a hexagon (6 sides): interior = 120°, miter = 30°."},
+      {"question": "What is a compound miter?", "answer": "A compound miter combines a miter angle (horizontal) with a bevel angle (vertical tilt). It's needed for crown molding, sloped frames, and tapered boxes. Both angles change when a tilt is introduced."}
+    ],
+    "formulas": [
+      "Interior Angle = (n - 2) × 180 ÷ n",
+      "Miter Angle = (180 - Interior Angle) ÷ 2",
+      "Compound Miter = arctan(sin(miter) × cos(tilt))",
+      "Compound Bevel = arctan(cos(miter) × sin(tilt))"
+    ],
+    "relatedTools": ["dovetail-spacing-calculator", "lumber-cost-calculator", "wood-shrinkage-calculator"]
+  },
+  {
+    "slug": "wood-shrinkage-calculator",
+    "toolName": "Wood Shrinkage Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate wood movement from moisture content changes for gap-free joinery",
+    "keywords": "wood shrinkage, wood movement, moisture content, wood expansion, seasonal movement",
+    "inputs": [
+      {"id": "boardWidth", "label": "Board Width", "default": 6, "unit": "inches"},
+      {"id": "mcStart", "label": "Starting Moisture Content", "default": 12, "unit": "%"},
+      {"id": "mcEnd", "label": "Final Moisture Content", "default": 8, "unit": "%"},
+      {"id": "species", "label": "Wood Species", "default": "4.9", "options": [{"value":"4.9","label":"Red Oak (4.9%)"},{"value":"3.7","label":"White Oak (3.7%)"},{"value":"3.5","label":"Hard Maple (3.5%)"},{"value":"4.2","label":"Cherry (4.2%)"},{"value":"3.8","label":"Walnut (3.8%)"},{"value":"4.1","label":"Pine (4.1%)"},{"value":"2.8","label":"Mahogany (2.8%)"},{"value":"3.3","label":"Poplar (3.3%)"}]}
+    ],
+    "results": [
+      {"id": "shrinkage", "label": "Expected Shrinkage"},
+      {"id": "newWidth", "label": "Final Width"},
+      {"id": "pctChange", "label": "Percentage Change"},
+      {"id": "gapAdvice", "label": "Seasonal Movement Range"}
+    ],
+    "calcFn": "var tangentialPct = parseFloat(species);\n    var mcChange = mcStart - mcEnd;\n    var shrinkPct = tangentialPct * (mcChange / 19);\n    var shrinkInches = boardWidth * (shrinkPct / 100);\n    var newW = boardWidth - shrinkInches;\n    var seasonalRange = boardWidth * (tangentialPct / 100) * (4 / 19);\n    document.getElementById('shrinkage').textContent = fmt(Math.abs(shrinkInches), 4) + '\" (' + fmt(Math.abs(shrinkInches) * 25.4, 2) + ' mm)';\n    document.getElementById('newWidth').textContent = fmt(newW, 4) + '\"';\n    document.getElementById('pctChange').textContent = fmt(Math.abs(shrinkPct), 2) + '% ' + (mcChange > 0 ? 'shrinkage' : 'expansion');\n    document.getElementById('gapAdvice').textContent = '±' + fmt(seasonalRange / 2, 3) + '\" per ' + fmt(boardWidth, 1) + '\" of width';",
+    "faq": [
+      {"question": "How much does wood shrink when it dries?", "answer": "Wood shrinks about 1% for every 4% change in moisture content (varies by species). A 6-inch red oak board might shrink 0.06\" going from 12% to 8% MC — enough to open joints."},
+      {"question": "Does wood move more in some directions?", "answer": "Yes. Tangential shrinkage (across growth rings) is about twice radial shrinkage. Quartersawn boards move roughly half as much as flatsawn boards across their width."},
+      {"question": "What moisture content should furniture wood be?", "answer": "For indoor furniture in most US climates: 6-9% MC. Heated homes in winter can drop to 4-6%. Outdoor projects should be at 12-16% MC depending on climate."}
+    ],
+    "formulas": [
+      "Shrinkage % = Species Tangential % × (MC Change ÷ Fiber Saturation Point)",
+      "Fiber Saturation Point ≈ 19% for most hardwoods",
+      "Dimensional Change = Board Width × (Shrinkage % ÷ 100)",
+      "Seasonal Range ≈ Width × Tangential% × (4% MC swing ÷ 19)"
+    ],
+    "relatedTools": ["lumber-cost-calculator", "miter-angle-calculator", "dovetail-spacing-calculator"]
+  },
+  {
+    "slug": "dovetail-spacing-calculator",
+    "toolName": "Dovetail Spacing Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate even dovetail pin and tail spacing for beautiful hand-cut joints",
+    "keywords": "dovetail spacing, dovetail layout, pin spacing, tail spacing, dovetail joint",
+    "inputs": [
+      {"id": "boardWidth", "label": "Board Width", "default": 6, "unit": "inches"},
+      {"id": "numTails", "label": "Number of Tails", "default": 4},
+      {"id": "pinWidth", "label": "Half-Pin Width", "default": 0.375, "unit": "inches"},
+      {"id": "tailAngle", "label": "Tail Angle", "default": "8", "options": [{"value":"7","label":"1:7 (hardwood)"},{"value":"8","label":"1:8 (general)"},{"value":"6","label":"1:6 (softwood)"}]}
+    ],
+    "results": [
+      {"id": "tailWidth", "label": "Tail Width (wide end)"},
+      {"id": "pinSpacing", "label": "Pin Width (narrow)"},
+      {"id": "layoutMarks", "label": "Layout Marks from Edge"},
+      {"id": "pinNarrow", "label": "Pin Narrow Width"}
+    ],
+    "calcFn": "var usable = boardWidth - 2 * pinWidth;\n    var tailSpacing = usable / numTails;\n    var thickness = 0.75;\n    var ratio = parseInt(tailAngle);\n    var slopeOffset = thickness / ratio;\n    var tailWide = tailSpacing - 2 * slopeOffset + 2 * slopeOffset;\n    var pinNarrow = tailSpacing - tailWide + slopeOffset;\n    var marks = [];\n    marks.push(fmt(pinWidth, 3) + '\"');\n    for (var i = 0; i < numTails; i++) {\n      var pos = pinWidth + i * tailSpacing;\n      marks.push(fmt(pos, 3) + '\"');\n    }\n    marks.push(fmt(boardWidth - pinWidth, 3) + '\"');\n    document.getElementById('tailWidth').textContent = fmt(tailSpacing, 3) + '\"';\n    document.getElementById('pinSpacing').textContent = fmt(tailSpacing, 3) + '\" on center';\n    document.getElementById('layoutMarks').textContent = marks.join(', ');\n    document.getElementById('pinNarrow').textContent = 'Ratio 1:' + ratio + ' (angle: ' + fmt(Math.atan(1/ratio)*180/Math.PI, 1) + '°)';",
+    "faq": [
+      {"question": "What angle should I use for dovetails?", "answer": "Use 1:8 (about 7°) for general purpose, 1:7 for hardwoods, and 1:6 (about 9.5°) for softwoods. Steeper angles in softwood prevent the pins from splitting."},
+      {"question": "How many tails should I use?", "answer": "A general guide is one tail per inch of board width, minus one. A 6-inch board typically gets 3-5 tails. More tails look refined; fewer look bold and rustic."},
+      {"question": "How wide should half-pins be?", "answer": "Half-pins (at the edges) should be at least 1/4\" wide but no more than 2/3 the full pin width. Common practice is 3/8\" for furniture-scale work."}
+    ],
+    "formulas": [
+      "Usable Width = Board Width - 2 × Half-Pin Width",
+      "Tail Spacing = Usable Width ÷ Number of Tails",
+      "Slope Offset = Board Thickness ÷ Ratio",
+      "Common angles: 1:6 = 9.5°, 1:7 = 8.1°, 1:8 = 7.1°"
+    ],
+    "relatedTools": ["miter-angle-calculator", "wood-glue-calculator", "lumber-cost-calculator"]
+  },
+  {
+    "slug": "wood-stain-calculator",
+    "toolName": "Wood Stain Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate how much wood stain or finish you need for your project",
+    "keywords": "wood stain coverage, stain calculator, finish coverage, polyurethane calculator",
+    "inputs": [
+      {"id": "sqft", "label": "Surface Area", "default": 50, "unit": "sq ft"},
+      {"id": "coats", "label": "Number of Coats", "default": 2},
+      {"id": "finishType", "label": "Finish Type", "default": "350", "options": [{"value":"250","label":"Oil-based stain (250 sq ft/qt)"},{"value":"300","label":"Water-based stain (300 sq ft/qt)"},{"value":"350","label":"Polyurethane (350 sq ft/qt)"},{"value":"150","label":"Deck stain (150 sq ft/qt)"},{"value":"200","label":"Danish oil (200 sq ft/qt)"},{"value":"400","label":"Lacquer (400 sq ft/qt)"}]},
+      {"id": "wastePct", "label": "Waste Factor", "default": 10, "unit": "%"}
+    ],
+    "results": [
+      {"id": "quartsNeeded", "label": "Quarts Needed"},
+      {"id": "gallonsNeeded", "label": "Gallons to Buy"},
+      {"id": "totalCoverage", "label": "Total Coverage Needed"}
+    ],
+    "calcFn": "var coveragePerQt = parseFloat(finishType);\n    var totalSqFt = sqft * coats * (1 + wastePct / 100);\n    var qts = totalSqFt / coveragePerQt;\n    var gals = qts / 4;\n    var buyGal = Math.ceil(gals);\n    var buyQt = Math.ceil(qts);\n    var bestBuy = (buyGal <= buyQt / 3) ? buyGal + ' gallon(s)' : buyQt + ' quart(s)';\n    document.getElementById('quartsNeeded').textContent = fmt(qts, 1) + ' quarts';\n    document.getElementById('gallonsNeeded').textContent = bestBuy;\n    document.getElementById('totalCoverage').textContent = fmt(totalSqFt, 0) + ' sq ft total';",
+    "faq": [
+      {"question": "How much area does a quart of stain cover?", "answer": "Oil-based stain: 200-300 sq ft/qt. Water-based stain: 250-350 sq ft/qt. Polyurethane: 300-400 sq ft/qt. Rough or porous wood absorbs more and reduces coverage."},
+      {"question": "How many coats of stain do I need?", "answer": "Most stains need 1-2 coats. Polyurethane needs 2-3 coats with light sanding between. Deck stain typically needs 2 coats. Apply thin, even coats rather than one thick coat."},
+      {"question": "Should I buy quarts or gallons?", "answer": "Gallons are typically 20-30% cheaper per ounce than quarts. If you need more than 3 quarts, a gallon is usually more economical. Leftover stain stores well for touch-ups."}
+    ],
+    "formulas": [
+      "Total Coverage = Surface Area × Number of Coats × (1 + Waste %)",
+      "Quarts Needed = Total Coverage ÷ Coverage per Quart",
+      "Gallons = Quarts ÷ 4"
+    ],
+    "relatedTools": ["lumber-cost-calculator", "wood-glue-calculator", "wood-shrinkage-calculator"]
+  },
+  {
+    "slug": "lumber-cost-calculator",
+    "toolName": "Lumber Cost Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate lumber costs using board feet pricing for hardwood and dimensional lumber",
+    "keywords": "lumber cost, board foot calculator, hardwood pricing, wood cost estimator",
+    "inputs": [
+      {"id": "thickness", "label": "Thickness", "default": 1, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 6, "unit": "inches"},
+      {"id": "length", "label": "Length", "default": 96, "unit": "inches"},
+      {"id": "numBoards", "label": "Number of Boards", "default": 4},
+      {"id": "pricePerBF", "label": "Price per Board Foot", "default": 8, "unit": "$", "step": 0.5}
+    ],
+    "results": [
+      {"id": "boardFeet", "label": "Board Feet (per board)"},
+      {"id": "totalBF", "label": "Total Board Feet"},
+      {"id": "totalCost", "label": "Total Cost"},
+      {"id": "costPerBoard", "label": "Cost per Board"}
+    ],
+    "calcFn": "var bf = (thickness * width * length) / 144;\n    var totalBF = bf * numBoards;\n    var total = totalBF * pricePerBF;\n    var costPer = total / numBoards;\n    document.getElementById('boardFeet').textContent = fmt(bf, 2) + ' BF';\n    document.getElementById('totalBF').textContent = fmt(totalBF, 2) + ' BF';\n    document.getElementById('totalCost').textContent = dollar(total);\n    document.getElementById('costPerBoard').textContent = dollar(costPer);",
+    "faq": [
+      {"question": "What is a board foot?", "answer": "A board foot (BF) is 144 cubic inches of wood — equivalent to a board 1 inch thick × 12 inches wide × 12 inches long. Hardwood lumber is priced per board foot."},
+      {"question": "How much does hardwood lumber cost?", "answer": "Common hardwoods: Poplar $3-5/BF, Red Oak $5-8/BF, Cherry $7-10/BF, Walnut $10-15/BF, Maple $5-8/BF. Exotic woods can exceed $20-50/BF."},
+      {"question": "How do I calculate board feet?", "answer": "Board Feet = (Thickness × Width × Length) ÷ 144, where all measurements are in inches. A 1\" × 6\" × 8' (96\") board = 4 board feet."}
+    ],
+    "formulas": [
+      "Board Feet = (Thickness × Width × Length in inches) ÷ 144",
+      "Total Board Feet = BF per Board × Number of Boards",
+      "Total Cost = Total Board Feet × Price per Board Foot"
+    ],
+    "relatedTools": ["wood-shrinkage-calculator", "miter-angle-calculator", "wood-stain-calculator"]
+  },
+  {
+    "slug": "wood-screw-calculator",
+    "toolName": "Wood Screw Calculator",
+    "category": "woodworking",
+    "tagline": "Find the right screw size, pilot hole, and clearance hole for any wood joint",
+    "keywords": "wood screw size, pilot hole, clearance hole, screw gauge, screw length",
+    "inputs": [
+      {"id": "materialThickness", "label": "Top Piece Thickness", "default": 0.75, "unit": "inches"},
+      {"id": "screwGauge", "label": "Screw Gauge", "default": "8", "options": [{"value":"4","label":"#4 (0.112\")"},{"value":"6","label":"#6 (0.138\")"},{"value":"8","label":"#8 (0.164\")"},{"value":"10","label":"#10 (0.190\")"},{"value":"12","label":"#12 (0.216\")"},{"value":"14","label":"#14 (0.242\")"}]},
+      {"id": "woodType", "label": "Wood Type", "default": "hard", "options": [{"value":"soft","label":"Softwood (pine, cedar)"},{"value":"hard","label":"Hardwood (oak, maple)"}]}
+    ],
+    "results": [
+      {"id": "screwLength", "label": "Recommended Screw Length"},
+      {"id": "pilotHole", "label": "Pilot Hole Diameter"},
+      {"id": "clearanceHole", "label": "Clearance Hole Diameter"},
+      {"id": "countersink", "label": "Countersink Diameter"}
+    ],
+    "calcFn": "var gauge = parseInt(screwGauge);\n    var shankDia = 0.060 + gauge * 0.013;\n    var rootDia = shankDia * 0.65;\n    var pilotSoft = rootDia * 0.85;\n    var pilotHard = rootDia * 1.0;\n    var pilot = woodType === 'hard' ? pilotHard : pilotSoft;\n    var clearance = shankDia + 0.01;\n    var counter = shankDia * 2;\n    var recLength = materialThickness + (materialThickness * 1.5);\n    recLength = Math.ceil(recLength * 4) / 4;\n    function toFraction(n) {\n      var sixteenths = Math.round(n * 16);\n      if (sixteenths % 16 === 0) return (sixteenths/16) + '\"';\n      if (sixteenths % 8 === 0) return (sixteenths/16) + '\" (' + (sixteenths/8) + '/2\")';\n      if (sixteenths % 4 === 0) return (sixteenths/16).toFixed(3) + '\" (' + (sixteenths/4) + '/4\")';\n      return (sixteenths/16).toFixed(3) + '\" (' + sixteenths + '/16\")';\n    }\n    var nearestBit = function(d) { var s = Math.round(d * 64) / 64; return fmt(s, 4) + '\" (' + Math.round(s * 64) + '/64\")'; };\n    document.getElementById('screwLength').textContent = fmt(recLength, 2) + '\"';\n    document.getElementById('pilotHole').textContent = nearestBit(pilot);\n    document.getElementById('clearanceHole').textContent = nearestBit(clearance);\n    document.getElementById('countersink').textContent = nearestBit(counter);",
+    "faq": [
+      {"question": "How long should a wood screw be?", "answer": "The screw should be long enough to pass through the top piece and penetrate the bottom piece by at least 1-1.5× the top piece thickness. Two-thirds of the screw should be in the bottom piece."},
+      {"question": "Do I always need a pilot hole?", "answer": "In hardwood: always. In softwood: for screws #8 and larger, or near edges. Pilot holes prevent splitting, make driving easier, and create stronger joints."},
+      {"question": "What is a clearance hole?", "answer": "A clearance hole in the top piece allows the screw shank to pass freely, so the screw threads only grip the bottom piece. This pulls the two pieces tightly together."}
+    ],
+    "formulas": [
+      "Shank Diameter = 0.060\" + (Gauge × 0.013\")",
+      "Pilot Hole (hardwood) = Root Diameter × 1.0",
+      "Pilot Hole (softwood) = Root Diameter × 0.85",
+      "Clearance Hole = Shank Diameter + 0.01\"",
+      "Recommended Length = Top Thickness + 1.5 × Top Thickness"
+    ],
+    "relatedTools": ["wood-glue-calculator", "lumber-cost-calculator", "miter-angle-calculator"]
+  }
+]

@@ -283,7 +283,10 @@ const CATEGORY_META = {
   'crypto': { name: 'Cryptocurrency Calculators', slug: 'crypto-calculators' },
   'climate': { name: 'Climate & Disaster Calculators', slug: 'climate-calculators' },
   'demographics': { name: 'Demographics & Relocation Calculators', slug: 'demographics-calculators' },
-  'rv': { name: 'RV Calculators', slug: 'rv-calculators' }
+  'rv': { name: 'RV Calculators', slug: 'rv-calculators' },
+  'mental-health': { name: 'Mental Health Calculators', slug: 'mental-health-calculators' },
+  'pregnancy': { name: 'Pregnancy & Baby Calculators', slug: 'pregnancy-calculators' },
+  'insurance': { name: 'Insurance Calculators', slug: 'insurance-calculators' }
 };
 
 // Top 20 emotionally charged tools that get aggressive share CTAs
