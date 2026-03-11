@@ -323,10 +323,10 @@ function buildOgImage() {
   <text x="82" y="340" font-family="sans-serif" font-size="28" fill="rgba(255,255,255,0.6)">Free online calculators for everything.</text>
   <!-- Stats bar -->
   <line x1="82" y1="400" x2="500" y2="400" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text x="82" y="440" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#E63946">303+</text>
+  <text x="82" y="440" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#E63946">1,020+</text>
   <text x="82" y="466" font-family="sans-serif" font-size="14" fill="rgba(255,255,255,0.4)" letter-spacing="2" text-transform="uppercase">CALCULATORS</text>
-  <text x="240" y="440" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#E63946">39</text>
-  <text x="240" y="466" font-family="sans-serif" font-size="14" fill="rgba(255,255,255,0.4)" letter-spacing="2">CATEGORIES</text>
+  <text x="280" y="440" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#E63946">51</text>
+  <text x="280" y="466" font-family="sans-serif" font-size="14" fill="rgba(255,255,255,0.4)" letter-spacing="2">CATEGORIES</text>
   <!-- Coral accent -->
   <rect x="80" y="540" width="60" height="4" rx="2" fill="#E63946" opacity="0.6"/>
   <text x="82" y="580" font-family="sans-serif" font-size="16" fill="rgba(255,255,255,0.3)">crunchmilk.com</text>

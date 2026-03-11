@@ -140,8 +140,8 @@ function main() {
 <meta name="twitter:title" content="CrunchMilk \u2014 ${totalTools}+ Free Online Calculators">
 <meta name="twitter:description" content="${totalTools}+ free calculators for construction, cooking, fitness, finance, and more.">
 <meta name="robots" content="index, follow">
-<meta property="og:image" content="https://crunchmilk.com/og-image.svg">
-<meta name="twitter:image" content="https://crunchmilk.com/og-image.svg">
+<meta property="og:image" content="https://crunchmilk.com/og-image.png">
+<meta name="twitter:image" content="https://crunchmilk.com/og-image.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
