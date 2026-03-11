@@ -80,6 +80,53 @@ Crawl-delay: 10
   fs.mkdirSync(path.join(OUTPUT_DIR, 'contact'), { recursive: true });
   fs.writeFileSync(path.join(OUTPUT_DIR, 'contact', 'index.html'), contact, 'utf8');
   console.log('Built contact/index.html');
+
+  // HTML Sitemap page
+  const masterList = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'master-tool-list.json'), 'utf8'));
+  const categories = {};
+  masterList.forEach(function(t) {
+    if (!categories[t.category]) categories[t.category] = [];
+    categories[t.category].push(t);
+  });
+
+  const catSections = Object.keys(categories).sort().map(function(cat) {
+    const tools = categories[cat].sort(function(a, b) { return a.toolName.localeCompare(b.toolName); });
+    const catName = cat.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    const links = tools.map(function(t) {
+      return '<li><a href="/' + t.slug + '/">' + t.toolName + '</a></li>';
+    }).join('\n          ');
+    return '<div class="sitemap-cat"><h2>' + catName + ' <span>(' + tools.length + ')</span></h2><ul>' + links + '</ul></div>';
+  }).join('\n      ');
+
+  const htmlSitemap = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>All Calculators - CrunchMilk Sitemap</title><meta name="description" content="Browse all ' + masterList.length + '+ free online calculators on CrunchMilk, organized by category."><meta name="robots" content="index, follow"><link rel="canonical" href="https://' + DOMAIN + '/sitemap/"><meta property="og:title" content="All Calculators - CrunchMilk"><meta property="og:description" content="Browse ' + masterList.length + '+ free calculators organized by category."><meta property="og:type" content="website"><meta property="og:url" content="https://' + DOMAIN + '/sitemap/"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="All Calculators - CrunchMilk"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fafaf8;color:#333;line-height:1.6}header{background:#1a1a2e;color:#fff;padding:24px 0;text-align:center}header h1{font-size:1.6rem;margin-bottom:4px}header p{opacity:0.6;font-size:0.9rem}.container{max-width:900px;margin:0 auto;padding:24px 20px}.sitemap-cat{margin-bottom:28px}.sitemap-cat h2{font-size:1.1rem;color:#1a1a2e;border-bottom:2px solid #e8e6e1;padding-bottom:6px;margin-bottom:10px}.sitemap-cat h2 span{color:#999;font-weight:400;font-size:0.85rem}.sitemap-cat ul{list-style:none;column-count:2;column-gap:24px}.sitemap-cat li{margin-bottom:4px}.sitemap-cat a{color:#333;text-decoration:none;font-size:0.85rem}.sitemap-cat a:hover{color:#ff6b6b;text-decoration:underline}.back{display:inline-block;margin-bottom:20px;color:#ff6b6b;text-decoration:none;font-size:0.9rem;font-weight:600}.back:hover{text-decoration:underline}footer{background:#1a1a2e;color:rgba(255,255,255,0.4);text-align:center;padding:24px;font-size:0.78rem;margin-top:40px}footer a{color:rgba(255,255,255,0.4);text-decoration:none}footer a:hover{color:#fff}@media(max-width:480px){.sitemap-cat ul{column-count:1}}</style></head><body><header><h1>All CrunchMilk Calculators</h1><p>' + masterList.length + ' free tools across ' + Object.keys(categories).length + ' categories</p></header><div class="container"><a class="back" href="/">&larr; Back to Home</a>\n      ' + catSections + '\n</div><footer><p>&copy; ' + new Date().getFullYear() + ' CrunchMilk &middot; <a href="/about/">About</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></p></footer></body></html>';
+
+  fs.mkdirSync(path.join(OUTPUT_DIR, 'sitemap'), { recursive: true });
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'sitemap', 'index.html'), htmlSitemap, 'utf8');
+  console.log('Built sitemap/index.html (HTML sitemap with ' + masterList.length + ' tools)');
+
+  // RSS Feed / Tool of the Day
+  const rssTools = masterList.slice().sort(function() { return 0.5 - Math.random(); }).slice(0, 30);
+  let rss = '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n';
+  rss += '  <title>CrunchMilk - Calculator of the Day</title>\n';
+  rss += '  <link>https://' + DOMAIN + '/</link>\n';
+  rss += '  <description>' + masterList.length + '+ free online calculators for finance, construction, fitness, cooking, and more.</description>\n';
+  rss += '  <language>en-us</language>\n';
+  rss += '  <atom:link href="https://' + DOMAIN + '/feed.xml" rel="self" type="application/rss+xml" />\n';
+  rss += '  <lastBuildDate>' + new Date().toUTCString() + '</lastBuildDate>\n';
+  rssTools.forEach(function(t, i) {
+    var pubDate = new Date();
+    pubDate.setDate(pubDate.getDate() - i);
+    rss += '  <item>\n';
+    rss += '    <title>' + t.toolName + '</title>\n';
+    rss += '    <link>https://' + DOMAIN + '/' + t.slug + '/</link>\n';
+    rss += '    <guid>https://' + DOMAIN + '/' + t.slug + '/</guid>\n';
+    rss += '    <pubDate>' + pubDate.toUTCString() + '</pubDate>\n';
+    rss += '    <description>Free online ' + t.toolName.toLowerCase() + '. No signup required.</description>\n';
+    rss += '  </item>\n';
+  });
+  rss += '</channel>\n</rss>\n';
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'feed.xml'), rss, 'utf8');
+  console.log('Built feed.xml (RSS feed with 30 tools)');
 }
 
 main();

@@ -373,6 +373,40 @@ function buildWhenToUse(config) {
 }
 
 /**
+ * Build content intro section (for top tools with rich content).
+ */
+function buildContentIntro(config) {
+  if (!config.contentIntro) return '';
+  return '  <div class="info-section">\n    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">' + escapeHtml(config.contentIntro) + '</p>\n  </div>';
+}
+
+/**
+ * Build "How to Use" steps section.
+ */
+function buildHowToSteps(config) {
+  if (!config.howToSteps || config.howToSteps.length === 0) return '';
+  var html = '  <div class="info-section">\n    <h2>How to Use This Calculator</h2>\n    <ol style="margin-left:20px;margin-bottom:12px">\n';
+  config.howToSteps.forEach(function(step) {
+    html += '      <li style="margin-bottom:8px">' + escapeHtml(step) + '</li>\n';
+  });
+  html += '    </ol>\n  </div>';
+  return html;
+}
+
+/**
+ * Build tips and considerations section.
+ */
+function buildTips(config) {
+  if (!config.tipsAndConsiderations || config.tipsAndConsiderations.length === 0) return '';
+  var html = '  <div class="info-section">\n    <h2>Tips &amp; Considerations</h2>\n    <ul>\n';
+  config.tipsAndConsiderations.forEach(function(tip) {
+    html += '      <li style="margin-bottom:8px">' + escapeHtml(tip) + '</li>\n';
+  });
+  html += '    </ul>\n  </div>';
+  return html;
+}
+
+/**
  * Build Last Updated line.
  */
 function buildLastUpdated(config) {
@@ -478,6 +512,9 @@ function buildSite(configFile) {
     categoryName: catMeta.name,
     calculatorHTML: config.calculatorHTML || '',
     chartHTML: chartHTML,
+    contentIntroHTML: buildContentIntro(config),
+    howToStepsHTML: buildHowToSteps(config),
+    tipsHTML: buildTips(config),
     howItWorks: howItWorks,
     howWeCalculateHTML: howWeCalculateHTML,
     whenToUseHTML: whenToUseHTML,

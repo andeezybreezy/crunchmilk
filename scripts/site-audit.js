@@ -267,7 +267,7 @@ function main() {
     }
 
     // Skip non-tool pages (privacy, terms, about, contact)
-    const SKIP_SLUGS = ['privacy', 'terms', 'about', 'contact'];
+    const SKIP_SLUGS = ['privacy', 'terms', 'about', 'contact', 'press', 'sitemap'];
     if (SKIP_SLUGS.includes(slug)) {
       continue;
     }
