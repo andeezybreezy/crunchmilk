@@ -242,8 +242,23 @@ footer a:hover{color:#fff}
 .share-cta{font-family:var(--font-display);font-size:0.92rem;font-weight:700;color:var(--primary);margin-bottom:12px}
 .share-comparison{font-size:0.85rem;color:var(--text);padding:12px 16px;background:var(--cream);border-radius:6px;border-left:3px solid var(--coral);margin-bottom:12px;line-height:1.6}
 
+/* Email Capture Slide-up */
+.ec-slideup{position:fixed;bottom:-200px;left:50%;transform:translateX(-50%);width:min(420px,calc(100% - 32px));background:var(--card);border-radius:12px 12px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,0.12);padding:24px 24px 20px;z-index:200;transition:bottom 0.4s cubic-bezier(0.22,1,0.36,1);font-family:var(--font-body)}
+.ec-slideup.ec-visible{bottom:0}
+.ec-close{position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.4rem;color:var(--text-light);cursor:pointer;padding:4px 8px;line-height:1}
+.ec-close:hover{color:var(--text)}
+.ec-headline{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:-0.3px}
+.ec-sub{font-size:0.78rem;color:var(--text-mid);margin-bottom:12px;line-height:1.5}
+.ec-form{display:flex;gap:8px}
+.ec-input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:6px;font-size:0.85rem;font-family:var(--font-body);outline:none;transition:border-color 0.2s}
+.ec-input:focus{border-color:var(--primary)}
+.ec-submit{padding:10px 18px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:var(--font-body);white-space:nowrap;transition:opacity 0.2s}
+.ec-submit:hover{opacity:0.9}
+.ec-privacy{font-size:0.7rem;color:var(--text-light);margin-top:8px}
+.ec-privacy a{color:var(--text-light);text-decoration:underline}
+
 /* Print */
-@media print{.site-nav,.convert-btn,.presets,.page-header,footer,.share-bar,.embed-section{display:none}.result{display:block!important;border:1px solid #000}}
+@media print{.site-nav,.convert-btn,.presets,.page-header,footer,.share-bar,.embed-section,.ec-slideup{display:none}.result{display:block!important;border:1px solid #000}}
 
 /* Mobile */
 @media(max-width:480px){
@@ -726,6 +741,107 @@ footer a:hover{color:#fff}
   // Init
   restoreFromUrl();
   observeResult();
+})();
+
+</script>
+<script>
+
+(function() {
+  'use strict';
+
+  var CATEGORY = 'niche-finance';
+  var TOOL_SLUG = 'wedding-budget-calculator';
+  var DISMISS_KEY = 'cm_email_dismissed';
+  var SIGNUP_KEY = 'cm_email_signed_up';
+  var DISMISS_DAYS = 30;
+
+  // Don't show if already signed up or recently dismissed
+  function shouldShow() {
+    if (localStorage.getItem(SIGNUP_KEY)) return false;
+    var dismissed = localStorage.getItem(DISMISS_KEY);
+    if (dismissed) {
+      var ts = parseInt(dismissed, 10);
+      if (Date.now() - ts < DISMISS_DAYS * 86400000) return false;
+    }
+    return true;
+  }
+
+  function dismiss() {
+    localStorage.setItem(DISMISS_KEY, Date.now().toString());
+    var el = document.getElementById('emailCapture');
+    if (el) {
+      el.classList.remove('ec-visible');
+      setTimeout(function() { el.remove(); }, 400);
+    }
+  }
+
+  function buildCapture() {
+    if (!shouldShow()) return;
+    if (document.getElementById('emailCapture')) return;
+
+    var el = document.createElement('div');
+    el.id = 'emailCapture';
+    el.className = 'ec-slideup';
+    el.innerHTML =
+      '<button class="ec-close" aria-label="Close">&times;</button>' +
+      '<p class="ec-headline">Get free calculator tips & updates</p>' +
+      '<p class="ec-sub">Join 2,000+ people who use our tools weekly. No spam, unsubscribe anytime.</p>' +
+      '<form class="ec-form" autocomplete="on">' +
+        '<input type="email" name="email" class="ec-input" placeholder="your@email.com" required autocomplete="email">' +
+        '<button type="submit" class="ec-submit">Subscribe</button>' +
+      '</form>' +
+      '<p class="ec-privacy">We respect your privacy. <a href="/privacy/">Privacy Policy</a></p>';
+
+    document.body.appendChild(el);
+
+    // Animate in after append
+    setTimeout(function() { el.classList.add('ec-visible'); }, 50);
+
+    // Close button
+    el.querySelector('.ec-close').addEventListener('click', dismiss);
+
+    // Form submit
+    el.querySelector('.ec-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = el.querySelector('.ec-input').value.trim();
+      if (!email) return;
+
+      // Store locally (backend integration point)
+      try {
+        var subs = JSON.parse(localStorage.getItem('cm_subscribers') || '[]');
+        subs.push({ email: email, category: CATEGORY, tool: TOOL_SLUG, ts: Date.now() });
+        localStorage.setItem('cm_subscribers', JSON.stringify(subs));
+      } catch(ex) {}
+
+      localStorage.setItem(SIGNUP_KEY, '1');
+
+      // Success state
+      el.querySelector('.ec-form').innerHTML =
+        '<p style="color:var(--primary);font-weight:600;font-size:0.9rem;padding:8px 0">Thanks! You\u2019re subscribed.</p>';
+      setTimeout(function() {
+        el.classList.remove('ec-visible');
+        setTimeout(function() { el.remove(); }, 400);
+      }, 2500);
+    });
+  }
+
+  // Observe result visibility — show capture 3s after result appears
+  function observeForCapture() {
+    var resultEl = document.querySelector('.result');
+    if (!resultEl) return;
+
+    var shown = false;
+    var observer = new MutationObserver(function() {
+      if (shown) return;
+      if (resultEl.classList.contains('visible') || resultEl.style.display === 'block') {
+        shown = true;
+        setTimeout(buildCapture, 3000);
+      }
+    });
+    observer.observe(resultEl, { attributes: true, attributeFilter: ['class', 'style'] });
+  }
+
+  observeForCapture();
 })();
 
 </script>

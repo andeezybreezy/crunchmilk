@@ -12,6 +12,7 @@ const TEMPLATE_PATH = path.join(ROOT, 'generator', 'templates', 'base.html');
 const OUTPUT_DIR = path.join(ROOT, 'output');
 const MASTER_LIST_PATH = path.join(ROOT, 'data', 'master-tool-list.json');
 const { SHARE_SYSTEM_JS } = require('./share-system');
+const { EMAIL_CAPTURE_JS } = require('./email-capture');
 
 // ---------------------------------------------------------------------------
 // Master tool list (loaded once, may not exist)
@@ -328,6 +329,15 @@ function buildShareJS(config) {
 }
 
 /**
+ * Build email capture JS with tool-specific values injected.
+ */
+function buildEmailCaptureJS(config) {
+  return EMAIL_CAPTURE_JS
+    .replace(/\{\{slug\}\}/g, config.slug)
+    .replace(/\{\{category\}\}/g, config.category || '');
+}
+
+/**
  * Build BreadcrumbList JSON-LD.
  */
 function buildJsonLdBreadcrumb(config) {
@@ -525,6 +535,7 @@ function buildSite(configFile) {
     customJS: customJS,
     robotsMeta: config.noindex ? 'noindex, follow' : 'index, follow',
     shareJS: buildShareJS(config),
+    emailCaptureJS: buildEmailCaptureJS(config),
     year: new Date().getFullYear().toString()
   };
 
