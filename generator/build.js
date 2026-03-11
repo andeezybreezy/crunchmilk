@@ -362,41 +362,14 @@ function buildJsonLdBreadcrumb(config) {
  * Build "How We Calculate This" section.
  */
 function buildHowWeCalculate(config) {
-  if (!config.howWeCalculate) return '';
-  const hwc = config.howWeCalculate;
-  let html = '  <div class="info-section">\n';
-  html += '    <h2>How We Calculate This</h2>\n';
-  if (hwc.intro) html += '    <p style="margin-bottom:12px">' + hwc.intro + '</p>\n';
-  if (hwc.steps && hwc.steps.length > 0) {
-    html += '    <ul>\n';
-    hwc.steps.forEach(function(step) {
-      html += '      <li>' + step + '</li>\n';
-    });
-    html += '    </ul>\n';
-  }
-  if (hwc.disclaimer) html += '    <p style="font-size:0.85rem;color:var(--text-light);margin-top:12px;font-style:italic">' + hwc.disclaimer + '</p>\n';
-  html += '  </div>';
-  return html;
+  return '';
 }
 
 /**
  * Build "When Would You Use This" section.
  */
 function buildWhenToUse(config) {
-  if (!config.whenToUse) return '';
-  const wtu = config.whenToUse;
-  let html = '  <div class="info-section">\n';
-  html += '    <h2>When Would You Use This Calculator?</h2>\n';
-  if (wtu.intro) html += '    <p style="margin-bottom:12px">' + wtu.intro + '</p>\n';
-  if (wtu.scenarios && wtu.scenarios.length > 0) {
-    html += '    <ul>\n';
-    wtu.scenarios.forEach(function(s) {
-      html += '      <li>' + s + '</li>\n';
-    });
-    html += '    </ul>\n';
-  }
-  html += '  </div>';
-  return html;
+  return '';
 }
 
 /**

@@ -189,26 +189,6 @@ function generateConfig(tool) {
     },
     faq: tool.faq,
     relatedTools: tool.relatedTools || [],
-    howWeCalculate: {
-      intro: `This ${tool.toolName.toLowerCase()} uses established formulas and current data to provide accurate estimates.`,
-      steps: [
-        'Enter your specific values into the calculator fields above',
-        'Our algorithm applies the relevant formulas using your inputs',
-        'Results are calculated instantly in your browser — nothing is sent to a server',
-        'Review the detailed breakdown to understand how each factor affects your result'
-      ],
-      disclaimer: 'These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional.'
-    },
-    whenToUse: {
-      intro: `This ${tool.toolName.toLowerCase()} is designed for anyone who needs quick, reliable estimates.`,
-      scenarios: tool.scenarios || [
-        'When you need a quick estimate before committing to a purchase or project',
-        'When comparing different options or scenarios side by side',
-        'When planning a budget and need to understand potential costs',
-        'When you want to verify a quote or estimate you\'ve received',
-        'When teaching or learning about the concepts behind these calculations'
-      ]
-    },
     category: tool.category,
     lastUpdated: new Date().toISOString().split('T')[0]
   };
