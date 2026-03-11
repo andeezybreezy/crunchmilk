@@ -1,0 +1,553 @@
+#!/usr/bin/env node
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const ROOT = path.resolve(__dirname, '..');
+
+// ── Factory helpers ──────────────────────────────────────────────────────────
+
+function loan(slug, name, cat, color, colorDark, kw, defaults, extra) {
+  const d = Object.assign({ amount: '100000', rate: '6.5', term: '30', amountLabel: 'Loan Amount ($)', rateLabel: 'Interest Rate (%)', termLabel: 'Loan Term (years)', termUnit: 12 }, defaults);
+  return Object.assign({
+    slug, name, category: cat, color, colorDark,
+    tagline: `Calculate monthly payments, total interest, and payoff schedule`,
+    keywords: kw,
+    competition: 'high', rpm: 'high', priority: 1,
+    inputs: [
+      { id: 'loanAmt', label: d.amountLabel, default: d.amount, step: '1000' },
+      { id: 'intRate', label: d.rateLabel, default: d.rate, step: '0.1' },
+      { id: 'loanTerm', label: d.termLabel, default: d.term, step: '1' }
+    ],
+    results: [
+      { id: 'monthlyPmt', label: 'Monthly Payment' },
+      { id: 'totalInt', label: 'Total Interest' },
+      { id: 'totalPaid', label: 'Total Paid' }
+    ],
+    calcJS: `var p=f('loanAmt');var r=f('intRate')/100/12;var n=f('loanTerm')*${d.termUnit};if(r===0){var mp=p/n;}else{var mp=p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);}return{monthlyPmt:$(mp),totalInt:$(mp*n-p),totalPaid:$(mp*n)};`,
+    faqs: [
+      {q:'How is the monthly payment calculated?',a:'We use the standard amortization formula: M = P[r(1+r)^n]/[(1+r)^n–1], where P is the principal, r is the monthly rate, and n is total payments.'},
+      {q:'Should I choose a shorter or longer term?',a:'Shorter terms have higher monthly payments but save significantly on total interest. Longer terms keep payments manageable but cost more overall.'},
+      {q:'How does the interest rate affect my payment?',a:'Even a 0.5% rate difference can mean thousands in total interest over the loan life. Always shop multiple lenders to get the best rate.'},
+      {q:'Can I pay off the loan early?',a:'Most loans allow extra payments toward principal. Check for prepayment penalties first. Even small extra monthly payments can save years of interest.'},
+      {q:'What credit score do I need?',a:'Requirements vary by loan type. Generally, 720+ gets the best rates. Scores below 620 may face higher rates or require alternative loan products.'}
+    ],
+    chart: {
+      title: name + ' Comparison',
+      subtitle: 'Monthly payments at various rates',
+      columns: ['Rate', 'Monthly Payment', 'Total Interest', 'Total Paid'],
+      rows: (function() {
+        var rows = [];
+        var p = parseFloat(d.amount);
+        [5,5.5,6,6.5,7,7.5].forEach(function(rate) {
+          var r = rate/100/12;
+          var n = parseFloat(d.term) * d.termUnit;
+          var mp = p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+          rows.push([rate+'%', '$'+Math.round(mp).toLocaleString(), '$'+Math.round(mp*n-p).toLocaleString(), '$'+Math.round(mp*n).toLocaleString()]);
+        });
+        return rows;
+      })()
+    },
+    howItWorksIntro: `This calculator uses the standard amortization formula to compute your ${name.toLowerCase()} payment.`,
+    howItWorksRules: ['Monthly Payment = P × [r(1+r)^n] / [(1+r)^n – 1]', 'r = annual interest rate ÷ 12', 'n = loan term × 12 (total monthly payments)', 'Total Interest = (Monthly Payment × n) – Principal'],
+    howItWorksOutro: 'Results are estimates. Actual payments may vary based on fees, insurance, and other factors.',
+    relatedTools: []
+  }, extra || {});
+}
+
+function cost(slug, name, cat, color, colorDark, kw, items, extra) {
+  // items: [{id,label,default,step,pricePerUnit}]
+  var inputs = items.map(function(it) {
+    return { id: it.id, label: it.label, default: it.default || '1', step: it.step || '1' };
+  });
+  var calcParts = items.map(function(it) {
+    return `var ${it.id}=f('${it.id}')*${it.pricePerUnit};`;
+  });
+  var sumParts = items.map(function(it) { return it.id; }).join('+');
+  var calcJS = calcParts.join('') + `var total=${sumParts};var tax=total*0.08;return{subtotal:$(total),tax:$(tax),totalCost:$(total+tax)};`;
+
+  return Object.assign({
+    slug, name, category: cat, color, colorDark,
+    tagline: `Estimate the total cost with materials and labor`,
+    keywords: kw, competition: 'medium', rpm: 'medium', priority: 2,
+    inputs: inputs,
+    results: [
+      { id: 'subtotal', label: 'Subtotal' },
+      { id: 'tax', label: 'Est. Tax (8%)' },
+      { id: 'totalCost', label: 'Total Cost' }
+    ],
+    calcJS: calcJS,
+    faqs: [
+      {q:`How accurate is this ${name.toLowerCase()}?`,a:'This provides estimates based on national averages. Actual costs vary by location, supplier, and market conditions. Get local quotes for exact pricing.'},
+      {q:'Does this include labor costs?',a:'The estimate includes typical material costs. Labor costs vary significantly by region and contractor. Budget 40-60% additional for professional installation.'},
+      {q:'How can I reduce costs?',a:'Compare prices from multiple suppliers, consider doing some work yourself, buy materials during sales, and get at least 3 contractor quotes.'},
+      {q:'Should I add a contingency budget?',a:'Yes, add 10-20% for unexpected costs. Projects almost always encounter surprises that increase the final price.'}
+    ],
+    chart: null,
+    howItWorksIntro: `This calculator estimates costs based on current average pricing.`,
+    howItWorksRules: ['Enter quantities for each component', 'Costs are calculated using current average prices', 'Tax is estimated at 8% (varies by location)'],
+    howItWorksOutro: 'Get multiple quotes for the most accurate estimate.',
+    relatedTools: []
+  }, extra || {});
+}
+
+function simple(slug, name, cat, color, colorDark, kw, tagline, inputs, results, calcJS, faqs, chart, rules, extra) {
+  return Object.assign({
+    slug, name, category: cat, color, colorDark, tagline,
+    keywords: kw, competition: 'medium', rpm: 'medium', priority: 2,
+    inputs, results, calcJS,
+    faqs: faqs || [],
+    chart: chart || null,
+    howItWorksIntro: `This ${name.toLowerCase()} uses standard formulas to provide accurate results.`,
+    howItWorksRules: rules || [],
+    howItWorksOutro: 'Results are estimates. Consult a professional for critical decisions.',
+    relatedTools: []
+  }, extra || {});
+}
+
+function converter(slug, name, cat, color, colorDark, kw, fromLabel, toLabel, formula, reverseFormula, faqs, chartData, extra) {
+  return Object.assign({
+    slug, name, category: cat, color, colorDark,
+    tagline: `Convert ${fromLabel.toLowerCase()} to ${toLabel.toLowerCase()} and back instantly`,
+    keywords: kw, competition: 'medium', rpm: 'low', priority: 2,
+    inputs: [
+      { id: 'fromVal', label: fromLabel, default: '1', step: 'any' }
+    ],
+    results: [
+      { id: 'toVal', label: toLabel }
+    ],
+    calcJS: `var v=f('fromVal');${formula}return{toVal:fmt(result,4)};`,
+    faqs: faqs || [
+      {q:`How do I convert ${fromLabel.toLowerCase()} to ${toLabel.toLowerCase()}?`,a:`Enter your value and the calculator instantly converts it using the standard conversion formula.`},
+      {q:'How accurate is this conversion?',a:'Conversions use exact mathematical ratios and are accurate to 4 decimal places.'},
+      {q:'Can I convert in reverse?',a:'Currently this converts in one direction. Swap the formula mentally or enter the reverse value.'},
+      {q:'Where are these conversions used?',a:'These conversions are commonly needed in science, engineering, cooking, and everyday measurements.'}
+    ],
+    chart: chartData || null,
+    howItWorksIntro: 'This converter uses exact mathematical conversion factors.',
+    howItWorksRules: [formula.replace(/var result=/,'').replace(/;$/,'')],
+    howItWorksOutro: 'Conversions are mathematically exact.',
+    relatedTools: []
+  }, extra || {});
+}
+
+// ── Color constants ──────────────────────────────────────────────────────────
+const C = {
+  finance: ['#2563eb','#1d4ed8'],
+  insurance: ['#0d9488','#0f766e'],
+  realEstate: ['#0891b2','#0e7490'],
+  smallBiz: ['#7c3aed','#6d28d9'],
+  freelancing: ['#ea580c','#c2410c'],
+  fitness: ['#059669','#047857'],
+  health: ['#10b981','#059669'],
+  nicheHealth: ['#ef4444','#dc2626'],
+  pregnancy: ['#ec4899','#db2777'],
+  mentalHealth: ['#8b5cf6','#7c3aed'],
+  pet: ['#f97316','#ea580c'],
+  education: ['#2563eb','#1d4ed8'],
+  travel: ['#0891b2','#0e7490'],
+  wedding: ['#e11d48','#be123c'],
+  parenting: ['#f59e0b','#d97706'],
+  dateTime: ['#6366f1','#4f46e5'],
+  math: ['#0284c7','#0369a1'],
+  ai: ['#8b5cf6','#7c3aed'],
+  tech: ['#3b82f6','#2563eb'],
+  gaming: ['#ef4444','#dc2626'],
+  sports: ['#16a34a','#15803d'],
+  betting: ['#ca8a04','#a16207'],
+  converters: ['#64748b','#475569'],
+  science: ['#0891b2','#0e7490'],
+  crypto: ['#f97316','#ea580c'],
+  printing3d: ['#7c3aed','#6d28d9'],
+  photo: ['#1e40af','#1e3a8a'],
+  audio: ['#9333ea','#7e22ce'],
+  printing: ['#4b5563','#374151'],
+  shipping: ['#b45309','#92400e'],
+  construction: ['#b45309','#92400e'],
+  cooking: ['#dc2626','#b91c1c'],
+  auto: ['#475569','#334155'],
+  energy: ['#f59e0b','#d97706'],
+  garden: ['#16a34a','#15803d'],
+  agri: ['#65a30d','#4d7c0f'],
+  crafts: ['#d946ef','#c026d3'],
+  sewing: ['#e11d48','#be123c'],
+  wood: ['#92400e','#78350f'],
+  marine: ['#0369a1','#075985'],
+  rv: ['#b45309','#92400e'],
+  weather: ['#0284c7','#0369a1'],
+  survival: ['#854d0e','#713f12'],
+  firearms: ['#78716c','#57534e'],
+  climate: ['#0d9488','#0f766e'],
+  tariffs: ['#dc2626','#b91c1c'],
+  demo: ['#6366f1','#4f46e5'],
+  housing: ['#0891b2','#0e7490'],
+  legal: ['#6366f1','#4f46e5'],
+  legalReg: ['#7c3aed','#6d28d9'],
+  paranormal: ['#7c3aed','#6d28d9'],
+  viral: ['#dc2626','#b91c1c'],
+  political: ['#1e40af','#1e3a8a'],
+  longevity: ['#10b981','#059669'],
+  prep: ['#854d0e','#713f12'],
+  underground: ['#78716c','#57534e'],
+  digital: ['#6366f1','#4f46e5'],
+  society: ['#7c3aed','#6d28d9'],
+};
+
+// ── WAVE 5 FINANCE ───────────────────────────────────────────────────────────
+var finance = [];
+
+// Finance loans
+finance.push(loan('mortgage-calculator','Mortgage Calculator','finance',...C.finance,'mortgage calculator, home loan calculator, mortgage payment',{amount:'350000',rate:'6.5',term:'30',amountLabel:'Home Price ($)'},
+  {tagline:'Calculate your monthly mortgage payment, total interest, and amortization',inputs:[
+    {id:'loanAmt',label:'Home Price ($)',default:'350000',step:'5000'},
+    {id:'downPct',label:'Down Payment (%)',default:'20',step:'1'},
+    {id:'intRate',label:'Interest Rate (%)',default:'6.5',step:'0.1'},
+    {id:'loanTerm',label:'Loan Term (years)',default:'30',step:'1'}
+  ],calcJS:"var price=f('loanAmt');var dp=f('downPct')/100;var p=price*(1-dp);var r=f('intRate')/100/12;var n=f('loanTerm')*12;if(r===0){var mp=p/n;}else{var mp=p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);}return{monthlyPmt:$(mp),totalInt:$(mp*n-p),totalPaid:$(mp*n)};",
+  relatedTools:['rent-vs-buy-calculator','compound-interest-calculator','debt-snowball-calculator']}));
+
+finance.push(loan('mortgage-refinance-calculator','Mortgage Refinance Calculator','finance',...C.finance,'mortgage refinance calculator, refinance savings',{amount:'280000',rate:'5.5',term:'30'},
+  {tagline:'See how much you could save by refinancing your mortgage',
+  inputs:[
+    {id:'loanAmt',label:'Current Balance ($)',default:'280000',step:'5000'},
+    {id:'curRate',label:'Current Rate (%)',default:'7.0',step:'0.1'},
+    {id:'newRate',label:'New Rate (%)',default:'5.5',step:'0.1'},
+    {id:'loanTerm',label:'New Term (years)',default:'30',step:'1'},
+    {id:'closingCosts',label:'Closing Costs ($)',default:'5000',step:'500'}
+  ],
+  results:[{id:'curPmt',label:'Current Payment'},{id:'newPmt',label:'New Payment'},{id:'monthlySave',label:'Monthly Savings'},{id:'breakEven',label:'Break-Even (months)'}],
+  calcJS:"var p=f('loanAmt');var r1=f('curRate')/100/12;var r2=f('newRate')/100/12;var n=f('loanTerm')*12;var cc=f('closingCosts');var mp1=p*(r1*Math.pow(1+r1,n))/(Math.pow(1+r1,n)-1);var mp2=p*(r2*Math.pow(1+r2,n))/(Math.pow(1+r2,n)-1);var save=mp1-mp2;var be=save>0?Math.ceil(cc/save):0;return{curPmt:$(mp1),newPmt:$(mp2),monthlySave:$(save),breakEven:fmt(be,0)+' months'};"
+  }));
+
+finance.push(loan('home-equity-loan-calculator','Home Equity Loan Calculator','finance',...C.finance,'home equity loan calculator, HELOC calculator',{amount:'50000',rate:'8.0',term:'15'}));
+finance.push(loan('auto-loan-calculator','Auto Loan Calculator','finance',...C.finance,'auto loan calculator, car loan calculator',{amount:'35000',rate:'6.5',term:'5',termUnit:12,amountLabel:'Vehicle Price ($)',termLabel:'Loan Term (years)'}));
+finance.push(loan('car-payment-calculator','Car Payment Calculator','finance',...C.finance,'car payment calculator, monthly car payment',{amount:'30000',rate:'6.9',term:'5',termUnit:12,amountLabel:'Car Price ($)'}));
+finance.push(loan('personal-loan-calculator','Personal Loan Calculator','finance',...C.finance,'personal loan calculator, loan payment',{amount:'15000',rate:'10.0',term:'5',termUnit:12}));
+finance.push(loan('loan-payoff-calculator','Loan Payoff Calculator','finance',...C.finance,'loan payoff calculator, extra payment calculator',{amount:'25000',rate:'7.0',term:'10',termUnit:12}));
+
+// Credit cards
+finance.push(simple('credit-card-payoff-calculator','Credit Card Payoff Calculator','finance',...C.finance,
+  'credit card payoff calculator, credit card debt',
+  'Calculate how long to pay off credit card debt and how much interest you will pay',
+  [{id:'balance',label:'Balance ($)',default:'5000',step:'100'},{id:'apr',label:'APR (%)',default:'22.99',step:'0.1'},{id:'payment',label:'Monthly Payment ($)',default:'150',step:'10'}],
+  [{id:'months',label:'Months to Payoff'},{id:'totalInt',label:'Total Interest'},{id:'totalPaid',label:'Total Paid'}],
+  "var b=f('balance');var r=f('apr')/100/12;var pmt=f('payment');if(pmt<=b*r){return{months:'Payment too low',totalInt:'—',totalPaid:'—'};}var m=Math.ceil(-Math.log(1-r*b/pmt)/Math.log(1+r));var tp=pmt*m;return{months:fmt(m,0)+' months ('+fmt(m/12,1)+' years)',totalInt:$(tp-b),totalPaid:$(tp)};",
+  [{q:'How is payoff time calculated?',a:'Using the formula: months = -ln(1 - r×B/P) / ln(1+r), where r is monthly rate, B is balance, P is payment.'},{q:'What happens if I only pay the minimum?',a:'Minimum payments (usually 1-2% of balance) can take 15-30 years to pay off and cost 2-3x the original balance in interest.'},{q:'Should I pay more than the minimum?',a:'Yes. Even $50 extra per month can save years and thousands in interest. Always pay as much as you can above the minimum.'},{q:'What is a good credit card APR?',a:'Average credit card APR in 2026 is about 21-23%. Excellent credit may qualify for 15-18%. Balance transfer cards offer 0% intro APR for 12-21 months.'}],
+  {title:'Payoff Timeline — $5,000 Balance at 22.99% APR',subtitle:'Time and interest at different monthly payments',columns:['Monthly Payment','Months to Payoff','Total Interest','Total Paid'],rows:[['$100','94 months','$4,311','$9,311'],['$150','47 months','$2,003','$7,003'],['$200','31 months','$1,244','$6,244'],['$250','24 months','$916','$5,916'],['$500','11 months','$397','$5,397']]},
+  ['months = -ln(1 - r×B/P) / ln(1+r)','r = APR / 12','Total Interest = Total Paid - Original Balance']));
+
+// Simple finance calcs
+finance.push(simple('balance-transfer-calculator','Balance Transfer Calculator','finance',...C.finance,'balance transfer calculator, 0 apr transfer','Calculate savings from transferring a credit card balance to a 0% APR card',
+  [{id:'balance',label:'Current Balance ($)',default:'8000',step:'500'},{id:'curAPR',label:'Current APR (%)',default:'22.99',step:'0.1'},{id:'transferFee',label:'Transfer Fee (%)',default:'3',step:'0.5'},{id:'promoMonths',label:'0% APR Period (months)',default:'18',step:'1'}],
+  [{id:'fee',label:'Transfer Fee'},{id:'monthlyPmt',label:'Monthly Payment (to payoff in promo)'},{id:'savings',label:'Interest Saved'}],
+  "var b=f('balance');var r=f('curAPR')/100/12;var fee=b*f('transferFee')/100;var pm=f('promoMonths');var pmt=(b+fee)/pm;var intSaved=0;var bal=b;for(var i=0;i<pm;i++){intSaved+=bal*r;bal-=(pmt-bal*r);}return{fee:$(fee),monthlyPmt:$(pmt),savings:$(intSaved-fee)};",
+  [{q:'What is a balance transfer?',a:'Moving debt from a high-interest card to one with a lower or 0% intro APR. You pay a transfer fee (typically 3-5%) but save on interest during the promotional period.'},{q:'Is a balance transfer worth it?',a:'If you can pay off the balance during the 0% period, yes. The transfer fee is usually much less than the interest you would have paid.'},{q:'What happens after the promo period?',a:'The regular APR kicks in (often 18-25%). Any remaining balance accrues interest at this higher rate. Plan to pay off the full balance before the promo ends.'},{q:'Does a balance transfer hurt my credit?',a:'It may cause a small, temporary dip from the hard inquiry. However, lower utilization on the old card can improve your score over time.'}],
+  null,['Monthly Payment = (Balance + Fee) / Promo Months','Interest Saved = Sum of monthly interest at old rate minus transfer fee']));
+
+finance.push(simple('debt-to-income-calculator','Debt-to-Income Calculator','finance',...C.finance,'debt to income ratio calculator, DTI calculator','Calculate your debt-to-income ratio to see if you qualify for a mortgage',
+  [{id:'income',label:'Monthly Gross Income ($)',default:'6000',step:'100'},{id:'mortgage',label:'Housing Payment ($)',default:'1500',step:'100'},{id:'carPmt',label:'Car Payments ($)',default:'400',step:'50'},{id:'studentPmt',label:'Student Loans ($)',default:'300',step:'50'},{id:'ccPmt',label:'Credit Card Min. Payments ($)',default:'150',step:'25'},{id:'otherDebt',label:'Other Monthly Debt ($)',default:'0',step:'50'}],
+  [{id:'frontEnd',label:'Front-End DTI'},{id:'backEnd',label:'Back-End DTI'},{id:'status',label:'Qualification Status'}],
+  "var inc=f('income');var housing=f('mortgage');var total=housing+f('carPmt')+f('studentPmt')+f('ccPmt')+f('otherDebt');var fe=housing/inc*100;var be=total/inc*100;var status=be<=36?'Excellent — easily qualifies':be<=43?'Acceptable — meets most lender requirements':be<=50?'Borderline — may qualify with strong compensating factors':'Too high — unlikely to qualify';return{frontEnd:pct(fe,1),backEnd:pct(be,1),status:status};",
+  [{q:'What is a good DTI ratio?',a:'Most lenders prefer a back-end DTI of 36% or less. FHA loans allow up to 43%, and some lenders go to 50% with strong compensating factors like high credit scores or large reserves.'},{q:'What is front-end vs back-end DTI?',a:'Front-end DTI includes only housing costs. Back-end DTI includes all monthly debt payments. Lenders primarily look at back-end DTI.'},{q:'How do I lower my DTI?',a:'Pay off debts, increase income, or reduce the mortgage amount you are seeking. Even paying off a small car loan can significantly improve your ratio.'},{q:'Does DTI affect my interest rate?',a:'Not directly, but a high DTI may limit you to certain loan programs with higher rates. Lower DTI gives you access to the best rates and terms.'}],
+  {title:'DTI Qualification Ranges',subtitle:'General lender guidelines',columns:['DTI Range','Rating','Likelihood of Approval'],rows:[['Under 28%','Excellent','Very high — best rates available'],['28-36%','Good','High — qualifies for most programs'],['36-43%','Fair','Moderate — may need compensating factors'],['43-50%','Borderline','Low — limited to FHA or special programs'],['Over 50%','Poor','Very low — unlikely without exceptions']]},
+  ['Front-End DTI = Housing Payment / Gross Monthly Income × 100','Back-End DTI = Total Monthly Debt / Gross Monthly Income × 100']));
+
+finance.push(simple('debt-consolidation-calculator','Debt Consolidation Calculator','finance',...C.finance,'debt consolidation calculator, consolidate debt','See if consolidating your debts into one loan saves money',
+  [{id:'totalDebt',label:'Total Debt ($)',default:'25000',step:'1000'},{id:'avgRate',label:'Current Avg. APR (%)',default:'20',step:'0.5'},{id:'newRate',label:'Consolidation Rate (%)',default:'8',step:'0.5'},{id:'newTerm',label:'New Loan Term (years)',default:'5',step:'1'}],
+  [{id:'curMonthly',label:'Current Est. Monthly'},{id:'newMonthly',label:'New Monthly'},{id:'savings',label:'Total Savings'}],
+  "var d=f('totalDebt');var r1=f('avgRate')/100/12;var r2=f('newRate')/100/12;var n=f('newTerm')*12;var mp1=d*(r1*Math.pow(1+r1,n))/(Math.pow(1+r1,n)-1);var mp2=d*(r2*Math.pow(1+r2,n))/(Math.pow(1+r2,n)-1);return{curMonthly:$(mp1),newMonthly:$(mp2),savings:$((mp1-mp2)*n)};",
+  [{q:'What is debt consolidation?',a:'Combining multiple debts into a single loan, ideally with a lower interest rate. This simplifies payments and can reduce total interest paid.'},{q:'Will consolidation hurt my credit?',a:'Short-term, the hard inquiry may dip your score slightly. Long-term, consistent payments on the new loan and lower utilization typically improve your score.'},{q:'What are the risks?',a:'If you continue using credit cards after consolidating, you can end up with more debt than before. Cut up the old cards or freeze spending.'},{q:'What rate can I expect?',a:'Rates depend on credit score and collateral. Unsecured: 6-20%. Home equity: 7-10%. The lower your rate vs current debt, the more you save.'}],
+  null,['New Payment = P×[r(1+r)^n]/[(1+r)^n-1]','Savings = (Old Monthly - New Monthly) × Term in Months']));
+
+// Tax / income calcs
+finance.push(simple('paycheck-calculator','Paycheck Calculator','finance',...C.finance,'paycheck calculator, take home pay, salary after taxes','Estimate your take-home pay after federal and state taxes',
+  [{id:'salary',label:'Annual Salary ($)',default:'65000',step:'1000'},{id:'payFreq',label:'Pay Periods/Year (26=biweekly)',default:'26',step:'1'},{id:'fedRate',label:'Effective Fed Tax Rate (%)',default:'15',step:'0.5'},{id:'stateRate',label:'State Tax Rate (%)',default:'5',step:'0.5'}],
+  [{id:'grossPay',label:'Gross Per Paycheck'},{id:'fedTax',label:'Federal Tax'},{id:'stateTax',label:'State Tax'},{id:'fica',label:'FICA (7.65%)'},{id:'netPay',label:'Net Pay Per Check'}],
+  "var sal=f('salary');var pp=f('payFreq');var gross=sal/pp;var fed=gross*f('fedRate')/100;var st=gross*f('stateRate')/100;var fica=gross*0.0765;var net=gross-fed-st-fica;return{grossPay:$(gross),fedTax:$(fed),stateTax:$(st),fica:$(fica),netPay:$(net)};",
+  [{q:'How is take-home pay calculated?',a:'Gross pay minus federal income tax, state income tax, and FICA (Social Security 6.2% + Medicare 1.45% = 7.65%). This does not include benefits deductions.'},{q:'What is the effective tax rate?',a:'Your effective rate is lower than your marginal bracket because only income within each bracket is taxed at that rate. A $65K salary has an effective federal rate around 13-16%.'},{q:'What about pre-tax deductions?',a:'401(k) contributions, HSA, and health insurance premiums reduce your taxable income. Add these for a more accurate estimate.'},{q:'How often should I get paid?',a:'Common schedules: weekly (52), biweekly (26), semi-monthly (24), monthly (12). Biweekly is most common in the US.'}],
+  {title:'Take-Home Pay by Salary',subtitle:'Biweekly, 15% federal, 5% state',columns:['Annual Salary','Gross/Check','Taxes','Net/Check','Annual Net'],rows:[['$50,000','$1,923','$435','$1,488','$38,692'],['$65,000','$2,500','$566','$1,934','$50,292'],['$80,000','$3,077','$696','$2,381','$61,892'],['$100,000','$3,846','$870','$2,976','$77,385'],['$120,000','$4,615','$1,045','$3,571','$92,838']]},
+  ['Net Pay = Gross - Federal Tax - State Tax - FICA','FICA = 7.65% (Social Security 6.2% + Medicare 1.45%)']));
+
+finance.push(simple('salary-calculator','Salary Calculator','finance',...C.finance,'salary calculator, hourly to annual, annual to hourly','Convert between hourly, weekly, monthly, and annual salary',
+  [{id:'amount',label:'Amount ($)',default:'65000',step:'1000'},{id:'period',label:'Period (1=hourly 2=weekly 3=monthly 4=annual)',default:'4',step:'1'},{id:'hoursWeek',label:'Hours per Week',default:'40',step:'1'}],
+  [{id:'hourly',label:'Hourly'},{id:'weekly',label:'Weekly'},{id:'monthly',label:'Monthly'},{id:'annual',label:'Annual'}],
+  "var a=f('amount');var p=f('period');var h=f('hoursWeek');var annual;if(p===1)annual=a*h*52;else if(p===2)annual=a*52;else if(p===3)annual=a*12;else annual=a;return{hourly:$(annual/h/52),weekly:$(annual/52),monthly:$(annual/12),annual:$(annual)};",
+  [{q:'How is hourly rate converted to annual?',a:'Hourly × hours per week × 52 weeks. A $30/hour rate at 40 hours/week = $62,400 annually.'},{q:'Does this include overtime?',a:'This assumes straight-time hours only. Overtime (1.5x for hours over 40/week) would increase actual earnings.'},{q:'What about paid time off?',a:'This calculation assumes 52 working weeks. If you get 2 weeks PTO, you still earn the same annual amount — just working 50 weeks instead of 52.'},{q:'How do I compare salaries across cities?',a:'Use a cost-of-living calculator to adjust. A $65K salary in Kansas City may provide the same lifestyle as $95K in San Francisco.'}],
+  null,['Annual = Hourly × Hours/Week × 52','Monthly = Annual / 12','Weekly = Annual / 52']));
+
+finance.push(simple('take-home-pay-calculator','Take Home Pay Calculator','finance',...C.finance,'take home pay calculator, after tax income','Calculate your actual take-home income after all deductions',
+  [{id:'gross',label:'Annual Gross Income ($)',default:'75000',step:'1000'},{id:'fedRate',label:'Federal Tax Rate (%)',default:'16',step:'0.5'},{id:'stateRate',label:'State Tax Rate (%)',default:'5',step:'0.5'},{id:'retirement',label:'401k Contribution (%)',default:'6',step:'1'},{id:'healthIns',label:'Health Insurance ($/month)',default:'200',step:'25'}],
+  [{id:'annualNet',label:'Annual Take-Home'},{id:'monthlyNet',label:'Monthly Take-Home'},{id:'effectiveRate',label:'Total Deduction Rate'}],
+  "var g=f('gross');var fed=g*f('fedRate')/100;var st=g*f('stateRate')/100;var fica=g*0.0765;var ret=g*f('retirement')/100;var health=f('healthIns')*12;var net=g-fed-st-fica-ret-health;var rate=(g-net)/g*100;return{annualNet:$(net),monthlyNet:$(net/12),effectiveRate:pct(rate,1)};",
+  [{q:'What reduces take-home pay?',a:'Federal tax, state tax, FICA (7.65%), retirement contributions, health insurance, and other benefits. Together these typically reduce gross pay by 25-40%.'},{q:'How can I increase take-home pay?',a:'Maximize pre-tax deductions (401k, HSA, FSA), check your W-4 withholding is accurate, and consider living in a no-income-tax state.'},{q:'Should I reduce 401k to increase take-home?',a:'Generally no. The tax savings and employer match make 401k contributions very valuable. Contribute at least enough to get the full employer match.'},{q:'What states have no income tax?',a:'Alaska, Florida, Nevada, New Hampshire (dividends/interest only), South Dakota, Tennessee, Texas, Washington, and Wyoming.'}],
+  null,['Take-Home = Gross - Federal Tax - State Tax - FICA - 401k - Health Insurance','FICA = 7.65% of gross (capped at $168,600 for Social Security in 2026)']));
+
+finance.push(simple('income-tax-calculator','Income Tax Calculator','finance',...C.finance,'income tax calculator, federal tax calculator, tax estimate','Estimate your federal income tax based on filing status and income',
+  [{id:'income',label:'Taxable Income ($)',default:'75000',step:'1000'},{id:'filing',label:'Filing Status (1=Single 2=Married)',default:'1',step:'1'}],
+  [{id:'totalTax',label:'Federal Tax'},{id:'effRate',label:'Effective Rate'},{id:'margRate',label:'Marginal Bracket'}],
+  "var inc=f('income');var fs=f('filing');var brackets,rates;if(fs===2){brackets=[23200,94300,201050,383900,487450,731200,Infinity];rates=[0.10,0.12,0.22,0.24,0.32,0.35,0.37];}else{brackets=[11600,47150,100525,191950,243725,609350,Infinity];rates=[0.10,0.12,0.22,0.24,0.32,0.35,0.37];}var tax=0;var prev=0;var marg=0;for(var i=0;i<brackets.length;i++){var upper=brackets[i];var taxable=Math.min(inc,upper)-prev;if(taxable>0){tax+=taxable*rates[i];marg=rates[i];}if(inc<=upper)break;prev=upper;}return{totalTax:$(tax),effRate:pct(tax/inc*100,1),margRate:pct(marg*100,0)};",
+  [{q:'How do tax brackets work?',a:'The US uses a progressive system where only income within each bracket is taxed at that rate. A $75K single filer pays 10% on the first $11,600, 12% on $11,601-$47,150, and 22% on $47,151-$75,000.'},{q:'What is the difference between marginal and effective rate?',a:'Marginal rate is the bracket your last dollar falls in. Effective rate is total tax divided by total income — always lower than your marginal rate.'},{q:'Single vs married filing jointly?',a:'Married filing jointly has wider brackets and higher standard deduction, generally resulting in lower taxes. However, two high earners may face a marriage penalty.'},{q:'Does this include state taxes?',a:'No, this calculates federal income tax only. Add your state tax rate separately. Nine states have no income tax.'}],
+  {title:'2026 Federal Tax Brackets (Single)',subtitle:'Standard brackets for single filers',columns:['Bracket','Rate','Tax on Bracket','Cumulative Tax'],rows:[['$0 – $11,600','10%','$1,160','$1,160'],['$11,601 – $47,150','12%','$4,266','$5,426'],['$47,151 – $100,525','22%','$11,742','$17,168'],['$100,526 – $191,950','24%','$21,942','$39,110'],['$191,951 – $243,725','32%','$16,568','$55,678'],['$243,726 – $609,350','35%','$127,969','$183,647']]},
+  ['Tax is calculated progressively through each bracket','2026 standard deduction: $15,000 (single), $30,000 (married)']));
+
+finance.push(simple('capital-gains-tax-calculator','Capital Gains Tax Calculator','finance',...C.finance,'capital gains tax calculator, stock tax','Calculate taxes owed on investment profits',
+  [{id:'purchasePrice',label:'Purchase Price ($)',default:'10000',step:'500'},{id:'salePrice',label:'Sale Price ($)',default:'25000',step:'500'},{id:'holdMonths',label:'Holding Period (months)',default:'18',step:'1'},{id:'income',label:'Taxable Income ($)',default:'75000',step:'1000'}],
+  [{id:'gain',label:'Capital Gain'},{id:'taxRate',label:'Tax Rate'},{id:'taxOwed',label:'Tax Owed'},{id:'netProfit',label:'Net Profit'}],
+  "var buy=f('purchasePrice');var sell=f('salePrice');var months=f('holdMonths');var inc=f('income');var gain=sell-buy;var longTerm=months>=12;var rate;if(longTerm){rate=inc<47150?0:inc<518900?0.15:0.20;}else{rate=inc<47150?0.12:inc<100525?0.22:inc<191950?0.24:0.32;}var tax=Math.max(0,gain*rate);return{gain:$(gain),taxRate:pct(rate*100,0),taxOwed:$(tax),netProfit:$(gain-tax)};",
+  [{q:'What is the difference between short-term and long-term capital gains?',a:'Short-term (held less than 12 months) is taxed as ordinary income. Long-term (12+ months) gets preferential rates of 0%, 15%, or 20% based on income.'},{q:'How can I minimize capital gains tax?',a:'Hold investments for over 12 months for long-term rates. Tax-loss harvest to offset gains. Use tax-advantaged accounts like IRAs and 401(k)s.'},{q:'What about the 3.8% NIIT?',a:'The Net Investment Income Tax adds 3.8% for single filers with MAGI over $200,000 or married over $250,000. This calculator does not include NIIT.'},{q:'Can I offset gains with losses?',a:'Yes, capital losses offset gains dollar for dollar. Excess losses can offset up to $3,000 of ordinary income per year, with the remainder carried forward.'}],
+  null,['Short-term rate = your ordinary income tax bracket','Long-term rates: 0% (under $47,150), 15% ($47,150-$518,900), 20% (over $518,900)']));
+
+finance.push(simple('bonus-tax-calculator','Bonus Tax Calculator','finance',...C.finance,'bonus tax calculator, how much tax on bonus','See how much of your bonus you actually take home',
+  [{id:'bonus',label:'Bonus Amount ($)',default:'10000',step:'500'},{id:'method',label:'Method (1=Flat 22%, 2=Aggregate)',default:'1',step:'1'},{id:'stateRate',label:'State Tax Rate (%)',default:'5',step:'0.5'}],
+  [{id:'fedTax',label:'Federal Tax'},{id:'stateTax',label:'State Tax'},{id:'fica',label:'FICA'},{id:'netBonus',label:'Take Home'}],
+  "var b=f('bonus');var m=f('method');var sr=f('stateRate')/100;var fed=m===1?b*0.22:b*0.24;var st=b*sr;var fica=b*0.0765;var net=b-fed-st-fica;return{fedTax:$(fed),stateTax:$(st),fica:$(fica),netBonus:$(net)};",
+  [{q:'Why are bonuses taxed so heavily?',a:'Bonuses are not taxed at a higher rate — they are withheld at a flat 22% federal rate (or 37% over $1M). Your actual tax rate depends on total annual income.'},{q:'Will I get some back at tax time?',a:'If the flat 22% withholding exceeds your effective tax rate, yes — you will get a refund. If your marginal rate is higher than 22%, you may owe more.'},{q:'What is the aggregate method?',a:'Your employer combines your bonus with regular pay for that period and withholds based on the combined amount. This often results in higher withholding.'},{q:'Does FICA apply to bonuses?',a:'Yes. Social Security (6.2%) and Medicare (1.45%) apply to bonuses. Social Security has a wage cap of $168,600 in 2026.'}],
+  null,['Flat method: 22% federal withholding on bonuses under $1M','FICA: 6.2% Social Security + 1.45% Medicare = 7.65%']));
+
+finance.push(simple('sales-tax-calculator','Sales Tax Calculator','finance',...C.finance,'sales tax calculator, sales tax rate','Calculate sales tax amount and total price',
+  [{id:'price',label:'Item Price ($)',default:'100',step:'1'},{id:'taxRate',label:'Sales Tax Rate (%)',default:'8.25',step:'0.25'}],
+  [{id:'taxAmt',label:'Tax Amount'},{id:'totalPrice',label:'Total Price'}],
+  "var p=f('price');var r=f('taxRate')/100;var tax=p*r;return{taxAmt:$(tax),totalPrice:$(p+tax)};",
+  [{q:'What is the average sales tax rate?',a:'The average combined state and local sales tax rate in the US is about 8.2%. Rates range from 0% (Oregon, Montana, Delaware, New Hampshire) to over 10% in parts of Louisiana and Tennessee.'},{q:'Are all items taxed?',a:'Most states exempt groceries, prescription medications, and some clothing from sales tax. Rules vary significantly by state.'},{q:'How is online sales tax handled?',a:'Since the 2018 Wayfair decision, most online retailers collect sales tax based on the buyer\'s location, not the seller\'s.'},{q:'What about use tax?',a:'If you buy an item from a state with no sales tax, you technically owe use tax to your home state. This is rarely enforced for individuals.'}],
+  null,['Tax Amount = Price × Tax Rate','Total = Price + Tax Amount']));
+
+finance.push(simple('tax-bracket-calculator','Tax Bracket Calculator','finance',...C.finance,'tax bracket calculator, what tax bracket am I in','Find your federal tax bracket based on income and filing status',
+  [{id:'income',label:'Taxable Income ($)',default:'85000',step:'1000'},{id:'filing',label:'Filing (1=Single 2=Married)',default:'1',step:'1'}],
+  [{id:'bracket',label:'Your Tax Bracket'},{id:'tax',label:'Estimated Tax'},{id:'effRate',label:'Effective Rate'}],
+  "var inc=f('income');var fs=f('filing');var b,r;if(fs===2){b=[23200,94300,201050,383900,487450,731200];r=[10,12,22,24,32,35,37];}else{b=[11600,47150,100525,191950,243725,609350];r=[10,12,22,24,32,35,37];}var bracket=r[r.length-1];for(var i=0;i<b.length;i++){if(inc<=b[i]){bracket=r[i];break;}}var tax=0;var prev=0;for(var i=0;i<b.length;i++){var upper=b[i];var taxable=Math.min(inc,upper)-prev;if(taxable>0)tax+=taxable*(r[i]/100);if(inc<=upper)break;prev=upper;}if(inc>b[b.length-1])tax+=(inc-b[b.length-1])*(r[r.length-1]/100);return{bracket:bracket+'%',tax:$(tax),effRate:pct(tax/inc*100,1)};",
+  [{q:'What does my tax bracket mean?',a:'Your bracket is the rate applied to your last dollar of income, not all your income. A 22% bracket means only income in that range is taxed at 22%.'},{q:'How can I lower my bracket?',a:'Contribute to pre-tax accounts (401k, traditional IRA, HSA). These reduce taxable income, potentially dropping you to a lower bracket.'},{q:'Do tax brackets change?',a:'Yes, brackets are adjusted annually for inflation. The IRS announces new thresholds each fall for the following tax year.'},{q:'What about the standard deduction?',a:'Subtract the standard deduction ($15,000 single, $30,000 married in 2026) from gross income to get taxable income.'}],
+  null,['Brackets are applied progressively — only income within each range is taxed at that rate']));
+
+finance.push(simple('tax-refund-estimator','Tax Refund Estimator','finance',...C.finance,'tax refund calculator, tax refund estimator','Estimate your federal tax refund or amount owed',
+  [{id:'income',label:'Gross Income ($)',default:'70000',step:'1000'},{id:'withheld',label:'Federal Tax Withheld ($)',default:'9000',step:'100'},{id:'deduction',label:'Deductions ($)',default:'15000',step:'500'},{id:'credits',label:'Tax Credits ($)',default:'0',step:'100'}],
+  [{id:'taxable',label:'Taxable Income'},{id:'taxOwed',label:'Tax Owed'},{id:'refund',label:'Refund / Owed'}],
+  "var inc=f('income')-f('deduction');if(inc<0)inc=0;var b=[11600,47150,100525,191950,243725,609350];var r=[0.10,0.12,0.22,0.24,0.32,0.35,0.37];var tax=0;var prev=0;for(var i=0;i<b.length;i++){var t=Math.min(inc,b[i])-prev;if(t>0)tax+=t*r[i];if(inc<=b[i])break;prev=b[i];}tax-=f('credits');if(tax<0)tax=0;var withheld=f('withheld');var diff=withheld-tax;var label=diff>=0?'Refund: '+$(diff):'You Owe: '+$(Math.abs(diff));return{taxable:$(inc),taxOwed:$(tax),refund:label};",
+  [{q:'Why do I get a refund?',a:'You get a refund when your employer withheld more tax than you actually owe. This happens when your W-4 withholding is set too high or you have deductions/credits that reduce your tax.'},{q:'Is a big refund good?',a:'A large refund means you overpaid throughout the year — essentially giving the government an interest-free loan. Adjust your W-4 to keep more money in each paycheck.'},{q:'What are tax credits?',a:'Credits directly reduce your tax bill dollar-for-dollar. Common credits include the Child Tax Credit ($2,200 per child in 2026), Earned Income Credit, and education credits.'},{q:'When should I itemize vs standard deduction?',a:'Itemize if your deductions (mortgage interest, state taxes up to $40K SALT cap, charitable giving) exceed the standard deduction. Otherwise, take the standard deduction.'}],
+  null,['Taxable Income = Gross Income - Deductions','Tax Owed = Progressive bracket calculation - Credits','Refund = Tax Withheld - Tax Owed']));
+
+// Investment calcs
+finance.push(simple('net-worth-calculator','Net Worth Calculator','finance',...C.finance,'net worth calculator, personal net worth','Calculate your total net worth by adding assets and subtracting debts',
+  [{id:'cash',label:'Cash & Savings ($)',default:'15000',step:'1000'},{id:'investments',label:'Investments ($)',default:'50000',step:'5000'},{id:'homeValue',label:'Home Value ($)',default:'350000',step:'10000'},{id:'otherAssets',label:'Other Assets ($)',default:'25000',step:'5000'},{id:'mortgage',label:'Mortgage Balance ($)',default:'250000',step:'5000'},{id:'otherDebt',label:'Other Debts ($)',default:'15000',step:'1000'}],
+  [{id:'totalAssets',label:'Total Assets'},{id:'totalDebts',label:'Total Debts'},{id:'netWorth',label:'Net Worth'}],
+  "var assets=f('cash')+f('investments')+f('homeValue')+f('otherAssets');var debts=f('mortgage')+f('otherDebt');var nw=assets-debts;return{totalAssets:$(assets),totalDebts:$(debts),netWorth:$(nw)};",
+  [{q:'What counts as an asset?',a:'Cash, savings, investments (stocks, bonds, retirement accounts), real estate, vehicles, jewelry, and other valuables. Use current market value, not what you paid.'},{q:'What counts as a liability?',a:'All debts: mortgage, car loans, student loans, credit card balances, personal loans, and any other money owed.'},{q:'What is a good net worth by age?',a:'A common benchmark: by 30 aim for 1x salary saved, by 40 aim for 3x, by 50 aim for 6x, by 60 aim for 8x, and by 67 aim for 10x your salary.'},{q:'Should I include my car?',a:'Include it at current resale value (not what you paid). Cars depreciate quickly, so this value drops over time.'}],
+  null,['Net Worth = Total Assets - Total Liabilities']));
+
+finance.push(simple('inflation-calculator','Inflation Calculator','finance',...C.finance,'inflation calculator, purchasing power, dollar value','See how inflation erodes purchasing power over time',
+  [{id:'amount',label:'Amount ($)',default:'100',step:'10'},{id:'rate',label:'Inflation Rate (%)',default:'3',step:'0.5'},{id:'years',label:'Years',default:'10',step:'1'}],
+  [{id:'futureVal',label:'Equivalent Future Amount'},{id:'purchasePower',label:'Purchasing Power of Original'},{id:'totalLoss',label:'Value Lost'}],
+  "var a=f('amount');var r=f('rate')/100;var y=f('years');var future=a*Math.pow(1+r,y);var power=a/Math.pow(1+r,y);var loss=a-power;return{futureVal:$(future),purchasePower:$(power),totalLoss:$(loss)};",
+  [{q:'What is inflation?',a:'Inflation is the rate at which prices increase over time, reducing the purchasing power of money. The US targets 2% annual inflation, but it has been 2-4% in recent years.'},{q:'How does inflation affect savings?',a:'If your savings earn less than the inflation rate, you are losing purchasing power. At 3% inflation, $100 today buys only $74 worth of goods in 10 years.'},{q:'What is the current inflation rate?',a:'As of early 2026, US CPI inflation is approximately 2.4%. This is down from the 2022 peak of 9.1% but still above the 2% target.'},{q:'How do I protect against inflation?',a:'Invest in assets that historically outpace inflation: stocks (7-10% average return), real estate, I-Bonds, and TIPS (Treasury Inflation-Protected Securities).'}],
+  {title:'Purchasing Power of $100 Over Time',subtitle:'At various inflation rates',columns:['Years','2% Inflation','3% Inflation','4% Inflation','5% Inflation'],rows:[['5','$90.57','$86.26','$82.19','$78.35'],['10','$82.03','$74.41','$67.56','$61.39'],['15','$74.30','$64.19','$55.53','$48.10'],['20','$67.30','$55.37','$45.64','$37.69'],['30','$55.21','$41.20','$30.83','$23.14']]},
+  ['Future Value = Amount × (1 + rate)^years','Purchasing Power = Amount / (1 + rate)^years']));
+
+finance.push(simple('savings-calculator','Savings Calculator','finance',...C.finance,'savings calculator, savings goal calculator','Calculate how your savings will grow with regular contributions',
+  [{id:'initial',label:'Initial Deposit ($)',default:'5000',step:'500'},{id:'monthly',label:'Monthly Contribution ($)',default:'500',step:'50'},{id:'rate',label:'Annual Return (%)',default:'5',step:'0.5'},{id:'years',label:'Years',default:'10',step:'1'}],
+  [{id:'totalContrib',label:'Total Contributions'},{id:'interest',label:'Interest Earned'},{id:'finalBal',label:'Final Balance'}],
+  "var p=f('initial');var m=f('monthly');var r=f('rate')/100/12;var n=f('years')*12;var fv=p*Math.pow(1+r,n)+m*((Math.pow(1+r,n)-1)/r);var contrib=p+m*n;return{totalContrib:$(contrib),interest:$(fv-contrib),finalBal:$(fv)};",
+  [{q:'How does compound interest work?',a:'Your interest earns interest. With monthly compounding, each month\'s interest is added to the balance and earns interest in subsequent months. This creates exponential growth over time.'},{q:'What return rate should I use?',a:'High-yield savings: 4-5%. Bonds: 3-5%. Stock market average: 7-10%. Use a conservative estimate for planning purposes.'},{q:'How much should I save each month?',a:'The 50/30/20 rule suggests saving 20% of after-tax income. But any amount helps — even $100/month becomes $16,470 in 10 years at 5%.'},{q:'Is this guaranteed?',a:'Savings accounts and CDs have FDIC insurance up to $250,000. Investment returns are not guaranteed and can fluctuate significantly.'}],
+  null,['Future Value = P(1+r)^n + PMT×[(1+r)^n - 1]/r','P = initial deposit, r = monthly rate, n = months, PMT = monthly contribution']));
+
+finance.push(simple('cd-calculator','CD Calculator','finance',...C.finance,'cd calculator, certificate of deposit calculator','Calculate earnings from a certificate of deposit',
+  [{id:'deposit',label:'Deposit Amount ($)',default:'10000',step:'1000'},{id:'apy',label:'APY (%)',default:'4.5',step:'0.1'},{id:'months',label:'Term (months)',default:'12',step:'1'}],
+  [{id:'interest',label:'Interest Earned'},{id:'finalBal',label:'Value at Maturity'},{id:'effectiveRate',label:'Total Return'}],
+  "var p=f('deposit');var r=f('apy')/100;var m=f('months');var fv=p*Math.pow(1+r/12,m);var int=fv-p;return{interest:$(int),finalBal:$(fv),effectiveRate:pct(int/p*100,2)};",
+  [{q:'What is a CD?',a:'A Certificate of Deposit is a savings product that pays a fixed interest rate for a set term. You agree not to withdraw funds until maturity in exchange for a higher rate than regular savings.'},{q:'What are current CD rates?',a:'As of 2026, top CD rates are 4.0-4.75% APY for 12-month terms. Rates vary by institution and term length.'},{q:'What happens if I withdraw early?',a:'Most CDs charge an early withdrawal penalty, typically 3-6 months of interest. Some banks offer no-penalty CDs at slightly lower rates.'},{q:'Are CDs safe?',a:'Yes, CDs are FDIC insured up to $250,000 per depositor per bank. Your principal and earned interest are guaranteed.'}],
+  null,['Value at Maturity = Deposit × (1 + APY/12)^months','Interest Earned = Maturity Value - Deposit']));
+
+finance.push(simple('stock-profit-calculator','Stock Profit Calculator','finance',...C.finance,'stock profit calculator, stock gain calculator','Calculate profit or loss from a stock trade',
+  [{id:'buyPrice',label:'Buy Price per Share ($)',default:'50',step:'0.01'},{id:'shares',label:'Number of Shares',default:'100',step:'1'},{id:'sellPrice',label:'Sell Price per Share ($)',default:'75',step:'0.01'},{id:'commission',label:'Total Commissions ($)',default:'0',step:'1'}],
+  [{id:'totalCost',label:'Total Cost'},{id:'totalRevenue',label:'Total Revenue'},{id:'profit',label:'Profit/Loss'},{id:'returnPct',label:'Return (%)'}],
+  "var bp=f('buyPrice');var s=f('shares');var sp=f('sellPrice');var c=f('commission');var cost=bp*s+c;var rev=sp*s-c;var profit=rev-cost;return{totalCost:$(cost),totalRevenue:$(rev),profit:$(profit),returnPct:pct(profit/(bp*s)*100,2)};",
+  [{q:'How is stock profit calculated?',a:'Profit = (Sell Price × Shares - Commission) - (Buy Price × Shares + Commission). This is your gross profit before taxes.'},{q:'What about taxes on stock profits?',a:'Short-term gains (held under 1 year) are taxed as ordinary income. Long-term gains (over 1 year) get preferential rates of 0%, 15%, or 20%.'},{q:'What about dividends?',a:'This calculator covers trading profit only. Dividends received during your holding period would add to your total return.'},{q:'Are commissions still a factor?',a:'Most major brokers (Fidelity, Schwab, Robinhood) now offer $0 commission stock trades. Options and some other products may still have fees.'}],
+  null,['Profit = (Sell Price - Buy Price) × Shares - Commissions','Return % = Profit / Total Investment × 100']));
+
+finance.push(simple('investment-return-calculator','Investment Return Calculator','finance',...C.finance,'investment return calculator, CAGR calculator','Calculate the total and annualized return on an investment',
+  [{id:'initial',label:'Initial Investment ($)',default:'10000',step:'1000'},{id:'final',label:'Current Value ($)',default:'25000',step:'1000'},{id:'years',label:'Years Held',default:'5',step:'1'}],
+  [{id:'totalReturn',label:'Total Return'},{id:'totalPct',label:'Total Return (%)'},{id:'cagr',label:'Annualized Return (CAGR)'}],
+  "var i=f('initial');var fv=f('final');var y=f('years');var tr=fv-i;var pct_r=tr/i*100;var cagr=(Math.pow(fv/i,1/y)-1)*100;return{totalReturn:$(tr),totalPct:pct(pct_r,1),cagr:pct(cagr,2)};",
+  [{q:'What is CAGR?',a:'Compound Annual Growth Rate shows the average annual return assuming reinvestment. A $10,000 investment growing to $25,000 in 5 years has a CAGR of 20.1%.'},{q:'Is CAGR the same as average return?',a:'No. CAGR accounts for compounding and is more accurate. Simple average return can be misleading when returns vary year to year.'},{q:'What is a good CAGR?',a:'S&P 500 historical CAGR is about 10%. Beating 10% consistently is excellent. Even 7-8% after inflation is strong long-term performance.'},{q:'Does this account for fees?',a:'This uses your actual starting and ending values. If fees reduced your balance, they are already reflected in the calculation.'}],
+  null,['CAGR = (Final Value / Initial Value)^(1/years) - 1','Total Return = Final Value - Initial Investment']));
+
+// Retirement calcs
+finance.push(simple('401k-calculator','401k Calculator','finance',...C.finance,'401k calculator, retirement savings calculator','Project your 401k balance at retirement',
+  [{id:'salary',label:'Annual Salary ($)',default:'75000',step:'5000'},{id:'contrib',label:'Your Contribution (%)',default:'10',step:'1'},{id:'match',label:'Employer Match (%)',default:'4',step:'0.5'},{id:'balance',label:'Current Balance ($)',default:'50000',step:'5000'},{id:'returnRate',label:'Annual Return (%)',default:'7',step:'0.5'},{id:'years',label:'Years Until Retirement',default:'25',step:'1'}],
+  [{id:'finalBal',label:'Projected Balance'},{id:'yourContrib',label:'Your Total Contributions'},{id:'employerContrib',label:'Employer Match Total'},{id:'growth',label:'Investment Growth'}],
+  "var sal=f('salary');var pct_c=f('contrib')/100;var pct_m=f('match')/100;var bal=f('balance');var r=f('returnRate')/100/12;var y=f('years');var monthly=(sal*pct_c+sal*pct_m)/12;var fv=bal*Math.pow(1+r,y*12)+monthly*((Math.pow(1+r,y*12)-1)/r);var yourTotal=sal*pct_c*y;var empTotal=sal*pct_m*y;return{finalBal:$(fv),yourContrib:$(yourTotal),employerContrib:$(empTotal),growth:$(fv-bal-yourTotal-empTotal)};",
+  [{q:'How much should I contribute to my 401k?',a:'At minimum, contribute enough to get the full employer match — that is free money. Ideally, aim for 15-20% of salary including the match. The 2026 employee limit is $23,500 ($31,000 if 50+).'},{q:'What is an employer match?',a:'Many employers match your contributions up to a percentage. A 4% match means if you contribute 4% of salary, your employer adds another 4%. Not taking the full match is leaving free money on the table.'},{q:'What return should I expect?',a:'A diversified portfolio historically returns 7-10% before inflation. Target-date funds are a simple option that automatically adjusts risk as you approach retirement.'},{q:'Should I choose Roth or traditional 401k?',a:'Traditional = tax deduction now, pay taxes in retirement. Roth = no deduction now, tax-free withdrawals in retirement. Roth is better if you expect higher taxes later.'}],
+  {title:'401k Growth Projection',subtitle:'$75K salary, 10% contribution, 4% match, 7% return',columns:['Years','Your Contributions','Employer Match','Balance'],rows:[['5','$37,500','$15,000','$156,818'],['10','$75,000','$30,000','$304,511'],['15','$112,500','$45,000','$510,249'],['20','$150,000','$60,000','$800,584'],['25','$187,500','$75,000','$1,214,321']]},
+  ['Future Value = Current Balance × (1+r)^n + Monthly × [(1+r)^n - 1]/r','Monthly = (Salary × Your % + Salary × Match %) / 12']));
+
+finance.push(simple('roth-ira-calculator','Roth IRA Calculator','finance',...C.finance,'roth ira calculator, roth ira growth','Project your Roth IRA growth with annual contributions',
+  [{id:'balance',label:'Current Balance ($)',default:'10000',step:'1000'},{id:'annual',label:'Annual Contribution ($)',default:'7000',step:'500'},{id:'returnRate',label:'Annual Return (%)',default:'7',step:'0.5'},{id:'years',label:'Years to Grow',default:'25',step:'1'}],
+  [{id:'finalBal',label:'Tax-Free Balance'},{id:'contributions',label:'Total Contributions'},{id:'growth',label:'Tax-Free Growth'}],
+  "var bal=f('balance');var ann=f('annual');var r=f('returnRate')/100;var y=f('years');var fv=bal*Math.pow(1+r,y)+ann*((Math.pow(1+r,y)-1)/r);var contrib=bal+ann*y;return{finalBal:$(fv),contributions:$(ann*y),growth:$(fv-contrib)};",
+  [{q:'What is a Roth IRA?',a:'A retirement account where you contribute after-tax dollars and all growth and withdrawals in retirement are completely tax-free. No required minimum distributions during your lifetime.'},{q:'What is the 2026 contribution limit?',a:'$7,000 per year ($8,000 if age 50+). Income limits apply: single filers phase out at $150,000-$165,000 MAGI, married at $236,000-$246,000.'},{q:'Roth IRA vs traditional IRA?',a:'Roth: no tax deduction now, tax-free withdrawals later. Traditional: tax deduction now, taxed withdrawals later. Roth wins if your tax rate will be higher in retirement.'},{q:'Can I withdraw contributions early?',a:'Yes, you can withdraw your contributions (not earnings) at any time without penalty or taxes. This makes Roth IRAs more flexible than other retirement accounts.'}],
+  null,['Future Value = Balance × (1+r)^n + Annual × [(1+r)^n - 1]/r','All growth is tax-free in a Roth IRA']));
+
+finance.push(simple('early-retirement-calculator','Early Retirement Calculator','finance',...C.finance,'early retirement calculator, retire early, FIRE number','Calculate how much you need to retire early',
+  [{id:'expenses',label:'Annual Expenses ($)',default:'50000',step:'5000'},{id:'savings',label:'Current Savings ($)',default:'200000',step:'10000'},{id:'monthlyAdd',label:'Monthly Savings ($)',default:'3000',step:'500'},{id:'returnRate',label:'Return Rate (%)',default:'7',step:'0.5'},{id:'withdrawRate',label:'Withdrawal Rate (%)',default:'4',step:'0.25'}],
+  [{id:'fireNumber',label:'FIRE Number'},{id:'gap',label:'Gap to Close'},{id:'yearsToFire',label:'Years to FIRE'}],
+  "var exp=f('expenses');var sav=f('savings');var m=f('monthlyAdd');var r=f('returnRate')/100/12;var wr=f('withdrawRate')/100;var target=exp/wr;var gap=target-sav;var years=0;var bal=sav;while(bal<target&&years<100){bal=bal*(1+r)+m;years+=1/12;}return{fireNumber:$(target),gap:$(Math.max(0,gap)),yearsToFire:fmt(years,1)+' years'};",
+  [{q:'What is the FIRE number?',a:'Your FIRE (Financial Independence, Retire Early) number is annual expenses divided by your safe withdrawal rate. At 4% withdrawal, you need 25× your annual expenses.'},{q:'What is the 4% rule?',a:'The Trinity Study found that withdrawing 4% of a diversified portfolio annually (adjusted for inflation) has a very high success rate over 30 years. Some prefer 3.5% for extra safety.'},{q:'What about healthcare before 65?',a:'Early retirees need private health insurance until Medicare at 65. Budget $500-$1,500/month per person via ACA marketplace plans.'},{q:'Can I really retire in my 30s or 40s?',a:'Yes, if your savings rate is high enough. At a 50% savings rate, you can retire in about 17 years. At 70% savings rate, about 8.5 years. The math works.'}],
+  null,['FIRE Number = Annual Expenses / Withdrawal Rate','Years = Time for savings + growth to reach FIRE Number']));
+
+finance.push(simple('coast-fire-calculator','Coast FIRE Calculator','finance',...C.finance,'coast fire calculator, coast to retirement','Find out if your savings can coast to retirement without more contributions',
+  [{id:'balance',label:'Current Savings ($)',default:'150000',step:'10000'},{id:'target',label:'Retirement Goal ($)',default:'1000000',step:'50000'},{id:'returnRate',label:'Expected Return (%)',default:'7',step:'0.5'},{id:'retireAge',label:'Retirement Age',default:'65',step:'1'},{id:'currentAge',label:'Current Age',default:'35',step:'1'}],
+  [{id:'futureVal',label:'Projected Value at Retirement'},{id:'coastReady',label:'Coast FIRE Status'},{id:'neededNow',label:'Amount Needed Now to Coast'}],
+  "var bal=f('balance');var target=f('target');var r=f('returnRate')/100;var years=f('retireAge')-f('currentAge');var fv=bal*Math.pow(1+r,years);var needed=target/Math.pow(1+r,years);var status=bal>=needed?'You have reached Coast FIRE!':'Not yet — keep saving';return{futureVal:$(fv),coastReady:status,neededNow:$(needed)};",
+  [{q:'What is Coast FIRE?',a:'Coast FIRE means you have saved enough that compound growth alone will carry you to your retirement target — no more contributions needed. You still need to cover current expenses.'},{q:'How is Coast FIRE different from FIRE?',a:'FIRE means you can stop working entirely. Coast FIRE means you can stop saving for retirement but still need income for living expenses. You can switch to a lower-paying, more fulfilling job.'},{q:'What assumptions matter most?',a:'Return rate has the biggest impact. A 1% difference over 30 years changes the outcome dramatically. Use conservative estimates (6-7% nominal).'},{q:'Is this realistic?',a:'Historically, a diversified stock portfolio has returned about 10% nominally. After inflation, about 7%. Coast FIRE works if you stay invested long-term and do not panic sell.'}],
+  null,['Future Value = Current Savings × (1 + return)^years','Coast Number = Target / (1 + return)^years']));
+
+finance.push(simple('retirement-income-calculator','Retirement Income Calculator','finance',...C.finance,'retirement income calculator, how much retirement income','Estimate your monthly income in retirement from all sources',
+  [{id:'savings',label:'Total Retirement Savings ($)',default:'500000',step:'25000'},{id:'withdrawRate',label:'Withdrawal Rate (%)',default:'4',step:'0.25'},{id:'socialSecurity',label:'Monthly Social Security ($)',default:'2000',step:'100'},{id:'pension',label:'Monthly Pension ($)',default:'0',step:'100'},{id:'otherIncome',label:'Other Monthly Income ($)',default:'0',step:'100'}],
+  [{id:'fromSavings',label:'Monthly from Savings'},{id:'totalMonthly',label:'Total Monthly Income'},{id:'totalAnnual',label:'Total Annual Income'}],
+  "var sav=f('savings');var wr=f('withdrawRate')/100;var ss=f('socialSecurity');var pen=f('pension');var other=f('otherIncome');var fromSav=sav*wr/12;var total=fromSav+ss+pen+other;return{fromSavings:$(fromSav),totalMonthly:$(total),totalAnnual:$(total*12)};",
+  [{q:'How much do I need for retirement?',a:'A common target is 80% of pre-retirement income. With Social Security covering about 40%, your savings need to generate the other 40%. The exact amount depends on your lifestyle.'},{q:'What is a safe withdrawal rate?',a:'The 4% rule is the most commonly cited: withdraw 4% of your portfolio in year one, then adjust for inflation. Some financial planners now recommend 3.5% for greater safety.'},{q:'When should I claim Social Security?',a:'You can claim at 62 (reduced benefit), full retirement age (66-67), or 70 (maximum benefit — 24-32% higher). Each year you delay past FRA adds about 8%.'},{q:'Will my savings last 30 years?',a:'At a 4% withdrawal rate with a diversified portfolio, historical data shows a 95%+ success rate over 30 years. Lower withdrawal rates increase certainty.'}],
+  null,['Monthly from Savings = Total Savings × Withdrawal Rate / 12','Total Monthly = Savings Withdrawal + Social Security + Pension + Other']));
+
+finance.push(simple('social-security-calculator','Social Security Calculator','finance',...C.finance,'social security calculator, social security benefits','Estimate your Social Security benefits based on earnings and claiming age',
+  [{id:'avgEarnings',label:'Average Annual Earnings ($)',default:'65000',step:'5000'},{id:'claimAge',label:'Claiming Age',default:'67',step:'1'},{id:'fra',label:'Full Retirement Age',default:'67',step:'1'}],
+  [{id:'monthlyBenefit',label:'Monthly Benefit'},{id:'annualBenefit',label:'Annual Benefit'},{id:'lifetimeBy85',label:'Total by Age 85'}],
+  "var earn=f('avgEarnings');var claim=f('claimAge');var fra=f('fra');var aime=Math.min(earn,168600)/12;var pia=0;if(aime<=1174)pia=aime*0.9;else if(aime<=7078)pia=1174*0.9+(aime-1174)*0.32;else pia=1174*0.9+(7078-1174)*0.32+(aime-7078)*0.15;if(claim<fra){var m=(fra-claim)*12;pia*=(1-Math.min(m,36)*5/9/100-Math.max(0,m-36)*5/12/100);}else if(claim>fra){var m=(claim-fra)*12;pia*=(1+m*8/12/100);}return{monthlyBenefit:$(pia),annualBenefit:$(pia*12),lifetimeBy85:$(pia*12*(85-claim))};",
+  [{q:'When should I claim Social Security?',a:'Claiming at 62 gives reduced benefits (up to 30% less). Waiting until 70 gives the maximum benefit (24-32% more than FRA). Break-even age is typically around 80-82.'},{q:'How is my benefit calculated?',a:'SSA uses your highest 35 years of earnings to calculate AIME, then applies a progressive formula (90% of first $1,174, 32% of next $5,904, 15% above that).'},{q:'Can I work while collecting?',a:'Before FRA, benefits are reduced $1 for every $2 earned above $22,320. At FRA, no earnings limit applies. Withheld benefits are recalculated and added back at FRA.'},{q:'Is Social Security taxable?',a:'If combined income exceeds $25,000 (single) or $32,000 (married), up to 50-85% of benefits may be taxable at the federal level.'}],
+  null,['AIME = Average Indexed Monthly Earnings (top 35 years)','PIA = 90% × first $1,174 + 32% × next $5,904 + 15% × remainder','Claiming early: -5/9% per month for first 36 months, then -5/12%','Claiming late: +8% per year past FRA (delayed retirement credits)']));
+
+finance.push(simple('pension-calculator','Pension Calculator','finance',...C.finance,'pension calculator, pension value','Estimate the value of a defined benefit pension',
+  [{id:'salary',label:'Final Average Salary ($)',default:'80000',step:'5000'},{id:'years',label:'Years of Service',default:'25',step:'1'},{id:'multiplier',label:'Benefit Multiplier (%)',default:'2',step:'0.1'},{id:'retireAge',label:'Retirement Age',default:'62',step:'1'}],
+  [{id:'annualPension',label:'Annual Pension'},{id:'monthlyPension',label:'Monthly Pension'},{id:'lumpSum',label:'Est. Lump Sum Value'}],
+  "var sal=f('salary');var yrs=f('years');var mult=f('multiplier')/100;var annual=sal*yrs*mult;var monthly=annual/12;var lump=annual*15;return{annualPension:$(annual),monthlyPension:$(monthly),lumpSum:$(lump)};",
+  [{q:'How are pensions calculated?',a:'Most pensions use: Final Average Salary × Years of Service × Multiplier. A common multiplier is 1.5-2.5%. With 25 years at 2%, you get 50% of your final salary.'},{q:'Lump sum or monthly payments?',a:'Monthly payments provide guaranteed lifetime income. Lump sums give you control but require disciplined investing. Lump sum value is typically 12-18× the annual benefit.'},{q:'Are pensions taxable?',a:'Yes, pension payments are generally taxed as ordinary income at the federal level. Some states exempt pension income from state taxes.'},{q:'What if my company goes bankrupt?',a:'Private pensions are insured by the Pension Benefit Guaranty Corporation (PBGC) up to about $6,750/month for age 65 retirees. Government pensions have separate protections.'}],
+  null,['Annual Pension = Salary × Years × Multiplier','Monthly = Annual / 12','Lump Sum ≈ Annual × 15 (rough estimate)']));
+
+finance.push(simple('annuity-calculator','Annuity Calculator','finance',...C.finance,'annuity calculator, annuity payment calculator','Calculate annuity payments or the value of an annuity',
+  [{id:'principal',label:'Premium Paid ($)',default:'200000',step:'10000'},{id:'rate',label:'Annual Rate (%)',default:'5',step:'0.25'},{id:'years',label:'Payout Period (years)',default:'20',step:'1'}],
+  [{id:'monthlyPmt',label:'Monthly Payment'},{id:'totalPaid',label:'Total Payments'},{id:'totalInt',label:'Total Interest Earned'}],
+  "var p=f('principal');var r=f('rate')/100/12;var n=f('years')*12;var pmt=p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);return{monthlyPmt:$(pmt),totalPaid:$(pmt*n),totalInt:$(pmt*n-p)};",
+  [{q:'What is an annuity?',a:'An insurance product where you pay a lump sum and receive guaranteed periodic payments. Fixed annuities offer a set rate; variable annuities tie returns to investments.'},{q:'Are annuities a good investment?',a:'Annuities provide guaranteed income but have higher fees and less flexibility than index funds. They are best for people who want guaranteed lifetime income and have maxed out other retirement accounts.'},{q:'How are annuity payments taxed?',a:'The portion representing your original investment is not taxed. The interest/gains portion is taxed as ordinary income. In a qualified annuity (IRA), all withdrawals are taxed.'},{q:'What happens if I die early?',a:'Depends on the type. Life-only annuities stop at death. Period-certain annuities pay beneficiaries for the remaining term. Joint-life annuities continue to a surviving spouse.'}],
+  null,['Monthly Payment = P × [r(1+r)^n] / [(1+r)^n - 1]','Total Interest = Total Payments - Premium']));
+
+finance.push(simple('college-savings-calculator','College Savings Calculator','finance',...C.finance,'college savings calculator, college fund','Plan how much to save each month for your child\'s college education',
+  [{id:'currentAge',label:'Child\'s Current Age',default:'5',step:'1'},{id:'collegeCost',label:'Annual College Cost ($)',default:'35000',step:'1000'},{id:'yearsCollege',label:'Years of College',default:'4',step:'1'},{id:'inflation',label:'College Inflation (%)',default:'5',step:'0.5'},{id:'returnRate',label:'Investment Return (%)',default:'7',step:'0.5'},{id:'saved',label:'Already Saved ($)',default:'5000',step:'1000'}],
+  [{id:'totalNeeded',label:'Total Needed (Inflation-Adjusted)'},{id:'gap',label:'Gap After Current Savings Grow'},{id:'monthlySave',label:'Monthly Savings Needed'}],
+  "var age=f('currentAge');var cost=f('collegeCost');var yrs=f('yearsCollege');var inf=f('inflation')/100;var ret=f('returnRate')/100;var saved=f('saved');var yearsUntil=18-age;var futureCost=0;for(var i=0;i<yrs;i++){futureCost+=cost*Math.pow(1+inf,yearsUntil+i);}var savedGrowth=saved*Math.pow(1+ret,yearsUntil);var gap=futureCost-savedGrowth;if(gap<0)gap=0;var r=ret/12;var n=yearsUntil*12;var monthly=gap>0?gap*r/(Math.pow(1+r,n)-1):0;return{totalNeeded:$(futureCost),gap:$(gap),monthlySave:$(monthly)};",
+  [{q:'How much does college cost?',a:'In 2026, average annual costs are: public in-state ~$25,000, public out-of-state ~$45,000, private ~$60,000. These include tuition, room, board, and fees.'},{q:'Why does college inflation matter?',a:'College costs have historically risen 5-8% per year — faster than general inflation. A school costing $35K today may cost $57K in 10 years at 5% inflation.'},{q:'What is a 529 plan?',a:'A tax-advantaged savings account for education. Contributions grow tax-free and withdrawals for qualified education expenses are tax-free. Many states offer a state tax deduction too.'},{q:'What if my child gets scholarships?',a:'Great — extra 529 funds can be used for graduate school, transferred to siblings, or rolled into a Roth IRA (up to $35K lifetime, starting 2024).'}],
+  null,['Future Cost = Sum of annual cost × (1+inflation)^years for each year','Monthly Savings = Gap × r / [(1+r)^n - 1]']));
+
+finance.push(simple('529-plan-calculator','529 Plan Calculator','finance',...C.finance,'529 plan calculator, 529 growth calculator','Project the growth of your 529 education savings plan',
+  [{id:'initial',label:'Initial Investment ($)',default:'5000',step:'1000'},{id:'monthly',label:'Monthly Contribution ($)',default:'300',step:'50'},{id:'returnRate',label:'Annual Return (%)',default:'6',step:'0.5'},{id:'years',label:'Years to Grow',default:'15',step:'1'}],
+  [{id:'contributions',label:'Total Contributions'},{id:'growth',label:'Tax-Free Growth'},{id:'finalBal',label:'529 Plan Value'}],
+  "var p=f('initial');var m=f('monthly');var r=f('returnRate')/100/12;var n=f('years')*12;var fv=p*Math.pow(1+r,n)+m*((Math.pow(1+r,n)-1)/r);var contrib=p+m*n;return{contributions:$(contrib),growth:$(fv-contrib),finalBal:$(fv)};",
+  [{q:'What are 529 plan tax benefits?',a:'Contributions grow tax-free federally. Withdrawals for qualified education expenses are tax-free. Over 30 states offer a state income tax deduction or credit for contributions.'},{q:'What can 529 funds be used for?',a:'Tuition, room and board, textbooks, computers, and supplies at eligible institutions. Also up to $10K/year for K-12 tuition and student loan repayment up to $10K lifetime.'},{q:'What if my child does not go to college?',a:'Change the beneficiary to another family member, use for trade school or graduate school, roll up to $35K into a Roth IRA, or withdraw with a 10% penalty on earnings only.'},{q:'Which 529 plan is best?',a:'You can use any state\'s plan regardless of where you live. Compare fees, investment options, and state tax benefits. Low-cost plans from Utah, Nevada, and New York are popular.'}],
+  null,['Future Value = Initial × (1+r)^n + Monthly × [(1+r)^n - 1]/r','All growth is tax-free when used for qualified education expenses']));
+
+// Utility finance
+finance.push(simple('percentage-calculator','Percentage Calculator','finance',...C.finance,'percentage calculator, percent of number','Calculate percentages, percentage change, and percentage of a number',
+  [{id:'number',label:'Number',default:'200',step:'any'},{id:'pctOf',label:'Percentage (%)',default:'15',step:'any'}],
+  [{id:'result',label:'Result'},{id:'inverse',label:'Inverse (Number is what % of...)'},{id:'increase',label:'Number + Percentage'},{id:'decrease',label:'Number - Percentage'}],
+  "var n=f('number');var p=f('pctOf');var result=n*p/100;var inv=p!==0?n/(p/100):0;return{result:fmt(result,2),inverse:fmt(inv,2),increase:fmt(n+result,2),decrease:fmt(n-result,2)};",
+  [{q:'How do I calculate a percentage?',a:'Multiply the number by the percentage and divide by 100. For example, 15% of 200 = 200 × 15 / 100 = 30.'},{q:'How do I find what percentage one number is of another?',a:'Divide the part by the whole and multiply by 100. For example, 30 is what % of 200? 30/200 × 100 = 15%.'},{q:'How do I calculate percentage change?',a:'(New Value - Old Value) / Old Value × 100. An increase from 200 to 230 = (230-200)/200 × 100 = 15% increase.'},{q:'What is a percentage point vs percentage?',a:'A percentage point is an absolute difference. Going from 5% to 8% is a 3 percentage point increase, but a 60% percentage increase.'}],
+  null,['Result = Number × Percentage / 100']));
+
+finance.push(simple('interest-rate-calculator','Interest Rate Calculator','finance',...C.finance,'interest rate calculator, find interest rate','Calculate the interest rate from loan terms or investment returns',
+  [{id:'principal',label:'Principal ($)',default:'10000',step:'1000'},{id:'payment',label:'Monthly Payment ($)',default:'200',step:'10'},{id:'months',label:'Term (months)',default:'60',step:'1'}],
+  [{id:'rate',label:'Estimated APR'},{id:'totalPaid',label:'Total Paid'},{id:'totalInt',label:'Total Interest'}],
+  "var p=f('principal');var pmt=f('payment');var n=f('months');var total=pmt*n;var ti=total-p;var r=0.005;for(var i=0;i<100;i++){var calc=p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);if(Math.abs(calc-pmt)<0.01)break;if(calc<pmt)r+=0.0001;else r-=0.00005;}return{rate:pct(r*12*100,2),totalPaid:$(total),totalInt:$(ti)};",
+  [{q:'How is the interest rate found?',a:'We use an iterative method (Newton\'s method approximation) to find the rate that produces your exact payment amount given the principal and term.'},{q:'APR vs interest rate?',a:'APR includes the interest rate plus fees, expressed annually. The actual interest rate may be slightly lower than APR because APR factors in origination fees and other costs.'},{q:'What is a good interest rate?',a:'Depends on the loan type. Mortgage: 5.5-7%. Auto: 5-8%. Personal: 8-15%. Credit card: 18-25%. Your credit score is the biggest factor in the rate you receive.'},{q:'How do I get a lower rate?',a:'Improve your credit score, make a larger down payment, choose a shorter term, shop multiple lenders, and consider a co-signer if your credit is limited.'}],
+  null,['Rate is found iteratively by solving: P × [r(1+r)^n] / [(1+r)^n-1] = Payment']));
+
+finance.push(simple('simple-interest-calculator','Simple Interest Calculator','finance',...C.finance,'simple interest calculator, basic interest','Calculate simple interest on a principal amount',
+  [{id:'principal',label:'Principal ($)',default:'5000',step:'500'},{id:'rate',label:'Annual Rate (%)',default:'5',step:'0.5'},{id:'time',label:'Time (years)',default:'3',step:'0.5'}],
+  [{id:'interest',label:'Interest Earned'},{id:'total',label:'Total Amount'}],
+  "var p=f('principal');var r=f('rate')/100;var t=f('time');var i=p*r*t;return{interest:$(i),total:$(p+i)};",
+  [{q:'What is simple interest?',a:'Interest calculated only on the original principal, not on accumulated interest. Formula: I = P × R × T. It is simpler but less common than compound interest.'},{q:'Where is simple interest used?',a:'Auto loans, some personal loans, Treasury bonds, and short-term lending. Most savings accounts and mortgages use compound interest.'},{q:'Simple vs compound interest?',a:'Simple interest grows linearly. Compound interest grows exponentially because you earn interest on interest. Over long periods, compound interest produces significantly more.'},{q:'How do I convert to monthly?',a:'Divide the annual rate by 12 and the time by 12 (or multiply months by the monthly rate). Monthly simple interest = P × (R/12) × months.'}],
+  null,['Simple Interest = Principal × Rate × Time','Total = Principal + Interest']));
+
+finance.push(simple('apr-calculator','APR Calculator','finance',...C.finance,'apr calculator, annual percentage rate','Calculate the true APR including fees on a loan',
+  [{id:'loanAmt',label:'Loan Amount ($)',default:'20000',step:'1000'},{id:'fees',label:'Origination Fees ($)',default:'500',step:'100'},{id:'rate',label:'Stated Interest Rate (%)',default:'6',step:'0.1'},{id:'term',label:'Term (months)',default:'60',step:'1'}],
+  [{id:'apr',label:'True APR'},{id:'monthlyPmt',label:'Monthly Payment'},{id:'totalCost',label:'Total Cost of Loan'}],
+  "var p=f('loanAmt');var fees=f('fees');var r=f('rate')/100/12;var n=f('term');var effectiveP=p-fees;var mp=p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);var aprR=r;for(var i=0;i<100;i++){var calc=effectiveP*(aprR*Math.pow(1+aprR,n))/(Math.pow(1+aprR,n)-1);if(Math.abs(calc-mp)<0.01)break;if(calc<mp)aprR+=0.00005;else aprR-=0.00002;}return{apr:pct(aprR*12*100,2),monthlyPmt:$(mp),totalCost:$(mp*n)};",
+  [{q:'What is APR?',a:'Annual Percentage Rate includes the interest rate plus fees, giving you the true cost of borrowing. It is always equal to or higher than the stated interest rate.'},{q:'Why is APR different from interest rate?',a:'APR factors in origination fees, closing costs, and other charges. A 6% loan with $500 in fees on a $20,000 loan has an APR higher than 6%.'},{q:'Which is more important, rate or APR?',a:'APR is better for comparing loans because it includes all costs. However, if you plan to refinance or pay off early, the monthly payment matters more.'},{q:'What fees are included in APR?',a:'Origination fees, discount points, mortgage insurance, and some closing costs. Not included: appraisal fees, title insurance, or prepaid items.'}],
+  null,['APR accounts for fees by calculating the rate on the net amount received']));
+
+// Insurance tools
+var insurance = [];
+insurance.push(simple('life-insurance-calculator','Life Insurance Calculator','insurance',...C.insurance,'life insurance calculator, how much life insurance','Estimate how much life insurance coverage you need',
+  [{id:'income',label:'Annual Income ($)',default:'75000',step:'5000'},{id:'years',label:'Years to Replace',default:'10',step:'1'},{id:'debts',label:'Total Debts ($)',default:'200000',step:'10000'},{id:'college',label:'College Fund Needed ($)',default:'100000',step:'10000'},{id:'savings',label:'Current Savings ($)',default:'50000',step:'10000'}],
+  [{id:'incomeNeed',label:'Income Replacement'},{id:'totalNeed',label:'Total Coverage Needed'},{id:'estPremium',label:'Est. Monthly Premium (term)'}],
+  "var inc=f('income')*f('years');var debts=f('debts');var col=f('college');var sav=f('savings');var total=inc+debts+col-sav;if(total<0)total=0;var premium=total/1000*0.5;return{incomeNeed:$(inc),totalNeed:$(total),estPremium:$(premium)};",
+  [{q:'How much life insurance do I need?',a:'A common rule is 10-12× your annual income. A more precise method: add income replacement needs, debts, and future expenses (college), then subtract savings and existing coverage.'},{q:'Term vs whole life insurance?',a:'Term is cheaper and covers a specific period (10-30 years). Whole life is permanent with a cash value component but costs 5-15× more. Most people are best served by term life.'},{q:'How much does life insurance cost?',a:'A healthy 35-year-old can get a $500,000 20-year term policy for about $25-40/month. Rates depend on age, health, smoking status, and coverage amount.'},{q:'When should I get life insurance?',a:'As soon as someone depends on your income. Key triggers: marriage, buying a home, having children. The younger and healthier you are, the cheaper the premiums.'}],
+  null,['Coverage = Income × Years + Debts + College Needs - Savings','Premium estimate based on $0.50 per $1,000 of coverage (term life)']));
+
+insurance.push(simple('term-life-insurance-calculator','Term Life Insurance Calculator','insurance',...C.insurance,'term life insurance calculator, term life cost','Compare term life insurance costs by age and term length',
+  [{id:'coverage',label:'Coverage Amount ($)',default:'500000',step:'50000'},{id:'age',label:'Your Age',default:'35',step:'1'},{id:'term',label:'Term Length (years)',default:'20',step:'5'},{id:'smoker',label:'Smoker? (0=No 1=Yes)',default:'0',step:'1'}],
+  [{id:'estMonthly',label:'Est. Monthly Premium'},{id:'estAnnual',label:'Est. Annual Premium'},{id:'totalPremiums',label:'Total Premiums Over Term'}],
+  "var cov=f('coverage');var age=f('age');var term=f('term');var smoke=f('smoker');var base=cov/100000*3;var ageFactor=Math.pow(1.05,age-25);var termFactor=term/20;var smokeFactor=smoke?2.5:1;var monthly=base*ageFactor*termFactor*smokeFactor;return{estMonthly:$(monthly),estAnnual:$(monthly*12),totalPremiums:$(monthly*12*term)};",
+  [{q:'What is term life insurance?',a:'Coverage for a specific period (10, 20, or 30 years). If you die during the term, beneficiaries receive the death benefit. If you outlive it, coverage ends with nothing paid out.'},{q:'What term length should I choose?',a:'Match the term to your need: until kids are grown, mortgage is paid off, or you reach retirement. A 20-year term at age 35 covers you until 55, by which time most major obligations are reduced.'},{q:'Can I renew after the term?',a:'Most policies offer renewal at much higher rates. Some offer a conversion option to convert to permanent insurance without a medical exam. Check these features before buying.'},{q:'Do I need a medical exam?',a:'Traditional policies require an exam. No-exam policies are available but cost 20-40% more. The exam typically involves blood work, urine sample, and blood pressure check.'}],
+  null,['Premium = Base rate × Age factor × Term factor × Health factor']));
+
+insurance.push(simple('disability-insurance-calculator','Disability Insurance Calculator','insurance',...C.insurance,'disability insurance calculator, income protection','Calculate how much disability insurance you need to protect your income',
+  [{id:'income',label:'Monthly Gross Income ($)',default:'6000',step:'500'},{id:'expenses',label:'Monthly Expenses ($)',default:'4500',step:'500'},{id:'savings',label:'Emergency Savings ($)',default:'15000',step:'1000'},{id:'otherIncome',label:'Other Monthly Income if Disabled ($)',default:'0',step:'100'}],
+  [{id:'gap',label:'Monthly Income Gap'},{id:'coverageNeeded',label:'Coverage Needed'},{id:'estPremium',label:'Est. Monthly Premium'}],
+  "var inc=f('income');var exp=f('expenses');var sav=f('savings');var other=f('otherIncome');var coverage=Math.min(inc*0.6,exp);var gap=exp-other;var premium=coverage*0.02;return{gap:$(gap),coverageNeeded:$(coverage),estPremium:$(premium)};",
+  [{q:'How much disability insurance do I need?',a:'Most policies cover 60% of gross income. This is often close to your after-tax take-home pay. Ensure the benefit covers your essential monthly expenses.'},{q:'What is the elimination period?',a:'The waiting period before benefits begin, typically 90 days. Shorter periods cost more. Your emergency fund should cover expenses during this waiting period.'},{q:'Short-term vs long-term disability?',a:'Short-term covers 3-6 months (often through employers). Long-term kicks in after and can last to age 65. Long-term disability is the more critical coverage to have.'},{q:'How likely am I to become disabled?',a:'More than 1 in 4 workers will experience a disability lasting 90+ days before retirement. Disability is more common than most people think.'}],
+  null,['Coverage = min(60% of income, monthly expenses)','Premium ≈ 2% of coverage amount']));
+
+insurance.push(simple('renters-insurance-calculator','Renters Insurance Calculator','insurance',...C.insurance,'renters insurance calculator, how much renters insurance','Estimate renters insurance costs and coverage needs',
+  [{id:'belongings',label:'Value of Belongings ($)',default:'20000',step:'1000'},{id:'liability',label:'Liability Coverage ($)',default:'100000',step:'50000'},{id:'deductible',label:'Deductible ($)',default:'500',step:'250'}],
+  [{id:'estMonthly',label:'Est. Monthly Premium'},{id:'estAnnual',label:'Est. Annual Premium'},{id:'coverage',label:'Personal Property Coverage'}],
+  "var bel=f('belongings');var lia=f('liability');var ded=f('deductible');var base=bel*0.01+lia*0.002;var dedDiscount=ded>=1000?0.85:ded>=500?0.9:1;var annual=base*dedDiscount;return{estMonthly:$(annual/12),estAnnual:$(annual),coverage:$(bel)};",
+  [{q:'How much does renters insurance cost?',a:'Average is $15-30/month depending on location, coverage amount, and deductible. It is one of the cheapest insurance products and provides significant protection.'},{q:'What does renters insurance cover?',a:'Personal property (theft, fire, water damage), liability (someone injured in your apartment), additional living expenses (if displaced), and medical payments to others.'},{q:'How do I estimate my belongings value?',a:'Walk through each room and estimate replacement cost. Most people underestimate — electronics, furniture, clothing, and kitchen items add up quickly. The average renter owns $20,000-$30,000 in belongings.'},{q:'Do I really need renters insurance?',a:'Your landlord\'s policy covers the building only, not your stuff. Without renters insurance, you would pay out of pocket for theft, fire damage, or liability claims.'}],
+  null,['Premium ≈ 1% of belongings value + 0.2% of liability coverage']));
+
+insurance.push(simple('umbrella-insurance-calculator','Umbrella Insurance Calculator','insurance',...C.insurance,'umbrella insurance calculator, umbrella policy','Determine if you need umbrella insurance and how much',
+  [{id:'netWorth',label:'Net Worth ($)',default:'500000',step:'50000'},{id:'autoLimit',label:'Auto Liability Limit ($)',default:'300000',step:'50000'},{id:'homeLimit',label:'Home Liability Limit ($)',default:'300000',step:'50000'},{id:'riskFactors',label:'Risk Factors (1-5)',default:'3',step:'1'}],
+  [{id:'recommended',label:'Recommended Coverage'},{id:'estAnnual',label:'Est. Annual Premium'},{id:'gap',label:'Current Liability Gap'}],
+  "var nw=f('netWorth');var auto=f('autoLimit');var home=f('homeLimit');var risk=f('riskFactors');var coverage=Math.max(nw,1000000);coverage=Math.ceil(coverage/1000000)*1000000;var gap=Math.max(0,nw-Math.min(auto,home));var premium=150+(coverage/1000000-1)*75+risk*25;return{recommended:$(coverage),estAnnual:$(premium),gap:$(gap)};",
+  [{q:'What is umbrella insurance?',a:'Extra liability coverage that kicks in when your auto or home insurance limits are exhausted. A $1M umbrella policy costs about $150-300/year and provides crucial protection for your assets.'},{q:'Who needs umbrella insurance?',a:'Anyone with assets to protect. If your net worth exceeds your auto/home liability limits, you are exposed. Also important if you have a pool, trampoline, dog, teen driver, or rental property.'},{q:'How much does it cost?',a:'First $1M of coverage costs about $150-300/year. Each additional $1M costs about $75-100/year. It is remarkably affordable for the protection provided.'},{q:'What does it cover?',a:'Bodily injury, property damage, libel, slander, and certain lawsuits. It does NOT cover your own injuries, your own property, criminal acts, or business liability.'}],
+  null,['Recommended = net worth rounded up to nearest $1M (minimum $1M)']));
+
+insurance.push(simple('pet-insurance-calculator','Pet Insurance Calculator','insurance',...C.insurance,'pet insurance calculator, pet insurance cost','Estimate pet insurance costs and determine if it is worth it',
+  [{id:'petAge',label:'Pet Age (years)',default:'3',step:'1'},{id:'breed',label:'Size (1=Small 2=Medium 3=Large)',default:'2',step:'1'},{id:'annualVet',label:'Expected Annual Vet Costs ($)',default:'500',step:'100'},{id:'coverage',label:'Coverage Level (1=Basic 2=Standard 3=Comprehensive)',default:'2',step:'1'}],
+  [{id:'estMonthly',label:'Est. Monthly Premium'},{id:'estAnnual',label:'Est. Annual Premium'},{id:'breakEven',label:'Break-Even Vet Bill'}],
+  "var age=f('petAge');var breed=f('breed');var vet=f('annualVet');var cov=f('coverage');var base=cov===1?25:cov===2?45:70;var ageFactor=1+age*0.08;var breedFactor=breed===1?0.85:breed===2?1:1.25;var monthly=base*ageFactor*breedFactor;var annual=monthly*12;var breakEven=annual/(1-0.2);return{estMonthly:$(monthly),estAnnual:$(annual),breakEven:$(breakEven)};",
+  [{q:'Is pet insurance worth it?',a:'If your pet needs emergency surgery ($3,000-$10,000+), insurance pays for itself immediately. On average, 1 in 3 pets needs emergency treatment each year. It provides peace of mind and prevents financial-based medical decisions.'},{q:'What does pet insurance cover?',a:'Accident and illness plans cover injuries, diseases, surgeries, and medications. Comprehensive plans add wellness visits, vaccinations, and dental. Pre-existing conditions are never covered.'},{q:'When should I get pet insurance?',a:'As early as possible — premiums are lowest for young, healthy pets. Conditions that develop before enrollment become pre-existing and are excluded permanently.'},{q:'How does reimbursement work?',a:'You pay the vet bill, submit a claim, and get reimbursed (typically 70-90% after deductible). Some newer plans offer direct vet payment.'}],
+  null,['Premium varies by age, breed size, and coverage level']));
+
+insurance.push(simple('dental-insurance-calculator','Dental Insurance Calculator','insurance',...C.insurance,'dental insurance calculator, dental plan cost','Compare dental insurance costs vs paying out of pocket',
+  [{id:'premium',label:'Monthly Premium ($)',default:'40',step:'5'},{id:'deductible',label:'Annual Deductible ($)',default:'50',step:'25'},{id:'annualMax',label:'Annual Maximum ($)',default:'1500',step:'250'},{id:'expectedCosts',label:'Expected Annual Dental Costs ($)',default:'800',step:'100'}],
+  [{id:'annualPremium',label:'Annual Premiums'},{id:'outOfPocket',label:'Out of Pocket with Insurance'},{id:'savings',label:'Savings vs No Insurance'}],
+  "var prem=f('premium')*12;var ded=f('deductible');var max=f('annualMax');var costs=f('expectedCosts');var covered=Math.min(Math.max(costs-ded,0)*0.8,max);var oop=costs-covered+prem;var savings=costs-oop;return{annualPremium:$(prem),outOfPocket:$(oop),savings:$(savings)};",
+  [{q:'Is dental insurance worth it?',a:'For routine care only, dental savings plans or paying cash may be cheaper. Insurance becomes worth it if you need major work (crowns, root canals, implants) that can cost $1,000-$5,000+ each.'},{q:'What do dental plans typically cover?',a:'Preventive (cleanings, x-rays): 100%. Basic (fillings, extractions): 80%. Major (crowns, bridges): 50%. Orthodontics: 50% if covered. Most plans have a $1,000-$2,000 annual maximum.'},{q:'What is the annual maximum?',a:'The most the plan pays per year, typically $1,000-$2,000. After reaching it, you pay 100% out of pocket. This limit has barely increased in decades.'},{q:'What about dental discount plans?',a:'Not insurance — you pay a membership fee ($80-200/year) for 10-60% discounts at network dentists. Good for people who need more than the annual maximum covers.'}],
+  null,['Out of Pocket = Costs - min((Costs - Deductible) × 80%, Annual Max) + Premiums']));
+
+insurance.push(simple('long-term-care-calculator','Long-Term Care Calculator','insurance',...C.insurance,'long term care calculator, nursing home cost','Estimate long-term care costs and insurance needs',
+  [{id:'age',label:'Current Age',default:'55',step:'1'},{id:'dailyCost',label:'Daily Care Cost ($)',default:'275',step:'25'},{id:'years',label:'Expected Years of Care',default:'3',step:'0.5'},{id:'inflation',label:'Care Cost Inflation (%)',default:'4',step:'0.5'}],
+  [{id:'futureDaily',label:'Future Daily Cost'},{id:'totalCost',label:'Total Care Cost'},{id:'estPremium',label:'Est. Monthly Premium'}],
+  "var age=f('age');var daily=f('dailyCost');var yrs=f('years');var inf=f('inflation')/100;var yearsUntil=80-age;var futureDaily=daily*Math.pow(1+inf,yearsUntil);var total=futureDaily*365*yrs;var premium=total/((80-age)*12)*0.15;return{futureDaily:$(futureDaily),totalCost:$(total),estPremium:$(premium)};",
+  [{q:'How much does long-term care cost?',a:'In 2026, the national median is: home health aide $30/hour, assisted living $5,350/month, nursing home $275/day ($8,365/month). Costs vary dramatically by state.'},{q:'How long does the average person need care?',a:'Average is 3 years. Women average 3.7 years, men 2.2 years. About 15% of people need care for 5+ years. Planning for 3-5 years is prudent.'},{q:'When should I buy LTC insurance?',a:'Ideal age is 55-65. Younger means lower premiums and better health qualification. After 70, premiums are very expensive and health issues may prevent qualification.'},{q:'What are alternatives to LTC insurance?',a:'Self-insure with savings, hybrid life/LTC policies, Medicaid (requires spending down assets), family caregiving, or continuing care retirement communities (CCRCs).'}],
+  null,['Future Cost = Current Daily × (1 + inflation)^years until care','Total = Future Daily Cost × 365 × Years of Care']));
+
+insurance.push(simple('insurance-deductible-calculator','Insurance Deductible Calculator','insurance',...C.insurance,'insurance deductible calculator, high vs low deductible','Compare high vs low deductible insurance plans',
+  [{id:'lowPremium',label:'Low Deductible Plan Premium ($/month)',default:'350',step:'25'},{id:'lowDeductible',label:'Low Plan Deductible ($)',default:'500',step:'250'},{id:'highPremium',label:'High Deductible Plan Premium ($/month)',default:'200',step:'25'},{id:'highDeductible',label:'High Plan Deductible ($)',default:'3000',step:'500'},{id:'expectedClaims',label:'Expected Annual Claims ($)',default:'2000',step:'500'}],
+  [{id:'lowTotal',label:'Low Deductible Total Cost'},{id:'highTotal',label:'High Deductible Total Cost'},{id:'winner',label:'Better Plan'}],
+  "var lp=f('lowPremium')*12;var ld=f('lowDeductible');var hp=f('highPremium')*12;var hd=f('highDeductible');var claims=f('expectedClaims');var lowOOP=Math.min(claims,ld);var highOOP=Math.min(claims,hd);var lowTotal=lp+lowOOP;var highTotal=hp+highOOP;var winner=lowTotal<highTotal?'Low deductible plan saves '+$(lowTotal-highTotal).replace('-',''):'High deductible plan saves '+$(highTotal-lowTotal).replace('-','');return{lowTotal:$(lowTotal),highTotal:$(highTotal),winner:winner};",
+  [{q:'Should I choose a high or low deductible?',a:'High deductible = lower premiums but more out of pocket when you have a claim. Choose high if you are healthy and have savings to cover the deductible. Choose low if you have frequent medical needs.'},{q:'What is a deductible?',a:'The amount you pay out of pocket before insurance kicks in. A $1,000 deductible means you pay the first $1,000 of covered expenses each year.'},{q:'How do I calculate the break-even point?',a:'Compare total annual cost (premiums + deductible) for each plan. The plan with the lower total cost wins. If claims are low, high deductible usually wins.'},{q:'What about HSA eligibility?',a:'High-deductible health plans (HDHPs) qualify for Health Savings Accounts. HSA contributions are tax-deductible, grow tax-free, and withdrawals for medical expenses are tax-free — a triple tax benefit.'}],
+  null,['Total Cost = Annual Premiums + min(Claims, Deductible)']));
+
+insurance.push(simple('health-insurance-calculator','Health Insurance Calculator','insurance',...C.insurance,'health insurance calculator, health plan comparison','Compare health insurance plans to find the lowest total cost',
+  [{id:'premium',label:'Monthly Premium ($)',default:'450',step:'25'},{id:'deductible',label:'Annual Deductible ($)',default:'2000',step:'500'},{id:'coinsurance',label:'Coinsurance (% you pay)',default:'20',step:'5'},{id:'oopm',label:'Out-of-Pocket Maximum ($)',default:'8000',step:'500'},{id:'usage',label:'Expected Annual Medical Costs ($)',default:'5000',step:'500'}],
+  [{id:'annualPremium',label:'Annual Premiums'},{id:'oop',label:'Out-of-Pocket Costs'},{id:'totalCost',label:'Total Annual Cost'}],
+  "var prem=f('premium')*12;var ded=f('deductible');var coins=f('coinsurance')/100;var max=f('oopm');var usage=f('usage');var afterDed=Math.max(usage-ded,0);var yourShare=Math.min(ded+afterDed*coins,max);var total=prem+yourShare;return{annualPremium:$(prem),oop:$(yourShare),totalCost:$(total)};",
+  [{q:'How do I choose the right health plan?',a:'Estimate your expected medical usage, then compare total cost (premiums + out-of-pocket) for each plan tier. Bronze is cheapest if healthy, Gold/Platinum better for frequent care.'},{q:'What is coinsurance?',a:'After meeting your deductible, coinsurance is the percentage of costs you share. With 20% coinsurance, you pay 20% and insurance pays 80% until you hit the out-of-pocket maximum.'},{q:'What is the out-of-pocket maximum?',a:'The most you pay for covered services in a year. For 2026, marketplace plan maximums cannot exceed $9,200 (individual) or $18,400 (family). After hitting it, insurance pays 100%.'},{q:'Are ACA subsidies available?',a:'Premium tax credits are available to marketplace enrollees with income between 100-400% of the federal poverty level. Many people with higher incomes also qualify for reduced premiums.'}],
+  null,['Out-of-Pocket = min(Deductible + (Costs - Deductible) × Coinsurance%, OOP Maximum)','Total = Premiums + Out-of-Pocket']));
+
+// ── Combine all finance ──────────────────────────────────────────────────────
+var allFinance = finance.concat(insurance);
+
+// Write file
+console.log('Writing wave5-finance.json with ' + allFinance.length + ' tools...');
+fs.writeFileSync(path.join(ROOT, 'data', 'wave5-finance.json'), JSON.stringify(allFinance, null, 2));
+console.log('Done! Wrote ' + allFinance.length + ' finance tools');
+
+// Write a placeholder for remaining waves (will fill in next)
+console.log('\nFinance wave complete. Run generate-tools.js to build them.');

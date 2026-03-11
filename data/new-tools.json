@@ -1,0 +1,53 @@
+[
+  {
+    "slug": "mortgage-calculator",
+    "name": "Mortgage Calculator",
+    "tagline": "Calculate your monthly mortgage payment, total interest, and amortization schedule",
+    "category": "finance",
+    "color": "#2563eb",
+    "colorDark": "#1d4ed8",
+    "keywords": "mortgage calculator, home loan calculator, mortgage payment",
+    "competition": "high",
+    "rpm": "high",
+    "priority": 1,
+    "inputs": [
+      { "id": "homePrice", "label": "Home Price ($)", "default": "350000", "step": "1000" },
+      { "id": "downPayment", "label": "Down Payment (%)", "default": "20", "step": "1" },
+      { "id": "loanTerm", "label": "Loan Term (years)", "default": "30", "step": "1" },
+      { "id": "interestRate", "label": "Interest Rate (%)", "default": "6.5", "step": "0.1" }
+    ],
+    "results": [
+      { "id": "monthlyPayment", "label": "Monthly Payment" },
+      { "id": "totalInterest", "label": "Total Interest" },
+      { "id": "totalCost", "label": "Total Cost" }
+    ],
+    "calcJS": "var p=f('homePrice');var dp=f('downPayment')/100;var n=f('loanTerm')*12;var r=f('interestRate')/100/12;var loan=p*(1-dp);var mp=loan*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);var ti=mp*n-loan;return{monthlyPayment:$(mp),totalInterest:$(ti),totalCost:$(mp*n)};",
+    "faqs": [
+      {"q":"How is the monthly payment calculated?","a":"We use the standard amortization formula: M = P[r(1+r)^n]/[(1+r)^n – 1], where P is the loan amount, r is the monthly interest rate, and n is the number of payments."},
+      {"q":"What is PMI?","a":"Private Mortgage Insurance (PMI) is required when your down payment is less than 20%. It typically costs 0.5-1% of the loan amount per year and can be removed once you reach 20% equity."},
+      {"q":"Should I choose a 15-year or 30-year mortgage?","a":"A 15-year mortgage has higher monthly payments but saves significantly on total interest. A 30-year mortgage keeps payments lower but costs more overall. Choose based on your monthly budget and long-term goals."},
+      {"q":"What credit score do I need for a mortgage?","a":"Most conventional loans require a minimum 620 credit score. FHA loans allow scores as low as 580 with 3.5% down. Better scores get lower interest rates, potentially saving tens of thousands over the loan term."},
+      {"q":"How much house can I afford?","a":"A common rule is the 28/36 rule: spend no more than 28% of gross income on housing costs and no more than 36% on total debt. Include mortgage payment, property tax, insurance, and HOA fees in your housing costs."}
+    ],
+    "chart": {
+      "title": "Mortgage Comparison — 30-Year Fixed",
+      "subtitle": "Monthly payments for different home prices at 6.5% interest with 20% down",
+      "columns": ["Home Price", "Down Payment", "Loan Amount", "Monthly Payment", "Total Interest"],
+      "rows": [
+        ["$250,000", "$50,000", "$200,000", "$1,264", "$255,089"],
+        ["$350,000", "$70,000", "$280,000", "$1,770", "$357,125"],
+        ["$450,000", "$90,000", "$360,000", "$2,275", "$459,161"],
+        ["$550,000", "$110,000", "$440,000", "$2,781", "$561,197"]
+      ]
+    },
+    "howItWorksIntro": "This calculator uses the standard amortization formula to compute your mortgage payment.",
+    "howItWorksRules": [
+      "Monthly Payment = Loan × [r(1+r)^n] / [(1+r)^n – 1]",
+      "r = annual rate / 12 (monthly interest rate)",
+      "n = loan term in years × 12 (total payments)",
+      "Total Interest = (Monthly Payment × n) – Loan Amount"
+    ],
+    "howItWorksOutro": "This estimate does not include property tax, homeowner's insurance, PMI, or HOA fees. Your actual monthly housing cost will be higher.",
+    "relatedTools": ["compound-interest-calculator", "rent-vs-buy-calculator", "debt-snowball-calculator", "budget-calculator", "fire-calculator"]
+  }
+]

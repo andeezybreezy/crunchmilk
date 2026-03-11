@@ -43,7 +43,13 @@ const CATEGORY_COLORS = {
   'housing': ['#0891b2', '#0e7490'], 'crypto': ['#f59e0b', '#d97706'],
   'climate': ['#0ea5e9', '#0284c7'], 'demographics': ['#8b5cf6', '#7c3aed'],
   'rv': ['#b45309', '#92400e'], 'mental-health': ['#8b5cf6', '#7c3aed'],
-  'pregnancy': ['#ec4899', '#db2777'], 'insurance': ['#2563eb', '#1d4ed8']
+  'pregnancy': ['#ec4899', '#db2777'], 'insurance': ['#2563eb', '#1d4ed8'],
+  'currency': ['#059669', '#047857'], 'precious-metals': ['#d97706', '#b45309'],
+  'ai-developer': ['#6366f1', '#4f46e5'], 'economics': ['#dc2626', '#b91c1c'],
+  'blockchain': ['#f59e0b', '#d97706'], 'food-beverage': ['#dc2626', '#b91c1c'],
+  'music': ['#7c3aed', '#6d28d9'], 'diy-home': ['#ea580c', '#c2410c'],
+  'travel': ['#0891b2', '#0e7490'], 'gaming': ['#6366f1', '#4f46e5'],
+  'electrical': ['#eab308', '#ca8a04'], 'plumbing': ['#0369a1', '#075985']
 };
 
 function buildCalcHTML(tool) {

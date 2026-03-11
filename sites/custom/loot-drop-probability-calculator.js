@@ -1,0 +1,28 @@
+(function() {
+  'use strict';
+
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function dollar(n) { return '$' + fmt(n, 2); }
+  function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
+
+  function calculate() {
+    var dropRate = parseFloat(document.getElementById('dropRate').value) || 0;
+    var attempts = parseFloat(document.getElementById('attempts').value) || 0;
+
+    // Calculation logic
+    var p=dropRate/100; var noDropAll=Math.pow(1-p,attempts); var atLeastOne=(1-noDropAll)*100; var expected=attempts*p; var for50=Math.ceil(Math.log(0.5)/Math.log(1-p)); var for99=Math.ceil(Math.log(0.01)/Math.log(1-p)); return {atLeastOne:fmt(atLeastOne,2)+'%', expected:fmt(expected,2)+' drops', for50pct:for50+' attempts', for99pct:for99+' attempts'};
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  ['dropRate', 'attempts'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  });
+})();

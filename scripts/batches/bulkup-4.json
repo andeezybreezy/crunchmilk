@@ -1,0 +1,1385 @@
+[
+  {
+    "slug": "electrical-conduit-fill-calculator",
+    "toolName": "Electrical Conduit Fill Calculator",
+    "category": "electrical",
+    "tagline": "Calculate conduit fill capacity based on wire gauge, count, and conduit size per NEC standards",
+    "keywords": ["conduit fill", "NEC conduit", "wire capacity", "conduit sizing", "electrical conduit"],
+    "inputs": [
+      {"id": "conduitSize", "label": "Conduit Size", "default": "0.75", "options": [{"value":"0.5","label":"1/2 inch"},{"value":"0.75","label":"3/4 inch"},{"value":"1","label":"1 inch"},{"value":"1.25","label":"1-1/4 inch"},{"value":"1.5","label":"1-1/2 inch"},{"value":"2","label":"2 inch"}]},
+      {"id": "wireGauge", "label": "Wire Gauge (AWG)", "default": "12", "options": [{"value":"14","label":"14 AWG"},{"value":"12","label":"12 AWG"},{"value":"10","label":"10 AWG"},{"value":"8","label":"8 AWG"},{"value":"6","label":"6 AWG"}]},
+      {"id": "wireCount", "label": "Number of Wires", "default": 6, "min": 1, "max": 50}
+    ],
+    "results": [
+      {"id": "fillPct", "label": "Conduit Fill Percentage"},
+      {"id": "maxWires", "label": "Maximum Wires Allowed"},
+      {"id": "status", "label": "NEC Compliance"}
+    ],
+    "calcFn": "var conduitAreas = {'0.5':0.122,'0.75':0.213,'1':0.346,'1.25':0.598,'1.5':0.814,'2':1.316};\n    var wireAreas = {'14':0.0097,'12':0.0133,'10':0.0211,'8':0.0366,'6':0.0507};\n    var cArea = conduitAreas[conduitSize];\n    var wArea = wireAreas[wireGauge];\n    var fillLimit = wireCount <= 1 ? 0.53 : (wireCount === 2 ? 0.31 : 0.40);\n    var totalWireArea = wireCount * wArea;\n    var fillRatio = totalWireArea / cArea;\n    var maxW = Math.floor((cArea * 0.40) / wArea);\n    document.getElementById('fillPct').textContent = pct(fillRatio * 100, 1);\n    document.getElementById('maxWires').textContent = maxW + ' wires (at 40% fill)';\n    document.getElementById('status').textContent = fillRatio <= fillLimit ? 'PASS — Within NEC limits' : 'FAIL — Exceeds NEC ' + fmt(fillLimit * 100, 0) + '% fill limit';",
+    "faq": [
+      {"question": "What is the NEC conduit fill limit?", "answer": "The NEC allows 53% fill for one wire, 31% for two wires, and 40% for three or more wires. These limits prevent overheating and allow easy wire pulling."},
+      {"question": "Why does conduit fill matter?", "answer": "Overfilled conduit causes heat buildup which degrades wire insulation and can cause fires. It also makes pulling and replacing wires extremely difficult."}
+    ],
+    "formulas": [
+      "Fill % = (Number of Wires x Wire Area) / Conduit Area x 100",
+      "NEC Limits: 1 wire = 53%, 2 wires = 31%, 3+ wires = 40%"
+    ],
+    "relatedTools": ["wire-size-calculator", "voltage-drop-calculator", "electrical-panel-capacity-calculator"]
+  },
+  {
+    "slug": "transformer-sizing-calculator",
+    "toolName": "Transformer Sizing Calculator",
+    "category": "electrical",
+    "tagline": "Calculate transformer kVA requirements based on load voltage and amperage",
+    "keywords": ["transformer sizing", "kVA calculator", "transformer capacity", "electrical transformer", "power transformer"],
+    "inputs": [
+      {"id": "voltage", "label": "Secondary Voltage", "default": 240, "unit": "V", "min": 1},
+      {"id": "amperage", "label": "Total Load Amps", "default": 100, "unit": "A", "min": 1},
+      {"id": "phase", "label": "Phase", "default": "1", "options": [{"value":"1","label":"Single Phase"},{"value":"3","label":"Three Phase"}]},
+      {"id": "safetyFactor", "label": "Safety Factor", "default": 1.25, "min": 1, "max": 2, "step": 0.05}
+    ],
+    "results": [
+      {"id": "kva", "label": "Required kVA"},
+      {"id": "kvaRounded", "label": "Recommended Standard Size"},
+      {"id": "maxAmps", "label": "Max Amps at Rated kVA"}
+    ],
+    "calcFn": "var kva;\n    if (phase === '1') { kva = (voltage * amperage) / 1000; } else { kva = (voltage * amperage * 1.732) / 1000; }\n    var kvaWithSafety = kva * safetyFactor;\n    var stdSizes = [3,5,7.5,10,15,25,37.5,45,50,75,100,112.5,150,200,225,300,500,750,1000];\n    var recommended = stdSizes[stdSizes.length - 1];\n    for (var i = 0; i < stdSizes.length; i++) { if (stdSizes[i] >= kvaWithSafety) { recommended = stdSizes[i]; break; } }\n    var maxA = phase === '1' ? (recommended * 1000) / voltage : (recommended * 1000) / (voltage * 1.732);\n    document.getElementById('kva').textContent = fmt(kvaWithSafety, 1) + ' kVA (with ' + fmt(safetyFactor * 100, 0) + '% safety)';\n    document.getElementById('kvaRounded').textContent = fmt(recommended, 1) + ' kVA transformer';\n    document.getElementById('maxAmps').textContent = fmt(maxA, 1) + ' A';",
+    "faq": [
+      {"question": "How do I size a transformer?", "answer": "Multiply voltage by amperage (and by 1.732 for three-phase), divide by 1000 to get kVA, then add a 25% safety factor. Choose the next standard size up."},
+      {"question": "What safety factor should I use?", "answer": "A 125% (1.25x) safety factor is standard for most applications. Use 150% for motor loads or environments with frequent load spikes."}
+    ],
+    "formulas": [
+      "Single Phase kVA = (Voltage x Amps) / 1000",
+      "Three Phase kVA = (Voltage x Amps x 1.732) / 1000"
+    ],
+    "relatedTools": ["three-phase-power-calculator", "electrical-load-balancing-calculator", "wire-size-calculator"]
+  },
+  {
+    "slug": "motor-horsepower-calculator",
+    "toolName": "Motor Horsepower Calculator",
+    "category": "electrical",
+    "tagline": "Calculate electric motor horsepower from torque and RPM or voltage and amperage",
+    "keywords": ["motor horsepower", "HP calculator", "electric motor sizing", "motor torque", "motor power"],
+    "inputs": [
+      {"id": "torque", "label": "Torque", "default": 50, "unit": "ft-lbs", "min": 0},
+      {"id": "rpm", "label": "Motor Speed", "default": 1750, "unit": "RPM", "min": 1},
+      {"id": "efficiency", "label": "Motor Efficiency", "default": 90, "unit": "%", "min": 50, "max": 100}
+    ],
+    "results": [
+      {"id": "mechHP", "label": "Mechanical HP (shaft)"},
+      {"id": "elecHP", "label": "Electrical HP (input)"},
+      {"id": "watts", "label": "Power in Watts"}
+    ],
+    "calcFn": "var mechHP = (torque * rpm) / 5252;\n    var elecHP = mechHP / (efficiency / 100);\n    var watts = elecHP * 746;\n    document.getElementById('mechHP').textContent = fmt(mechHP, 2) + ' HP';\n    document.getElementById('elecHP').textContent = fmt(elecHP, 2) + ' HP (accounting for ' + fmt(efficiency, 0) + '% efficiency)';\n    document.getElementById('watts').textContent = fmt(watts, 0) + ' W (' + fmt(watts / 1000, 2) + ' kW)';",
+    "faq": [
+      {"question": "How is horsepower calculated from torque?", "answer": "HP = (Torque in ft-lbs x RPM) / 5252. The constant 5252 comes from converting ft-lbs/min to horsepower (33,000 ft-lbs/min = 1 HP, and 33000 / (2 x pi) = 5252)."},
+      {"question": "What is typical motor efficiency?", "answer": "Standard motors are 85-90% efficient. Premium efficiency motors reach 92-96%. Efficiency drops at partial loads — a motor running at 50% load may only be 80% efficient."}
+    ],
+    "formulas": [
+      "HP = (Torque x RPM) / 5252",
+      "Electrical HP = Mechanical HP / Efficiency"
+    ],
+    "relatedTools": ["transformer-sizing-calculator", "three-phase-power-calculator", "electrical-load-balancing-calculator"]
+  },
+  {
+    "slug": "electrical-load-balancing-calculator",
+    "toolName": "Electrical Load Balancing Calculator",
+    "category": "electrical",
+    "tagline": "Balance electrical loads across panel phases to prevent overloading and tripped breakers",
+    "keywords": ["load balancing", "panel balancing", "electrical panel", "phase balancing", "circuit load"],
+    "inputs": [
+      {"id": "phaseALoad", "label": "Phase A Load", "default": 80, "unit": "Amps", "min": 0},
+      {"id": "phaseBLoad", "label": "Phase B Load", "default": 55, "unit": "Amps", "min": 0},
+      {"id": "panelRating", "label": "Panel Rating", "default": 200, "unit": "Amps", "min": 1},
+      {"id": "newLoad", "label": "New Circuit Load", "default": 20, "unit": "Amps", "min": 0}
+    ],
+    "results": [
+      {"id": "imbalance", "label": "Current Imbalance"},
+      {"id": "recommendation", "label": "Add New Load To"},
+      {"id": "afterBalance", "label": "After Adding Load"},
+      {"id": "utilization", "label": "Panel Utilization"}
+    ],
+    "calcFn": "var diff = Math.abs(phaseALoad - phaseBLoad);\n    var imbalPct = ((phaseALoad + phaseBLoad) > 0) ? (diff / ((phaseALoad + phaseBLoad) / 2)) * 100 : 0;\n    var addToPhase = phaseALoad <= phaseBLoad ? 'A' : 'B';\n    var newA = addToPhase === 'A' ? phaseALoad + newLoad : phaseALoad;\n    var newB = addToPhase === 'B' ? phaseBLoad + newLoad : phaseBLoad;\n    var newDiff = Math.abs(newA - newB);\n    var totalLoad = newA + newB;\n    var util = (Math.max(newA, newB) / panelRating) * 100;\n    document.getElementById('imbalance').textContent = fmt(diff, 0) + ' A difference (' + fmt(imbalPct, 1) + '% imbalance)';\n    document.getElementById('recommendation').textContent = 'Phase ' + addToPhase + ' (currently lower at ' + fmt(addToPhase === 'A' ? phaseALoad : phaseBLoad, 0) + ' A)';\n    document.getElementById('afterBalance').textContent = 'A: ' + fmt(newA, 0) + ' A / B: ' + fmt(newB, 0) + ' A (diff: ' + fmt(newDiff, 0) + ' A)';\n    document.getElementById('utilization').textContent = fmt(util, 1) + '% of ' + fmt(panelRating, 0) + ' A panel' + (util > 80 ? ' — WARNING: Consider upgrading panel' : '');",
+    "faq": [
+      {"question": "Why is panel load balancing important?", "answer": "Unbalanced loads cause the neutral conductor to carry excess current, leading to overheating, voltage fluctuations, and potential fire hazards. NEC recommends keeping phases within 10-15% of each other."},
+      {"question": "How much imbalance is acceptable?", "answer": "Keep phase loads within 10-15% of each other. Greater than 20% imbalance can cause flickering lights, tripped breakers, and premature equipment failure."}
+    ],
+    "formulas": [
+      "Imbalance % = |Phase A - Phase B| / Average Load x 100",
+      "Panel Utilization = Max Phase Load / Panel Rating x 100"
+    ],
+    "relatedTools": ["electrical-panel-capacity-calculator", "wire-size-calculator", "transformer-sizing-calculator"]
+  },
+  {
+    "slug": "ground-wire-size-calculator",
+    "toolName": "Ground Wire Size Calculator",
+    "category": "electrical",
+    "tagline": "Determine the correct grounding conductor size per NEC Table 250.122",
+    "keywords": ["ground wire", "grounding conductor", "NEC grounding", "equipment ground", "ground wire size"],
+    "inputs": [
+      {"id": "breakerSize", "label": "Overcurrent Device (Breaker) Size", "default": "60", "options": [{"value":"15","label":"15 A"},{"value":"20","label":"20 A"},{"value":"30","label":"30 A"},{"value":"40","label":"40 A"},{"value":"60","label":"60 A"},{"value":"100","label":"100 A"},{"value":"200","label":"200 A"},{"value":"400","label":"400 A"}]},
+      {"id": "wireType", "label": "Wire Material", "default": "copper", "options": [{"value":"copper","label":"Copper"},{"value":"aluminum","label":"Aluminum"}]}
+    ],
+    "results": [
+      {"id": "groundSize", "label": "Required Ground Wire Size"},
+      {"id": "notes", "label": "Notes"}
+    ],
+    "calcFn": "var copperSizes = {'15':'14','20':'12','30':'10','40':'10','60':'10','100':'8','200':'6','400':'3'};\n    var alumSizes = {'15':'12','20':'10','30':'8','40':'8','60':'8','100':'6','200':'4','400':'1'};\n    var sizes = wireType === 'copper' ? copperSizes : alumSizes;\n    var gauge = sizes[breakerSize];\n    document.getElementById('groundSize').textContent = gauge + ' AWG ' + (wireType === 'copper' ? 'Copper' : 'Aluminum');\n    document.getElementById('notes').textContent = 'Per NEC Table 250.122. Use copper for wet locations. Ground wire may never be smaller than specified.';",
+    "faq": [
+      {"question": "Can I use aluminum ground wire?", "answer": "Yes, but it must be larger than copper. Aluminum is not recommended for wet locations or direct burial without proper protection. Most residential work uses copper grounding conductors."},
+      {"question": "What is the difference between grounding and bonding?", "answer": "Grounding connects the system to earth for voltage stabilization. Bonding connects metal parts together to ensure a safe fault current path. Both are required by NEC for safety."}
+    ],
+    "formulas": [
+      "Ground wire size is determined by NEC Table 250.122 based on overcurrent device rating",
+      "Aluminum ground wire must be two sizes larger than copper equivalent"
+    ],
+    "relatedTools": ["wire-size-calculator", "electrical-conduit-fill-calculator", "electrical-panel-capacity-calculator"]
+  },
+  {
+    "slug": "electrical-panel-capacity-calculator",
+    "toolName": "Electrical Panel Capacity Calculator",
+    "category": "electrical",
+    "tagline": "Calculate total electrical panel load and remaining capacity for new circuits",
+    "keywords": ["panel capacity", "electrical panel", "circuit load", "panel upgrade", "amp capacity"],
+    "inputs": [
+      {"id": "panelAmps", "label": "Main Panel Rating", "default": 200, "unit": "Amps", "min": 60},
+      {"id": "panelVoltage", "label": "Panel Voltage", "default": 240, "unit": "V"},
+      {"id": "existingLoad", "label": "Existing Load (measured)", "default": 120, "unit": "Amps", "min": 0},
+      {"id": "plannedLoad", "label": "Planned New Circuits", "default": 40, "unit": "Amps", "min": 0}
+    ],
+    "results": [
+      {"id": "totalCapacity", "label": "Total Panel Capacity"},
+      {"id": "currentUse", "label": "Current Utilization"},
+      {"id": "afterAdding", "label": "After New Circuits"},
+      {"id": "remaining", "label": "Remaining Capacity"}
+    ],
+    "calcFn": "var totalKW = (panelAmps * panelVoltage) / 1000;\n    var usePct = (existingLoad / panelAmps) * 100;\n    var newTotal = existingLoad + plannedLoad;\n    var newPct = (newTotal / panelAmps) * 100;\n    var remaining = panelAmps - newTotal;\n    document.getElementById('totalCapacity').textContent = fmt(panelAmps, 0) + ' A / ' + fmt(totalKW, 1) + ' kW';\n    document.getElementById('currentUse').textContent = fmt(existingLoad, 0) + ' A (' + fmt(usePct, 1) + '%)';\n    document.getElementById('afterAdding').textContent = fmt(newTotal, 0) + ' A (' + fmt(newPct, 1) + '%)' + (newPct > 80 ? ' — WARNING: Exceeds 80% rule' : '');\n    document.getElementById('remaining').textContent = remaining > 0 ? fmt(remaining, 0) + ' A available' : 'OVER CAPACITY by ' + fmt(Math.abs(remaining), 0) + ' A — Panel upgrade needed';",
+    "faq": [
+      {"question": "What is the 80% rule for electrical panels?", "answer": "NEC requires that continuous loads not exceed 80% of the breaker or panel rating. A 200A panel should carry no more than 160A of continuous load. This provides a safety margin for inrush currents."},
+      {"question": "When should I upgrade my electrical panel?", "answer": "Upgrade when your panel consistently runs above 75% capacity, when adding major appliances (EV charger, heat pump), or when your panel is over 25 years old with outdated breakers."}
+    ],
+    "formulas": [
+      "Panel Capacity (kW) = Panel Amps x Voltage / 1000",
+      "Utilization % = Current Load / Panel Rating x 100"
+    ],
+    "relatedTools": ["electrical-load-balancing-calculator", "wire-size-calculator", "transformer-sizing-calculator"]
+  },
+  {
+    "slug": "three-phase-power-calculator",
+    "toolName": "Three Phase Power Calculator",
+    "category": "electrical",
+    "tagline": "Calculate three-phase power, current, and voltage for industrial and commercial electrical systems",
+    "keywords": ["three phase power", "3 phase calculator", "industrial power", "phase voltage", "line current"],
+    "inputs": [
+      {"id": "lineVoltage", "label": "Line Voltage", "default": 480, "unit": "V", "min": 1},
+      {"id": "lineCurrent", "label": "Line Current", "default": 50, "unit": "A", "min": 0},
+      {"id": "powerFactor", "label": "Power Factor", "default": 0.85, "min": 0.1, "max": 1, "step": 0.01}
+    ],
+    "results": [
+      {"id": "realPower", "label": "Real Power (kW)"},
+      {"id": "apparentPower", "label": "Apparent Power (kVA)"},
+      {"id": "reactivePower", "label": "Reactive Power (kVAR)"},
+      {"id": "phaseVoltage", "label": "Phase Voltage"}
+    ],
+    "calcFn": "var apparentP = (1.732 * lineVoltage * lineCurrent) / 1000;\n    var realP = apparentP * powerFactor;\n    var reactiveP = apparentP * Math.sin(Math.acos(powerFactor));\n    var phaseV = lineVoltage / 1.732;\n    document.getElementById('realPower').textContent = fmt(realP, 2) + ' kW';\n    document.getElementById('apparentPower').textContent = fmt(apparentP, 2) + ' kVA';\n    document.getElementById('reactivePower').textContent = fmt(reactiveP, 2) + ' kVAR';\n    document.getElementById('phaseVoltage').textContent = fmt(phaseV, 1) + ' V';",
+    "faq": [
+      {"question": "What is power factor?", "answer": "Power factor is the ratio of real power (kW) to apparent power (kVA). A PF of 1.0 means all power does useful work. Motors and inductive loads lower PF to 0.7-0.9. Low PF wastes energy and increases utility bills."},
+      {"question": "What is the difference between line and phase voltage?", "answer": "Line voltage is measured between any two phases (e.g., 480V). Phase voltage is measured from one phase to neutral (480/1.732 = 277V). Lighting often uses phase voltage; motors use line voltage."}
+    ],
+    "formulas": [
+      "Apparent Power (kVA) = 1.732 x Line Voltage x Line Current / 1000",
+      "Real Power (kW) = kVA x Power Factor"
+    ],
+    "relatedTools": ["transformer-sizing-calculator", "motor-horsepower-calculator", "electrical-load-balancing-calculator"]
+  },
+  {
+    "slug": "emergency-generator-load-calculator",
+    "toolName": "Emergency Generator Load Calculator",
+    "category": "electrical",
+    "tagline": "Size an emergency or standby generator based on your essential electrical loads",
+    "keywords": ["generator sizing", "emergency generator", "standby generator", "generator load", "backup power"],
+    "inputs": [
+      {"id": "essentialLoads", "label": "Essential Loads (continuous)", "default": 5000, "unit": "Watts", "min": 0},
+      {"id": "motorLoads", "label": "Largest Motor Load", "default": 2000, "unit": "Watts", "min": 0},
+      {"id": "startingMultiplier", "label": "Motor Starting Multiplier", "default": 3, "min": 1, "max": 6, "step": 0.5},
+      {"id": "powerFactor", "label": "Power Factor", "default": 0.8, "min": 0.5, "max": 1, "step": 0.05}
+    ],
+    "results": [
+      {"id": "runningLoad", "label": "Total Running Load"},
+      {"id": "startingLoad", "label": "Peak Starting Load"},
+      {"id": "kvaNeeded", "label": "Generator Size Needed (kVA)"},
+      {"id": "kwNeeded", "label": "Generator Size Needed (kW)"}
+    ],
+    "calcFn": "var runW = essentialLoads + motorLoads;\n    var startW = essentialLoads + (motorLoads * startingMultiplier);\n    var kvaRun = runW / (powerFactor * 1000);\n    var kvaStart = startW / (powerFactor * 1000);\n    var kvaNeeded = Math.max(kvaRun, kvaStart);\n    var stdSizes = [5,7.5,10,12,15,20,25,30,40,50,60,75,100,125,150,200];\n    var recommended = stdSizes[stdSizes.length - 1];\n    for (var i = 0; i < stdSizes.length; i++) { if (stdSizes[i] >= kvaNeeded) { recommended = stdSizes[i]; break; } }\n    document.getElementById('runningLoad').textContent = fmt(runW, 0) + ' W (' + fmt(runW / 1000, 1) + ' kW)';\n    document.getElementById('startingLoad').textContent = fmt(startW, 0) + ' W (' + fmt(startW / 1000, 1) + ' kW)';\n    document.getElementById('kvaNeeded').textContent = fmt(recommended, 0) + ' kVA (min ' + fmt(kvaNeeded, 1) + ' kVA)';\n    document.getElementById('kwNeeded').textContent = fmt(recommended * powerFactor, 0) + ' kW';",
+    "faq": [
+      {"question": "Why does motor starting load matter for generator sizing?", "answer": "Electric motors draw 3-6x their running current when starting. If the generator cannot handle this surge, it will stall or trip breakers. Always size for the largest motor starting simultaneously with other loads."},
+      {"question": "What power factor should I use?", "answer": "Use 0.8 for mixed residential loads. Industrial motor loads may be 0.7-0.85. Resistive loads (heaters, lights) are 1.0. Lower power factor means you need a larger generator."}
+    ],
+    "formulas": [
+      "Running Load = Essential Loads + Motor Loads",
+      "Starting Load = Essential Loads + (Motor Load x Starting Multiplier)",
+      "Generator kVA = Peak Load / Power Factor / 1000"
+    ],
+    "relatedTools": ["three-phase-power-calculator", "electrical-panel-capacity-calculator", "transformer-sizing-calculator"]
+  },
+  {
+    "slug": "guitar-string-tension-calculator",
+    "toolName": "Guitar String Tension Calculator",
+    "category": "music",
+    "tagline": "Calculate string tension in pounds for any string gauge, scale length, and tuning",
+    "keywords": ["string tension", "guitar strings", "string gauge", "scale length", "guitar tuning"],
+    "inputs": [
+      {"id": "gauge", "label": "String Gauge", "default": 0.010, "unit": "inches", "min": 0.006, "max": 0.080, "step": 0.001},
+      {"id": "scaleLength", "label": "Scale Length", "default": 25.5, "unit": "inches", "min": 20, "max": 36, "step": 0.5},
+      {"id": "frequency", "label": "Target Frequency", "default": 329.63, "unit": "Hz", "min": 20, "max": 1200},
+      {"id": "stringType", "label": "String Type", "default": "0.00002215", "options": [{"value":"0.00002215","label":"Plain Steel"},{"value":"0.00003744","label":"Nickel Wound"},{"value":"0.00005765","label":"Bronze Wound (Acoustic)"}]}
+    ],
+    "results": [
+      {"id": "tension", "label": "String Tension"},
+      {"id": "unitWeight", "label": "Unit Weight"},
+      {"id": "recommendation", "label": "Tension Rating"}
+    ],
+    "calcFn": "var uw = parseFloat(stringType) * Math.pow(gauge * 1000, 2);\n    var tensionLbs = (uw * Math.pow(2 * scaleLength * frequency, 2)) / 386.4;\n    var rating = tensionLbs < 12 ? 'Low tension — easy bending, may buzz' : (tensionLbs < 18 ? 'Medium tension — good balance' : (tensionLbs < 25 ? 'High tension — stiff feel, loud' : 'Very high — check neck relief'));\n    document.getElementById('tension').textContent = fmt(tensionLbs, 2) + ' lbs (' + fmt(tensionLbs * 0.4536, 2) + ' kg)';\n    document.getElementById('unitWeight').textContent = fmt(uw * 1000000, 4) + ' lbs/in (x10^-6)';\n    document.getElementById('recommendation').textContent = rating;",
+    "faq": [
+      {"question": "What is ideal guitar string tension?", "answer": "Most players prefer 14-18 lbs per string. Lower tension (10-14 lbs) is easier for bending. Higher tension (18-25 lbs) gives more volume and sustain but requires more finger strength."},
+      {"question": "How does scale length affect tension?", "answer": "Longer scale length increases tension at the same tuning. A Fender 25.5-inch scale has higher tension than a Gibson 24.75-inch scale with identical strings and tuning, which is why Gibson-scale guitars feel slinkier."}
+    ],
+    "formulas": [
+      "Tension (lbs) = (UW x (2 x Scale Length x Frequency)^2) / 386.4",
+      "Unit Weight = String Constant x (Gauge x 1000)^2"
+    ],
+    "relatedTools": ["bpm-to-ms-delay-calculator", "audio-sample-rate-calculator", "room-reverb-time-calculator"]
+  },
+  {
+    "slug": "room-reverb-time-calculator",
+    "toolName": "Room Reverb Time Calculator",
+    "category": "music",
+    "tagline": "Calculate RT60 reverberation time for a room based on dimensions and surface materials",
+    "keywords": ["reverb time", "RT60 calculator", "room acoustics", "reverberation", "acoustic treatment"],
+    "inputs": [
+      {"id": "length", "label": "Room Length", "default": 20, "unit": "ft", "min": 1},
+      {"id": "width", "label": "Room Width", "default": 15, "unit": "ft", "min": 1},
+      {"id": "height", "label": "Room Height", "default": 9, "unit": "ft", "min": 1},
+      {"id": "surfaceType", "label": "Primary Surface", "default": "0.10", "options": [{"value":"0.03","label":"Concrete/Tile (very reflective)"},{"value":"0.10","label":"Drywall (typical)"},{"value":"0.30","label":"Carpeted/Curtained"},{"value":"0.60","label":"Heavy Acoustic Treatment"},{"value":"0.80","label":"Full Studio Treatment"}]}
+    ],
+    "results": [
+      {"id": "rt60", "label": "RT60 Reverberation Time"},
+      {"id": "volume", "label": "Room Volume"},
+      {"id": "surfaceArea", "label": "Total Surface Area"},
+      {"id": "recommendation", "label": "Room Use Recommendation"}
+    ],
+    "calcFn": "var vol = length * width * height;\n    var sa = 2 * (length * width + length * height + width * height);\n    var alpha = parseFloat(surfaceType);\n    var absorption = sa * alpha;\n    var rt60 = 0.049 * vol / absorption;\n    var rec = rt60 < 0.3 ? 'Very dry — good for recording/podcasting' : (rt60 < 0.6 ? 'Good for mixing/control rooms' : (rt60 < 1.0 ? 'Good for live music/rehearsal' : (rt60 < 2.0 ? 'Concert hall territory' : 'Very reverberant — cathedral-like')));\n    document.getElementById('rt60').textContent = fmt(rt60, 2) + ' seconds';\n    document.getElementById('volume').textContent = fmt(vol, 0) + ' cu ft (' + fmt(vol * 0.0283, 1) + ' cu m)';\n    document.getElementById('surfaceArea').textContent = fmt(sa, 0) + ' sq ft';\n    document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "What is RT60?", "answer": "RT60 is the time it takes for sound to decay by 60 dB after the source stops. A recording studio aims for 0.2-0.4 seconds, a living room is typically 0.5-0.8 seconds, and a concert hall is 1.5-2.5 seconds."},
+      {"question": "How can I reduce reverb time?", "answer": "Add absorption: acoustic panels, thick curtains, carpet, upholstered furniture, and bookshelves all absorb sound. Covering 30-50% of wall area with 2-4 inch acoustic panels dramatically reduces RT60."}
+    ],
+    "formulas": [
+      "RT60 = 0.049 x Volume / Total Absorption (Sabine equation)",
+      "Total Absorption = Surface Area x Average Absorption Coefficient"
+    ],
+    "relatedTools": ["guitar-string-tension-calculator", "pa-system-wattage-calculator", "audio-sample-rate-calculator"]
+  },
+  {
+    "slug": "pa-system-wattage-calculator",
+    "toolName": "PA System Wattage Calculator",
+    "category": "music",
+    "tagline": "Calculate the wattage needed for a PA system based on venue size and audience",
+    "keywords": ["PA system", "PA wattage", "sound system", "speaker power", "live sound"],
+    "inputs": [
+      {"id": "audience", "label": "Audience Size", "default": 200, "min": 10, "max": 50000},
+      {"id": "venueType", "label": "Venue Type", "default": "indoor", "options": [{"value":"indoor","label":"Indoor (enclosed)"},{"value":"outdoor","label":"Outdoor (open air)"},{"value":"tent","label":"Tent/Pavilion"}]},
+      {"id": "musicType", "label": "Music/Event Type", "default": "band", "options": [{"value":"speech","label":"Speech/Presentation"},{"value":"acoustic","label":"Acoustic Music"},{"value":"band","label":"Live Band"},{"value":"dj","label":"DJ/Electronic"}]}
+    ],
+    "results": [
+      {"id": "wattage", "label": "Recommended Total Wattage"},
+      {"id": "perSpeaker", "label": "Per Main Speaker"},
+      {"id": "subs", "label": "Subwoofer Recommendation"},
+      {"id": "spl", "label": "Target SPL"}
+    ],
+    "calcFn": "var baseWatts = audience * 5;\n    var venueMultiplier = venueType === 'outdoor' ? 2.5 : (venueType === 'tent' ? 1.5 : 1.0);\n    var typeMultiplier = musicType === 'speech' ? 0.5 : (musicType === 'acoustic' ? 0.75 : (musicType === 'band' ? 1.0 : 1.5));\n    var totalWatts = baseWatts * venueMultiplier * typeMultiplier;\n    var speakerCount = totalWatts <= 1000 ? 2 : (totalWatts <= 4000 ? 4 : (totalWatts <= 10000 ? 6 : 8));\n    var perSpk = totalWatts / speakerCount;\n    var subCount = musicType === 'speech' ? 0 : (totalWatts <= 2000 ? 1 : (totalWatts <= 6000 ? 2 : 4));\n    var targetSPL = musicType === 'speech' ? '85-90 dB' : (musicType === 'acoustic' ? '90-95 dB' : (musicType === 'band' ? '100-105 dB' : '105-110 dB'));\n    document.getElementById('wattage').textContent = fmt(totalWatts, 0) + ' watts RMS total';\n    document.getElementById('perSpeaker').textContent = fmt(perSpk, 0) + ' W each x ' + speakerCount + ' speakers';\n    document.getElementById('subs').textContent = subCount === 0 ? 'Not required for speech' : subCount + ' x 18-inch powered sub(s)';\n    document.getElementById('spl').textContent = targetSPL;",
+    "faq": [
+      {"question": "How many watts per person for a PA system?", "answer": "Rule of thumb: 5 watts per person indoors, 10-15 watts outdoors. A 200-person indoor concert needs about 1000W. Speech-only events need about half that."},
+      {"question": "Do I need subwoofers?", "answer": "For music, yes. Subs handle frequencies below 100Hz that main speakers cannot reproduce efficiently. For speech-only events, subs are unnecessary. DJ/electronic music benefits most from powerful subs."}
+    ],
+    "formulas": [
+      "Base Wattage = Audience Size x 5 watts",
+      "Total Wattage = Base x Venue Multiplier x Music Type Multiplier"
+    ],
+    "relatedTools": ["room-reverb-time-calculator", "audio-sample-rate-calculator", "stream-bitrate-calculator"]
+  },
+  {
+    "slug": "vinyl-record-cost-calculator",
+    "toolName": "Vinyl Record Cost Calculator",
+    "category": "music",
+    "tagline": "Estimate vinyl record pressing costs per unit for different quantities and formats",
+    "keywords": ["vinyl pressing cost", "vinyl record", "record pressing", "vinyl manufacturing", "vinyl production"],
+    "inputs": [
+      {"id": "quantity", "label": "Pressing Quantity", "default": 300, "min": 100, "max": 10000},
+      {"id": "format", "label": "Format", "default": "12lp", "options": [{"value":"7single","label":"7-inch Single"},{"value":"12lp","label":"12-inch LP (standard)"},{"value":"12double","label":"12-inch Double LP"},{"value":"10ep","label":"10-inch EP"}]},
+      {"id": "color", "label": "Vinyl Color", "default": "black", "options": [{"value":"black","label":"Standard Black"},{"value":"color","label":"Solid Color (+$0.50/unit)"},{"value":"splatter","label":"Splatter/Special (+$1.50/unit)"}]},
+      {"id": "jacket", "label": "Jacket Type", "default": "printed", "options": [{"value":"generic","label":"Generic Inner Sleeve"},{"value":"printed","label":"Printed Gatefold Jacket"},{"value":"deluxe","label":"Deluxe (inserts, poster, etc.)"}]}
+    ],
+    "results": [
+      {"id": "perUnit", "label": "Cost Per Unit"},
+      {"id": "totalCost", "label": "Total Pressing Cost"},
+      {"id": "suggestedRetail", "label": "Suggested Retail Price"},
+      {"id": "profit", "label": "Potential Profit (all sold)"}
+    ],
+    "calcFn": "var baseCosts = {'7single':2.50,'12lp':5.00,'12double':8.00,'10ep':4.00};\n    var base = baseCosts[format];\n    var colorAdd = color === 'black' ? 0 : (color === 'color' ? 0.50 : 1.50);\n    var jacketAdd = jacket === 'generic' ? 0 : (jacket === 'printed' ? 1.50 : 3.00);\n    var qtyDiscount = quantity >= 1000 ? 0.85 : (quantity >= 500 ? 0.92 : 1.0);\n    var setupFee = 350;\n    var perUnit = (base + colorAdd + jacketAdd) * qtyDiscount;\n    var total = (perUnit * quantity) + setupFee;\n    var actualPerUnit = total / quantity;\n    var retails = {'7single':9.99,'12lp':24.99,'12double':34.99,'10ep':17.99};\n    var retail = retails[format];\n    var totalRevenue = retail * quantity;\n    var profit = totalRevenue - total;\n    document.getElementById('perUnit').textContent = dollar(actualPerUnit) + ' (incl. setup fee)';\n    document.getElementById('totalCost').textContent = dollar(total);\n    document.getElementById('suggestedRetail').textContent = dollar(retail) + ' each';\n    document.getElementById('profit').textContent = dollar(profit) + ' on ' + fmt(quantity, 0) + ' units';",
+    "faq": [
+      {"question": "What is the minimum order for vinyl pressing?", "answer": "Most pressing plants have a minimum of 100-300 units. Some offer short runs of 50-100 at a higher per-unit cost. Standard minimum is usually 300 for the best pricing."},
+      {"question": "How long does vinyl pressing take?", "answer": "Typical turnaround is 12-16 weeks from approved test pressing. Rush orders (8-10 weeks) cost 20-30% more. Always factor in 2-4 weeks for test pressing approval."}
+    ],
+    "formulas": [
+      "Per Unit Cost = (Base + Color + Jacket) x Quantity Discount",
+      "Total Cost = (Per Unit x Quantity) + Setup Fee"
+    ],
+    "relatedTools": ["music-streaming-revenue-calculator", "concert-ticket-pricing-calculator", "pa-system-wattage-calculator"]
+  },
+  {
+    "slug": "music-streaming-revenue-calculator",
+    "toolName": "Music Streaming Revenue Calculator",
+    "category": "music",
+    "tagline": "Estimate streaming royalties from Spotify, Apple Music, and other platforms",
+    "keywords": ["streaming royalties", "Spotify earnings", "music revenue", "streaming income", "music royalties"],
+    "inputs": [
+      {"id": "monthlyStreams", "label": "Monthly Streams", "default": 50000, "min": 0},
+      {"id": "platform", "label": "Platform", "default": "spotify", "options": [{"value":"spotify","label":"Spotify ($0.003-0.005/stream)"},{"value":"apple","label":"Apple Music ($0.007-0.01/stream)"},{"value":"amazon","label":"Amazon Music ($0.004/stream)"},{"value":"tidal","label":"Tidal ($0.008-0.013/stream)"},{"value":"youtube","label":"YouTube Music ($0.002/stream)"}]},
+      {"id": "distributor", "label": "Distributor Cut", "default": 15, "unit": "%", "min": 0, "max": 50}
+    ],
+    "results": [
+      {"id": "grossMonthly", "label": "Gross Monthly Revenue"},
+      {"id": "netMonthly", "label": "Net Monthly (after distributor)"},
+      {"id": "annualRevenue", "label": "Estimated Annual Revenue"},
+      {"id": "streamsFor1k", "label": "Streams Needed for $1,000/mo"}
+    ],
+    "calcFn": "var rates = {'spotify':0.004,'apple':0.008,'amazon':0.004,'tidal':0.010,'youtube':0.002};\n    var rate = rates[platform];\n    var gross = monthlyStreams * rate;\n    var net = gross * (1 - distributor / 100);\n    var annual = net * 12;\n    var neededFor1k = Math.ceil(1000 / (rate * (1 - distributor / 100)));\n    document.getElementById('grossMonthly').textContent = dollar(gross);\n    document.getElementById('netMonthly').textContent = dollar(net);\n    document.getElementById('annualRevenue').textContent = dollar(annual);\n    document.getElementById('streamsFor1k').textContent = fmt(neededFor1k, 0) + ' streams/month';",
+    "faq": [
+      {"question": "How much does Spotify pay per stream?", "answer": "Spotify pays approximately $0.003-0.005 per stream, averaging about $0.004. The exact rate varies by country, listener subscription type (free vs premium), and total platform streams that month."},
+      {"question": "Which streaming platform pays the most?", "answer": "Tidal pays the highest per-stream rate ($0.008-0.013), followed by Apple Music ($0.007-0.01). However, Spotify has by far the most users, so total earnings often favor Spotify despite lower per-stream rates."}
+    ],
+    "formulas": [
+      "Gross Revenue = Monthly Streams x Per-Stream Rate",
+      "Net Revenue = Gross x (1 - Distributor %)"
+    ],
+    "relatedTools": ["vinyl-record-cost-calculator", "concert-ticket-pricing-calculator", "guitar-string-tension-calculator"]
+  },
+  {
+    "slug": "audio-sample-rate-calculator",
+    "toolName": "Audio Sample Rate Calculator",
+    "category": "music",
+    "tagline": "Calculate audio file sizes, bit rates, and frequency response for different sample rates and bit depths",
+    "keywords": ["sample rate", "bit depth", "audio quality", "file size", "audio bitrate"],
+    "inputs": [
+      {"id": "sampleRate", "label": "Sample Rate", "default": "44100", "options": [{"value":"22050","label":"22.05 kHz (AM radio)"},{"value":"44100","label":"44.1 kHz (CD quality)"},{"value":"48000","label":"48 kHz (DVD/broadcast)"},{"value":"96000","label":"96 kHz (Hi-Res)"},{"value":"192000","label":"192 kHz (Studio)"}]},
+      {"id": "bitDepth", "label": "Bit Depth", "default": "16", "options": [{"value":"16","label":"16-bit (CD)"},{"value":"24","label":"24-bit (Studio)"},{"value":"32","label":"32-bit float (Mixing)"}]},
+      {"id": "channels", "label": "Channels", "default": "2", "options": [{"value":"1","label":"Mono"},{"value":"2","label":"Stereo"},{"value":"6","label":"5.1 Surround"}]},
+      {"id": "duration", "label": "Duration", "default": 180, "unit": "seconds", "min": 1}
+    ],
+    "results": [
+      {"id": "fileSize", "label": "Uncompressed File Size"},
+      {"id": "bitrate", "label": "Bit Rate"},
+      {"id": "maxFreq", "label": "Max Frequency Captured"},
+      {"id": "dynamicRange", "label": "Dynamic Range"}
+    ],
+    "calcFn": "var sr = parseInt(sampleRate);\n    var bd = parseInt(bitDepth);\n    var ch = parseInt(channels);\n    var bitsPerSec = sr * bd * ch;\n    var bytesTotal = (bitsPerSec * duration) / 8;\n    var maxFreq = sr / 2;\n    var dynRange = bd * 6.02;\n    document.getElementById('fileSize').textContent = bytesTotal > 1073741824 ? fmt(bytesTotal / 1073741824, 2) + ' GB' : fmt(bytesTotal / 1048576, 1) + ' MB';\n    document.getElementById('bitrate').textContent = fmt(bitsPerSec / 1000, 0) + ' kbps (' + fmt(bitsPerSec / 1000000, 2) + ' Mbps)';\n    document.getElementById('maxFreq').textContent = fmt(maxFreq / 1000, 2) + ' kHz (Nyquist limit)';\n    document.getElementById('dynamicRange').textContent = fmt(dynRange, 0) + ' dB';",
+    "faq": [
+      {"question": "What sample rate should I record at?", "answer": "44.1 kHz is sufficient for most music (captures up to 22 kHz, beyond human hearing). Record at 48 kHz for video projects, or 96 kHz if you plan heavy pitch-shifting or time-stretching in post-production."},
+      {"question": "Does higher bit depth mean better sound?", "answer": "Higher bit depth means more dynamic range (quieter noise floor), not necessarily better sound. 16-bit gives 96 dB range (fine for playback). 24-bit gives 144 dB range — essential for recording to capture quiet details without noise."}
+    ],
+    "formulas": [
+      "File Size = Sample Rate x Bit Depth x Channels x Duration / 8",
+      "Max Frequency = Sample Rate / 2 (Nyquist theorem)"
+    ],
+    "relatedTools": ["stream-bitrate-calculator", "room-reverb-time-calculator", "pa-system-wattage-calculator"]
+  },
+  {
+    "slug": "concert-ticket-pricing-calculator",
+    "toolName": "Concert Ticket Pricing Calculator",
+    "category": "music",
+    "tagline": "Calculate break-even ticket prices and revenue projections for concerts and live events",
+    "keywords": ["concert pricing", "ticket price", "event revenue", "concert budget", "live event cost"],
+    "inputs": [
+      {"id": "venueCost", "label": "Venue Rental", "default": 2000, "unit": "$", "min": 0},
+      {"id": "artistFee", "label": "Artist/Band Fee", "default": 3000, "unit": "$", "min": 0},
+      {"id": "production", "label": "Production Costs (sound, lights)", "default": 1500, "unit": "$", "min": 0},
+      {"id": "capacity", "label": "Venue Capacity", "default": 300, "min": 10},
+      {"id": "expectedFill", "label": "Expected Fill Rate", "default": 75, "unit": "%", "min": 10, "max": 100}
+    ],
+    "results": [
+      {"id": "totalCost", "label": "Total Event Cost"},
+      {"id": "breakEven", "label": "Break-Even Ticket Price"},
+      {"id": "suggestedPrice", "label": "Suggested Ticket Price"},
+      {"id": "projectedRevenue", "label": "Projected Revenue"},
+      {"id": "projectedProfit", "label": "Projected Profit"}
+    ],
+    "calcFn": "var totalCost = venueCost + artistFee + production;\n    var expectedAttendees = Math.floor(capacity * (expectedFill / 100));\n    var breakEvenPrice = totalCost / expectedAttendees;\n    var suggested = Math.ceil(breakEvenPrice * 1.30);\n    var revenue = suggested * expectedAttendees;\n    var profit = revenue - totalCost;\n    document.getElementById('totalCost').textContent = dollar(totalCost);\n    document.getElementById('breakEven').textContent = dollar(breakEvenPrice) + ' (' + fmt(expectedAttendees, 0) + ' attendees)';\n    document.getElementById('suggestedPrice').textContent = dollar(suggested) + ' (30% margin)';\n    document.getElementById('projectedRevenue').textContent = dollar(revenue);\n    document.getElementById('projectedProfit').textContent = dollar(profit);",
+    "faq": [
+      {"question": "What percentage of venue capacity should I plan for?", "answer": "Plan for 70-80% capacity for first-time events. Established events can plan for 85-95%. Selling out at 100% is rare for most shows — always budget conservatively."},
+      {"question": "What are typical concert production costs?", "answer": "Small venue (100-300): $500-2,000 for sound and lights. Mid-size (300-1000): $2,000-8,000. Large venue (1000+): $10,000-50,000+. This includes sound engineer, lighting tech, equipment rental."}
+    ],
+    "formulas": [
+      "Break-Even Price = Total Costs / Expected Attendees",
+      "Profit = (Ticket Price x Attendees) - Total Costs"
+    ],
+    "relatedTools": ["vinyl-record-cost-calculator", "music-streaming-revenue-calculator", "pa-system-wattage-calculator"]
+  },
+  {
+    "slug": "travel-visa-cost-calculator",
+    "toolName": "Travel Visa Cost Calculator",
+    "category": "travel",
+    "tagline": "Estimate visa fees and processing costs for popular travel destinations",
+    "keywords": ["visa cost", "travel visa", "visa fee", "visa application", "travel documents"],
+    "inputs": [
+      {"id": "destination", "label": "Destination", "default": "schengen", "options": [{"value":"schengen","label":"Europe (Schengen) — $80"},{"value":"uk","label":"United Kingdom — $130"},{"value":"australia","label":"Australia (ETA) — $15"},{"value":"china","label":"China — $140"},{"value":"india","label":"India — $100"},{"value":"brazil","label":"Brazil — $80"},{"value":"japan","label":"Japan — Free (visa waiver)"},{"value":"canada","label":"Canada (eTA) — $7"}]},
+      {"id": "applicants", "label": "Number of Applicants", "default": 2, "min": 1, "max": 10},
+      {"id": "processing", "label": "Processing Speed", "default": "standard", "options": [{"value":"standard","label":"Standard Processing"},{"value":"expedited","label":"Expedited (+50%)"},{"value":"rush","label":"Rush (+100%)"}]}
+    ],
+    "results": [
+      {"id": "visaFee", "label": "Visa Fee Per Person"},
+      {"id": "processingFee", "label": "Processing Surcharge"},
+      {"id": "totalCost", "label": "Total Cost (all applicants)"},
+      {"id": "timeline", "label": "Estimated Processing Time"}
+    ],
+    "calcFn": "var fees = {'schengen':80,'uk':130,'australia':15,'china':140,'india':100,'brazil':80,'japan':0,'canada':7};\n    var times = {'schengen':'15 business days','uk':'3-6 weeks','australia':'1-3 days','china':'4-7 business days','india':'5-7 business days','brazil':'10-15 business days','japan':'No visa needed','canada':'Minutes (online)'};\n    var baseFee = fees[destination];\n    var speedMult = processing === 'standard' ? 1.0 : (processing === 'expedited' ? 1.5 : 2.0);\n    var procSurcharge = baseFee * (speedMult - 1);\n    var perPerson = baseFee + procSurcharge;\n    var total = perPerson * applicants;\n    var timeline = times[destination];\n    if (processing === 'expedited') timeline = 'Expedited: ~50% faster';\n    if (processing === 'rush') timeline = 'Rush: ~75% faster';\n    document.getElementById('visaFee').textContent = baseFee === 0 ? 'Free (visa waiver)' : dollar(baseFee);\n    document.getElementById('processingFee').textContent = procSurcharge > 0 ? dollar(procSurcharge) + ' per person' : 'None';\n    document.getElementById('totalCost').textContent = dollar(total);\n    document.getElementById('timeline').textContent = timeline;",
+    "faq": [
+      {"question": "Which countries can US citizens visit without a visa?", "answer": "US passport holders can visit 186 countries visa-free or with visa-on-arrival, including all of Europe (Schengen), UK, Japan, South Korea, Australia (ETA), and most of South America. China, India, and Russia require advance visas."},
+      {"question": "How far in advance should I apply for a visa?", "answer": "Apply 2-3 months before travel. Some countries like China require applying no more than 6 months in advance. Schengen visas should be applied for 15-90 days before departure."}
+    ],
+    "formulas": [
+      "Total Cost = (Visa Fee + Processing Surcharge) x Number of Applicants",
+      "Processing Surcharge = Base Fee x Speed Multiplier"
+    ],
+    "relatedTools": ["travel-insurance-calculator", "currency-exchange-fee-calculator", "hotel-vs-airbnb-calculator"]
+  },
+  {
+    "slug": "hotel-vs-airbnb-calculator",
+    "toolName": "Hotel vs Airbnb Calculator",
+    "category": "travel",
+    "tagline": "Compare total costs of hotel stays versus Airbnb rentals including hidden fees",
+    "keywords": ["hotel vs airbnb", "accommodation cost", "travel lodging", "hotel comparison", "airbnb cost"],
+    "inputs": [
+      {"id": "nights", "label": "Number of Nights", "default": 5, "min": 1, "max": 90},
+      {"id": "hotelRate", "label": "Hotel Nightly Rate", "default": 180, "unit": "$", "min": 0},
+      {"id": "hotelTaxPct", "label": "Hotel Tax Rate", "default": 14, "unit": "%", "min": 0, "max": 25},
+      {"id": "airbnbRate", "label": "Airbnb Nightly Rate", "default": 120, "unit": "$", "min": 0},
+      {"id": "airbnbClean", "label": "Airbnb Cleaning Fee", "default": 85, "unit": "$", "min": 0},
+      {"id": "airbnbService", "label": "Airbnb Service Fee", "default": 14, "unit": "%", "min": 0, "max": 20}
+    ],
+    "results": [
+      {"id": "hotelTotal", "label": "Hotel Total Cost"},
+      {"id": "airbnbTotal", "label": "Airbnb Total Cost"},
+      {"id": "savings", "label": "Savings"},
+      {"id": "perNight", "label": "Effective Per-Night Comparison"}
+    ],
+    "calcFn": "var hotelSubtotal = hotelRate * nights;\n    var hotelTax = hotelSubtotal * (hotelTaxPct / 100);\n    var hotelTotal = hotelSubtotal + hotelTax;\n    var airbnbSubtotal = airbnbRate * nights;\n    var airbnbServiceFee = airbnbSubtotal * (airbnbService / 100);\n    var airbnbTotal = airbnbSubtotal + airbnbClean + airbnbServiceFee;\n    var diff = Math.abs(hotelTotal - airbnbTotal);\n    var winner = hotelTotal < airbnbTotal ? 'Hotel' : 'Airbnb';\n    document.getElementById('hotelTotal').textContent = dollar(hotelTotal) + ' (' + dollar(hotelTotal / nights) + '/night effective)';\n    document.getElementById('airbnbTotal').textContent = dollar(airbnbTotal) + ' (' + dollar(airbnbTotal / nights) + '/night effective)';\n    document.getElementById('savings').textContent = winner + ' saves ' + dollar(diff) + ' (' + dollar(diff / nights) + '/night)';\n    document.getElementById('perNight').textContent = 'Hotel: ' + dollar(hotelTotal / nights) + ' vs Airbnb: ' + dollar(airbnbTotal / nights);",
+    "faq": [
+      {"question": "Is Airbnb really cheaper than hotels?", "answer": "It depends on length of stay. Airbnb cleaning fees are fixed, so short stays (1-2 nights) often cost more than hotels. For 5+ nights, Airbnb is typically 20-40% cheaper, especially for groups who can split a whole-home rental."},
+      {"question": "What hidden fees should I watch for?", "answer": "Hotels: resort fees ($25-50/night), parking ($20-40/night), WiFi. Airbnb: cleaning fees ($50-200), service fees (14%), extra guest fees, and checkout chores. Always compare total cost, not just nightly rate."}
+    ],
+    "formulas": [
+      "Hotel Total = (Nightly Rate x Nights) x (1 + Tax Rate %)",
+      "Airbnb Total = (Nightly Rate x Nights) + Cleaning Fee + Service Fee"
+    ],
+    "relatedTools": ["travel-visa-cost-calculator", "travel-insurance-calculator", "currency-exchange-fee-calculator"]
+  },
+  {
+    "slug": "travel-insurance-calculator",
+    "toolName": "Travel Insurance Calculator",
+    "category": "travel",
+    "tagline": "Estimate travel insurance costs based on trip value, duration, and traveler age",
+    "keywords": ["travel insurance", "trip insurance", "travel protection", "insurance cost", "trip cancellation"],
+    "inputs": [
+      {"id": "tripCost", "label": "Total Trip Cost", "default": 5000, "unit": "$", "min": 0},
+      {"id": "duration", "label": "Trip Duration", "default": 10, "unit": "days", "min": 1, "max": 365},
+      {"id": "age", "label": "Traveler Age", "default": 35, "min": 18, "max": 85},
+      {"id": "coverage", "label": "Coverage Level", "default": "comprehensive", "options": [{"value":"basic","label":"Basic (cancellation only)"},{"value":"comprehensive","label":"Comprehensive (medical + cancellation)"},{"value":"premium","label":"Premium (cancel for any reason)"}]}
+    ],
+    "results": [
+      {"id": "premium", "label": "Estimated Premium"},
+      {"id": "costPct", "label": "Cost as % of Trip"},
+      {"id": "medicalCoverage", "label": "Medical Coverage"},
+      {"id": "cancellationCoverage", "label": "Cancellation Coverage"}
+    ],
+    "calcFn": "var baseRate = coverage === 'basic' ? 0.04 : (coverage === 'comprehensive' ? 0.07 : 0.12);\n    var ageMultiplier = age < 35 ? 0.85 : (age < 50 ? 1.0 : (age < 65 ? 1.4 : 2.0));\n    var durationMultiplier = duration > 30 ? 1.3 : (duration > 14 ? 1.1 : 1.0);\n    var premium = tripCost * baseRate * ageMultiplier * durationMultiplier;\n    premium = Math.max(premium, 25);\n    var costPct = (premium / tripCost) * 100;\n    var medical = coverage === 'basic' ? 'Not included' : (coverage === 'comprehensive' ? dollar(50000) + ' - ' + dollar(100000) : dollar(100000) + ' - ' + dollar(250000));\n    document.getElementById('premium').textContent = dollar(premium);\n    document.getElementById('costPct').textContent = fmt(costPct, 1) + '% of trip cost';\n    document.getElementById('medicalCoverage').textContent = medical;\n    document.getElementById('cancellationCoverage').textContent = coverage === 'premium' ? '75% of trip cost (any reason)' : '100% of trip cost (covered reasons)';",
+    "faq": [
+      {"question": "Is travel insurance worth it?", "answer": "Yes for trips over $3,000, international travel, adventure activities, or travelers over 60. The typical cost is 4-12% of your trip. It covers trip cancellation, medical emergencies abroad, lost luggage, and evacuations."},
+      {"question": "What does Cancel For Any Reason (CFAR) cover?", "answer": "CFAR reimburses 50-75% of your trip cost if you cancel for any reason, including just changing your mind. It costs 40-60% more than standard policies and must usually be purchased within 14-21 days of your first trip deposit."}
+    ],
+    "formulas": [
+      "Premium = Trip Cost x Base Rate x Age Multiplier x Duration Multiplier",
+      "Typical range: 4-12% of total trip cost"
+    ],
+    "relatedTools": ["travel-visa-cost-calculator", "hotel-vs-airbnb-calculator", "currency-exchange-fee-calculator"]
+  },
+  {
+    "slug": "currency-exchange-fee-calculator",
+    "toolName": "Currency Exchange Fee Calculator",
+    "category": "travel",
+    "tagline": "Calculate the true cost of currency exchange including hidden fees and markup",
+    "keywords": ["currency exchange", "exchange rate", "forex fee", "travel money", "exchange markup"],
+    "inputs": [
+      {"id": "amount", "label": "Amount to Exchange", "default": 1000, "unit": "$", "min": 1},
+      {"id": "midMarketRate", "label": "Mid-Market Exchange Rate", "default": 0.92, "min": 0.001, "step": 0.001},
+      {"id": "offeredRate", "label": "Offered Exchange Rate", "default": 0.87, "min": 0.001, "step": 0.001},
+      {"id": "flatFee", "label": "Transaction/Flat Fee", "default": 5, "unit": "$", "min": 0}
+    ],
+    "results": [
+      {"id": "youGet", "label": "You Receive (at offered rate)"},
+      {"id": "fairValue", "label": "Fair Value (at mid-market)"},
+      {"id": "hiddenMarkup", "label": "Hidden Rate Markup"},
+      {"id": "totalCost", "label": "Total Exchange Cost"}
+    ],
+    "calcFn": "var youGet = (amount - flatFee) * offeredRate;\n    var fairValue = amount * midMarketRate;\n    var markup = ((midMarketRate - offeredRate) / midMarketRate) * 100;\n    var totalLoss = fairValue - youGet;\n    document.getElementById('youGet').textContent = fmt(youGet, 2) + ' (foreign currency)';\n    document.getElementById('fairValue').textContent = fmt(fairValue, 2) + ' (at true mid-market rate)';\n    document.getElementById('hiddenMarkup').textContent = fmt(markup, 2) + '% markup on exchange rate';\n    document.getElementById('totalCost').textContent = dollar(totalLoss) + ' total (' + dollar(flatFee) + ' fee + ' + dollar(totalLoss - flatFee * offeredRate) + ' rate markup)';",
+    "faq": [
+      {"question": "Where is the cheapest place to exchange currency?", "answer": "Best rates: Wise/Revolut (0.3-0.5% markup), bank ATMs abroad (1-3% + small fee), credit cards with no foreign transaction fee. Worst: airport kiosks (5-12% markup), hotel desks, tourist area exchange shops."},
+      {"question": "What is the mid-market rate?", "answer": "The mid-market rate (also called interbank rate) is the midpoint between buy and sell prices on the global currency market. It is the fairest exchange rate. Any difference between this and your offered rate is profit for the exchanger."}
+    ],
+    "formulas": [
+      "Hidden Markup % = (Mid-Market Rate - Offered Rate) / Mid-Market Rate x 100",
+      "Total Cost = Fair Value - Amount You Receive"
+    ],
+    "relatedTools": ["travel-visa-cost-calculator", "travel-insurance-calculator", "travel-rewards-value-calculator"]
+  },
+  {
+    "slug": "travel-rewards-value-calculator",
+    "toolName": "Travel Rewards Value Calculator",
+    "category": "travel",
+    "tagline": "Calculate the cash value of your credit card points and airline miles",
+    "keywords": ["travel rewards", "points value", "airline miles", "credit card points", "rewards redemption"],
+    "inputs": [
+      {"id": "points", "label": "Points/Miles Balance", "default": 75000, "min": 0},
+      {"id": "program", "label": "Rewards Program", "default": "chase", "options": [{"value":"chase","label":"Chase UR (1.5-2.0 cpp)"},{"value":"amex","label":"Amex MR (1.0-2.0 cpp)"},{"value":"citi","label":"Citi TY (1.0-1.5 cpp)"},{"value":"airline","label":"Airline Miles (1.0-1.5 cpp)"},{"value":"hotel","label":"Hotel Points (0.5-0.8 cpp)"}]},
+      {"id": "redemption", "label": "Redemption Method", "default": "transfer", "options": [{"value":"portal","label":"Travel Portal (standard)"},{"value":"transfer","label":"Transfer Partner (best value)"},{"value":"cashback","label":"Cash Back (lowest value)"}]}
+    ],
+    "results": [
+      {"id": "value", "label": "Estimated Cash Value"},
+      {"id": "centsPerPoint", "label": "Cents Per Point"},
+      {"id": "equivalentFlight", "label": "Equivalent Flight Value"},
+      {"id": "tip", "label": "Redemption Tip"}
+    ],
+    "calcFn": "var baseValues = {'chase':1.5,'amex':1.0,'citi':1.0,'airline':1.2,'hotel':0.5};\n    var multipliers = {'portal':1.0,'transfer':1.5,'cashback':0.67};\n    var cpp = baseValues[program] * multipliers[redemption];\n    var cashValue = (points * cpp) / 100;\n    var flightValue = cashValue * (redemption === 'transfer' ? 1.3 : 1.0);\n    var tips = {'portal':'Book through your card portal for guaranteed ' + fmt(baseValues[program], 1) + ' cpp','transfer':'Transfer to airline partners for business/first class to maximize value (2-5 cpp possible)','cashback':'Cash back gives the lowest value — consider travel redemption instead'};\n    document.getElementById('value').textContent = dollar(cashValue);\n    document.getElementById('centsPerPoint').textContent = fmt(cpp, 2) + ' cents per point';\n    document.getElementById('equivalentFlight').textContent = 'Approx. ' + dollar(flightValue) + ' in flights';\n    document.getElementById('tip').textContent = tips[redemption];",
+    "faq": [
+      {"question": "What is the best way to redeem points?", "answer": "Transfer to airline partners for business/first class flights gives the highest value (2-5+ cents per point). Travel portal bookings give standard value (1.25-1.5 cpp). Cash back gives the worst value (0.5-1.0 cpp)."},
+      {"question": "How much are hotel points worth?", "answer": "Hotel points are worth 0.4-0.8 cents each on average. Marriott: ~0.7 cpp, Hilton: ~0.5 cpp, Hyatt: ~1.5 cpp (best hotel program). Always compare the points cost to the cash rate of the same room."}
+    ],
+    "formulas": [
+      "Cash Value = Points x Cents Per Point / 100",
+      "Cents Per Point = Base Value x Redemption Multiplier"
+    ],
+    "relatedTools": ["currency-exchange-fee-calculator", "hotel-vs-airbnb-calculator", "travel-insurance-calculator"]
+  },
+  {
+    "slug": "luggage-weight-calculator",
+    "toolName": "Luggage Weight Calculator",
+    "category": "travel",
+    "tagline": "Check luggage weight against airline limits and calculate overweight baggage fees",
+    "keywords": ["luggage weight", "baggage allowance", "overweight baggage", "airline luggage", "baggage fees"],
+    "inputs": [
+      {"id": "bagWeight", "label": "Your Bag Weight", "default": 55, "unit": "lbs", "min": 0, "max": 200},
+      {"id": "airline", "label": "Airline Type", "default": "domestic", "options": [{"value":"domestic","label":"US Domestic (50 lb limit)"},{"value":"international","label":"International (50 lb limit)"},{"value":"budget","label":"Budget Carrier (40 lb limit)"},{"value":"premium","label":"Premium/Business (70 lb limit)"}]},
+      {"id": "bags", "label": "Number of Checked Bags", "default": 1, "min": 0, "max": 5},
+      {"id": "checkedBagFee", "label": "Checked Bag Fee", "default": 35, "unit": "$", "min": 0}
+    ],
+    "results": [
+      {"id": "status", "label": "Weight Status"},
+      {"id": "overweight", "label": "Overweight Amount"},
+      {"id": "overweightFee", "label": "Overweight Fee"},
+      {"id": "totalBagCost", "label": "Total Baggage Cost"}
+    ],
+    "calcFn": "var limits = {'domestic':50,'international':50,'budget':40,'premium':70};\n    var limit = limits[airline];\n    var over = Math.max(0, bagWeight - limit);\n    var overFee = 0;\n    if (over > 0 && over <= 20) overFee = 100;\n    else if (over > 20 && over <= 50) overFee = 200;\n    else if (over > 50) overFee = 400;\n    var totalBags = bags * checkedBagFee;\n    var totalCost = totalBags + overFee;\n    document.getElementById('status').textContent = over === 0 ? 'GOOD — Within ' + limit + ' lb limit (' + fmt(limit - bagWeight, 1) + ' lbs to spare)' : 'OVERWEIGHT by ' + fmt(over, 1) + ' lbs';\n    document.getElementById('overweight').textContent = over === 0 ? 'None' : fmt(over, 1) + ' lbs over ' + limit + ' lb limit';\n    document.getElementById('overweightFee').textContent = overFee > 0 ? dollar(overFee) : 'None';\n    document.getElementById('totalBagCost').textContent = dollar(totalCost) + ' (' + bags + ' bag(s) at ' + dollar(checkedBagFee) + ' + ' + dollar(overFee) + ' overweight)';",
+    "faq": [
+      {"question": "What is the standard checked bag weight limit?", "answer": "Most airlines allow 50 lbs (23 kg) per checked bag for economy. Business/first class typically allows 70 lbs (32 kg). Budget carriers may limit to 40 lbs. Always check your specific airline."},
+      {"question": "How much are overweight baggage fees?", "answer": "Typically: 51-70 lbs costs $100, 71-100 lbs costs $200, and over 100 lbs is $400 or prohibited. It is often cheaper to check a second bag ($35-45) than to pay overweight fees on one bag."}
+    ],
+    "formulas": [
+      "Overweight = Bag Weight - Airline Limit",
+      "Total Cost = (Bags x Bag Fee) + Overweight Fee"
+    ],
+    "relatedTools": ["travel-visa-cost-calculator", "hotel-vs-airbnb-calculator", "international-calling-cost-calculator"]
+  },
+  {
+    "slug": "international-calling-cost-calculator",
+    "toolName": "International Calling Cost Calculator",
+    "category": "travel",
+    "tagline": "Compare international roaming, calling apps, and local SIM costs for travel",
+    "keywords": ["international calling", "roaming cost", "travel phone", "local SIM", "international roaming"],
+    "inputs": [
+      {"id": "dailyMinutes", "label": "Daily Call Minutes", "default": 15, "min": 0, "max": 120},
+      {"id": "dailyDataGB", "label": "Daily Data Usage", "default": 1, "unit": "GB", "min": 0, "max": 10, "step": 0.5},
+      {"id": "tripDays", "label": "Trip Duration", "default": 10, "unit": "days", "min": 1, "max": 90},
+      {"id": "method", "label": "Communication Method", "default": "roaming", "options": [{"value":"roaming","label":"Carrier Roaming ($10/day)"},{"value":"intlplan","label":"International Plan ($5/day)"},{"value":"localsim","label":"Local SIM Card ($1/day)"},{"value":"wifi","label":"WiFi Only (free calls via apps)"}]}
+    ],
+    "results": [
+      {"id": "dailyCost", "label": "Daily Cost"},
+      {"id": "totalCost", "label": "Total Trip Cost"},
+      {"id": "comparison", "label": "vs. Cheapest Option"},
+      {"id": "recommendation", "label": "Recommendation"}
+    ],
+    "calcFn": "var costs = {'roaming':10,'intlplan':5,'localsim':1,'wifi':0};\n    var dailyCost = costs[method];\n    if (method === 'roaming') dailyCost += (dailyDataGB > 0.5 ? dailyDataGB * 5 : 0);\n    var totalCost = dailyCost * tripDays;\n    var cheapestTotal = 0;\n    if (method === 'wifi') { cheapestTotal = 0; }\n    else { cheapestTotal = 0; }\n    var savings = totalCost - cheapestTotal;\n    var rec = method === 'roaming' ? 'Consider an international plan or local SIM to save ' + dollar(savings > 0 ? savings - (1 * tripDays) : 0) : (method === 'wifi' ? 'Most affordable — use WhatsApp, FaceTime, or Skype over WiFi' : (method === 'localsim' ? 'Great value — buy at airport or local shop upon arrival' : 'Good balance of convenience and cost'));\n    document.getElementById('dailyCost').textContent = dollar(dailyCost) + '/day';\n    document.getElementById('totalCost').textContent = dollar(totalCost) + ' for ' + fmt(tripDays, 0) + ' days';\n    document.getElementById('comparison').textContent = 'WiFi-only would save ' + dollar(totalCost) + ' (but requires WiFi access)';\n    document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "What is the cheapest way to use your phone abroad?", "answer": "Buy a local SIM card ($5-20 for 5-10GB data + local calls) or use eSIM services like Airalo. WiFi calling with WhatsApp/FaceTime is free. Carrier roaming at $10/day adds up fast on longer trips."},
+      {"question": "Should I get an international phone plan?", "answer": "For short trips (3-5 days), your carrier daily pass ($5-10/day) is convenient. For 7+ days, a local SIM or eSIM saves significantly. T-Mobile includes free international data with most plans."}
+    ],
+    "formulas": [
+      "Total Cost = Daily Rate x Trip Duration",
+      "Roaming Cost = Base Rate + Overage Data Charges"
+    ],
+    "relatedTools": ["travel-visa-cost-calculator", "luggage-weight-calculator", "currency-exchange-fee-calculator"]
+  },
+  {
+    "slug": "gaming-monitor-response-calculator",
+    "toolName": "Gaming Monitor Response Calculator",
+    "category": "gaming",
+    "tagline": "Calculate effective response time, input lag, and frame visibility for gaming monitors",
+    "keywords": ["monitor response time", "gaming monitor", "input lag", "refresh rate", "pixel response"],
+    "inputs": [
+      {"id": "refreshRate", "label": "Refresh Rate", "default": 144, "unit": "Hz", "min": 30, "max": 500},
+      {"id": "responseTime", "label": "Response Time (GtG)", "default": 4, "unit": "ms", "min": 0.5, "max": 30, "step": 0.5},
+      {"id": "inputLag", "label": "Display Input Lag", "default": 5, "unit": "ms", "min": 0, "max": 50},
+      {"id": "systemLatency", "label": "System Latency (CPU+GPU)", "default": 15, "unit": "ms", "min": 1, "max": 100}
+    ],
+    "results": [
+      {"id": "frameTime", "label": "Frame Time"},
+      {"id": "totalLatency", "label": "Total Click-to-Display Latency"},
+      {"id": "motionClarity", "label": "Motion Clarity Rating"},
+      {"id": "competitive", "label": "Competitive Gaming Rating"}
+    ],
+    "calcFn": "var frameTime = 1000 / refreshRate;\n    var totalLat = systemLatency + inputLag + (frameTime / 2);\n    var clarity = responseTime <= frameTime ? 'Excellent — response faster than frame time' : 'Good — some ghosting possible at ' + fmt(refreshRate, 0) + ' Hz';\n    if (responseTime > frameTime * 2) clarity = 'Poor — significant ghosting, consider faster panel';\n    var compRating = totalLat < 20 ? 'Elite — tournament-grade responsiveness' : (totalLat < 35 ? 'Great — competitive advantage' : (totalLat < 50 ? 'Good — fine for ranked play' : 'Casual — noticeable delay in fast-paced games'));\n    document.getElementById('frameTime').textContent = fmt(frameTime, 2) + ' ms per frame at ' + fmt(refreshRate, 0) + ' Hz';\n    document.getElementById('totalLatency').textContent = fmt(totalLat, 1) + ' ms total';\n    document.getElementById('motionClarity').textContent = clarity;\n    document.getElementById('competitive').textContent = compRating;",
+    "faq": [
+      {"question": "What refresh rate do I need for gaming?", "answer": "60Hz is minimum, 144Hz is the sweet spot for competitive gaming, and 240Hz+ offers diminishing but real returns for esports. Most players notice the biggest difference going from 60 to 144Hz."},
+      {"question": "What is the difference between response time and input lag?", "answer": "Response time (GtG) is how fast pixels change color — affects motion blur/ghosting. Input lag is the delay between GPU output and image appearing on screen — affects how responsive the game feels to your inputs."}
+    ],
+    "formulas": [
+      "Frame Time = 1000 / Refresh Rate (ms)",
+      "Total Latency = System Latency + Input Lag + (Frame Time / 2)"
+    ],
+    "relatedTools": ["gpu-benchmark-comparison-calculator", "stream-bitrate-calculator", "game-server-cost-calculator"]
+  },
+  {
+    "slug": "gpu-benchmark-comparison-calculator",
+    "toolName": "GPU Benchmark Comparison Calculator",
+    "category": "gaming",
+    "tagline": "Compare GPU performance scores and calculate FPS estimates for different resolutions",
+    "keywords": ["GPU benchmark", "graphics card comparison", "GPU performance", "FPS estimate", "GPU ranking"],
+    "inputs": [
+      {"id": "gpuTier", "label": "GPU Performance Tier", "default": "mid", "options": [{"value":"budget","label":"Budget (RTX 4060 / RX 7600)"},{"value":"mid","label":"Mid-Range (RTX 4070 / RX 7800 XT)"},{"value":"high","label":"High-End (RTX 4080 / RX 7900 XT)"},{"value":"ultra","label":"Ultra (RTX 4090 / RX 7900 XTX)"}]},
+      {"id": "resolution", "label": "Target Resolution", "default": "1440", "options": [{"value":"1080","label":"1080p (Full HD)"},{"value":"1440","label":"1440p (QHD)"},{"value":"2160","label":"4K (Ultra HD)"}]},
+      {"id": "gameComplexity", "label": "Game Complexity", "default": "aaa", "options": [{"value":"esports","label":"Esports (Valorant, CS2)"},{"value":"aaa","label":"AAA (Cyberpunk, Hogwarts)"},{"value":"ultra","label":"Ultra Demanding (Starfield, modded)"}]}
+    ],
+    "results": [
+      {"id": "estFPS", "label": "Estimated Average FPS"},
+      {"id": "onePercentLow", "label": "1% Low FPS"},
+      {"id": "smooth", "label": "Smoothness Rating"},
+      {"id": "recommendation", "label": "Recommendation"}
+    ],
+    "calcFn": "var baseFPS = {'budget':90,'mid':130,'high':170,'ultra':220};\n    var resScale = {'1080':1.0,'1440':0.65,'2160':0.35};\n    var gameScale = {'esports':1.8,'aaa':1.0,'ultra':0.65};\n    var fps = baseFPS[gpuTier] * resScale[resolution] * gameScale[gameComplexity];\n    var onePctLow = fps * 0.65;\n    var smooth = fps >= 144 ? 'Buttery smooth — exceeds 144 Hz' : (fps >= 60 ? 'Good — solid 60+ FPS experience' : (fps >= 30 ? 'Playable — consider lowering settings' : 'Struggling — lower resolution or settings'));\n    var rec = '';\n    if (fps >= 144) rec = 'Excellent pairing for ' + resolution + 'p gaming';\n    else if (fps >= 60) rec = 'Good for ' + resolution + 'p — enable DLSS/FSR for higher FPS';\n    else rec = 'Consider ' + (resolution === '2160' ? '1440p' : '1080p') + ' or enable upscaling (DLSS/FSR)';\n    document.getElementById('estFPS').textContent = fmt(fps, 0) + ' FPS (estimated)';\n    document.getElementById('onePercentLow').textContent = fmt(onePctLow, 0) + ' FPS';\n    document.getElementById('smooth').textContent = smooth;\n    document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "How many FPS do I need for smooth gaming?", "answer": "60 FPS is the baseline for smooth gameplay. 144 FPS is ideal for competitive gaming with a high-refresh monitor. Beyond 240 FPS offers diminishing returns unless you are a professional esports player."},
+      {"question": "Should I get NVIDIA or AMD?", "answer": "NVIDIA excels in ray tracing and DLSS upscaling. AMD offers better price-to-performance at mid-range. For pure rasterization, they trade blows. NVIDIA is preferred for streaming (NVENC encoder) and AI workloads."}
+    ],
+    "formulas": [
+      "Estimated FPS = Base GPU FPS x Resolution Scale x Game Complexity Scale",
+      "1% Low = Average FPS x 0.65"
+    ],
+    "relatedTools": ["gaming-monitor-response-calculator", "stream-bitrate-calculator", "game-server-cost-calculator"]
+  },
+  {
+    "slug": "game-server-cost-calculator",
+    "toolName": "Game Server Cost Calculator",
+    "category": "gaming",
+    "tagline": "Estimate monthly hosting costs for game servers based on player count and game type",
+    "keywords": ["game server", "server hosting", "game server cost", "dedicated server", "multiplayer hosting"],
+    "inputs": [
+      {"id": "players", "label": "Max Player Slots", "default": 32, "min": 2, "max": 200},
+      {"id": "gameType", "label": "Game Type", "default": "fps", "options": [{"value":"minecraft","label":"Minecraft"},{"value":"fps","label":"FPS (CS2, Valorant)"},{"value":"survival","label":"Survival (Rust, ARK)"},{"value":"mmo","label":"MMO/Large World"}]},
+      {"id": "hosting", "label": "Hosting Type", "default": "managed", "options": [{"value":"managed","label":"Managed Game Host"},{"value":"vps","label":"VPS (self-managed)"},{"value":"dedicated","label":"Dedicated Server"}]},
+      {"id": "location", "label": "Server Location", "default": "us", "options": [{"value":"us","label":"US East/West"},{"value":"eu","label":"Europe"},{"value":"asia","label":"Asia-Pacific"}]}
+    ],
+    "results": [
+      {"id": "monthlyCost", "label": "Estimated Monthly Cost"},
+      {"id": "ramNeeded", "label": "RAM Recommended"},
+      {"id": "cpuNeeded", "label": "CPU Recommended"},
+      {"id": "annualCost", "label": "Annual Cost"}
+    ],
+    "calcFn": "var ramPerPlayer = {'minecraft':0.1,'fps':0.05,'survival':0.15,'mmo':0.2};\n    var cpuPerPlayer = {'minecraft':0.05,'fps':0.03,'survival':0.08,'mmo':0.1};\n    var ram = Math.max(2, Math.ceil(players * ramPerPlayer[gameType]));\n    var cores = Math.max(2, Math.ceil(players * cpuPerPlayer[gameType]));\n    var hostingMult = {'managed':1.5,'vps':1.0,'dedicated':2.0};\n    var locMult = {'us':1.0,'eu':1.1,'asia':1.3};\n    var baseCost = (ram * 4) + (cores * 8);\n    var monthly = baseCost * hostingMult[hosting] * locMult[location];\n    monthly = Math.max(monthly, 5);\n    document.getElementById('monthlyCost').textContent = dollar(monthly) + '/month';\n    document.getElementById('ramNeeded').textContent = fmt(ram, 0) + ' GB RAM';\n    document.getElementById('cpuNeeded').textContent = fmt(cores, 0) + ' CPU cores';\n    document.getElementById('annualCost').textContent = dollar(monthly * 12) + '/year (' + dollar(monthly * 10) + ' if paid annually)';",
+    "faq": [
+      {"question": "How much RAM does a game server need?", "answer": "Minecraft: 1-2GB for 10 players, 4-8GB for 30+. FPS games: 2-4GB for most. Survival games (Rust, ARK): 8-16GB for 30+ players. More mods/plugins = more RAM needed."},
+      {"question": "Should I use a managed host or VPS?", "answer": "Managed hosts are easiest — one-click setup, auto-updates, game panel included. VPS is cheaper but requires Linux knowledge. Dedicated servers offer best performance for large communities (50+ regular players)."}
+    ],
+    "formulas": [
+      "Monthly Cost = (RAM x $4 + Cores x $8) x Hosting Multiplier x Location Multiplier",
+      "RAM Needed = Players x RAM-per-Player Factor"
+    ],
+    "relatedTools": ["gaming-monitor-response-calculator", "gpu-benchmark-comparison-calculator", "stream-bitrate-calculator"]
+  },
+  {
+    "slug": "esports-prize-calculator",
+    "toolName": "Esports Prize Calculator",
+    "category": "gaming",
+    "tagline": "Calculate prize pool distribution across teams and players for esports tournaments",
+    "keywords": ["esports prize", "prize pool", "tournament prize", "esports earnings", "prize split"],
+    "inputs": [
+      {"id": "totalPrize", "label": "Total Prize Pool", "default": 100000, "unit": "$", "min": 100},
+      {"id": "teams", "label": "Number of Paid Placements", "default": 8, "min": 1, "max": 32},
+      {"id": "teamSize", "label": "Players Per Team", "default": 5, "min": 1, "max": 10},
+      {"id": "orgCut", "label": "Organization Cut", "default": 20, "unit": "%", "min": 0, "max": 50}
+    ],
+    "results": [
+      {"id": "firstPlace", "label": "1st Place (Team)"},
+      {"id": "firstPlayer", "label": "1st Place (Per Player)"},
+      {"id": "secondPlace", "label": "2nd Place (Team)"},
+      {"id": "lastPaid", "label": "Last Paid Placement"}
+    ],
+    "calcFn": "var shares = [];\n    var total = 0;\n    for (var i = 0; i < teams; i++) { var s = Math.pow(2, teams - 1 - i); shares.push(s); total += s; }\n    var first = totalPrize * (shares[0] / total);\n    var second = totalPrize * (shares[1] / total);\n    var last = totalPrize * (shares[teams - 1] / total);\n    var playerCut = 1 - (orgCut / 100);\n    document.getElementById('firstPlace').textContent = dollar(first) + ' (team total)';\n    document.getElementById('firstPlayer').textContent = dollar((first * playerCut) / teamSize) + ' per player (after ' + fmt(orgCut, 0) + '% org cut)';\n    document.getElementById('secondPlace').textContent = dollar(second) + ' (team) / ' + dollar((second * playerCut) / teamSize) + ' per player';\n    document.getElementById('lastPaid').textContent = fmt(teams, 0) + 'th place: ' + dollar(last);",
+    "faq": [
+      {"question": "How are esports prize pools typically distributed?", "answer": "First place typically gets 30-50% of the total pool. Top-heavy distributions (50%+ to winner) are common in smaller events. Major tournaments spread prizes more evenly to support the competitive ecosystem."},
+      {"question": "What cut do esports organizations take?", "answer": "Organizations typically take 10-30% of tournament winnings. Top organizations take less (10-15%) as they profit from sponsorships. Smaller orgs may take 20-30%. Some players negotiate better splits based on performance."}
+    ],
+    "formulas": [
+      "Placement Prize = Total Pool x (Placement Share / Sum of All Shares)",
+      "Player Earnings = (Team Prize x (1 - Org Cut)) / Team Size"
+    ],
+    "relatedTools": ["game-server-cost-calculator", "stream-bitrate-calculator", "gpu-benchmark-comparison-calculator"]
+  },
+  {
+    "slug": "gaming-chair-ergonomic-calculator",
+    "toolName": "Gaming Chair Ergonomic Calculator",
+    "category": "gaming",
+    "tagline": "Find ideal gaming chair and desk settings based on your height and body measurements",
+    "keywords": ["gaming chair", "ergonomic setup", "desk height", "chair height", "monitor position"],
+    "inputs": [
+      {"id": "height", "label": "Your Height", "default": 70, "unit": "inches", "min": 48, "max": 84},
+      {"id": "legLength", "label": "Leg Length (floor to knee)", "default": 18, "unit": "inches", "min": 12, "max": 28},
+      {"id": "deskHeight", "label": "Desk Height", "default": 30, "unit": "inches", "min": 20, "max": 40},
+      {"id": "monitorSize", "label": "Monitor Size", "default": 27, "unit": "inches", "min": 15, "max": 49}
+    ],
+    "results": [
+      {"id": "seatHeight", "label": "Ideal Seat Height"},
+      {"id": "armrestHeight", "label": "Armrest Height"},
+      {"id": "monitorDist", "label": "Monitor Distance"},
+      {"id": "monitorHeight", "label": "Monitor Top Edge Height"}
+    ],
+    "calcFn": "var seatH = legLength + 1;\n    var armrest = seatH + (height * 0.13);\n    var monDist = monitorSize * 1.2;\n    var eyeHeight = seatH + (height * 0.52);\n    var monTop = eyeHeight + 2;\n    document.getElementById('seatHeight').textContent = fmt(seatH, 1) + ' inches from floor';\n    document.getElementById('armrestHeight').textContent = fmt(armrest, 1) + ' inches (should match desk height of ' + fmt(deskHeight, 0) + '\")';\n    document.getElementById('monitorDist').textContent = fmt(monDist, 0) + ' inches (' + fmt(monDist / 12, 1) + ' feet) from eyes';\n    document.getElementById('monitorHeight').textContent = fmt(monTop, 1) + ' inches — top of screen at eye level';",
+    "faq": [
+      {"question": "What is the correct gaming chair height?", "answer": "Your feet should be flat on the floor with thighs parallel to the ground. Knees should be at approximately 90 degrees. Most people need a seat height of 16-21 inches depending on leg length."},
+      {"question": "How far should a gaming monitor be?", "answer": "The general rule is 1.2x the monitor diagonal. A 27-inch monitor should be about 32 inches away. For ultrawide monitors, increase distance by 20%. Your eyes should align with the top third of the screen."}
+    ],
+    "formulas": [
+      "Seat Height = Leg Length + 1 inch",
+      "Monitor Distance = Monitor Size (diagonal) x 1.2"
+    ],
+    "relatedTools": ["gaming-monitor-response-calculator", "gpu-benchmark-comparison-calculator", "stream-bitrate-calculator"]
+  },
+  {
+    "slug": "stream-bitrate-calculator",
+    "toolName": "Stream Bitrate Calculator",
+    "category": "gaming",
+    "tagline": "Calculate optimal streaming bitrate for Twitch, YouTube, and other platforms",
+    "keywords": ["stream bitrate", "Twitch settings", "streaming quality", "OBS bitrate", "stream settings"],
+    "inputs": [
+      {"id": "resolution", "label": "Stream Resolution", "default": "1080", "options": [{"value":"720","label":"720p (HD)"},{"value":"1080","label":"1080p (Full HD)"},{"value":"1440","label":"1440p (QHD)"},{"value":"2160","label":"4K"}]},
+      {"id": "fps", "label": "Frame Rate", "default": "60", "options": [{"value":"30","label":"30 FPS"},{"value":"60","label":"60 FPS"}]},
+      {"id": "platform", "label": "Platform", "default": "twitch", "options": [{"value":"twitch","label":"Twitch (max 6000 kbps)"},{"value":"youtube","label":"YouTube (up to 51000 kbps)"},{"value":"kick","label":"Kick (up to 8000 kbps)"}]},
+      {"id": "uploadSpeed", "label": "Upload Speed", "default": 20, "unit": "Mbps", "min": 1, "max": 100}
+    ],
+    "results": [
+      {"id": "recBitrate", "label": "Recommended Bitrate"},
+      {"id": "maxBitrate", "label": "Platform Max Bitrate"},
+      {"id": "uploadUsage", "label": "Upload Bandwidth Usage"},
+      {"id": "quality", "label": "Expected Quality"}
+    ],
+    "calcFn": "var baseBitrates = {'720':{'30':2500,'60':3500},'1080':{'30':4500,'60':6000},'1440':{'30':9000,'60':12000},'2160':{'30':20000,'60':35000}};\n    var platformMax = {'twitch':6000,'youtube':51000,'kick':8000};\n    var recBR = baseBitrates[resolution][fps];\n    var platMax = platformMax[platform];\n    var actualBR = Math.min(recBR, platMax);\n    var uploadUsePct = (actualBR / (uploadSpeed * 1000)) * 100;\n    var uploadOk = uploadUsePct < 75;\n    var quality = actualBR >= recBR ? 'Excellent — full quality for this resolution' : 'Good — platform-limited, still looks great';\n    if (!uploadOk) quality = 'WARNING: Using ' + fmt(uploadUsePct, 0) + '% of upload — may cause drops';\n    document.getElementById('recBitrate').textContent = fmt(actualBR, 0) + ' kbps (' + fmt(actualBR / 1000, 1) + ' Mbps)';\n    document.getElementById('maxBitrate').textContent = fmt(platMax, 0) + ' kbps for ' + platform;\n    document.getElementById('uploadUsage').textContent = fmt(uploadUsePct, 1) + '% of ' + fmt(uploadSpeed, 0) + ' Mbps upload' + (uploadOk ? ' (OK)' : ' (TOO HIGH)');\n    document.getElementById('quality').textContent = quality;",
+    "faq": [
+      {"question": "What bitrate should I stream at on Twitch?", "answer": "Twitch caps non-partners at 6000 kbps. For 1080p60, use 6000 kbps. For 720p60, use 3500-4500 kbps. If you lack Transcoding options (non-partner), consider 720p so viewers with slow connections can watch."},
+      {"question": "How much upload speed do I need to stream?", "answer": "Your upload should be at least 1.5x your bitrate. For 6000 kbps streaming, you need at least 9 Mbps upload. 20+ Mbps is ideal to leave headroom for the game connection and other traffic."}
+    ],
+    "formulas": [
+      "Upload Usage % = Stream Bitrate / (Upload Speed x 1000) x 100",
+      "Recommended: Upload Speed > 1.5x Stream Bitrate"
+    ],
+    "relatedTools": ["gaming-monitor-response-calculator", "gpu-benchmark-comparison-calculator", "audio-sample-rate-calculator"]
+  },
+  {
+    "slug": "toilet-water-usage-calculator",
+    "toolName": "Toilet Water Usage Calculator",
+    "category": "plumbing",
+    "tagline": "Calculate water savings from upgrading to a low-flow or dual-flush toilet",
+    "keywords": ["toilet water usage", "low flow toilet", "water savings", "dual flush", "toilet gallons"],
+    "inputs": [
+      {"id": "currentGPF", "label": "Current Toilet (GPF)", "default": 3.5, "min": 1, "max": 7, "step": 0.5},
+      {"id": "newGPF", "label": "New Toilet (GPF)", "default": 1.28, "min": 0.8, "max": 3.5, "step": 0.01},
+      {"id": "flushesPerDay", "label": "Flushes Per Day (household)", "default": 20, "min": 1, "max": 100},
+      {"id": "waterRate", "label": "Water Cost", "default": 5, "unit": "$ per 1000 gal", "min": 1, "max": 20, "step": 0.50}
+    ],
+    "results": [
+      {"id": "dailySavings", "label": "Daily Water Savings"},
+      {"id": "annualGallons", "label": "Annual Water Savings"},
+      {"id": "annualCost", "label": "Annual Cost Savings"},
+      {"id": "payback", "label": "Payback Period (at $300 toilet)"}
+    ],
+    "calcFn": "var dailyOld = currentGPF * flushesPerDay;\n    var dailyNew = newGPF * flushesPerDay;\n    var dailySave = dailyOld - dailyNew;\n    var annualGal = dailySave * 365;\n    var annualSave = (annualGal / 1000) * waterRate;\n    var payback = annualSave > 0 ? 300 / annualSave : 999;\n    document.getElementById('dailySavings').textContent = fmt(dailySave, 1) + ' gallons/day';\n    document.getElementById('annualGallons').textContent = fmt(annualGal, 0) + ' gallons/year';\n    document.getElementById('annualCost').textContent = dollar(annualSave) + '/year';\n    document.getElementById('payback').textContent = payback < 20 ? fmt(payback, 1) + ' years' : 'Over 20 years';",
+    "faq": [
+      {"question": "How much water does an old toilet use?", "answer": "Toilets made before 1994 use 3.5-7 gallons per flush. Models from 1994-2004 use 1.6 GPF. Current WaterSense certified toilets use 1.28 GPF or less. Dual-flush models use 0.8 GPF for liquid waste."},
+      {"question": "Are low-flow toilets effective?", "answer": "Modern 1.28 GPF toilets perform as well or better than old 3.5 GPF models thanks to improved engineering. Pressure-assist and gravity-fed designs ensure effective flushing with less water."}
+    ],
+    "formulas": [
+      "Daily Savings = (Old GPF - New GPF) x Flushes Per Day",
+      "Annual Cost Savings = (Annual Gallons / 1000) x Water Rate"
+    ],
+    "relatedTools": ["water-softener-size-calculator", "tankless-water-heater-calculator", "pipe-insulation-calculator"]
+  },
+  {
+    "slug": "water-softener-size-calculator",
+    "toolName": "Water Softener Size Calculator",
+    "category": "plumbing",
+    "tagline": "Size a water softener based on household size, water hardness, and daily usage",
+    "keywords": ["water softener", "softener size", "water hardness", "grain capacity", "water treatment"],
+    "inputs": [
+      {"id": "people", "label": "Number of People", "default": 4, "min": 1, "max": 12},
+      {"id": "hardness", "label": "Water Hardness", "default": 15, "unit": "GPG (grains per gallon)", "min": 1, "max": 50},
+      {"id": "ironLevel", "label": "Iron Level", "default": 0.5, "unit": "ppm", "min": 0, "max": 10, "step": 0.1},
+      {"id": "dailyGallons", "label": "Daily Water Use Per Person", "default": 75, "unit": "gallons", "min": 30, "max": 150}
+    ],
+    "results": [
+      {"id": "dailyGrains", "label": "Daily Grains to Remove"},
+      {"id": "weeklyGrains", "label": "Weekly Capacity Needed"},
+      {"id": "softenerSize", "label": "Recommended Softener Size"},
+      {"id": "saltPerMonth", "label": "Estimated Salt Usage"}
+    ],
+    "calcFn": "var effectiveHardness = hardness + (ironLevel * 5);\n    var dailyTotal = people * dailyGallons;\n    var dailyGrains = dailyTotal * effectiveHardness;\n    var weeklyGrains = dailyGrains * 7;\n    var sizes = [24000, 32000, 40000, 48000, 64000, 80000, 96000];\n    var recommended = sizes[sizes.length - 1];\n    for (var i = 0; i < sizes.length; i++) { if (sizes[i] >= weeklyGrains) { recommended = sizes[i]; break; } }\n    var regenPerMonth = (dailyGrains * 30) / recommended;\n    var saltLbs = regenPerMonth * 8;\n    document.getElementById('dailyGrains').textContent = fmt(dailyGrains, 0) + ' grains/day';\n    document.getElementById('weeklyGrains').textContent = fmt(weeklyGrains, 0) + ' grains/week';\n    document.getElementById('softenerSize').textContent = fmt(recommended, 0) + ' grain capacity';\n    document.getElementById('saltPerMonth').textContent = fmt(saltLbs, 0) + ' lbs/month (' + fmt(regenPerMonth, 1) + ' regenerations)';",
+    "faq": [
+      {"question": "How do I know my water hardness?", "answer": "Get a free test from your water utility or buy a test kit ($10-15). Hardness is measured in grains per gallon (GPG). 0-3 GPG is soft, 3-7 is moderate, 7-15 is hard, and 15+ is very hard."},
+      {"question": "How often does a water softener regenerate?", "answer": "Most softeners regenerate every 3-7 days depending on usage and hardness. A properly sized unit for a family of 4 with 15 GPG water regenerates about once per week using 6-8 lbs of salt."}
+    ],
+    "formulas": [
+      "Daily Grains = People x Daily Gallons x Effective Hardness",
+      "Effective Hardness = Water Hardness + (Iron ppm x 5)"
+    ],
+    "relatedTools": ["toilet-water-usage-calculator", "tankless-water-heater-calculator", "septic-tank-size-calculator"]
+  },
+  {
+    "slug": "septic-tank-size-calculator",
+    "toolName": "Septic Tank Size Calculator",
+    "category": "plumbing",
+    "tagline": "Calculate the minimum septic tank size based on bedrooms and daily water usage",
+    "keywords": ["septic tank", "septic sizing", "septic system", "tank capacity", "septic design"],
+    "inputs": [
+      {"id": "bedrooms", "label": "Number of Bedrooms", "default": 3, "min": 1, "max": 8},
+      {"id": "dailyFlow", "label": "Estimated Daily Flow", "default": 300, "unit": "gallons", "min": 100, "max": 2000},
+      {"id": "garbageDisposal", "label": "Garbage Disposal?", "default": "no", "options": [{"value":"no","label":"No"},{"value":"yes","label":"Yes (+15% capacity)"}]},
+      {"id": "laundryLoad", "label": "Weekly Laundry Loads", "default": 6, "min": 0, "max": 20}
+    ],
+    "results": [
+      {"id": "minSize", "label": "Minimum Tank Size"},
+      {"id": "recommendedSize", "label": "Recommended Tank Size"},
+      {"id": "pumpFrequency", "label": "Pumping Frequency"},
+      {"id": "drainfield", "label": "Estimated Drain Field Size"}
+    ],
+    "calcFn": "var baseSizes = {1:750,2:750,3:1000,4:1250,5:1500,6:1750,7:2000,8:2250};\n    var baseSize = baseSizes[Math.min(bedrooms, 8)] || 1000;\n    var disposalMult = garbageDisposal === 'yes' ? 1.15 : 1.0;\n    var laundryAdd = laundryLoad > 8 ? 250 : 0;\n    var minTank = Math.ceil((baseSize * disposalMult + laundryAdd) / 250) * 250;\n    var recTank = Math.ceil(minTank * 1.2 / 250) * 250;\n    var pumpYears = recTank >= 1500 ? '5-7 years' : (recTank >= 1000 ? '3-5 years' : '2-3 years');\n    var drainSF = dailyFlow * 1.5;\n    document.getElementById('minSize').textContent = fmt(minTank, 0) + ' gallons (code minimum)';\n    document.getElementById('recommendedSize').textContent = fmt(recTank, 0) + ' gallons (with 20% buffer)';\n    document.getElementById('pumpFrequency').textContent = 'Every ' + pumpYears + ' for a family';\n    document.getElementById('drainfield').textContent = fmt(drainSF, 0) + ' sq ft (varies by soil type)';",
+    "faq": [
+      {"question": "How big of a septic tank do I need?", "answer": "Most codes require: 1-2 bedrooms = 750 gallons, 3 bedrooms = 1000 gallons, 4 bedrooms = 1250 gallons. Always size up if you have a garbage disposal, hot tub, or high-efficiency washer."},
+      {"question": "How often should a septic tank be pumped?", "answer": "Every 3-5 years for a typical family of 4 with a 1000-gallon tank. Smaller tanks or larger families need more frequent pumping. Have the tank inspected every 1-2 years."}
+    ],
+    "formulas": [
+      "Minimum Tank = Base Size (by bedrooms) x Disposal Multiplier + Laundry Adder",
+      "Drain Field = Daily Flow x 1.5 sq ft"
+    ],
+    "relatedTools": ["water-softener-size-calculator", "sump-pump-size-calculator", "toilet-water-usage-calculator"]
+  },
+  {
+    "slug": "pipe-insulation-calculator",
+    "toolName": "Pipe Insulation Calculator",
+    "category": "plumbing",
+    "tagline": "Calculate pipe insulation material needed and energy savings for hot or cold water pipes",
+    "keywords": ["pipe insulation", "pipe wrap", "heat loss", "pipe freeze protection", "insulation savings"],
+    "inputs": [
+      {"id": "pipeLength", "label": "Total Pipe Length", "default": 50, "unit": "feet", "min": 1, "max": 500},
+      {"id": "pipeDiameter", "label": "Pipe Diameter", "default": "0.75", "options": [{"value":"0.5","label":"1/2 inch"},{"value":"0.75","label":"3/4 inch"},{"value":"1","label":"1 inch"},{"value":"1.5","label":"1-1/2 inch"},{"value":"2","label":"2 inch"}]},
+      {"id": "insulationType", "label": "Insulation Type", "default": "foam", "options": [{"value":"foam","label":"Foam Tube ($1-2/ft)"},{"value":"fiberglass","label":"Fiberglass Wrap ($2-4/ft)"},{"value":"rubber","label":"Rubber (Armaflex) ($3-5/ft)"}]},
+      {"id": "waterTemp", "label": "Water Temperature", "default": 120, "unit": "F", "min": 40, "max": 180}
+    ],
+    "results": [
+      {"id": "materialNeeded", "label": "Insulation Material Needed"},
+      {"id": "materialCost", "label": "Estimated Material Cost"},
+      {"id": "heatLossReduction", "label": "Heat Loss Reduction"},
+      {"id": "annualSavings", "label": "Estimated Annual Savings"}
+    ],
+    "calcFn": "var costs = {'foam':1.50,'fiberglass':3.00,'rubber':4.00};\n    var rValues = {'foam':2.0,'fiberglass':3.5,'rubber':3.0};\n    var waste = 1.10;\n    var material = pipeLength * waste;\n    var cost = material * costs[insulationType];\n    var rVal = rValues[insulationType];\n    var heatReduction = Math.min(95, rVal * 25);\n    var tempDiff = Math.abs(waterTemp - 70);\n    var annualSavings = (pipeLength * tempDiff * 0.02 * (heatReduction / 100));\n    document.getElementById('materialNeeded').textContent = fmt(material, 0) + ' linear feet (includes 10% waste)';\n    document.getElementById('materialCost').textContent = dollar(cost);\n    document.getElementById('heatLossReduction').textContent = fmt(heatReduction, 0) + '% reduction (R-' + fmt(rVal, 1) + ' insulation)';\n    document.getElementById('annualSavings').textContent = dollar(annualSavings) + '/year in energy costs';",
+    "faq": [
+      {"question": "Which pipes should be insulated?", "answer": "Insulate hot water pipes to reduce heat loss and save energy (2-4% on water heating). Insulate cold water pipes in unheated areas to prevent freezing. Both hot and cold pipes in crawl spaces and attics should be insulated."},
+      {"question": "What type of pipe insulation is best?", "answer": "Foam tubes are cheapest and easiest to install (DIY-friendly). Fiberglass offers higher R-value for extreme temperatures. Rubber (Armaflex) is best for condensation prevention on cold pipes and commercial applications."}
+    ],
+    "formulas": [
+      "Material Needed = Pipe Length x 1.10 (waste factor)",
+      "Annual Savings = Length x Temp Diff x Rate x Heat Reduction %"
+    ],
+    "relatedTools": ["toilet-water-usage-calculator", "tankless-water-heater-calculator", "sump-pump-size-calculator"]
+  },
+  {
+    "slug": "sump-pump-size-calculator",
+    "toolName": "Sump Pump Size Calculator",
+    "category": "plumbing",
+    "tagline": "Calculate the right sump pump size based on basement area, water table, and discharge height",
+    "keywords": ["sump pump", "pump sizing", "basement flood", "sump pump capacity", "pump GPH"],
+    "inputs": [
+      {"id": "basementSqFt", "label": "Basement Area", "default": 1000, "unit": "sq ft", "min": 100, "max": 5000},
+      {"id": "waterLevel", "label": "Water Table Risk", "default": "moderate", "options": [{"value":"low","label":"Low (dry area, rarely wet)"},{"value":"moderate","label":"Moderate (occasional water)"},{"value":"high","label":"High (frequent water, high table)"}]},
+      {"id": "dischargeHeight", "label": "Discharge Height (vertical lift)", "default": 10, "unit": "feet", "min": 3, "max": 25},
+      {"id": "dischargeDist", "label": "Horizontal Pipe Run", "default": 20, "unit": "feet", "min": 5, "max": 100}
+    ],
+    "results": [
+      {"id": "gph", "label": "Recommended Pump Capacity"},
+      {"id": "hp", "label": "Recommended Horsepower"},
+      {"id": "totalHead", "label": "Total Dynamic Head"},
+      {"id": "backup", "label": "Backup Recommendation"}
+    ],
+    "calcFn": "var riskMult = {'low':0.5,'moderate':1.0,'high':2.0};\n    var baseGPH = basementSqFt * 1.5 * riskMult[waterLevel];\n    var totalHead = dischargeHeight + (dischargeDist * 0.1);\n    var headLossFactor = 1 + (totalHead * 0.03);\n    var adjustedGPH = baseGPH * headLossFactor;\n    var hp = adjustedGPH <= 1800 ? '1/3 HP' : (adjustedGPH <= 3000 ? '1/2 HP' : (adjustedGPH <= 4500 ? '3/4 HP' : '1 HP'));\n    var backup = waterLevel === 'high' ? 'STRONGLY recommended — battery backup + water alarm' : (waterLevel === 'moderate' ? 'Recommended — battery backup sump pump' : 'Optional — consider water alarm at minimum');\n    document.getElementById('gph').textContent = fmt(adjustedGPH, 0) + ' GPH at ' + fmt(totalHead, 1) + ' ft head';\n    document.getElementById('hp').textContent = hp;\n    document.getElementById('totalHead').textContent = fmt(totalHead, 1) + ' feet (' + fmt(dischargeHeight, 0) + ' vertical + ' + fmt(dischargeDist * 0.1, 1) + ' friction loss)';\n    document.getElementById('backup').textContent = backup;",
+    "faq": [
+      {"question": "What size sump pump do I need?", "answer": "For most homes: 1/3 HP handles up to 1800 GPH, sufficient for average basements. 1/2 HP (3000 GPH) for larger basements or moderate water. 3/4-1 HP for high water table areas or long discharge runs."},
+      {"question": "Do I need a backup sump pump?", "answer": "Yes if your area floods frequently or you have valuable items in the basement. Battery backup pumps run 5-7 hours during power outages. A water alarm ($15-25) is the minimum every homeowner should have."}
+    ],
+    "formulas": [
+      "Total Head = Vertical Lift + (Horizontal Run x 0.1)",
+      "Required GPH = Basement Area x 1.5 x Water Risk Multiplier x Head Loss Factor"
+    ],
+    "relatedTools": ["septic-tank-size-calculator", "pipe-insulation-calculator", "toilet-water-usage-calculator"]
+  },
+  {
+    "slug": "tankless-water-heater-calculator",
+    "toolName": "Tankless Water Heater Calculator",
+    "category": "plumbing",
+    "tagline": "Size a tankless water heater based on flow rate needs and temperature rise",
+    "keywords": ["tankless water heater", "on demand water heater", "tankless sizing", "water heater BTU", "flow rate"],
+    "inputs": [
+      {"id": "fixtures", "label": "Simultaneous Fixtures", "default": 2, "min": 1, "max": 6},
+      {"id": "incomingTemp", "label": "Incoming Water Temp", "default": 50, "unit": "F", "min": 35, "max": 75},
+      {"id": "desiredTemp", "label": "Desired Output Temp", "default": 120, "unit": "F", "min": 100, "max": 140},
+      {"id": "fuelType", "label": "Fuel Type", "default": "gas", "options": [{"value":"gas","label":"Natural Gas"},{"value":"propane","label":"Propane"},{"value":"electric","label":"Electric"}]}
+    ],
+    "results": [
+      {"id": "flowRate", "label": "Required Flow Rate"},
+      {"id": "tempRise", "label": "Temperature Rise Needed"},
+      {"id": "btu", "label": "BTU/kW Rating Needed"},
+      {"id": "annualCost", "label": "Estimated Annual Operating Cost"}
+    ],
+    "calcFn": "var gpmPerFixture = 2.0;\n    var flowRate = fixtures * gpmPerFixture;\n    var tempRise = desiredTemp - incomingTemp;\n    var btu = flowRate * tempRise * 500;\n    var kw = btu / 3412;\n    var annualGallons = flowRate * 60 * 0.5 * 365;\n    var costPerUnit = fuelType === 'gas' ? 0.000015 : (fuelType === 'propane' ? 0.000025 : 0.000035);\n    var annualCost = btu * 0.5 * 365 * costPerUnit;\n    var sizeLabel = fuelType === 'electric' ? fmt(kw, 0) + ' kW' : fmt(btu, 0) + ' BTU/hr';\n    document.getElementById('flowRate').textContent = fmt(flowRate, 1) + ' GPM';\n    document.getElementById('tempRise').textContent = fmt(tempRise, 0) + ' degrees F (' + fmt(incomingTemp, 0) + ' to ' + fmt(desiredTemp, 0) + ' F)';\n    document.getElementById('btu').textContent = sizeLabel;\n    document.getElementById('annualCost').textContent = dollar(annualCost) + '/year (estimated)';",
+    "faq": [
+      {"question": "What size tankless water heater do I need?", "answer": "Calculate total flow rate (showers 2 GPM, faucets 1.5 GPM, dishwasher 1.5 GPM) and temperature rise (desired temp minus incoming water temp). A family of 4 typically needs 150,000-199,000 BTU gas or 24-36 kW electric."},
+      {"question": "Is a tankless water heater worth it?", "answer": "Tankless heaters save 20-30% on water heating costs and last 20+ years (vs 10-15 for tank). Higher upfront cost ($1,000-3,000 installed) is offset by energy savings. Best for homes using under 86 gallons/day."}
+    ],
+    "formulas": [
+      "Required BTU = Flow Rate (GPM) x Temperature Rise x 500",
+      "Electric kW = BTU / 3412"
+    ],
+    "relatedTools": ["toilet-water-usage-calculator", "water-softener-size-calculator", "pipe-insulation-calculator"]
+  },
+  {
+    "slug": "deck-board-calculator",
+    "toolName": "Deck Board Calculator",
+    "category": "diy-home",
+    "tagline": "Calculate decking boards, screws, and joist material needed for your deck project",
+    "keywords": ["deck boards", "decking material", "deck calculator", "deck cost", "composite decking"],
+    "inputs": [
+      {"id": "deckLength", "label": "Deck Length", "default": 16, "unit": "feet", "min": 4, "max": 60},
+      {"id": "deckWidth", "label": "Deck Width", "default": 12, "unit": "feet", "min": 4, "max": 40},
+      {"id": "boardType", "label": "Board Type", "default": "pressure", "options": [{"value":"pressure","label":"Pressure Treated ($2/lf)"},{"value":"cedar","label":"Cedar ($4/lf)"},{"value":"composite","label":"Composite ($5/lf)"},{"value":"ipe","label":"Ipe Hardwood ($8/lf)"}]},
+      {"id": "boardWidth", "label": "Board Width", "default": 5.5, "unit": "inches", "min": 3.5, "max": 7.5, "step": 0.5}
+    ],
+    "results": [
+      {"id": "sqft", "label": "Deck Area"},
+      {"id": "boardCount", "label": "Deck Boards Needed"},
+      {"id": "screws", "label": "Screws Needed"},
+      {"id": "materialCost", "label": "Estimated Board Cost"}
+    ],
+    "calcFn": "var sqft = deckLength * deckWidth;\n    var boardWidthFt = boardWidth / 12;\n    var boardsNeeded = Math.ceil((deckWidth / boardWidthFt) * 1.10);\n    var totalLinearFt = boardsNeeded * deckLength;\n    var screws = Math.ceil(sqft * 2.5);\n    var costPerLF = {'pressure':2,'cedar':4,'composite':5,'ipe':8};\n    var cost = totalLinearFt * costPerLF[boardType];\n    document.getElementById('sqft').textContent = fmt(sqft, 0) + ' sq ft';\n    document.getElementById('boardCount').textContent = fmt(boardsNeeded, 0) + ' boards x ' + fmt(deckLength, 0) + ' ft (' + fmt(totalLinearFt, 0) + ' linear ft, incl. 10% waste)';\n    document.getElementById('screws').textContent = fmt(screws, 0) + ' deck screws (approx. ' + Math.ceil(screws / 350) + ' lbs)';\n    document.getElementById('materialCost').textContent = dollar(cost) + ' (boards only)';",
+    "faq": [
+      {"question": "How much waste factor should I add for decking?", "answer": "Add 10% for a standard rectangular deck. Add 15-20% for angled cuts, picture-frame borders, or complex shapes. Composite boards are more expensive, so measure carefully to minimize waste."},
+      {"question": "What is the best decking material?", "answer": "Pressure treated is cheapest and lasts 15-20 years with maintenance. Cedar looks great and lasts 15-25 years. Composite costs more upfront but lasts 25-50 years with zero maintenance. Ipe is the most durable (75+ years) but very expensive."}
+    ],
+    "formulas": [
+      "Boards Needed = (Deck Width / Board Width) x 1.10 waste factor",
+      "Total Linear Feet = Boards x Deck Length"
+    ],
+    "relatedTools": ["concrete-slab-calculator", "shed-material-calculator", "window-replacement-cost-calculator"]
+  },
+  {
+    "slug": "concrete-slab-calculator",
+    "toolName": "Concrete Slab Calculator",
+    "category": "diy-home",
+    "tagline": "Calculate concrete volume in cubic yards, bags, and cost for slabs, footings, and pads",
+    "keywords": ["concrete calculator", "cubic yards", "concrete slab", "concrete cost", "concrete bags"],
+    "inputs": [
+      {"id": "slabLength", "label": "Length", "default": 12, "unit": "feet", "min": 1, "max": 200},
+      {"id": "slabWidth", "label": "Width", "default": 12, "unit": "feet", "min": 1, "max": 200},
+      {"id": "thickness", "label": "Thickness", "default": 4, "unit": "inches", "min": 2, "max": 24},
+      {"id": "pricePerYard", "label": "Ready-Mix Price", "default": 150, "unit": "$ per cubic yard", "min": 50, "max": 300}
+    ],
+    "results": [
+      {"id": "cubicYards", "label": "Concrete Needed"},
+      {"id": "bags80", "label": "80-lb Bags (if mixing)"},
+      {"id": "cost", "label": "Ready-Mix Cost"},
+      {"id": "rebar", "label": "Rebar Estimate"}
+    ],
+    "calcFn": "var cubicFt = slabLength * slabWidth * (thickness / 12);\n    var cubicYards = cubicFt / 27;\n    var withWaste = cubicYards * 1.10;\n    var bags80 = Math.ceil(cubicFt / 0.6);\n    var cost = withWaste * pricePerYard;\n    var rebarLength = (Math.ceil(slabLength / 1.33) * slabWidth) + (Math.ceil(slabWidth / 1.33) * slabLength);\n    document.getElementById('cubicYards').textContent = fmt(withWaste, 2) + ' cubic yards (incl. 10% overage)';\n    document.getElementById('bags80').textContent = fmt(bags80, 0) + ' bags (' + dollar(bags80 * 6.50) + ' at $6.50/bag)';\n    document.getElementById('cost').textContent = dollar(cost) + ' delivered';\n    document.getElementById('rebar').textContent = fmt(rebarLength, 0) + ' linear feet (#4 rebar on 16\" grid)';",
+    "faq": [
+      {"question": "How thick should a concrete slab be?", "answer": "4 inches for patios and walkways. 6 inches for driveways and garages. 8+ inches for heavy equipment pads. Always pour on 4 inches of compacted gravel base with proper drainage."},
+      {"question": "Should I use ready-mix or bags?", "answer": "Use bags for under 1 cubic yard (small projects). Over 1 cubic yard, ready-mix is far cheaper and easier. A typical truck minimum is 1 yard. For 2+ cubic yards, ready-mix saves significant time and labor."}
+    ],
+    "formulas": [
+      "Cubic Yards = (Length x Width x Thickness/12) / 27",
+      "80-lb Bags = Cubic Feet / 0.6"
+    ],
+    "relatedTools": ["deck-board-calculator", "shed-material-calculator", "door-rough-opening-calculator"]
+  },
+  {
+    "slug": "gutter-size-calculator",
+    "toolName": "Gutter Size Calculator",
+    "category": "diy-home",
+    "tagline": "Calculate rain gutter and downspout sizing based on roof area and rainfall intensity",
+    "keywords": ["gutter size", "rain gutter", "downspout sizing", "gutter capacity", "gutter installation"],
+    "inputs": [
+      {"id": "roofLength", "label": "Roof Length (gutter run)", "default": 40, "unit": "feet", "min": 5, "max": 200},
+      {"id": "roofWidth", "label": "Roof Width (to ridge)", "default": 15, "unit": "feet", "min": 5, "max": 60},
+      {"id": "roofPitch", "label": "Roof Pitch", "default": "1.1", "options": [{"value":"1.0","label":"Flat/Low (0-3/12)"},{"value":"1.05","label":"Medium (4-8/12)"},{"value":"1.1","label":"Steep (9-12/12)"}]},
+      {"id": "rainfall", "label": "Max Rainfall Intensity", "default": 4, "unit": "inches/hour", "min": 1, "max": 8}
+    ],
+    "results": [
+      {"id": "drainageArea", "label": "Effective Drainage Area"},
+      {"id": "gutterSize", "label": "Recommended Gutter Size"},
+      {"id": "downspouts", "label": "Downspouts Needed"},
+      {"id": "gutterLength", "label": "Total Gutter Material"}
+    ],
+    "calcFn": "var area = roofLength * roofWidth * parseFloat(roofPitch);\n    var flowRate = area * rainfall / 96.23;\n    var gutterSize = flowRate <= 5.5 ? '5-inch K-style' : (flowRate <= 7.5 ? '6-inch K-style' : '6-inch half-round');\n    var downspoutArea = flowRate <= 5.5 ? 7.07 : 12.57;\n    var downspouts = Math.max(2, Math.ceil(roofLength / 40));\n    var gutterFt = Math.ceil(roofLength * 1.05);\n    document.getElementById('drainageArea').textContent = fmt(area, 0) + ' sq ft';\n    document.getElementById('gutterSize').textContent = gutterSize + ' (' + fmt(flowRate, 1) + ' GPM capacity needed)';\n    document.getElementById('downspouts').textContent = fmt(downspouts, 0) + ' downspouts (one every 40 ft max)';\n    document.getElementById('gutterLength').textContent = fmt(gutterFt, 0) + ' feet (incl. 5% waste)';",
+    "faq": [
+      {"question": "What size gutters do I need?", "answer": "5-inch K-style gutters handle most residential homes (up to 5,500 sq ft of roof area per gutter run). 6-inch gutters are needed for large roofs, steep pitches, or heavy rainfall areas (4+ inches/hour)."},
+      {"question": "How many downspouts do I need?", "answer": "One downspout for every 20-40 feet of gutter run. A 40-foot run needs at least one, but two (at each end) is better for drainage. Each 2x3 inch downspout handles about 600 sq ft of roof area."}
+    ],
+    "formulas": [
+      "Drainage Area = Gutter Run x Roof Width x Pitch Factor",
+      "Flow Rate (GPM) = Drainage Area x Rainfall / 96.23"
+    ],
+    "relatedTools": ["deck-board-calculator", "shed-material-calculator", "window-replacement-cost-calculator"]
+  },
+  {
+    "slug": "window-replacement-cost-calculator",
+    "toolName": "Window Replacement Cost Calculator",
+    "category": "diy-home",
+    "tagline": "Estimate window replacement costs including materials, labor, and energy savings",
+    "keywords": ["window replacement", "window cost", "new windows", "window installation", "energy efficient windows"],
+    "inputs": [
+      {"id": "windowCount", "label": "Number of Windows", "default": 10, "min": 1, "max": 50},
+      {"id": "windowType", "label": "Window Type", "default": "double", "options": [{"value":"single","label":"Single Pane ($250-400)"},{"value":"double","label":"Double Pane ($400-700)"},{"value":"triple","label":"Triple Pane ($600-1100)"},{"value":"impact","label":"Impact Resistant ($700-1500)"}]},
+      {"id": "frameType", "label": "Frame Material", "default": "vinyl", "options": [{"value":"vinyl","label":"Vinyl (cheapest)"},{"value":"fiberglass","label":"Fiberglass (durable)"},{"value":"wood","label":"Wood (premium)"},{"value":"aluminum","label":"Aluminum (modern)"}]},
+      {"id": "installation", "label": "Installation", "default": "pro", "options": [{"value":"diy","label":"DIY ($0 labor)"},{"value":"pro","label":"Professional ($150-300/window)"}]}
+    ],
+    "results": [
+      {"id": "perWindow", "label": "Cost Per Window"},
+      {"id": "totalCost", "label": "Total Project Cost"},
+      {"id": "energySavings", "label": "Est. Annual Energy Savings"},
+      {"id": "payback", "label": "Energy Payback Period"}
+    ],
+    "calcFn": "var windowCosts = {'single':325,'double':550,'triple':850,'impact':1100};\n    var frameMult = {'vinyl':1.0,'fiberglass':1.2,'wood':1.5,'aluminum':1.1};\n    var laborPerWindow = installation === 'pro' ? 225 : 0;\n    var materialCost = windowCosts[windowType] * frameMult[frameType];\n    var perWindow = materialCost + laborPerWindow;\n    var total = perWindow * windowCount;\n    var energyPct = windowType === 'single' ? 0 : (windowType === 'double' ? 0.12 : (windowType === 'triple' ? 0.20 : 0.15));\n    var annualEnergySavings = 2400 * energyPct;\n    var payback = annualEnergySavings > 0 ? total / annualEnergySavings : 999;\n    document.getElementById('perWindow').textContent = dollar(perWindow) + ' (' + dollar(materialCost) + ' materials + ' + dollar(laborPerWindow) + ' labor)';\n    document.getElementById('totalCost').textContent = dollar(total) + ' for ' + fmt(windowCount, 0) + ' windows';\n    document.getElementById('energySavings').textContent = annualEnergySavings > 0 ? dollar(annualEnergySavings) + '/year (est. ' + fmt(energyPct * 100, 0) + '% reduction)' : 'Minimal — single pane offers no improvement';\n    document.getElementById('payback').textContent = payback < 50 ? fmt(payback, 1) + ' years' : 'N/A';",
+    "faq": [
+      {"question": "How much do replacement windows cost?", "answer": "Average cost is $400-700 per window for double-pane vinyl (installed). Budget $300-400 for single pane, $600-1,100 for triple pane, and $700-1,500 for impact-resistant. A whole-house project (10-15 windows) typically runs $5,000-15,000."},
+      {"question": "Are energy-efficient windows worth the cost?", "answer": "Double-pane Low-E windows can reduce energy bills by 10-15%. Triple-pane saves 15-25%. The payback period is typically 10-20 years from energy savings alone, but they also improve comfort and resale value."}
+    ],
+    "formulas": [
+      "Per Window = Material Cost x Frame Multiplier + Labor",
+      "Payback Period = Total Cost / Annual Energy Savings"
+    ],
+    "relatedTools": ["door-rough-opening-calculator", "deck-board-calculator", "shed-material-calculator"]
+  },
+  {
+    "slug": "door-rough-opening-calculator",
+    "toolName": "Door Rough Opening Calculator",
+    "category": "diy-home",
+    "tagline": "Calculate the correct rough opening framing dimensions for interior and exterior doors",
+    "keywords": ["rough opening", "door framing", "door installation", "door size", "framing dimensions"],
+    "inputs": [
+      {"id": "doorWidth", "label": "Door Width", "default": 36, "unit": "inches", "min": 24, "max": 72},
+      {"id": "doorHeight", "label": "Door Height", "default": 80, "unit": "inches", "min": 72, "max": 96},
+      {"id": "doorType", "label": "Door Type", "default": "prehung", "options": [{"value":"prehung","label":"Pre-hung (standard)"},{"value":"slab","label":"Slab Only"},{"value":"bifold","label":"Bi-fold"},{"value":"pocket","label":"Pocket Door"}]},
+      {"id": "wallThickness", "label": "Wall Thickness", "default": "4.5", "options": [{"value":"4.5","label":"2x4 Wall (4.5 inches)"},{"value":"6.5","label":"2x6 Wall (6.5 inches)"}]}
+    ],
+    "results": [
+      {"id": "roWidth", "label": "Rough Opening Width"},
+      {"id": "roHeight", "label": "Rough Opening Height"},
+      {"id": "headerSize", "label": "Header Size Needed"},
+      {"id": "materials", "label": "Framing Materials"}
+    ],
+    "calcFn": "var widthAdd = doorType === 'prehung' ? 2 : (doorType === 'slab' ? 2.5 : (doorType === 'bifold' ? 1 : 2));\n    var heightAdd = doorType === 'prehung' ? 2.5 : (doorType === 'slab' ? 3 : (doorType === 'bifold' ? 1.5 : 2.5));\n    if (doorType === 'pocket') widthAdd = doorWidth + 3;\n    var roW = doorWidth + widthAdd;\n    var roH = doorHeight + heightAdd;\n    var headerSpan = roW;\n    var headerSize = headerSpan <= 36 ? '2x4 doubled' : (headerSpan <= 48 ? '2x6 doubled' : (headerSpan <= 72 ? '2x8 doubled' : '2x10 doubled or LVL'));\n    var jackstuds = 2;\n    var kingstuds = 2;\n    var cripples = Math.ceil(roW / 16);\n    document.getElementById('roWidth').textContent = fmt(roW, 1) + ' inches (' + fmt(roW / 12, 2) + ' ft)';\n    document.getElementById('roHeight').textContent = fmt(roH, 1) + ' inches (' + fmt(roH / 12, 2) + ' ft)';\n    document.getElementById('headerSize').textContent = headerSize + ' (for ' + fmt(headerSpan, 0) + ' inch span)';\n    document.getElementById('materials').textContent = jackstuds + ' jack studs + ' + kingstuds + ' king studs + ' + cripples + ' cripple studs + header';",
+    "faq": [
+      {"question": "What is a rough opening?", "answer": "The rough opening is the framed opening in the wall that receives the door (or window). It is always larger than the door itself to allow for the door frame, shims, and adjustment. Typically 2 inches wider and 2.5 inches taller than the door."},
+      {"question": "What size header do I need above a door?", "answer": "For interior non-load-bearing walls: a flat 2x4 is sufficient. For load-bearing walls: doubled 2x6 up to 4 ft, 2x8 up to 6 ft, 2x10 up to 8 ft opening. Always check local code for load-bearing walls."}
+    ],
+    "formulas": [
+      "Rough Opening Width = Door Width + 2 inches (pre-hung)",
+      "Rough Opening Height = Door Height + 2.5 inches (pre-hung)"
+    ],
+    "relatedTools": ["window-replacement-cost-calculator", "deck-board-calculator", "shed-material-calculator"]
+  },
+  {
+    "slug": "shed-material-calculator",
+    "toolName": "Shed Material Calculator",
+    "category": "diy-home",
+    "tagline": "Calculate lumber, siding, roofing, and hardware needed to build a backyard shed",
+    "keywords": ["shed materials", "shed building", "shed cost", "shed plans", "shed supplies"],
+    "inputs": [
+      {"id": "shedLength", "label": "Shed Length", "default": 12, "unit": "feet", "min": 4, "max": 24},
+      {"id": "shedWidth", "label": "Shed Width", "default": 10, "unit": "feet", "min": 4, "max": 20},
+      {"id": "wallHeight", "label": "Wall Height", "default": 8, "unit": "feet", "min": 7, "max": 12},
+      {"id": "roofType", "label": "Roof Type", "default": "gable", "options": [{"value":"gable","label":"Gable (standard)"},{"value":"lean","label":"Lean-to (single slope)"},{"value":"gambrel","label":"Gambrel (barn style)"}]}
+    ],
+    "results": [
+      {"id": "sqft", "label": "Floor Area"},
+      {"id": "studs", "label": "Wall Studs (2x4x8)"},
+      {"id": "plywood", "label": "Sheathing/Plywood Sheets"},
+      {"id": "estCost", "label": "Estimated Material Cost"}
+    ],
+    "calcFn": "var sqft = shedLength * shedWidth;\n    var perimeter = 2 * (shedLength + shedWidth);\n    var studs = Math.ceil(perimeter / 1.33) + 8;\n    var wallArea = perimeter * wallHeight;\n    var wallSheets = Math.ceil(wallArea / 32);\n    var roofMult = roofType === 'gable' ? 1.15 : (roofType === 'lean' ? 1.05 : 1.25);\n    var roofArea = sqft * roofMult;\n    var roofSheets = Math.ceil(roofArea / 32);\n    var floorSheets = Math.ceil(sqft / 32);\n    var totalPlywood = wallSheets + roofSheets + floorSheets;\n    var shingles = Math.ceil(roofArea / 100) * 3;\n    var lumber = studs * 8 + (Math.ceil(shedLength / 1.33) * 2 * 10);\n    var cost = (totalPlywood * 45) + (studs * 5.50) + (shingles * 35) + 350;\n    document.getElementById('sqft').textContent = fmt(sqft, 0) + ' sq ft';\n    document.getElementById('studs').textContent = fmt(studs, 0) + ' studs (16\" O.C. + corners/headers)';\n    document.getElementById('plywood').textContent = fmt(totalPlywood, 0) + ' sheets 4x8 (' + fmt(wallSheets, 0) + ' walls, ' + fmt(roofSheets, 0) + ' roof, ' + fmt(floorSheets, 0) + ' floor)';\n    document.getElementById('estCost').textContent = dollar(cost) + ' (materials only, excl. doors/windows)';",
+    "faq": [
+      {"question": "How much does it cost to build a shed?", "answer": "DIY material cost: $1,500-4,000 for an 8x10 to 12x16 shed. Pre-built kits run $2,000-6,000. Hiring a contractor doubles the cost. The biggest expenses are plywood/siding (30%), roofing (20%), and lumber (25%)."},
+      {"question": "Do I need a permit to build a shed?", "answer": "Most areas require a permit for sheds over 120-200 sq ft or over 10 feet tall. Sheds under 100 sq ft often do not require permits. Always check local building codes — setback requirements, maximum height, and lot coverage limits apply."}
+    ],
+    "formulas": [
+      "Studs = Perimeter / 1.33 (16\" O.C.) + 8 (corners/headers)",
+      "Plywood Sheets = (Wall Area + Roof Area + Floor Area) / 32 sq ft per sheet"
+    ],
+    "relatedTools": ["deck-board-calculator", "concrete-slab-calculator", "door-rough-opening-calculator"]
+  },
+  {
+    "slug": "pizza-dough-hydration-calculator",
+    "toolName": "Pizza Dough Hydration Calculator",
+    "category": "food-beverage",
+    "tagline": "Calculate baker's percentages and ingredient weights for pizza dough at any hydration level",
+    "keywords": ["pizza dough", "hydration calculator", "baker percentage", "pizza recipe", "dough recipe"],
+    "inputs": [
+      {"id": "doughBalls", "label": "Number of Dough Balls", "default": 4, "min": 1, "max": 20},
+      {"id": "ballWeight", "label": "Dough Ball Weight", "default": 250, "unit": "grams", "min": 150, "max": 400},
+      {"id": "hydration", "label": "Hydration", "default": 65, "unit": "%", "min": 50, "max": 85},
+      {"id": "saltPct", "label": "Salt", "default": 2.5, "unit": "% of flour", "min": 1, "max": 4, "step": 0.5}
+    ],
+    "results": [
+      {"id": "flour", "label": "Flour"},
+      {"id": "water", "label": "Water"},
+      {"id": "salt", "label": "Salt"},
+      {"id": "yeast", "label": "Instant Yeast"},
+      {"id": "totalDough", "label": "Total Dough Weight"}
+    ],
+    "calcFn": "var totalDough = doughBalls * ballWeight;\n    var flourPct = 100;\n    var waterPct = hydration;\n    var yeastPct = 0.3;\n    var totalPct = flourPct + waterPct + saltPct + yeastPct;\n    var flour = totalDough * (flourPct / totalPct);\n    var water = totalDough * (waterPct / totalPct);\n    var salt = totalDough * (saltPct / totalPct);\n    var yeast = totalDough * (yeastPct / totalPct);\n    document.getElementById('flour').textContent = fmt(flour, 0) + ' g (' + fmt(flour / 28.35, 1) + ' oz)';\n    document.getElementById('water').textContent = fmt(water, 0) + ' g (' + fmt(water / 29.57, 1) + ' fl oz)';\n    document.getElementById('salt').textContent = fmt(salt, 1) + ' g (' + fmt(salt / 6, 1) + ' tsp)';\n    document.getElementById('yeast').textContent = fmt(yeast, 1) + ' g (' + fmt(yeast / 3, 1) + ' tsp)';\n    document.getElementById('totalDough').textContent = fmt(totalDough, 0) + ' g for ' + fmt(doughBalls, 0) + ' balls';",
+    "faq": [
+      {"question": "What hydration should pizza dough be?", "answer": "Neapolitan: 60-65%. New York style: 63-67%. Thin and crispy: 55-60%. Sicilian/pan: 70-80%. Higher hydration gives a lighter, more open crumb but is harder to handle. Start at 63% and adjust."},
+      {"question": "What is baker's percentage?", "answer": "Baker's percentage expresses each ingredient as a percentage of the flour weight. Flour is always 100%. So 65% hydration means 650g water for every 1000g flour. This makes scaling recipes easy."}
+    ],
+    "formulas": [
+      "Flour = Total Dough x (100 / (100 + Hydration% + Salt% + Yeast%))",
+      "Water = Flour x Hydration%"
+    ],
+    "relatedTools": ["cocktail-dilution-calculator", "recipe-scaler-calculator", "bread-flour-calculator"]
+  },
+  {
+    "slug": "cocktail-dilution-calculator",
+    "toolName": "Cocktail Dilution Calculator",
+    "category": "food-beverage",
+    "tagline": "Calculate dilution rates, final ABV, and water content for shaken and stirred cocktails",
+    "keywords": ["cocktail dilution", "drink ABV", "cocktail math", "bar math", "cocktail recipe"],
+    "inputs": [
+      {"id": "spiritOz", "label": "Spirit Amount", "default": 2, "unit": "oz", "min": 0.5, "max": 6, "step": 0.25},
+      {"id": "spiritABV", "label": "Spirit ABV", "default": 40, "unit": "%", "min": 10, "max": 75},
+      {"id": "mixerOz", "label": "Non-Alcoholic Mixer", "default": 1, "unit": "oz", "min": 0, "max": 6, "step": 0.25},
+      {"id": "method", "label": "Preparation Method", "default": "shaken", "options": [{"value":"stirred","label":"Stirred (15-20% dilution)"},{"value":"shaken","label":"Shaken (25-30% dilution)"},{"value":"blended","label":"Blended (40-50% dilution)"},{"value":"neat","label":"Neat/Up (0% dilution)"}]}
+    ],
+    "results": [
+      {"id": "dilution", "label": "Water Added from Ice"},
+      {"id": "totalVolume", "label": "Total Drink Volume"},
+      {"id": "finalABV", "label": "Final ABV"},
+      {"id": "proof", "label": "Final Proof"}
+    ],
+    "calcFn": "var dilutionRates = {'stirred':0.175,'shaken':0.275,'blended':0.45,'neat':0};\n    var preDilutionVol = spiritOz + mixerOz;\n    var waterAdded = preDilutionVol * dilutionRates[method];\n    var totalVol = preDilutionVol + waterAdded;\n    var alcoholOz = spiritOz * (spiritABV / 100);\n    var finalABV = (alcoholOz / totalVol) * 100;\n    document.getElementById('dilution').textContent = fmt(waterAdded, 2) + ' oz of water (' + fmt(dilutionRates[method] * 100, 0) + '% dilution)';\n    document.getElementById('totalVolume').textContent = fmt(totalVol, 2) + ' oz total';\n    document.getElementById('finalABV').textContent = fmt(finalABV, 1) + '%';\n    document.getElementById('proof').textContent = fmt(finalABV * 2, 1) + ' proof';",
+    "faq": [
+      {"question": "How much does ice dilute a cocktail?", "answer": "Stirring adds 15-20% dilution (about 0.5-0.75 oz per drink). Shaking adds 25-30% (about 1 oz). The dilution is intentional — it opens up flavors and integrates ingredients. Dave Arnold measured this extensively."},
+      {"question": "What ABV should a finished cocktail be?", "answer": "Classic cocktails target 18-25% ABV. A Martini is about 28-32% (very spirit-forward). A Margarita is about 15-18%. Long drinks (Highball, G&T) are 8-12%. Below 10% and the drink can taste watery; above 30% it may seem harsh."}
+    ],
+    "formulas": [
+      "Water Added = Pre-Dilution Volume x Dilution Rate",
+      "Final ABV = (Spirit oz x Spirit ABV%) / Total Volume"
+    ],
+    "relatedTools": ["pizza-dough-hydration-calculator", "recipe-scaler-calculator", "bac-calculator"]
+  },
+  {
+    "slug": "wind-turbine-output-calculator",
+    "toolName": "Wind Turbine Output Calculator",
+    "category": "energy-independence",
+    "tagline": "Estimate annual energy output and savings from a small residential wind turbine",
+    "keywords": ["wind turbine", "wind energy", "small wind", "turbine output", "wind power"],
+    "inputs": [
+      {"id": "rotorDiameter", "label": "Rotor Diameter", "default": 12, "unit": "feet", "min": 3, "max": 30},
+      {"id": "avgWindSpeed", "label": "Avg Annual Wind Speed", "default": 12, "unit": "mph", "min": 5, "max": 30},
+      {"id": "hubHeight", "label": "Hub Height", "default": 60, "unit": "feet", "min": 20, "max": 140},
+      {"id": "electricRate", "label": "Electricity Rate", "default": 0.14, "unit": "$/kWh", "min": 0.05, "max": 0.50, "step": 0.01}
+    ],
+    "results": [
+      {"id": "ratedPower", "label": "Rated Power Output"},
+      {"id": "annualKWh", "label": "Estimated Annual Output"},
+      {"id": "annualSavings", "label": "Annual Savings"},
+      {"id": "payback", "label": "Estimated Payback (at $3k/kW)"}
+    ],
+    "calcFn": "var radiusM = (rotorDiameter / 2) * 0.3048;\n    var area = Math.PI * radiusM * radiusM;\n    var windMS = avgWindSpeed * 0.44704;\n    var airDensity = 1.225;\n    var efficiency = 0.35;\n    var ratedWatts = 0.5 * airDensity * area * Math.pow(windMS, 3) * efficiency;\n    var ratedKW = ratedWatts / 1000;\n    var capacityFactor = 0.25;\n    var annualKWh = ratedKW * 8760 * capacityFactor;\n    var savings = annualKWh * electricRate;\n    var installCost = ratedKW * 3000;\n    var payback = savings > 0 ? installCost / savings : 999;\n    document.getElementById('ratedPower').textContent = fmt(ratedKW, 2) + ' kW (' + fmt(ratedWatts, 0) + ' watts)';\n    document.getElementById('annualKWh').textContent = fmt(annualKWh, 0) + ' kWh/year';\n    document.getElementById('annualSavings').textContent = dollar(savings) + '/year';\n    document.getElementById('payback').textContent = fmt(payback, 1) + ' years (at ' + dollar(installCost) + ' installed)';",
+    "faq": [
+      {"question": "Are small wind turbines worth it?", "answer": "Small wind is viable in rural areas with average winds above 10 mph and electricity rates above $0.12/kWh. Payback is typically 10-20 years. They work best combined with solar since wind and sun often complement each other seasonally."},
+      {"question": "How much wind do I need for a turbine?", "answer": "Minimum 9 mph average annual wind speed for economic viability. 12+ mph is ideal. Wind power scales with the cube of wind speed, so a site with 14 mph wind produces nearly 3x more power than one with 10 mph."}
+    ],
+    "formulas": [
+      "Power (W) = 0.5 x Air Density x Rotor Area x Wind Speed^3 x Efficiency",
+      "Annual kWh = Rated kW x 8760 hours x Capacity Factor"
+    ],
+    "relatedTools": ["battery-backup-duration-calculator", "solar-panel-calculator", "electricity-cost-calculator"]
+  },
+  {
+    "slug": "battery-backup-duration-calculator",
+    "toolName": "Battery Backup Duration Calculator",
+    "category": "energy-independence",
+    "tagline": "Calculate how long a battery backup system will power your essential loads",
+    "keywords": ["battery backup", "backup duration", "battery sizing", "power outage", "UPS runtime"],
+    "inputs": [
+      {"id": "batteryKWh", "label": "Battery Capacity", "default": 13.5, "unit": "kWh", "min": 1, "max": 100, "step": 0.5},
+      {"id": "essentialLoad", "label": "Essential Load", "default": 3, "unit": "kW", "min": 0.1, "max": 20, "step": 0.1},
+      {"id": "usablePercent", "label": "Usable Capacity", "default": 90, "unit": "%", "min": 50, "max": 100},
+      {"id": "inverterEfficiency", "label": "Inverter Efficiency", "default": 95, "unit": "%", "min": 80, "max": 100}
+    ],
+    "results": [
+      {"id": "usableKWh", "label": "Usable Energy"},
+      {"id": "runtime", "label": "Backup Runtime"},
+      {"id": "dailyCycles", "label": "Full Days of Backup"},
+      {"id": "tip", "label": "Optimization Tip"}
+    ],
+    "calcFn": "var usableKWh = batteryKWh * (usablePercent / 100) * (inverterEfficiency / 100);\n    var runtimeHours = usableKWh / essentialLoad;\n    var days = runtimeHours / 24;\n    var tip = runtimeHours < 4 ? 'Reduce load or add more battery capacity — ' + fmt(runtimeHours, 1) + ' hrs may not last overnight' : (runtimeHours < 12 ? 'Good for overnight backup. Reduce non-essential loads to extend runtime' : 'Excellent runtime. Can handle most outages comfortably');\n    document.getElementById('usableKWh').textContent = fmt(usableKWh, 1) + ' kWh (of ' + fmt(batteryKWh, 1) + ' kWh total)';\n    document.getElementById('runtime').textContent = fmt(runtimeHours, 1) + ' hours (' + fmt(runtimeHours * 60, 0) + ' minutes)';\n    document.getElementById('dailyCycles').textContent = fmt(days, 2) + ' days';\n    document.getElementById('tip').textContent = tip;",
+    "faq": [
+      {"question": "How long will a Tesla Powerwall last in an outage?", "answer": "A single Powerwall (13.5 kWh) lasts 10-12 hours powering essential loads (fridge, lights, WiFi, phones = ~1.2 kW), or 4-5 hours with heavier loads including AC. Two Powerwalls can typically get through a full day."},
+      {"question": "What should I power during an outage?", "answer": "Priority loads: refrigerator (0.15 kW), lights (0.1 kW), WiFi router (0.02 kW), phone charging (0.01 kW). Total essentials ~0.5 kW. Adding a well pump (1 kW), sump pump (0.5 kW), or AC (3 kW) drastically reduces runtime."}
+    ],
+    "formulas": [
+      "Usable Energy = Battery kWh x Usable % x Inverter Efficiency %",
+      "Runtime (hours) = Usable Energy / Load (kW)"
+    ],
+    "relatedTools": ["wind-turbine-output-calculator", "solar-panel-calculator", "electricity-cost-calculator"]
+  },
+  {
+    "slug": "osha-fine-calculator",
+    "toolName": "OSHA Fine Calculator",
+    "category": "legal-regulatory",
+    "tagline": "Estimate OSHA penalty amounts based on violation type, severity, and company size",
+    "keywords": ["OSHA fine", "OSHA penalty", "workplace safety", "OSHA violation", "safety compliance"],
+    "inputs": [
+      {"id": "violationType", "label": "Violation Type", "default": "serious", "options": [{"value":"other","label":"Other-Than-Serious (up to $16,131)"},{"value":"serious","label":"Serious ($1,116-$16,131)"},{"value":"willful","label":"Willful ($11,524-$161,323)"},{"value":"repeat","label":"Repeat ($11,524-$161,323)"},{"value":"failure","label":"Failure to Abate ($16,131/day)"}]},
+      {"id": "employees", "label": "Number of Employees", "default": 50, "min": 1, "max": 10000},
+      {"id": "severity", "label": "Injury Severity", "default": "moderate", "options": [{"value":"low","label":"Low (no injuries)"},{"value":"moderate","label":"Moderate (minor injuries possible)"},{"value":"high","label":"High (serious injury/death)"}]},
+      {"id": "goodFaith", "label": "Safety Program in Place?", "default": "partial", "options": [{"value":"yes","label":"Yes — strong program (-25%)"},{"value":"partial","label":"Partial program (-15%)"},{"value":"no","label":"No safety program (0%)"}]}
+    ],
+    "results": [
+      {"id": "basePenalty", "label": "Base Penalty"},
+      {"id": "adjustments", "label": "Adjustments"},
+      {"id": "finalPenalty", "label": "Estimated Final Penalty"},
+      {"id": "perDay", "label": "If Failure to Abate"}
+    ],
+    "calcFn": "var maxPenalties = {'other':16131,'serious':16131,'willful':161323,'repeat':161323,'failure':16131};\n    var severityMult = {'low':0.3,'moderate':0.6,'high':1.0};\n    var basePenalty = maxPenalties[violationType] * severityMult[severity];\n    var sizeReduction = employees <= 25 ? 0.60 : (employees <= 100 ? 0.40 : (employees <= 250 ? 0.20 : 0));\n    var goodFaithReduction = goodFaith === 'yes' ? 0.25 : (goodFaith === 'partial' ? 0.15 : 0);\n    var totalReduction = sizeReduction + goodFaithReduction;\n    var finalPenalty = basePenalty * (1 - totalReduction);\n    finalPenalty = Math.max(finalPenalty, violationType === 'willful' ? 11524 : 0);\n    var perDay = violationType === 'failure' ? 16131 : 0;\n    document.getElementById('basePenalty').textContent = dollar(basePenalty);\n    document.getElementById('adjustments').textContent = fmt(totalReduction * 100, 0) + '% reduction (' + fmt(sizeReduction * 100, 0) + '% size + ' + fmt(goodFaithReduction * 100, 0) + '% good faith)';\n    document.getElementById('finalPenalty').textContent = dollar(finalPenalty) + ' per violation';\n    document.getElementById('perDay').textContent = perDay > 0 ? dollar(perDay) + ' per day until corrected' : 'N/A';",
+    "faq": [
+      {"question": "What are 2024 OSHA maximum fines?", "answer": "Serious/Other: up to $16,131 per violation. Willful/Repeat: up to $161,323 per violation. Failure to Abate: $16,131 per day. Penalties are adjusted annually for inflation. Multiple violations at one worksite can result in millions in total fines."},
+      {"question": "How can OSHA penalties be reduced?", "answer": "Reductions for: small business size (up to 60% for under 25 employees), good faith/safety programs (up to 25%), and compliance history (up to 10%). Contesting citations through an informal conference can also reduce penalties."}
+    ],
+    "formulas": [
+      "Base Penalty = Maximum for Violation Type x Severity Multiplier",
+      "Final Penalty = Base x (1 - Size Reduction - Good Faith Reduction)"
+    ],
+    "relatedTools": ["ada-compliance-cost-calculator", "workers-comp-calculator", "business-insurance-calculator"]
+  },
+  {
+    "slug": "ada-compliance-cost-calculator",
+    "toolName": "ADA Compliance Cost Calculator",
+    "category": "legal-regulatory",
+    "tagline": "Estimate costs for ADA accessibility retrofits for commercial buildings",
+    "keywords": ["ADA compliance", "accessibility", "ADA retrofit", "handicap accessible", "ADA cost"],
+    "inputs": [
+      {"id": "buildingSqFt", "label": "Building Size", "default": 5000, "unit": "sq ft", "min": 500, "max": 100000},
+      {"id": "ramp", "label": "Ramp Installation Needed?", "default": "yes", "options": [{"value":"no","label":"No"},{"value":"yes","label":"Yes — standard ramp"},{"value":"long","label":"Yes — long ramp (3+ ft rise)"}]},
+      {"id": "restroom", "label": "Restroom Renovation", "default": "partial", "options": [{"value":"no","label":"No changes needed"},{"value":"partial","label":"Partial (grab bars, door width)"},{"value":"full","label":"Full ADA restroom remodel"}]},
+      {"id": "doorways", "label": "Doorways to Widen", "default": 3, "min": 0, "max": 20},
+      {"id": "signage", "label": "ADA Signage Needed", "default": "yes", "options": [{"value":"no","label":"No"},{"value":"yes","label":"Yes — full building signage"}]}
+    ],
+    "results": [
+      {"id": "rampCost", "label": "Ramp Cost"},
+      {"id": "restroomCost", "label": "Restroom Cost"},
+      {"id": "doorCost", "label": "Doorway Widening Cost"},
+      {"id": "totalCost", "label": "Total Estimated Cost"}
+    ],
+    "calcFn": "var rampCosts = {'no':0,'yes':3500,'long':8000};\n    var restroomCosts = {'no':0,'partial':3000,'full':12000};\n    var rampC = rampCosts[ramp];\n    var restroomC = restroomCosts[restroom];\n    var doorC = doorways * 1500;\n    var signageC = signage === 'yes' ? Math.max(500, buildingSqFt * 0.10) : 0;\n    var total = rampC + restroomC + doorC + signageC;\n    document.getElementById('rampCost').textContent = rampC > 0 ? dollar(rampC) : 'Not needed';\n    document.getElementById('restroomCost').textContent = restroomC > 0 ? dollar(restroomC) : 'Not needed';\n    document.getElementById('doorCost').textContent = doorways > 0 ? dollar(doorC) + ' (' + fmt(doorways, 0) + ' doorways x $1,500)' : 'Not needed';\n    document.getElementById('totalCost').textContent = dollar(total) + (signageC > 0 ? ' (includes ' + dollar(signageC) + ' signage)' : '');",
+    "faq": [
+      {"question": "Is ADA compliance required for my business?", "answer": "Yes if your business is open to the public (Title III) or has 15+ employees (Title I). Existing buildings must remove barriers when readily achievable. New construction and major renovations must be fully ADA compliant."},
+      {"question": "What are common ADA violations?", "answer": "Most common: no accessible entrance (ramp), non-compliant restrooms (grab bars, clearance), doorways under 32 inches clear, no accessible parking, missing Braille/tactile signage, and inaccessible counters/service areas."}
+    ],
+    "formulas": [
+      "Total Cost = Ramp + Restroom + Doorways + Signage",
+      "Doorway Cost = Number of Doorways x $1,500 average"
+    ],
+    "relatedTools": ["osha-fine-calculator", "business-insurance-calculator", "window-replacement-cost-calculator"]
+  },
+  {
+    "slug": "home-renovation-roi-calculator",
+    "toolName": "Home Renovation ROI Calculator",
+    "category": "housing",
+    "tagline": "Calculate return on investment for common home renovation projects at resale",
+    "keywords": ["renovation ROI", "home improvement return", "remodel value", "home resale value", "renovation payback"],
+    "inputs": [
+      {"id": "homeValue", "label": "Current Home Value", "default": 350000, "unit": "$", "min": 50000},
+      {"id": "projectType", "label": "Project Type", "default": "kitchen", "options": [{"value":"kitchen","label":"Kitchen Remodel (75% ROI)"},{"value":"bathroom","label":"Bathroom Remodel (70% ROI)"},{"value":"deck","label":"Deck Addition (65% ROI)"},{"value":"roof","label":"New Roof (60% ROI)"},{"value":"siding","label":"Siding Replacement (75% ROI)"},{"value":"garage","label":"Garage Door (95% ROI)"},{"value":"windows","label":"Window Replacement (70% ROI)"},{"value":"basement","label":"Basement Finish (70% ROI)"}]},
+      {"id": "projectCost", "label": "Renovation Budget", "default": 35000, "unit": "$", "min": 1000}
+    ],
+    "results": [
+      {"id": "roiPct", "label": "Expected ROI"},
+      {"id": "valueAdded", "label": "Value Added to Home"},
+      {"id": "netCost", "label": "Net Cost (after value added)"},
+      {"id": "newValue", "label": "Estimated New Home Value"}
+    ],
+    "calcFn": "var roiRates = {'kitchen':0.75,'bathroom':0.70,'deck':0.65,'roof':0.60,'siding':0.75,'garage':0.95,'windows':0.70,'basement':0.70};\n    var roi = roiRates[projectType];\n    var valueAdded = projectCost * roi;\n    var netCost = projectCost - valueAdded;\n    var newValue = homeValue + valueAdded;\n    var overImprove = projectCost > (homeValue * 0.15) ? ' — WARNING: May be over-improving for your home value' : '';\n    document.getElementById('roiPct').textContent = fmt(roi * 100, 0) + '% cost recovery at resale';\n    document.getElementById('valueAdded').textContent = dollar(valueAdded) + ' added to home value';\n    document.getElementById('netCost').textContent = dollar(netCost) + ' net out-of-pocket' + overImprove;\n    document.getElementById('newValue').textContent = dollar(newValue);",
+    "faq": [
+      {"question": "What home renovation has the best ROI?", "answer": "Garage door replacement leads with 95%+ ROI. Exterior improvements (siding, roofing) recoup 60-80%. Kitchen and bath mid-range remodels return 70-80%. High-end renovations return less percentage-wise but add more absolute value."},
+      {"question": "Should I renovate before selling?", "answer": "Focus on curb appeal (paint, landscaping, garage door) and essential repairs (roof, HVAC). Minor kitchen updates (paint cabinets, new hardware, countertops) have high ROI. Avoid major renovations unless the home needs them to sell."}
+    ],
+    "formulas": [
+      "Value Added = Project Cost x ROI Rate",
+      "Net Cost = Project Cost - Value Added"
+    ],
+    "relatedTools": ["property-tax-appeal-calculator", "window-replacement-cost-calculator", "deck-board-calculator"]
+  },
+  {
+    "slug": "property-tax-appeal-calculator",
+    "toolName": "Property Tax Appeal Calculator",
+    "category": "housing",
+    "tagline": "Estimate potential savings from appealing your property tax assessment",
+    "keywords": ["property tax appeal", "tax assessment", "property tax reduction", "tax savings", "assessed value"],
+    "inputs": [
+      {"id": "assessedValue", "label": "Current Assessed Value", "default": 350000, "unit": "$", "min": 10000},
+      {"id": "fairMarketValue", "label": "Your Estimated Fair Market Value", "default": 310000, "unit": "$", "min": 10000},
+      {"id": "taxRate", "label": "Property Tax Rate", "default": 1.1, "unit": "%", "min": 0.1, "max": 5, "step": 0.05},
+      {"id": "appealCost", "label": "Appeal Filing Cost", "default": 50, "unit": "$", "min": 0, "max": 500}
+    ],
+    "results": [
+      {"id": "overAssessed", "label": "Over-Assessment Amount"},
+      {"id": "currentTax", "label": "Current Annual Tax"},
+      {"id": "newTax", "label": "Tax After Successful Appeal"},
+      {"id": "annualSavings", "label": "Annual Savings"},
+      {"id": "fiveYearSavings", "label": "5-Year Savings"}
+    ],
+    "calcFn": "var overAssessed = assessedValue - fairMarketValue;\n    var currentTax = assessedValue * (taxRate / 100);\n    var newTax = fairMarketValue * (taxRate / 100);\n    var annualSave = currentTax - newTax;\n    var netFirstYear = annualSave - appealCost;\n    var fiveYear = (annualSave * 5) - appealCost;\n    document.getElementById('overAssessed').textContent = overAssessed > 0 ? dollar(overAssessed) + ' over fair market value' : 'Assessment appears fair or undervalued';\n    document.getElementById('currentTax').textContent = dollar(currentTax) + '/year';\n    document.getElementById('newTax').textContent = dollar(newTax) + '/year';\n    document.getElementById('annualSavings').textContent = annualSave > 0 ? dollar(annualSave) + '/year (' + dollar(netFirstYear) + ' first year after filing fee)' : 'No savings — assessment is fair';\n    document.getElementById('fiveYearSavings').textContent = fiveYear > 0 ? dollar(fiveYear) + ' over 5 years' : 'Appeal not recommended';",
+    "faq": [
+      {"question": "How do I know if my property is over-assessed?", "answer": "Compare your assessed value to recent sales of similar homes (same size, age, condition, neighborhood). If your assessment is 10%+ higher than comparable sales, you likely have grounds for an appeal. Check your county assessor website for comps."},
+      {"question": "What is the success rate for property tax appeals?", "answer": "About 50-70% of formal appeals result in some reduction. Having 3-5 comparable sales supporting a lower value significantly increases your chances. Many homeowners never appeal, even when over-assessed."}
+    ],
+    "formulas": [
+      "Annual Savings = (Assessed Value - Fair Market Value) x Tax Rate",
+      "5-Year Savings = (Annual Savings x 5) - Filing Fee"
+    ],
+    "relatedTools": ["home-renovation-roi-calculator", "mortgage-calculator", "rent-vs-buy-calculator"]
+  }
+]

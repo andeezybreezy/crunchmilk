@@ -1,0 +1,695 @@
+[
+  {
+    "slug": "net-worth-percentile-calculator",
+    "toolName": "Net Worth Percentile Calculator",
+    "category": "finance",
+    "tagline": "See where your net worth ranks compared to others in your age group",
+    "keywords": ["net worth percentile", "net worth by age", "am i rich", "net worth ranking", "wealth percentile", "average net worth"],
+    "inputs": [
+      {"id": "age", "label": "Your Age", "type": "number", "placeholder": "35", "min": 18, "max": 100, "step": 1},
+      {"id": "totalAssets", "label": "Total Assets ($)", "type": "number", "placeholder": "250000", "min": 0, "max": 100000000, "step": 1000},
+      {"id": "totalDebts", "label": "Total Debts ($)", "type": "number", "placeholder": "80000", "min": 0, "max": 100000000, "step": 1000}
+    ],
+    "results": [
+      {"id": "netWorth", "label": "Your Net Worth", "unit": "$"},
+      {"id": "percentile", "label": "Percentile Rank", "unit": ""},
+      {"id": "medianForAge", "label": "Median for Age Group", "unit": "$"},
+      {"id": "vsMedian", "label": "vs. Median", "unit": ""},
+      {"id": "topPercent", "label": "You Are in the Top", "unit": "%"}
+    ],
+    "calcFn": "var nw = totalAssets - totalDebts; var medians = [[24,10800],[34,39000],[44,135000],[54,247000],[64,364000],[100,409000]]; var med = 39000; for (var i = 0; i < medians.length; i++) { if (age <= medians[i][0]) { med = medians[i][1]; break; } } var ratio = nw / Math.max(med, 1); var pctile = 50; if (ratio <= 0) pctile = Math.max(1, Math.round(15 * Math.max(0, (nw + 50000)) / 50000)); else if (ratio < 0.5) pctile = 15 + Math.round(20 * ratio / 0.5); else if (ratio < 1) pctile = 35 + Math.round(15 * (ratio - 0.5) / 0.5); else if (ratio < 2) pctile = 50 + Math.round(15 * (ratio - 1)); else if (ratio < 4) pctile = 65 + Math.round(15 * (ratio - 2) / 2); else if (ratio < 8) pctile = 80 + Math.round(10 * (ratio - 4) / 4); else pctile = 90 + Math.min(9, Math.round(5 * (ratio - 8) / 8)); pctile = Math.max(1, Math.min(99, pctile)); var diff = nw - med; var vsStr = diff >= 0 ? dollar(diff) + ' above median' : dollar(Math.abs(diff)) + ' below median'; document.getElementById('netWorth').textContent = dollar(nw); document.getElementById('percentile').textContent = pctile + 'th percentile'; document.getElementById('medianForAge').textContent = dollar(med); document.getElementById('vsMedian').textContent = vsStr; document.getElementById('topPercent').textContent = (100 - pctile) + '%';",
+    "faq": [
+      {"q": "What counts as assets for net worth?", "a": "Assets include bank accounts, retirement accounts (401k, IRA), investments, home equity, vehicles, real estate, and valuable personal property. Include the full market value of your home, then list the mortgage under debts."},
+      {"q": "What is a good net worth for my age?", "a": "A common benchmark is having 1x your salary saved by 30, 3x by 40, and 6x by 50. The median US household net worth is about $192,000 across all ages. Being above the median for your age group is a strong indicator of financial health."},
+      {"q": "Why is the average so much higher than the median?", "a": "Ultra-wealthy households pull the average (mean) dramatically higher. The median is a better measure of what a typical person has, as it represents the exact middle point unaffected by extreme outliers."}
+    ],
+    "formulas": [
+      {"name": "Net Worth", "formula": "Net Worth = Total Assets - Total Debts", "explanation": "Your net worth is everything you own minus everything you owe."},
+      {"name": "Percentile Estimation", "formula": "Based on Federal Reserve Survey of Consumer Finances data brackets", "explanation": "Percentile is interpolated from SCF median and distribution data by age group."}
+    ],
+    "relatedTools": ["salary-after-tax-calculator", "estate-tax-calculator", "required-minimum-distribution-calculator"]
+  },
+  {
+    "slug": "salary-after-tax-calculator",
+    "toolName": "Salary After Tax Calculator",
+    "category": "finance",
+    "tagline": "Calculate your actual take-home pay after federal and state taxes",
+    "keywords": ["salary after tax", "take home pay", "paycheck calculator", "net pay", "after tax income", "tax calculator"],
+    "inputs": [
+      {"id": "salary", "label": "Annual Salary ($)", "type": "number", "placeholder": "75000", "min": 0, "max": 10000000, "step": 1000},
+      {"id": "filing", "label": "Filing Status", "type": "select", "options": [{"value": "single", "label": "Single"}, {"value": "married", "label": "Married Filing Jointly"}, {"value": "hoh", "label": "Head of Household"}]},
+      {"id": "stateTaxRate", "label": "State Tax Rate (%)", "type": "number", "placeholder": "5", "min": 0, "max": 14, "step": 0.1}
+    ],
+    "results": [
+      {"id": "grossPay", "label": "Gross Annual Pay", "unit": "$"},
+      {"id": "fedTax", "label": "Federal Income Tax", "unit": "$"},
+      {"id": "stateTax", "label": "State Income Tax", "unit": "$"},
+      {"id": "fica", "label": "FICA (SS + Medicare)", "unit": "$"},
+      {"id": "takeHome", "label": "Annual Take-Home", "unit": "$"},
+      {"id": "monthly", "label": "Monthly Take-Home", "unit": "$"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate", "unit": "%"}
+    ],
+    "calcFn": "var std = filing === 'married' ? 29200 : filing === 'hoh' ? 21900 : 14600; var taxable = Math.max(0, salary - std); var fed = 0; if (filing === 'married') { if (taxable <= 23200) fed = taxable * 0.10; else if (taxable <= 94300) fed = 2320 + (taxable - 23200) * 0.12; else if (taxable <= 201050) fed = 10852 + (taxable - 94300) * 0.22; else fed = 34337 + (taxable - 201050) * 0.24; } else { if (taxable <= 11600) fed = taxable * 0.10; else if (taxable <= 47150) fed = 1160 + (taxable - 11600) * 0.12; else if (taxable <= 100525) fed = 5426 + (taxable - 47150) * 0.22; else fed = 17169 + (taxable - 100525) * 0.24; } var ss = Math.min(salary, 168600) * 0.062; var mc = salary * 0.0145; var ficaTotal = ss + mc; var st = salary * (stateTaxRate / 100); var total = fed + st + ficaTotal; var net = salary - total; var eff = salary > 0 ? (total / salary) * 100 : 0; document.getElementById('grossPay').textContent = dollar(salary); document.getElementById('fedTax').textContent = dollar(fed); document.getElementById('stateTax').textContent = dollar(st); document.getElementById('fica').textContent = dollar(ficaTotal); document.getElementById('takeHome').textContent = dollar(net); document.getElementById('monthly').textContent = dollar(net / 12); document.getElementById('effectiveRate').textContent = pct(eff, 1);",
+    "faq": [
+      {"q": "How much is $100k after taxes?", "a": "A $100,000 salary in a state with no income tax yields roughly $78,000-$80,000 take-home after federal tax and FICA. In states like California, expect around $70,000-$73,000."},
+      {"q": "What is FICA tax?", "a": "FICA funds Social Security (6.2% up to $168,600) and Medicare (1.45% with no cap). Your employer pays an equal amount. Total FICA is 7.65% of your wages."}
+    ],
+    "formulas": [
+      {"name": "Take-Home Pay", "formula": "Take-Home = Gross Salary - Federal Tax - State Tax - FICA", "explanation": "Your net pay after all mandatory tax withholdings."},
+      {"name": "Effective Tax Rate", "formula": "Effective Rate = Total Taxes / Gross Income x 100", "explanation": "The actual percentage of your income paid in all taxes combined."}
+    ],
+    "relatedTools": ["net-worth-percentile-calculator", "estate-tax-calculator", "social-security-benefit-calculator"]
+  },
+  {
+    "slug": "irs-audit-probability-calculator",
+    "toolName": "IRS Audit Probability Calculator",
+    "category": "finance",
+    "tagline": "Estimate your likelihood of being audited by the IRS based on income and filing factors",
+    "keywords": ["IRS audit risk", "audit probability", "chances of being audited", "IRS audit rate", "tax audit risk", "audit triggers"],
+    "inputs": [
+      {"id": "income", "label": "Adjusted Gross Income ($)", "type": "number", "placeholder": "85000", "min": 0, "max": 50000000, "step": 1000},
+      {"id": "selfEmployed", "label": "Self-Employed?", "type": "select", "options": [{"value": "no", "label": "No - W2 Employee"}, {"value": "yes", "label": "Yes - Self-Employed"}]},
+      {"id": "homeOffice", "label": "Claim Home Office Deduction?", "type": "select", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes"}]},
+      {"id": "charitable", "label": "Charitable Donations (% of Income)", "type": "number", "placeholder": "3", "min": 0, "max": 100, "step": 0.5}
+    ],
+    "results": [
+      {"id": "baseRate", "label": "Base Audit Rate", "unit": "%"},
+      {"id": "adjustedRate", "label": "Your Estimated Rate", "unit": "%"},
+      {"id": "odds", "label": "Odds of Audit", "unit": ""},
+      {"id": "riskLevel", "label": "Risk Level", "unit": ""}
+    ],
+    "calcFn": "var base = 0.4; if (income > 10000000) base = 8.5; else if (income > 1000000) base = 2.4; else if (income > 500000) base = 1.0; else if (income > 200000) base = 0.6; else if (income > 100000) base = 0.4; else if (income > 50000) base = 0.3; else if (income > 25000) base = 0.5; else base = 0.8; var mult = 1.0; if (selfEmployed === 'yes') mult += 0.6; if (homeOffice === 'yes') mult += 0.3; if (charitable > 10) mult += 0.5; else if (charitable > 5) mult += 0.2; var adj = Math.min(base * mult, 25); var oddsVal = Math.round(100 / adj); var risk = adj >= 5 ? 'High' : adj >= 2 ? 'Elevated' : adj >= 1 ? 'Moderate' : 'Low'; document.getElementById('baseRate').textContent = pct(base, 2); document.getElementById('adjustedRate').textContent = pct(adj, 2); document.getElementById('odds').textContent = '1 in ' + oddsVal; document.getElementById('riskLevel').textContent = risk;",
+    "faq": [
+      {"q": "What income level gets audited most?", "a": "Taxpayers earning over $1 million have the highest audit rates at roughly 2-4%. Very low income filers claiming EITC also face higher scrutiny. Middle-income earners ($50k-$200k) have the lowest rates, around 0.3-0.4%."},
+      {"q": "What triggers an IRS audit?", "a": "Common triggers include high deductions relative to income, large charitable contributions, unreported income, home office claims, round numbers on every line, and significant year-over-year income changes."}
+    ],
+    "formulas": [
+      {"name": "Adjusted Audit Rate", "formula": "Adjusted Rate = Base Rate x Risk Multiplier", "explanation": "Base rate from IRS Data Book by income bracket, multiplied by risk factors for self-employment, home office, and high deductions."}
+    ],
+    "relatedTools": ["salary-after-tax-calculator", "estate-tax-calculator", "net-worth-percentile-calculator"]
+  },
+  {
+    "slug": "social-security-benefit-calculator",
+    "toolName": "Social Security Benefit Calculator",
+    "category": "finance",
+    "tagline": "Estimate your monthly Social Security retirement benefit based on earnings history",
+    "keywords": ["social security calculator", "SS benefit estimate", "retirement benefit", "social security at 62", "full retirement age", "SSA benefit"],
+    "inputs": [
+      {"id": "avgEarnings", "label": "Average Annual Earnings (top 35 years)", "type": "number", "placeholder": "65000", "min": 0, "max": 500000, "step": 1000},
+      {"id": "claimAge", "label": "Age You Plan to Claim", "type": "select", "options": [{"value": "62", "label": "62 (early)"}, {"value": "65", "label": "65"}, {"value": "67", "label": "67 (full retirement)"}, {"value": "70", "label": "70 (maximum)"}]},
+      {"id": "birthYear", "label": "Birth Year", "type": "number", "placeholder": "1965", "min": 1940, "max": 2005, "step": 1}
+    ],
+    "results": [
+      {"id": "monthlyBenefit", "label": "Estimated Monthly Benefit", "unit": "$"},
+      {"id": "annualBenefit", "label": "Estimated Annual Benefit", "unit": "$"},
+      {"id": "pia", "label": "Primary Insurance Amount (PIA)", "unit": "$"},
+      {"id": "fra", "label": "Full Retirement Age", "unit": ""},
+      {"id": "adjustment", "label": "Early/Late Adjustment", "unit": "%"}
+    ],
+    "calcFn": "var aime = Math.round(avgEarnings / 12); var pia = 0; if (aime <= 1174) pia = aime * 0.90; else if (aime <= 7078) pia = 1174 * 0.90 + (aime - 1174) * 0.32; else pia = 1174 * 0.90 + (7078 - 1174) * 0.32 + (aime - 7078) * 0.15; pia = Math.round(pia * 10) / 10; var fraAge = birthYear <= 1954 ? 66 : birthYear >= 1960 ? 67 : 66 + (birthYear - 1954) / 6; var ca = parseInt(claimAge); var adjPct = 0; var monthly = pia; if (ca < fraAge) { var monthsEarly = Math.round((fraAge - ca) * 12); var reduction = 0; if (monthsEarly <= 36) reduction = monthsEarly * 0.00556; else reduction = 36 * 0.00556 + (monthsEarly - 36) * 0.00417; monthly = pia * (1 - reduction); adjPct = -Math.round(reduction * 1000) / 10; } else if (ca > fraAge) { var monthsLate = Math.round((ca - fraAge) * 12); var increase = monthsLate * 0.00667; monthly = pia * (1 + increase); adjPct = Math.round(increase * 1000) / 10; } monthly = Math.round(monthly); document.getElementById('monthlyBenefit').textContent = dollar(monthly); document.getElementById('annualBenefit').textContent = dollar(monthly * 12); document.getElementById('pia').textContent = dollar(Math.round(pia)); document.getElementById('fra').textContent = 'Age ' + fmt(fraAge, 1); document.getElementById('adjustment').textContent = (adjPct >= 0 ? '+' : '') + pct(adjPct, 1);",
+    "faq": [
+      {"q": "Should I claim Social Security at 62 or wait?", "a": "Claiming at 62 gives you smaller checks for more years. Waiting until 70 gives you roughly 76% more per month than at 62. If you expect to live past 80, delaying usually pays more total. If you need income now or have health concerns, claiming earlier may make sense."},
+      {"q": "How is the PIA calculated?", "a": "SSA takes your highest 35 years of inflation-adjusted earnings, divides by 420 months to get AIME (Average Indexed Monthly Earnings), then applies a progressive formula: 90% of the first $1,174, 32% of AIME between $1,174-$7,078, and 15% above $7,078 (2024 bend points)."},
+      {"q": "Can I work while collecting Social Security?", "a": "Yes, but before full retirement age, benefits are reduced by $1 for every $2 earned above $22,320 (2024). After FRA there is no earnings penalty, and your benefit may be recalculated higher."}
+    ],
+    "formulas": [
+      {"name": "PIA Formula", "formula": "PIA = 90% x first $1,174 AIME + 32% x ($1,174-$7,078) + 15% x above $7,078", "explanation": "The progressive benefit formula replaces a higher percentage of lower earnings."},
+      {"name": "Delayed Credits", "formula": "8% increase per year past FRA (up to age 70)", "explanation": "Each year you delay past full retirement age adds 8% to your benefit permanently."}
+    ],
+    "relatedTools": ["required-minimum-distribution-calculator", "estate-tax-calculator", "salary-after-tax-calculator"]
+  },
+  {
+    "slug": "required-minimum-distribution-calculator",
+    "toolName": "Required Minimum Distribution Calculator",
+    "category": "finance",
+    "tagline": "Calculate your annual required minimum distribution from retirement accounts",
+    "keywords": ["RMD calculator", "required minimum distribution", "IRA RMD", "401k RMD", "RMD table", "RMD age 73"],
+    "inputs": [
+      {"id": "balance", "label": "Account Balance (Dec 31 prior year)", "type": "number", "placeholder": "500000", "min": 0, "max": 100000000, "step": 1000},
+      {"id": "age", "label": "Your Age This Year", "type": "number", "placeholder": "75", "min": 73, "max": 120, "step": 1},
+      {"id": "spouseYounger", "label": "Spouse 10+ Years Younger (sole beneficiary)?", "type": "select", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes"}]}
+    ],
+    "results": [
+      {"id": "rmd", "label": "Required Minimum Distribution", "unit": "$"},
+      {"id": "divisor", "label": "Life Expectancy Divisor", "unit": "years"},
+      {"id": "pctWithdraw", "label": "Withdrawal Percentage", "unit": "%"},
+      {"id": "remaining", "label": "Remaining After RMD", "unit": "$"}
+    ],
+    "calcFn": "var uniformTable = {73:26.5,74:25.5,75:24.6,76:23.7,77:22.9,78:22.0,79:21.1,80:20.2,81:19.4,82:18.5,83:17.7,84:16.8,85:16.0,86:15.2,87:14.4,88:13.7,89:12.9,90:12.2,91:11.5,92:10.8,93:10.1,94:9.5,95:8.9,96:8.4,97:7.8,98:7.3,99:6.8,100:6.4,101:6.0,102:5.6,103:5.2,104:4.9,105:4.6,106:4.3,107:4.1,108:3.9,109:3.7,110:3.5,111:3.4,112:3.3,113:3.1,114:3.0,115:2.9,116:2.8,117:2.7,118:2.5,119:2.3,120:2.0}; var div = uniformTable[Math.min(age, 120)] || 20.2; if (spouseYounger === 'yes') div = div + 5; var rmdAmt = balance / div; var pct = balance > 0 ? (rmdAmt / balance) * 100 : 0; document.getElementById('rmd').textContent = dollar(rmdAmt); document.getElementById('divisor').textContent = fmt(div, 1); document.getElementById('pctWithdraw').textContent = pct(pct, 2); document.getElementById('remaining').textContent = dollar(balance - rmdAmt);",
+    "faq": [
+      {"q": "When do RMDs start?", "a": "Under SECURE 2.0 Act, RMDs begin at age 73 for those born 1951-1959, and age 75 for those born 1960 or later. Roth IRAs do not require RMDs during the owner's lifetime."},
+      {"q": "What happens if I miss an RMD?", "a": "The penalty for missing an RMD was reduced from 50% to 25% of the shortfall under SECURE 2.0. If corrected within 2 years, the penalty drops to 10%. Always take your full RMD by December 31."}
+    ],
+    "formulas": [
+      {"name": "RMD Formula", "formula": "RMD = Account Balance / Life Expectancy Divisor", "explanation": "Divide your prior year-end balance by the IRS Uniform Lifetime Table factor for your age."}
+    ],
+    "relatedTools": ["social-security-benefit-calculator", "estate-tax-calculator", "net-worth-percentile-calculator"]
+  },
+  {
+    "slug": "estate-tax-calculator",
+    "toolName": "Estate Tax Calculator",
+    "category": "finance",
+    "tagline": "Calculate federal estate tax liability based on the value of your estate",
+    "keywords": ["estate tax calculator", "inheritance tax", "death tax", "estate tax exemption", "federal estate tax", "estate planning"],
+    "inputs": [
+      {"id": "grossEstate", "label": "Gross Estate Value ($)", "type": "number", "placeholder": "15000000", "min": 0, "max": 1000000000, "step": 100000},
+      {"id": "debts", "label": "Debts and Expenses ($)", "type": "number", "placeholder": "500000", "min": 0, "max": 1000000000, "step": 10000},
+      {"id": "charitableGifts", "label": "Charitable Bequests ($)", "type": "number", "placeholder": "0", "min": 0, "max": 1000000000, "step": 10000},
+      {"id": "maritalDeduction", "label": "Marital Deduction ($)", "type": "number", "placeholder": "0", "min": 0, "max": 1000000000, "step": 10000}
+    ],
+    "results": [
+      {"id": "taxableEstate", "label": "Taxable Estate", "unit": "$"},
+      {"id": "exemption", "label": "Federal Exemption (2024)", "unit": "$"},
+      {"id": "taxableAbove", "label": "Amount Above Exemption", "unit": "$"},
+      {"id": "estateTax", "label": "Estimated Federal Estate Tax", "unit": "$"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate", "unit": "%"}
+    ],
+    "calcFn": "var exemption = 13610000; var taxableEstate = Math.max(0, grossEstate - debts - charitableGifts - maritalDeduction); var aboveExempt = Math.max(0, taxableEstate - exemption); var tax = 0; if (aboveExempt > 0) { if (aboveExempt <= 10000) tax = aboveExempt * 0.18; else if (aboveExempt <= 20000) tax = 1800 + (aboveExempt - 10000) * 0.20; else if (aboveExempt <= 40000) tax = 3800 + (aboveExempt - 20000) * 0.22; else if (aboveExempt <= 60000) tax = 8200 + (aboveExempt - 40000) * 0.24; else if (aboveExempt <= 80000) tax = 13000 + (aboveExempt - 60000) * 0.26; else if (aboveExempt <= 100000) tax = 18200 + (aboveExempt - 80000) * 0.28; else if (aboveExempt <= 150000) tax = 23800 + (aboveExempt - 100000) * 0.30; else if (aboveExempt <= 250000) tax = 38800 + (aboveExempt - 150000) * 0.32; else if (aboveExempt <= 500000) tax = 70800 + (aboveExempt - 250000) * 0.34; else if (aboveExempt <= 750000) tax = 155800 + (aboveExempt - 500000) * 0.37; else if (aboveExempt <= 1000000) tax = 248300 + (aboveExempt - 750000) * 0.39; else tax = 345800 + (aboveExempt - 1000000) * 0.40; } var effRate = taxableEstate > 0 ? (tax / taxableEstate) * 100 : 0; document.getElementById('taxableEstate').textContent = dollar(taxableEstate); document.getElementById('exemption').textContent = dollar(exemption); document.getElementById('taxableAbove').textContent = dollar(aboveExempt); document.getElementById('estateTax').textContent = dollar(tax); document.getElementById('effectiveRate').textContent = pct(effRate, 2);",
+    "faq": [
+      {"q": "What is the estate tax exemption for 2024?", "a": "The federal estate tax exemption is $13.61 million per individual ($27.22 million for married couples) in 2024. Estates below this threshold owe no federal estate tax. This amount is set to drop to roughly $7 million in 2026 unless Congress acts."},
+      {"q": "What is the marital deduction?", "a": "Assets left to a surviving US citizen spouse are fully exempt from estate tax through the unlimited marital deduction. This defers tax until the surviving spouse's death, at which point their combined estate may be taxed."}
+    ],
+    "formulas": [
+      {"name": "Taxable Estate", "formula": "Taxable Estate = Gross Estate - Debts - Charitable Gifts - Marital Deduction", "explanation": "The estate value subject to tax after all deductions."},
+      {"name": "Estate Tax", "formula": "Progressive rates from 18% to 40% on amount above exemption", "explanation": "Federal estate tax applies progressive rates to the amount exceeding the exemption."}
+    ],
+    "relatedTools": ["net-worth-percentile-calculator", "required-minimum-distribution-calculator", "social-security-benefit-calculator"]
+  },
+  {
+    "slug": "concrete-psi-strength-calculator",
+    "toolName": "Concrete PSI Strength Calculator",
+    "category": "construction",
+    "tagline": "Determine the right concrete mix strength (PSI) for your project and estimate costs",
+    "keywords": ["concrete PSI", "concrete strength", "concrete mix design", "concrete compressive strength", "3000 PSI concrete", "4000 PSI concrete"],
+    "inputs": [
+      {"id": "application", "label": "Application Type", "type": "select", "options": [{"value": "sidewalk", "label": "Sidewalk / Patio"}, {"value": "driveway", "label": "Driveway"}, {"value": "garage", "label": "Garage Floor"}, {"value": "foundation", "label": "Foundation / Footing"}, {"value": "structural", "label": "Structural / Column"}, {"value": "highrise", "label": "High-Rise / Heavy Load"}]},
+      {"id": "cubicYards", "label": "Volume (cubic yards)", "type": "number", "placeholder": "5", "min": 0.1, "max": 10000, "step": 0.5},
+      {"id": "thickness", "label": "Slab Thickness (inches)", "type": "number", "placeholder": "4", "min": 2, "max": 36, "step": 0.5}
+    ],
+    "results": [
+      {"id": "recPsi", "label": "Recommended PSI", "unit": "PSI"},
+      {"id": "bags", "label": "80-lb Bags Needed", "unit": "bags"},
+      {"id": "estCost", "label": "Estimated Material Cost", "unit": "$"},
+      {"id": "cureTime", "label": "Cure Time to Full Strength", "unit": "days"}
+    ],
+    "calcFn": "var psiMap = {sidewalk:3000,driveway:4000,garage:4000,foundation:3500,structural:5000,highrise:6000}; var psi = psiMap[application] || 3000; var bags = Math.ceil(cubicYards * 45); var costPerYard = psi <= 3000 ? 130 : psi <= 4000 ? 145 : psi <= 5000 ? 165 : 190; var cost = cubicYards * costPerYard; var cure = 28; document.getElementById('recPsi').textContent = fmt(psi, 0) + ' PSI'; document.getElementById('bags').textContent = fmt(bags, 0); document.getElementById('estCost').textContent = dollar(cost); document.getElementById('cureTime').textContent = cure + ' days';",
+    "faq": [
+      {"q": "What PSI concrete do I need for a driveway?", "a": "Most residential driveways require 4,000 PSI concrete. This handles passenger vehicles and light trucks. For heavy equipment or commercial use, consider 4,500-5,000 PSI."},
+      {"q": "How long does concrete take to cure?", "a": "Concrete reaches about 70% strength in 7 days and full rated strength at 28 days. Keep it moist for at least 7 days for proper curing. Temperature below 50F slows curing significantly."}
+    ],
+    "formulas": [
+      {"name": "Bags Estimate", "formula": "Bags = Cubic Yards x 45 (for 80-lb bags)", "explanation": "One cubic yard of concrete requires approximately 45 bags of 80-lb premix."},
+      {"name": "Material Cost", "formula": "Cost = Cubic Yards x Cost per Yard (varies by PSI)", "explanation": "Higher PSI mixes cost more due to increased cement content."}
+    ],
+    "relatedTools": ["rebar-spacing-calculator", "gravel-base-depth-calculator", "excavation-cost-calculator"]
+  },
+  {
+    "slug": "rebar-spacing-calculator",
+    "toolName": "Rebar Spacing Calculator",
+    "category": "construction",
+    "tagline": "Calculate rebar grid layout, spacing, and total linear feet needed for concrete slabs",
+    "keywords": ["rebar spacing", "rebar calculator", "rebar grid", "concrete reinforcement", "rebar layout", "rebar for slab"],
+    "inputs": [
+      {"id": "length", "label": "Slab Length (feet)", "type": "number", "placeholder": "20", "min": 1, "max": 1000, "step": 0.5},
+      {"id": "width", "label": "Slab Width (feet)", "type": "number", "placeholder": "20", "min": 1, "max": 1000, "step": 0.5},
+      {"id": "spacing", "label": "Rebar Spacing (inches)", "type": "select", "options": [{"value": "12", "label": "12 inches"}, {"value": "16", "label": "16 inches"}, {"value": "18", "label": "18 inches"}, {"value": "24", "label": "24 inches"}]},
+      {"id": "rebarSize", "label": "Rebar Size", "type": "select", "options": [{"value": "3", "label": "#3 (3/8 inch)"}, {"value": "4", "label": "#4 (1/2 inch)"}, {"value": "5", "label": "#5 (5/8 inch)"}, {"value": "6", "label": "#6 (3/4 inch)"}]}
+    ],
+    "results": [
+      {"id": "barsLong", "label": "Bars Along Length", "unit": ""},
+      {"id": "barsWide", "label": "Bars Along Width", "unit": ""},
+      {"id": "totalBars", "label": "Total Bars", "unit": ""},
+      {"id": "linearFeet", "label": "Total Linear Feet", "unit": "ft"},
+      {"id": "weight", "label": "Total Rebar Weight", "unit": "lbs"}
+    ],
+    "calcFn": "var sp = parseInt(spacing) / 12; var barsL = Math.floor(width / sp) + 1; var barsW = Math.floor(length / sp) + 1; var totalB = barsL + barsW; var linFt = (barsL * length) + (barsW * width); var weightPerFt = {3:0.376, 4:0.668, 5:1.043, 6:1.502}; var wt = linFt * (weightPerFt[rebarSize] || 0.668); document.getElementById('barsLong').textContent = fmt(barsL, 0); document.getElementById('barsWide').textContent = fmt(barsW, 0); document.getElementById('totalBars').textContent = fmt(totalB, 0); document.getElementById('linearFeet').textContent = fmt(linFt, 0); document.getElementById('weight').textContent = fmt(wt, 0);",
+    "faq": [
+      {"q": "What rebar spacing for a 4-inch slab?", "a": "For a standard 4-inch residential slab (driveway or patio), #3 or #4 rebar at 18-24 inch spacing is typical. For heavier loads, use 12-16 inch spacing with #4 rebar."},
+      {"q": "Do I need rebar in a sidewalk?", "a": "Sidewalks often use wire mesh instead of rebar. However, #3 rebar at 24-inch spacing improves crack resistance, especially in areas with freeze-thaw cycles or heavy foot traffic."}
+    ],
+    "formulas": [
+      {"name": "Number of Bars", "formula": "Bars = (Perpendicular Dimension / Spacing) + 1", "explanation": "Count bars in each direction based on spacing interval."},
+      {"name": "Linear Feet", "formula": "Total LF = (Bars Along Length x Length) + (Bars Along Width x Width)", "explanation": "Total rebar length combining both directions of the grid."}
+    ],
+    "relatedTools": ["concrete-psi-strength-calculator", "gravel-base-depth-calculator", "steel-beam-load-calculator"]
+  },
+  {
+    "slug": "asphalt-tonnage-calculator",
+    "toolName": "Asphalt Tonnage Calculator",
+    "category": "construction",
+    "tagline": "Calculate how many tons of asphalt you need for paving projects",
+    "keywords": ["asphalt calculator", "asphalt tonnage", "how much asphalt", "paving calculator", "asphalt cost", "blacktop calculator"],
+    "inputs": [
+      {"id": "length", "label": "Length (feet)", "type": "number", "placeholder": "100", "min": 1, "max": 100000, "step": 1},
+      {"id": "width", "label": "Width (feet)", "type": "number", "placeholder": "20", "min": 1, "max": 10000, "step": 1},
+      {"id": "thickness", "label": "Thickness (inches)", "type": "number", "placeholder": "3", "min": 1, "max": 12, "step": 0.5},
+      {"id": "costPerTon", "label": "Cost per Ton ($)", "type": "number", "placeholder": "100", "min": 0, "max": 500, "step": 5}
+    ],
+    "results": [
+      {"id": "sqft", "label": "Total Area", "unit": "sq ft"},
+      {"id": "cubicFeet", "label": "Volume", "unit": "cu ft"},
+      {"id": "tons", "label": "Tons Needed", "unit": "tons"},
+      {"id": "totalCost", "label": "Material Cost", "unit": "$"}
+    ],
+    "calcFn": "var area = length * width; var vol = area * (thickness / 12); var tons = vol * 145 / 2000; tons = Math.ceil(tons * 10) / 10; var cost = tons * costPerTon; document.getElementById('sqft').textContent = fmt(area, 0); document.getElementById('cubicFeet').textContent = fmt(vol, 1); document.getElementById('tons').textContent = fmt(tons, 1); document.getElementById('totalCost').textContent = dollar(cost);",
+    "faq": [
+      {"q": "How thick should a residential driveway asphalt be?", "a": "A residential driveway typically needs 2-3 inches of asphalt over a 6-8 inch compacted gravel base. Commercial parking lots usually require 3-4 inches. Heavy truck areas may need 4-6 inches."},
+      {"q": "How much does asphalt cost per ton?", "a": "Hot mix asphalt typically costs $80-$150 per ton for materials only. Installed costs range from $3-$7 per square foot depending on thickness, prep work, and location. Prices vary significantly by region and oil costs."}
+    ],
+    "formulas": [
+      {"name": "Tonnage", "formula": "Tons = (Length x Width x Thickness/12 x 145) / 2000", "explanation": "Hot mix asphalt weighs approximately 145 lbs per cubic foot. Divide by 2000 to convert to tons."}
+    ],
+    "relatedTools": ["gravel-base-depth-calculator", "concrete-psi-strength-calculator", "excavation-cost-calculator"]
+  },
+  {
+    "slug": "gravel-base-depth-calculator",
+    "toolName": "Gravel Base Depth Calculator",
+    "category": "construction",
+    "tagline": "Calculate the right sub-base gravel depth and tonnage for your project",
+    "keywords": ["gravel base calculator", "sub-base depth", "gravel under concrete", "crushed stone base", "gravel tonnage", "base course"],
+    "inputs": [
+      {"id": "surfaceType", "label": "Surface Type", "type": "select", "options": [{"value": "patio", "label": "Patio / Walkway"}, {"value": "driveway", "label": "Driveway"}, {"value": "parking", "label": "Parking Lot"}, {"value": "foundation", "label": "Foundation / Footing"}, {"value": "shed", "label": "Shed / Outbuilding"}]},
+      {"id": "length", "label": "Length (feet)", "type": "number", "placeholder": "20", "min": 1, "max": 10000, "step": 1},
+      {"id": "width", "label": "Width (feet)", "type": "number", "placeholder": "20", "min": 1, "max": 10000, "step": 1},
+      {"id": "soilType", "label": "Soil Condition", "type": "select", "options": [{"value": "good", "label": "Good (sandy/well-drained)"}, {"value": "average", "label": "Average (loam)"}, {"value": "poor", "label": "Poor (clay/wet)"}]}
+    ],
+    "results": [
+      {"id": "recDepth", "label": "Recommended Base Depth", "unit": "inches"},
+      {"id": "cubicYards", "label": "Gravel Needed", "unit": "cu yd"},
+      {"id": "tons", "label": "Tons Needed", "unit": "tons"},
+      {"id": "estCost", "label": "Estimated Material Cost", "unit": "$"}
+    ],
+    "calcFn": "var baseDepths = {patio:{good:4,average:6,poor:8},driveway:{good:6,average:8,poor:10},parking:{good:8,average:10,poor:12},foundation:{good:6,average:8,poor:10},shed:{good:4,average:6,poor:8}}; var depth = baseDepths[surfaceType] ? baseDepths[surfaceType][soilType] || 6 : 6; var area = length * width; var cubicFt = area * (depth / 12); var cy = cubicFt / 27; var tons = cy * 1.4; tons = Math.ceil(tons * 10) / 10; var cost = tons * 35; document.getElementById('recDepth').textContent = fmt(depth, 0); document.getElementById('cubicYards').textContent = fmt(cy, 1); document.getElementById('tons').textContent = fmt(tons, 1); document.getElementById('estCost').textContent = dollar(cost);",
+    "faq": [
+      {"q": "How deep should gravel base be under concrete?", "a": "For a residential driveway, 6-8 inches of compacted gravel base is standard. Patios and sidewalks need 4-6 inches. Poor drainage soils (clay) require deeper bases, sometimes 10-12 inches, to prevent frost heave and settling."},
+      {"q": "What type of gravel is best for a base?", "a": "Crushed stone (3/4 inch minus or crusher run) is the standard for sub-base material. It compacts well and provides excellent drainage. Avoid round river rock as it does not lock together. A layer of geotextile fabric under the gravel prevents soil mixing."}
+    ],
+    "formulas": [
+      {"name": "Volume", "formula": "Cubic Yards = (Length x Width x Depth/12) / 27", "explanation": "Convert the area and depth to cubic yards for ordering."},
+      {"name": "Tonnage", "formula": "Tons = Cubic Yards x 1.4", "explanation": "Crushed gravel weighs approximately 1.4 tons per cubic yard."}
+    ],
+    "relatedTools": ["concrete-psi-strength-calculator", "asphalt-tonnage-calculator", "excavation-cost-calculator"]
+  },
+  {
+    "slug": "steel-beam-load-calculator",
+    "toolName": "Steel Beam Load Calculator",
+    "category": "construction",
+    "tagline": "Estimate the load capacity of steel I-beams based on span and size",
+    "keywords": ["steel beam calculator", "I-beam load capacity", "beam span calculator", "steel beam sizing", "beam load capacity", "structural beam"],
+    "inputs": [
+      {"id": "beamSize", "label": "Beam Size", "type": "select", "options": [{"value": "W8x18", "label": "W8x18"}, {"value": "W8x31", "label": "W8x31"}, {"value": "W10x22", "label": "W10x22"}, {"value": "W10x33", "label": "W10x33"}, {"value": "W12x26", "label": "W12x26"}, {"value": "W12x40", "label": "W12x40"}, {"value": "W14x30", "label": "W14x30"}, {"value": "W14x48", "label": "W14x48"}]},
+      {"id": "span", "label": "Beam Span (feet)", "type": "number", "placeholder": "20", "min": 1, "max": 60, "step": 1},
+      {"id": "loadType", "label": "Load Type", "type": "select", "options": [{"value": "uniform", "label": "Uniform (distributed)"}, {"value": "center", "label": "Center Point Load"}]}
+    ],
+    "results": [
+      {"id": "maxLoad", "label": "Maximum Safe Load", "unit": "lbs"},
+      {"id": "momentCapacity", "label": "Moment Capacity", "unit": "ft-lbs"},
+      {"id": "beamWeight", "label": "Beam Weight", "unit": "lbs/ft"},
+      {"id": "deflection", "label": "Est. Deflection at Max Load", "unit": "inches"}
+    ],
+    "calcFn": "var beams = {'W8x18':{Sx:15.2,Ix:61.9,w:18},'W8x31':{Sx:27.5,Ix:110,w:31},'W10x22':{Sx:23.2,Ix:118,w:22},'W10x33':{Sx:35.0,Ix:171,w:33},'W12x26':{Sx:33.4,Ix:204,w:26},'W12x40':{Sx:51.5,Ix:310,w:40},'W14x30':{Sx:42.0,Ix:291,w:30},'W14x48':{Sx:70.3,Ix:485,w:48}}; var b = beams[beamSize] || beams['W10x22']; var Fb = 24000; var moment = b.Sx * Fb; var maxLbs = 0; if (loadType === 'uniform') { maxLbs = (8 * moment) / (span * 12); } else { maxLbs = (4 * moment) / (span * 12); } var deflIn = 0; var E = 29000000; if (loadType === 'uniform') { deflIn = (5 * maxLbs * Math.pow(span * 12, 3)) / (384 * E * b.Ix); } else { deflIn = (maxLbs * Math.pow(span * 12, 3)) / (48 * E * b.Ix); } document.getElementById('maxLoad').textContent = fmt(Math.round(maxLbs), 0) + ' lbs'; document.getElementById('momentCapacity').textContent = fmt(Math.round(moment / 12), 0) + ' ft-lbs'; document.getElementById('beamWeight').textContent = b.w + ' lbs/ft'; document.getElementById('deflection').textContent = fmt(deflIn, 3);",
+    "faq": [
+      {"q": "How do I choose the right steel beam size?", "a": "Beam selection depends on span length, total load, and deflection limits. For residential floor beams, L/360 deflection limit is standard. Always consult a structural engineer for load-bearing applications — this calculator provides estimates only."},
+      {"q": "What is the difference between uniform and point load?", "a": "A uniform load is spread evenly across the beam (like a floor). A point load is concentrated at one spot (like a column). Point loads create higher stress at the load point, so the same beam carries less total weight under a point load."}
+    ],
+    "formulas": [
+      {"name": "Uniform Load Capacity", "formula": "W = 8 x Fb x Sx / (L x 12)", "explanation": "Maximum uniform load based on allowable bending stress (Fb) and section modulus (Sx)."},
+      {"name": "Deflection (Uniform)", "formula": "d = 5WL^3 / (384EI)", "explanation": "Maximum deflection at midspan for a uniformly loaded simply-supported beam."}
+    ],
+    "relatedTools": ["concrete-psi-strength-calculator", "rebar-spacing-calculator", "excavation-cost-calculator"]
+  },
+  {
+    "slug": "excavation-cost-calculator",
+    "toolName": "Excavation Cost Calculator",
+    "category": "construction",
+    "tagline": "Estimate excavation volume and costs for foundations, pools, and site work",
+    "keywords": ["excavation calculator", "excavation cost", "digging cost", "excavation pricing", "cut and fill", "earthwork calculator"],
+    "inputs": [
+      {"id": "length", "label": "Length (feet)", "type": "number", "placeholder": "40", "min": 1, "max": 10000, "step": 1},
+      {"id": "width", "label": "Width (feet)", "type": "number", "placeholder": "30", "min": 1, "max": 10000, "step": 1},
+      {"id": "depth", "label": "Depth (feet)", "type": "number", "placeholder": "4", "min": 0.5, "max": 50, "step": 0.5},
+      {"id": "soilType", "label": "Soil Type", "type": "select", "options": [{"value": "topsoil", "label": "Topsoil / Loose"}, {"value": "clay", "label": "Clay / Hard Soil"}, {"value": "rock", "label": "Rocky / Blasted"}]},
+      {"id": "hauling", "label": "Haul Away Dirt?", "type": "select", "options": [{"value": "yes", "label": "Yes - Haul off-site"}, {"value": "no", "label": "No - Spread on-site"}]}
+    ],
+    "results": [
+      {"id": "cubicYards", "label": "Volume to Excavate", "unit": "cu yd"},
+      {"id": "truckLoads", "label": "Truck Loads (10 yd)", "unit": "loads"},
+      {"id": "digCost", "label": "Excavation Cost", "unit": "$"},
+      {"id": "haulCost", "label": "Hauling Cost", "unit": "$"},
+      {"id": "totalCost", "label": "Total Estimated Cost", "unit": "$"}
+    ],
+    "calcFn": "var vol = length * width * depth; var cy = vol / 27; var bulkFactor = 1.25; var cyHaul = cy * bulkFactor; var loads = Math.ceil(cyHaul / 10); var ratePerYard = soilType === 'rock' ? 25 : soilType === 'clay' ? 12 : 8; var digCost = cy * ratePerYard; var haulRate = hauling === 'yes' ? loads * 350 : 0; var total = digCost + haulRate; document.getElementById('cubicYards').textContent = fmt(cy, 1); document.getElementById('truckLoads').textContent = fmt(loads, 0); document.getElementById('digCost').textContent = dollar(digCost); document.getElementById('haulCost').textContent = hauling === 'yes' ? dollar(haulRate) : 'N/A (on-site)'; document.getElementById('totalCost').textContent = dollar(total);",
+    "faq": [
+      {"q": "How much does excavation cost per cubic yard?", "a": "Typical excavation costs are $5-$10 per cubic yard for loose topsoil, $10-$15 for clay or compacted soil, and $20-$40 for rocky ground. These are digging-only costs; hauling adds $300-$500 per 10-yard truck load."},
+      {"q": "What is the swell factor for excavated soil?", "a": "Excavated soil expands 20-30% in volume (swell factor of 1.2-1.3) because it loosens when dug. A 100 cubic yard hole produces roughly 125 cubic yards of loose material to haul away."}
+    ],
+    "formulas": [
+      {"name": "Volume", "formula": "Cubic Yards = (L x W x D) / 27", "explanation": "Divide cubic feet by 27 to get cubic yards."},
+      {"name": "Haul Volume", "formula": "Haul CY = Excavated CY x 1.25 (swell factor)", "explanation": "Loose soil takes up 25% more space than in-ground soil."}
+    ],
+    "relatedTools": ["gravel-base-depth-calculator", "concrete-psi-strength-calculator", "asphalt-tonnage-calculator"]
+  },
+  {
+    "slug": "muscle-recovery-time-calculator",
+    "toolName": "Muscle Recovery Time Calculator",
+    "category": "fitness",
+    "tagline": "Estimate optimal recovery time between workouts by muscle group and intensity",
+    "keywords": ["muscle recovery", "rest day calculator", "recovery time", "how long to recover", "workout recovery", "rest between workouts"],
+    "inputs": [
+      {"id": "muscleGroup", "label": "Muscle Group", "type": "select", "options": [{"value": "chest", "label": "Chest"}, {"value": "back", "label": "Back"}, {"value": "legs", "label": "Legs"}, {"value": "shoulders", "label": "Shoulders"}, {"value": "arms", "label": "Arms (Biceps/Triceps)"}, {"value": "core", "label": "Core / Abs"}]},
+      {"id": "intensity", "label": "Workout Intensity", "type": "select", "options": [{"value": "light", "label": "Light (12-15 reps, easy)"}, {"value": "moderate", "label": "Moderate (8-12 reps)"}, {"value": "heavy", "label": "Heavy (4-6 reps, near max)"}, {"value": "extreme", "label": "Extreme (failure + drop sets)"}]},
+      {"id": "experience", "label": "Training Experience", "type": "select", "options": [{"value": "beginner", "label": "Beginner (< 1 year)"}, {"value": "intermediate", "label": "Intermediate (1-3 years)"}, {"value": "advanced", "label": "Advanced (3+ years)"}]},
+      {"id": "age", "label": "Age", "type": "number", "placeholder": "30", "min": 14, "max": 80, "step": 1},
+      {"id": "sleepHours", "label": "Average Sleep (hours)", "type": "number", "placeholder": "7", "min": 3, "max": 12, "step": 0.5}
+    ],
+    "results": [
+      {"id": "minRecovery", "label": "Minimum Recovery Time", "unit": "hours"},
+      {"id": "optRecovery", "label": "Optimal Recovery Time", "unit": "hours"},
+      {"id": "nextWorkout", "label": "Next Workout In", "unit": "days"},
+      {"id": "tips", "label": "Recovery Tip", "unit": ""}
+    ],
+    "calcFn": "var baseHours = {chest:{light:36,moderate:48,heavy:72,extreme:96},back:{light:36,moderate:48,heavy:72,extreme:96},legs:{light:48,moderate:60,heavy:84,extreme:108},shoulders:{light:24,moderate:36,heavy:60,extreme:72},arms:{light:24,moderate:36,heavy:48,extreme:60},core:{light:24,moderate:36,heavy:48,extreme:60}}; var base = baseHours[muscleGroup] ? baseHours[muscleGroup][intensity] || 48 : 48; var expMult = experience === 'beginner' ? 1.3 : experience === 'advanced' ? 0.85 : 1.0; var ageMult = age > 50 ? 1.3 : age > 40 ? 1.15 : age > 30 ? 1.05 : 1.0; var sleepMult = sleepHours < 6 ? 1.3 : sleepHours < 7 ? 1.1 : sleepHours >= 8 ? 0.9 : 1.0; var opt = Math.round(base * expMult * ageMult * sleepMult); var min = Math.round(opt * 0.7); var days = Math.ceil(opt / 24); var tipText = sleepHours < 7 ? 'Prioritize sleep — it is the #1 recovery factor' : intensity === 'extreme' ? 'Consider active recovery (walking, light stretching) on rest days' : experience === 'beginner' ? 'Your body is still adapting — do not skip rest days' : 'Good recovery window — stay hydrated and eat enough protein'; document.getElementById('minRecovery').textContent = min + ' hrs'; document.getElementById('optRecovery').textContent = opt + ' hrs'; document.getElementById('nextWorkout').textContent = days + ' day' + (days > 1 ? 's' : ''); document.getElementById('tips').textContent = tipText;",
+    "faq": [
+      {"q": "How long should I rest between leg workouts?", "a": "Legs (especially after heavy squats or deadlifts) need 48-72 hours minimum. Beginners may need up to 96 hours. Legs have larger muscles that generate more damage and require longer to fully repair."},
+      {"q": "Can I work out a sore muscle?", "a": "Mild soreness (DOMS) is normal and light activity can help. But training a muscle that is still significantly sore can lead to overtraining and injury. Wait until soreness drops to about 20% before training that muscle again at high intensity."}
+    ],
+    "formulas": [
+      {"name": "Recovery Time", "formula": "Optimal Hours = Base Hours x Experience Factor x Age Factor x Sleep Factor", "explanation": "Base recovery by muscle group and intensity, adjusted for training experience, age, and sleep quality."}
+    ],
+    "relatedTools": ["vertical-jump-calculator", "grip-strength-calculator", "endurance-vo2-predictor-calculator"]
+  },
+  {
+    "slug": "vertical-jump-calculator",
+    "toolName": "Vertical Jump Calculator",
+    "category": "fitness",
+    "tagline": "Measure your vertical leap and see how it ranks by age and sport",
+    "keywords": ["vertical jump test", "vertical leap", "jump height calculator", "vertical jump average", "vertical jump by age", "standing vertical"],
+    "inputs": [
+      {"id": "standingReach", "label": "Standing Reach (inches)", "type": "number", "placeholder": "90", "min": 50, "max": 130, "step": 0.5},
+      {"id": "jumpReach", "label": "Jump Touch Height (inches)", "type": "number", "placeholder": "114", "min": 60, "max": 160, "step": 0.5},
+      {"id": "bodyWeight", "label": "Body Weight (lbs)", "type": "number", "placeholder": "175", "min": 60, "max": 400, "step": 1},
+      {"id": "gender", "label": "Gender", "type": "select", "options": [{"value": "male", "label": "Male"}, {"value": "female", "label": "Female"}]}
+    ],
+    "results": [
+      {"id": "vertJump", "label": "Vertical Jump", "unit": "inches"},
+      {"id": "rating", "label": "Rating", "unit": ""},
+      {"id": "peakPower", "label": "Estimated Peak Power", "unit": "watts"},
+      {"id": "jumpCm", "label": "Jump Height", "unit": "cm"}
+    ],
+    "calcFn": "var jump = jumpReach - standingReach; var jumpCm = jump * 2.54; var rating = ''; if (gender === 'male') { if (jump >= 28) rating = 'Excellent (top athletic tier)'; else if (jump >= 24) rating = 'Very Good'; else if (jump >= 20) rating = 'Good (above average)'; else if (jump >= 16) rating = 'Average'; else rating = 'Below Average'; } else { if (jump >= 24) rating = 'Excellent (top athletic tier)'; else if (jump >= 20) rating = 'Very Good'; else if (jump >= 16) rating = 'Good (above average)'; else if (jump >= 12) rating = 'Average'; else rating = 'Below Average'; } var wKg = bodyWeight * 0.4536; var power = Math.round(60.7 * (jumpCm * 0.01) + 45.3 * wKg - 2055); if (power < 0) power = 0; document.getElementById('vertJump').textContent = fmt(jump, 1) + ' in'; document.getElementById('rating').textContent = rating; document.getElementById('peakPower').textContent = fmt(power, 0) + ' W'; document.getElementById('jumpCm').textContent = fmt(jumpCm, 1) + ' cm';",
+    "faq": [
+      {"q": "What is a good vertical jump?", "a": "For adult males, 20-24 inches is above average, 24-28 is very good, and 28+ is excellent (elite athletes). For females, 16-20 inches is above average and 24+ is excellent. NBA players average around 28-34 inches."},
+      {"q": "How can I increase my vertical jump?", "a": "Focus on plyometrics (box jumps, depth jumps), heavy squats, and Bulgarian split squats. Most people can add 4-8 inches over 8-12 weeks of dedicated training. Losing excess body weight also directly improves jump height."}
+    ],
+    "formulas": [
+      {"name": "Vertical Jump", "formula": "Jump = Jump Reach - Standing Reach", "explanation": "The difference between your highest jump touch and your standing reach."},
+      {"name": "Peak Power (Sayers)", "formula": "Power (W) = 60.7 x jump(m) + 45.3 x mass(kg) - 2055", "explanation": "The Sayers equation estimates peak anaerobic power from vertical jump height and body mass."}
+    ],
+    "relatedTools": ["sprint-speed-calculator", "grip-strength-calculator", "muscle-recovery-time-calculator"]
+  },
+  {
+    "slug": "grip-strength-calculator",
+    "toolName": "Grip Strength Calculator",
+    "category": "fitness",
+    "tagline": "See how your grip strength compares to percentile norms by age and gender",
+    "keywords": ["grip strength test", "grip strength average", "grip strength percentile", "hand grip strength", "grip strength by age", "dynamometer test"],
+    "inputs": [
+      {"id": "gripKg", "label": "Grip Strength (kg)", "type": "number", "placeholder": "45", "min": 5, "max": 150, "step": 0.5},
+      {"id": "hand", "label": "Hand Tested", "type": "select", "options": [{"value": "dominant", "label": "Dominant Hand"}, {"value": "nondominant", "label": "Non-Dominant Hand"}]},
+      {"id": "age", "label": "Age", "type": "number", "placeholder": "35", "min": 15, "max": 90, "step": 1},
+      {"id": "gender", "label": "Gender", "type": "select", "options": [{"value": "male", "label": "Male"}, {"value": "female", "label": "Female"}]}
+    ],
+    "results": [
+      {"id": "gripLbs", "label": "Grip Strength", "unit": "lbs"},
+      {"id": "rating", "label": "Rating", "unit": ""},
+      {"id": "percentile", "label": "Approximate Percentile", "unit": ""},
+      {"id": "avgForAge", "label": "Average for Age/Gender", "unit": "kg"}
+    ],
+    "calcFn": "var lbs = Math.round(gripKg * 2.205); var avg = gender === 'male' ? (age < 30 ? 47 : age < 40 ? 47 : age < 50 ? 45 : age < 60 ? 41 : age < 70 ? 36 : 30) : (age < 30 ? 29 : age < 40 ? 28 : age < 50 ? 27 : age < 60 ? 24 : age < 70 ? 21 : 18); if (hand === 'nondominant') avg = avg * 0.9; var ratio = gripKg / avg; var pctile = 50; if (ratio >= 1.4) pctile = 95; else if (ratio >= 1.2) pctile = 80 + Math.round((ratio - 1.2) * 75); else if (ratio >= 1.0) pctile = 50 + Math.round((ratio - 1.0) * 150); else if (ratio >= 0.8) pctile = 20 + Math.round((ratio - 0.8) * 150); else pctile = Math.max(1, Math.round(ratio * 25)); pctile = Math.max(1, Math.min(99, pctile)); var ratingText = pctile >= 90 ? 'Excellent' : pctile >= 70 ? 'Above Average' : pctile >= 40 ? 'Average' : pctile >= 20 ? 'Below Average' : 'Needs Improvement'; document.getElementById('gripLbs').textContent = lbs + ' lbs (' + fmt(gripKg, 1) + ' kg)'; document.getElementById('rating').textContent = ratingText; document.getElementById('percentile').textContent = pctile + 'th percentile'; document.getElementById('avgForAge').textContent = fmt(avg, 0) + ' kg';",
+    "faq": [
+      {"q": "What is a good grip strength?", "a": "For adult males, 40-50 kg is average, 50-60 kg is strong, and 60+ kg is excellent. For females, 25-30 kg is average and 35+ kg is excellent. Grip strength peaks around age 25-35 and declines with age."},
+      {"q": "Why does grip strength matter?", "a": "Grip strength is one of the best predictors of overall health and longevity. Studies show it correlates with cardiovascular health, bone density, and functional independence in older adults. It is also essential for deadlifts, pull-ups, and daily tasks."}
+    ],
+    "formulas": [
+      {"name": "Percentile Estimation", "formula": "Based on ratio to age/gender population average", "explanation": "Your grip strength compared to normative data from population studies."},
+      {"name": "Conversion", "formula": "Pounds = Kilograms x 2.205", "explanation": "Standard kg to lbs conversion for grip dynamometer readings."}
+    ],
+    "relatedTools": ["vertical-jump-calculator", "muscle-recovery-time-calculator", "sprint-speed-calculator"]
+  },
+  {
+    "slug": "flexibility-score-calculator",
+    "toolName": "Flexibility Score Calculator",
+    "category": "fitness",
+    "tagline": "Assess your flexibility with the sit-and-reach test and see your percentile ranking",
+    "keywords": ["flexibility test", "sit and reach", "flexibility score", "flexibility percentile", "hamstring flexibility", "flexibility assessment"],
+    "inputs": [
+      {"id": "reachCm", "label": "Sit-and-Reach Distance (cm)", "type": "number", "placeholder": "25", "min": -20, "max": 60, "step": 0.5},
+      {"id": "age", "label": "Age", "type": "number", "placeholder": "30", "min": 15, "max": 80, "step": 1},
+      {"id": "gender", "label": "Gender", "type": "select", "options": [{"value": "male", "label": "Male"}, {"value": "female", "label": "Female"}]}
+    ],
+    "results": [
+      {"id": "reachIn", "label": "Reach Distance", "unit": "inches"},
+      {"id": "rating", "label": "Flexibility Rating", "unit": ""},
+      {"id": "percentile", "label": "Approximate Percentile", "unit": ""},
+      {"id": "recommendation", "label": "Recommendation", "unit": ""}
+    ],
+    "calcFn": "var inches = Math.round(reachCm / 2.54 * 10) / 10; var avg = gender === 'male' ? (age < 30 ? 25 : age < 40 ? 23 : age < 50 ? 20 : age < 60 ? 18 : 15) : (age < 30 ? 29 : age < 40 ? 27 : age < 50 ? 24 : age < 60 ? 22 : 19); var diff = reachCm - avg; var rating = ''; var pctile = 50; if (diff >= 10) { rating = 'Excellent'; pctile = 90; } else if (diff >= 5) { rating = 'Above Average'; pctile = 75; } else if (diff >= -2) { rating = 'Average'; pctile = 50; } else if (diff >= -8) { rating = 'Below Average'; pctile = 25; } else { rating = 'Poor'; pctile = 10; } var rec = pctile < 30 ? 'Stretch hamstrings and lower back daily — hold each stretch 30+ seconds' : pctile < 60 ? 'Good baseline — add yoga or dynamic stretching 3x per week' : 'Great flexibility — maintain with regular stretching'; document.getElementById('reachIn').textContent = fmt(inches, 1) + ' in (' + fmt(reachCm, 1) + ' cm)'; document.getElementById('rating').textContent = rating; document.getElementById('percentile').textContent = 'Approx. ' + pctile + 'th percentile'; document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"q": "How do I do the sit-and-reach test?", "a": "Sit on the floor with legs straight and feet flat against a box or wall. Reach forward slowly as far as possible with both hands. Measure the distance past your toes (positive) or before your toes (negative). Take the best of 3 attempts."},
+      {"q": "What is a good sit-and-reach score?", "a": "For adult males, 25+ cm is above average and 34+ cm is excellent. For females, 29+ cm is above average and 37+ cm is excellent. Flexibility naturally decreases with age but is highly trainable at any age."}
+    ],
+    "formulas": [
+      {"name": "Rating", "formula": "Based on deviation from age/gender average norms", "explanation": "Your sit-and-reach score compared to normative data from fitness testing standards."}
+    ],
+    "relatedTools": ["grip-strength-calculator", "muscle-recovery-time-calculator", "vertical-jump-calculator"]
+  },
+  {
+    "slug": "sprint-speed-calculator",
+    "toolName": "Sprint Speed Calculator",
+    "category": "fitness",
+    "tagline": "Convert sprint times to speed and compare against athletic benchmarks",
+    "keywords": ["sprint speed calculator", "40 yard dash", "100m time", "sprint mph", "running speed calculator", "how fast am I"],
+    "inputs": [
+      {"id": "distance", "label": "Sprint Distance", "type": "select", "options": [{"value": "40", "label": "40 Yards"}, {"value": "100", "label": "100 Meters"}, {"value": "200", "label": "200 Meters"}, {"value": "60", "label": "60 Yards"}]},
+      {"id": "time", "label": "Time (seconds)", "type": "number", "placeholder": "5.0", "min": 3, "max": 60, "step": 0.01},
+      {"id": "gender", "label": "Gender", "type": "select", "options": [{"value": "male", "label": "Male"}, {"value": "female", "label": "Female"}]}
+    ],
+    "results": [
+      {"id": "mph", "label": "Speed", "unit": "mph"},
+      {"id": "kph", "label": "Speed", "unit": "km/h"},
+      {"id": "mps", "label": "Speed", "unit": "m/s"},
+      {"id": "rating", "label": "Athletic Rating", "unit": ""}
+    ],
+    "calcFn": "var distMap = {'40':36.576, '100':100, '200':200, '60':54.864}; var meters = distMap[distance] || 100; var mps = meters / time; var kph = mps * 3.6; var mph = mps * 2.237; var rating = ''; if (distance === '40') { if (gender === 'male') { if (time <= 4.3) rating = 'Elite (NFL caliber)'; else if (time <= 4.5) rating = 'Excellent (college athlete)'; else if (time <= 4.8) rating = 'Very Good (athletic)'; else if (time <= 5.2) rating = 'Average (recreational)'; else rating = 'Below Average'; } else { if (time <= 4.8) rating = 'Elite'; else if (time <= 5.1) rating = 'Excellent'; else if (time <= 5.5) rating = 'Very Good'; else if (time <= 6.0) rating = 'Average'; else rating = 'Below Average'; } } else if (distance === '100') { if (gender === 'male') { if (time <= 10.5) rating = 'Elite (Olympic level)'; else if (time <= 11.5) rating = 'Excellent (college athlete)'; else if (time <= 12.5) rating = 'Good (athletic)'; else if (time <= 14.0) rating = 'Average'; else rating = 'Below Average'; } else { if (time <= 11.5) rating = 'Elite'; else if (time <= 12.5) rating = 'Excellent'; else if (time <= 13.5) rating = 'Good'; else if (time <= 15.0) rating = 'Average'; else rating = 'Below Average'; } } else { rating = mph > 18 ? 'Excellent' : mph > 14 ? 'Good' : mph > 10 ? 'Average' : 'Below Average'; } document.getElementById('mph').textContent = fmt(mph, 1) + ' mph'; document.getElementById('kph').textContent = fmt(kph, 1) + ' km/h'; document.getElementById('mps').textContent = fmt(mps, 2) + ' m/s'; document.getElementById('rating').textContent = rating;",
+    "faq": [
+      {"q": "What is a good 40-yard dash time?", "a": "For adult males, under 4.5 seconds is elite (NFL combine level), 4.5-4.8 is excellent, and 4.8-5.2 is good. For females, under 5.0 is elite and 5.0-5.5 is very good. The average untrained adult male runs about 5.2-5.5 seconds."},
+      {"q": "What is the fastest 100m time ever?", "a": "Usain Bolt holds the record at 9.58 seconds (2009), averaging 23.4 mph with a peak speed of 27.8 mph. The women's record is 10.49 seconds by Florence Griffith-Joyner (1988)."}
+    ],
+    "formulas": [
+      {"name": "Speed Conversion", "formula": "MPH = (Distance in meters / Time) x 2.237", "explanation": "Convert meters per second to miles per hour."},
+      {"name": "Meters per Second", "formula": "m/s = Distance (m) / Time (s)", "explanation": "Basic speed calculation from distance and time."}
+    ],
+    "relatedTools": ["vertical-jump-calculator", "endurance-vo2-predictor-calculator", "muscle-recovery-time-calculator"]
+  },
+  {
+    "slug": "endurance-vo2-predictor-calculator",
+    "toolName": "Endurance VO2 Max Predictor",
+    "category": "fitness",
+    "tagline": "Estimate your VO2 max from race times and predict endurance performance",
+    "keywords": ["VO2 max calculator", "VO2 max from race time", "endurance predictor", "running VO2 max", "aerobic fitness", "VO2 max by age"],
+    "inputs": [
+      {"id": "raceDistance", "label": "Race Distance", "type": "select", "options": [{"value": "1mile", "label": "1 Mile"}, {"value": "5k", "label": "5K"}, {"value": "10k", "label": "10K"}, {"value": "half", "label": "Half Marathon"}, {"value": "full", "label": "Marathon"}]},
+      {"id": "minutes", "label": "Finish Time - Minutes", "type": "number", "placeholder": "25", "min": 0, "max": 600, "step": 1},
+      {"id": "seconds", "label": "Finish Time - Seconds", "type": "number", "placeholder": "30", "min": 0, "max": 59, "step": 1},
+      {"id": "age", "label": "Age", "type": "number", "placeholder": "35", "min": 15, "max": 85, "step": 1},
+      {"id": "gender", "label": "Gender", "type": "select", "options": [{"value": "male", "label": "Male"}, {"value": "female", "label": "Female"}]}
+    ],
+    "results": [
+      {"id": "vo2max", "label": "Estimated VO2 Max", "unit": "ml/kg/min"},
+      {"id": "rating", "label": "Fitness Rating", "unit": ""},
+      {"id": "percentile", "label": "Percentile for Age", "unit": ""},
+      {"id": "pace", "label": "Pace", "unit": "min/mile"}
+    ],
+    "calcFn": "var totalSec = minutes * 60 + seconds; var distMeters = {'1mile':1609,'5k':5000,'10k':10000,'half':21097,'full':42195}; var dist = distMeters[raceDistance] || 5000; var speed = dist / totalSec; var pctVO2 = 0.8 + 0.1894393 * Math.exp(-0.012778 * totalSec / 60) + 0.2989558 * Math.exp(-0.1932605 * totalSec / 60); var vo2cost = -4.6 + 0.182258 * (speed * 60) + 0.000104 * Math.pow(speed * 60, 2); var vo2 = vo2cost / pctVO2; vo2 = Math.max(15, Math.min(90, Math.round(vo2 * 10) / 10)); var ratingText = ''; if (gender === 'male') { if (vo2 >= 60) ratingText = 'Superior (elite athlete)'; else if (vo2 >= 50) ratingText = 'Excellent'; else if (vo2 >= 43) ratingText = 'Good'; else if (vo2 >= 36) ratingText = 'Average'; else ratingText = 'Below Average'; } else { if (vo2 >= 50) ratingText = 'Superior (elite athlete)'; else if (vo2 >= 42) ratingText = 'Excellent'; else if (vo2 >= 36) ratingText = 'Good'; else if (vo2 >= 30) ratingText = 'Average'; else ratingText = 'Below Average'; } var avgVO2 = gender === 'male' ? (age < 30 ? 44 : age < 40 ? 42 : age < 50 ? 39 : age < 60 ? 35 : 30) : (age < 30 ? 36 : age < 40 ? 34 : age < 50 ? 31 : age < 60 ? 28 : 24); var pctile = 50 + Math.round((vo2 - avgVO2) * 3); pctile = Math.max(1, Math.min(99, pctile)); var milePace = (totalSec / (dist / 1609.34)) / 60; var paceMin = Math.floor(milePace); var paceSec = Math.round((milePace - paceMin) * 60); document.getElementById('vo2max').textContent = fmt(vo2, 1); document.getElementById('rating').textContent = ratingText; document.getElementById('percentile').textContent = pctile + 'th percentile'; document.getElementById('pace').textContent = paceMin + ':' + (paceSec < 10 ? '0' : '') + paceSec + ' /mi';",
+    "faq": [
+      {"q": "What is a good VO2 max?", "a": "For males, 40-50 ml/kg/min is average to good, 50-60 is excellent, and 60+ is elite. For females, 35-42 is average to good and 50+ is elite. VO2 max declines about 10% per decade after age 30, but training slows this significantly."},
+      {"q": "How accurate is VO2 max from race times?", "a": "Race time estimates are within 5-10% of lab-tested values for trained runners. The prediction works best for 5K-10K races. Very short (1 mile) or very long (marathon) races may be less accurate due to anaerobic and fueling factors respectively."}
+    ],
+    "formulas": [
+      {"name": "VO2 Max (Daniels/Gilbert)", "formula": "VO2max = VO2cost / %VO2max (from velocity and duration)", "explanation": "Uses the Daniels and Gilbert running economy model to estimate aerobic capacity from race performance."},
+      {"name": "Pace", "formula": "Pace = Total Time / Distance in Miles", "explanation": "Average pace per mile during the race."}
+    ],
+    "relatedTools": ["sprint-speed-calculator", "muscle-recovery-time-calculator", "vertical-jump-calculator"]
+  },
+  {
+    "slug": "air-fryer-conversion-calculator",
+    "toolName": "Air Fryer Conversion Calculator",
+    "category": "cooking",
+    "tagline": "Convert conventional oven recipes to air fryer temperature and time settings",
+    "keywords": ["air fryer conversion", "oven to air fryer", "air fryer temperature", "air fryer time", "air fryer cooking chart", "convert recipe to air fryer"],
+    "inputs": [
+      {"id": "ovenTemp", "label": "Oven Temperature (°F)", "type": "number", "placeholder": "400", "min": 200, "max": 550, "step": 5},
+      {"id": "ovenTime", "label": "Oven Cook Time (minutes)", "type": "number", "placeholder": "30", "min": 1, "max": 300, "step": 1},
+      {"id": "foodType", "label": "Food Type", "type": "select", "options": [{"value": "meat", "label": "Meat / Poultry"}, {"value": "fish", "label": "Fish / Seafood"}, {"value": "veggies", "label": "Vegetables"}, {"value": "frozen", "label": "Frozen Foods"}, {"value": "baked", "label": "Baked Goods"}]}
+    ],
+    "results": [
+      {"id": "afTemp", "label": "Air Fryer Temperature", "unit": "°F"},
+      {"id": "afTime", "label": "Air Fryer Cook Time", "unit": "min"},
+      {"id": "timeSaved", "label": "Time Saved", "unit": "min"},
+      {"id": "tip", "label": "Cooking Tip", "unit": ""}
+    ],
+    "calcFn": "var tempReduce = 25; var timeMult = foodType === 'baked' ? 0.80 : foodType === 'frozen' ? 0.75 : foodType === 'veggies' ? 0.70 : 0.75; var afTemp = ovenTemp - tempReduce; var afTime = Math.round(ovenTime * timeMult); var saved = ovenTime - afTime; var tips = {meat:'Flip halfway through. Use a meat thermometer to check doneness.',fish:'Lightly spray basket with oil. Fish cooks fast — check 2 min early.',veggies:'Shake basket halfway through for even crisping. Do not overcrowd.',frozen:'No need to thaw. Single layer works best for crispy results.',baked:'Use parchment with holes. Check 5 min early as centers cook faster.'}; document.getElementById('afTemp').textContent = afTemp + ' F'; document.getElementById('afTime').textContent = afTime + ' min'; document.getElementById('timeSaved').textContent = saved + ' min'; document.getElementById('tip').textContent = tips[foodType] || 'Shake basket halfway through cooking.';",
+    "faq": [
+      {"q": "What is the general rule for converting oven to air fryer?", "a": "Reduce temperature by 25 degrees F and reduce cooking time by 20-25%. Air fryers circulate hot air more efficiently than ovens, so food cooks faster and browns better at lower temperatures."},
+      {"q": "Do I need to preheat an air fryer?", "a": "Most air fryers reach temperature in 2-3 minutes. Preheating for 3 minutes is recommended for best results, especially for meats and baked goods. For frozen foods, preheating is less critical."}
+    ],
+    "formulas": [
+      {"name": "Temperature Conversion", "formula": "Air Fryer Temp = Oven Temp - 25°F", "explanation": "Air fryers run hotter effectively due to compact size and rapid air circulation."},
+      {"name": "Time Conversion", "formula": "Air Fryer Time = Oven Time x 0.75 (approx.)", "explanation": "Cooking time is typically 20-30% less in an air fryer."}
+    ],
+    "relatedTools": ["instant-pot-time-calculator", "meat-resting-time-calculator", "pasta-water-ratio-calculator"]
+  },
+  {
+    "slug": "instant-pot-time-calculator",
+    "toolName": "Instant Pot Time Calculator",
+    "category": "cooking",
+    "tagline": "Convert slow cooker recipes to Instant Pot pressure cooker times",
+    "keywords": ["instant pot conversion", "slow cooker to instant pot", "pressure cooker time", "instant pot cooking time", "crock pot to instant pot", "pressure cooking chart"],
+    "inputs": [
+      {"id": "slowTime", "label": "Slow Cooker Time (hours)", "type": "number", "placeholder": "6", "min": 1, "max": 24, "step": 0.5},
+      {"id": "slowSetting", "label": "Slow Cooker Setting", "type": "select", "options": [{"value": "low", "label": "Low"}, {"value": "high", "label": "High"}]},
+      {"id": "foodType", "label": "Food Type", "type": "select", "options": [{"value": "stew", "label": "Stew / Chili"}, {"value": "roast", "label": "Roast / Large Meat"}, {"value": "chicken", "label": "Chicken / Poultry"}, {"value": "beans", "label": "Beans / Legumes"}, {"value": "soup", "label": "Soup / Broth"}, {"value": "grains", "label": "Rice / Grains"}]}
+    ],
+    "results": [
+      {"id": "pressureTime", "label": "Pressure Cook Time", "unit": "min"},
+      {"id": "release", "label": "Pressure Release", "unit": ""},
+      {"id": "totalTime", "label": "Total Time (incl. pressurize)", "unit": "min"},
+      {"id": "timeSaved", "label": "Time Saved", "unit": "hours"}
+    ],
+    "calcFn": "var slowMin = slowTime * 60; if (slowSetting === 'low') slowMin = slowMin * 0.67; var ratio = {stew:0.10,roast:0.12,chicken:0.08,beans:0.11,soup:0.08,grains:0.07}; var r = ratio[foodType] || 0.10; var pressMin = Math.max(5, Math.round(slowMin * r)); var releaseType = (foodType === 'chicken' || foodType === 'grains') ? 'Quick Release (QR)' : 'Natural Release 10-15 min (NPR)'; var pressurizeMin = 10; var releaseMin = releaseType.indexOf('Natural') >= 0 ? 12 : 2; var totalMin = pressMin + pressurizeMin + releaseMin; var savedHrs = (slowTime * 60 - totalMin) / 60; document.getElementById('pressureTime').textContent = pressMin + ' min'; document.getElementById('release').textContent = releaseType; document.getElementById('totalTime').textContent = totalMin + ' min'; document.getElementById('timeSaved').textContent = fmt(savedHrs, 1) + ' hrs';",
+    "faq": [
+      {"q": "What is the slow cooker to Instant Pot conversion?", "a": "As a rough guide: 8 hours on low or 4 hours on high in a slow cooker equals about 25-30 minutes of pressure cooking. Always add at least 1 cup of liquid for the Instant Pot to build pressure."},
+      {"q": "When do I use natural release vs quick release?", "a": "Use natural release for large cuts of meat, beans, and foods that foam (prevents splattering). Use quick release for vegetables, chicken, and foods that overcook easily. Natural release takes 10-20 minutes and continues cooking food."}
+    ],
+    "formulas": [
+      {"name": "Pressure Cook Time", "formula": "IP Minutes = Slow Cooker Minutes x Conversion Ratio (varies by food)", "explanation": "Pressure cooking is roughly 8-12x faster than slow cooking due to higher temperature and pressure."}
+    ],
+    "relatedTools": ["air-fryer-conversion-calculator", "meat-resting-time-calculator", "pasta-water-ratio-calculator"]
+  },
+  {
+    "slug": "cake-pan-size-converter-calculator",
+    "toolName": "Cake Pan Size Converter",
+    "category": "cooking",
+    "tagline": "Scale cake recipes when switching between different pan sizes and shapes",
+    "keywords": ["cake pan converter", "pan size conversion", "cake recipe scaling", "baking pan substitute", "round to square pan", "pan volume calculator"],
+    "inputs": [
+      {"id": "origShape", "label": "Original Pan Shape", "type": "select", "options": [{"value": "round", "label": "Round"}, {"value": "square", "label": "Square"}, {"value": "rect", "label": "Rectangular"}]},
+      {"id": "origSize", "label": "Original Pan Size (inches)", "type": "number", "placeholder": "9", "min": 4, "max": 18, "step": 1},
+      {"id": "origSize2", "label": "Original Width (rect only, inches)", "type": "number", "placeholder": "9", "min": 4, "max": 18, "step": 1},
+      {"id": "newShape", "label": "New Pan Shape", "type": "select", "options": [{"value": "round", "label": "Round"}, {"value": "square", "label": "Square"}, {"value": "rect", "label": "Rectangular"}]},
+      {"id": "newSize", "label": "New Pan Size (inches)", "type": "number", "placeholder": "8", "min": 4, "max": 18, "step": 1},
+      {"id": "newSize2", "label": "New Width (rect only, inches)", "type": "number", "placeholder": "8", "min": 4, "max": 18, "step": 1}
+    ],
+    "results": [
+      {"id": "origArea", "label": "Original Pan Area", "unit": "sq in"},
+      {"id": "newArea", "label": "New Pan Area", "unit": "sq in"},
+      {"id": "scaleFactor", "label": "Recipe Scale Factor", "unit": "x"},
+      {"id": "tempAdj", "label": "Temperature Adjustment", "unit": ""}
+    ],
+    "calcFn": "var oA = 0; if (origShape === 'round') oA = 3.14159 * Math.pow(origSize / 2, 2); else if (origShape === 'square') oA = origSize * origSize; else oA = origSize * origSize2; var nA = 0; if (newShape === 'round') nA = 3.14159 * Math.pow(newSize / 2, 2); else if (newShape === 'square') nA = newSize * newSize; else nA = newSize * newSize2; var scale = nA / oA; var tempNote = scale > 1.3 ? 'Reduce temp 25F and increase bake time 5-10 min' : scale < 0.7 ? 'Increase temp 25F and reduce bake time 5-10 min' : 'Keep same temperature — check 5 min early'; document.getElementById('origArea').textContent = fmt(oA, 1) + ' sq in'; document.getElementById('newArea').textContent = fmt(nA, 1) + ' sq in'; document.getElementById('scaleFactor').textContent = fmt(scale, 2) + 'x'; document.getElementById('tempAdj').textContent = tempNote;",
+    "faq": [
+      {"q": "Can I use a 9-inch pan instead of an 8-inch?", "a": "Yes, but a 9-inch round pan has about 27% more area than an 8-inch. Your cake will be thinner, so reduce baking time by 5-10 minutes and check early. You can also multiply the recipe by 1.27 to maintain the same thickness."},
+      {"q": "How do I convert round to square pans?", "a": "A round pan has less area than a square pan of the same dimension. A 9-inch round has roughly the same area as an 8-inch square. Use the area calculation to find the exact scaling factor for your specific sizes."}
+    ],
+    "formulas": [
+      {"name": "Round Pan Area", "formula": "Area = pi x (diameter/2)^2", "explanation": "The area of a circular pan based on its diameter."},
+      {"name": "Scale Factor", "formula": "Scale = New Pan Area / Original Pan Area", "explanation": "Multiply all ingredient quantities by this factor when changing pan sizes."}
+    ],
+    "relatedTools": ["air-fryer-conversion-calculator", "pasta-water-ratio-calculator", "spice-substitution-calculator"]
+  },
+  {
+    "slug": "meat-resting-time-calculator",
+    "toolName": "Meat Resting Time Calculator",
+    "category": "cooking",
+    "tagline": "Calculate optimal resting time for meat based on cut, weight, and cooking method",
+    "keywords": ["meat resting time", "how long to rest steak", "rest time for meat", "resting meat after cooking", "carryover cooking", "steak rest time"],
+    "inputs": [
+      {"id": "meatType", "label": "Type of Meat", "type": "select", "options": [{"value": "steak", "label": "Steak"}, {"value": "roast", "label": "Beef Roast"}, {"value": "chicken", "label": "Whole Chicken"}, {"value": "turkey", "label": "Turkey"}, {"value": "pork", "label": "Pork Chop / Loin"}, {"value": "porkRoast", "label": "Pork Roast / Shoulder"}, {"value": "lamb", "label": "Lamb Chop / Rack"}]},
+      {"id": "weight", "label": "Weight (lbs)", "type": "number", "placeholder": "2", "min": 0.25, "max": 30, "step": 0.25},
+      {"id": "cookMethod", "label": "Cooking Method", "type": "select", "options": [{"value": "grill", "label": "Grill"}, {"value": "oven", "label": "Oven Roast"}, {"value": "pan", "label": "Pan Sear"}, {"value": "smoke", "label": "Smoked"}]}
+    ],
+    "results": [
+      {"id": "restTime", "label": "Recommended Rest Time", "unit": "min"},
+      {"id": "carryover", "label": "Carryover Temp Rise", "unit": "°F"},
+      {"id": "pullTemp", "label": "Pull Early By", "unit": "°F"},
+      {"id": "tip", "label": "Resting Tip", "unit": ""}
+    ],
+    "calcFn": "var baseMin = {steak:5,roast:15,chicken:10,turkey:20,pork:5,porkRoast:15,lamb:5}; var base = baseMin[meatType] || 5; var restTime = base + Math.round(weight * 2); if (meatType === 'turkey') restTime = Math.max(20, 15 + Math.round(weight * 1.5)); if (meatType === 'roast' || meatType === 'porkRoast') restTime = Math.max(15, 10 + Math.round(weight * 3)); var carryover = 0; if (meatType === 'steak' || meatType === 'lamb') carryover = cookMethod === 'pan' ? 8 : 5; else if (meatType === 'roast') carryover = 10; else if (meatType === 'turkey') carryover = 15; else if (meatType === 'porkRoast') carryover = 10; else carryover = 5; var tipText = meatType === 'steak' ? 'Tent loosely with foil — tight wrapping steams the crust' : meatType === 'turkey' ? 'Tent with foil on a cutting board. Do not skip resting a turkey.' : 'Rest on a cutting board or warm plate, tented loosely with foil'; document.getElementById('restTime').textContent = restTime + ' min'; document.getElementById('carryover').textContent = carryover + ' F'; document.getElementById('pullTemp').textContent = carryover + ' F below target'; document.getElementById('tip').textContent = tipText;",
+    "faq": [
+      {"q": "Why does meat need to rest?", "a": "During cooking, heat drives moisture toward the center. Resting allows juices to redistribute evenly throughout the meat. Cutting too soon causes juices to pour out, leaving the meat drier. A rested steak can retain up to 50% more juices."},
+      {"q": "What is carryover cooking?", "a": "The internal temperature of meat continues to rise 5-15 degrees F after removal from heat. Larger cuts carry over more. Pull your meat from the heat when it is that many degrees below your target temperature."}
+    ],
+    "formulas": [
+      {"name": "Rest Time", "formula": "Rest Minutes = Base Time + (Weight x 2-3)", "explanation": "Larger cuts need more resting time for juices to redistribute through the full volume."},
+      {"name": "Pull Temperature", "formula": "Pull Temp = Target Temp - Carryover Rise", "explanation": "Remove meat from heat before it reaches target, accounting for continued internal temperature rise."}
+    ],
+    "relatedTools": ["air-fryer-conversion-calculator", "instant-pot-time-calculator", "spice-substitution-calculator"]
+  },
+  {
+    "slug": "pasta-water-ratio-calculator",
+    "toolName": "Pasta Water Ratio Calculator",
+    "category": "cooking",
+    "tagline": "Calculate the right amount of water and salt for perfectly cooked pasta",
+    "keywords": ["pasta water ratio", "how much water for pasta", "pasta cooking", "water per pound pasta", "salt for pasta water", "pasta portions"],
+    "inputs": [
+      {"id": "pastaOz", "label": "Pasta Amount (oz)", "type": "number", "placeholder": "16", "min": 1, "max": 128, "step": 1},
+      {"id": "pastaType", "label": "Pasta Type", "type": "select", "options": [{"value": "dried", "label": "Dried Pasta"}, {"value": "fresh", "label": "Fresh Pasta"}, {"value": "stuffed", "label": "Stuffed (Ravioli, Tortellini)"}]},
+      {"id": "servings", "label": "Number of Servings", "type": "number", "placeholder": "4", "min": 1, "max": 20, "step": 1}
+    ],
+    "results": [
+      {"id": "waterQt", "label": "Water Needed", "unit": "quarts"},
+      {"id": "waterL", "label": "Water Needed", "unit": "liters"},
+      {"id": "salt", "label": "Salt", "unit": "tbsp"},
+      {"id": "perServing", "label": "Pasta per Serving", "unit": "oz"},
+      {"id": "cookedWeight", "label": "Approx. Cooked Weight", "unit": "oz"}
+    ],
+    "calcFn": "var waterPerOz = pastaType === 'stuffed' ? 0.375 : pastaType === 'fresh' ? 0.25 : 0.25; var waterQt = Math.max(2, Math.ceil(pastaOz * waterPerOz)); var waterL = Math.round(waterQt * 0.946 * 10) / 10; var saltTbsp = Math.round(waterQt * 0.5 * 10) / 10; var perServing = Math.round(pastaOz / servings * 10) / 10; var cookedMult = pastaType === 'fresh' ? 1.5 : pastaType === 'stuffed' ? 1.3 : 2.0; var cooked = Math.round(pastaOz * cookedMult); document.getElementById('waterQt').textContent = waterQt + ' qt (' + (waterQt * 4) + ' cups)'; document.getElementById('waterL').textContent = fmt(waterL, 1) + ' L'; document.getElementById('salt').textContent = fmt(saltTbsp, 1) + ' tbsp'; document.getElementById('perServing').textContent = fmt(perServing, 1) + ' oz dry'; document.getElementById('cookedWeight').textContent = cooked + ' oz';",
+    "faq": [
+      {"q": "How much water do you need per pound of pasta?", "a": "The traditional Italian rule is 4 quarts (1 gallon) of water per pound of dried pasta. This gives pasta room to move and cook evenly. For smaller amounts, use at least 2 quarts minimum to maintain water temperature when pasta is added."},
+      {"q": "How much salt should I add to pasta water?", "a": "Use about 1-2 tablespoons of kosher salt per quart of water. The water should taste pleasantly salty, like the sea. This is the only chance to season the pasta itself — sauce alone cannot make up for unsalted pasta."}
+    ],
+    "formulas": [
+      {"name": "Water Ratio", "formula": "Water (quarts) = Pasta (oz) x 0.25 (minimum 2 qt)", "explanation": "Approximately 1 quart of water per 4 oz of dried pasta."},
+      {"name": "Cooked Weight", "formula": "Cooked Weight = Dry Weight x 2 (dried pasta)", "explanation": "Dried pasta roughly doubles in weight when cooked. Fresh pasta gains about 50%."}
+    ],
+    "relatedTools": ["air-fryer-conversion-calculator", "spice-substitution-calculator", "meat-resting-time-calculator"]
+  },
+  {
+    "slug": "spice-substitution-calculator",
+    "toolName": "Spice Substitution Calculator",
+    "category": "cooking",
+    "tagline": "Find the right substitute spice and conversion ratio when you are out of an ingredient",
+    "keywords": ["spice substitute", "spice conversion", "herb substitute", "spice swap", "out of spice", "seasoning substitute"],
+    "inputs": [
+      {"id": "spice", "label": "Spice You Need", "type": "select", "options": [{"value": "allspice", "label": "Allspice"}, {"value": "basil_fresh", "label": "Basil (fresh)"}, {"value": "basil_dried", "label": "Basil (dried)"}, {"value": "cayenne", "label": "Cayenne Pepper"}, {"value": "cilantro", "label": "Cilantro"}, {"value": "cinnamon", "label": "Cinnamon"}, {"value": "cumin", "label": "Cumin"}, {"value": "garlic_fresh", "label": "Garlic (fresh clove)"}, {"value": "ginger_fresh", "label": "Ginger (fresh)"}, {"value": "nutmeg", "label": "Nutmeg"}, {"value": "oregano", "label": "Oregano"}, {"value": "paprika", "label": "Paprika"}, {"value": "parsley", "label": "Parsley"}, {"value": "rosemary", "label": "Rosemary"}, {"value": "thyme", "label": "Thyme"}]},
+      {"id": "amount", "label": "Amount Needed (tsp)", "type": "number", "placeholder": "1", "min": 0.25, "max": 20, "step": 0.25}
+    ],
+    "results": [
+      {"id": "sub1", "label": "Best Substitute", "unit": ""},
+      {"id": "sub1Amt", "label": "Amount to Use", "unit": "tsp"},
+      {"id": "sub2", "label": "Second Option", "unit": ""},
+      {"id": "sub2Amt", "label": "Amount to Use", "unit": "tsp"},
+      {"id": "notes", "label": "Notes", "unit": ""}
+    ],
+    "calcFn": "var subs = {allspice:{s1:'Cinnamon + Cloves (2:1 mix)',r1:0.75,s2:'Pumpkin Pie Spice',r2:1.0,n:'Use slightly less — allspice is potent'},basil_fresh:{s1:'Dried Basil',r1:0.33,s2:'Fresh Oregano',r2:1.0,n:'1 tsp dried = 1 tbsp fresh'},basil_dried:{s1:'Fresh Basil (triple amount)',r1:3.0,s2:'Dried Oregano',r2:1.0,n:'Add fresh basil at end of cooking'},cayenne:{s1:'Red Pepper Flakes',r1:1.5,s2:'Hot Paprika',r2:2.0,n:'Start with less and taste — heat varies'},cilantro:{s1:'Fresh Parsley + Lime Zest',r1:1.0,s2:'Fresh Basil',r2:1.0,n:'Nothing truly replicates cilantro flavor'},cinnamon:{s1:'Allspice',r1:0.5,s2:'Nutmeg',r2:0.25,n:'Use less — substitutes are stronger'},cumin:{s1:'Chili Powder',r1:1.0,s2:'Coriander',r2:0.75,n:'Chili powder contains cumin already'},garlic_fresh:{s1:'Garlic Powder',r1:0.33,s2:'Granulated Garlic',r2:0.5,n:'1 clove = 1/3 tsp powder'},ginger_fresh:{s1:'Ground Ginger',r1:0.25,s2:'Allspice',r2:0.25,n:'1 tbsp fresh = 1/4 tsp ground'},nutmeg:{s1:'Allspice',r1:1.0,s2:'Cinnamon + Ginger (equal parts)',r2:0.5,n:'Use sparingly — a little goes far'},oregano:{s1:'Marjoram',r1:1.0,s2:'Thyme',r2:0.75,n:'Marjoram is the closest match'},paprika:{s1:'Cayenne + Sugar (pinch each)',r1:0.5,s2:'Ancho Chili Powder',r2:1.0,n:'Cayenne is much hotter — use half'},parsley:{s1:'Chervil',r1:1.0,s2:'Cilantro',r2:1.0,n:'For garnish, celery leaves also work'},rosemary:{s1:'Thyme',r1:1.0,s2:'Savory',r2:1.0,n:'Both pair well with roasted meats'},thyme:{s1:'Oregano',r1:0.75,s2:'Rosemary (use less)',r2:0.5,n:'Rosemary is stronger — use half the amount'}}; var s = subs[spice] || {s1:'No data',r1:1,s2:'No data',r2:1,n:'Check a spice reference guide'}; document.getElementById('sub1').textContent = s.s1; document.getElementById('sub1Amt').textContent = fmt(amount * s.r1, 2) + ' tsp'; document.getElementById('sub2').textContent = s.s2; document.getElementById('sub2Amt').textContent = fmt(amount * s.r2, 2) + ' tsp'; document.getElementById('notes').textContent = s.n;",
+    "faq": [
+      {"q": "What is the fresh to dried herb ratio?", "a": "The general rule is 1 tablespoon fresh = 1 teaspoon dried (3:1 ratio). Dried herbs are more concentrated because water has been removed. Add dried herbs early in cooking and fresh herbs at the end."},
+      {"q": "Can I use garlic powder instead of fresh garlic?", "a": "Yes. Use 1/3 teaspoon garlic powder per clove of fresh garlic. Powder works best in dry rubs, marinades, and sauces. Fresh garlic is better when you want the texture and sharper flavor, like in garlic bread or stir-fry."}
+    ],
+    "formulas": [
+      {"name": "Substitute Amount", "formula": "Substitute Qty = Original Qty x Conversion Ratio", "explanation": "Each spice pair has a specific ratio based on relative potency and flavor intensity."},
+      {"name": "Fresh to Dried", "formula": "Dried Amount = Fresh Amount / 3", "explanation": "Standard conversion: 1 tablespoon fresh herb equals 1 teaspoon dried."}
+    ],
+    "relatedTools": ["pasta-water-ratio-calculator", "air-fryer-conversion-calculator", "meat-resting-time-calculator"]
+  }
+]

@@ -1,0 +1,30 @@
+(function() {
+  'use strict';
+
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function dollar(n) { return '$' + fmt(n, 2); }
+  function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
+
+  function calculate() {
+    var barSize = document.getElementById('barSize').value;
+    var quantity = parseFloat(document.getElementById('quantity').value) || 0;
+    var spotPrice = parseFloat(document.getElementById('spotPrice').value) || 0;
+    var premium = parseFloat(document.getElementById('premium').value) || 0;
+
+    // Calculation logic
+    var gramsMap={'1g':1,'5g':5,'10g':10,'1oz':31.1035,'100g':100,'1kg':1000,'400oz':12441.4}; var grams=gramsMap[barSize]||31.1035; var oz=grams/31.1035; var spotValue=oz*spotPrice; var withPremium=spotValue*(1+premium/100); var totalValue=withPremium*quantity; var perGram=withPremium/grams; return {spotValue:dollar(spotValue), withPremium:dollar(withPremium), totalValue:dollar(totalValue), perGram:dollar(perGram)+'/gram'};
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  ['barSize', 'quantity', 'spotPrice', 'premium'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  });
+})();

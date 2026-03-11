@@ -1,0 +1,29 @@
+(function() {
+  'use strict';
+
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function dollar(n) { return '$' + fmt(n, 2); }
+  function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
+
+  function calculate() {
+    var pipeDia = document.getElementById('pipeDia').value;
+    var pressure = parseFloat(document.getElementById('pressure').value) || 0;
+    var length = parseFloat(document.getElementById('length').value) || 0;
+
+    // Calculation logic
+    var dia=parseFloat(pipeDia); var area=Math.PI*Math.pow(dia/2/12,2); var frictionFactor=0.02; var headLoss=frictionFactor*length*8/(dia/12); var effectivePressure=Math.max(pressure-headLoss*0.433,5); var velocity=Math.sqrt(2*effectivePressure*144/62.4)*0.6; var flowCFS=velocity*area; var flowGPM=flowCFS*448.83; var dailyGal=flowGPM*60*24; return {flowGPM:fmt(flowGPM,1)+' GPM', velocity:fmt(velocity,1)+' ft/s', dailyGal:fmt(dailyGal,0)+' gal/day'};
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  ['pipeDia', 'pressure', 'length'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  });
+})();

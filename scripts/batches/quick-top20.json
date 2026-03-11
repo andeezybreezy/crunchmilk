@@ -1,0 +1,476 @@
+[
+  {
+    "slug": "net-worth-percentile-calculator",
+    "toolName": "Net Worth Percentile Calculator",
+    "category": "finance",
+    "tagline": "See how your net worth compares to others in your age group using Federal Reserve data",
+    "keywords": "net worth percentile, net worth by age, am i rich, net worth percentile by age, average net worth, median net worth by age, net worth comparison, what percentile is my net worth, net worth ranking, how does my net worth compare",
+    "relatedTools": ["salary-after-tax-calculator", "billionaire-wealth-comparison", "loan-payment-calculator", "mortgage-affordability-calculator"],
+    "inputs": [
+      {"id": "age", "label": "Your Age", "default": 35, "min": 18, "max": 99},
+      {"id": "assets", "label": "Total Assets", "default": 150000, "min": 0},
+      {"id": "debts", "label": "Total Debts", "default": 45000, "min": 0}
+    ],
+    "results": [
+      {"id": "netWorth", "label": "Your Net Worth"},
+      {"id": "percentile", "label": "Your Percentile"},
+      {"id": "medianAge", "label": "Median for Your Age Group"},
+      {"id": "avgAge", "label": "Average for Your Age Group"},
+      {"id": "vMedian", "label": "vs. Median"},
+      {"id": "ageGroup", "label": "Age Bracket"},
+      {"id": "topPct", "label": "You're in the Top"},
+      {"id": "wealthLevel", "label": "Wealth Assessment"}
+    ],
+    "calcFn": "var nw = assets - debts; var brackets = {'18-24':{median:8000,avg:120000,p25:-5000,p50:8000,p75:35000,p90:100000,p95:200000},'25-34':{median:39000,avg:183000,p25:1000,p50:39000,p75:130000,p90:350000,p95:600000},'35-44':{median:135000,avg:549000,p25:15000,p50:135000,p75:350000,p90:850000,p95:1500000},'45-54':{median:247000,avg:975000,p25:30000,p50:247000,p75:650000,p90:1500000,p95:2800000},'55-64':{median:364000,avg:1400000,p25:45000,p50:364000,p75:950000,p90:2200000,p95:4000000},'65+':{median:409000,avg:1600000,p25:50000,p50:409000,p75:1000000,p90:2500000,p95:4500000}}; var group = age < 25 ? '18-24' : age < 35 ? '25-34' : age < 45 ? '35-44' : age < 55 ? '45-54' : age < 65 ? '55-64' : '65+'; var b = brackets[group]; var pctile = 50; if(nw <= b.p25) { pctile = Math.max(1, Math.round(25 * (nw - (b.p25 - Math.abs(b.p25)*2)) / (b.p25 - (b.p25 - Math.abs(b.p25)*2)))); if(nw <= 0) pctile = Math.max(1, Math.min(15, Math.round(15 * (nw + 100000) / 100000))); else pctile = Math.round(10 + 15 * nw / b.p25); pctile = Math.max(1, Math.min(25, pctile)); } else if(nw <= b.p50) { pctile = 25 + Math.round(25 * (nw - b.p25) / (b.p50 - b.p25)); } else if(nw <= b.p75) { pctile = 50 + Math.round(25 * (nw - b.p50) / (b.p75 - b.p50)); } else if(nw <= b.p90) { pctile = 75 + Math.round(15 * (nw - b.p75) / (b.p90 - b.p75)); } else if(nw <= b.p95) { pctile = 90 + Math.round(5 * (nw - b.p90) / (b.p95 - b.p90)); } else { pctile = 95 + Math.min(4, Math.round(4 * (nw - b.p95) / (b.p95 * 2))); } pctile = Math.max(1, Math.min(99, pctile)); var diff = nw - b.median; var diffStr = diff >= 0 ? dollar(diff) + ' above median' : dollar(Math.abs(diff)) + ' below median'; var topStr = (100 - pctile) + '%'; var level = pctile >= 95 ? 'Excellent — Top tier wealth for your age' : pctile >= 75 ? 'Strong — Well above typical for your age' : pctile >= 50 ? 'Solid — Above the median for your age' : pctile >= 25 ? 'Building — Below median but growing' : 'Early stage — Focus on debt reduction and saving'; document.getElementById('netWorth').textContent = dollar(nw); document.getElementById('percentile').textContent = pctile + 'th percentile'; document.getElementById('medianAge').textContent = dollar(b.median); document.getElementById('avgAge').textContent = dollar(b.avg); document.getElementById('vMedian').textContent = diffStr; document.getElementById('ageGroup').textContent = group + ' years old'; document.getElementById('topPct').textContent = 'Top ' + topStr; document.getElementById('wealthLevel').textContent = level;",
+    "formulas": ["Net Worth = Total Assets − Total Debts", "Percentile based on Federal Reserve Survey of Consumer Finances (SCF) data", "Median = 50th percentile (half of households have more, half have less)"],
+    "faq": [
+      {"question": "What is a good net worth for my age?", "answer": "A common benchmark is having a net worth equal to your annual salary by age 30, three times your salary by 40, and six times by 50. However, the median American household net worth is about $192,000 across all ages. Being above the median for your age group is a solid indicator of financial health."},
+      {"question": "What counts as assets for net worth?", "answer": "Assets include everything you own of value: bank accounts, retirement accounts (401k, IRA), investment portfolios, home equity, vehicles, real estate, business interests, and valuable personal property. Your primary home is typically your largest asset. Include the full market value, then subtract mortgages in your debts."},
+      {"question": "Why is the average so much higher than the median?", "answer": "The average (mean) is pulled dramatically upward by extremely wealthy households. A single billionaire in a room of 100 people makes the average net worth over $10 million, while the median barely changes. The median is a much more useful measure of what a typical person has, since it represents the exact middle point."},
+      {"question": "How can I increase my net worth percentile?", "answer": "The fastest ways to grow net worth are: pay down high-interest debt first (credit cards, personal loans), maximize employer 401k match (free money), build an emergency fund of 3-6 months expenses, invest consistently in low-cost index funds, and avoid lifestyle inflation when your income rises. Automating savings and investing is the most reliable strategy."},
+      {"question": "Does net worth percentile include home equity?", "answer": "Yes, the Federal Reserve Survey of Consumer Finances includes home equity in net worth calculations. For homeowners, home equity is often 30-50% of total net worth. However, some financial planners prefer calculating investable net worth (excluding primary residence) for retirement planning purposes, since you need somewhere to live."}
+    ]
+  },
+  {
+    "slug": "salary-after-tax-calculator",
+    "toolName": "Salary After Tax Calculator",
+    "category": "finance",
+    "tagline": "Calculate your actual take-home pay after federal, state, and FICA taxes",
+    "keywords": "salary after tax, take home pay calculator, 100k salary after tax, salary after tax Texas, paycheck calculator, after tax income, net pay calculator, salary calculator after taxes, take home pay 75k, biweekly paycheck calculator",
+    "relatedTools": ["net-worth-percentile-calculator", "cost-of-living-comparison", "mortgage-affordability-calculator", "loan-payment-calculator"],
+    "inputs": [
+      {"id": "salary", "label": "Annual Salary", "default": 75000, "min": 0},
+      {"id": "filing", "label": "Filing Status", "default": "single", "type": "select", "options": [{"value": "single", "label": "Single"}, {"value": "married", "label": "Married Filing Jointly"}, {"value": "hoh", "label": "Head of Household"}]},
+      {"id": "state", "label": "State", "default": "TX", "type": "select", "options": [{"value": "CA", "label": "California"}, {"value": "NY", "label": "New York"}, {"value": "FL", "label": "Florida (no income tax)"}, {"value": "TX", "label": "Texas (no income tax)"}, {"value": "WA", "label": "Washington (no income tax)"}, {"value": "IL", "label": "Illinois"}, {"value": "PA", "label": "Pennsylvania"}, {"value": "OH", "label": "Ohio"}, {"value": "GA", "label": "Georgia"}, {"value": "NC", "label": "North Carolina"}, {"value": "NJ", "label": "New Jersey"}, {"value": "VA", "label": "Virginia"}, {"value": "MA", "label": "Massachusetts"}, {"value": "CO", "label": "Colorado"}, {"value": "NV", "label": "Nevada (no income tax)"}, {"value": "TN", "label": "Tennessee (no income tax)"}, {"value": "WY", "label": "Wyoming (no income tax)"}, {"value": "AK", "label": "Alaska (no income tax)"}, {"value": "NH", "label": "New Hampshire (no income tax)"}, {"value": "SD", "label": "South Dakota (no income tax)"}]}
+    ],
+    "results": [
+      {"id": "gross", "label": "Gross Annual Pay"},
+      {"id": "fedTax", "label": "Federal Income Tax"},
+      {"id": "stateTax", "label": "State Income Tax"},
+      {"id": "fica", "label": "FICA (SS + Medicare)"},
+      {"id": "totalTax", "label": "Total Tax"},
+      {"id": "takeHomeAnnual", "label": "Take-Home (Annual)"},
+      {"id": "takeHomeMonthly", "label": "Take-Home (Monthly)"},
+      {"id": "takeHomeBiweekly", "label": "Take-Home (Biweekly)"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"}
+    ],
+    "calcFn": "var std = {single:14600,married:29200,hoh:21900}; var taxable = Math.max(0, salary - (std[filing] || 14600)); var fed = 0; if(filing === 'married') { if(taxable <= 23200) fed = taxable * 0.10; else if(taxable <= 94300) fed = 2320 + (taxable - 23200) * 0.12; else if(taxable <= 201050) fed = 10852 + (taxable - 94300) * 0.22; else if(taxable <= 383900) fed = 34337 + (taxable - 201050) * 0.24; else if(taxable <= 487450) fed = 78221 + (taxable - 383900) * 0.32; else if(taxable <= 731200) fed = 111357 + (taxable - 487450) * 0.35; else fed = 196670 + (taxable - 731200) * 0.37; } else if(filing === 'hoh') { if(taxable <= 16550) fed = taxable * 0.10; else if(taxable <= 63100) fed = 1655 + (taxable - 16550) * 0.12; else if(taxable <= 100500) fed = 7241 + (taxable - 63100) * 0.22; else if(taxable <= 191950) fed = 15469 + (taxable - 100500) * 0.24; else if(taxable <= 243725) fed = 37417 + (taxable - 191950) * 0.32; else if(taxable <= 609350) fed = 53985 + (taxable - 243725) * 0.35; else fed = 181954 + (taxable - 609350) * 0.37; } else { if(taxable <= 11600) fed = taxable * 0.10; else if(taxable <= 47150) fed = 1160 + (taxable - 11600) * 0.12; else if(taxable <= 100525) fed = 5426 + (taxable - 47150) * 0.22; else if(taxable <= 191950) fed = 17169 + (taxable - 100525) * 0.24; else if(taxable <= 243725) fed = 39111 + (taxable - 191950) * 0.32; else if(taxable <= 609350) fed = 55679 + (taxable - 243725) * 0.35; else fed = 183647 + (taxable - 609350) * 0.37; } var stateRates = {CA:0.0725,NY:0.0685,FL:0,TX:0,WA:0,IL:0.0495,PA:0.0307,OH:0.04,GA:0.055,NC:0.0475,NJ:0.0637,VA:0.0575,MA:0.05,CO:0.044,NV:0,TN:0,WY:0,AK:0,NH:0,SD:0}; var stRate = stateRates[state] || 0; var st = salary * stRate; var ssWage = Math.min(salary, 168600); var ss = ssWage * 0.062; var mc = salary * 0.0145; if(salary > 200000) mc += (salary - 200000) * 0.009; var ficaTotal = ss + mc; var totalTax = fed + st + ficaTotal; var takeHome = salary - totalTax; var effRate = salary > 0 ? (totalTax / salary) * 100 : 0; document.getElementById('gross').textContent = dollar(salary); document.getElementById('fedTax').textContent = dollar(fed); document.getElementById('stateTax').textContent = dollar(st); document.getElementById('fica').textContent = dollar(ficaTotal); document.getElementById('totalTax').textContent = dollar(totalTax); document.getElementById('takeHomeAnnual').textContent = dollar(takeHome); document.getElementById('takeHomeMonthly').textContent = dollar(takeHome / 12); document.getElementById('takeHomeBiweekly').textContent = dollar(takeHome / 26); document.getElementById('effectiveRate').textContent = pct(effRate, 1);",
+    "formulas": ["Federal Tax: 2024 progressive brackets (10% to 37%)", "FICA: Social Security 6.2% (up to $168,600) + Medicare 1.45% (+0.9% over $200k)", "Take-Home = Gross Salary − Federal Tax − State Tax − FICA"],
+    "faq": [
+      {"question": "How much is 100k salary after taxes?", "answer": "A $100,000 salary in a no-income-tax state like Texas or Florida yields approximately $78,000-$80,000 take-home pay after federal income tax and FICA. In high-tax states like California or New York, take-home drops to roughly $70,000-$73,000. Your filing status significantly impacts the number, with married filing jointly paying less federal tax due to wider brackets."},
+      {"question": "Which states have no income tax?", "answer": "Nine states have no state income tax: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. New Hampshire historically taxed only interest and dividend income, but phased that out completely in 2025. Living in a no-tax state can save you thousands annually, though other taxes (property, sales) may be higher to compensate."},
+      {"question": "What is the difference between marginal and effective tax rate?", "answer": "Your marginal tax rate is the bracket your last dollar of income falls into — for example, 22% for a single filer earning $75,000. Your effective tax rate is the actual percentage of total income paid in taxes, which is always lower because of progressive brackets and the standard deduction. Someone in the 22% bracket typically has an effective rate of 12-16%."},
+      {"question": "What is FICA and why is it separate?", "answer": "FICA stands for Federal Insurance Contributions Act and funds Social Security and Medicare. It is 7.65% of your wages (6.2% Social Security + 1.45% Medicare), and your employer pays an equal 7.65%. Social Security tax stops at $168,600 in earnings for 2024, but Medicare has no cap and adds a 0.9% surcharge on earnings above $200,000."},
+      {"question": "How can I reduce my tax burden legally?", "answer": "The most effective strategies include: maximizing 401k contributions ($23,000 limit for 2024) which reduces taxable income dollar-for-dollar, contributing to an HSA if you have a high-deductible health plan ($4,150 individual / $8,300 family), using traditional IRA deductions if eligible, and harvesting investment losses to offset gains. These strategies can save thousands per year in taxes."}
+    ]
+  },
+  {
+    "slug": "mortgage-affordability-calculator",
+    "toolName": "Mortgage Affordability Calculator",
+    "category": "housing",
+    "tagline": "Find out how much house you can afford based on your income and debts",
+    "keywords": "how much house can I afford, mortgage affordability calculator, home affordability calculator, mortgage calculator by income, how much mortgage can I qualify for, house budget calculator, home buying calculator, max mortgage amount",
+    "relatedTools": ["property-tax-calculator", "salary-after-tax-calculator", "loan-payment-calculator", "cost-of-living-comparison"],
+    "inputs": [
+      {"id": "income", "label": "Annual Income", "default": 85000, "min": 0},
+      {"id": "monthlyDebts", "label": "Monthly Debts (car, student loans, etc.)", "default": 500, "min": 0},
+      {"id": "downPayment", "label": "Down Payment", "default": 50000, "min": 0},
+      {"id": "rate", "label": "Interest Rate", "default": 6.5, "unit": "%", "min": 0, "max": 15, "step": 0.125},
+      {"id": "term", "label": "Loan Term", "default": "30", "type": "select", "options": [{"value": "15", "label": "15 Years"}, {"value": "30", "label": "30 Years"}]},
+      {"id": "taxRate", "label": "Property Tax Rate", "default": 1.2, "unit": "%", "step": 0.1},
+      {"id": "insurance", "label": "Insurance (Monthly)", "default": 150, "min": 0}
+    ],
+    "results": [
+      {"id": "maxHome", "label": "Max Home Price"},
+      {"id": "maxPayment", "label": "Max Monthly Payment (28% Rule)"},
+      {"id": "piPayment", "label": "Principal & Interest"},
+      {"id": "propTaxMo", "label": "Property Tax (Monthly)"},
+      {"id": "insuranceMo", "label": "Insurance (Monthly)"},
+      {"id": "totalMonthly", "label": "Total Monthly Housing Cost"},
+      {"id": "dtiRatio", "label": "Debt-to-Income Ratio"},
+      {"id": "dtiAssessment", "label": "DTI Assessment"}
+    ],
+    "calcFn": "var monthlyIncome = income / 12; var maxHousing28 = monthlyIncome * 0.28; var maxTotal36 = monthlyIncome * 0.36; var maxHousingByDTI = maxTotal36 - monthlyDebts; var maxHousingPayment = Math.min(maxHousing28, maxHousingByDTI); var piAvailable = maxHousingPayment - insurance; var r = (rate / 100) / 12; var n = parseInt(term) * 12; var tempLoan = 100000; var tempTax = (tempLoan * (taxRate / 100)) / 12; piAvailable = maxHousingPayment - insurance; var iterations = 0; var loanAmount = 200000; while(iterations < 50) { var tax = ((loanAmount + downPayment) * (taxRate / 100)) / 12; var piNeeded = maxHousingPayment - insurance - tax; if(piNeeded <= 0) { loanAmount = 0; break; } var newLoan = r > 0 ? piNeeded / ((r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1)) : piNeeded * n; if(Math.abs(newLoan - loanAmount) < 100) { loanAmount = newLoan; break; } loanAmount = newLoan; iterations++; } loanAmount = Math.max(0, loanAmount); var homePrice = loanAmount + downPayment; var pi = r > 0 ? loanAmount * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1) : loanAmount / n; var propTax = (homePrice * (taxRate / 100)) / 12; var totalMo = pi + propTax + insurance; var dti = monthlyIncome > 0 ? ((totalMo + monthlyDebts) / monthlyIncome) * 100 : 0; var dtiText = dti <= 28 ? 'Excellent — comfortably within guidelines' : dti <= 33 ? 'Good — within most lender limits' : dti <= 36 ? 'Acceptable — at the conventional limit' : dti <= 43 ? 'Stretched — may qualify for FHA only' : 'High risk — may have difficulty qualifying'; document.getElementById('maxHome').textContent = dollar(homePrice); document.getElementById('maxPayment').textContent = dollar(maxHousingPayment); document.getElementById('piPayment').textContent = dollar(pi); document.getElementById('propTaxMo').textContent = dollar(propTax); document.getElementById('insuranceMo').textContent = dollar(insurance); document.getElementById('totalMonthly').textContent = dollar(totalMo); document.getElementById('dtiRatio').textContent = pct(dti, 1); document.getElementById('dtiAssessment').textContent = dtiText;",
+    "formulas": ["28% Rule: Monthly housing costs should not exceed 28% of gross monthly income", "36% Rule: Total debt payments (housing + other) should not exceed 36% of gross income", "Monthly P&I = Loan × [r(1+r)^n] / [(1+r)^n − 1]"],
+    "faq": [
+      {"question": "How much house can I afford on a $100k salary?", "answer": "On a $100,000 salary with no other debts, you can generally afford a home priced around $350,000-$420,000 depending on interest rates, down payment, and location. The 28% rule limits your total housing payment to about $2,333 per month. With a 20% down payment and a 6.5% rate on a 30-year mortgage, you could comfortably afford a $400,000 home."},
+      {"question": "What is the 28/36 rule?", "answer": "The 28/36 rule is a widely used lending guideline. The front-end ratio (28%) says your total monthly housing costs — including mortgage principal, interest, property taxes, and insurance — should not exceed 28% of your gross monthly income. The back-end ratio (36%) says your total monthly debt payments (housing plus car loans, student loans, credit cards) should stay below 36% of gross income."},
+      {"question": "How much down payment do I need?", "answer": "Conventional loans typically require 5-20% down. Putting 20% down avoids Private Mortgage Insurance (PMI), which costs 0.5-1% of the loan annually. FHA loans allow as little as 3.5% down, and VA loans offer 0% down for eligible veterans. A larger down payment means a smaller loan, lower monthly payments, and often a better interest rate."},
+      {"question": "What is DTI and why does it matter?", "answer": "Debt-to-income ratio (DTI) measures the percentage of your gross monthly income that goes toward debt payments. Most conventional lenders want a DTI below 36%, though some will go to 43%. FHA loans may allow up to 50% in certain cases. A lower DTI not only makes qualifying easier but also means you have more financial breathing room for emergencies and other goals."},
+      {"question": "Should I get a 15-year or 30-year mortgage?", "answer": "A 15-year mortgage has higher monthly payments but saves tens of thousands in interest and builds equity faster. The rate is typically 0.5-0.75% lower than a 30-year. A 30-year mortgage offers lower payments and more flexibility. If you can afford 15-year payments comfortably, it is usually the better financial choice — but do not stretch your budget so tight that you cannot save or handle emergencies."}
+    ]
+  },
+  {
+    "slug": "property-tax-calculator",
+    "toolName": "Property Tax Calculator",
+    "category": "housing",
+    "tagline": "Estimate your annual property tax by state and home value",
+    "keywords": "property tax calculator, property tax by state, property tax Texas, property tax California, how much is property tax, property tax rate by state, property tax estimator, annual property tax, real estate tax calculator",
+    "relatedTools": ["mortgage-affordability-calculator", "cost-of-living-comparison", "salary-after-tax-calculator"],
+    "inputs": [
+      {"id": "homeValue", "label": "Home Value", "default": 350000, "min": 0},
+      {"id": "state", "label": "State", "default": "TX", "type": "select", "options": [
+        {"value": "AL", "label": "Alabama"}, {"value": "AK", "label": "Alaska"}, {"value": "AZ", "label": "Arizona"}, {"value": "AR", "label": "Arkansas"},
+        {"value": "CA", "label": "California"}, {"value": "CO", "label": "Colorado"}, {"value": "CT", "label": "Connecticut"}, {"value": "DE", "label": "Delaware"},
+        {"value": "FL", "label": "Florida"}, {"value": "GA", "label": "Georgia"}, {"value": "HI", "label": "Hawaii"}, {"value": "ID", "label": "Idaho"},
+        {"value": "IL", "label": "Illinois"}, {"value": "IN", "label": "Indiana"}, {"value": "IA", "label": "Iowa"}, {"value": "KS", "label": "Kansas"},
+        {"value": "KY", "label": "Kentucky"}, {"value": "LA", "label": "Louisiana"}, {"value": "ME", "label": "Maine"}, {"value": "MD", "label": "Maryland"},
+        {"value": "MA", "label": "Massachusetts"}, {"value": "MI", "label": "Michigan"}, {"value": "MN", "label": "Minnesota"}, {"value": "MS", "label": "Mississippi"},
+        {"value": "MO", "label": "Missouri"}, {"value": "MT", "label": "Montana"}, {"value": "NE", "label": "Nebraska"}, {"value": "NV", "label": "Nevada"},
+        {"value": "NH", "label": "New Hampshire"}, {"value": "NJ", "label": "New Jersey"}, {"value": "NM", "label": "New Mexico"}, {"value": "NY", "label": "New York"},
+        {"value": "NC", "label": "North Carolina"}, {"value": "ND", "label": "North Dakota"}, {"value": "OH", "label": "Ohio"}, {"value": "OK", "label": "Oklahoma"},
+        {"value": "OR", "label": "Oregon"}, {"value": "PA", "label": "Pennsylvania"}, {"value": "RI", "label": "Rhode Island"}, {"value": "SC", "label": "South Carolina"},
+        {"value": "SD", "label": "South Dakota"}, {"value": "TN", "label": "Tennessee"}, {"value": "TX", "label": "Texas"}, {"value": "UT", "label": "Utah"},
+        {"value": "VT", "label": "Vermont"}, {"value": "VA", "label": "Virginia"}, {"value": "WA", "label": "Washington"}, {"value": "WV", "label": "West Virginia"},
+        {"value": "WI", "label": "Wisconsin"}, {"value": "WY", "label": "Wyoming"}
+      ]},
+      {"id": "assessRatio", "label": "Assessment Ratio", "default": 100, "unit": "%", "min": 1, "max": 100}
+    ],
+    "results": [
+      {"id": "assessedVal", "label": "Assessed Value"},
+      {"id": "annualTax", "label": "Annual Property Tax"},
+      {"id": "monthlyTax", "label": "Monthly Property Tax"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"},
+      {"id": "stateRank", "label": "State Rank (1 = Highest)"},
+      {"id": "vsNational", "label": "vs. National Average"}
+    ],
+    "calcFn": "var rates = {NJ:2.23,IL:2.07,NH:1.93,CT:2.15,VT:1.90,WI:1.76,TX:1.68,NE:1.65,NY:1.62,PA:1.58,OH:1.56,IA:1.52,MI:1.44,KS:1.41,SD:1.28,MN:1.27,ME:1.30,MA:1.20,RI:1.53,AK:1.19,MO:1.00,OR:0.97,GA:0.92,OK:0.88,VA:0.82,NC:0.84,ND:0.98,FL:0.89,MD:1.07,NV:0.60,MT:0.84,IN:0.85,WA:0.98,NM:0.80,KY:0.86,ID:0.69,TN:0.71,AZ:0.66,CA:0.71,WY:0.61,MS:0.81,AR:0.63,DE:0.57,UT:0.58,WV:0.58,SC:0.57,LA:0.55,CO:0.51,AL:0.41,HI:0.28}; var stateRate = rates[state] || 1.0; var assessed = homeValue * (assessRatio / 100); var annual = assessed * (stateRate / 100); var monthly = annual / 12; var nationalAvg = 1.10; var diff = stateRate - nationalAvg; var diffStr = diff >= 0 ? pct(Math.abs(diff), 2) + ' above national avg (' + pct(nationalAvg, 2) + ')' : pct(Math.abs(diff), 2) + ' below national avg (' + pct(nationalAvg, 2) + ')'; var sorted = Object.entries(rates).sort(function(a,b){return b[1]-a[1]}); var rank = 1; for(var i = 0; i < sorted.length; i++) { if(sorted[i][0] === state) { rank = i + 1; break; } } document.getElementById('assessedVal').textContent = dollar(assessed); document.getElementById('annualTax').textContent = dollar(annual); document.getElementById('monthlyTax').textContent = dollar(monthly); document.getElementById('effectiveRate').textContent = pct(stateRate, 2); document.getElementById('stateRank').textContent = '#' + rank + ' of 50 states'; document.getElementById('vsNational').textContent = diffStr;",
+    "formulas": ["Annual Property Tax = Assessed Value × Tax Rate", "Assessed Value = Home Value × Assessment Ratio", "National average effective property tax rate: ~1.10%"],
+    "faq": [
+      {"question": "Which state has the highest property tax?", "answer": "New Jersey consistently has the highest effective property tax rate at approximately 2.23%, followed by Illinois at 2.07% and Connecticut at 2.15%. On a $350,000 home, New Jersey property taxes would cost roughly $7,800 per year compared to about $980 in Hawaii, which has the lowest rate at 0.28%. These rates are averages and can vary significantly by county and municipality."},
+      {"question": "How is property tax assessed?", "answer": "Your county assessor determines your home's assessed value, which may differ from market value depending on your state's assessment ratio. Some states assess at full market value (100%), while others use a fraction. Tax bills equal the assessed value multiplied by the local mill rate (tax rate). Reassessments happen on varying schedules — some states reassess annually, others every few years."},
+      {"question": "Can I appeal my property tax assessment?", "answer": "Yes, homeowners can appeal if they believe their assessed value is too high. Start by reviewing your assessment notice and comparing with recent sales of similar homes. File a formal appeal with your county assessor or board of review within the deadline (usually 30-90 days after notice). About 30-40% of appeals result in a reduction, so it is often worth pursuing if you have evidence of overvaluation."},
+      {"question": "Are property taxes tax deductible?", "answer": "Yes, property taxes are deductible on federal income tax returns if you itemize deductions. However, the 2017 Tax Cuts and Jobs Act capped the State and Local Tax (SALT) deduction at $10,000 total ($5,000 if married filing separately). This cap includes both state income tax and property tax combined, which limits the benefit for homeowners in high-tax states."},
+      {"question": "Do property taxes go up every year?", "answer": "In most states, property taxes can increase annually as home values rise and local governments adjust mill rates. Some states have caps — California Proposition 13 limits annual increases to 2% of assessed value until the home is sold. Texas has a 10% annual cap on homestead appraisal increases. Without such caps, taxes can jump significantly in hot housing markets."}
+    ]
+  },
+  {
+    "slug": "concrete-calculator",
+    "toolName": "Concrete Calculator",
+    "category": "construction",
+    "tagline": "Calculate cubic yards, bags, and cost for your concrete project",
+    "keywords": "concrete calculator, how much concrete do I need, concrete yard calculator, concrete bag calculator, cubic yards of concrete, concrete slab calculator, concrete cost calculator, ready mix concrete calculator, concrete footage calculator",
+    "relatedTools": ["deck-material-calculator", "paint-coverage-calculator"],
+    "inputs": [
+      {"id": "length", "label": "Length", "default": 10, "unit": "ft", "min": 0.1, "step": 0.5},
+      {"id": "width", "label": "Width", "default": 10, "unit": "ft", "min": 0.1, "step": 0.5},
+      {"id": "depth", "label": "Depth", "default": 4, "unit": "inches", "min": 1, "max": 48, "step": 0.5},
+      {"id": "shape", "label": "Shape", "default": "slab", "type": "select", "options": [{"value": "slab", "label": "Slab / Rectangle"}, {"value": "column", "label": "Column / Square"}, {"value": "tube", "label": "Tube / Cylinder"}]}
+    ],
+    "results": [
+      {"id": "cubicFeet", "label": "Volume (Cubic Feet)"},
+      {"id": "cubicYards", "label": "Volume (Cubic Yards)"},
+      {"id": "bags40", "label": "40-lb Bags Needed"},
+      {"id": "bags60", "label": "60-lb Bags Needed"},
+      {"id": "bags80", "label": "80-lb Bags Needed"},
+      {"id": "weight", "label": "Total Weight"},
+      {"id": "cost", "label": "Estimated Cost (80-lb bags)"},
+      {"id": "readyMix", "label": "Ready-Mix Cost (if available)"}
+    ],
+    "calcFn": "var depthFt = depth / 12; var cf = 0; if(shape === 'tube') { var radius = width / 2; cf = Math.PI * radius * radius * length * depthFt; } else if(shape === 'column') { cf = length * width * (depth / 12); } else { cf = length * width * depthFt; } var cy = cf / 27; var cyWithWaste = cy * 1.10; var b40 = Math.ceil(cyWithWaste / 0.011); var b60 = Math.ceil(cyWithWaste / 0.017); var b80 = Math.ceil(cyWithWaste / 0.022); var totalWeight = cyWithWaste * 3700; var costBags = b80 * 6.50; var costReady = cyWithWaste * 165; document.getElementById('cubicFeet').textContent = fmt(cf, 2) + ' cu ft'; document.getElementById('cubicYards').textContent = fmt(cy, 2) + ' cu yd (+ 10% waste = ' + fmt(cyWithWaste, 2) + ')'; document.getElementById('bags40').textContent = b40 + ' bags'; document.getElementById('bags60').textContent = b60 + ' bags'; document.getElementById('bags80').textContent = b80 + ' bags'; document.getElementById('weight').textContent = fmt(totalWeight, 0) + ' lbs (' + fmt(totalWeight / 2000, 1) + ' tons)'; document.getElementById('cost').textContent = dollar(costBags) + ' (at $6.50/bag)'; document.getElementById('readyMix').textContent = dollar(costReady) + ' (at ~$165/cu yd delivered)';",
+    "formulas": ["Volume (slab) = Length × Width × Depth", "1 cubic yard = 27 cubic feet", "Add 10% extra for waste, spillage, and uneven sub-grade"],
+    "faq": [
+      {"question": "How many bags of concrete do I need for a 10x10 slab?", "answer": "A 10x10 foot slab at 4 inches deep requires approximately 1.23 cubic yards of concrete. That is about 56 bags of 80-lb concrete mix, 72 bags of 60-lb mix, or 112 bags of 40-lb mix (including 10% for waste). For slabs larger than 2 cubic yards, consider ordering ready-mix delivery as it is more cost-effective and provides a better pour."},
+      {"question": "How thick should a concrete slab be?", "answer": "Standard sidewalks and patios use 4-inch slabs. Driveways should be at least 4 inches thick, with 5-6 inches recommended for heavy vehicles. Garage floors are typically 4-6 inches. Footings for structures usually require 8-12 inches minimum. Always check local building codes, as requirements vary by location and intended use."},
+      {"question": "Is it cheaper to mix your own concrete or order ready-mix?", "answer": "For small projects under 1 cubic yard (about 45 bags), mixing your own is usually cheaper at $250-$350 per yard. Ready-mix delivery costs $125-$200 per cubic yard but has minimum order requirements (usually 1-3 yards) and may charge short-load fees. For projects over 2 cubic yards, ready-mix is almost always more cost-effective and produces a more consistent, workable mix."},
+      {"question": "How long does concrete take to cure?", "answer": "Concrete reaches initial set in 24-48 hours and can bear foot traffic after about 24 hours. It reaches approximately 70% of its full strength at 7 days and is considered fully cured at 28 days. During the first 7 days, keep the surface moist (curing compound or wet burlap) and protect from freezing temperatures. Avoid placing heavy loads for at least 7 days."},
+      {"question": "What is the difference between concrete and cement?", "answer": "Cement is just one ingredient in concrete — it is the powder (Portland cement) that acts as the binder. Concrete is the finished product made by mixing cement with sand, gravel (aggregate), and water. Concrete mix bags from the hardware store contain all these ingredients pre-mixed. You can also buy pure cement to mix your own ratios, but pre-mixed bags are much more convenient for DIY projects."}
+    ]
+  },
+  {
+    "slug": "deck-material-calculator",
+    "toolName": "Deck Material Calculator",
+    "category": "construction",
+    "tagline": "Calculate lumber, boards, screws, and cost for your deck build",
+    "keywords": "deck material calculator, how many boards for a deck, deck board calculator, deck cost calculator, deck lumber calculator, deck building materials, composite deck calculator, deck joist calculator, how much does a deck cost",
+    "relatedTools": ["concrete-calculator", "paint-coverage-calculator"],
+    "inputs": [
+      {"id": "deckLength", "label": "Deck Length", "default": 16, "unit": "ft", "min": 4, "step": 1},
+      {"id": "deckWidth", "label": "Deck Width", "default": 12, "unit": "ft", "min": 4, "step": 1},
+      {"id": "boardWidth", "label": "Deck Board Width", "default": "5.5", "type": "select", "options": [{"value": "3.5", "label": "4-inch nominal (3.5\" actual)"}, {"value": "5.5", "label": "6-inch nominal (5.5\" actual)"}, {"value": "6", "label": "6-inch composite"}]},
+      {"id": "railing", "label": "Railing", "default": "yes", "type": "select", "options": [{"value": "yes", "label": "Yes — 3 sides"}, {"value": "no", "label": "No railing"}]},
+      {"id": "stairs", "label": "Number of Steps", "default": "3", "type": "select", "options": [{"value": "0", "label": "No stairs"}, {"value": "3", "label": "3 steps"}, {"value": "5", "label": "5 steps"}, {"value": "8", "label": "8 steps"}]}
+    ],
+    "results": [
+      {"id": "deckBoards", "label": "Deck Boards Needed"},
+      {"id": "joists", "label": "Joists (2x8 or 2x10)"},
+      {"id": "posts", "label": "Support Posts (4x4)"},
+      {"id": "railingFt", "label": "Railing (Linear Feet)"},
+      {"id": "screws", "label": "Deck Screws"},
+      {"id": "costPT", "label": "Est. Cost (Pressure-Treated)"},
+      {"id": "costComposite", "label": "Est. Cost (Composite)"},
+      {"id": "sqft", "label": "Total Deck Area"}
+    ],
+    "calcFn": "var area = deckLength * deckWidth; var bw = parseFloat(boardWidth); var gap = 0.125; var boardsPerFt = 12 / (bw + gap); var totalBoards = Math.ceil(deckLength * boardsPerFt); totalBoards = Math.ceil(totalBoards * 1.10); var numJoists = Math.ceil(deckLength / 1.333) + 1; var rimJoists = 2; var totalJoists = numJoists + rimJoists; var perimPosts = 2 * Math.ceil(deckLength / 8) + 2 * Math.ceil(deckWidth / 8); perimPosts = Math.max(perimPosts, 4); var railPerim = 0; if(railing === 'yes') { railPerim = deckLength + (deckWidth * 2); } var stairCount = parseInt(stairs) || 0; var stairStringers = stairCount > 0 ? 3 : 0; var stairBoards = stairCount * 2; var screwsPerBoard = Math.ceil(deckWidth / 1.33) * 2; var totalScrews = totalBoards * screwsPerBoard + (stairBoards * 6) + (railing === 'yes' ? railPerim * 4 : 0); var screwLbs = Math.ceil(totalScrews / 125); var costPT = (totalBoards * deckWidth * 0.65) + (totalJoists * deckWidth * 1.10) + (perimPosts * 12) + (railing === 'yes' ? railPerim * 8 : 0) + (stairStringers * 25) + (screwLbs * 12); var costComp = (totalBoards * deckWidth * 2.50) + (totalJoists * deckWidth * 1.10) + (perimPosts * 12) + (railing === 'yes' ? railPerim * 25 : 0) + (stairStringers * 25) + (screwLbs * 15); document.getElementById('deckBoards').textContent = totalBoards + ' boards (incl. 10% waste)'; document.getElementById('joists').textContent = totalJoists + ' joists (16\" on center + rim)'; document.getElementById('posts').textContent = perimPosts + ' posts (8 ft on center)'; document.getElementById('railingFt').textContent = railing === 'yes' ? fmt(railPerim, 0) + ' linear feet (3 sides)' : 'None'; document.getElementById('screws').textContent = screwLbs + ' lbs (~' + totalScrews + ' screws)'; document.getElementById('costPT').textContent = dollar(costPT); document.getElementById('costComposite').textContent = dollar(costComp); document.getElementById('sqft').textContent = fmt(area, 0) + ' sq ft';",
+    "formulas": ["Joists: spaced 16 inches on center across the length", "Posts: placed every 8 feet along the perimeter", "Add 10% extra boards for waste, cuts, and replacements"],
+    "faq": [
+      {"question": "How much does it cost to build a deck per square foot?", "answer": "A pressure-treated wood deck typically costs $15-$25 per square foot for materials only, or $25-$45 installed by a contractor. Composite decking runs $22-$40 per square foot for materials, or $40-$65 installed. A typical 16x12 (192 sq ft) deck costs $3,000-$5,000 in materials for pressure-treated or $5,000-$8,000 for composite. Labor usually doubles the material cost."},
+      {"question": "Should I use pressure-treated wood or composite decking?", "answer": "Pressure-treated lumber costs 50-60% less upfront and is strong and versatile, but requires annual staining or sealing and typically lasts 15-20 years. Composite decking costs more initially but requires virtually no maintenance, resists rot and insects, and lasts 25-30+ years. Over a 25-year lifespan, composite often costs less when you factor in staining, sealing, and board replacements for wood."},
+      {"question": "Do I need a permit to build a deck?", "answer": "Most jurisdictions require a building permit for decks that are attached to the house, elevated more than 30 inches off the ground, or larger than 200 square feet. Permit requirements vary significantly by location. Freestanding ground-level decks under 200 sq ft often do not need permits, but always check with your local building department before starting construction."},
+      {"question": "How far apart should deck joists be?", "answer": "Standard deck joist spacing is 16 inches on center for most applications. For composite decking or diagonal board patterns, 12 inches on center provides better support and reduces flex. Using 2x8 joists is sufficient for spans up to 10 feet at 16-inch spacing, while 2x10 joists handle spans up to 12 feet. Always check span tables for your specific lumber species and grade."}
+    ]
+  },
+  {
+    "slug": "paint-coverage-calculator",
+    "toolName": "Paint Coverage Calculator",
+    "category": "construction",
+    "tagline": "Calculate exactly how much paint you need for any room",
+    "keywords": "paint calculator, how much paint do I need, paint coverage calculator, wall paint calculator, room paint calculator, gallons of paint needed, paint estimator, interior paint calculator",
+    "relatedTools": ["deck-material-calculator", "concrete-calculator"],
+    "inputs": [
+      {"id": "roomLength", "label": "Room Length", "default": 14, "unit": "ft", "min": 1, "step": 0.5},
+      {"id": "roomWidth", "label": "Room Width", "default": 12, "unit": "ft", "min": 1, "step": 0.5},
+      {"id": "ceilingHeight", "label": "Ceiling Height", "default": 8, "unit": "ft", "min": 6, "max": 20, "step": 0.5},
+      {"id": "doors", "label": "Number of Doors", "default": 1, "min": 0, "max": 10},
+      {"id": "windows", "label": "Number of Windows", "default": 2, "min": 0, "max": 20},
+      {"id": "coats", "label": "Number of Coats", "default": "2", "type": "select", "options": [{"value": "1", "label": "1 coat (touch-up)"}, {"value": "2", "label": "2 coats (standard)"}, {"value": "3", "label": "3 coats (dark to light color change)"}]}
+    ],
+    "results": [
+      {"id": "wallArea", "label": "Total Wall Area"},
+      {"id": "paintableArea", "label": "Paintable Area"},
+      {"id": "gallons", "label": "Gallons Needed"},
+      {"id": "quarts", "label": "Quarts (if less than 1 gal)"},
+      {"id": "costEconomy", "label": "Est. Cost (Economy ~$30/gal)"},
+      {"id": "costPremium", "label": "Est. Cost (Premium ~$55/gal)"},
+      {"id": "coveragePerCoat", "label": "Coverage per Coat"}
+    ],
+    "calcFn": "var perimeter = 2 * (roomLength + roomWidth); var totalWall = perimeter * ceilingHeight; var doorArea = doors * 21; var windowArea = windows * 15; var paintable = totalWall - doorArea - windowArea; paintable = Math.max(paintable, 0); var numCoats = parseInt(coats); var totalCoverage = paintable * numCoats; var gallonsNeeded = totalCoverage / 350; var gallonsRounded = Math.ceil(gallonsNeeded * 4) / 4; var quartsNeeded = Math.ceil(gallonsNeeded * 4); var costLow = gallonsRounded * 30; var costHigh = gallonsRounded * 55; document.getElementById('wallArea').textContent = fmt(totalWall, 0) + ' sq ft'; document.getElementById('paintableArea').textContent = fmt(paintable, 0) + ' sq ft (minus doors/windows)'; document.getElementById('gallons').textContent = fmt(gallonsRounded, 2) + ' gallons (' + numCoats + ' coat' + (numCoats > 1 ? 's' : '') + ')'; document.getElementById('quarts').textContent = gallonsRounded < 1 ? quartsNeeded + ' quarts may be more economical' : 'N/A — buy gallons for best value'; document.getElementById('costEconomy').textContent = dollar(costLow); document.getElementById('costPremium').textContent = dollar(costHigh); document.getElementById('coveragePerCoat').textContent = fmt(paintable, 0) + ' sq ft per coat';",
+    "formulas": ["Wall Area = Perimeter × Ceiling Height", "Paintable Area = Wall Area − (Doors × 21 sq ft) − (Windows × 15 sq ft)", "Gallons = (Paintable Area × Coats) ÷ 350 sq ft per gallon"],
+    "faq": [
+      {"question": "How much paint do I need for a 12x12 room?", "answer": "A 12x12 room with 8-foot ceilings has about 384 square feet of wall space. After subtracting a door and two windows (about 51 sq ft), you have roughly 333 square feet of paintable area. With standard 2 coats, you need about 1.9 gallons, so buy 2 gallons. One gallon covers approximately 350 square feet per coat on smooth walls."},
+      {"question": "Do I really need two coats of paint?", "answer": "Two coats are recommended for most paint jobs and are essential when changing colors, especially going from dark to light. Two coats provide better coverage, richer color, better durability, and a more uniform finish. You can sometimes get away with one coat when painting the same color for a touch-up, or when using a high-quality paint-and-primer-in-one over a similar shade."},
+      {"question": "Is expensive paint worth it?", "answer": "Generally yes. Premium paints ($45-$65 per gallon) have higher concentrations of pigment and resin, meaning better coverage in fewer coats, better adhesion, more durability, and truer color. Budget paints ($25-$35) often require an extra coat, negate any savings. For most rooms, spending an extra $30-$50 on better paint saves you time and produces a noticeably better result that lasts years longer."},
+      {"question": "Should I use primer before painting?", "answer": "Use primer when painting over new drywall, bare wood, stains, or dark colors. Primer seals porous surfaces, blocks stains, and provides a consistent base for topcoat adhesion. When painting over a similar existing color in good condition, a paint-and-primer combo product is usually sufficient. Tinting primer toward your final color improves coverage and reduces the number of topcoats needed."},
+      {"question": "How long should I wait between coats?", "answer": "Latex (water-based) paint typically needs 2-4 hours between coats, while oil-based paint needs 24 hours. Check the paint can for specific recoat times. Applying the second coat too early can cause lifting, streaking, or poor adhesion. In humid conditions or cool temperatures, extend drying time. The paint should feel completely dry to the touch and not tacky before applying the next coat."}
+    ]
+  },
+  {
+    "slug": "irs-audit-probability-calculator",
+    "toolName": "IRS Audit Probability Calculator",
+    "category": "finance",
+    "tagline": "Estimate your chances of being audited by the IRS based on your tax profile",
+    "keywords": "IRS audit probability, audit risk calculator, chances of being audited, IRS audit rate by income, will I get audited, IRS audit red flags, tax audit calculator, audit risk assessment, IRS examination rate",
+    "relatedTools": ["salary-after-tax-calculator", "net-worth-percentile-calculator"],
+    "inputs": [
+      {"id": "income", "label": "Annual Income", "default": 75000, "min": 0},
+      {"id": "filing", "label": "Filing Status", "default": "single", "type": "select", "options": [{"value": "single", "label": "Single / W-2 Employee"}, {"value": "married", "label": "Married Filing Jointly"}, {"value": "self", "label": "Self-Employed / 1099"}]},
+      {"id": "homeOffice", "label": "Claim Home Office Deduction", "default": "no", "type": "select", "options": [{"value": "yes", "label": "Yes"}, {"value": "no", "label": "No"}]},
+      {"id": "highDeductions", "label": "Deductions Higher Than Average", "default": "no", "type": "select", "options": [{"value": "yes", "label": "Yes"}, {"value": "no", "label": "No"}]},
+      {"id": "cashBusiness", "label": "Cash-Heavy Business", "default": "no", "type": "select", "options": [{"value": "yes", "label": "Yes"}, {"value": "no", "label": "No"}]},
+      {"id": "crypto", "label": "Cryptocurrency Transactions", "default": "no", "type": "select", "options": [{"value": "yes", "label": "Yes"}, {"value": "no", "label": "No"}]}
+    ],
+    "results": [
+      {"id": "baseRate", "label": "Base Audit Rate"},
+      {"id": "multiplier", "label": "Risk Multiplier"},
+      {"id": "adjustedRate", "label": "Adjusted Audit Rate"},
+      {"id": "riskLevel", "label": "Risk Level"},
+      {"id": "topFlag", "label": "Top Red Flag"},
+      {"id": "odds", "label": "Odds of Being Audited"}
+    ],
+    "calcFn": "var base = 0.4; if(filing === 'self') { base = 1.6; } else if(income < 25000) { base = 0.4; } else if(income < 50000) { base = 0.4; } else if(income < 100000) { base = 0.3; } else if(income < 200000) { base = 0.4; } else if(income < 500000) { base = 0.7; } else if(income < 1000000) { base = 1.1; } else { base = 2.0; } if(income > 1000000 && filing === 'self') { base = 4.0; } var mult = 1.0; var topRedFlag = 'None identified — your profile looks typical'; if(cashBusiness === 'yes') { mult *= 2.0; topRedFlag = 'Cash-heavy business — IRS focuses on unreported cash income'; } if(homeOffice === 'yes') { mult *= 1.5; if(topRedFlag.indexOf('None') === 0) topRedFlag = 'Home office deduction — one of the most commonly flagged deductions'; } if(highDeductions === 'yes') { mult *= 1.7; topRedFlag = 'High deductions relative to income — triggers IRS DIF scoring'; } if(crypto === 'yes') { mult *= 1.4; if(topRedFlag.indexOf('None') === 0) topRedFlag = 'Crypto transactions — IRS is actively expanding enforcement here'; } if(filing === 'self' && income > 100000) { mult *= 1.2; } var adjusted = base * mult; adjusted = Math.min(adjusted, 50); var oddsNum = Math.round(100 / adjusted); var level = adjusted < 0.5 ? 'Low' : adjusted < 1.5 ? 'Moderate' : adjusted < 3.0 ? 'Elevated' : adjusted < 6.0 ? 'High' : 'Very High'; document.getElementById('baseRate').textContent = pct(base, 1) + ' (for your income bracket)'; document.getElementById('multiplier').textContent = fmt(mult, 1) + 'x'; document.getElementById('adjustedRate').textContent = pct(adjusted, 2); document.getElementById('riskLevel').textContent = level; document.getElementById('topFlag').textContent = topRedFlag; document.getElementById('odds').textContent = '1 in ' + oddsNum + ' chance';",
+    "formulas": ["Adjusted Audit Rate = Base Rate × Risk Multiplier", "Base rates derived from IRS Data Book examination statistics", "Risk multipliers based on known IRS audit selection criteria (DIF scoring)"],
+    "faq": [
+      {"question": "What are the chances of being audited by the IRS?", "answer": "The overall IRS audit rate is about 0.4% (roughly 1 in 250 returns). However, rates vary dramatically by income level — taxpayers earning under $100k face about a 0.3% rate, while those earning over $1 million face approximately 2.0%. Self-employed filers have a significantly higher rate of 1.6% due to the greater opportunity for underreporting income and overstating deductions."},
+      {"question": "What triggers an IRS audit?", "answer": "The IRS uses a computer scoring system called the Discriminant Information Function (DIF) that compares your return to statistical norms for your income level. Major triggers include: deductions significantly above average for your income, unreported income flagged by W-2/1099 matching, large charitable contributions, home office deductions, cash-heavy business income, and high Schedule C losses. Random selection also accounts for some audits."},
+      {"question": "How far back can the IRS audit?", "answer": "The standard statute of limitations is 3 years from the filing date. However, if the IRS finds a substantial understatement (omitting more than 25% of gross income), they can go back 6 years. There is no time limit for fraudulent returns or failure to file. Keep tax records for at least 7 years to be safe, and keep records for property transactions until 3 years after you dispose of the property."},
+      {"question": "What happens during an IRS audit?", "answer": "Most audits are correspondence audits conducted entirely by mail, where the IRS requests documentation for specific items. More extensive audits may require an in-person meeting at an IRS office or your place of business. You will receive a letter specifying what is being examined and what documentation is needed. You have the right to representation by a tax professional, and most audits focus on verifying specific deductions or income items rather than examining your entire return."},
+      {"question": "Does claiming a home office increase audit risk?", "answer": "The home office deduction has historically been an audit trigger because it was frequently abused, but the IRS has softened its stance somewhat with the simplified method ($5 per square foot, up to 300 sq ft). The regular method, which requires calculating actual expenses and exclusive-use percentage, still carries more scrutiny. If you legitimately work from home and keep good records, do not skip a valid deduction out of audit fear — the tax savings usually far outweigh the small incremental risk."}
+    ]
+  },
+  {
+    "slug": "ai-job-replacement-risk-calculator",
+    "toolName": "AI Job Replacement Risk Calculator",
+    "category": "ai-automation",
+    "tagline": "Estimate how vulnerable your job is to AI and automation disruption",
+    "keywords": "AI job replacement, will AI take my job, AI automation risk, job replacement calculator, AI threat to jobs, automation risk by occupation, future of work AI, which jobs will AI replace, AI job impact calculator",
+    "relatedTools": ["salary-after-tax-calculator", "cost-of-living-comparison"],
+    "inputs": [
+      {"id": "jobCategory", "label": "Job Category", "default": "software-dev", "type": "select", "options": [
+        {"value": "office-admin", "label": "Office & Administrative Support"},
+        {"value": "software-dev", "label": "Software Development & IT"},
+        {"value": "healthcare-clinical", "label": "Healthcare (Clinical — Doctors, Nurses)"},
+        {"value": "healthcare-admin", "label": "Healthcare (Administrative)"},
+        {"value": "creative-design", "label": "Creative & Design"},
+        {"value": "trades", "label": "Skilled Trades (Electrician, Plumber, etc.)"},
+        {"value": "legal", "label": "Legal"},
+        {"value": "finance-accounting", "label": "Finance & Accounting"},
+        {"value": "retail", "label": "Retail & Customer Service"},
+        {"value": "education", "label": "Education & Teaching"},
+        {"value": "manufacturing", "label": "Manufacturing & Assembly"},
+        {"value": "transportation", "label": "Transportation & Delivery"},
+        {"value": "food-service", "label": "Food Service & Hospitality"},
+        {"value": "management", "label": "Management & Executive"},
+        {"value": "sales", "label": "Sales & Marketing"},
+        {"value": "engineering", "label": "Engineering (Non-Software)"}
+      ]},
+      {"id": "experience", "label": "Years of Experience", "default": 5, "min": 0, "max": 50},
+      {"id": "education", "label": "Education Level", "default": "bachelors", "type": "select", "options": [{"value": "high-school", "label": "High School / GED"}, {"value": "bachelors", "label": "Bachelor's Degree"}, {"value": "masters", "label": "Master's Degree"}, {"value": "phd", "label": "PhD / Doctorate"}]},
+      {"id": "dataWork", "label": "Work Primarily Involves Data/Documents", "default": "no", "type": "select", "options": [{"value": "yes", "label": "Yes"}, {"value": "no", "label": "No"}]}
+    ],
+    "results": [
+      {"id": "riskPct", "label": "Automation Risk Score"},
+      {"id": "riskLevel", "label": "Risk Level"},
+      {"id": "timeline", "label": "Estimated Disruption Timeline"},
+      {"id": "tasksAtRisk", "label": "Tasks Most at Risk"},
+      {"id": "skillsDevelop", "label": "Skills to Develop"},
+      {"id": "outlook", "label": "Job Outlook"}
+    ],
+    "calcFn": "var jobData = {'office-admin':{risk:78,timeline:3,tasksAtRisk:'Data entry, scheduling, email management, document filing, basic reporting',skills:'Project management, interpersonal communication, complex problem-solving',outlook:'High displacement likely — focus on strategic and relationship-based roles'},'software-dev':{risk:32,timeline:8,tasksAtRisk:'Boilerplate code, testing, documentation, simple bug fixes, code review',skills:'System architecture, AI/ML integration, product strategy, complex debugging',outlook:'AI augments rather than replaces — developers who use AI tools will outperform those who do not'},'healthcare-clinical':{risk:15,timeline:12,tasksAtRisk:'Image analysis (radiology), basic diagnostics, literature review, documentation',skills:'Complex diagnosis, patient communication, surgical skills, empathy-driven care',outlook:'Very resilient — physical presence and human judgment remain essential'},'healthcare-admin':{risk:68,timeline:4,tasksAtRisk:'Medical coding, billing, appointment scheduling, insurance processing, records management',skills:'Healthcare IT systems, patient advocacy, regulatory compliance, care coordination',outlook:'Significant automation expected — transition toward patient-facing coordination roles'},'creative-design':{risk:42,timeline:5,tasksAtRisk:'Stock content creation, basic layouts, simple copywriting, photo editing, template design',skills:'Brand strategy, creative direction, client relationships, novel concept development',outlook:'AI as a tool, not replacement — creative vision and taste remain human strengths'},'trades':{risk:8,timeline:15,tasksAtRisk:'Estimating and quoting, scheduling, basic inspections, simple diagnostics',skills:'Complex hands-on work, troubleshooting in physical environments, customer relationships',outlook:'Highly resilient — physical dexterity in unpredictable environments is extremely hard to automate'},'legal':{risk:44,timeline:6,tasksAtRisk:'Document review, legal research, contract drafting, due diligence, compliance monitoring',skills:'Courtroom advocacy, client counseling, complex negotiation, legal strategy',outlook:'Paralegals and junior associates most impacted — senior judgment roles remain strong'},'finance-accounting':{risk:55,timeline:5,tasksAtRisk:'Bookkeeping, tax preparation, basic auditing, financial reporting, data reconciliation',skills:'Strategic financial planning, complex tax strategy, client advisory, risk management',outlook:'Routine work being automated rapidly — advisory and strategic roles growing'},'retail':{risk:65,timeline:4,tasksAtRisk:'Checkout, inventory tracking, basic customer queries, restocking, order processing',skills:'Complex customer service, visual merchandising, community building, experiential retail',outlook:'Self-checkout and e-commerce continue to reduce positions — experiential roles remain'},'education':{risk:18,timeline:10,tasksAtRisk:'Grading, content delivery for basics, attendance tracking, simple Q&A',skills:'Mentorship, complex discussion facilitation, social-emotional learning, curriculum design',outlook:'AI assists but does not replace teachers — human connection is central to learning'},'manufacturing':{risk:72,timeline:4,tasksAtRisk:'Repetitive assembly, quality inspection, sorting, packaging, machine monitoring',skills:'Robot maintenance, programming, complex assembly, quality engineering, safety management',outlook:'Automation well underway — upskill toward robot operation and maintenance'},'transportation':{risk:58,timeline:7,tasksAtRisk:'Long-haul highway driving, route optimization, basic vehicle inspection, dispatch',skills:'Complex urban navigation, customer interaction, specialized vehicle operation, last-mile delivery',outlook:'Autonomous vehicles will impact long-haul first — urban and last-mile delivery slower to automate'},'food-service':{risk:45,timeline:6,tasksAtRisk:'Order taking, basic food prep, dishwashing, inventory, payment processing',skills:'Complex cooking, customer experience, event management, menu innovation',outlook:'Fast food most impacted — fine dining and creative culinary roles remain human-centered'},'management':{risk:22,timeline:10,tasksAtRisk:'Performance data analysis, scheduling, status reporting, resource allocation',skills:'Leadership, conflict resolution, vision-setting, team building, strategic decision-making',outlook:'AI enhances decision-making but leadership remains fundamentally human'},'sales':{risk:38,timeline:6,tasksAtRisk:'Lead qualification, cold outreach, CRM updates, basic proposals, follow-up emails',skills:'Relationship building, complex negotiations, consultative selling, account strategy',outlook:'Transactional sales shrinking — consultative and relationship-driven selling growing'},'engineering':{risk:25,timeline:8,tasksAtRisk:'CAD drafting, basic calculations, documentation, routine analysis, report generation',skills:'Complex system design, cross-disciplinary thinking, field problem-solving, innovation',outlook:'AI accelerates engineering work — engineers who leverage AI tools gain significant advantage'}}; var job = jobData[jobCategory] || jobData['office-admin']; var risk = job.risk; if(dataWork === 'yes') risk = Math.min(95, risk + 12); if(experience > 15) risk = Math.max(5, risk - 8); else if(experience < 3) risk = Math.min(95, risk + 5); if(education === 'phd') risk = Math.max(5, risk - 6); else if(education === 'masters') risk = Math.max(5, risk - 3); else if(education === 'high-school') risk = Math.min(95, risk + 5); risk = Math.max(5, Math.min(95, risk)); var level = risk >= 70 ? 'High Risk' : risk >= 45 ? 'Moderate Risk' : risk >= 25 ? 'Lower Risk' : 'Low Risk'; var tl = job.timeline; if(dataWork === 'yes') tl = Math.max(2, tl - 2); var tlStr = tl <= 3 ? tl + ' years — disruption already underway' : tl <= 6 ? tl + ' years — near-term disruption expected' : tl <= 10 ? tl + ' years — medium-term disruption' : tl + '+ years — longer-term horizon'; document.getElementById('riskPct').textContent = risk + '%'; document.getElementById('riskLevel').textContent = level; document.getElementById('timeline').textContent = tlStr; document.getElementById('tasksAtRisk').textContent = job.tasksAtRisk; document.getElementById('skillsDevelop').textContent = job.skills; document.getElementById('outlook').textContent = job.outlook;",
+    "formulas": ["Risk Score based on task routineness, data-dependence, and physical requirements", "Adjusted for experience (senior roles harder to automate), education, and data exposure", "Based on research from Oxford, McKinsey, and World Economic Forum studies"],
+    "faq": [
+      {"question": "Which jobs are most at risk from AI?", "answer": "Jobs with the highest automation risk are those involving routine, repetitive, data-heavy tasks: data entry clerks, bookkeepers, telemarketers, and basic administrative assistants face 70-85% risk. Manufacturing assembly roles and basic customer service positions are also highly vulnerable. The common thread is predictable, rule-based work that can be clearly defined and measured, making it straightforward for AI systems to learn and replicate."},
+      {"question": "Which jobs are safest from AI?", "answer": "Jobs requiring physical dexterity in unpredictable environments (electricians, plumbers, mechanics), deep human connection (therapists, nurses, teachers), complex creative vision (art directors, architects), and strategic leadership (executives, entrepreneurs) have the lowest automation risk at 8-25%. These roles combine judgment, physical skill, emotional intelligence, and adaptability in ways that current and near-term AI cannot replicate."},
+      {"question": "Will AI replace software developers?", "answer": "AI is unlikely to fully replace software developers but will significantly change what they do. AI tools already handle boilerplate code, testing, and documentation. However, system architecture, understanding business requirements, debugging complex systems, and creative problem-solving remain firmly human. Developers who integrate AI into their workflow will be dramatically more productive, while those who resist AI tools may find themselves less competitive."},
+      {"question": "How should I prepare for AI disruption in my field?", "answer": "Focus on skills AI struggles with: complex problem-solving, creativity, emotional intelligence, physical dexterity, and strategic thinking. Learn to use AI tools in your field rather than competing against them. Build expertise in areas where AI needs human oversight. Develop cross-functional skills that combine technical knowledge with business judgment or interpersonal abilities. Continuous learning and adaptability are the most important meta-skills for the AI era."},
+      {"question": "Is this calculator accurate?", "answer": "This calculator provides estimates based on research from Oxford University, McKinsey Global Institute, and World Economic Forum studies on automation potential. Individual risk varies significantly based on your specific role, employer, industry segment, and geographic market. The percentages represent broad occupational risk — your actual experience may differ. Use this as a directional guide for career planning rather than a precise prediction."}
+    ]
+  },
+  {
+    "slug": "billionaire-wealth-comparison",
+    "toolName": "Billionaire Wealth Comparison Calculator",
+    "category": "finance",
+    "tagline": "See what billionaire spending feels like compared to your income",
+    "keywords": "billionaire wealth comparison, how rich is Elon Musk, wealth comparison calculator, if I made 1000 a day, billionaire spending equivalent, wealth scale comparison, billionaire vs average person, how much is a billion dollars, Bezos wealth comparison",
+    "relatedTools": ["net-worth-percentile-calculator", "salary-after-tax-calculator", "cost-of-living-comparison"],
+    "inputs": [
+      {"id": "yourIncome", "label": "Your Annual Income", "default": 50000, "min": 1},
+      {"id": "billionaire", "label": "Billionaire", "default": "musk", "type": "select", "options": [
+        {"value": "musk", "label": "Elon Musk — $230 Billion"},
+        {"value": "bezos", "label": "Jeff Bezos — $200 Billion"},
+        {"value": "zuckerberg", "label": "Mark Zuckerberg — $180 Billion"},
+        {"value": "arnault", "label": "Bernard Arnault — $170 Billion"},
+        {"value": "buffett", "label": "Warren Buffett — $130 Billion"},
+        {"value": "gates", "label": "Bill Gates — $128 Billion"}
+      ]},
+      {"id": "compType", "label": "Comparison Type", "default": "spending", "type": "select", "options": [{"value": "spending", "label": "Spending Equivalents"}, {"value": "time", "label": "Time to Earn"}]}
+    ],
+    "results": [
+      {"id": "yearsToEarn", "label": "Years to Earn Their Wealth"},
+      {"id": "theirDollar", "label": "Their $1 = Your ..."},
+      {"id": "dinner", "label": "Their $1,000 Dinner = Your ..."},
+      {"id": "car", "label": "Their $250K Supercar = Your ..."},
+      {"id": "yacht", "label": "Their $100M Yacht = Your ..."},
+      {"id": "ratio", "label": "Wealth Ratio"},
+      {"id": "perSecond", "label": "They Earn Per Second (avg)"},
+      {"id": "perspective", "label": "Perspective"}
+    ],
+    "calcFn": "var wealth = {musk:230000000000,bezos:200000000000,zuckerberg:180000000000,arnault:170000000000,buffett:130000000000,gates:128000000000}; var names = {musk:'Elon Musk',bezos:'Jeff Bezos',zuckerberg:'Mark Zuckerberg',arnault:'Bernard Arnault',buffett:'Warren Buffett',gates:'Bill Gates'}; var w = wealth[billionaire] || wealth.musk; var name = names[billionaire] || 'Elon Musk'; var ratio = w / yourIncome; var years = ratio; var theirOneDollar = yourIncome / w; var dinnerEquiv = (1000 / w) * yourIncome; var carEquiv = (250000 / w) * yourIncome; var yachtEquiv = (100000000 / w) * yourIncome; var perSecond = w / (40 * 365.25 * 24 * 3600); var yearsStr = ''; if(years > 1000000) { yearsStr = fmt(years / 1000000, 1) + ' million years'; } else if(years > 1000) { yearsStr = fmt(years / 1000, 0) + ' thousand years'; } else { yearsStr = fmt(years, 0) + ' years'; } var perspStr = ''; if(ratio > 1000000) { perspStr = 'If ' + name + ' spent ' + dollar(yourIncome) + ' (your entire annual salary), it would feel like you spending ' + (theirOneDollar * 100 < 0.01 ? 'less than a penny' : fmt(theirOneDollar * yourIncome * 100, 2) + ' cents'); } else { perspStr = 'The wealth gap is ' + fmt(ratio, 0) + ' to 1'; } document.getElementById('yearsToEarn').textContent = yearsStr; document.getElementById('theirDollar').textContent = '$' + (theirOneDollar < 0.01 ? theirOneDollar.toExponential(2) : fmt(theirOneDollar, 6)); document.getElementById('dinner').textContent = dinnerEquiv < 0.01 ? 'Less than a penny' : '$' + fmt(dinnerEquiv, 4); document.getElementById('car').textContent = '$' + fmt(carEquiv, 2); document.getElementById('yacht').textContent = '$' + fmt(yachtEquiv, 2); document.getElementById('ratio').textContent = fmt(ratio, 0) + ' to 1'; document.getElementById('perSecond').textContent = dollar(perSecond) + '/sec (over 40-year career)'; document.getElementById('perspective').textContent = perspStr;",
+    "formulas": ["Wealth Ratio = Billionaire Net Worth ÷ Your Annual Income", "Spending Equivalent = (Purchase Price ÷ Their Wealth) × Your Income", "Years to Earn = Billionaire Wealth ÷ Your Annual Income"],
+    "faq": [
+      {"question": "How much is a billion dollars really?", "answer": "A billion dollars is genuinely difficult for the human brain to grasp. If you earned $1 every second (about $31.5 million per year), it would take nearly 32 years to accumulate one billion dollars. If you spent $1,000 per day since the year 1 AD, you would not yet have spent a billion dollars. One billion $1 bills stacked would be 68 miles high. And most of the people on this list have hundreds of billions."},
+      {"question": "How does Elon Musk have so much money?", "answer": "Elon Musk's wealth is primarily in Tesla stock (roughly 13% of the company) and his ownership of SpaceX. His net worth fluctuates dramatically with Tesla's stock price — it has swung between $150 billion and $250+ billion in recent years. Most of his wealth is unrealized gains (stock he has not sold), not cash. He cannot instantly access all of it without crashing the stock price through massive selling."},
+      {"question": "Do billionaires have billions in cash?", "answer": "No. Almost all billionaire wealth is in ownership stakes of companies, real estate, and investments. Elon Musk, Jeff Bezos, and Mark Zuckerberg hold the vast majority of their wealth in stock of the companies they founded. Their actual liquid cash is typically a small fraction — perhaps 1-5% of their total net worth. They access money by borrowing against their stock holdings at low interest rates, which also avoids triggering capital gains taxes."},
+      {"question": "How fast do billionaires make money?", "answer": "Based on wealth growth over their careers, top billionaires effectively accumulate wealth at staggering rates. If you spread Elon Musk's $230 billion over a 40-year career, that averages to about $5.75 billion per year, $15.7 million per day, or $182 per second. Of course, wealth growth is not linear — most of it came in recent years as company valuations soared. A single good day for Tesla stock can change his net worth by billions."},
+      {"question": "Is this comparison fair?", "answer": "This comparison illustrates scale but has important caveats. Billionaire wealth is mostly illiquid stock that cannot be easily spent. They also face different tax treatment, philanthropic obligations, and business responsibilities. However, the comparison is useful for understanding the sheer magnitude of wealth concentration — the top 0.001% holds a disproportionate share of total wealth, and these numbers help make that abstract concept tangible and relatable."}
+    ]
+  },
+  {
+    "slug": "nuclear-blast-radius-calculator",
+    "toolName": "Nuclear Blast Radius Calculator",
+    "category": "survival",
+    "tagline": "Estimate destruction zones and survival odds at your distance from a nuclear detonation",
+    "keywords": "nuclear blast radius, nuke calculator, nuclear explosion calculator, nuclear bomb radius, how far does a nuke reach, nuclear blast zone map, nuclear bomb effects, nuclear survival distance, nuclear detonation radius, nuclear fallout calculator",
+    "relatedTools": [],
+    "inputs": [
+      {"id": "yield_kt", "label": "Warhead Yield", "default": 15, "unit": "kilotons", "min": 0.1, "max": 100000, "step": 1},
+      {"id": "burst", "label": "Burst Type", "default": "airburst", "type": "select", "options": [{"value": "airburst", "label": "Airburst (maximizes blast)"}, {"value": "surface", "label": "Surface (maximizes fallout)"}]},
+      {"id": "distance", "label": "Your Distance from Blast", "default": 5, "unit": "miles", "min": 0.1, "max": 500, "step": 0.1}
+    ],
+    "results": [
+      {"id": "fireball", "label": "Fireball Radius"},
+      {"id": "severe", "label": "Severe Destruction (20+ psi)"},
+      {"id": "moderate", "label": "Moderate Damage (5-20 psi)"},
+      {"id": "light", "label": "Light Damage (1-5 psi)"},
+      {"id": "thermal", "label": "Thermal Burn Radius (3rd degree)"},
+      {"id": "survival", "label": "Your Survival Assessment"},
+      {"id": "fallout", "label": "Fallout Risk"},
+      {"id": "recommendation", "label": "Recommendation at Your Distance"}
+    ],
+    "calcFn": "var y = yield_kt; var scale = Math.pow(y, 1/3); var fireballR = 0.0 ; if(burst === 'airburst') { fireballR = 0.024 * scale; } else { fireballR = 0.028 * scale; } var severeR = burst === 'airburst' ? 0.14 * scale : 0.12 * scale; var moderateR = burst === 'airburst' ? 0.42 * scale : 0.36 * scale; var lightR = burst === 'airburst' ? 1.15 * scale : 1.0 * scale; var thermalR = burst === 'airburst' ? 1.4 * scale : 1.1 * scale; var falloutStr = burst === 'surface' ? 'SEVERE — surface burst produces heavy radioactive fallout extending 50-200+ miles downwind' : 'Moderate — airburst produces significantly less fallout than surface burst'; var survivalStr = ''; var recStr = ''; if(distance <= fireballR) { survivalStr = 'FATAL — Inside fireball. No survival possible.'; recStr = 'No protective measures can help at this range.'; } else if(distance <= severeR) { survivalStr = 'FATAL — Severe blast zone. Near-total destruction of all structures.'; recStr = 'Reinforced underground shelter is the only chance of survival.'; } else if(distance <= moderateR) { survivalStr = 'VERY DANGEROUS — Moderate blast damage. Most buildings severely damaged or collapsed.'; recStr = 'Seek reinforced concrete shelter immediately. Stay below ground if possible.'; } else if(distance <= lightR) { survivalStr = 'DANGEROUS — Windows shattered, light structural damage, injuries from debris likely.'; recStr = 'Take cover immediately. Move to interior rooms away from windows. Shelter in place for 24-72 hours.'; } else if(distance <= thermalR) { survivalStr = 'HAZARDOUS — Thermal burns possible with direct exposure. Flash blindness risk.'; recStr = 'Do not look at the flash. Take shelter indoors. Monitor for fallout if surface burst.'; } else if(distance <= thermalR * 2) { survivalStr = 'MODERATE RISK — Minor injuries possible. Fallout is the primary concern.'; recStr = 'Shelter indoors for at least 24 hours. Close windows and doors. Seal gaps if possible.'; } else { survivalStr = 'SURVIVABLE — Outside primary damage zones. Fallout remains a risk for surface bursts.'; recStr = 'Stay informed via emergency broadcasts. Shelter if fallout is heading your direction. Have 72-hour supply kit.'; } document.getElementById('fireball').textContent = fmt(fireballR, 2) + ' miles (' + fmt(fireballR * 5280, 0) + ' ft)'; document.getElementById('severe').textContent = fmt(severeR, 2) + ' miles — total destruction of all structures'; document.getElementById('moderate').textContent = fmt(moderateR, 2) + ' miles — most buildings destroyed or heavily damaged'; document.getElementById('light').textContent = fmt(lightR, 2) + ' miles — windows broken, minor structural damage'; document.getElementById('thermal').textContent = fmt(thermalR, 2) + ' miles — exposed skin receives 3rd-degree burns'; document.getElementById('survival').textContent = survivalStr; document.getElementById('fallout').textContent = falloutStr; document.getElementById('recommendation').textContent = recStr;",
+    "formulas": ["Blast radii scale with the cube root of yield: R = k × Y^(1/3)", "20 psi overpressure: total destruction; 5 psi: severe damage; 1 psi: window breakage", "Thermal radiation travels at the speed of light — no warning time at close range"],
+    "faq": [
+      {"question": "How big is the blast radius of a nuclear bomb?", "answer": "The blast radius depends heavily on yield. The Hiroshima bomb (15 kilotons) had a severe destruction radius of about 1 mile and caused damage out to 4-5 miles. A modern strategic warhead (800 kilotons) would have a severe destruction radius of about 3 miles and cause damage out to 12-15 miles. The largest weapon ever tested, the Tsar Bomba (50,000 kilotons), had a damage radius of roughly 35 miles."},
+      {"question": "What is the difference between airburst and surface burst?", "answer": "An airburst detonation (hundreds of meters above ground) maximizes the blast wave's destructive area because the reflected wave combines with the direct wave. Surface bursts create a smaller blast radius but produce enormous amounts of radioactive fallout because ground material is vaporized and irradiated, then carried downwind. Military targets in the open are typically airburst; hardened targets like bunkers use surface burst."},
+      {"question": "How far away do you need to be to survive a nuclear blast?", "answer": "For a Hiroshima-sized weapon (15 kt), being 2+ miles away gives a reasonable chance of survival in a sturdy building. For a modern strategic warhead (500-800 kt), you would want to be at least 8-10 miles away. However, even beyond the blast radius, radioactive fallout from surface bursts can be lethal at much greater distances. Sheltering indoors for 24-72 hours after detonation dramatically reduces fallout exposure."},
+      {"question": "What should you do if a nuclear bomb goes off?", "answer": "If you see a flash: do not look at it (flash blindness). Get inside the nearest substantial building immediately. Move to interior rooms, basement, or center of building. Close all windows and doors, turn off ventilation. Stay sheltered for at least 24 hours — radiation levels drop by 80% after the first day. After 2 weeks, outdoor radiation drops to about 1% of initial levels. Have water, food, and a battery-powered radio."},
+      {"question": "Could you survive a nuclear bomb in a basement?", "answer": "A basement significantly improves survival odds outside the severe blast zone. Concrete and earth provide excellent radiation shielding — a basement reduces radiation exposure by a factor of 10-20 compared to being outdoors. At moderate damage distances (2-5 miles for a 15 kt weapon), a basement in a sturdy building could absolutely save your life. The main risks are building collapse from the blast wave and subsequent fires. Stay away from windows and exterior walls."}
+    ]
+  },
+  {
+    "slug": "cost-of-living-comparison",
+    "toolName": "Cost of Living Comparison Calculator",
+    "category": "demographics",
+    "tagline": "Compare cost of living between cities and calculate equivalent salary",
+    "keywords": "cost of living comparison, cost of living calculator, NYC vs Texas cost of living, salary comparison by city, cost of living by city, equivalent salary calculator, city comparison calculator, moving cost comparison, cost of living index",
+    "relatedTools": ["salary-after-tax-calculator", "mortgage-affordability-calculator", "property-tax-calculator", "net-worth-percentile-calculator"],
+    "inputs": [
+      {"id": "currentCity", "label": "Current City", "default": "NYC", "type": "select", "options": [
+        {"value": "NYC", "label": "New York City"}, {"value": "LA", "label": "Los Angeles"}, {"value": "Chicago", "label": "Chicago"},
+        {"value": "Houston", "label": "Houston"}, {"value": "Phoenix", "label": "Phoenix"}, {"value": "Philadelphia", "label": "Philadelphia"},
+        {"value": "SanAntonio", "label": "San Antonio"}, {"value": "SanDiego", "label": "San Diego"}, {"value": "Dallas", "label": "Dallas"},
+        {"value": "SanJose", "label": "San Jose"}, {"value": "Austin", "label": "Austin"}, {"value": "Miami", "label": "Miami"},
+        {"value": "Denver", "label": "Denver"}, {"value": "Seattle", "label": "Seattle"}, {"value": "Boston", "label": "Boston"}
+      ]},
+      {"id": "targetCity", "label": "Target City", "default": "Austin", "type": "select", "options": [
+        {"value": "NYC", "label": "New York City"}, {"value": "LA", "label": "Los Angeles"}, {"value": "Chicago", "label": "Chicago"},
+        {"value": "Houston", "label": "Houston"}, {"value": "Phoenix", "label": "Phoenix"}, {"value": "Philadelphia", "label": "Philadelphia"},
+        {"value": "SanAntonio", "label": "San Antonio"}, {"value": "SanDiego", "label": "San Diego"}, {"value": "Dallas", "label": "Dallas"},
+        {"value": "SanJose", "label": "San Jose"}, {"value": "Austin", "label": "Austin"}, {"value": "Miami", "label": "Miami"},
+        {"value": "Denver", "label": "Denver"}, {"value": "Seattle", "label": "Seattle"}, {"value": "Boston", "label": "Boston"}
+      ]},
+      {"id": "currentSalary", "label": "Current Salary", "default": 75000, "min": 0}
+    ],
+    "results": [
+      {"id": "equivSalary", "label": "Equivalent Salary Needed"},
+      {"id": "difference", "label": "Salary Difference"},
+      {"id": "currentIndex", "label": "Current City Index"},
+      {"id": "targetIndex", "label": "Target City Index"},
+      {"id": "housingDiff", "label": "Housing Cost Difference"},
+      {"id": "monthlySavings", "label": "Monthly Savings Difference"},
+      {"id": "purchasingPower", "label": "Purchasing Power Change"},
+      {"id": "assessment", "label": "Move Assessment"}
+    ],
+    "calcFn": "var indices = {NYC:100,SanJose:95,Boston:82,Seattle:80,LA:78,SanDiego:75,Miami:72,Denver:72,Austin:68,Chicago:65,Portland:67,Philadelphia:65,Dallas:60,Phoenix:58,Houston:57,SanAntonio:52}; var housing = {NYC:100,SanJose:110,Boston:85,Seattle:88,LA:90,SanDiego:82,Miami:78,Denver:72,Austin:65,Chicago:55,Portland:62,Philadelphia:55,Dallas:48,Phoenix:50,Houston:45,SanAntonio:40}; var ci = indices[currentCity] || 65; var ti = indices[targetCity] || 65; var ch = housing[currentCity] || 55; var th = housing[targetCity] || 55; var ratio = ti / ci; var equivSal = currentSalary * ratio; var diff = equivSal - currentSalary; var housingPctDiff = ((th - ch) / ch) * 100; var monthlySave = (currentSalary - equivSal) / 12; var ppChange = ((ci - ti) / ci) * 100; var assessStr = ''; if(ti < ci) { var savePct = ((ci - ti) / ci * 100); assessStr = 'Moving saves you ' + fmt(savePct, 0) + '% on cost of living. Your ' + dollar(currentSalary) + ' goes further in the new city.'; } else if(ti > ci) { var costPct = ((ti - ci) / ci * 100); assessStr = 'The target city is ' + fmt(costPct, 0) + '% more expensive. You would need a raise to maintain your standard of living.'; } else { assessStr = 'Similar cost of living — your salary maintains roughly the same purchasing power.'; } document.getElementById('equivSalary').textContent = dollar(equivSal); document.getElementById('difference').textContent = (diff >= 0 ? '+' : '') + dollar(diff) + (diff > 0 ? ' more needed' : ' less needed'); document.getElementById('currentIndex').textContent = ci + ' (NYC = 100 baseline)'; document.getElementById('targetIndex').textContent = ti + ' (NYC = 100 baseline)'; document.getElementById('housingDiff').textContent = (housingPctDiff >= 0 ? '+' : '') + fmt(housingPctDiff, 0) + '% housing cost difference'; document.getElementById('monthlySavings').textContent = monthlySave > 0 ? dollar(monthlySave) + '/mo potential savings' : dollar(Math.abs(monthlySave)) + '/mo additional cost'; document.getElementById('purchasingPower').textContent = ppChange > 0 ? '+' + fmt(ppChange, 0) + '% more purchasing power' : fmt(ppChange, 0) + '% less purchasing power'; document.getElementById('assessment').textContent = assessStr;",
+    "formulas": ["Equivalent Salary = Current Salary × (Target Index ÷ Current Index)", "Cost of Living Index: NYC = 100 baseline, other cities relative", "Housing typically represents 30-40% of total cost of living differences"],
+    "faq": [
+      {"question": "What is the cheapest major city to live in?", "answer": "Among major US cities, San Antonio, Houston, Dallas, and Phoenix consistently rank as the most affordable. San Antonio has a cost of living index roughly 48% lower than New York City, meaning a $75,000 salary in NYC has the same purchasing power as about $39,000 in San Antonio. However, salaries are also generally lower in these cities, so the net financial benefit depends on your specific job market."},
+      {"question": "Is it really that much cheaper to live in Texas vs New York?", "answer": "Yes, the difference is dramatic. Texas cities like Houston and San Antonio have cost of living indices 40-48% lower than NYC. A $100,000 NYC salary is equivalent to about $55,000-$60,000 in Texas purchasing power. Housing is the biggest driver — median home prices in Houston are about 75% lower than NYC. Combined with no state income tax in Texas, the financial advantage is substantial, though salaries tend to be lower as well."},
+      {"question": "How accurate are cost of living calculators?", "answer": "Cost of living indices provide a useful general comparison but have limitations. They use city-wide averages that may not reflect specific neighborhoods. Individual spending patterns matter greatly — if you do not drive, car-dependent cities are more expensive for you. Housing costs vary enormously within a city. These calculators are best used as directional guides, and you should research specific housing costs and commute patterns for your actual situation."},
+      {"question": "Should I take a pay cut to move to a cheaper city?", "answer": "It depends on the math. If a city is 30% cheaper and you take a 20% pay cut, you come out ahead. Calculate your equivalent salary (what you would need in the new city to maintain your current lifestyle) and compare it to actual job offers. Also consider career growth opportunities, quality of life factors, proximity to family, state taxes, and whether you can work remotely. Many remote workers earn big-city salaries while living in affordable cities — the ideal scenario."},
+      {"question": "What costs vary most between cities?", "answer": "Housing is by far the largest cost-of-living variable — it can differ by 200-300% between cities. Other significant variables include transportation (car-dependent vs. transit cities), childcare (ranges from $800 to $2,500+ monthly), healthcare costs, and state/local taxes. Grocery costs vary less (typically 10-25% between cities), and many consumer goods are priced nationally. When comparing cities, housing and taxes should be your primary focus."}
+    ]
+  },
+  {
+    "slug": "loan-payment-calculator",
+    "toolName": "Loan Payment Calculator",
+    "category": "finance",
+    "tagline": "Calculate monthly payments, total interest, and the impact of extra payments",
+    "keywords": "loan payment calculator, loan calculator, monthly payment calculator, loan amortization calculator, car loan calculator, personal loan calculator, loan interest calculator, extra payment calculator, loan payoff calculator, how much is my loan payment",
+    "relatedTools": ["mortgage-affordability-calculator", "salary-after-tax-calculator", "net-worth-percentile-calculator"],
+    "inputs": [
+      {"id": "principal", "label": "Loan Amount", "default": 25000, "min": 0},
+      {"id": "rate", "label": "Interest Rate", "default": 7.5, "unit": "%", "min": 0, "max": 36, "step": 0.1},
+      {"id": "termYears", "label": "Loan Term", "default": 5, "unit": "years", "min": 1, "max": 30},
+      {"id": "extraPayment", "label": "Extra Monthly Payment", "default": 0, "min": 0}
+    ],
+    "results": [
+      {"id": "monthlyPayment", "label": "Monthly Payment"},
+      {"id": "totalInterest", "label": "Total Interest Paid"},
+      {"id": "totalPaid", "label": "Total Amount Paid"},
+      {"id": "monthsSaved", "label": "Months Saved (with Extra)"},
+      {"id": "interestSaved", "label": "Interest Saved (with Extra)"},
+      {"id": "newPayoffTime", "label": "New Payoff Time"},
+      {"id": "interestSavingsPct", "label": "Interest Savings %"},
+      {"id": "payoffDate", "label": "Estimated Payoff Date"}
+    ],
+    "calcFn": "var r = (rate / 100) / 12; var n = termYears * 12; var pmt = r > 0 ? principal * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1) : principal / n; var totalPd = pmt * n; var totalInt = totalPd - principal; var monthsWithExtra = n; var totalIntExtra = totalInt; var saved = 0; var intSaved = 0; if(extraPayment > 0 && r > 0) { var balance = principal; var months = 0; var intPaidExtra = 0; while(balance > 0 && months < n * 2) { var intCharge = balance * r; var princPmt = pmt - intCharge + extraPayment; if(princPmt > balance) { intPaidExtra += balance * r; balance = 0; } else { intPaidExtra += intCharge; balance -= princPmt; } months++; } monthsWithExtra = months; totalIntExtra = intPaidExtra; saved = n - monthsWithExtra; intSaved = totalInt - totalIntExtra; } var payoffYears = Math.floor((extraPayment > 0 ? monthsWithExtra : n) / 12); var payoffMonths = (extraPayment > 0 ? monthsWithExtra : n) % 12; var newPayoffStr = payoffYears + ' years' + (payoffMonths > 0 ? ', ' + payoffMonths + ' months' : ''); var intSavePct = totalInt > 0 ? (intSaved / totalInt) * 100 : 0; var now = new Date(); var payoffMs = now.getTime() + (extraPayment > 0 ? monthsWithExtra : n) * 30.44 * 24 * 3600 * 1000; var payoffDate = new Date(payoffMs); var monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; var dateStr = monthNames[payoffDate.getMonth()] + ' ' + payoffDate.getFullYear(); document.getElementById('monthlyPayment').textContent = dollar(pmt) + (extraPayment > 0 ? ' + ' + dollar(extraPayment) + ' extra = ' + dollar(pmt + extraPayment) : ''); document.getElementById('totalInterest').textContent = dollar(extraPayment > 0 ? totalIntExtra : totalInt); document.getElementById('totalPaid').textContent = dollar(extraPayment > 0 ? principal + totalIntExtra : totalPd); document.getElementById('monthsSaved').textContent = extraPayment > 0 ? saved + ' months (' + fmt(saved/12, 1) + ' years)' : 'Add extra payments to see savings'; document.getElementById('interestSaved').textContent = extraPayment > 0 ? dollar(intSaved) : 'Add extra payments to see savings'; document.getElementById('newPayoffTime').textContent = newPayoffStr; document.getElementById('interestSavingsPct').textContent = extraPayment > 0 ? pct(intSavePct, 1) + ' of interest eliminated' : 'N/A'; document.getElementById('payoffDate').textContent = dateStr;",
+    "formulas": ["Monthly Payment = P × [r(1+r)^n] / [(1+r)^n − 1]", "Total Interest = (Monthly Payment × Number of Months) − Principal", "Extra payments reduce principal faster, saving interest over the life of the loan"],
+    "faq": [
+      {"question": "How much is the monthly payment on a $25,000 loan?", "answer": "A $25,000 loan at 7.5% interest for 5 years has a monthly payment of about $501. At 5% for 5 years, the payment drops to $472. For a 3-year term at 7.5%, the payment jumps to $777 but saves you $2,723 in total interest. The payment depends entirely on interest rate and term length — shorter terms mean higher payments but dramatically less total interest paid."},
+      {"question": "How much interest do you pay on a 5-year loan?", "answer": "On a $25,000 loan at 7.5% for 5 years, you pay approximately $5,068 in total interest, making your total repayment $30,068. That means interest adds about 20% to the original loan amount. At 10%, total interest jumps to $6,873 (27.5% of the loan). Interest rates make an enormous difference — even 2% lower can save you thousands over the life of the loan."},
+      {"question": "Is it worth making extra payments on a loan?", "answer": "Almost always yes, especially on high-interest loans. Adding just $100 per month to a $25,000 loan at 7.5% for 5 years saves you about $1,197 in interest and pays off the loan 10 months early. The return on extra payments equals your interest rate — paying an extra $100/month on a 7.5% loan is equivalent to earning a guaranteed 7.5% return on that money, which is excellent."},
+      {"question": "What is a good interest rate for a car loan?", "answer": "In the current market, good car loan rates for new vehicles range from 5-7% for borrowers with good credit (700+) and 3-5% for excellent credit (750+). Used car loans typically run 1-2% higher. Rates above 10% are considered expensive, and above 15% you should consider alternative options or work on improving your credit first. Credit unions often offer rates 1-2% lower than banks and dealership financing."},
+      {"question": "Should I choose a shorter or longer loan term?", "answer": "A shorter term always saves money on total interest but requires higher monthly payments. A 3-year car loan at 7% costs about 11% of the principal in total interest, while a 6-year loan at the same rate costs about 23% — more than double. Choose the shortest term you can comfortably afford while maintaining an emergency fund and meeting other financial goals. Avoid stretching car loans beyond 5 years, as you risk being upside-down on the loan."}
+    ]
+  }
+]

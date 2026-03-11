@@ -286,7 +286,19 @@ const CATEGORY_META = {
   'rv': { name: 'RV Calculators', slug: 'rv-calculators' },
   'mental-health': { name: 'Mental Health Calculators', slug: 'mental-health-calculators' },
   'pregnancy': { name: 'Pregnancy & Baby Calculators', slug: 'pregnancy-calculators' },
-  'insurance': { name: 'Insurance Calculators', slug: 'insurance-calculators' }
+  'insurance': { name: 'Insurance Calculators', slug: 'insurance-calculators' },
+  'currency': { name: 'Currency Conversion Calculators', slug: 'currency-calculators' },
+  'precious-metals': { name: 'Gold & Precious Metal Calculators', slug: 'precious-metals-calculators' },
+  'ai-developer': { name: 'AI & Developer Cost Calculators', slug: 'ai-developer-calculators' },
+  'economics': { name: 'Economics & Dollar Calculators', slug: 'economics-calculators' },
+  'blockchain': { name: 'Blockchain & DeFi Calculators', slug: 'blockchain-calculators' },
+  'food-beverage': { name: 'Food & Beverage Calculators', slug: 'food-beverage-calculators' },
+  'music': { name: 'Music & Production Calculators', slug: 'music-calculators' },
+  'diy-home': { name: 'DIY & Home Improvement Calculators', slug: 'diy-home-calculators' },
+  'travel': { name: 'Travel Calculators', slug: 'travel-calculators' },
+  'gaming': { name: 'Gaming Calculators', slug: 'gaming-calculators' },
+  'electrical': { name: 'Electrical Calculators', slug: 'electrical-calculators' },
+  'plumbing': { name: 'Plumbing Calculators', slug: 'plumbing-calculators' }
 };
 
 // Top 20 emotionally charged tools that get aggressive share CTAs

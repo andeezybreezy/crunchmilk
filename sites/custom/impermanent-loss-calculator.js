@@ -1,0 +1,29 @@
+(function() {
+  'use strict';
+
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function dollar(n) { return '$' + fmt(n, 2); }
+  function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
+
+  function calculate() {
+    var initialInvestment = parseFloat(document.getElementById('initialInvestment').value) || 0;
+    var priceChangeA = parseFloat(document.getElementById('priceChangeA').value) || 0;
+    var priceChangeB = parseFloat(document.getElementById('priceChangeB').value) || 0;
+
+    // Calculation logic
+    var rA=1+priceChangeA/100; var rB=1+priceChangeB/100; var holdValue=initialInvestment*(rA+rB)/2; var lpValue=initialInvestment*Math.sqrt(rA*rB); var impLoss=lpValue-holdValue; var impLossPct=(impLoss/holdValue)*100; var breakEvenAPR=Math.abs(impLossPct)*1; return {lpValue:dollar(lpValue), holdValue:dollar(holdValue), impLoss:dollar(impLoss), impLossPct:fmt(impLossPct,2)+'%', breakEvenAPR:fmt(breakEvenAPR,1)+'% APR to offset'};
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  ['initialInvestment', 'priceChangeA', 'priceChangeB'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  });
+})();

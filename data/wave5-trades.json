@@ -1,0 +1,972 @@
+[
+  {
+    "slug": "window-replacement-cost-calculator",
+    "name": "Window Replacement Cost Calculator",
+    "tagline": "Estimate the cost of replacing windows in your home",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "window replacement cost, window cost calculator, new windows price",
+    "competition": "medium",
+    "rpm": "high",
+    "priority": 2,
+    "inputs": [
+      { "id": "numWindows", "label": "Number of Windows", "default": "10", "step": "1" },
+      { "id": "windowSize", "label": "Window Size (sq ft each)", "default": "15", "step": "1" },
+      { "id": "windowType", "label": "Type (1=Vinyl, 2=Wood, 3=Fiberglass)", "default": "1", "step": "1" }
+    ],
+    "results": [
+      { "id": "totalCost", "label": "Total Estimated Cost" },
+      { "id": "perWindow", "label": "Cost Per Window" },
+      { "id": "laborCost", "label": "Labor Cost" }
+    ],
+    "calcJS": "var n=f('numWindows');var sz=f('windowSize');var t=f('windowType');var ppf=t<=1?40:t<=2?65:55;var matCost=n*sz*ppf;var lab=n*250;var total=matCost+lab;return{totalCost:$(total),perWindow:$(total/n),laborCost:$(lab)};",
+    "faqs": [
+      {
+        "q": "How much does it cost to replace windows?",
+        "a": "The average window replacement costs between $300 and $1,200 per window, depending on the material, size, and style. Vinyl windows are the most affordable option, typically ranging from $250 to $600 each installed. Wood and fiberglass windows cost more but offer superior aesthetics and insulation properties."
+      },
+      {
+        "q": "What type of replacement window is best?",
+        "a": "Vinyl windows offer the best value for most homeowners, combining low cost with good energy efficiency and minimal maintenance. Fiberglass windows are the most durable and energy-efficient but cost more upfront. Wood windows provide a classic look and excellent insulation but require regular painting or staining to prevent rot."
+      },
+      {
+        "q": "How long do replacement windows last?",
+        "a": "Vinyl replacement windows typically last 20 to 40 years with minimal maintenance. Wood windows can last 30 years or more with proper care, including regular painting and sealing. Fiberglass windows have the longest lifespan, often exceeding 50 years due to their resistance to warping, rotting, and corrosion."
+      },
+      {
+        "q": "Do new windows increase home value?",
+        "a": "Replacing old windows typically recoups 60-75% of the project cost in increased home value. Energy-efficient windows can also lower heating and cooling bills by 10-25%, making them attractive to buyers. New windows also improve curb appeal, which can help a home sell faster in competitive markets."
+      },
+      {
+        "q": "Should I replace all windows at once?",
+        "a": "Replacing all windows at once is usually more cost-effective because contractors offer volume discounts and only need to mobilize once. You can save 10-15% per window by doing them all in one project. However, if budget is tight, prioritize windows in the most-used rooms or those with the worst energy performance first."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Window Replacement Cost by Type",
+      "data": [
+        { "label": "Vinyl (small)", "value": 350 },
+        { "label": "Vinyl (large)", "value": 600 },
+        { "label": "Wood (small)", "value": 650 },
+        { "label": "Wood (large)", "value": 1100 },
+        { "label": "Fiberglass (small)", "value": 550 },
+        { "label": "Fiberglass (large)", "value": 950 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates window replacement costs based on the number of windows, their size, and the material type you choose.",
+    "howItWorksRules": [
+      "Vinyl windows: approximately $40 per square foot for materials",
+      "Wood windows: approximately $65 per square foot for materials",
+      "Fiberglass windows: approximately $55 per square foot for materials",
+      "Labor cost averages $250 per window for standard installation"
+    ],
+    "howItWorksOutro": "Actual costs vary by region, window brand, and installation complexity. Get multiple quotes from licensed contractors for the most accurate pricing.",
+    "relatedTools": ["paint-calculator", "drywall-calculator", "batt-insulation-calculator", "electricity-cost-calculator"]
+  },
+  {
+    "slug": "garage-door-cost-calculator",
+    "name": "Garage Door Cost Calculator",
+    "tagline": "Estimate the cost of a new garage door with installation",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "garage door cost, garage door replacement, garage door price",
+    "competition": "medium",
+    "rpm": "high",
+    "priority": 2,
+    "inputs": [
+      { "id": "doorWidth", "label": "Door Width (ft)", "default": "16", "step": "1" },
+      { "id": "doorHeight", "label": "Door Height (ft)", "default": "7", "step": "1" },
+      { "id": "material", "label": "Material (1=Steel, 2=Wood, 3=Aluminum, 4=Composite)", "default": "1", "step": "1" },
+      { "id": "insulated", "label": "Insulated? (0=No, 1=Yes)", "default": "1", "step": "1" }
+    ],
+    "results": [
+      { "id": "doorCost", "label": "Door Cost" },
+      { "id": "installCost", "label": "Installation Cost" },
+      { "id": "totalCost", "label": "Total Cost" }
+    ],
+    "calcJS": "var w=f('doorWidth');var h=f('doorHeight');var m=f('material');var ins=f('insulated');var sqft=w*h;var ppf=m<=1?12:m<=2?25:m<=3?15:20;var door=sqft*ppf;if(ins>0)door*=1.3;var inst=350+(sqft>100?200:0);var total=door+inst;return{doorCost:$(door),installCost:$(inst),totalCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How much does a new garage door cost?",
+        "a": "A new garage door typically costs between $750 and $3,500 for the door itself, depending on size, material, and insulation. Single-car garage doors (8-9 ft wide) are the least expensive, while double-car doors (16 ft wide) cost roughly twice as much. Installation adds another $300 to $600 to the total project cost."
+      },
+      {
+        "q": "What is the best material for a garage door?",
+        "a": "Steel is the most popular garage door material, offering durability, low maintenance, and affordability. Insulated steel doors provide good energy efficiency and dent resistance. Wood doors look beautiful but require regular maintenance, while aluminum is lightweight and rust-resistant but dents more easily."
+      },
+      {
+        "q": "Is an insulated garage door worth it?",
+        "a": "An insulated garage door is worth the extra cost if your garage is attached to your house or if you use the garage as a workspace. Insulated doors can reduce energy loss through the garage by up to 70% and keep the space 10-20 degrees warmer in winter. They also run quieter and are more durable than non-insulated doors."
+      },
+      {
+        "q": "How long does garage door installation take?",
+        "a": "Professional garage door installation typically takes 3 to 5 hours for a standard replacement. If the existing tracks and framing are in good condition, installation goes faster. New construction or situations requiring frame modifications can take a full day or more to complete."
+      },
+      {
+        "q": "How long do garage doors last?",
+        "a": "Steel garage doors last 20 to 30 years with minimal maintenance. Wood doors can last just as long but require regular painting or staining every 2-3 years. The garage door opener typically needs replacement every 10-15 years, which is a separate cost from the door itself."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Garage Door Cost by Material (16x7 ft)",
+      "data": [
+        { "label": "Steel", "value": 1344 },
+        { "label": "Steel Insulated", "value": 1747 },
+        { "label": "Wood", "value": 2800 },
+        { "label": "Aluminum", "value": 1680 },
+        { "label": "Composite", "value": 2240 },
+        { "label": "Composite Insulated", "value": 2912 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates the cost of a new garage door based on dimensions, material choice, and insulation.",
+    "howItWorksRules": [
+      "Steel: ~$12/sq ft, Wood: ~$25/sq ft, Aluminum: ~$15/sq ft, Composite: ~$20/sq ft",
+      "Insulation adds approximately 30% to the door cost",
+      "Base installation cost is $350 for standard doors",
+      "Doors over 100 sq ft add $200 for installation complexity"
+    ],
+    "howItWorksOutro": "Prices vary by brand and region. Consider adding a new opener ($250-$500) if yours is over 10 years old.",
+    "relatedTools": ["drywall-calculator", "paint-calculator", "breaker-sizing-calculator", "batt-insulation-calculator"]
+  },
+  {
+    "slug": "exterior-paint-calculator",
+    "name": "Exterior Paint Calculator",
+    "tagline": "Calculate how much exterior paint you need for your home",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "exterior paint calculator, house paint, how much paint do I need",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 2,
+    "inputs": [
+      { "id": "perimeter", "label": "House Perimeter (ft)", "default": "160", "step": "1" },
+      { "id": "height", "label": "Wall Height (ft)", "default": "9", "step": "0.5" },
+      { "id": "doors", "label": "Number of Doors", "default": "3", "step": "1" },
+      { "id": "windows", "label": "Number of Windows", "default": "12", "step": "1" },
+      { "id": "coats", "label": "Number of Coats", "default": "2", "step": "1" }
+    ],
+    "results": [
+      { "id": "paintableArea", "label": "Paintable Area (sq ft)" },
+      { "id": "gallons", "label": "Gallons Needed" },
+      { "id": "estCost", "label": "Estimated Paint Cost" }
+    ],
+    "calcJS": "var p=f('perimeter');var h=f('height');var d=f('doors');var w=f('windows');var c=f('coats');var total=p*h;var sub=(d*21)+(w*15);var paintable=total-sub;var gal=Math.ceil((paintable*c)/350);var cost=gal*45;return{paintableArea:fmt(paintable,0)+' sq ft',gallons:fmt(gal,0),estCost:$(cost)};",
+    "faqs": [
+      {
+        "q": "How much area does a gallon of exterior paint cover?",
+        "a": "One gallon of exterior paint typically covers 300-400 square feet on a smooth surface, with 350 square feet being the standard estimate. Rough or textured surfaces like stucco or brick absorb more paint and may only get 200-300 square feet per gallon. Always buy 10-15% extra to account for touch-ups and waste."
+      },
+      {
+        "q": "How many coats of exterior paint do I need?",
+        "a": "Most exterior paint jobs require two coats for proper coverage and durability. If you are painting over a similar color, one coat of premium paint may suffice. When making a dramatic color change, especially from dark to light, you may need a separate primer coat plus two finish coats."
+      },
+      {
+        "q": "What is the best time to paint a house exterior?",
+        "a": "The best time to paint exteriors is during dry weather with temperatures between 50-85°F and low humidity below 50%. Late spring and early fall are ideal in most climates. Avoid painting in direct sunlight, which causes paint to dry too quickly and leads to brush marks and poor adhesion."
+      },
+      {
+        "q": "How long does exterior paint last?",
+        "a": "Quality exterior acrylic-latex paint typically lasts 7-10 years on wood siding and 10-15 years on stucco or brick. Factors that reduce paint life include direct sun exposure, high humidity, and poor surface preparation. Using a primer and two coats of premium paint significantly extends the lifespan."
+      },
+      {
+        "q": "How much does it cost to paint a house exterior?",
+        "a": "Professional exterior painting costs $2,500-$7,000 for an average-size home, including labor and materials. DIY painting cuts costs to $300-$800 for paint and supplies alone. The biggest factor in professional pricing is house size, followed by the number of stories and surface condition."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Exterior Paint Needed by House Size",
+      "data": [
+        { "label": "1,000 sq ft home", "value": 6 },
+        { "label": "1,500 sq ft home", "value": 8 },
+        { "label": "2,000 sq ft home", "value": 11 },
+        { "label": "2,500 sq ft home", "value": 14 },
+        { "label": "3,000 sq ft home", "value": 17 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates exterior paint needs based on your home's dimensions minus doors and windows.",
+    "howItWorksRules": [
+      "Gross wall area = perimeter × wall height",
+      "Each door subtracts 21 sq ft; each window subtracts 15 sq ft",
+      "One gallon covers approximately 350 sq ft per coat",
+      "Total gallons = (paintable area × coats) ÷ 350, rounded up"
+    ],
+    "howItWorksOutro": "Buy an extra gallon for touch-ups. Premium exterior paints ($45-$70/gallon) last significantly longer than economy options.",
+    "relatedTools": ["paint-calculator", "drywall-calculator", "deck-stain-calculator", "stucco-calculator"]
+  },
+  {
+    "slug": "deck-stain-calculator",
+    "name": "Deck Stain Calculator",
+    "tagline": "Calculate how much deck stain or sealer you need",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "deck stain calculator, deck sealer, how much stain for deck",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 2,
+    "inputs": [
+      { "id": "deckArea", "label": "Deck Area (sq ft)", "default": "300", "step": "10" },
+      { "id": "railingLF", "label": "Railing Length (ft)", "default": "40", "step": "1" },
+      { "id": "coats", "label": "Number of Coats", "default": "2", "step": "1" },
+      { "id": "stainType", "label": "Type (1=Transparent, 2=Semi-Transparent, 3=Solid)", "default": "2", "step": "1" }
+    ],
+    "results": [
+      { "id": "totalArea", "label": "Total Stainable Area (sq ft)" },
+      { "id": "gallons", "label": "Gallons Needed" },
+      { "id": "estCost", "label": "Estimated Cost" }
+    ],
+    "calcJS": "var a=f('deckArea');var r=f('railingLF');var c=f('coats');var t=f('stainType');var railArea=r*4;var total=a+railArea;var cov=t<=1?400:t<=2?300:250;var gal=Math.ceil((total*c)/cov);var ppg=t<=1?35:t<=2?42:48;var cost=gal*ppg;return{totalArea:fmt(total,0)+' sq ft',gallons:fmt(gal,0),estCost:$(cost)};",
+    "faqs": [
+      {
+        "q": "How much does deck stain cover per gallon?",
+        "a": "Transparent deck stains cover about 400 sq ft per gallon on smooth wood, while semi-transparent stains cover roughly 300 sq ft. Solid stains are thicker and cover approximately 250 sq ft per gallon. New or very dry wood absorbs more stain, reducing coverage by 20-30% on the first coat."
+      },
+      {
+        "q": "How often should you stain a deck?",
+        "a": "Most decks need restaining every 2-3 years with transparent or semi-transparent stain. Solid stains last longer, typically 4-5 years, because they form a thicker protective film. Decks in full sun or harsh weather may need attention more frequently, while covered or shaded decks last longer between applications."
+      },
+      {
+        "q": "Should I use one or two coats of deck stain?",
+        "a": "Two thin coats of stain provide better protection and more even color than one thick coat. Apply the second coat while the first is still slightly tacky, usually within 2-4 hours. Never apply stain so thick that it pools or puddles, as this leads to peeling and flaking."
+      },
+      {
+        "q": "What is the difference between deck stain and sealer?",
+        "a": "Deck sealers are typically clear and only protect against moisture, while stains add color and UV protection in addition to waterproofing. Semi-transparent stains offer the best balance of wood grain visibility and protection. Solid stains provide the most UV protection but hide the natural wood grain entirely."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Gallons Needed by Deck Size (2 coats)",
+      "data": [
+        { "label": "100 sq ft", "value": 1 },
+        { "label": "200 sq ft", "value": 2 },
+        { "label": "300 sq ft", "value": 2 },
+        { "label": "400 sq ft", "value": 3 },
+        { "label": "500 sq ft", "value": 4 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates how much deck stain you need based on your deck dimensions, railing, and stain type.",
+    "howItWorksRules": [
+      "Railing surface area estimated at 4 sq ft per linear foot",
+      "Transparent stain: ~400 sq ft/gallon, Semi-transparent: ~300 sq ft/gallon, Solid: ~250 sq ft/gallon",
+      "Total gallons = (total area × coats) ÷ coverage, rounded up",
+      "Cost estimated at $35-$48 per gallon depending on type"
+    ],
+    "howItWorksOutro": "Always prep the deck by cleaning and sanding before staining. Apply stain when temperatures are between 50-90°F with no rain expected for 24-48 hours.",
+    "relatedTools": ["deck-board-calculator", "deck-stair-calculator", "deck-footing-calculator", "exterior-paint-calculator"]
+  },
+  {
+    "slug": "wallpaper-calculator",
+    "name": "Wallpaper Calculator",
+    "tagline": "Calculate how many rolls of wallpaper you need for any room",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "wallpaper calculator, how much wallpaper, wallpaper rolls needed",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 3,
+    "inputs": [
+      { "id": "roomLength", "label": "Room Length (ft)", "default": "14", "step": "0.5" },
+      { "id": "roomWidth", "label": "Room Width (ft)", "default": "12", "step": "0.5" },
+      { "id": "wallHeight", "label": "Wall Height (ft)", "default": "8", "step": "0.5" },
+      { "id": "doors", "label": "Number of Doors", "default": "2", "step": "1" },
+      { "id": "windows", "label": "Number of Windows", "default": "2", "step": "1" },
+      { "id": "patternRepeat", "label": "Pattern Repeat (inches, 0 if none)", "default": "12", "step": "1" }
+    ],
+    "results": [
+      { "id": "wallArea", "label": "Wall Area (sq ft)" },
+      { "id": "singleRolls", "label": "Single Rolls Needed" },
+      { "id": "doubleRolls", "label": "Double Rolls Needed" }
+    ],
+    "calcJS": "var l=f('roomLength');var w=f('roomWidth');var h=f('wallHeight');var d=f('doors');var win=f('windows');var pr=f('patternRepeat');var perim=2*(l+w);var gross=perim*h;var sub=(d*21)+(win*15);var net=gross-sub;var waste=pr>0?1.15:1.05;var adjArea=net*waste;var sRolls=Math.ceil(adjArea/28);var dRolls=Math.ceil(sRolls/2);return{wallArea:fmt(net,0)+' sq ft',singleRolls:fmt(sRolls,0),doubleRolls:fmt(dRolls,0)};",
+    "faqs": [
+      {
+        "q": "How much wallpaper is in a roll?",
+        "a": "A standard American single roll of wallpaper contains approximately 28 square feet of usable coverage. European rolls are often sold as double rolls containing about 56 square feet. After accounting for trimming and pattern matching, actual usable coverage is typically 15-20% less than the stated amount."
+      },
+      {
+        "q": "How do I account for pattern repeat?",
+        "a": "Pattern repeat is the distance between identical points in the wallpaper design. A larger pattern repeat means more waste as you need to align patterns between strips. For repeats over 12 inches, plan for 15-20% extra wallpaper. Solid or random patterns have zero repeat and produce the least waste."
+      },
+      {
+        "q": "Should I buy single or double rolls?",
+        "a": "Most wallpaper is now sold in double rolls, even though it may be priced per single roll. Double rolls give you longer continuous strips, which reduces waste when cutting for tall walls. Always confirm with your retailer whether the price listed is per single or double roll to avoid ordering errors."
+      },
+      {
+        "q": "Can I wallpaper over old wallpaper?",
+        "a": "While it is possible to wallpaper over existing wallpaper, it is not recommended. Old wallpaper can bubble, peel, or show texture through the new layer. The best results come from completely removing old wallpaper, repairing the wall surface, and applying a wallpaper primer before hanging new paper."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Rolls Needed by Room Size (8 ft walls)",
+      "data": [
+        { "label": "8×10 room", "value": 8 },
+        { "label": "10×12 room", "value": 10 },
+        { "label": "12×14 room", "value": 12 },
+        { "label": "14×16 room", "value": 14 },
+        { "label": "16×18 room", "value": 16 }
+      ]
+    },
+    "howItWorksIntro": "This calculator determines how many rolls of wallpaper you need based on room dimensions and pattern repeat.",
+    "howItWorksRules": [
+      "Wall area = room perimeter × wall height",
+      "Each door subtracts 21 sq ft; each window subtracts 15 sq ft",
+      "Pattern repeat adds ~15% waste; no pattern adds ~5% waste",
+      "One single roll covers approximately 28 sq ft"
+    ],
+    "howItWorksOutro": "Always order one extra roll for mistakes and future repairs. Wallpaper from different production batches can have slight color variations.",
+    "relatedTools": ["paint-calculator", "drywall-calculator", "tile-calculator"]
+  },
+  {
+    "slug": "sprinkler-system-calculator",
+    "name": "Sprinkler System Calculator",
+    "tagline": "Estimate the cost and components for a lawn sprinkler system",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "sprinkler system cost, irrigation system calculator, lawn sprinkler",
+    "competition": "medium",
+    "rpm": "high",
+    "priority": 2,
+    "inputs": [
+      { "id": "lawnArea", "label": "Lawn Area (sq ft)", "default": "5000", "step": "100" },
+      { "id": "zones", "label": "Number of Zones", "default": "4", "step": "1" },
+      { "id": "headType", "label": "Head Type (1=Pop-up Spray, 2=Rotor, 3=Drip)", "default": "1", "step": "1" },
+      { "id": "diy", "label": "DIY? (0=Pro Install, 1=DIY)", "default": "0", "step": "1" }
+    ],
+    "results": [
+      { "id": "numHeads", "label": "Sprinkler Heads Needed" },
+      { "id": "pipeFeet", "label": "Pipe (linear ft)" },
+      { "id": "materialCost", "label": "Material Cost" },
+      { "id": "totalCost", "label": "Total Project Cost" }
+    ],
+    "calcJS": "var a=f('lawnArea');var z=f('zones');var ht=f('headType');var diy=f('diy');var cov=ht<=1?150:ht<=2?600:50;var heads=Math.ceil(a/cov);var pipe=Math.ceil(Math.sqrt(a)*3);var headCost=heads*(ht<=1?8:ht<=2?15:2);var pipeCost=pipe*1.5;var valves=z*35;var ctrl=150;var mat=headCost+pipeCost+valves+ctrl;var labor=diy>0?0:a*0.50;var total=mat+labor;return{numHeads:fmt(heads,0),pipeFeet:fmt(pipe,0),materialCost:$(mat),totalCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How much does a sprinkler system cost?",
+        "a": "A professionally installed sprinkler system costs $2,500-$5,000 for an average yard of 5,000-10,000 sq ft. DIY installation can cut costs to $500-$1,500 for materials alone. The biggest cost factors are yard size, number of zones, and local labor rates."
+      },
+      {
+        "q": "How many sprinkler heads do I need?",
+        "a": "Pop-up spray heads cover about 150 sq ft each and are ideal for small areas, requiring more heads per zone. Rotor heads cover up to 600 sq ft each and work best for large open lawns. The key is achieving head-to-head coverage, where each sprinkler's spray reaches the adjacent head for even watering."
+      },
+      {
+        "q": "How many zones does my sprinkler system need?",
+        "a": "The number of zones depends on your water pressure, flow rate, and yard size. Most residential systems have 4-8 zones, each running 3-5 sprinkler heads. Each zone should have heads of the same type, as spray heads and rotors have different water flow requirements and run times."
+      },
+      {
+        "q": "Can I install a sprinkler system myself?",
+        "a": "DIY sprinkler installation is feasible for handy homeowners and can save $1,500-$3,000 in labor costs. You will need to rent a pipe-pulling machine ($200/day) and call 811 to mark underground utilities before digging. The most challenging part is typically connecting to the main water line and ensuring proper water pressure across all zones."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Sprinkler System Cost by Lawn Size",
+      "data": [
+        { "label": "2,500 sq ft", "value": 1800 },
+        { "label": "5,000 sq ft", "value": 3100 },
+        { "label": "7,500 sq ft", "value": 4300 },
+        { "label": "10,000 sq ft", "value": 5500 },
+        { "label": "15,000 sq ft", "value": 7800 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates sprinkler system materials and costs based on your lawn size and preferred head type.",
+    "howItWorksRules": [
+      "Pop-up spray heads cover ~150 sq ft each; rotors cover ~600 sq ft; drip emitters ~50 sq ft",
+      "Pipe length estimated at 3× the square root of lawn area",
+      "Zone valves at $35 each plus a controller at $150",
+      "Professional installation adds approximately $0.50 per sq ft of lawn area"
+    ],
+    "howItWorksOutro": "Get a professional design for optimal coverage. Install a rain sensor to comply with local water conservation ordinances.",
+    "relatedTools": ["grass-seed-calculator", "sod-calculator", "mulch-calculator", "french-drain-calculator"]
+  },
+  {
+    "slug": "retaining-wall-block-calculator",
+    "name": "Retaining Wall Block Calculator",
+    "tagline": "Calculate the number of retaining wall blocks and materials needed",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "retaining wall blocks, wall block calculator, landscape blocks needed",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 2,
+    "inputs": [
+      { "id": "wallLength", "label": "Wall Length (ft)", "default": "30", "step": "1" },
+      { "id": "wallHeight", "label": "Wall Height (ft)", "default": "3", "step": "0.5" },
+      { "id": "blockLength", "label": "Block Length (inches)", "default": "12", "step": "1" },
+      { "id": "blockHeight", "label": "Block Height (inches)", "default": "4", "step": "1" }
+    ],
+    "results": [
+      { "id": "numBlocks", "label": "Blocks Needed" },
+      { "id": "rows", "label": "Number of Rows" },
+      { "id": "gravelTons", "label": "Gravel Needed (tons)" },
+      { "id": "estCost", "label": "Estimated Material Cost" }
+    ],
+    "calcJS": "var wl=f('wallLength');var wh=f('wallHeight');var bl=f('blockLength');var bh=f('blockHeight');var blFt=bl/12;var bhFt=bh/12;var cols=Math.ceil(wl/blFt);var rows=Math.ceil(wh/bhFt);var blocks=Math.ceil(cols*rows*1.05);var grav=(wl*1*1)/27*1.4;var cost=blocks*3.5+grav*45;return{numBlocks:fmt(blocks,0),rows:fmt(rows,0),gravelTons:fmt(grav,1),estCost:$(cost)};",
+    "faqs": [
+      {
+        "q": "How many retaining wall blocks do I need?",
+        "a": "The number of blocks depends on wall length, height, and block size. Standard landscape blocks are 12 inches long by 4 inches tall, so a 30-foot wall that is 3 feet high needs about 270 blocks. Always buy 5-10% extra to account for cuts, breakage, and corner pieces."
+      },
+      {
+        "q": "Do I need a permit for a retaining wall?",
+        "a": "Most jurisdictions require a building permit for retaining walls over 4 feet tall, measured from the bottom of the footing to the top of the wall. Walls over 4 feet typically also require engineering drawings. Even for shorter walls, check local codes as some areas have stricter requirements, especially near property lines or slopes."
+      },
+      {
+        "q": "How much gravel do I need behind a retaining wall?",
+        "a": "You need a 12-inch wide layer of drainage gravel behind the entire length and height of the retaining wall. This gravel backfill allows water to drain away and prevents hydrostatic pressure buildup that can topple the wall. Use clean crushed stone (3/4 inch) and install a perforated drain pipe at the base."
+      },
+      {
+        "q": "How high can a retaining wall be without engineering?",
+        "a": "Most building codes allow gravity-type retaining walls up to 4 feet tall without professional engineering. Walls taller than 4 feet face significantly greater soil pressure and typically need engineered designs with geogrid reinforcement. Even for shorter walls, proper drainage and a compacted gravel base are essential for long-term stability."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Blocks Needed by Wall Size",
+      "data": [
+        { "label": "20ft × 2ft", "value": 126 },
+        { "label": "30ft × 2ft", "value": 189 },
+        { "label": "30ft × 3ft", "value": 284 },
+        { "label": "40ft × 3ft", "value": 378 },
+        { "label": "50ft × 4ft", "value": 630 }
+      ]
+    },
+    "howItWorksIntro": "This calculator determines how many retaining wall blocks you need based on wall dimensions and block size.",
+    "howItWorksRules": [
+      "Blocks per row = wall length ÷ block length",
+      "Number of rows = wall height ÷ block height",
+      "5% extra added for cuts and waste",
+      "Gravel estimated at 1 ft deep × 1 ft wide behind the wall"
+    ],
+    "howItWorksOutro": "Start with a level compacted gravel base at least 6 inches deep. Stagger block joints between rows for maximum strength.",
+    "relatedTools": ["retaining-wall-calculator", "gravel-calculator", "paver-calculator", "sand-calculator"]
+  },
+  {
+    "slug": "patio-cost-calculator",
+    "name": "Patio Cost Calculator",
+    "tagline": "Estimate the cost of building a paver, concrete, or stone patio",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "patio cost, patio installation cost, paver patio cost",
+    "competition": "medium",
+    "rpm": "high",
+    "priority": 2,
+    "inputs": [
+      { "id": "length", "label": "Patio Length (ft)", "default": "16", "step": "1" },
+      { "id": "width", "label": "Patio Width (ft)", "default": "12", "step": "1" },
+      { "id": "material", "label": "Material (1=Concrete, 2=Pavers, 3=Natural Stone, 4=Stamped Concrete)", "default": "2", "step": "1" },
+      { "id": "diy", "label": "DIY? (0=Pro, 1=DIY)", "default": "0", "step": "1" }
+    ],
+    "results": [
+      { "id": "area", "label": "Patio Area (sq ft)" },
+      { "id": "materialCost", "label": "Material Cost" },
+      { "id": "laborCost", "label": "Labor Cost" },
+      { "id": "totalCost", "label": "Total Cost" }
+    ],
+    "calcJS": "var l=f('length');var w=f('width');var m=f('material');var diy=f('diy');var a=l*w;var ppf=m<=1?6:m<=2?12:m<=3?20:14;var mat=a*ppf;var base=a*2;mat+=base;var lab=diy>0?0:a*(m<=1?8:m<=2?10:m<=3?14:12);var total=mat+lab;return{area:fmt(a,0)+' sq ft',materialCost:$(mat),laborCost:$(lab),totalCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How much does a patio cost per square foot?",
+        "a": "A basic concrete patio costs $6-$10 per square foot for materials, while pavers run $12-$20. Natural stone is the most expensive at $15-$30 per square foot for materials alone. Add $8-$14 per square foot for professional labor depending on material complexity and site preparation needs."
+      },
+      {
+        "q": "What is the cheapest patio material?",
+        "a": "Poured concrete is the most affordable patio option at $6-$10 per square foot installed. Gravel patios are even cheaper but less durable and comfortable. For a balance of cost and appearance, concrete pavers in a simple pattern offer good value at $15-$25 per square foot installed."
+      },
+      {
+        "q": "How long does it take to build a patio?",
+        "a": "A professional crew can install a 200 sq ft paver patio in 2-3 days, including excavation and base preparation. Poured concrete patios take 1-2 days to pour but need 3-7 days to cure before use. DIY patio projects typically take 2-4 weekends depending on experience and complexity."
+      },
+      {
+        "q": "Do I need a permit for a patio?",
+        "a": "Most ground-level patios do not require a building permit, but it depends on your local jurisdiction. Patios that are elevated more than 30 inches above grade, attached to the house structure, or include electrical or plumbing work typically need permits. Always check with your local building department before starting construction."
+      },
+      {
+        "q": "What base do I need under a patio?",
+        "a": "A proper patio base requires 4-6 inches of compacted gravel (crushed limestone or road base) topped with 1 inch of leveling sand for pavers. Concrete patios need a 4-inch gravel base plus proper forms. Skipping the base preparation is the most common reason patios settle, crack, or develop drainage problems."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Patio Cost by Material (200 sq ft, installed)",
+      "data": [
+        { "label": "Concrete", "value": 2800 },
+        { "label": "Pavers", "value": 4400 },
+        { "label": "Stamped Concrete", "value": 5200 },
+        { "label": "Natural Stone", "value": 6800 },
+        { "label": "Flagstone", "value": 5600 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates patio construction costs based on size, material choice, and whether you hire a professional or DIY.",
+    "howItWorksRules": [
+      "Concrete: ~$6/sq ft, Pavers: ~$12/sq ft, Natural Stone: ~$20/sq ft, Stamped: ~$14/sq ft",
+      "Base materials (gravel + sand) add ~$2/sq ft",
+      "Professional labor ranges from $8-$14/sq ft depending on material",
+      "DIY saves on labor but still requires base material costs"
+    ],
+    "howItWorksOutro": "Always ensure proper grading for drainage away from the house. Consider adding polymeric sand between pavers to prevent weed growth.",
+    "relatedTools": ["paver-calculator", "concrete-slab-calculator", "gravel-calculator", "sand-calculator"]
+  },
+  {
+    "slug": "pergola-material-calculator",
+    "name": "Pergola Material Calculator",
+    "tagline": "Calculate lumber and hardware needed for a pergola build",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "pergola materials, pergola cost, pergola lumber calculator",
+    "competition": "low",
+    "rpm": "medium",
+    "priority": 3,
+    "inputs": [
+      { "id": "length", "label": "Pergola Length (ft)", "default": "12", "step": "1" },
+      { "id": "width", "label": "Pergola Width (ft)", "default": "10", "step": "1" },
+      { "id": "height", "label": "Post Height (ft)", "default": "8", "step": "1" },
+      { "id": "rafterSpacing", "label": "Rafter Spacing (inches)", "default": "16", "step": "2" }
+    ],
+    "results": [
+      { "id": "posts", "label": "Posts (6×6)" },
+      { "id": "beams", "label": "Beams (2×10)" },
+      { "id": "rafters", "label": "Rafters (2×6)" },
+      { "id": "estCost", "label": "Estimated Lumber Cost" }
+    ],
+    "calcJS": "var l=f('length');var w=f('width');var h=f('height');var rs=f('rafterSpacing');var posts=4;if(l>12)posts=6;var beams=2;var numRafters=Math.ceil(l/(rs/12))+1;var postCost=posts*35;var beamCost=beams*28;var rafterCost=numRafters*12;var hardware=posts*15+numRafters*3;var total=postCost+beamCost+rafterCost+hardware;return{posts:fmt(posts,0)+' @ '+fmt(h,0)+' ft',beams:fmt(beams,0)+' @ '+fmt(l,0)+' ft',rafters:fmt(numRafters,0)+' @ '+fmt(w,0)+' ft',estCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How much does it cost to build a pergola?",
+        "a": "A DIY pergola using pressure-treated lumber costs $500-$1,500 for materials for a standard 10×12 size. Cedar or redwood increases material costs to $1,500-$3,000. Professional installation adds $1,000-$3,000 in labor, making the total project cost $2,000-$6,000 for most homeowners."
+      },
+      {
+        "q": "What size posts do I need for a pergola?",
+        "a": "Standard pergolas use 6×6 posts, which provide excellent structural support and visual proportion. For larger pergolas over 14 feet in span, 6×6 posts are essential for stability. Posts should be set at least 2 feet deep in concrete footings, so add 2 feet to your desired height when purchasing lumber."
+      },
+      {
+        "q": "How far apart should pergola rafters be?",
+        "a": "Pergola rafters are typically spaced 12-16 inches apart for good shade coverage and structural integrity. Closer spacing (12 inches) provides more shade but costs more in materials. Wider spacing (24 inches) creates a more open feel but may require larger rafter dimensions to prevent sagging over long spans."
+      },
+      {
+        "q": "Do I need a permit to build a pergola?",
+        "a": "Many jurisdictions require permits for pergolas, especially those attached to the house or over a certain size. Freestanding pergolas under 200 sq ft may be exempt in some areas. Check local building codes and HOA regulations before construction, as setback requirements from property lines also apply."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Pergola Material Cost by Size",
+      "data": [
+        { "label": "8×8 ft", "value": 380 },
+        { "label": "10×10 ft", "value": 520 },
+        { "label": "10×12 ft", "value": 590 },
+        { "label": "12×14 ft", "value": 750 },
+        { "label": "14×16 ft", "value": 920 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates the lumber and hardware needed for a freestanding pergola based on your desired dimensions.",
+    "howItWorksRules": [
+      "4 posts for spans up to 12 ft; 6 posts for longer pergolas",
+      "2 beams (2×10) running the length of the pergola",
+      "Rafters (2×6) spaced at your chosen interval across the width",
+      "Hardware includes post bases, beam hangers, and rafter ties"
+    ],
+    "howItWorksOutro": "Use pressure-treated lumber for ground contact and cedar or treated lumber for above-ground components. Apply exterior stain or sealant for maximum longevity.",
+    "relatedTools": ["deck-board-calculator", "board-foot-calculator", "deck-footing-calculator", "concrete-footing-calculator"]
+  },
+  {
+    "slug": "fence-cost-calculator",
+    "name": "Fence Cost Calculator",
+    "tagline": "Estimate the total cost to build a new fence",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "fence cost, fence installation cost, fencing price calculator",
+    "competition": "high",
+    "rpm": "high",
+    "priority": 1,
+    "inputs": [
+      { "id": "linearFt", "label": "Fence Length (linear ft)", "default": "150", "step": "1" },
+      { "id": "height", "label": "Fence Height (ft)", "default": "6", "step": "1" },
+      { "id": "material", "label": "Material (1=Wood, 2=Vinyl, 3=Chain Link, 4=Aluminum, 5=Composite)", "default": "1", "step": "1" },
+      { "id": "gates", "label": "Number of Gates", "default": "1", "step": "1" }
+    ],
+    "results": [
+      { "id": "materialCost", "label": "Material Cost" },
+      { "id": "laborCost", "label": "Labor Cost" },
+      { "id": "totalCost", "label": "Total Estimated Cost" },
+      { "id": "perFoot", "label": "Cost Per Linear Foot" }
+    ],
+    "calcJS": "var lf=f('linearFt');var h=f('height');var m=f('material');var g=f('gates');var hm=h/6;var ppf=m<=1?15:m<=2?25:m<=3?10:m<=4?30:35;ppf*=hm;var mat=lf*ppf+g*200;var lab=lf*(m<=1?10:m<=2?12:m<=3?8:m<=4?14:15);var total=mat+lab;return{materialCost:$(mat),laborCost:$(lab),totalCost:$(total),perFoot:$(total/lf)+'/ft'};",
+    "faqs": [
+      {
+        "q": "How much does a fence cost per foot?",
+        "a": "Wood privacy fences cost $20-$35 per linear foot installed, while vinyl fences run $25-$45 per foot. Chain link is the most affordable at $15-$25 per foot installed. Aluminum ornamental fencing costs $30-$50 per foot, and composite fencing ranges from $35-$60 per foot for materials and labor."
+      },
+      {
+        "q": "What is the cheapest fence to install?",
+        "a": "Chain link fencing is the most affordable option at $10-$25 per linear foot installed, depending on height and gauge. Basic wood fence using pressure-treated pine is the next most affordable at $20-$30 per foot. For privacy on a budget, a 6-foot dog-ear wood fence offers the best value."
+      },
+      {
+        "q": "How long does it take to install a fence?",
+        "a": "A professional crew can install 100-150 linear feet of fence per day in normal conditions. A typical 150-foot residential fence takes 1-2 days to complete. Rocky soil, slopes, or tree roots can significantly slow installation and may add to the cost."
+      },
+      {
+        "q": "Do I need a permit to build a fence?",
+        "a": "Most municipalities require permits for fences over 6 feet tall, and some require permits for any fence. Front yard fences often have height restrictions of 3-4 feet. You must also verify your property lines with a survey and check for underground utilities by calling 811 before digging post holes."
+      },
+      {
+        "q": "How long do different fence types last?",
+        "a": "Pressure-treated wood fences last 15-20 years with regular staining. Cedar fences last 20-25 years naturally. Vinyl fencing lasts 25-30 years with virtually no maintenance. Chain link lasts 20+ years, and aluminum ornamental fencing can last 30+ years. Composite fencing typically comes with 25-year warranties."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "150 ft Fence Cost by Material (6 ft height)",
+      "data": [
+        { "label": "Chain Link", "value": 2700 },
+        { "label": "Wood", "value": 3750 },
+        { "label": "Vinyl", "value": 5550 },
+        { "label": "Aluminum", "value": 6600 },
+        { "label": "Composite", "value": 7500 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates the total cost of fencing based on length, height, material, and number of gates.",
+    "howItWorksRules": [
+      "Material cost per foot: Wood $15, Chain Link $10, Vinyl $25, Aluminum $30, Composite $35 (at 6 ft height)",
+      "Cost adjusts proportionally for different fence heights",
+      "Each gate adds approximately $200 to the material cost",
+      "Labor costs range from $8-$15 per linear foot depending on material"
+    ],
+    "howItWorksOutro": "Get at least three quotes from licensed fence contractors. Confirm property boundaries with your neighbor and check local codes for setback requirements.",
+    "relatedTools": ["wood-fence-calculator", "chain-link-fence-calculator", "concrete-footing-calculator", "post-hole-concrete-calculator"]
+  },
+  {
+    "slug": "tree-removal-cost-calculator",
+    "name": "Tree Removal Cost Calculator",
+    "tagline": "Estimate the cost to remove a tree from your property",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "tree removal cost, tree cutting cost, tree service price",
+    "competition": "medium",
+    "rpm": "high",
+    "priority": 2,
+    "inputs": [
+      { "id": "treeHeight", "label": "Tree Height (ft)", "default": "40", "step": "5" },
+      { "id": "trunkDia", "label": "Trunk Diameter (inches)", "default": "18", "step": "1" },
+      { "id": "stumpRemoval", "label": "Stump Removal? (0=No, 1=Yes)", "default": "1", "step": "1" },
+      { "id": "obstacles", "label": "Near Structure? (0=No, 1=Yes)", "default": "0", "step": "1" }
+    ],
+    "results": [
+      { "id": "treeCost", "label": "Tree Removal Cost" },
+      { "id": "stumpCost", "label": "Stump Grinding Cost" },
+      { "id": "totalCost", "label": "Total Cost" }
+    ],
+    "calcJS": "var h=f('treeHeight');var d=f('trunkDia');var sr=f('stumpRemoval');var obs=f('obstacles');var base=h<=30?400:h<=60?900:h<=80?1500:2200;var sizeAdj=d>24?1.4:d>18?1.2:1;base*=sizeAdj;if(obs>0)base*=1.5;var stump=sr>0?150+d*5:0;var total=base+stump;return{treeCost:$(base),stumpCost:$(stump),totalCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How much does tree removal cost?",
+        "a": "Tree removal costs range from $200 for small trees under 25 feet to $2,000+ for large trees over 75 feet. The average tree removal costs $700-$1,200. Factors that increase cost include proximity to structures, power lines, difficult access, and the need for crane equipment."
+      },
+      {
+        "q": "Does stump grinding cost extra?",
+        "a": "Yes, stump grinding is typically an additional $150-$400 depending on the stump diameter. Most tree service companies charge a base fee plus $2-$5 per inch of stump diameter. You can save by leaving the stump in place, but it can attract termites, create a tripping hazard, and sprout new growth."
+      },
+      {
+        "q": "Do I need a permit to remove a tree?",
+        "a": "Many cities require permits for tree removal, especially for trees above a certain diameter, typically 6-12 inches. Protected species, heritage trees, or trees in conservation areas may have additional restrictions. Fines for unauthorized tree removal can be substantial, ranging from $500 to $10,000 per tree in some jurisdictions."
+      },
+      {
+        "q": "When is the best time to remove a tree?",
+        "a": "Late winter or early spring is often the best time for tree removal because the ground is firm, there are no leaves to clean up, and tree service companies are less busy. However, dead or dangerous trees should be removed immediately regardless of season. Some arborists offer lower rates during their slow season in winter."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Tree Removal Cost by Height",
+      "data": [
+        { "label": "Under 25 ft", "value": 300 },
+        { "label": "25-40 ft", "value": 700 },
+        { "label": "40-60 ft", "value": 1100 },
+        { "label": "60-80 ft", "value": 1700 },
+        { "label": "Over 80 ft", "value": 2500 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates tree removal costs based on tree height, trunk diameter, and site conditions.",
+    "howItWorksRules": [
+      "Base cost: Under 30ft=$400, 30-60ft=$900, 60-80ft=$1,500, Over 80ft=$2,200",
+      "Large trunk diameter (over 18 inches) adds 20-40% to cost",
+      "Proximity to structures adds approximately 50% to the cost",
+      "Stump grinding adds $150 base plus $5 per inch of diameter"
+    ],
+    "howItWorksOutro": "Always hire insured, licensed arborists. Ask for proof of liability insurance and workers' compensation before work begins.",
+    "relatedTools": ["landscaping-cost-calculator", "mulch-calculator", "sod-calculator", "grass-seed-calculator"]
+  },
+  {
+    "slug": "lawn-fertilizer-calculator",
+    "name": "Lawn Fertilizer Calculator",
+    "tagline": "Calculate how much fertilizer your lawn needs per application",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "lawn fertilizer calculator, fertilizer amount, lawn fertilizer coverage",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 3,
+    "inputs": [
+      { "id": "lawnArea", "label": "Lawn Area (sq ft)", "default": "5000", "step": "100" },
+      { "id": "nRate", "label": "Desired Nitrogen Rate (lbs N per 1000 sq ft)", "default": "1", "step": "0.25" },
+      { "id": "nPct", "label": "Fertilizer Nitrogen % (N on bag)", "default": "24", "step": "1" },
+      { "id": "bagWeight", "label": "Bag Weight (lbs)", "default": "50", "step": "5" }
+    ],
+    "results": [
+      { "id": "fertNeeded", "label": "Fertilizer Needed (lbs)" },
+      { "id": "bags", "label": "Bags Needed" },
+      { "id": "nApplied", "label": "Nitrogen Applied (lbs)" }
+    ],
+    "calcJS": "var a=f('lawnArea');var nr=f('nRate');var np=f('nPct')/100;var bw=f('bagWeight');var totalN=a/1000*nr;var fert=totalN/np;var bags=Math.ceil(fert/bw);var nApp=fert*np;return{fertNeeded:fmt(fert,1)+' lbs',bags:fmt(bags,0),nApplied:fmt(nApp,1)+' lbs N'};",
+    "faqs": [
+      {
+        "q": "How much fertilizer do I need for my lawn?",
+        "a": "The amount of fertilizer depends on your lawn size, the desired nitrogen application rate, and the fertilizer analysis. Most lawns need 1 pound of nitrogen per 1,000 square feet per application. With a 24-0-10 fertilizer, you would need about 4.2 pounds of product per 1,000 square feet to deliver 1 pound of nitrogen."
+      },
+      {
+        "q": "How often should I fertilize my lawn?",
+        "a": "Cool-season grasses like fescue and bluegrass benefit from 2-4 fertilizer applications per year, primarily in fall and spring. Warm-season grasses like Bermuda and Zoysia should be fertilized 3-5 times during the growing season from late spring through early fall. Avoid fertilizing during extreme heat or drought."
+      },
+      {
+        "q": "What do the numbers on fertilizer bags mean?",
+        "a": "The three numbers represent the percentage by weight of nitrogen (N), phosphorus (P), and potassium (K). For example, a 24-0-10 bag contains 24% nitrogen, 0% phosphorus, and 10% potassium. A 50-pound bag of 24-0-10 contains 12 pounds of actual nitrogen, which is the primary nutrient for lawn growth and green color."
+      },
+      {
+        "q": "Can I over-fertilize my lawn?",
+        "a": "Yes, over-fertilizing causes fertilizer burn, which appears as brown or yellow streaks in the lawn. Never apply more than 1 pound of nitrogen per 1,000 square feet in a single application. Water the lawn after fertilizing to wash granules off grass blades and into the soil where roots can absorb the nutrients."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Fertilizer Needed (lbs) by Lawn Size at 1 lb N/1000 sqft",
+      "data": [
+        { "label": "2,500 sq ft", "value": 10 },
+        { "label": "5,000 sq ft", "value": 21 },
+        { "label": "7,500 sq ft", "value": 31 },
+        { "label": "10,000 sq ft", "value": 42 },
+        { "label": "15,000 sq ft", "value": 63 }
+      ]
+    },
+    "howItWorksIntro": "This calculator determines how much granular fertilizer to apply based on your lawn size and the fertilizer analysis.",
+    "howItWorksRules": [
+      "Total nitrogen needed = (lawn area ÷ 1,000) × desired nitrogen rate",
+      "Fertilizer needed (lbs) = total nitrogen ÷ (N% ÷ 100)",
+      "Bags needed = fertilizer weight ÷ bag weight, rounded up",
+      "Standard application rate is 1 lb nitrogen per 1,000 sq ft"
+    ],
+    "howItWorksOutro": "Use a broadcast or drop spreader for even distribution. Calibrate your spreader following the fertilizer bag instructions for best results.",
+    "relatedTools": ["grass-seed-calculator", "sod-calculator", "fertilizer-calculator", "mulch-calculator"]
+  },
+  {
+    "slug": "landscaping-cost-calculator",
+    "name": "Landscaping Cost Calculator",
+    "tagline": "Estimate the total cost of a landscaping project",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "landscaping cost, landscape budget, yard makeover cost",
+    "competition": "high",
+    "rpm": "high",
+    "priority": 1,
+    "inputs": [
+      { "id": "yardSize", "label": "Yard Size (sq ft)", "default": "3000", "step": "100" },
+      { "id": "sodArea", "label": "New Sod Area (sq ft)", "default": "1500", "step": "100" },
+      { "id": "mulchBeds", "label": "Mulch Bed Area (sq ft)", "default": "500", "step": "50" },
+      { "id": "trees", "label": "Trees to Plant", "default": "3", "step": "1" },
+      { "id": "shrubs", "label": "Shrubs to Plant", "default": "12", "step": "1" }
+    ],
+    "results": [
+      { "id": "sodCost", "label": "Sod Cost" },
+      { "id": "plantCost", "label": "Plant & Tree Cost" },
+      { "id": "mulchCost", "label": "Mulch Cost" },
+      { "id": "laborCost", "label": "Labor Cost" },
+      { "id": "totalCost", "label": "Total Project Cost" }
+    ],
+    "calcJS": "var ys=f('yardSize');var sa=f('sodArea');var mb=f('mulchBeds');var t=f('trees');var s=f('shrubs');var sod=sa*0.45;var mulch=Math.ceil(mb*3/12/27)*45;var trees=t*250;var shrubs=s*35;var plants=trees+shrubs;var lab=(sa*0.35)+(mb*0.50)+(t*75)+(s*15);var total=sod+mulch+plants+lab;return{sodCost:$(sod),plantCost:$(plants),mulchCost:$(mulch),laborCost:$(lab),totalCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How much does landscaping cost?",
+        "a": "Basic landscaping costs $4-$12 per square foot, depending on the scope of work. A typical front yard makeover costs $3,000-$8,000, while a full property landscape runs $8,000-$25,000 or more. The biggest cost drivers are hardscaping (patios, walls, walkways), mature trees, and irrigation systems."
+      },
+      {
+        "q": "What increases landscaping costs the most?",
+        "a": "Hardscaping elements like patios, retaining walls, and outdoor kitchens add the most cost to landscaping projects. Mature trees ($500-$2,000 each) cost significantly more than young nursery trees ($100-$300). Irrigation systems, outdoor lighting, and drainage work also add substantial cost to the overall project."
+      },
+      {
+        "q": "How much does sod cost per square foot?",
+        "a": "Sod typically costs $0.30-$0.80 per square foot for the material, depending on the grass variety and your region. Installation labor adds another $0.30-$0.50 per square foot. Premium grass types like Bermuda or Zoysia cost more than common fescue blends, and pallet delivery fees can add $100-$200."
+      },
+      {
+        "q": "When is the best time to landscape?",
+        "a": "Spring and fall are the best times for planting trees, shrubs, and sod in most climates. Fall planting allows root systems to establish before winter dormancy. Avoid major plantings during summer heat, which stresses new plants and increases watering needs significantly."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Landscaping Cost Breakdown (Typical Project)",
+      "data": [
+        { "label": "Sod & Lawn", "value": 1200 },
+        { "label": "Trees", "value": 750 },
+        { "label": "Shrubs", "value": 420 },
+        { "label": "Mulch", "value": 225 },
+        { "label": "Labor", "value": 1450 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates the total cost of a landscaping project including sod, plants, mulch, and labor.",
+    "howItWorksRules": [
+      "Sod cost: $0.45 per square foot for material",
+      "Mulch: 3 inches deep at $45 per cubic yard",
+      "Trees average $250 each; shrubs average $35 each",
+      "Labor includes installation of all materials"
+    ],
+    "howItWorksOutro": "Get detailed quotes from at least three landscaping companies. Ask for a phased plan if the full project exceeds your budget.",
+    "relatedTools": ["sod-calculator", "mulch-calculator", "tree-removal-cost-calculator", "sprinkler-system-calculator"]
+  },
+  {
+    "slug": "electrical-load-calculator",
+    "name": "Electrical Load Calculator",
+    "tagline": "Calculate the total electrical load for your home or panel",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "electrical load calculation, panel load calculator, amperage calculator",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 2,
+    "inputs": [
+      { "id": "sqFt", "label": "Home Size (sq ft)", "default": "2000", "step": "100" },
+      { "id": "acTons", "label": "AC Size (tons)", "default": "3", "step": "0.5" },
+      { "id": "waterHeater", "label": "Electric Water Heater (watts, 0 if gas)", "default": "4500", "step": "500" },
+      { "id": "dryer", "label": "Electric Dryer (watts, 0 if gas)", "default": "5000", "step": "500" },
+      { "id": "range", "label": "Electric Range (watts, 0 if gas)", "default": "12000", "step": "1000" },
+      { "id": "evCharger", "label": "EV Charger (watts, 0 if none)", "default": "0", "step": "1000" }
+    ],
+    "results": [
+      { "id": "totalWatts", "label": "Total Load (watts)" },
+      { "id": "totalAmps", "label": "Total Load (amps at 240V)" },
+      { "id": "panelSize", "label": "Recommended Panel Size" }
+    ],
+    "calcJS": "var sf=f('sqFt');var ac=f('acTons');var wh=f('waterHeater');var dr=f('dryer');var rng=f('range');var ev=f('evCharger');var gen=sf*3;var sm=sf>3000?sf*1:0;var acW=ac*3500;var large=wh+dr+rng+ev;var total=gen+sm+acW+large;var amps=total/240;var panel=amps<=100?100:amps<=150?150:amps<=200?200:400;return{totalWatts:fmt(total,0)+' W',totalAmps:fmt(amps,0)+' A',panelSize:fmt(panel,0)+' amp panel'};",
+    "faqs": [
+      {
+        "q": "How do I calculate my home's electrical load?",
+        "a": "Home electrical load calculation starts with general lighting and receptacles at 3 watts per square foot of living space. Then add the nameplate wattage of all major appliances like AC, water heater, dryer, and range. The NEC allows demand factors that reduce the calculated load, since not all circuits run simultaneously."
+      },
+      {
+        "q": "What size electrical panel do I need?",
+        "a": "Most modern homes need a 200-amp electrical panel, which can handle typical loads including central AC, an electric range, and a dryer. Smaller homes under 1,500 sq ft with gas appliances may be fine with 100 or 150 amps. If you are adding an EV charger, hot tub, or workshop, you may need a 200-amp or 400-amp panel."
+      },
+      {
+        "q": "How much does it cost to upgrade an electrical panel?",
+        "a": "Upgrading from a 100-amp to a 200-amp electrical panel typically costs $1,500-$3,500 including permits and inspection. A 400-amp upgrade costs $3,000-$6,000 or more. The cost includes the new panel, breakers, labor, and often upgrading the service entrance cable from the utility meter."
+      },
+      {
+        "q": "Do I need to upgrade my panel for an EV charger?",
+        "a": "A Level 2 EV charger draws 30-50 amps, which can push a 100-amp panel past its capacity. If your current panel has available space and capacity, adding a 50-amp EV circuit is possible without an upgrade. An electrician can perform a load calculation to determine if your existing panel can handle the additional demand."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Typical Home Electrical Loads (watts)",
+      "data": [
+        { "label": "Lighting & Outlets", "value": 6000 },
+        { "label": "Central AC (3 ton)", "value": 10500 },
+        { "label": "Electric Range", "value": 12000 },
+        { "label": "Water Heater", "value": 4500 },
+        { "label": "Dryer", "value": 5000 },
+        { "label": "EV Charger L2", "value": 9600 }
+      ]
+    },
+    "howItWorksIntro": "This calculator estimates your home's total electrical load to help determine the required panel size.",
+    "howItWorksRules": [
+      "General lighting and receptacles: 3 watts per square foot",
+      "Central AC: approximately 3,500 watts per ton of cooling",
+      "Large appliance loads added at nameplate wattage",
+      "Panel size selected to exceed the total calculated amperage"
+    ],
+    "howItWorksOutro": "This is a simplified estimate. A licensed electrician should perform a full NEC Article 220 load calculation for panel sizing and permit applications.",
+    "relatedTools": ["breaker-sizing-calculator", "wire-size-calculator", "voltage-drop-calculator", "conduit-fill-calculator"]
+  },
+  {
+    "slug": "recessed-lighting-calculator",
+    "name": "Recessed Lighting Calculator",
+    "tagline": "Calculate the number and spacing of recessed lights for any room",
+    "category": "construction",
+    "color": "#b45309",
+    "colorDark": "#92400e",
+    "keywords": "recessed lighting layout, can light spacing, how many recessed lights",
+    "competition": "medium",
+    "rpm": "medium",
+    "priority": 3,
+    "inputs": [
+      { "id": "roomLength", "label": "Room Length (ft)", "default": "16", "step": "1" },
+      { "id": "roomWidth", "label": "Room Width (ft)", "default": "12", "step": "1" },
+      { "id": "ceilingHt", "label": "Ceiling Height (ft)", "default": "8", "step": "1" },
+      { "id": "lightSize", "label": "Light Size (inches: 4, 5, or 6)", "default": "6", "step": "1" }
+    ],
+    "results": [
+      { "id": "numLights", "label": "Lights Needed" },
+      { "id": "spacing", "label": "Recommended Spacing" },
+      { "id": "wattsTotal", "label": "Total Wattage (LED)" },
+      { "id": "estCost", "label": "Estimated Cost (lights + install)" }
+    ],
+    "calcJS": "var l=f('roomLength');var w=f('roomWidth');var ch=f('ceilingHt');var ls=f('lightSize');var sp=ch/2;var rows=Math.max(2,Math.round(w/sp));var cols=Math.max(2,Math.round(l/sp));var n=rows*cols;var watts=ls<=4?9:ls<=5?11:14;var totalW=n*watts;var costPer=ls<=4?25:ls<=5?30:35;var install=n*75;var total=n*costPer+install;return{numLights:fmt(n,0),spacing:fmt(l/cols,1)+'ft × '+fmt(w/rows,1)+'ft',wattsTotal:fmt(totalW,0)+' watts',estCost:$(total)};",
+    "faqs": [
+      {
+        "q": "How many recessed lights do I need?",
+        "a": "The general rule is to divide the ceiling height by 2 to get the recommended spacing in feet. For an 8-foot ceiling, lights should be about 4 feet apart. A 12×16 room with 8-foot ceilings would typically need 12 recessed lights arranged in a 3×4 grid pattern for even illumination."
+      },
+      {
+        "q": "What size recessed lights should I use?",
+        "a": "Six-inch recessed lights are the most popular for general room lighting and work well in rooms with 8-foot or higher ceilings. Four-inch lights are better for task lighting, accent lighting, or rooms with lower ceilings. Five-inch lights offer a good middle ground and are increasingly popular in modern home designs."
+      },
+      {
+        "q": "How far apart should recessed lights be?",
+        "a": "A common rule is to space recessed lights at half the ceiling height. For 8-foot ceilings, space lights 4 feet apart. For 10-foot ceilings, 5 feet apart works well. Keep lights at least 2-3 feet from walls to avoid harsh shadows, and adjust spacing based on the room's function and desired brightness."
+      },
+      {
+        "q": "How much does it cost to install recessed lighting?",
+        "a": "Professional installation costs $75-$150 per light for existing construction, including cutting the ceiling hole and running wiring. New construction costs less at $50-$75 per light since wiring is accessible. LED recessed lights cost $15-$40 each, with the total project for a room of 8-12 lights running $800-$2,000."
+      },
+      {
+        "q": "LED vs incandescent recessed lights?",
+        "a": "LED recessed lights use 75-80% less energy than incandescent equivalents and last 25,000-50,000 hours versus 1,000 hours. A 14-watt LED produces the same light as a 75-watt incandescent BR30 bulb. LED fixtures also produce less heat, which reduces cooling costs and is safer in insulated ceilings."
+      }
+    ],
+    "chart": {
+      "type": "bar",
+      "title": "Recessed Lights Needed by Room Size",
+      "data": [
+        { "label": "8×10 (80 sf)", "value": 4 },
+        { "label": "10×12 (120 sf)", "value": 6 },
+        { "label": "12×14 (168 sf)", "value": 9 },
+        { "label": "14×16 (224 sf)", "value": 12 },
+        { "label": "16×20 (320 sf)", "value": 16 }
+      ]
+    },
+    "howItWorksIntro": "This calculator determines the optimal number and spacing of recessed lights based on room dimensions and ceiling height.",
+    "howItWorksRules": [
+      "Recommended spacing = ceiling height ÷ 2",
+      "Rows and columns calculated from room dimensions ÷ spacing",
+      "LED wattage: 4-inch=9W, 5-inch=11W, 6-inch=14W",
+      "Installation cost averages $75 per light in existing construction"
+    ],
+    "howItWorksOutro": "Use IC-rated (insulation contact) fixtures if installing in an insulated ceiling. Consider adding a dimmer switch for flexibility in lighting levels.",
+    "relatedTools": ["breaker-sizing-calculator", "wire-size-calculator", "electrical-load-calculator", "electricity-cost-calculator"]
+  }
+]

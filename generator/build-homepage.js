@@ -49,7 +49,19 @@ const CATEGORY_META = {
   'shipping':            { name: 'Shipping',             slug: 'shipping-calculators',             icon: SVG('<rect x="1" y="6" width="15" height="12" rx="1"/><path d="M16 10h4l3 4v4h-7V10z"/><circle cx="5.5" cy="19.5" r="1.5"/><circle cx="18.5" cy="19.5" r="1.5"/>') },
   'printing':            { name: 'Printing',             slug: 'printing-calculators',             icon: SVG('<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>') },
   '3d-printing':         { name: '3D Printing',          slug: '3d-printing-calculators',          icon: SVG('<path d="M12 2l10 6v8l-10 6L2 16V8l10-6z"/><path d="M12 8l10 6"/><path d="M12 8L2 14"/><path d="M12 8v14"/>') },
-  'rv':                  { name: 'RV',                   slug: 'rv-calculators',                   icon: SVG('<rect x="1" y="8" width="18" height="10" rx="2"/><path d="M19 12h3l2 3v3h-5"/><circle cx="5" cy="19" r="1.5"/><circle cx="21" cy="19" r="1.5"/>') }
+  'rv':                  { name: 'RV',                   slug: 'rv-calculators',                   icon: SVG('<rect x="1" y="8" width="18" height="10" rx="2"/><path d="M19 12h3l2 3v3h-5"/><circle cx="5" cy="19" r="1.5"/><circle cx="21" cy="19" r="1.5"/>') },
+  'currency':            { name: 'Currency',              slug: 'currency-calculators',             icon: SVG('<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>') },
+  'precious-metals':     { name: 'Gold & Silver',         slug: 'precious-metals-calculators',      icon: SVG('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>') },
+  'ai-developer':        { name: 'AI & Dev Tools',        slug: 'ai-developer-calculators',         icon: SVG('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9l3 3-3 3"/><line x1="15" y1="15" x2="18" y2="15"/>') },
+  'economics':           { name: 'Economics',             slug: 'economics-calculators',            icon: SVG('<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>') },
+  'blockchain':          { name: 'Blockchain & DeFi',     slug: 'blockchain-calculators',           icon: SVG('<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v3"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/>') },
+  'food-beverage':       { name: 'Food & Drink',          slug: 'food-beverage-calculators',        icon: SVG('<path d="M17 8h1a4 4 0 010 8h-1"/><path d="M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>') },
+  'music':               { name: 'Music',                 slug: 'music-calculators',                icon: SVG('<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>') },
+  'diy-home':            { name: 'DIY & Home',            slug: 'diy-home-calculators',             icon: SVG('<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>') },
+  'travel':              { name: 'Travel',                slug: 'travel-calculators',               icon: SVG('<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>') },
+  'gaming':              { name: 'Gaming',                slug: 'gaming-calculators',               icon: SVG('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/>') },
+  'electrical':          { name: 'Electrical',            slug: 'electrical-calculators',           icon: SVG('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>') },
+  'plumbing':            { name: 'Plumbing',              slug: 'plumbing-calculators',             icon: SVG('<path d="M6 12h6"/><path d="M12 6v12"/><circle cx="12" cy="12" r="10"/>') }
 };
 
 function main() {
@@ -72,6 +84,34 @@ function main() {
     return { n: t.toolName, s: t.slug, c: catLabel };
   });
   const toolIndexJSON = JSON.stringify(toolIndex);
+
+  // Popular tools - the 20 highest-traffic tools
+  const POPULAR_TOOLS = [
+    { slug: 'net-worth-percentile-calculator', name: 'Net Worth Percentile Calculator', tag: 'Where do you rank?', badge: 'viral', badgeText: 'Viral' },
+    { slug: 'salary-after-tax-calculator', name: 'Salary After Tax Calculator', tag: 'Take-home pay by state', badge: 'high-rpm', badgeText: 'High Value' },
+    { slug: 'mortgage-affordability-calculator', name: 'Mortgage Affordability Calculator', tag: 'How much house can you afford?', badge: 'high-rpm', badgeText: 'High Value' },
+    { slug: 'rent-vs-buy-calculator', name: 'Rent vs Buy Calculator', tag: 'The big decision', badge: 'high-rpm', badgeText: 'High Value' },
+    { slug: 'property-tax-calculator', name: 'Property Tax Calculator', tag: 'By state comparison', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'concrete-calculator', name: 'Concrete Calculator', tag: 'Bags, yards & cost', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'gravel-calculator', name: 'Gravel & Fill Calculator', tag: 'Driveways, paths & more', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'deck-material-calculator', name: 'Deck Material Calculator', tag: 'Boards, joists & cost', badge: 'high-rpm', badgeText: 'High Value' },
+    { slug: 'paint-coverage-calculator', name: 'Paint Coverage Calculator', tag: 'Gallons for any room', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'roof-pitch-calculator', name: 'Roof Pitch Calculator', tag: 'Angle, ratio & area', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'irs-audit-probability-calculator', name: 'IRS Audit Probability Calculator', tag: 'What are your odds?', badge: 'viral', badgeText: 'Viral' },
+    { slug: 'ai-job-replacement-risk-calculator', name: 'AI Job Replacement Risk', tag: 'Will AI take your job?', badge: 'viral', badgeText: 'Viral' },
+    { slug: 'billionaire-wealth-comparison', name: 'Billionaire Wealth Comparison', tag: 'How rich is too rich?', badge: 'viral', badgeText: 'Viral' },
+    { slug: 'nuclear-blast-radius-calculator', name: 'Nuclear Blast Radius Calculator', tag: 'Destruction mapped', badge: 'viral', badgeText: 'Viral' },
+    { slug: 'cost-of-living-comparison', name: 'Cost of Living Comparison', tag: 'City vs city', badge: 'high-rpm', badgeText: 'High Value' },
+    { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator', tag: 'Watch your money grow', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'loan-payment-calculator', name: 'Loan Payment Calculator', tag: 'Monthly payments & more', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'inflation-calculator', name: 'Inflation Calculator', tag: 'Purchasing power over time', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'body-fat-calculator', name: 'Body Fat Calculator', tag: 'Navy method estimate', badge: 'evergreen', badgeText: 'Evergreen' },
+    { slug: 'biological-age-calculator', name: 'Biological Age Calculator', tag: 'Your real age revealed', badge: 'viral', badgeText: 'Viral' }
+  ];
+
+  const popCards = POPULAR_TOOLS.map((t, i) => {
+    return `<a href="/${t.slug}/" class="pop-card"><span class="pop-rank">${i + 1}</span><div class="pop-info"><div class="pop-name">${t.name}</div><div class="pop-tag">${t.tag}</div></div><span class="pop-badge ${t.badge}">${t.badgeText}</span></a>`;
+  }).join('\n      ');
 
   // Build category grid
   const catCards = Object.keys(CATEGORY_META)
@@ -210,6 +250,22 @@ main{padding:48px 0 64px}
 .search-dropdown .search-no-results{padding:24px 18px;text-align:center;color:var(--text-light);font-size:0.88rem}
 .search-dropdown .search-hint{padding:10px 18px;font-size:0.72rem;color:var(--text-light);border-top:1px solid var(--cream-dark);text-align:center;font-weight:500}
 
+/* Popular Tools */
+.popular-section{margin-bottom:48px}
+.popular-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.pop-card{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:1px solid rgba(0,0,0,0.04);transition:all 0.2s ease;position:relative;overflow:hidden}
+.pop-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--coral);transform:scaleY(0);transition:transform 0.2s ease;transform-origin:bottom}
+.pop-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(28,25,23,0.1);border-color:rgba(0,0,0,0.08)}
+.pop-card:hover::before{transform:scaleY(1)}
+.pop-rank{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:50%;flex-shrink:0;font-family:var(--font-display);font-size:0.72rem;font-weight:800;color:var(--coral)}
+.pop-info{flex:1;min-width:0}
+.pop-name{font-family:var(--font-display);font-weight:700;font-size:0.88rem;letter-spacing:-0.2px;line-height:1.3}
+.pop-tag{font-size:0.72rem;color:var(--text-light);margin-top:2px}
+.pop-badge{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;flex-shrink:0;white-space:nowrap}
+.pop-badge.high-rpm{background:rgba(37,99,235,0.08);color:#2563eb}
+.pop-badge.viral{background:rgba(230,57,70,0.08);color:var(--coral)}
+.pop-badge.evergreen{background:rgba(5,150,105,0.08);color:#059669}
+
 /* Footer */
 footer{background:var(--navy);padding:36px 0;text-align:center;font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:16px}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
@@ -280,6 +336,16 @@ footer a:hover{color:#fff}
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input type="text" class="search-input" id="toolSearch" placeholder="Search ${totalTools}+ calculators\u2026" autocomplete="off">
     <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+
+  <div class="popular-section">
+    <div class="section-header">
+      <h2 class="section-title">Popular Tools</h2>
+      <span class="section-count">Top 20 most useful</span>
+    </div>
+    <div class="popular-grid">
+      ${popCards}
+    </div>
   </div>
 
   <div class="section-header">

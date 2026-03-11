@@ -1,0 +1,29 @@
+(function() {
+  'use strict';
+
+  var calcBtn = document.getElementById('calcBtn');
+  var resultEl = document.getElementById('result');
+
+  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function dollar(n) { return '$' + fmt(n, 2); }
+  function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
+
+  function calculate() {
+    var stressLevel = parseFloat(document.getElementById('stressLevel').value) || 0;
+    var duration = document.getElementById('duration').value;
+    var copingTools = document.getElementById('copingTools').value;
+
+    // Calculation logic
+    var baseDays = {'Acute (hours)': 1, 'Short-term (days)': 7, 'Chronic (weeks/months)': 30}; var base = baseDays[duration] || 7; var severityMult = stressLevel / 5; var copingMult = {'Many (exercise, therapy, support)': 0.6, 'Some (1-2 methods)': 1, 'Few (limited resources)': 1.5}; var recoveryDays = Math.ceil(base * severityMult * (copingMult[copingTools] || 1)); var priority = stressLevel >= 7 ? 'Seek professional support, prioritize sleep and movement' : 'Focus on rest, social connection, and routine'; return {recoveryDays: fmt(recoveryDays,0), priority: priority};
+
+    resultEl.classList.add('visible');
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  ['stressLevel', 'duration', 'copingTools'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  });
+})();

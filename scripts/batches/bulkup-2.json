@@ -1,0 +1,1623 @@
+[
+  {
+    "slug": "crop-yield-per-acre-calculator",
+    "toolName": "Crop Yield Per Acre Calculator",
+    "category": "agriculture",
+    "tagline": "Estimate expected crop yield based on acreage and conditions",
+    "keywords": "crop yield calculator, yield per acre, bushels per acre, harvest estimator",
+    "relatedTools": ["fertilizer-cost-per-acre-calculator", "irrigation-water-usage-calculator", "grain-storage-cost-calculator"],
+    "inputs": [
+      {"id": "acres", "label": "Field Size", "default": 100, "unit": "acres"},
+      {"id": "baseYield", "label": "Base Yield", "default": 180, "unit": "bu/acre"},
+      {"id": "soilFactor", "label": "Soil Quality Factor", "default": "1.0", "options": [{"value":"0.7","label":"Poor (0.7)"},{"value":"0.85","label":"Below Avg (0.85)"},{"value":"1.0","label":"Average (1.0)"},{"value":"1.1","label":"Good (1.1)"},{"value":"1.2","label":"Excellent (1.2)"}]},
+      {"id": "weatherFactor", "label": "Weather Adjustment", "default": "1.0", "options": [{"value":"0.6","label":"Drought (0.6)"},{"value":"0.8","label":"Below Normal (0.8)"},{"value":"1.0","label":"Normal (1.0)"},{"value":"1.1","label":"Ideal (1.1)"}]}
+    ],
+    "results": [
+      {"id": "yieldPerAcre", "label": "Adjusted Yield/Acre"},
+      {"id": "totalYield", "label": "Total Yield"},
+      {"id": "totalTons", "label": "Approx. Weight"}
+    ],
+    "calcFn": "var sf = parseFloat(soilFactor); var wf = parseFloat(weatherFactor); var adjYield = baseYield * sf * wf; var total = adjYield * acres; var tons = total * 56 / 2000; document.getElementById('yieldPerAcre').textContent = fmt(adjYield, 1) + ' bu/acre'; document.getElementById('totalYield').textContent = fmt(total, 0) + ' bushels'; document.getElementById('totalTons').textContent = fmt(tons, 1) + ' tons';",
+    "formulas": ["Adjusted Yield = Base Yield x Soil Factor x Weather Factor", "Total Yield = Adjusted Yield x Acres"],
+    "faq": [
+      {"question": "What is a good corn yield per acre?", "answer": "The U.S. national average corn yield is roughly 175-180 bushels per acre. Top producers in Iowa and Illinois often exceed 200 bu/acre with optimal conditions, while dryland farms in drier regions may average 120-150 bu/acre."},
+      {"question": "How do soil and weather affect crop yield?", "answer": "Soil quality (organic matter, drainage, pH) can swing yields 20-30%. Weather during pollination is critical — drought stress at tasseling can cut corn yields by 40% or more. Excessive rain causes root issues and disease pressure."}
+    ]
+  },
+  {
+    "slug": "irrigation-water-usage-calculator",
+    "toolName": "Irrigation Water Usage Calculator",
+    "category": "agriculture",
+    "tagline": "Calculate water needs per acre for your crop",
+    "keywords": "irrigation calculator, water usage per acre, crop water needs, irrigation cost",
+    "relatedTools": ["crop-yield-per-acre-calculator", "fertilizer-cost-per-acre-calculator", "farm-equipment-depreciation-calculator"],
+    "inputs": [
+      {"id": "acres", "label": "Field Size", "default": 80, "unit": "acres"},
+      {"id": "cropET", "label": "Crop Water Need", "default": 24, "unit": "inches/season"},
+      {"id": "rainfall", "label": "Expected Rainfall", "default": 10, "unit": "inches/season"},
+      {"id": "efficiency", "label": "System Efficiency", "default": "0.85", "options": [{"value":"0.60","label":"Flood (60%)"},{"value":"0.75","label":"Sprinkler (75%)"},{"value":"0.85","label":"Center Pivot (85%)"},{"value":"0.95","label":"Drip (95%)"}]},
+      {"id": "waterCost", "label": "Water Cost", "default": 25, "unit": "$/acre-ft"}
+    ],
+    "results": [
+      {"id": "netNeed", "label": "Net Irrigation Need"},
+      {"id": "grossNeed", "label": "Gross Water Required"},
+      {"id": "totalGallons", "label": "Total Gallons"},
+      {"id": "totalCost", "label": "Total Water Cost"}
+    ],
+    "calcFn": "var eff = parseFloat(efficiency); var net = Math.max(0, cropET - rainfall); var gross = net / eff; var acreFeet = (gross / 12) * acres; var gallons = acreFeet * 325851; var cost = acreFeet * waterCost; document.getElementById('netNeed').textContent = fmt(net, 1) + ' in/season'; document.getElementById('grossNeed').textContent = fmt(gross, 1) + ' in/season'; document.getElementById('totalGallons').textContent = fmt(gallons, 0) + ' gal'; document.getElementById('totalCost').textContent = dollar(cost);",
+    "formulas": ["Net Irrigation = Crop ET - Effective Rainfall", "Gross Irrigation = Net Irrigation / System Efficiency", "Acre-Feet = (Gross Inches / 12) x Acres"],
+    "faq": [
+      {"question": "How much water does corn need per season?", "answer": "Corn typically requires 20-28 inches of water per growing season. Peak demand during tasseling and silking can reach 0.35 inches per day. Soybeans need 18-22 inches, and wheat needs 15-20 inches."},
+      {"question": "What irrigation method is most efficient?", "answer": "Drip irrigation is the most efficient at 90-95%, followed by center pivot at 80-90%, sprinkler at 70-80%, and flood irrigation at 50-65%. However, drip systems have higher installation costs and are mainly used for high-value crops."}
+    ]
+  },
+  {
+    "slug": "fertilizer-cost-per-acre-calculator",
+    "toolName": "Fertilizer Cost Per Acre Calculator",
+    "category": "agriculture",
+    "tagline": "Budget your fertilizer costs by nutrient needs",
+    "keywords": "fertilizer cost calculator, fertilizer per acre, NPK cost, crop fertilizer budget",
+    "relatedTools": ["crop-yield-per-acre-calculator", "irrigation-water-usage-calculator", "livestock-feed-cost-calculator"],
+    "inputs": [
+      {"id": "acres", "label": "Field Size", "default": 100, "unit": "acres"},
+      {"id": "nRate", "label": "Nitrogen Rate", "default": 180, "unit": "lbs N/acre"},
+      {"id": "nCost", "label": "Nitrogen Cost", "default": 0.55, "unit": "$/lb N"},
+      {"id": "pRate", "label": "Phosphorus Rate", "default": 60, "unit": "lbs P2O5/acre"},
+      {"id": "pCost", "label": "Phosphorus Cost", "default": 0.52, "unit": "$/lb P2O5"},
+      {"id": "kRate", "label": "Potassium Rate", "default": 80, "unit": "lbs K2O/acre"},
+      {"id": "kCost", "label": "Potassium Cost", "default": 0.38, "unit": "$/lb K2O"}
+    ],
+    "results": [
+      {"id": "nTotal", "label": "Nitrogen Cost/Acre"},
+      {"id": "pTotal", "label": "Phosphorus Cost/Acre"},
+      {"id": "kTotal", "label": "Potassium Cost/Acre"},
+      {"id": "perAcre", "label": "Total Fertilizer/Acre"},
+      {"id": "grandTotal", "label": "Total Field Cost"}
+    ],
+    "calcFn": "var nc = nRate * nCost; var pc = pRate * pCost; var kc = kRate * kCost; var pa = nc + pc + kc; var gt = pa * acres; document.getElementById('nTotal').textContent = dollar(nc); document.getElementById('pTotal').textContent = dollar(pc); document.getElementById('kTotal').textContent = dollar(kc); document.getElementById('perAcre').textContent = dollar(pa); document.getElementById('grandTotal').textContent = dollar(gt);",
+    "formulas": ["Cost per Acre = (N lbs x N price) + (P lbs x P price) + (K lbs x K price)", "Total Cost = Cost per Acre x Acres"],
+    "faq": [
+      {"question": "How much nitrogen does corn need?", "answer": "Corn typically requires 1.0-1.2 lbs of nitrogen per bushel of expected yield. For a 200 bu/acre target, that is 200-240 lbs N/acre. Credit nitrogen from previous legume crops (soybean credit is typically 40-50 lbs N/acre)."},
+      {"question": "What is the most expensive fertilizer nutrient?", "answer": "Nitrogen is typically the largest fertilizer expense, representing 50-65% of total fertilizer cost for corn. Prices fluctuate with natural gas costs since most N fertilizer is synthesized using the Haber-Bosch process."}
+    ]
+  },
+  {
+    "slug": "livestock-feed-cost-calculator",
+    "toolName": "Livestock Feed Cost Calculator",
+    "category": "agriculture",
+    "tagline": "Calculate daily and monthly feed costs per head",
+    "keywords": "livestock feed cost, cattle feed calculator, feed cost per head, animal feed budget",
+    "relatedTools": ["crop-yield-per-acre-calculator", "fertilizer-cost-per-acre-calculator", "grain-storage-cost-calculator"],
+    "inputs": [
+      {"id": "headCount", "label": "Number of Head", "default": 50, "unit": "animals"},
+      {"id": "dailyFeed", "label": "Feed Per Head/Day", "default": 25, "unit": "lbs"},
+      {"id": "feedPrice", "label": "Feed Price", "default": 280, "unit": "$/ton"},
+      {"id": "days", "label": "Feeding Period", "default": 120, "unit": "days"},
+      {"id": "supplement", "label": "Supplement/Head/Day", "default": 0.50, "unit": "$"}
+    ],
+    "results": [
+      {"id": "dailyCostHead", "label": "Feed Cost/Head/Day"},
+      {"id": "totalDaily", "label": "Total Daily Cost"},
+      {"id": "periodCostHead", "label": "Period Cost/Head"},
+      {"id": "grandTotal", "label": "Total Period Cost"}
+    ],
+    "calcFn": "var costPerLb = feedPrice / 2000; var dailyFeedCost = dailyFeed * costPerLb + supplement; var totalDailyCost = dailyFeedCost * headCount; var periodHead = dailyFeedCost * days; var grand = periodHead * headCount; document.getElementById('dailyCostHead').textContent = dollar(dailyFeedCost); document.getElementById('totalDaily').textContent = dollar(totalDailyCost); document.getElementById('periodCostHead').textContent = dollar(periodHead); document.getElementById('grandTotal').textContent = dollar(grand);",
+    "formulas": ["Daily Feed Cost/Head = (Daily lbs x Price per lb) + Supplement", "Total Cost = Daily Cost/Head x Head Count x Days"],
+    "faq": [
+      {"question": "How much does it cost to feed a cow per day?", "answer": "Feed costs for beef cattle range from $2.50 to $5.00 per head per day depending on feed prices and ration. Dairy cows consuming a TMR (total mixed ration) may cost $6-10/day. Feed typically represents 60-70% of total production cost."},
+      {"question": "How many pounds of feed does a beef cow eat daily?", "answer": "Cattle eat roughly 2-3% of their body weight daily in dry matter. A 1,200 lb cow eats 24-36 lbs/day. Finishing cattle on high-energy rations may eat 25-30 lbs, while cows on hay may eat 26-30 lbs of as-fed hay."}
+    ]
+  },
+  {
+    "slug": "farm-equipment-depreciation-calculator",
+    "toolName": "Farm Equipment Depreciation Calculator",
+    "category": "agriculture",
+    "tagline": "Estimate annual depreciation on farm machinery",
+    "keywords": "farm equipment depreciation, tractor depreciation, machinery cost calculator, equipment value loss",
+    "relatedTools": ["crop-yield-per-acre-calculator", "fertilizer-cost-per-acre-calculator", "livestock-feed-cost-calculator"],
+    "inputs": [
+      {"id": "purchasePrice", "label": "Purchase Price", "default": 150000, "unit": "$"},
+      {"id": "salvageValue", "label": "Salvage Value", "default": 30000, "unit": "$"},
+      {"id": "usefulLife", "label": "Useful Life", "default": 10, "unit": "years"},
+      {"id": "hoursPerYear", "label": "Hours Used/Year", "default": 500, "unit": "hrs"}
+    ],
+    "results": [
+      {"id": "annualDepr", "label": "Annual Depreciation"},
+      {"id": "hourlyDepr", "label": "Depreciation/Hour"},
+      {"id": "bookValue5", "label": "Book Value at Year 5"},
+      {"id": "totalDepr", "label": "Total Depreciation"}
+    ],
+    "calcFn": "var totalDepr = purchasePrice - salvageValue; var annual = totalDepr / usefulLife; var hourly = annual / hoursPerYear; var bv5 = Math.max(salvageValue, purchasePrice - (annual * 5)); document.getElementById('annualDepr').textContent = dollar(annual); document.getElementById('hourlyDepr').textContent = dollar(hourly); document.getElementById('bookValue5').textContent = dollar(bv5); document.getElementById('totalDepr').textContent = dollar(totalDepr);",
+    "formulas": ["Annual Depreciation = (Purchase Price - Salvage Value) / Useful Life", "Hourly Cost = Annual Depreciation / Hours per Year"],
+    "faq": [
+      {"question": "What is the typical useful life of a tractor?", "answer": "Farm tractors typically have a useful life of 10,000-15,000 hours or 12-20 years. A tractor used 500 hours/year lasts about 20 years. Combines are typically 10-15 years due to higher wear. Salvage value is usually 10-20% of purchase price."},
+      {"question": "Can I use Section 179 for farm equipment?", "answer": "Yes. Section 179 allows farmers to deduct the full purchase price of qualifying equipment in the year of purchase rather than depreciating over time. The 2024 limit is $1,220,000. This can significantly reduce tax liability in high-income years."}
+    ]
+  },
+  {
+    "slug": "grain-storage-cost-calculator",
+    "toolName": "Grain Storage Cost Calculator",
+    "category": "agriculture",
+    "tagline": "Calculate the cost of storing grain on-farm or commercially",
+    "keywords": "grain storage cost, bin storage calculator, grain elevator cost, on-farm storage",
+    "relatedTools": ["crop-yield-per-acre-calculator", "livestock-feed-cost-calculator", "farm-equipment-depreciation-calculator"],
+    "inputs": [
+      {"id": "bushels", "label": "Bushels to Store", "default": 50000, "unit": "bushels"},
+      {"id": "months", "label": "Storage Duration", "default": 6, "unit": "months"},
+      {"id": "storageRate", "label": "Storage Rate", "default": 0.04, "unit": "$/bu/month"},
+      {"id": "dryingCost", "label": "Drying Cost", "default": 0.05, "unit": "$/bu/point"},
+      {"id": "moisturePoints", "label": "Moisture Points to Remove", "default": 5, "unit": "points"}
+    ],
+    "results": [
+      {"id": "storageCost", "label": "Total Storage Cost"},
+      {"id": "dryingTotal", "label": "Total Drying Cost"},
+      {"id": "totalCost", "label": "Combined Cost"},
+      {"id": "costPerBu", "label": "Total Cost/Bushel"}
+    ],
+    "calcFn": "var sc = bushels * storageRate * months; var dc = bushels * dryingCost * moisturePoints; var tc = sc + dc; var cpb = tc / bushels; document.getElementById('storageCost').textContent = dollar(sc); document.getElementById('dryingTotal').textContent = dollar(dc); document.getElementById('totalCost').textContent = dollar(tc); document.getElementById('costPerBu').textContent = dollar(cpb);",
+    "formulas": ["Storage Cost = Bushels x Rate x Months", "Drying Cost = Bushels x Cost/Point x Moisture Points Removed"],
+    "faq": [
+      {"question": "Is on-farm grain storage worth the investment?", "answer": "On-farm storage typically costs $1.50-2.50/bushel in bin construction but saves $0.03-0.06/bu/month vs. commercial rates. With a 50,000 bu bin, breakeven is often 7-10 years. The marketing flexibility to sell when prices peak often justifies the investment."},
+      {"question": "How much does commercial grain storage cost?", "answer": "Commercial elevator storage runs $0.03-0.06 per bushel per month, plus receiving/handling charges of $0.10-0.25/bu. Drying fees are $0.03-0.06 per bushel per point of moisture removed. Total costs for 6 months of storage with drying can reach $0.50-0.75/bu."}
+    ]
+  },
+  {
+    "slug": "crypto-tax-calculator",
+    "toolName": "Crypto Tax Calculator",
+    "category": "crypto",
+    "tagline": "Estimate capital gains tax on cryptocurrency trades",
+    "keywords": "crypto tax calculator, bitcoin capital gains, cryptocurrency tax, crypto profit tax",
+    "relatedTools": ["staking-reward-calculator", "crypto-portfolio-rebalance-calculator", "mining-electricity-cost-calculator"],
+    "inputs": [
+      {"id": "purchasePrice", "label": "Purchase Price", "default": 25000, "unit": "$"},
+      {"id": "salePrice", "label": "Sale Price", "default": 65000, "unit": "$"},
+      {"id": "quantity", "label": "Quantity", "default": 1.5, "unit": "coins"},
+      {"id": "holdPeriod", "label": "Holding Period", "default": "long", "options": [{"value":"short","label":"Short-Term (< 1 year)"},{"value":"long","label":"Long-Term (> 1 year)"}]},
+      {"id": "taxBracket", "label": "Income Tax Bracket", "default": "0.24", "options": [{"value":"0.10","label":"10%"},{"value":"0.12","label":"12%"},{"value":"0.22","label":"22%"},{"value":"0.24","label":"24%"},{"value":"0.32","label":"32%"},{"value":"0.35","label":"35%"},{"value":"0.37","label":"37%"}]}
+    ],
+    "results": [
+      {"id": "totalCost", "label": "Total Cost Basis"},
+      {"id": "totalProceeds", "label": "Total Proceeds"},
+      {"id": "capitalGain", "label": "Capital Gain"},
+      {"id": "taxOwed", "label": "Estimated Tax"}
+    ],
+    "calcFn": "var cost = purchasePrice * quantity; var proceeds = salePrice * quantity; var gain = proceeds - cost; var rate = holdPeriod === 'long' ? Math.min(parseFloat(taxBracket), 0.20) : parseFloat(taxBracket); var tax = Math.max(0, gain * rate); document.getElementById('totalCost').textContent = dollar(cost); document.getElementById('totalProceeds').textContent = dollar(proceeds); document.getElementById('capitalGain').textContent = dollar(gain); document.getElementById('taxOwed').textContent = dollar(tax);",
+    "formulas": ["Capital Gain = (Sale Price - Purchase Price) x Quantity", "Short-term tax = Gain x Ordinary Income Rate", "Long-term tax = Gain x Capital Gains Rate (0%, 15%, or 20%)"],
+    "faq": [
+      {"question": "How is cryptocurrency taxed?", "answer": "The IRS treats crypto as property. Selling, trading, or spending crypto triggers a taxable event. Short-term gains (held < 1 year) are taxed as ordinary income (10-37%). Long-term gains (held > 1 year) get preferential rates of 0%, 15%, or 20%."},
+      {"question": "Do I owe tax on crypto-to-crypto trades?", "answer": "Yes. Swapping one cryptocurrency for another (e.g., BTC to ETH) is a taxable event. You must calculate gain/loss based on the fair market value at the time of trade. This applies even if you never converted to USD."}
+    ]
+  },
+  {
+    "slug": "mining-electricity-cost-calculator",
+    "toolName": "Mining Electricity Cost Calculator",
+    "category": "crypto",
+    "tagline": "Calculate electricity costs for cryptocurrency mining",
+    "keywords": "crypto mining electricity, mining power cost, bitcoin mining cost, mining profitability",
+    "relatedTools": ["crypto-tax-calculator", "staking-reward-calculator", "gas-fee-optimizer-calculator"],
+    "inputs": [
+      {"id": "hashRate", "label": "Hash Rate", "default": 110, "unit": "TH/s"},
+      {"id": "powerDraw", "label": "Power Consumption", "default": 3250, "unit": "watts"},
+      {"id": "electricityRate", "label": "Electricity Rate", "default": 0.10, "unit": "$/kWh"},
+      {"id": "btcPrice", "label": "BTC Price", "default": 65000, "unit": "$"},
+      {"id": "dailyBTC", "label": "Est. Daily BTC Earned", "default": 0.00025, "unit": "BTC"}
+    ],
+    "results": [
+      {"id": "dailyPower", "label": "Daily Power Cost"},
+      {"id": "monthlyPower", "label": "Monthly Power Cost"},
+      {"id": "dailyRevenue", "label": "Daily Revenue"},
+      {"id": "monthlyProfit", "label": "Monthly Profit/Loss"}
+    ],
+    "calcFn": "var dailyKWh = powerDraw * 24 / 1000; var dailyCost = dailyKWh * electricityRate; var monthlyCost = dailyCost * 30; var dailyRev = dailyBTC * btcPrice; var monthlyRev = dailyRev * 30; var monthlyProfit = monthlyRev - monthlyCost; document.getElementById('dailyPower').textContent = dollar(dailyCost); document.getElementById('monthlyPower').textContent = dollar(monthlyCost); document.getElementById('dailyRevenue').textContent = dollar(dailyRev); document.getElementById('monthlyProfit').textContent = dollar(monthlyProfit);",
+    "formulas": ["Daily kWh = Watts x 24 / 1000", "Daily Cost = kWh x Electricity Rate", "Profit = (Daily BTC x BTC Price) - Daily Power Cost"],
+    "faq": [
+      {"question": "How much electricity does a Bitcoin miner use?", "answer": "Modern ASIC miners like the Antminer S21 draw 3,000-3,500 watts and produce 100-200 TH/s. Running 24/7, that is 72-84 kWh per day or about 2,200-2,500 kWh per month. At $0.10/kWh, monthly electricity runs $220-250 per unit."},
+      {"question": "What electricity rate makes mining profitable?", "answer": "Profitability depends heavily on BTC price and network difficulty. Generally, rates below $0.07/kWh are competitive for Bitcoin mining. Industrial miners often locate near cheap hydroelectric or stranded natural gas at $0.03-0.05/kWh."}
+    ]
+  },
+  {
+    "slug": "staking-reward-calculator",
+    "toolName": "Staking Reward Calculator",
+    "category": "crypto",
+    "tagline": "Calculate returns from staking cryptocurrency",
+    "keywords": "staking rewards calculator, crypto staking APY, proof of stake returns, staking yield",
+    "relatedTools": ["crypto-tax-calculator", "crypto-portfolio-rebalance-calculator", "mining-electricity-cost-calculator"],
+    "inputs": [
+      {"id": "stakedAmount", "label": "Amount Staked", "default": 10000, "unit": "$"},
+      {"id": "apy", "label": "Staking APY", "default": 5.5, "unit": "%"},
+      {"id": "stakingPeriod", "label": "Staking Period", "default": 12, "unit": "months"},
+      {"id": "compounding", "label": "Compounding", "default": "monthly", "options": [{"value":"none","label":"No Compounding"},{"value":"monthly","label":"Monthly"},{"value":"daily","label":"Daily"}]}
+    ],
+    "results": [
+      {"id": "totalReward", "label": "Total Rewards"},
+      {"id": "effectiveAPY", "label": "Effective APY"},
+      {"id": "finalValue", "label": "Final Value"},
+      {"id": "monthlyReward", "label": "Avg Monthly Reward"}
+    ],
+    "calcFn": "var rate = apy / 100; var periods = stakingPeriod; var finalVal; if (compounding === 'daily') { finalVal = stakedAmount * Math.pow(1 + rate/365, periods * 30.44); } else if (compounding === 'monthly') { finalVal = stakedAmount * Math.pow(1 + rate/12, periods); } else { finalVal = stakedAmount * (1 + rate * periods / 12); } var reward = finalVal - stakedAmount; var effAPY = (Math.pow(finalVal / stakedAmount, 12/periods) - 1) * 100; var monthly = reward / periods; document.getElementById('totalReward').textContent = dollar(reward); document.getElementById('effectiveAPY').textContent = fmt(effAPY, 2) + '%'; document.getElementById('finalValue').textContent = dollar(finalVal); document.getElementById('monthlyReward').textContent = dollar(monthly);",
+    "formulas": ["Compound Return = Principal x (1 + APY/n)^(n*t)", "Simple Return = Principal x APY x Time"],
+    "faq": [
+      {"question": "What is a good staking APY?", "answer": "Staking APYs vary widely. Ethereum staking yields about 3-5% APY. Other networks offer higher rates: Cosmos 15-20%, Polkadot 10-14%, Solana 6-8%. Very high APYs (50%+) often come with high inflation that dilutes token value."},
+      {"question": "Are staking rewards taxable?", "answer": "Yes. The IRS considers staking rewards as ordinary income, taxable when received at fair market value. When you later sell staked tokens, you also owe capital gains tax on any price appreciation from the income recognition date."}
+    ]
+  },
+  {
+    "slug": "crypto-portfolio-rebalance-calculator",
+    "toolName": "Crypto Portfolio Rebalance Calculator",
+    "category": "crypto",
+    "tagline": "Calculate trades needed to rebalance your crypto portfolio",
+    "keywords": "crypto portfolio rebalance, portfolio allocation, crypto rebalancing, portfolio weights",
+    "relatedTools": ["crypto-tax-calculator", "staking-reward-calculator", "gas-fee-optimizer-calculator"],
+    "inputs": [
+      {"id": "totalValue", "label": "Total Portfolio Value", "default": 50000, "unit": "$"},
+      {"id": "btcCurrent", "label": "Current BTC %", "default": 60, "unit": "%"},
+      {"id": "ethCurrent", "label": "Current ETH %", "default": 25, "unit": "%"},
+      {"id": "altCurrent", "label": "Current Alt %", "default": 15, "unit": "%"},
+      {"id": "btcTarget", "label": "Target BTC %", "default": 50, "unit": "%"},
+      {"id": "ethTarget", "label": "Target ETH %", "default": 30, "unit": "%"},
+      {"id": "altTarget", "label": "Target Alt %", "default": 20, "unit": "%"}
+    ],
+    "results": [
+      {"id": "btcTrade", "label": "BTC Trade"},
+      {"id": "ethTrade", "label": "ETH Trade"},
+      {"id": "altTrade", "label": "Alt Trade"},
+      {"id": "totalTraded", "label": "Total Volume Traded"}
+    ],
+    "calcFn": "var btcDiff = (btcTarget - btcCurrent) / 100 * totalValue; var ethDiff = (ethTarget - ethCurrent) / 100 * totalValue; var altDiff = (altTarget - altCurrent) / 100 * totalValue; var totalTrade = (Math.abs(btcDiff) + Math.abs(ethDiff) + Math.abs(altDiff)) / 2; document.getElementById('btcTrade').textContent = (btcDiff >= 0 ? 'Buy ' : 'Sell ') + dollar(Math.abs(btcDiff)); document.getElementById('ethTrade').textContent = (ethDiff >= 0 ? 'Buy ' : 'Sell ') + dollar(Math.abs(ethDiff)); document.getElementById('altTrade').textContent = (altDiff >= 0 ? 'Buy ' : 'Sell ') + dollar(Math.abs(altDiff)); document.getElementById('totalTraded').textContent = dollar(totalTrade);",
+    "formulas": ["Trade Amount = (Target % - Current %) x Portfolio Value", "Total Traded = Sum of absolute trades / 2"],
+    "faq": [
+      {"question": "How often should I rebalance my crypto portfolio?", "answer": "Most strategies rebalance monthly, quarterly, or when allocations drift more than 5% from targets. Frequent rebalancing incurs more fees and tax events. Threshold-based rebalancing (only when drift exceeds 5-10%) is often more efficient."},
+      {"question": "Does rebalancing improve returns?", "answer": "Rebalancing primarily manages risk by preventing overexposure to volatile assets. It forces a buy-low-sell-high discipline. Studies show rebalancing can improve risk-adjusted returns by 0.5-1.5% annually in diversified portfolios."}
+    ]
+  },
+  {
+    "slug": "gas-fee-optimizer-calculator",
+    "toolName": "Gas Fee Optimizer Calculator",
+    "category": "crypto",
+    "tagline": "Estimate and optimize Ethereum gas fees for transactions",
+    "keywords": "gas fee calculator, ethereum gas cost, gwei calculator, eth transaction cost",
+    "relatedTools": ["crypto-tax-calculator", "crypto-portfolio-rebalance-calculator", "staking-reward-calculator"],
+    "inputs": [
+      {"id": "gasLimit", "label": "Gas Limit", "default": 21000, "unit": "gas"},
+      {"id": "gasPrice", "label": "Gas Price", "default": 25, "unit": "gwei"},
+      {"id": "ethPrice", "label": "ETH Price", "default": 3500, "unit": "$"},
+      {"id": "txValue", "label": "Transaction Value", "default": 1000, "unit": "$"}
+    ],
+    "results": [
+      {"id": "feeETH", "label": "Fee in ETH"},
+      {"id": "feeUSD", "label": "Fee in USD"},
+      {"id": "feePct", "label": "Fee as % of Value"},
+      {"id": "savingsLow", "label": "Savings at Low Gas"}
+    ],
+    "calcFn": "var feeWei = gasLimit * gasPrice; var feeETHval = feeWei / 1e9; var feeUSDval = feeETHval * ethPrice; var feePctVal = (feeUSDval / txValue) * 100; var lowFee = gasLimit * 10 / 1e9 * ethPrice; var savings = feeUSDval - lowFee; document.getElementById('feeETH').textContent = fmt(feeETHval, 6) + ' ETH'; document.getElementById('feeUSD').textContent = dollar(feeUSDval); document.getElementById('feePct').textContent = fmt(feePctVal, 2) + '%'; document.getElementById('savingsLow').textContent = dollar(savings) + ' (at 10 gwei)';",
+    "formulas": ["Gas Fee = Gas Limit x Gas Price (gwei) / 1,000,000,000", "Fee in USD = Fee in ETH x ETH Price"],
+    "faq": [
+      {"question": "What is a good gas price for Ethereum?", "answer": "Gas prices fluctuate based on network demand. Under 20 gwei is considered low, 20-50 gwei is moderate, and above 100 gwei is high. Weekends and early morning UTC tend to have lower gas prices. Use gas trackers to find optimal timing."},
+      {"question": "Why do smart contract interactions cost more gas?", "answer": "Simple ETH transfers use 21,000 gas. ERC-20 token transfers use ~65,000. DEX swaps use 100,000-300,000. NFT mints can use 100,000-250,000. Complex DeFi interactions may use 500,000+ gas due to the computational steps involved."}
+    ]
+  },
+  {
+    "slug": "crypto-whale-alert-calculator",
+    "toolName": "Crypto Whale Alert Calculator",
+    "category": "crypto",
+    "tagline": "Determine whale transaction thresholds and market impact",
+    "keywords": "crypto whale alert, large transaction tracker, whale threshold, market impact calculator",
+    "relatedTools": ["crypto-portfolio-rebalance-calculator", "gas-fee-optimizer-calculator", "crypto-tax-calculator"],
+    "inputs": [
+      {"id": "coinPrice", "label": "Coin Price", "default": 65000, "unit": "$"},
+      {"id": "dailyVolume", "label": "24h Trading Volume", "default": 25000000000, "unit": "$"},
+      {"id": "transactionUSD", "label": "Transaction Size", "default": 10000000, "unit": "$"},
+      {"id": "marketCap", "label": "Market Cap", "default": 1200000000000, "unit": "$"}
+    ],
+    "results": [
+      {"id": "coinAmount", "label": "Coins Transferred"},
+      {"id": "volumePct", "label": "% of Daily Volume"},
+      {"id": "marketCapPct", "label": "% of Market Cap"},
+      {"id": "whaleStatus", "label": "Whale Classification"}
+    ],
+    "calcFn": "var coins = transactionUSD / coinPrice; var volPct = (transactionUSD / dailyVolume) * 100; var mcPct = (transactionUSD / marketCap) * 100; var status = transactionUSD >= 100000000 ? 'Mega Whale (100M+)' : transactionUSD >= 10000000 ? 'Whale (10M+)' : transactionUSD >= 1000000 ? 'Large Holder (1M+)' : transactionUSD >= 100000 ? 'Dolphin (100K+)' : 'Small Fish'; document.getElementById('coinAmount').textContent = fmt(coins, 4) + ' coins'; document.getElementById('volumePct').textContent = fmt(volPct, 4) + '%'; document.getElementById('marketCapPct').textContent = fmt(mcPct, 6) + '%'; document.getElementById('whaleStatus').textContent = status;",
+    "formulas": ["Coins = Transaction USD / Coin Price", "Volume Impact = Transaction / 24h Volume x 100"],
+    "faq": [
+      {"question": "What defines a crypto whale?", "answer": "There is no strict definition, but generally: holding/moving over $10M in a single cryptocurrency is considered a whale. For Bitcoin, owning 1,000+ BTC qualifies. About 2,000 addresses hold more than 1,000 BTC, controlling roughly 40% of all Bitcoin."},
+      {"question": "Do whale transactions affect price?", "answer": "Large on-chain transfers do not directly move prices, but whale movements to exchanges often signal selling intent and can trigger panic. A whale depositing $50M+ to an exchange typically correlates with 2-5% price drops within 24 hours."}
+    ]
+  },
+  {
+    "slug": "ink-cost-per-page-calculator",
+    "toolName": "Ink Cost Per Page Calculator",
+    "category": "printing",
+    "tagline": "Calculate your true ink or toner cost per printed page",
+    "keywords": "ink cost per page, toner cost calculator, printing cost per page, cartridge cost",
+    "relatedTools": ["large-format-print-cost-calculator", "dtg-print-cost-calculator", "screen-print-ink-coverage-calculator"],
+    "inputs": [
+      {"id": "cartridgeCost", "label": "Cartridge Cost", "default": 35, "unit": "$"},
+      {"id": "pageYield", "label": "Page Yield", "default": 500, "unit": "pages"},
+      {"id": "numCartridges", "label": "Colors/Cartridges", "default": 4, "unit": "cartridges"},
+      {"id": "monthlyPages", "label": "Monthly Print Volume", "default": 500, "unit": "pages"},
+      {"id": "coveragePct", "label": "Avg Coverage", "default": "5", "options": [{"value":"5","label":"5% (Standard)"},{"value":"10","label":"10% (Graphics)"},{"value":"20","label":"20% (Photos)"},{"value":"35","label":"35% (Heavy)"}]}
+    ],
+    "results": [
+      {"id": "costPerPage", "label": "Cost Per Page"},
+      {"id": "monthlyCost", "label": "Monthly Ink Cost"},
+      {"id": "annualCost", "label": "Annual Ink Cost"},
+      {"id": "cartridgesYear", "label": "Cartridge Sets/Year"}
+    ],
+    "calcFn": "var cov = parseFloat(coveragePct); var adjYield = pageYield * (5 / cov); var costPerCart = cartridgeCost / adjYield; var cpp = costPerCart * numCartridges; var monthly = cpp * monthlyPages; var annual = monthly * 12; var setsYear = (monthlyPages * 12) / adjYield; document.getElementById('costPerPage').textContent = dollar(cpp); document.getElementById('monthlyCost').textContent = dollar(monthly); document.getElementById('annualCost').textContent = dollar(annual); document.getElementById('cartridgesYear').textContent = fmt(setsYear, 1) + ' sets';",
+    "formulas": ["Adjusted Yield = Rated Yield x (5% / Actual Coverage %)", "Cost/Page = (Cartridge Cost / Adjusted Yield) x Number of Cartridges"],
+    "faq": [
+      {"question": "What is a normal ink cost per page?", "answer": "For inkjet printers, typical costs are $0.05-0.10 per black page and $0.15-0.25 per color page at 5% coverage. Laser printers are cheaper at $0.02-0.04 for black. Ink tank printers (EcoTank, MegaTank) can drop to $0.01 per page."},
+      {"question": "What does 5% coverage mean?", "answer": "5% coverage means about 5% of the page area is covered with ink, equivalent to a typical business letter. Photos are 20-35% coverage. Marketing materials run 15-25%. Higher coverage uses ink proportionally faster, cutting cartridge yield."}
+    ]
+  },
+  {
+    "slug": "print-bleed-margin-calculator",
+    "toolName": "Print Bleed & Margin Calculator",
+    "category": "printing",
+    "tagline": "Calculate bleed, trim, and safe margins for print files",
+    "keywords": "print bleed calculator, trim size, safe margin, print file setup, bleed area",
+    "relatedTools": ["booklet-page-imposition-calculator", "large-format-print-cost-calculator", "ink-cost-per-page-calculator"],
+    "inputs": [
+      {"id": "trimW", "label": "Trim Width", "default": 8.5, "unit": "inches"},
+      {"id": "trimH", "label": "Trim Height", "default": 11, "unit": "inches"},
+      {"id": "bleed", "label": "Bleed Size", "default": 0.125, "unit": "inches"},
+      {"id": "safeMargin", "label": "Safe Margin", "default": 0.25, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "docW", "label": "Document Width"},
+      {"id": "docH", "label": "Document Height"},
+      {"id": "safeW", "label": "Safe Area Width"},
+      {"id": "safeH", "label": "Safe Area Height"},
+      {"id": "bleedArea", "label": "Total Bleed Area"}
+    ],
+    "calcFn": "var dw = trimW + (bleed * 2); var dh = trimH + (bleed * 2); var sw = trimW - (safeMargin * 2); var sh = trimH - (safeMargin * 2); var bleedArea = (dw * dh) - (trimW * trimH); document.getElementById('docW').textContent = fmt(dw, 3) + ' in'; document.getElementById('docH').textContent = fmt(dh, 3) + ' in'; document.getElementById('safeW').textContent = fmt(sw, 3) + ' in'; document.getElementById('safeH').textContent = fmt(sh, 3) + ' in'; document.getElementById('bleedArea').textContent = fmt(bleedArea, 3) + ' sq in';",
+    "formulas": ["Document Size = Trim Size + (2 x Bleed)", "Safe Area = Trim Size - (2 x Safe Margin)"],
+    "faq": [
+      {"question": "What is standard bleed for printing?", "answer": "The industry standard bleed is 0.125 inches (1/8 inch or 3mm) on all sides. Some large format printing requires 0.25-0.5 inch bleed. Always check with your printer, as requirements vary by equipment and finishing method."},
+      {"question": "What is a safe margin?", "answer": "The safe margin (or safe zone) is the area inside the trim where critical content like text and logos should stay. Standard safe margin is 0.25 inches (1/4 inch) from the trim edge. This accounts for slight cutting variations during finishing."}
+    ]
+  },
+  {
+    "slug": "booklet-page-imposition-calculator",
+    "toolName": "Booklet Page Imposition Calculator",
+    "category": "printing",
+    "tagline": "Calculate page order and signatures for booklet printing",
+    "keywords": "booklet imposition, saddle stitch layout, page order calculator, signature layout",
+    "relatedTools": ["print-bleed-margin-calculator", "ink-cost-per-page-calculator", "large-format-print-cost-calculator"],
+    "inputs": [
+      {"id": "totalPages", "label": "Total Pages", "default": 24, "unit": "pages"},
+      {"id": "pagesPerSig", "label": "Pages Per Signature", "default": "16", "options": [{"value":"4","label":"4 (Single fold)"},{"value":"8","label":"8 (Two folds)"},{"value":"16","label":"16 (Standard)"},{"value":"32","label":"32 (Large press)"}]},
+      {"id": "paperW", "label": "Finished Page Width", "default": 5.5, "unit": "inches"},
+      {"id": "paperH", "label": "Finished Page Height", "default": 8.5, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "signatures", "label": "Number of Signatures"},
+      {"id": "sheets", "label": "Total Sheets"},
+      {"id": "sheetSize", "label": "Minimum Sheet Size"},
+      {"id": "blankPages", "label": "Blank Pages Needed"}
+    ],
+    "calcFn": "var pps = parseInt(pagesPerSig); var sigs = Math.ceil(totalPages / pps); var roundedPages = sigs * pps; var blanks = roundedPages - totalPages; var sheetsPerSig = pps / 4; var totalSheets = sigs * sheetsPerSig; var sheetW = paperW * 2 + 0.25; var sheetH = paperH + 0.25; document.getElementById('signatures').textContent = sigs; document.getElementById('sheets').textContent = totalSheets + ' sheets'; document.getElementById('sheetSize').textContent = fmt(sheetW, 2) + ' x ' + fmt(sheetH, 2) + ' in'; document.getElementById('blankPages').textContent = blanks;",
+    "formulas": ["Signatures = ceil(Total Pages / Pages per Signature)", "Sheets per Signature = Pages per Signature / 4", "Blank Pages = (Signatures x Pages per Sig) - Total Pages"],
+    "faq": [
+      {"question": "What is a signature in printing?", "answer": "A signature is a large sheet printed on both sides, then folded and trimmed to create a section of consecutive pages. A 16-page signature prints 8 pages per side on one sheet. Multiple signatures are gathered and bound together to form the book."},
+      {"question": "Why must booklet page counts be multiples of 4?", "answer": "Because each sheet of paper creates 4 pages (front and back, two sides of the fold). Saddle-stitched booklets must have page counts divisible by 4. If your content does not fill evenly, blank pages are added at the end or distributed throughout."}
+    ]
+  },
+  {
+    "slug": "large-format-print-cost-calculator",
+    "toolName": "Large Format Print Cost Calculator",
+    "category": "printing",
+    "tagline": "Estimate costs for wide format banners, posters, and signage",
+    "keywords": "large format print cost, wide format pricing, banner cost calculator, poster printing cost",
+    "relatedTools": ["ink-cost-per-page-calculator", "print-bleed-margin-calculator", "screen-print-ink-coverage-calculator"],
+    "inputs": [
+      {"id": "widthIn", "label": "Print Width", "default": 36, "unit": "inches"},
+      {"id": "heightIn", "label": "Print Height", "default": 48, "unit": "inches"},
+      {"id": "quantity", "label": "Quantity", "default": 5, "unit": "prints"},
+      {"id": "sqftRate", "label": "Cost per Sq Ft", "default": 8.50, "unit": "$/sqft"},
+      {"id": "finishing", "label": "Finishing", "default": "0", "options": [{"value":"0","label":"None"},{"value":"2.00","label":"Lamination (+$2/sqft)"},{"value":"3.50","label":"Mounting (+$3.50/sqft)"},{"value":"5.00","label":"Lam + Mount (+$5/sqft)"}]}
+    ],
+    "results": [
+      {"id": "sqft", "label": "Print Area"},
+      {"id": "costPerPrint", "label": "Cost Per Print"},
+      {"id": "totalCost", "label": "Total Cost"},
+      {"id": "costPerSqFt", "label": "Effective $/sqft"}
+    ],
+    "calcFn": "var sf = (widthIn * heightIn) / 144; var fin = parseFloat(finishing); var perPrint = sf * (sqftRate + fin); var total = perPrint * quantity; var effRate = total / (sf * quantity); document.getElementById('sqft').textContent = fmt(sf, 2) + ' sq ft'; document.getElementById('costPerPrint').textContent = dollar(perPrint); document.getElementById('totalCost').textContent = dollar(total); document.getElementById('costPerSqFt').textContent = dollar(effRate) + '/sqft';",
+    "formulas": ["Square Feet = (Width x Height) / 144", "Cost per Print = Sq Ft x (Print Rate + Finishing Rate)"],
+    "faq": [
+      {"question": "What is the typical cost per square foot for large format printing?", "answer": "Standard vinyl banners run $5-10/sqft. Photo-quality posters on satin paper are $6-12/sqft. Canvas prints run $8-15/sqft. Rigid substrates (foam board, ACM) add $3-8/sqft. Volume discounts of 15-30% are common on orders of 10+."},
+      {"question": "What resolution do I need for large format prints?", "answer": "For viewing at 3+ feet, 150 DPI is sufficient. Posters viewed at arm's length need 200-300 DPI. Billboards viewed from 50+ feet need only 25-50 DPI. Always work at final size — do not scale up a small image."}
+    ]
+  },
+  {
+    "slug": "screen-print-ink-coverage-calculator",
+    "toolName": "Screen Print Ink Coverage Calculator",
+    "category": "printing",
+    "tagline": "Estimate ink usage and cost for screen printing jobs",
+    "keywords": "screen print ink calculator, ink coverage, screen printing cost, ink usage estimator",
+    "relatedTools": ["dtg-print-cost-calculator", "ink-cost-per-page-calculator", "large-format-print-cost-calculator"],
+    "inputs": [
+      {"id": "designW", "label": "Design Width", "default": 12, "unit": "inches"},
+      {"id": "designH", "label": "Design Height", "default": 14, "unit": "inches"},
+      {"id": "coveragePct", "label": "Ink Coverage", "default": 40, "unit": "%"},
+      {"id": "numColors", "label": "Number of Colors", "default": 3, "unit": "colors"},
+      {"id": "quantity", "label": "Print Quantity", "default": 100, "unit": "shirts"},
+      {"id": "inkCostPerOz", "label": "Ink Cost", "default": 1.25, "unit": "$/oz"}
+    ],
+    "results": [
+      {"id": "designArea", "label": "Design Area"},
+      {"id": "inkPerShirt", "label": "Ink Per Shirt"},
+      {"id": "totalInk", "label": "Total Ink Needed"},
+      {"id": "inkCost", "label": "Total Ink Cost"}
+    ],
+    "calcFn": "var area = designW * designH; var coveredArea = area * (coveragePct / 100); var ozPerShirt = coveredArea * numColors * 0.012; var totalOz = ozPerShirt * quantity * 1.15; var cost = totalOz * inkCostPerOz; document.getElementById('designArea').textContent = fmt(area, 1) + ' sq in'; document.getElementById('inkPerShirt').textContent = fmt(ozPerShirt, 2) + ' oz'; document.getElementById('totalInk').textContent = fmt(totalOz, 1) + ' oz'; document.getElementById('inkCost').textContent = dollar(cost);",
+    "formulas": ["Ink per Shirt = Design Area x Coverage % x Colors x 0.012 oz/sq in", "Total Ink = Ink per Shirt x Quantity x 1.15 (waste factor)"],
+    "faq": [
+      {"question": "How much ink does screen printing use per shirt?", "answer": "A typical single-color print (12x14 at 30% coverage) uses about 0.5-1.0 oz of ink. Multi-color designs with higher coverage can use 2-4 oz per shirt. White underbase on dark garments doubles ink usage for those areas."},
+      {"question": "What is a good screen mesh count for t-shirts?", "answer": "110 mesh is standard for spot color on dark shirts. 156 mesh works well for detailed spot color on light shirts. 200-230 mesh is used for process color (CMYK) and fine detail. Higher mesh = less ink deposit = finer detail."}
+    ]
+  },
+  {
+    "slug": "dtg-print-cost-calculator",
+    "toolName": "DTG Print Cost Calculator",
+    "category": "printing",
+    "tagline": "Calculate direct-to-garment printing cost per shirt",
+    "keywords": "dtg cost calculator, direct to garment cost, dtg printing price, garment printing cost",
+    "relatedTools": ["screen-print-ink-coverage-calculator", "ink-cost-per-page-calculator", "large-format-print-cost-calculator"],
+    "inputs": [
+      {"id": "inkCost", "label": "Ink Cost/Print", "default": 1.50, "unit": "$"},
+      {"id": "pretreamentCost", "label": "Pretreatment Cost", "default": 0.50, "unit": "$"},
+      {"id": "garmentCost", "label": "Blank Garment Cost", "default": 4.50, "unit": "$"},
+      {"id": "laborMinutes", "label": "Labor Per Shirt", "default": 3, "unit": "minutes"},
+      {"id": "laborRate", "label": "Labor Rate", "default": 18, "unit": "$/hour"},
+      {"id": "quantity", "label": "Quantity", "default": 50, "unit": "shirts"},
+      {"id": "sellPrice", "label": "Sell Price", "default": 28, "unit": "$"}
+    ],
+    "results": [
+      {"id": "costPerShirt", "label": "Cost Per Shirt"},
+      {"id": "totalCost", "label": "Total Production Cost"},
+      {"id": "profitPerShirt", "label": "Profit Per Shirt"},
+      {"id": "totalProfit", "label": "Total Profit"}
+    ],
+    "calcFn": "var laborCost = (laborMinutes / 60) * laborRate; var cps = inkCost + pretreamentCost + garmentCost + laborCost; var tc = cps * quantity; var profitPer = sellPrice - cps; var tp = profitPer * quantity; document.getElementById('costPerShirt').textContent = dollar(cps); document.getElementById('totalCost').textContent = dollar(tc); document.getElementById('profitPerShirt').textContent = dollar(profitPer); document.getElementById('totalProfit').textContent = dollar(tp);",
+    "formulas": ["Cost/Shirt = Ink + Pretreatment + Garment + Labor", "Profit = Sell Price - Cost per Shirt"],
+    "faq": [
+      {"question": "Is DTG cheaper than screen printing?", "answer": "DTG is cheaper for small runs (under 25-50 shirts) because there are no screen setup costs. Screen printing becomes cheaper at higher volumes due to lower per-unit ink costs. The crossover point is typically 25-75 shirts depending on colors."},
+      {"question": "What is the average DTG cost per shirt?", "answer": "Total DTG cost ranges from $5-12 per shirt including ink ($1-3), pretreatment ($0.25-0.75), garment ($3-6), and labor ($0.50-2). Dark garments cost 50-100% more due to white underbase ink requirements."}
+    ]
+  },
+  {
+    "slug": "board-foot-cost-calculator",
+    "toolName": "Board Foot Cost Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate lumber cost by board foot pricing",
+    "keywords": "board foot calculator, lumber cost, wood pricing, hardwood cost per board foot",
+    "relatedTools": ["plywood-cut-optimizer-calculator", "wood-shrinkage-calculator", "wood-glue-coverage-calculator"],
+    "inputs": [
+      {"id": "thickness", "label": "Thickness", "default": 1, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 6, "unit": "inches"},
+      {"id": "length", "label": "Length", "default": 96, "unit": "inches"},
+      {"id": "numBoards", "label": "Number of Boards", "default": 8, "unit": "boards"},
+      {"id": "pricePerBF", "label": "Price per Board Foot", "default": 8.50, "unit": "$/bf"},
+      {"id": "wasteFactor", "label": "Waste Factor", "default": "1.15", "options": [{"value":"1.10","label":"10% (experienced)"},{"value":"1.15","label":"15% (standard)"},{"value":"1.25","label":"25% (beginner)"}]}
+    ],
+    "results": [
+      {"id": "bfPerBoard", "label": "Board Feet/Board"},
+      {"id": "totalBF", "label": "Total Board Feet"},
+      {"id": "adjBF", "label": "Adjusted (w/ Waste)"},
+      {"id": "totalCost", "label": "Total Cost"}
+    ],
+    "calcFn": "var wf = parseFloat(wasteFactor); var bf = (thickness * width * length) / 144; var totalBf = bf * numBoards; var adjBf = totalBf * wf; var cost = adjBf * pricePerBF; document.getElementById('bfPerBoard').textContent = fmt(bf, 2) + ' bf'; document.getElementById('totalBF').textContent = fmt(totalBf, 2) + ' bf'; document.getElementById('adjBF').textContent = fmt(adjBf, 2) + ' bf'; document.getElementById('totalCost').textContent = dollar(cost);",
+    "formulas": ["Board Feet = (Thickness x Width x Length) / 144", "Total Cost = Board Feet x Waste Factor x Price per BF"],
+    "faq": [
+      {"question": "What is a board foot?", "answer": "A board foot is a unit of lumber volume equal to 144 cubic inches — a piece 1 inch thick, 12 inches wide, and 12 inches long. Hardwood is sold by the board foot, while softwood is often sold by the linear foot. Rough lumber is measured before planing."},
+      {"question": "How much waste should I plan for?", "answer": "Plan 10-15% waste for experienced woodworkers with clear lumber. Add 20-25% for beginners or lumber with defects. Projects requiring many small parts from large boards can waste 25-30%. Always buy extra rather than run short mid-project."}
+    ]
+  },
+  {
+    "slug": "wood-shrinkage-calculator",
+    "toolName": "Wood Shrinkage Calculator",
+    "category": "woodworking",
+    "tagline": "Predict wood movement from moisture content changes",
+    "keywords": "wood shrinkage calculator, wood movement, moisture content expansion, wood dimensional change",
+    "relatedTools": ["board-foot-cost-calculator", "miter-angle-calculator", "dovetail-joint-spacing-calculator"],
+    "inputs": [
+      {"id": "boardWidth", "label": "Board Width", "default": 8, "unit": "inches"},
+      {"id": "mcInitial", "label": "Initial Moisture %", "default": 12, "unit": "%"},
+      {"id": "mcFinal", "label": "Final Moisture %", "default": 7, "unit": "%"},
+      {"id": "shrinkCoeff", "label": "Shrinkage Coefficient", "default": "0.0025", "options": [{"value":"0.0015","label":"Radial - White Oak"},{"value":"0.0025","label":"Tangential - White Oak"},{"value":"0.0019","label":"Radial - Hard Maple"},{"value":"0.0035","label":"Tangential - Hard Maple"},{"value":"0.0013","label":"Radial - Walnut"},{"value":"0.0027","label":"Tangential - Walnut"}]}
+    ],
+    "results": [
+      {"id": "mcChange", "label": "Moisture Change"},
+      {"id": "dimensionChange", "label": "Width Change"},
+      {"id": "newWidth", "label": "New Width"},
+      {"id": "pctChange", "label": "Percent Change"}
+    ],
+    "calcFn": "var coeff = parseFloat(shrinkCoeff); var mcDiff = mcInitial - mcFinal; var change = boardWidth * coeff * mcDiff; var newW = boardWidth - change; var pctChg = (change / boardWidth) * 100; document.getElementById('mcChange').textContent = fmt(mcDiff, 1) + '% MC'; document.getElementById('dimensionChange').textContent = fmt(Math.abs(change), 4) + ' in ' + (change > 0 ? 'shrink' : 'expand'); document.getElementById('newWidth').textContent = fmt(newW, 4) + ' in'; document.getElementById('pctChange').textContent = fmt(Math.abs(pctChg), 2) + '%';",
+    "formulas": ["Dimensional Change = Width x Shrinkage Coefficient x MC Change", "Tangential shrinkage is roughly 2x radial shrinkage"],
+    "faq": [
+      {"question": "How much does wood shrink?", "answer": "Wood shrinks most tangentially (across growth rings, 6-12% from green to oven-dry), less radially (3-6%), and almost none longitudinally (<0.1%). A flat-sawn 8-inch white oak board can move 1/8 inch or more between summer humidity and winter dryness."},
+      {"question": "What moisture content should wood be for furniture?", "answer": "Indoor furniture should be built with wood at 6-8% MC. Workshop lumber should acclimate to the environment where it will live. Wood at 12% MC used indoors (where equilibrium is 6-8%) will shrink noticeably and may crack or warp."}
+    ]
+  },
+  {
+    "slug": "miter-angle-calculator",
+    "toolName": "Miter Angle Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate miter and bevel angles for any joint configuration",
+    "keywords": "miter angle calculator, miter joint angle, bevel angle, picture frame miter",
+    "relatedTools": ["dovetail-joint-spacing-calculator", "wood-shrinkage-calculator", "board-foot-cost-calculator"],
+    "inputs": [
+      {"id": "numSides", "label": "Number of Sides", "default": 4, "unit": "sides"},
+      {"id": "tiltAngle", "label": "Tilt/Slope Angle", "default": 0, "unit": "degrees"},
+      {"id": "cornerAngle", "label": "Corner Angle (override)", "default": 0, "unit": "degrees"}
+    ],
+    "results": [
+      {"id": "interiorAngle", "label": "Interior Angle"},
+      {"id": "miterAngle", "label": "Miter Saw Setting"},
+      {"id": "bevelAngle", "label": "Bevel Angle"},
+      {"id": "bladeAngle", "label": "Complementary Angle"}
+    ],
+    "calcFn": "var interior = cornerAngle > 0 ? cornerAngle : (numSides - 2) * 180 / numSides; var miter = interior / 2; var bevel = tiltAngle > 0 ? Math.atan(Math.cos(miter * Math.PI / 180) * Math.tan(tiltAngle * Math.PI / 180)) * 180 / Math.PI : 0; var complement = 90 - miter; document.getElementById('interiorAngle').textContent = fmt(interior, 2) + '°'; document.getElementById('miterAngle').textContent = fmt(complement, 2) + '°'; document.getElementById('bevelAngle').textContent = fmt(bevel, 2) + '°'; document.getElementById('bladeAngle').textContent = fmt(miter, 2) + '° from face';",
+    "formulas": ["Interior Angle = (Sides - 2) x 180 / Sides", "Miter Saw Setting = 90 - (Interior Angle / 2)"],
+    "faq": [
+      {"question": "What angle do I set my miter saw for a picture frame?", "answer": "A picture frame has 4 sides with 90-degree corners. The miter angle is 45 degrees. Set your miter saw to 45 degrees. For pentagons set to 36 degrees, hexagons to 30 degrees, and octagons to 22.5 degrees."},
+      {"question": "Why do my miters have gaps?", "answer": "Gaps usually come from: (1) the saw blade is not exactly at the set angle — check with a precision square, (2) boards are not perfectly flat or straight, (3) blade deflection on thick cuts. Use a sharp blade, make test cuts in scrap, and fine-tune the angle."}
+    ]
+  },
+  {
+    "slug": "wood-glue-coverage-calculator",
+    "toolName": "Wood Glue Coverage Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate how much wood glue you need for your project",
+    "keywords": "wood glue calculator, glue coverage, glue spread rate, woodworking adhesive",
+    "relatedTools": ["board-foot-cost-calculator", "dovetail-joint-spacing-calculator", "plywood-cut-optimizer-calculator"],
+    "inputs": [
+      {"id": "surfaceArea", "label": "Glue Surface Area", "default": 500, "unit": "sq inches"},
+      {"id": "spreadRate", "label": "Spread Rate", "default": "6", "options": [{"value":"4","label":"Light (4 mil) - edge joints"},{"value":"6","label":"Medium (6 mil) - general"},{"value":"8","label":"Heavy (8 mil) - end grain"},{"value":"10","label":"Extra Heavy (10 mil) - porous"}]},
+      {"id": "numGluings", "label": "Number of Glue-ups", "default": 1, "unit": "sessions"},
+      {"id": "bottleSize", "label": "Bottle Size", "default": 16, "unit": "oz"}
+    ],
+    "results": [
+      {"id": "totalGlue", "label": "Glue Needed"},
+      {"id": "bottles", "label": "Bottles Needed"},
+      {"id": "cost", "label": "Est. Glue Cost"}
+    ],
+    "calcFn": "var rate = parseFloat(spreadRate); var sqFt = surfaceArea / 144; var ozNeeded = sqFt * rate * 1.2 * numGluings; var bottles = Math.ceil(ozNeeded / bottleSize); var cost = bottles * (bottleSize <= 8 ? 6.50 : bottleSize <= 16 ? 9.00 : 18.00); document.getElementById('totalGlue').textContent = fmt(ozNeeded, 1) + ' oz'; document.getElementById('bottles').textContent = bottles + ' x ' + bottleSize + 'oz'; document.getElementById('cost').textContent = dollar(cost);",
+    "formulas": ["Glue Needed (oz) = (Area / 144) x Spread Rate x 1.2 waste factor", "Standard spread rate: 6 mil (about 200-250 sq ft/gallon)"],
+    "faq": [
+      {"question": "How much glue should I use on a joint?", "answer": "Apply enough for thin, even squeeze-out along the entire joint. For edge gluing, 4-6 mil thickness is ideal (about 200-250 sq ft per gallon). Too little starves the joint; too much creates a mess and does not add strength. Apply to both surfaces for end grain."},
+      {"question": "Does wood glue expire?", "answer": "PVA wood glue (Titebond) has a shelf life of 1-2 years unopened, 6-12 months after opening. Frozen or stringy glue should be discarded. Store between 50-80°F. Titebond III has better cold-weather tolerance than Titebond I or II."}
+    ]
+  },
+  {
+    "slug": "dovetail-joint-spacing-calculator",
+    "toolName": "Dovetail Joint Spacing Calculator",
+    "category": "woodworking",
+    "tagline": "Calculate pin and tail layout for hand-cut dovetails",
+    "keywords": "dovetail spacing, dovetail layout, hand cut dovetail, pin and tail calculator",
+    "relatedTools": ["miter-angle-calculator", "board-foot-cost-calculator", "wood-glue-coverage-calculator"],
+    "inputs": [
+      {"id": "boardWidth", "label": "Board Width", "default": 6, "unit": "inches"},
+      {"id": "numTails", "label": "Number of Tails", "default": 3, "unit": "tails"},
+      {"id": "pinWidth", "label": "Half-Pin Width", "default": 0.375, "unit": "inches"},
+      {"id": "tailRatio", "label": "Tail Angle Ratio", "default": "6", "options": [{"value":"6","label":"1:6 (softwood)"},{"value":"7","label":"1:7 (general)"},{"value":"8","label":"1:8 (hardwood)"}]}
+    ],
+    "results": [
+      {"id": "tailWidth", "label": "Tail Width"},
+      {"id": "pinSpacing", "label": "Pin Spacing"},
+      {"id": "angle", "label": "Dovetail Angle"},
+      {"id": "layout", "label": "Layout Summary"}
+    ],
+    "calcFn": "var ratio = parseInt(tailRatio); var angle = Math.atan(1/ratio) * 180 / Math.PI; var usableWidth = boardWidth - (2 * pinWidth); var tailW = usableWidth / numTails; var pinCenter = tailW; document.getElementById('tailWidth').textContent = fmt(tailW, 3) + ' in'; document.getElementById('pinSpacing').textContent = fmt(pinCenter, 3) + ' in on center'; document.getElementById('angle').textContent = fmt(angle, 1) + '° (1:' + ratio + ')'; document.getElementById('layout').textContent = numTails + ' tails + ' + (numTails + 1) + ' half-pins across ' + fmt(boardWidth, 2) + ' in';",
+    "formulas": ["Tail Width = (Board Width - 2 x Half-Pin) / Number of Tails", "Dovetail Angle = arctan(1 / Ratio)"],
+    "faq": [
+      {"question": "What angle should dovetails be?", "answer": "Use 1:6 (about 9.5 degrees) for softwood and 1:8 (about 7 degrees) for hardwood. The steeper softwood angle provides more mechanical lock in weaker wood. Many hand-tool woodworkers use 1:7 as a general-purpose angle for all species."},
+      {"question": "How many tails should a dovetail joint have?", "answer": "The number of tails is aesthetic preference, but common practice is one tail per inch of board width minus one. A 6-inch board often has 3-4 tails. Wider tails look bolder and traditional; narrower tails look refined. Function is the same either way."}
+    ]
+  },
+  {
+    "slug": "plywood-cut-optimizer-calculator",
+    "toolName": "Plywood Cut Optimizer Calculator",
+    "category": "woodworking",
+    "tagline": "Minimize waste when cutting parts from plywood sheets",
+    "keywords": "plywood cut calculator, sheet cutting optimizer, cut list plywood, plywood waste calculator",
+    "relatedTools": ["board-foot-cost-calculator", "wood-glue-coverage-calculator", "miter-angle-calculator"],
+    "inputs": [
+      {"id": "sheetW", "label": "Sheet Width", "default": 48, "unit": "inches"},
+      {"id": "sheetH", "label": "Sheet Height", "default": 96, "unit": "inches"},
+      {"id": "sheetCost", "label": "Sheet Cost", "default": 65, "unit": "$"},
+      {"id": "cutW", "label": "Part Width", "default": 24, "unit": "inches"},
+      {"id": "cutH", "label": "Part Height", "default": 30, "unit": "inches"},
+      {"id": "numParts", "label": "Number of Parts", "default": 10, "unit": "parts"},
+      {"id": "kerf", "label": "Blade Kerf", "default": 0.125, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "partsPerSheet", "label": "Parts Per Sheet"},
+      {"id": "sheetsNeeded", "label": "Sheets Needed"},
+      {"id": "totalCost", "label": "Material Cost"},
+      {"id": "waste", "label": "Waste Percentage"}
+    ],
+    "calcFn": "var effW = cutW + kerf; var effH = cutH + kerf; var opt1 = Math.floor(sheetW / effW) * Math.floor(sheetH / effH); var opt2 = Math.floor(sheetW / effH) * Math.floor(sheetH / effW); var pps = Math.max(opt1, opt2); var sheets = Math.ceil(numParts / pps); var totalArea = sheets * sheetW * sheetH; var usedArea = numParts * cutW * cutH; var wastePct = ((totalArea - usedArea) / totalArea) * 100; var cost = sheets * sheetCost; document.getElementById('partsPerSheet').textContent = pps; document.getElementById('sheetsNeeded').textContent = sheets + ' sheets'; document.getElementById('totalCost').textContent = dollar(cost); document.getElementById('waste').textContent = fmt(wastePct, 1) + '%';",
+    "formulas": ["Parts per Sheet = floor(Sheet W / Part W) x floor(Sheet H / Part H)", "Sheets Needed = ceil(Total Parts / Parts per Sheet)"],
+    "faq": [
+      {"question": "How do I minimize plywood waste?", "answer": "Try rotating parts 90 degrees to test both orientations. Group similar-sized parts together. Cut largest pieces first, then fit smaller pieces from remnants. Account for 1/8-inch blade kerf between cuts. Software optimizers can reduce waste from 30% to under 15%."},
+      {"question": "What is a standard plywood sheet size?", "answer": "Standard sheets are 4x8 feet (48x96 inches). Half sheets (4x4) are available at home centers. Specialty sizes include 5x5 Baltic birch. Actual dimensions may be 1/32 to 1/16 inch under nominal due to sanding and trimming."}
+    ]
+  },
+  {
+    "slug": "freight-class-estimator-calculator",
+    "toolName": "Freight Class Calculator",
+    "category": "shipping",
+    "tagline": "Estimate NMFC freight class from package density",
+    "keywords": "freight class calculator, NMFC class, LTL freight class, freight density",
+    "relatedTools": ["dimensional-weight-calculator", "pallet-loading-optimizer-calculator", "customs-duty-calculator"],
+    "inputs": [
+      {"id": "weight", "label": "Total Weight", "default": 500, "unit": "lbs"},
+      {"id": "length", "label": "Length", "default": 48, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 40, "unit": "inches"},
+      {"id": "height", "label": "Height", "default": 48, "unit": "inches"},
+      {"id": "ratePerCwt", "label": "Rate per CWT", "default": 25, "unit": "$/cwt"}
+    ],
+    "results": [
+      {"id": "density", "label": "Freight Density"},
+      {"id": "freightClass", "label": "Estimated Class"},
+      {"id": "cubicFt", "label": "Cubic Feet"},
+      {"id": "estCost", "label": "Est. LTL Cost"}
+    ],
+    "calcFn": "var cf = (length * width * height) / 1728; var dens = weight / cf; var cls = dens >= 50 ? '50' : dens >= 35 ? '55' : dens >= 30 ? '60' : dens >= 22.5 ? '65' : dens >= 15 ? '70' : dens >= 13.5 ? '77.5' : dens >= 12 ? '85' : dens >= 10.5 ? '92.5' : dens >= 9 ? '100' : dens >= 8 ? '110' : dens >= 7 ? '125' : dens >= 6 ? '150' : dens >= 5 ? '175' : dens >= 4 ? '200' : dens >= 3 ? '250' : dens >= 2 ? '300' : dens >= 1 ? '400' : '500'; var classMultiplier = parseFloat(cls) <= 70 ? 1.0 : parseFloat(cls) <= 100 ? 1.3 : parseFloat(cls) <= 200 ? 1.8 : 2.5; var cost = (weight / 100) * ratePerCwt * classMultiplier; document.getElementById('density').textContent = fmt(dens, 2) + ' lbs/cu ft'; document.getElementById('freightClass').textContent = 'Class ' + cls; document.getElementById('cubicFt').textContent = fmt(cf, 2) + ' cu ft'; document.getElementById('estCost').textContent = dollar(cost);",
+    "formulas": ["Cubic Feet = (L x W x H) / 1728", "Density = Weight / Cubic Feet", "Class is assigned by density range: higher density = lower class = lower cost"],
+    "faq": [
+      {"question": "What is freight class and why does it matter?", "answer": "Freight class (50-500) is an NMFC classification that determines LTL shipping rates. Class 50 (densest, easiest to handle) costs the least. Class 500 (lightest, bulkiest) costs the most. Moving down one class can save 10-15% on LTL rates."},
+      {"question": "How is freight class determined?", "answer": "Class is primarily based on density (lbs per cubic foot) but also considers handling difficulty, liability/value, and stowability. Some commodities have fixed NMFC classes regardless of density. Always verify with the NMFC tariff for your specific product code."}
+    ]
+  },
+  {
+    "slug": "dimensional-weight-calculator",
+    "toolName": "Dimensional Weight Calculator",
+    "category": "shipping",
+    "tagline": "Calculate DIM weight to find your billable shipping weight",
+    "keywords": "dimensional weight calculator, DIM weight, volumetric weight, billable weight shipping",
+    "relatedTools": ["freight-class-calculator", "shipping-insurance-calculator", "last-mile-delivery-cost-calculator"],
+    "inputs": [
+      {"id": "length", "label": "Length", "default": 18, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 14, "unit": "inches"},
+      {"id": "height", "label": "Height", "default": 10, "unit": "inches"},
+      {"id": "actualWeight", "label": "Actual Weight", "default": 8, "unit": "lbs"},
+      {"id": "divisor", "label": "DIM Divisor", "default": "139", "options": [{"value":"139","label":"139 (UPS/FedEx)"},{"value":"166","label":"166 (USPS)"},{"value":"5000","label":"5000 (Metric/Intl)"}]}
+    ],
+    "results": [
+      {"id": "dimWeight", "label": "Dimensional Weight"},
+      {"id": "billWeight", "label": "Billable Weight"},
+      {"id": "cubicInches", "label": "Cubic Inches"},
+      {"id": "dimImpact", "label": "DIM Impact"}
+    ],
+    "calcFn": "var div = parseFloat(divisor); var ci = length * width * height; var dimW = ci / div; var billW = Math.max(Math.ceil(dimW), actualWeight); var impact = dimW > actualWeight ? 'DIM weight applies — paying for ' + fmt(billW - actualWeight, 1) + ' extra lbs' : 'Actual weight applies — no DIM surcharge'; document.getElementById('dimWeight').textContent = fmt(dimW, 1) + ' lbs'; document.getElementById('billWeight').textContent = fmt(billW, 0) + ' lbs'; document.getElementById('cubicInches').textContent = fmt(ci, 0) + ' cu in'; document.getElementById('dimImpact').textContent = impact;",
+    "formulas": ["DIM Weight = (L x W x H) / DIM Divisor", "Billable Weight = max(DIM Weight, Actual Weight)"],
+    "faq": [
+      {"question": "What is dimensional weight?", "answer": "Dimensional (DIM) weight prices bulky, lightweight packages by size rather than actual weight. Carriers divide cubic inches by a DIM divisor (139 for UPS/FedEx, 166 for USPS). You pay whichever is higher: actual or DIM weight."},
+      {"question": "How can I reduce dimensional weight charges?", "answer": "Use the smallest box possible. Eliminate excess void fill. Consider poly mailers for soft goods. Break large orders into multiple smaller packages. Negotiate a higher DIM divisor with your carrier for volume discounts."}
+    ]
+  },
+  {
+    "slug": "customs-duty-calculator",
+    "toolName": "Customs Duty Calculator",
+    "category": "shipping",
+    "tagline": "Estimate import duties and taxes on international shipments",
+    "keywords": "customs duty calculator, import duty, tariff calculator, import tax estimate",
+    "relatedTools": ["dimensional-weight-calculator", "shipping-insurance-calculator", "freight-class-calculator"],
+    "inputs": [
+      {"id": "declaredValue", "label": "Declared Value", "default": 5000, "unit": "$"},
+      {"id": "shippingCost", "label": "Shipping Cost", "default": 350, "unit": "$"},
+      {"id": "insuranceCost", "label": "Insurance Cost", "default": 50, "unit": "$"},
+      {"id": "dutyRate", "label": "Duty Rate", "default": 5, "unit": "%"},
+      {"id": "mptRate", "label": "Merchandise Processing Fee", "default": 0.3464, "unit": "%"}
+    ],
+    "results": [
+      {"id": "dutiableValue", "label": "Dutiable Value (CIF)"},
+      {"id": "dutyAmount", "label": "Duty Amount"},
+      {"id": "mpf", "label": "Processing Fee"},
+      {"id": "totalLanded", "label": "Total Landed Cost"}
+    ],
+    "calcFn": "var cif = declaredValue + shippingCost + insuranceCost; var duty = cif * (dutyRate / 100); var mpf = Math.min(Math.max(cif * (mptRate / 100), 31.67), 614.35); var total = cif + duty + mpf; document.getElementById('dutiableValue').textContent = dollar(cif); document.getElementById('dutyAmount').textContent = dollar(duty); document.getElementById('mpf').textContent = dollar(mpf); document.getElementById('totalLanded').textContent = dollar(total);",
+    "formulas": ["Dutiable Value (CIF) = Product Value + Shipping + Insurance", "Duty = CIF x Duty Rate", "MPF = CIF x 0.3464% (min $31.67, max $614.35)"],
+    "faq": [
+      {"question": "How is customs duty calculated?", "answer": "U.S. customs duty is assessed on the CIF value (cost + insurance + freight). The duty rate depends on the HTS (Harmonized Tariff Schedule) code of the product. Rates range from 0% to 25%+ depending on product type and country of origin."},
+      {"question": "Is there a duty-free threshold for imports?", "answer": "The U.S. de minimis threshold is $800 per person per day for personal imports. Commercial shipments under $800 are generally duty-free. However, certain goods (alcohol, tobacco, specific regulated items) have no de minimis exemption."}
+    ]
+  },
+  {
+    "slug": "pallet-loading-optimizer-calculator",
+    "toolName": "Pallet Loading Optimizer Calculator",
+    "category": "shipping",
+    "tagline": "Maximize boxes per pallet with optimal stacking patterns",
+    "keywords": "pallet loading calculator, pallet optimizer, boxes per pallet, pallet stacking pattern",
+    "relatedTools": ["dimensional-weight-calculator", "freight-class-calculator", "last-mile-delivery-cost-calculator"],
+    "inputs": [
+      {"id": "boxL", "label": "Box Length", "default": 16, "unit": "inches"},
+      {"id": "boxW", "label": "Box Width", "default": 12, "unit": "inches"},
+      {"id": "boxH", "label": "Box Height", "default": 10, "unit": "inches"},
+      {"id": "boxWt", "label": "Box Weight", "default": 20, "unit": "lbs"},
+      {"id": "palletL", "label": "Pallet Length", "default": 48, "unit": "inches"},
+      {"id": "palletW", "label": "Pallet Width", "default": 40, "unit": "inches"},
+      {"id": "maxStackH", "label": "Max Stack Height", "default": 54, "unit": "inches"},
+      {"id": "maxWeight", "label": "Max Pallet Weight", "default": 2500, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "perLayer", "label": "Boxes Per Layer"},
+      {"id": "layers", "label": "Layers"},
+      {"id": "byVolume", "label": "Total by Volume"},
+      {"id": "byWeight", "label": "Total by Weight"},
+      {"id": "actual", "label": "Actual Load"}
+    ],
+    "calcFn": "var a1 = Math.floor(palletL/boxL) * Math.floor(palletW/boxW); var a2 = Math.floor(palletL/boxW) * Math.floor(palletW/boxL); var pl = Math.max(a1, a2); var ly = Math.floor(maxStackH / boxH); var byVol = pl * ly; var byWt = Math.floor(maxWeight / boxWt); var actual = Math.min(byVol, byWt); document.getElementById('perLayer').textContent = pl + ' boxes'; document.getElementById('layers').textContent = ly; document.getElementById('byVolume').textContent = byVol + ' boxes'; document.getElementById('byWeight').textContent = byWt + ' boxes'; document.getElementById('actual').textContent = actual + ' boxes (' + fmt(actual * boxWt, 0) + ' lbs)';",
+    "formulas": ["Per Layer = max(floor(PL/BL)×floor(PW/BW), floor(PL/BW)×floor(PW/BL))", "Total = min(Per Layer × Layers, Max Weight / Box Weight)"],
+    "faq": [
+      {"question": "What is the maximum pallet weight for LTL shipping?", "answer": "Most LTL carriers accept pallets up to 2,500 lbs, though some allow 3,000 lbs. The standard GMA pallet itself weighs 30-48 lbs. Keep in mind that forklift ratings and dock equipment may further limit weight in your facility."},
+      {"question": "Should I interlock pallet layers?", "answer": "Yes. Interlocking (rotating every other layer 90 degrees) significantly improves pallet stability during transit. Use a column-stacked pattern on the bottom layers for weight support, then interlock upper layers. Always stretch wrap the finished pallet."}
+    ]
+  },
+  {
+    "slug": "shipping-insurance-calculator",
+    "toolName": "Shipping Insurance Calculator",
+    "category": "shipping",
+    "tagline": "Calculate package insurance cost and coverage",
+    "keywords": "shipping insurance calculator, package insurance cost, declared value coverage, parcel insurance",
+    "relatedTools": ["dimensional-weight-calculator", "customs-duty-calculator", "last-mile-delivery-cost-calculator"],
+    "inputs": [
+      {"id": "declaredValue", "label": "Declared Value", "default": 500, "unit": "$"},
+      {"id": "carrier", "label": "Insurance Provider", "default": "third", "options": [{"value":"ups","label":"UPS Declared Value"},{"value":"fedex","label":"FedEx Declared Value"},{"value":"usps","label":"USPS Insurance"},{"value":"third","label":"Third-Party (Shipsurance)"}]},
+      {"id": "numPackages", "label": "Number of Packages", "default": 10, "unit": "packages"}
+    ],
+    "results": [
+      {"id": "perPackage", "label": "Insurance/Package"},
+      {"id": "totalInsurance", "label": "Total Insurance Cost"},
+      {"id": "coverageRatio", "label": "Cost as % of Value"},
+      {"id": "breakeven", "label": "Breakeven Loss Rate"}
+    ],
+    "calcFn": "var rate; if (carrier === 'ups') { rate = declaredValue <= 100 ? 0 : (declaredValue - 100) * 0.029 + 3.45; } else if (carrier === 'fedex') { rate = declaredValue <= 100 ? 0 : (declaredValue - 100) * 0.028 + 3.40; } else if (carrier === 'usps') { rate = declaredValue <= 50 ? 0 : declaredValue <= 100 ? 2.70 : declaredValue <= 200 ? 3.30 : declaredValue * 0.018; } else { rate = declaredValue * 0.012; } var total = rate * numPackages; var ratio = (rate / declaredValue) * 100; var breakeven = ratio; document.getElementById('perPackage').textContent = dollar(rate); document.getElementById('totalInsurance').textContent = dollar(total); document.getElementById('coverageRatio').textContent = fmt(ratio, 2) + '%'; document.getElementById('breakeven').textContent = '1 in ' + fmt(100/ratio, 0) + ' packages';",
+    "formulas": ["Third-party insurance ~1.0-1.5% of declared value", "Carrier insurance ~2.5-3.0% above $100 base coverage"],
+    "faq": [
+      {"question": "Is shipping insurance worth it?", "answer": "If your loss/damage rate is above 1-2%, insurance pays for itself. High-value items ($200+) and fragile goods should always be insured. For low-value items under $50, self-insuring (absorbing occasional losses) is usually cheaper than per-package insurance."},
+      {"question": "What does carrier declared value cover?", "answer": "UPS and FedEx include $100 of declared value coverage automatically. USPS Priority includes $100 for domestic. Coverage pays actual value or declared value, whichever is less. Excluded items include jewelry, electronics, and artwork without additional coverage."}
+    ]
+  },
+  {
+    "slug": "last-mile-delivery-cost-calculator",
+    "toolName": "Last Mile Delivery Cost Calculator",
+    "category": "shipping",
+    "tagline": "Estimate the true cost of last-mile package delivery",
+    "keywords": "last mile delivery cost, final mile shipping, delivery cost calculator, ecommerce shipping cost",
+    "relatedTools": ["dimensional-weight-calculator", "shipping-insurance-calculator", "pallet-loading-optimizer-calculator"],
+    "inputs": [
+      {"id": "avgOrderValue", "label": "Avg Order Value", "default": 45, "unit": "$"},
+      {"id": "avgShipCost", "label": "Avg Shipping Cost", "default": 8.50, "unit": "$"},
+      {"id": "packagingCost", "label": "Packaging Cost", "default": 1.25, "unit": "$"},
+      {"id": "laborMinutes", "label": "Pick/Pack Labor", "default": 5, "unit": "minutes"},
+      {"id": "laborRate", "label": "Labor Rate", "default": 18, "unit": "$/hour"},
+      {"id": "returnRate", "label": "Return Rate", "default": 8, "unit": "%"},
+      {"id": "monthlyOrders", "label": "Monthly Orders", "default": 2000, "unit": "orders"}
+    ],
+    "results": [
+      {"id": "fulfillCost", "label": "Fulfillment Cost/Order"},
+      {"id": "totalLastMile", "label": "Total Last Mile/Order"},
+      {"id": "pctOfOrder", "label": "Last Mile as % of AOV"},
+      {"id": "monthlyTotal", "label": "Monthly Last Mile Cost"}
+    ],
+    "calcFn": "var labor = (laborMinutes / 60) * laborRate; var fulfillment = labor + packagingCost; var returnCost = avgShipCost * 0.7 * (returnRate / 100); var totalPerOrder = avgShipCost + fulfillment + returnCost; var pct = (totalPerOrder / avgOrderValue) * 100; var monthly = totalPerOrder * monthlyOrders; document.getElementById('fulfillCost').textContent = dollar(fulfillment); document.getElementById('totalLastMile').textContent = dollar(totalPerOrder); document.getElementById('pctOfOrder').textContent = fmt(pct, 1) + '%'; document.getElementById('monthlyTotal').textContent = dollar(monthly);",
+    "formulas": ["Last Mile Cost = Shipping + Packaging + Labor + (Return Rate x Return Ship Cost)", "Last Mile % = Total Cost / Avg Order Value x 100"],
+    "faq": [
+      {"question": "What is a typical last mile delivery cost?", "answer": "Last mile delivery accounts for 53% of total shipping costs. Average last mile cost in the U.S. is $8-12 per package for standard ground delivery. Same-day delivery can run $15-25. Dense urban areas cost less per stop than rural routes."},
+      {"question": "How can I reduce last mile costs?", "answer": "Strategies include: regional carrier partnerships (10-20% savings), ship-from-store, BOPIS (buy online, pick up in store), consolidation with other shippers, right-sizing packaging, and negotiating volume rates. Moving from national to regional carriers saves 15-25% on average."}
+    ]
+  },
+  {
+    "slug": "water-purification-calculator",
+    "toolName": "Water Purification Calculator",
+    "category": "survival",
+    "tagline": "Calculate water treatment needs for emergency situations",
+    "keywords": "water purification calculator, emergency water treatment, water purification tablets, survival water",
+    "relatedTools": ["emergency-food-storage-calculator", "solar-still-output-calculator", "bug-out-bag-weight-calculator"],
+    "inputs": [
+      {"id": "people", "label": "Number of People", "default": 4, "unit": "people"},
+      {"id": "days", "label": "Duration", "default": 14, "unit": "days"},
+      {"id": "gallonsPerDay", "label": "Gallons/Person/Day", "default": 1, "unit": "gallons"},
+      {"id": "method", "label": "Purification Method", "default": "tablets", "options": [{"value":"tablets","label":"Purification Tablets"},{"value":"bleach","label":"Household Bleach"},{"value":"filter","label":"Pump Filter"},{"value":"boil","label":"Boiling"}]}
+    ],
+    "results": [
+      {"id": "totalWater", "label": "Total Water Needed"},
+      {"id": "supplyNeeded", "label": "Purification Supply"},
+      {"id": "weight", "label": "Supply Weight"},
+      {"id": "cost", "label": "Estimated Cost"}
+    ],
+    "calcFn": "var total = people * days * gallonsPerDay; var liters = total * 3.785; var supply, wt, cost; if (method === 'tablets') { var tabs = Math.ceil(liters); supply = tabs + ' tablets'; wt = fmt(tabs * 0.003, 2) + ' lbs'; cost = dollar(tabs * 0.50); } else if (method === 'bleach') { var drops = liters * 8; var tsp = drops / 90; supply = fmt(tsp, 1) + ' tsp (' + fmt(tsp/48, 2) + ' bottles)'; wt = fmt(tsp/48*2.5, 1) + ' lbs'; cost = dollar(tsp/48*4); } else if (method === 'filter') { supply = fmt(liters, 0) + ' liters through filter'; wt = '1.2 lbs (filter unit)'; cost = dollar(35 + liters * 0.02); } else { var fuel = liters * 0.1; supply = fmt(fuel, 1) + ' lbs fuel (est.)'; wt = fmt(fuel, 1) + ' lbs'; cost = dollar(fuel * 2); } document.getElementById('totalWater').textContent = fmt(total, 0) + ' gallons (' + fmt(liters, 0) + ' L)'; document.getElementById('supplyNeeded').textContent = supply; document.getElementById('weight').textContent = wt; document.getElementById('cost').textContent = cost;",
+    "formulas": ["Total Water = People x Days x Gallons/Day", "Tablets: ~1 tablet per liter", "Bleach: 8 drops per liter of clear water"],
+    "faq": [
+      {"question": "How much water do I need per day in an emergency?", "answer": "FEMA recommends 1 gallon per person per day minimum — half for drinking, half for hygiene. In hot climates or with physical activity, plan 1.5-2 gallons. Nursing mothers and sick individuals need more. Store at least a 3-day supply, ideally 14 days."},
+      {"question": "What is the best emergency water purification method?", "answer": "Boiling (1 minute at rolling boil) is the most reliable method. Purification tablets (chlorine dioxide) are lightest for portable use. Pump filters remove bacteria and protozoa but not all viruses. Household bleach (8 drops per gallon, unscented) works in a pinch."}
+    ]
+  },
+  {
+    "slug": "emergency-food-storage-calculator",
+    "toolName": "Emergency Food Storage Calculator",
+    "category": "survival",
+    "tagline": "Calculate calorie needs and food storage for emergencies",
+    "keywords": "emergency food storage, survival food calculator, calorie stockpile, food storage planner",
+    "relatedTools": ["water-purification-calculator", "bug-out-bag-weight-calculator", "firewood-btu-calculator"],
+    "inputs": [
+      {"id": "adults", "label": "Adults", "default": 2, "unit": "people"},
+      {"id": "children", "label": "Children", "default": 2, "unit": "people"},
+      {"id": "days", "label": "Duration", "default": 30, "unit": "days"},
+      {"id": "calPerAdult", "label": "Calories/Adult/Day", "default": 2000, "unit": "cal"},
+      {"id": "activityLevel", "label": "Activity Level", "default": "1.0", "options": [{"value":"0.8","label":"Sedentary (0.8x)"},{"value":"1.0","label":"Moderate (1.0x)"},{"value":"1.3","label":"Active (1.3x)"},{"value":"1.5","label":"Heavy Labor (1.5x)"}]}
+    ],
+    "results": [
+      {"id": "totalCal", "label": "Total Calories Needed"},
+      {"id": "poundsFood", "label": "Est. Food Weight"},
+      {"id": "grainLbs", "label": "Grain/Rice Equivalent"},
+      {"id": "estimatedCost", "label": "Est. Cost (bulk staples)"}
+    ],
+    "calcFn": "var act = parseFloat(activityLevel); var adultCal = adults * calPerAdult * act * days; var childCal = children * (calPerAdult * 0.6) * act * days; var totalCal = adultCal + childCal; var lbs = totalCal / 1500; var grainLbs = totalCal / 1650; var cost = grainLbs * 0.75 + (totalCal / 2000) * 1.5; document.getElementById('totalCal').textContent = fmt(totalCal, 0) + ' calories'; document.getElementById('poundsFood').textContent = fmt(lbs, 0) + ' lbs'; document.getElementById('grainLbs').textContent = fmt(grainLbs, 0) + ' lbs (rice/wheat)'; document.getElementById('estimatedCost').textContent = dollar(cost);",
+    "formulas": ["Total Cal = (Adults x Cal/Day + Children x Cal x 0.6) x Activity x Days", "Food Weight ~1,500 calories per pound (average dried food)"],
+    "faq": [
+      {"question": "What foods are best for long-term storage?", "answer": "Top staples for long-term storage: white rice (30+ years), dried beans (25+ years), wheat berries (30+ years), rolled oats (25+ years), powdered milk (20+ years), honey (indefinite), salt (indefinite), and freeze-dried meals (25+ years). All require cool, dry, dark storage."},
+      {"question": "How many calories should I store per day?", "answer": "Store at least 2,000 calories per adult per day. Active adults need 2,500-3,000. Children need 1,200-1,800 depending on age. In cold weather, increase by 25-50% as your body burns more calories to stay warm. Always store more than minimum."}
+    ]
+  },
+  {
+    "slug": "bug-out-bag-weight-calculator",
+    "toolName": "Bug-Out Bag Weight Calculator",
+    "category": "survival",
+    "tagline": "Plan your bug-out bag weight budget by category",
+    "keywords": "bug out bag weight, BOB calculator, survival pack weight, go bag planner",
+    "relatedTools": ["emergency-food-storage-calculator", "water-purification-calculator", "firewood-btu-calculator"],
+    "inputs": [
+      {"id": "bodyWeight", "label": "Your Body Weight", "default": 180, "unit": "lbs"},
+      {"id": "shelterLbs", "label": "Shelter/Sleep Gear", "default": 5, "unit": "lbs"},
+      {"id": "waterLbs", "label": "Water + Container", "default": 6, "unit": "lbs"},
+      {"id": "foodLbs", "label": "Food (72 hr)", "default": 4, "unit": "lbs"},
+      {"id": "fireLbs", "label": "Fire/Light/Tools", "default": 3, "unit": "lbs"},
+      {"id": "firstAidLbs", "label": "First Aid/Hygiene", "default": 2, "unit": "lbs"},
+      {"id": "clothingLbs", "label": "Extra Clothing", "default": 3, "unit": "lbs"},
+      {"id": "miscLbs", "label": "Misc/Navigation/Comms", "default": 2, "unit": "lbs"}
+    ],
+    "results": [
+      {"id": "totalWeight", "label": "Total Pack Weight"},
+      {"id": "pctBodyWeight", "label": "% of Body Weight"},
+      {"id": "status", "label": "Weight Status"},
+      {"id": "heaviest", "label": "Heaviest Category"}
+    ],
+    "calcFn": "var total = shelterLbs + waterLbs + foodLbs + fireLbs + firstAidLbs + clothingLbs + miscLbs; var pct = (total / bodyWeight) * 100; var status = pct <= 15 ? 'Light — good for speed' : pct <= 20 ? 'Standard — sustainable' : pct <= 25 ? 'Heavy — reduce if possible' : 'Overloaded — cut weight'; var cats = [{n:'Shelter',w:shelterLbs},{n:'Water',w:waterLbs},{n:'Food',w:foodLbs},{n:'Fire/Tools',w:fireLbs},{n:'First Aid',w:firstAidLbs},{n:'Clothing',w:clothingLbs},{n:'Misc',w:miscLbs}]; var heaviest = cats.sort(function(a,b){return b.w-a.w;})[0]; document.getElementById('totalWeight').textContent = fmt(total, 1) + ' lbs'; document.getElementById('pctBodyWeight').textContent = fmt(pct, 1) + '%'; document.getElementById('status').textContent = status; document.getElementById('heaviest').textContent = heaviest.n + ' (' + fmt(heaviest.w,1) + ' lbs)';",
+    "formulas": ["Total = Sum of all category weights", "Target: 15-20% of body weight for sustainable carry"],
+    "faq": [
+      {"question": "How heavy should a bug-out bag be?", "answer": "The general rule is 15-20% of your body weight for a 72-hour bag. A 180 lb person should target 27-36 lbs. Military packs often exceed 50 lbs, but soldiers train extensively. For civilians, lighter is better — you must be able to move quickly."},
+      {"question": "What are the essential bug-out bag categories?", "answer": "The core categories are: water (purification + container), shelter (tarp/bivy, sleeping system), fire (lighter, ferro rod, tinder), food (72 hrs of calorie-dense foods), first aid, navigation (map, compass), and communication (radio, whistle). Customize beyond these basics."}
+    ]
+  },
+  {
+    "slug": "solar-still-output-calculator",
+    "toolName": "Solar Still Output Calculator",
+    "category": "survival",
+    "tagline": "Estimate water yield from a solar still",
+    "keywords": "solar still calculator, solar still water output, emergency water collection, survival water still",
+    "relatedTools": ["water-purification-calculator", "emergency-food-storage-calculator", "firewood-btu-calculator"],
+    "inputs": [
+      {"id": "diameter", "label": "Still Diameter", "default": 36, "unit": "inches"},
+      {"id": "sunHours", "label": "Peak Sun Hours", "default": 6, "unit": "hours"},
+      {"id": "soilMoisture", "label": "Soil Moisture", "default": "medium", "options": [{"value":"dry","label":"Dry (arid/sandy)"},{"value":"medium","label":"Medium (average)"},{"value":"moist","label":"Moist (near water)"},{"value":"vegetation","label":"With Vegetation Added"}]},
+      {"id": "numStills", "label": "Number of Stills", "default": 3, "unit": "stills"}
+    ],
+    "results": [
+      {"id": "areaFt", "label": "Collection Area"},
+      {"id": "perStill", "label": "Output Per Still/Day"},
+      {"id": "totalOutput", "label": "Total Daily Output"},
+      {"id": "peopleSupported", "label": "People Supported"}
+    ],
+    "calcFn": "var radius = diameter / 2; var areaSqIn = Math.PI * radius * radius; var areaSqFt = areaSqIn / 144; var factors = {dry: 0.04, medium: 0.08, moist: 0.14, vegetation: 0.18}; var factor = factors[soilMoisture] || 0.08; var perStillOz = areaSqFt * sunHours * factor * 8; var totalOz = perStillOz * numStills; var quarts = totalOz / 32; var people = totalOz / 64; document.getElementById('areaFt').textContent = fmt(areaSqFt, 2) + ' sq ft'; document.getElementById('perStill').textContent = fmt(perStillOz, 1) + ' oz/day'; document.getElementById('totalOutput').textContent = fmt(totalOz, 1) + ' oz (' + fmt(quarts, 1) + ' qt)'; document.getElementById('peopleSupported').textContent = fmt(people, 1) + ' people (supplemental)';",
+    "formulas": ["Output = Area (sqft) x Sun Hours x Moisture Factor x 8 oz", "A 3-foot still produces roughly 8-32 oz/day depending on conditions"],
+    "faq": [
+      {"question": "How much water does a solar still produce?", "answer": "A well-built 3-foot diameter solar still produces 8-32 oz per day depending on soil moisture, sun, and temperature. In ideal conditions with added vegetation or contaminated water, output improves. You typically need 3-5 stills to supplement one person's needs."},
+      {"question": "How do I build a solar still?", "answer": "Dig a 3-foot wide, 2-foot deep hole. Place a container in the center. Cover with clear plastic sheeting, seal edges with soil. Place a small rock in the center of the plastic above the container. Moisture evaporates, condenses on plastic, and drips into the container."}
+    ]
+  },
+  {
+    "slug": "firewood-btu-calculator",
+    "toolName": "Firewood BTU Calculator",
+    "category": "survival",
+    "tagline": "Calculate heat output and firewood needs by species",
+    "keywords": "firewood BTU calculator, cord of wood heat, firewood comparison, wood heating calculator",
+    "relatedTools": ["emergency-food-storage-calculator", "water-purification-calculator", "solar-still-output-calculator"],
+    "inputs": [
+      {"id": "species", "label": "Wood Species", "default": "oak", "options": [{"value":"oak","label":"Oak (White) - 29.1M BTU"},{"value":"hickory","label":"Hickory - 30.6M BTU"},{"value":"maple","label":"Maple (Hard) - 25.5M BTU"},{"value":"ash","label":"Ash - 24.2M BTU"},{"value":"birch","label":"Birch - 23.6M BTU"},{"value":"pine","label":"Pine - 17.1M BTU"},{"value":"cedar","label":"Cedar - 13.0M BTU"}]},
+      {"id": "cords", "label": "Cords of Wood", "default": 3, "unit": "cords"},
+      {"id": "stoveEff", "label": "Stove Efficiency", "default": 70, "unit": "%"},
+      {"id": "homeSquareFt", "label": "Home Size", "default": 1500, "unit": "sq ft"}
+    ],
+    "results": [
+      {"id": "grossBTU", "label": "Gross BTU"},
+      {"id": "usableBTU", "label": "Usable BTU"},
+      {"id": "heatingDays", "label": "Est. Heating Days"},
+      {"id": "costEquiv", "label": "Propane Equivalent"}
+    ],
+    "calcFn": "var btuMap = {oak:29100000,hickory:30600000,maple:25500000,ash:24200000,birch:23600000,pine:17100000,cedar:13000000}; var btuPerCord = btuMap[species] || 25000000; var gross = btuPerCord * cords; var usable = gross * (stoveEff / 100); var dailyBTU = homeSquareFt * 35; var heatDays = usable / dailyBTU; var propaneGal = usable / 91500; var propaneCost = propaneGal * 2.75; document.getElementById('grossBTU').textContent = fmt(gross/1000000, 1) + 'M BTU'; document.getElementById('usableBTU').textContent = fmt(usable/1000000, 1) + 'M BTU'; document.getElementById('heatingDays').textContent = fmt(heatDays, 0) + ' days'; document.getElementById('costEquiv').textContent = dollar(propaneCost) + ' propane equiv';",
+    "formulas": ["Usable BTU = BTU per Cord x Cords x Stove Efficiency", "Heating Days = Usable BTU / (Sq Ft x 35 BTU/day/sqft)"],
+    "faq": [
+      {"question": "What wood has the most BTU per cord?", "answer": "Osage orange tops the list at ~32.9M BTU/cord. Hickory (30.6M), black locust (29.3M), and white oak (29.1M) are top heating woods. Softwoods like pine (17.1M) and cedar (13.0M) burn fast and are better for kindling than sustained heat."},
+      {"question": "How many cords of wood do I need for winter?", "answer": "A typical well-insulated 1,500 sq ft home in a cold climate (6,000+ heating degree days) uses 3-5 cords per heating season with a wood stove as primary heat. Mild climates may use 1-2 cords. An efficient EPA stove uses 30-40% less wood than an open fireplace."}
+    ]
+  },
+  {
+    "slug": "emergency-radio-range-calculator",
+    "toolName": "Emergency Radio Range Calculator",
+    "category": "survival",
+    "tagline": "Estimate two-way radio communication range",
+    "keywords": "radio range calculator, two way radio distance, walkie talkie range, emergency communications",
+    "relatedTools": ["bug-out-bag-weight-calculator", "water-purification-calculator", "firewood-btu-calculator"],
+    "inputs": [
+      {"id": "power", "label": "Transmit Power", "default": 5, "unit": "watts"},
+      {"id": "frequency", "label": "Frequency Band", "default": "uhf", "options": [{"value":"hf","label":"HF (3-30 MHz)"},{"value":"vhf","label":"VHF (136-174 MHz)"},{"value":"uhf","label":"UHF (400-520 MHz)"},{"value":"gmrs","label":"GMRS (462 MHz)"},{"value":"frs","label":"FRS (462 MHz, 0.5W)"}]},
+      {"id": "terrain", "label": "Terrain", "default": "suburban", "options": [{"value":"open","label":"Open/Flat"},{"value":"suburban","label":"Suburban"},{"value":"forest","label":"Dense Forest"},{"value":"urban","label":"Urban"},{"value":"mountain","label":"Mountainous"}]},
+      {"id": "antennaHeight", "label": "Antenna Height", "default": 6, "unit": "feet"}
+    ],
+    "results": [
+      {"id": "theoreticalRange", "label": "Theoretical Range"},
+      {"id": "practicalRange", "label": "Practical Range"},
+      {"id": "losRange", "label": "Line-of-Sight Horizon"},
+      {"id": "recommendation", "label": "Best Use"}
+    ],
+    "calcFn": "var terrainFactor = {open:1.0,suburban:0.5,forest:0.35,urban:0.25,mountain:0.3}; var tf = terrainFactor[terrain] || 0.5; var baseRange; if (frequency === 'hf') { baseRange = 50; } else if (frequency === 'vhf') { baseRange = 15 * Math.sqrt(power/5); } else if (frequency === 'frs') { baseRange = 2; } else { baseRange = 10 * Math.sqrt(power/5); } var los = 1.23 * Math.sqrt(antennaHeight); var theoretical = baseRange; var practical = baseRange * tf; var rec = frequency === 'hf' ? 'Long-range emergency (skip propagation)' : frequency === 'vhf' ? 'Rural/wilderness, search & rescue' : frequency === 'frs' ? 'Short-range family comms only' : 'General purpose, suburban/urban'; document.getElementById('theoreticalRange').textContent = fmt(theoretical, 1) + ' miles'; document.getElementById('practicalRange').textContent = fmt(practical, 1) + ' miles'; document.getElementById('losRange').textContent = fmt(los, 1) + ' miles'; document.getElementById('recommendation').textContent = rec;",
+    "formulas": ["Line-of-Sight = 1.23 x sqrt(Antenna Height in ft)", "Practical Range = Base Range x Terrain Factor"],
+    "faq": [
+      {"question": "How far can a 5-watt radio reach?", "answer": "A 5-watt UHF/VHF handheld typically reaches 3-5 miles in suburban terrain, 1-2 miles in urban areas, and 10-15 miles with line of sight from elevation. Advertised ranges of 25-35 miles are theoretical maximums achievable only under ideal conditions."},
+      {"question": "What is the best emergency radio frequency?", "answer": "For most emergencies: GMRS (requires license) offers 5W power and repeater access. FRS is license-free but limited to 0.5W. Ham radio (VHF/UHF with Technician license) gives the most flexibility. Channel 9 on CB (27 MHz) is the traditional emergency channel."}
+    ]
+  },
+  {
+    "slug": "bullet-drop-calculator",
+    "toolName": "Bullet Drop Calculator",
+    "category": "firearms",
+    "tagline": "Calculate ballistic drop at various ranges",
+    "keywords": "bullet drop calculator, ballistic trajectory, bullet drop table, long range shooting",
+    "relatedTools": ["muzzle-energy-calculator", "rifle-scope-moa-calculator", "barrel-twist-rate-calculator"],
+    "inputs": [
+      {"id": "muzzleVel", "label": "Muzzle Velocity", "default": 2800, "unit": "fps"},
+      {"id": "bc", "label": "Ballistic Coefficient", "default": 0.45, "unit": "G1 BC"},
+      {"id": "sightHeight", "label": "Sight Height", "default": 1.5, "unit": "inches"},
+      {"id": "zeroRange", "label": "Zero Range", "default": 100, "unit": "yards"},
+      {"id": "targetRange", "label": "Target Range", "default": 500, "unit": "yards"}
+    ],
+    "results": [
+      {"id": "dropInches", "label": "Bullet Drop"},
+      {"id": "dropMOA", "label": "Drop in MOA"},
+      {"id": "dropMils", "label": "Drop in Mils"},
+      {"id": "velocity", "label": "Remaining Velocity"}
+    ],
+    "calcFn": "var t = targetRange / muzzleVel; var dragFactor = 1 - (0.3 / bc); var avgVel = muzzleVel * Math.pow(dragFactor, targetRange / 300); var tof = targetRange * 3 / (muzzleVel + avgVel); var gravDrop = 0.5 * 386.4 * tof * tof; var zeroT = zeroRange * 3 / (muzzleVel + muzzleVel * Math.pow(dragFactor, zeroRange/300)); var zeroDrop = 0.5 * 386.4 * zeroT * zeroT; var angleFix = (zeroDrop - sightHeight) / (zeroRange * 3) * (targetRange * 3); var netDrop = gravDrop - angleFix - sightHeight; var moa = (netDrop / (targetRange * 3)) * 3438; var mils = moa / 3.438; var remainVel = avgVel; document.getElementById('dropInches').textContent = fmt(netDrop, 1) + ' inches'; document.getElementById('dropMOA').textContent = fmt(Math.abs(moa), 1) + ' MOA'; document.getElementById('dropMils').textContent = fmt(Math.abs(mils), 1) + ' Mils'; document.getElementById('velocity').textContent = fmt(remainVel, 0) + ' fps';",
+    "formulas": ["Gravity Drop = 0.5 x 386.4 x Time^2 (inches)", "MOA = Drop (in) / Range (ft) x 3438", "1 Mil = 3.438 MOA"],
+    "faq": [
+      {"question": "How much does a bullet drop at 500 yards?", "answer": "Drop varies enormously by cartridge. A .308 Win (175gr, 2600fps) drops about 50 inches at 500 yards zeroed at 100. A 6.5 Creedmoor (140gr, 2700fps) drops about 38 inches. A .223 (77gr, 2750fps) drops about 48 inches. Higher BC and velocity mean less drop."},
+      {"question": "What is ballistic coefficient?", "answer": "BC measures a bullet's ability to resist air drag. Higher BC means less drop and wind drift. Match-grade .30 cal bullets have BCs of 0.45-0.60 (G1). The G1 model assumes a flat-base bullet shape; G7 is more accurate for modern boat-tail bullets."}
+    ]
+  },
+  {
+    "slug": "reloading-cost-per-round-calculator",
+    "toolName": "Reloading Cost Per Round Calculator",
+    "category": "firearms",
+    "tagline": "Calculate ammo reloading savings vs. factory rounds",
+    "keywords": "reloading cost calculator, ammo reloading savings, cost per round, handloading cost",
+    "relatedTools": ["bullet-drop-calculator", "muzzle-energy-calculator", "barrel-twist-rate-calculator"],
+    "inputs": [
+      {"id": "bulletCost", "label": "Bullet Cost (per 100)", "default": 35, "unit": "$"},
+      {"id": "powderCostPerLb", "label": "Powder Cost/Pound", "default": 38, "unit": "$"},
+      {"id": "grainCharge", "label": "Powder Charge", "default": 42, "unit": "grains"},
+      {"id": "primerCost", "label": "Primer Cost (per 1000)", "default": 80, "unit": "$"},
+      {"id": "brassLife", "label": "Brass Reloads", "default": 8, "unit": "loads"},
+      {"id": "brassCost", "label": "Brass Cost (per 100)", "default": 45, "unit": "$"},
+      {"id": "factoryRoundCost", "label": "Factory Round Cost", "default": 1.25, "unit": "$/round"},
+      {"id": "roundsPerMonth", "label": "Rounds Per Month", "default": 200, "unit": "rounds"}
+    ],
+    "results": [
+      {"id": "costPerRound", "label": "Reload Cost/Round"},
+      {"id": "factoryCost", "label": "Factory Cost/Round"},
+      {"id": "savingsPerRound", "label": "Savings/Round"},
+      {"id": "annualSavings", "label": "Annual Savings"}
+    ],
+    "calcFn": "var bullet = bulletCost / 100; var powder = (grainCharge / 7000) * powderCostPerLb; var primer = primerCost / 1000; var brass = (brassCost / 100) / brassLife; var cpr = bullet + powder + primer + brass; var savings = factoryRoundCost - cpr; var annual = savings * roundsPerMonth * 12; document.getElementById('costPerRound').textContent = dollar(cpr); document.getElementById('factoryCost').textContent = dollar(factoryRoundCost); document.getElementById('savingsPerRound').textContent = dollar(savings); document.getElementById('annualSavings').textContent = dollar(annual);",
+    "formulas": ["Cost/Round = Bullet + Powder + Primer + (Brass / Reloads)", "Powder Cost = (Charge gr / 7000) x Price per lb"],
+    "faq": [
+      {"question": "How much does reloading save?", "answer": "Savings depend on caliber. Common rifle (.308, .223) saves 30-50% vs. factory. Match-grade rifle saves 50-70%. Pistol (9mm) savings are smaller (20-30%) due to cheap factory ammo. Exotic calibers (.300 PRC, .338 Lapua) can save 60-75% per round."},
+      {"question": "Is reloading worth it with equipment costs?", "answer": "A quality single-stage press setup costs $400-800. Progressive press $600-1500. At 200 rounds/month saving $0.40/round, a $600 setup pays for itself in 7-8 months. High-volume pistol shooters recoup costs even faster with progressive presses."}
+    ]
+  },
+  {
+    "slug": "barrel-twist-rate-calculator",
+    "toolName": "Barrel Twist Rate Calculator",
+    "category": "firearms",
+    "tagline": "Determine optimal barrel twist rate for bullet stabilization",
+    "keywords": "barrel twist rate, twist rate calculator, greenhill formula, bullet stabilization",
+    "relatedTools": ["bullet-drop-calculator", "muzzle-energy-calculator", "rifle-scope-moa-calculator"],
+    "inputs": [
+      {"id": "bulletLength", "label": "Bullet Length", "default": 1.24, "unit": "inches"},
+      {"id": "bulletDia", "label": "Bullet Diameter", "default": 0.308, "unit": "inches"},
+      {"id": "muzzleVel", "label": "Muzzle Velocity", "default": 2700, "unit": "fps"},
+      {"id": "bulletDensity", "label": "Bullet Material", "default": "10.9", "options": [{"value":"10.9","label":"Lead Core (10.9)"},{"value":"8.5","label":"Copper Solid (8.5)"},{"value":"7.8","label":"Steel Core (7.8)"}]}
+    ],
+    "results": [
+      {"id": "twistRate", "label": "Optimal Twist Rate"},
+      {"id": "sg", "label": "Stability Factor (Sg)"},
+      {"id": "rpm", "label": "Bullet RPM"},
+      {"id": "verdict", "label": "Stability Verdict"}
+    ],
+    "calcFn": "var density = parseFloat(bulletDensity); var C = 150; var twist = C * Math.pow(bulletDia, 2) / bulletLength * Math.sqrt(density / 10.9); var rpm = (muzzleVel * 12) / twist * 60; var lengthCal = bulletLength / bulletDia; var sg = (bulletDia * bulletDia * twist) / (bulletLength * bulletLength) * 1.5; var verdict = sg > 1.5 ? 'Well stabilized' : sg > 1.1 ? 'Marginally stable' : 'Likely unstable — need faster twist'; document.getElementById('twistRate').textContent = '1:' + fmt(twist, 1) + ' inches'; document.getElementById('sg').textContent = fmt(sg, 2); document.getElementById('rpm').textContent = fmt(rpm, 0) + ' RPM'; document.getElementById('verdict').textContent = verdict;",
+    "formulas": ["Greenhill: Twist = 150 x D^2 / L x sqrt(density/10.9)", "RPM = (MV x 12 / Twist) x 60"],
+    "faq": [
+      {"question": "What happens if twist rate is too slow?", "answer": "An understabilized bullet tumbles in flight, producing oblong or keyhole-shaped holes in targets. Accuracy degrades severely. Long, heavy-for-caliber bullets need faster twists. A 1:12 twist .223 won't stabilize 77gr bullets that need 1:8 or faster."},
+      {"question": "Can twist be too fast?", "answer": "Excessive spin can cause thin-jacketed bullets to come apart from centrifugal force, called 'spin disintegration.' Very fast twist with light varmint bullets at high velocity can cause this. Generally, over-stabilization is less problematic than under-stabilization."}
+    ]
+  },
+  {
+    "slug": "muzzle-energy-calculator",
+    "toolName": "Muzzle Energy Calculator",
+    "category": "firearms",
+    "tagline": "Calculate kinetic energy at the muzzle and downrange",
+    "keywords": "muzzle energy calculator, bullet energy, kinetic energy firearms, ft-lbs energy",
+    "relatedTools": ["bullet-drop-calculator", "barrel-twist-rate-calculator", "shotgun-choke-pattern-calculator"],
+    "inputs": [
+      {"id": "bulletWeight", "label": "Bullet Weight", "default": 168, "unit": "grains"},
+      {"id": "muzzleVel", "label": "Muzzle Velocity", "default": 2650, "unit": "fps"},
+      {"id": "bc", "label": "Ballistic Coefficient", "default": 0.462, "unit": "G1 BC"},
+      {"id": "range", "label": "Range", "default": 300, "unit": "yards"}
+    ],
+    "results": [
+      {"id": "muzzleEnergy", "label": "Muzzle Energy"},
+      {"id": "downrangeVel", "label": "Velocity at Range"},
+      {"id": "downrangeEnergy", "label": "Energy at Range"},
+      {"id": "energyRetained", "label": "Energy Retained"}
+    ],
+    "calcFn": "var me = (bulletWeight * muzzleVel * muzzleVel) / 450240; var dragFactor = 1 - (0.3 / bc); var velAtRange = muzzleVel * Math.pow(dragFactor, range / 300); var deAtRange = (bulletWeight * velAtRange * velAtRange) / 450240; var retained = (deAtRange / me) * 100; document.getElementById('muzzleEnergy').textContent = fmt(me, 0) + ' ft-lbs'; document.getElementById('downrangeVel').textContent = fmt(velAtRange, 0) + ' fps'; document.getElementById('downrangeEnergy').textContent = fmt(deAtRange, 0) + ' ft-lbs'; document.getElementById('energyRetained').textContent = fmt(retained, 1) + '%';",
+    "formulas": ["Energy (ft-lbs) = (Bullet Weight gr x Velocity^2) / 450,240", "Energy at range depends on velocity retained (BC-dependent)"],
+    "faq": [
+      {"question": "How much energy is needed for ethical hunting?", "answer": "General minimums: deer-sized game needs 1,000+ ft-lbs at impact. Elk/moose need 1,500+ ft-lbs. Most states have no specific energy requirements but do regulate caliber minimums. Shot placement matters far more than raw energy for clean kills."},
+      {"question": "What is the most powerful common rifle cartridge?", "answer": "Among common sporting cartridges: .338 Lapua produces ~4,800 ft-lbs, .300 Win Mag ~3,500 ft-lbs, .30-06 ~2,900 ft-lbs, .308 Win ~2,600 ft-lbs, .223 Rem ~1,300 ft-lbs. Dangerous game cartridges like .458 Win Mag reach 5,000+ ft-lbs."}
+    ]
+  },
+  {
+    "slug": "rifle-scope-moa-calculator",
+    "toolName": "Rifle Scope MOA Calculator",
+    "category": "firearms",
+    "tagline": "Calculate MOA adjustments and click values for scope zeroing",
+    "keywords": "MOA calculator, scope click adjustment, rifle scope MOA, sight adjustment calculator",
+    "relatedTools": ["bullet-drop-calculator", "muzzle-energy-calculator", "barrel-twist-rate-calculator"],
+    "inputs": [
+      {"id": "impactOffset", "label": "Impact Offset", "default": 3, "unit": "inches"},
+      {"id": "range", "label": "Shooting Range", "default": 100, "unit": "yards"},
+      {"id": "clickValue", "label": "Click Value", "default": "0.25", "options": [{"value":"0.125","label":"1/8 MOA"},{"value":"0.25","label":"1/4 MOA"},{"value":"0.5","label":"1/2 MOA"},{"value":"0.1","label":"0.1 Mil (0.36 in @100)"}]},
+      {"id": "direction", "label": "Correction Needed", "default": "up", "options": [{"value":"up","label":"Move Impact Up"},{"value":"down","label":"Move Impact Down"},{"value":"left","label":"Move Impact Left"},{"value":"right","label":"Move Impact Right"}]}
+    ],
+    "results": [
+      {"id": "moaCorrection", "label": "MOA Correction"},
+      {"id": "clicks", "label": "Number of Clicks"},
+      {"id": "inchesPerMOA", "label": "Inches/MOA at Range"},
+      {"id": "turretDirection", "label": "Turret Direction"}
+    ],
+    "calcFn": "var cv = parseFloat(clickValue); var isMil = cv === 0.1; var inPerUnit = isMil ? (range * 3.6 / 100) : (range * 1.047 / 100); var correction = impactOffset / inPerUnit; var clicks = Math.round(correction / cv); var turretDir = direction === 'up' ? 'Turn elevation UP (CCW)' : direction === 'down' ? 'Turn elevation DOWN (CW)' : direction === 'left' ? 'Turn windage LEFT' : 'Turn windage RIGHT'; document.getElementById('moaCorrection').textContent = fmt(correction, 2) + (isMil ? ' Mils' : ' MOA'); document.getElementById('clicks').textContent = clicks + ' clicks ' + direction; document.getElementById('inchesPerMOA').textContent = fmt(inPerUnit, 3) + ' in/' + (isMil ? 'Mil' : 'MOA'); document.getElementById('turretDirection').textContent = turretDir;",
+    "formulas": ["1 MOA = 1.047 inches at 100 yards", "Clicks = (Offset / Inches per MOA) / Click Value", "1 Mil = 3.6 inches at 100 yards"],
+    "faq": [
+      {"question": "What is MOA?", "answer": "MOA (Minute of Angle) is an angular measurement equal to 1/60 of a degree. At 100 yards, 1 MOA equals approximately 1.047 inches. It scales linearly: at 200 yards 1 MOA = 2.094 inches, at 500 yards 1 MOA = 5.235 inches."},
+      {"question": "Should I use MOA or Mil scopes?", "answer": "MOA is more intuitive for shooters who think in inches (1 MOA ~1 inch at 100 yards). Mils pair naturally with metric measurements. Mils require fewer clicks for large adjustments. Military and competition shooters often prefer Mils. Either works — just be consistent."}
+    ]
+  },
+  {
+    "slug": "shotgun-choke-pattern-calculator",
+    "toolName": "Shotgun Choke Pattern Calculator",
+    "category": "firearms",
+    "tagline": "Estimate shot pattern spread at various distances by choke type",
+    "keywords": "shotgun choke calculator, shot pattern spread, shotgun pattern, choke constriction",
+    "relatedTools": ["muzzle-energy-calculator", "bullet-drop-calculator", "rifle-scope-moa-calculator"],
+    "inputs": [
+      {"id": "choke", "label": "Choke Type", "default": "modified", "options": [{"value":"cylinder","label":"Cylinder (0.000)"},{"value":"skeet","label":"Skeet (0.005)"},{"value":"ic","label":"Improved Cyl (0.010)"},{"value":"modified","label":"Modified (0.020)"},{"value":"im","label":"Improved Mod (0.025)"},{"value":"full","label":"Full (0.035)"},{"value":"xfull","label":"Extra Full (0.040)"}]},
+      {"id": "range", "label": "Range", "default": 30, "unit": "yards"},
+      {"id": "gauge", "label": "Gauge", "default": "12", "options": [{"value":"12","label":"12 Gauge"},{"value":"20","label":"20 Gauge"},{"value":"16","label":"16 Gauge"},{"value":"28","label":"28 Gauge"},{"value":"410","label":".410 Bore"}]},
+      {"id": "shotSize", "label": "Shot Size", "default": "7.5", "options": [{"value":"9","label":"#9"},{"value":"8","label":"#8"},{"value":"7.5","label":"#7.5"},{"value":"6","label":"#6"},{"value":"5","label":"#5"},{"value":"4","label":"#4"},{"value":"2","label":"#2"},{"value":"BB","label":"BB"}]}
+    ],
+    "results": [
+      {"id": "patternDia", "label": "Pattern Diameter"},
+      {"id": "pctIn30", "label": "% in 30-inch Circle"},
+      {"id": "pelletCount", "label": "Pellet Count (est.)"},
+      {"id": "hitsIn30", "label": "Hits in 30-inch Circle"}
+    ],
+    "calcFn": "var chokeData = {cylinder:{pct:40,spread:1.0},skeet:{pct:45,spread:0.95},ic:{pct:50,spread:0.85},modified:{pct:60,spread:0.72},im:{pct:65,spread:0.65},full:{pct:70,spread:0.55},xfull:{pct:75,spread:0.48}}; var cd = chokeData[choke] || chokeData.modified; var patDia = range * cd.spread * 1.2; var pctAt40 = cd.pct; var adjPct = pctAt40 * (40 / range); adjPct = Math.min(adjPct, 98); var pelletMap = {'9':585,'8':410,'7.5':350,'6':225,'5':170,'4':135,'2':90,'BB':50}; var gaugeMap = {'12':1.0,'16':0.82,'20':0.73,'28':0.55,'410':0.40}; var basePellets = pelletMap[shotSize] || 350; var gf = gaugeMap[gauge] || 1.0; var totalPellets = Math.round(basePellets * gf); var hitsIn30 = Math.round(totalPellets * (adjPct / 100)); document.getElementById('patternDia').textContent = fmt(patDia, 1) + ' inches'; document.getElementById('pctIn30').textContent = fmt(adjPct, 0) + '%'; document.getElementById('pelletCount').textContent = totalPellets + ' pellets (approx)'; document.getElementById('hitsIn30').textContent = hitsIn30 + ' pellet hits';",
+    "formulas": ["Pattern % is rated at 40 yards in a 30-inch circle", "Cylinder ~40%, Modified ~60%, Full ~70%"],
+    "faq": [
+      {"question": "Which choke should I use for trap vs. skeet?", "answer": "Skeet: Skeet or Improved Cylinder for close (20-25 yard) targets. Trap singles: Modified or Improved Modified for 30-35 yard targets. Trap handicap (longer range): Full or Improved Modified. Sporting clays: start with Modified and adjust based on station distance."},
+      {"question": "What does choke constriction mean?", "answer": "Choke constriction is the reduction in bore diameter at the muzzle. A 12-gauge bore is 0.729 inches. Full choke constricts to ~0.694 (0.035 reduction). Tighter constriction holds the shot column together longer, creating denser patterns at range but smaller effective patterns up close."}
+    ]
+  },
+  {
+    "slug": "resin-pour-volume-calculator",
+    "toolName": "Resin Pour Volume Calculator",
+    "category": "crafts",
+    "tagline": "Calculate resin and hardener amounts for your mold or project",
+    "keywords": "resin volume calculator, epoxy resin calculator, resin pour, resin mixing ratio",
+    "relatedTools": ["candle-wax-calculator", "pottery-glaze-calculator", "leather-hide-coverage-calculator"],
+    "inputs": [
+      {"id": "length", "label": "Length", "default": 12, "unit": "inches"},
+      {"id": "width", "label": "Width", "default": 8, "unit": "inches"},
+      {"id": "depth", "label": "Depth/Thickness", "default": 0.25, "unit": "inches"},
+      {"id": "mixRatio", "label": "Mix Ratio (Resin:Hardener)", "default": "1:1", "options": [{"value":"1:1","label":"1:1 (most art resins)"},{"value":"2:1","label":"2:1 (many table-top)"},{"value":"3:1","label":"3:1 (some deep pour)"},{"value":"5:1","label":"5:1 (specialty)"}]},
+      {"id": "wasteFactor", "label": "Waste Factor", "default": 10, "unit": "%"}
+    ],
+    "results": [
+      {"id": "volumeCuIn", "label": "Volume (cu in)"},
+      {"id": "totalOz", "label": "Total Mixed Resin"},
+      {"id": "resinOz", "label": "Resin Part"},
+      {"id": "hardenerOz", "label": "Hardener Part"}
+    ],
+    "calcFn": "var vol = length * width * depth; var volWithWaste = vol * (1 + wasteFactor / 100); var totalOz = volWithWaste * 0.554; var parts = mixRatio.split(':'); var r = parseFloat(parts[0]); var h = parseFloat(parts[1]); var resinPart = totalOz * (r / (r + h)); var hardPart = totalOz * (h / (r + h)); document.getElementById('volumeCuIn').textContent = fmt(vol, 2) + ' cu in'; document.getElementById('totalOz').textContent = fmt(totalOz, 1) + ' fl oz'; document.getElementById('resinOz').textContent = fmt(resinPart, 1) + ' fl oz'; document.getElementById('hardenerOz').textContent = fmt(hardPart, 1) + ' fl oz';",
+    "formulas": ["Volume = L x W x D (cubic inches)", "Fluid Oz = Cubic Inches x 0.554", "Resin Part = Total x (Ratio R / (R + H))"],
+    "faq": [
+      {"question": "How do I calculate resin for irregular shapes?", "answer": "For irregular molds, fill the mold with water, then pour the water into a measuring cup. The volume in fluid ounces is the amount of mixed resin you need plus 10% for waste. For round molds, use pi x r^2 x depth to get cubic inches."},
+      {"question": "Why is my resin not curing properly?", "answer": "Most curing issues come from incorrect measuring. Always measure by volume (not weight) for 1:1 ratios. Mix thoroughly for 3-5 minutes, scraping sides and bottom. Temperature below 70F slows curing. Humidity above 80% can cause surface tackiness."}
+    ]
+  },
+  {
+    "slug": "yarn-yardage-calculator",
+    "toolName": "Yarn Yardage Calculator",
+    "category": "crafts",
+    "tagline": "Estimate how much yarn you need for knitting or crochet projects",
+    "keywords": "yarn yardage calculator, yarn needed, knitting yarn calculator, crochet yarn estimator",
+    "relatedTools": ["embroidery-thread-calculator", "candle-wax-calculator", "resin-pour-volume-calculator"],
+    "inputs": [
+      {"id": "projectType", "label": "Project Type", "default": "blanket", "options": [{"value":"scarf","label":"Scarf (450 yd)"},{"value":"hat","label":"Hat (200 yd)"},{"value":"sweater","label":"Adult Sweater (1500 yd)"},{"value":"blanket","label":"Blanket (2500 yd)"},{"value":"socks","label":"Socks - pair (400 yd)"},{"value":"custom","label":"Custom (enter below)"}]},
+      {"id": "customYardage", "label": "Custom Yardage (if custom)", "default": 0, "unit": "yards"},
+      {"id": "yarnWeight", "label": "Yarn Weight", "default": "worsted", "options": [{"value":"lace","label":"Lace (0.8x)"},{"value":"fingering","label":"Fingering (0.9x)"},{"value":"dk","label":"DK (0.95x)"},{"value":"worsted","label":"Worsted (1.0x)"},{"value":"bulky","label":"Bulky (1.2x)"},{"value":"super_bulky","label":"Super Bulky (1.5x)"}]},
+      {"id": "skeinYards", "label": "Yards per Skein", "default": 220, "unit": "yards"},
+      {"id": "skeinPrice", "label": "Price per Skein", "default": 8, "unit": "$"}
+    ],
+    "results": [
+      {"id": "totalYards", "label": "Total Yards Needed"},
+      {"id": "skeinsNeeded", "label": "Skeins Needed"},
+      {"id": "totalCost", "label": "Total Yarn Cost"},
+      {"id": "totalWeight", "label": "Est. Yarn Weight"}
+    ],
+    "calcFn": "var baseYards = {scarf:450,hat:200,sweater:1500,blanket:2500,socks:400,custom:customYardage}; var weightFactor = {lace:0.8,fingering:0.9,dk:0.95,worsted:1.0,bulky:1.2,super_bulky:1.5}; var base = baseYards[projectType] || 1000; var wf = weightFactor[yarnWeight] || 1.0; var total = base * wf * 1.1; var skeins = Math.ceil(total / skeinYards); var cost = skeins * skeinPrice; var weightOz = total / 200 * 3.5; document.getElementById('totalYards').textContent = fmt(total, 0) + ' yards'; document.getElementById('skeinsNeeded').textContent = skeins + ' skeins'; document.getElementById('totalCost').textContent = dollar(cost); document.getElementById('totalWeight').textContent = fmt(weightOz, 1) + ' oz';",
+    "formulas": ["Total Yards = Base Yardage x Weight Factor x 1.1 (safety margin)", "Skeins = ceil(Total Yards / Yards per Skein)"],
+    "faq": [
+      {"question": "How do I estimate yardage for a pattern?", "answer": "Most patterns list total yardage needed. If not: knit a gauge swatch, measure the yarn used per square inch, then multiply by project area. Always buy 10% extra — dye lots vary between purchases, so buy all yarn at once."},
+      {"question": "Does yarn weight affect yardage needed?", "answer": "Yes. Bulky yarn covers more area per stitch but uses more yardage per square inch of fabric. A worsted-weight blanket might need 2,500 yards, while the same blanket in bulky needs about 3,000 yards. Lace weight uses less total yardage but takes much longer."}
+    ]
+  },
+  {
+    "slug": "candle-wax-calculator",
+    "toolName": "Candle Wax Calculator",
+    "category": "crafts",
+    "tagline": "Calculate wax weight needed for candle containers",
+    "keywords": "candle wax calculator, candle making, wax weight, candle container fill",
+    "relatedTools": ["resin-pour-volume-calculator", "pottery-glaze-calculator", "yarn-yardage-calculator"],
+    "inputs": [
+      {"id": "containerDia", "label": "Container Diameter", "default": 3.5, "unit": "inches"},
+      {"id": "containerH", "label": "Container Height", "default": 4, "unit": "inches"},
+      {"id": "fillPct", "label": "Fill Level", "default": 90, "unit": "%"},
+      {"id": "numCandles", "label": "Number of Candles", "default": 12, "unit": "candles"},
+      {"id": "waxType", "label": "Wax Type", "default": "soy", "options": [{"value":"soy","label":"Soy (0.83 oz/cu in)"},{"value":"paraffin","label":"Paraffin (0.78 oz/cu in)"},{"value":"coconut","label":"Coconut (0.81 oz/cu in)"},{"value":"beeswax","label":"Beeswax (0.90 oz/cu in)"}]}
+    ],
+    "results": [
+      {"id": "containerVol", "label": "Container Volume"},
+      {"id": "waxPerCandle", "label": "Wax Per Candle"},
+      {"id": "totalWax", "label": "Total Wax Needed"},
+      {"id": "fragranceOz", "label": "Fragrance Oil (10%)"}
+    ],
+    "calcFn": "var densityMap = {soy:0.83,paraffin:0.78,coconut:0.81,beeswax:0.90}; var density = densityMap[waxType] || 0.83; var radius = containerDia / 2; var vol = Math.PI * radius * radius * containerH; var fillVol = vol * (fillPct / 100); var waxOz = fillVol * density; var totalOz = waxOz * numCandles * 1.05; var fragranceOz = totalOz * 0.10; document.getElementById('containerVol').textContent = fmt(vol, 1) + ' cu in'; document.getElementById('waxPerCandle').textContent = fmt(waxOz, 1) + ' oz'; document.getElementById('totalWax').textContent = fmt(totalOz, 1) + ' oz (' + fmt(totalOz / 16, 1) + ' lbs)'; document.getElementById('fragranceOz').textContent = fmt(fragranceOz, 1) + ' oz';",
+    "formulas": ["Volume = pi x r^2 x height", "Wax Weight = Volume x Fill % x Wax Density", "Fragrance = 6-10% of total wax weight"],
+    "faq": [
+      {"question": "How much fragrance oil should I add to candle wax?", "answer": "Most waxes can hold 6-12% fragrance load. Soy wax typically maxes at 10-12%. Paraffin holds 6-10%. Start at 6% and increase to your preference. Too much fragrance causes sweating, poor burn, and wick clogging. Add fragrance at the correct temperature (usually 185F)."},
+      {"question": "Why do my candles have sinkholes?", "answer": "Sinkholes form when the outer wax cools and solidifies before the inner wax, creating air pockets. Fix by pouring at a lower temperature (120-140F for soy), poking relief holes after initial set, and doing a second pour to fill gaps. Heating the container slightly before pouring helps."}
+    ]
+  },
+  {
+    "slug": "leather-hide-coverage-calculator",
+    "toolName": "Leather Hide Coverage Calculator",
+    "category": "crafts",
+    "tagline": "Estimate leather needed from hide yield for your project",
+    "keywords": "leather hide calculator, leather coverage, hide yield, leather project estimator",
+    "relatedTools": ["resin-pour-volume-calculator", "yarn-yardage-calculator", "embroidery-thread-calculator"],
+    "inputs": [
+      {"id": "projectSqFt", "label": "Project Area Needed", "default": 8, "unit": "sq ft"},
+      {"id": "hideSize", "label": "Hide Size", "default": "full", "options": [{"value":"full","label":"Full Hide (45-55 sqft)"},{"value":"half","label":"Half Hide (22-27 sqft)"},{"value":"side","label":"Side (20-25 sqft)"},{"value":"shoulder","label":"Shoulder (8-12 sqft)"},{"value":"belly","label":"Belly (6-10 sqft)"}]},
+      {"id": "wastePct", "label": "Waste/Unusable", "default": 25, "unit": "%"},
+      {"id": "numProjects", "label": "Number of Projects", "default": 5, "unit": "projects"},
+      {"id": "pricePerSqFt", "label": "Leather Price", "default": 6.50, "unit": "$/sqft"}
+    ],
+    "results": [
+      {"id": "totalNeeded", "label": "Total Leather Needed"},
+      {"id": "usablePerHide", "label": "Usable Area/Hide"},
+      {"id": "hidesNeeded", "label": "Hides Needed"},
+      {"id": "totalCost", "label": "Total Leather Cost"}
+    ],
+    "calcFn": "var hideSizes = {full:50,half:25,side:22,shoulder:10,belly:8}; var hs = hideSizes[hideSize] || 50; var usable = hs * (1 - wastePct/100); var totalNeeded = projectSqFt * numProjects; var hides = Math.ceil(totalNeeded / usable); var totalSqFt = hides * hs; var cost = totalSqFt * pricePerSqFt; document.getElementById('totalNeeded').textContent = fmt(totalNeeded, 1) + ' sq ft'; document.getElementById('usablePerHide').textContent = fmt(usable, 1) + ' sq ft'; document.getElementById('hidesNeeded').textContent = hides + ' hides'; document.getElementById('totalCost').textContent = dollar(cost);",
+    "formulas": ["Usable Area = Hide Size x (1 - Waste %)", "Hides Needed = ceil(Total Area / Usable per Hide)"],
+    "faq": [
+      {"question": "How much usable leather is in a full hide?", "answer": "A full cowhide averages 45-55 sq ft, but 20-30% is typically unusable due to brand marks, scars, belly stretch, and irregular edges. Expect 33-42 sq ft of usable leather from a full hide. Premium hides have less waste."},
+      {"question": "What leather thickness do I need?", "answer": "Belts and holsters: 8-10 oz (3.2-4mm). Bags and cases: 4-6 oz (1.6-2.4mm). Wallets and linings: 2-3 oz (0.8-1.2mm). Garments: 1.5-3 oz (0.6-1.2mm). Leather is measured in ounces where 1 oz = 1/64 inch (0.4mm)."}
+    ]
+  },
+  {
+    "slug": "embroidery-thread-calculator",
+    "toolName": "Embroidery Thread Calculator",
+    "category": "crafts",
+    "tagline": "Estimate thread length needed for embroidery projects",
+    "keywords": "embroidery thread calculator, floss needed, cross stitch thread, embroidery yardage",
+    "relatedTools": ["yarn-yardage-calculator", "leather-hide-coverage-calculator", "candle-wax-calculator"],
+    "inputs": [
+      {"id": "designW", "label": "Design Width", "default": 6, "unit": "inches"},
+      {"id": "designH", "label": "Design Height", "default": 8, "unit": "inches"},
+      {"id": "coveragePct", "label": "Stitch Coverage", "default": 60, "unit": "%"},
+      {"id": "fabricCount", "label": "Fabric Count", "default": "14", "options": [{"value":"11","label":"11 count Aida"},{"value":"14","label":"14 count Aida"},{"value":"16","label":"16 count Aida"},{"value":"18","label":"18 count Aida"},{"value":"28","label":"28 count evenweave"}]},
+      {"id": "numStrands", "label": "Strands Used", "default": 2, "unit": "strands"},
+      {"id": "numColors", "label": "Number of Colors", "default": 8, "unit": "colors"}
+    ],
+    "results": [
+      {"id": "totalStitches", "label": "Total Stitches"},
+      {"id": "threadPerColor", "label": "Thread Per Color"},
+      {"id": "skeinsPerColor", "label": "Skeins Per Color"},
+      {"id": "totalSkeins", "label": "Total Skeins"}
+    ],
+    "calcFn": "var ct = parseInt(fabricCount); var stitchCount = (designW * ct) * (designH * ct) * (coveragePct / 100); var inchesPerStitch = (numStrands * 1.5) / ct + 0.5; var totalInches = stitchCount * inchesPerStitch; var perColor = totalInches / numColors; var skeinsPerColor = Math.ceil(perColor / (8.7 * 36)); var totalSkeins = skeinsPerColor * numColors; document.getElementById('totalStitches').textContent = fmt(stitchCount, 0); document.getElementById('threadPerColor').textContent = fmt(perColor / 36, 1) + ' yards'; document.getElementById('skeinsPerColor').textContent = skeinsPerColor + ' skeins'; document.getElementById('totalSkeins').textContent = totalSkeins + ' skeins';",
+    "formulas": ["Total Stitches = (Width x Count) x (Height x Count) x Coverage %", "Thread per Stitch varies by strand count and fabric count"],
+    "faq": [
+      {"question": "How many strands should I use?", "answer": "For 14-count Aida: use 2 strands for cross stitch, 1 strand for backstitch. For 18-count: 1-2 strands. For 11-count: 3 strands. The goal is full coverage without puffiness. More strands = faster coverage but less detail."},
+      {"question": "How much thread is in a skein of DMC floss?", "answer": "A standard DMC embroidery floss skein contains 8.7 yards (8 meters) of 6-strand thread. When separated into 2-strand lengths, you get about 26 yards of stitching thread per skein. One skein covers roughly 50-100 stitches on 14-count Aida."}
+    ]
+  },
+  {
+    "slug": "pottery-glaze-calculator",
+    "toolName": "Pottery Glaze Calculator",
+    "category": "crafts",
+    "tagline": "Calculate glaze mixing ratios and quantities for pottery",
+    "keywords": "pottery glaze calculator, glaze recipe, glaze mixing, ceramic glaze batch",
+    "relatedTools": ["resin-pour-volume-calculator", "candle-wax-calculator", "leather-hide-coverage-calculator"],
+    "inputs": [
+      {"id": "batchSize", "label": "Batch Size", "default": 5000, "unit": "grams dry"},
+      {"id": "waterRatio", "label": "Water Ratio", "default": "0.5", "options": [{"value":"0.4","label":"Thick (40% water)"},{"value":"0.5","label":"Standard (50% water)"},{"value":"0.6","label":"Thin (60% water)"}]},
+      {"id": "surfaceArea", "label": "Surface Area to Glaze", "default": 3000, "unit": "sq cm"},
+      {"id": "coats", "label": "Number of Coats", "default": 3, "unit": "coats"},
+      {"id": "coverageRate", "label": "Coverage Rate", "default": 80, "unit": "sq cm/100g"}
+    ],
+    "results": [
+      {"id": "totalDry", "label": "Dry Materials Needed"},
+      {"id": "waterNeeded", "label": "Water to Add"},
+      {"id": "totalWet", "label": "Total Wet Glaze"},
+      {"id": "glazeNeeded", "label": "Glaze Needed for Area"}
+    ],
+    "calcFn": "var wr = parseFloat(waterRatio); var glazeForArea = (surfaceArea * coats / coverageRate) * 100; var waterAmt = batchSize * wr; var totalWet = batchSize + waterAmt; var areaGlazeWet = glazeForArea * (1 + wr); document.getElementById('totalDry').textContent = fmt(batchSize, 0) + ' g'; document.getElementById('waterNeeded').textContent = fmt(waterAmt, 0) + ' g (' + fmt(waterAmt/1000, 2) + ' L)'; document.getElementById('totalWet').textContent = fmt(totalWet, 0) + ' g'; document.getElementById('glazeNeeded').textContent = fmt(areaGlazeWet, 0) + ' g wet (' + fmt(glazeForArea, 0) + ' g dry)';",
+    "formulas": ["Water = Dry Weight x Water Ratio", "Glaze for Area = (Surface Area x Coats / Coverage) x 100"],
+    "faq": [
+      {"question": "How thick should glaze be applied?", "answer": "Standard application is about the thickness of a credit card (1-2mm). Three thin coats are better than one thick coat. Dip for 3 seconds or brush 3 coats with drying between each. Too thick causes crawling and running; too thin gives dry, rough surfaces."},
+      {"question": "What is the correct glaze specific gravity?", "answer": "Most glazes work best at 1.45-1.55 specific gravity (measured with a hydrometer). Dipping glazes should be thinner (1.40-1.50) and brushing glazes thicker (1.55-1.65). Adjust by adding water to thin or letting glaze settle and removing water to thicken."}
+    ]
+  },
+  {
+    "slug": "fabric-shrinkage-calculator",
+    "toolName": "Fabric Shrinkage Calculator",
+    "category": "sewing",
+    "tagline": "Calculate how much extra fabric to buy for pre-wash shrinkage",
+    "keywords": "fabric shrinkage calculator, pre-wash shrinkage, fabric yardage, cotton shrinkage",
+    "relatedTools": ["quilt-binding-length-calculator", "seam-allowance-calculator", "interfacing-yardage-calculator"],
+    "inputs": [
+      {"id": "neededLength", "label": "Finished Length Needed", "default": 60, "unit": "inches"},
+      {"id": "neededWidth", "label": "Finished Width Needed", "default": 44, "unit": "inches"},
+      {"id": "fabricType", "label": "Fabric Type", "default": "cotton", "options": [{"value":"cotton","label":"Cotton (3-5%)"},{"value":"linen","label":"Linen (5-10%)"},{"value":"rayon","label":"Rayon (5-8%)"},{"value":"denim","label":"Denim (3-5%)"},{"value":"wool","label":"Wool (5-10%)"},{"value":"polyester","label":"Polyester (1-2%)"},{"value":"silk","label":"Silk (2-5%)"}]},
+      {"id": "shrinkPct", "label": "Expected Shrinkage", "default": 5, "unit": "%"}
+    ],
+    "results": [
+      {"id": "buyLength", "label": "Length to Buy"},
+      {"id": "buyWidth", "label": "Width (check bolt)"},
+      {"id": "extraLength", "label": "Extra Needed"},
+      {"id": "yardage", "label": "Yardage to Purchase"}
+    ],
+    "calcFn": "var factor = 1 / (1 - shrinkPct / 100); var buyL = neededLength * factor; var buyW = neededWidth * factor; var extra = buyL - neededLength; var yards = Math.ceil(buyL / 36 * 8) / 8; document.getElementById('buyLength').textContent = fmt(buyL, 1) + ' inches'; document.getElementById('buyWidth').textContent = fmt(buyW, 1) + ' inches'; document.getElementById('extraLength').textContent = fmt(extra, 1) + ' inches extra'; document.getElementById('yardage').textContent = fmt(yards, 3) + ' yards';",
+    "formulas": ["Buy Length = Needed Length / (1 - Shrink %)", "Always round up to next 1/8 yard"],
+    "faq": [
+      {"question": "How much does cotton shrink?", "answer": "Unwashed cotton typically shrinks 3-5% in both directions on the first wash. Some cotton fabrics can shrink up to 7%. Pre-washing before cutting is strongly recommended. Use the same wash/dry settings you plan to use for the finished garment."},
+      {"question": "Should I pre-wash all fabric?", "answer": "Pre-wash natural fibers (cotton, linen, wool, rayon) before cutting. Polyester and nylon rarely need pre-washing. For quilting, some quilters skip pre-washing to maintain fabric crispness and accept slight puckering after first wash for a vintage look."}
+    ]
+  },
+  {
+    "slug": "quilt-binding-length-calculator",
+    "toolName": "Quilt Binding Length Calculator",
+    "category": "sewing",
+    "tagline": "Calculate binding strips needed to finish your quilt",
+    "keywords": "quilt binding calculator, binding yardage, quilt binding strips, bias binding length",
+    "relatedTools": ["fabric-shrinkage-calculator", "seam-allowance-calculator", "interfacing-yardage-calculator"],
+    "inputs": [
+      {"id": "quiltW", "label": "Quilt Width", "default": 60, "unit": "inches"},
+      {"id": "quiltH", "label": "Quilt Height", "default": 80, "unit": "inches"},
+      {"id": "stripWidth", "label": "Binding Strip Width", "default": 2.5, "unit": "inches"},
+      {"id": "fabricWidth", "label": "Fabric Width", "default": 42, "unit": "inches (usable)"}
+    ],
+    "results": [
+      {"id": "perimeter", "label": "Quilt Perimeter"},
+      {"id": "totalBinding", "label": "Total Binding Length"},
+      {"id": "numStrips", "label": "Strips to Cut"},
+      {"id": "fabricNeeded", "label": "Fabric Needed"}
+    ],
+    "calcFn": "var perimeter = 2 * (quiltW + quiltH); var total = perimeter + 12; var strips = Math.ceil(total / fabricWidth); var fabricInches = strips * stripWidth; var fabricYards = Math.ceil(fabricInches / 36 * 8) / 8; document.getElementById('perimeter').textContent = fmt(perimeter, 0) + ' inches'; document.getElementById('totalBinding').textContent = fmt(total, 0) + ' inches (' + fmt(total/36, 1) + ' yards)'; document.getElementById('numStrips').textContent = strips + ' strips at ' + stripWidth + ' in wide'; document.getElementById('fabricNeeded').textContent = fmt(fabricYards, 3) + ' yards';",
+    "formulas": ["Total Binding = Perimeter + 12 inches (joining/corners)", "Strips = ceil(Total / Usable Fabric Width)", "Fabric = Strips x Strip Width (converted to yards)"],
+    "faq": [
+      {"question": "How wide should quilt binding strips be?", "answer": "The standard is 2.5 inches for double-fold binding, which creates a finished binding of about 3/8 inch. For thicker quilts (batting + flannel), use 2.75 inch strips. Single-fold binding uses 1.75-2 inch strips. Cut strips on the straight grain unless binding curves."},
+      {"question": "How much extra binding should I make?", "answer": "Add 10-12 inches to the quilt perimeter for joining strips and turning corners. This accounts for the diagonal seams where strips are joined and a few inches of overlap at the starting/ending point. For bias binding, add an extra 15%."}
+    ]
+  },
+  {
+    "slug": "elastic-length-calculator",
+    "toolName": "Elastic Length Calculator",
+    "category": "sewing",
+    "tagline": "Calculate elastic length for waistbands, cuffs, and necklines",
+    "keywords": "elastic length calculator, waistband elastic, sewing elastic, elastic sizing",
+    "relatedTools": ["seam-allowance-calculator", "fabric-shrinkage-calculator", "zipper-length-calculator"],
+    "inputs": [
+      {"id": "bodyMeasure", "label": "Body Measurement", "default": 30, "unit": "inches"},
+      {"id": "application", "label": "Application", "default": "waist", "options": [{"value":"waist","label":"Waistband (85%)"},{"value":"cuff","label":"Sleeve Cuff (90%)"},{"value":"neckline","label":"Neckline (75%)"},{"value":"legband","label":"Leg Band (85%)"},{"value":"headband","label":"Headband (80%)"}]},
+      {"id": "elasticWidth", "label": "Elastic Width", "default": "1.0", "options": [{"value":"0.25","label":"1/4 inch"},{"value":"0.5","label":"1/2 inch"},{"value":"0.75","label":"3/4 inch"},{"value":"1.0","label":"1 inch"},{"value":"1.5","label":"1.5 inch"},{"value":"2.0","label":"2 inch"}]},
+      {"id": "seamAllowance", "label": "Overlap/Seam", "default": 1, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "cutLength", "label": "Cut Elastic Length"},
+      {"id": "stretchRatio", "label": "Stretch Ratio Used"},
+      {"id": "casingWidth", "label": "Casing Width Needed"},
+      {"id": "fabricForCasing", "label": "Fabric for Casing"}
+    ],
+    "calcFn": "var ratios = {waist:0.85,cuff:0.90,neckline:0.75,legband:0.85,headband:0.80}; var ratio = ratios[application] || 0.85; var elasticLen = bodyMeasure * ratio + seamAllowance; var ew = parseFloat(elasticWidth); var casingW = ew + 0.5; var fabricCasing = bodyMeasure + 2; document.getElementById('cutLength').textContent = fmt(elasticLen, 1) + ' inches'; document.getElementById('stretchRatio').textContent = fmt(ratio * 100, 0) + '% of body'; document.getElementById('casingWidth').textContent = fmt(casingW, 2) + ' inches'; document.getElementById('fabricForCasing').textContent = fmt(fabricCasing, 0) + ' inches long x ' + fmt(casingW * 2 + 1, 1) + ' inches wide';",
+    "formulas": ["Elastic Length = Body Measurement x Ratio + Seam Allowance", "Waistband: 85% of waist, Neckline: 75%, Cuffs: 90%"],
+    "faq": [
+      {"question": "How much shorter should elastic be than my waist?", "answer": "Cut waistband elastic to 85% of your waist measurement plus overlap (usually 1 inch). For a 30-inch waist: 30 x 0.85 + 1 = 26.5 inches. Some prefer 80% for snug fit. Test comfort by wrapping the elastic around your waist before cutting."},
+      {"question": "What type of elastic is best for waistbands?", "answer": "Knit elastic (braided or woven) is best for waistbands because it does not narrow when stretched. Braided elastic narrows and is better for casings. Fold-over elastic works for activewear. Use 1-1.5 inch width for adult waistbands."}
+    ]
+  },
+  {
+    "slug": "seam-allowance-calculator",
+    "toolName": "Seam Allowance Calculator",
+    "category": "sewing",
+    "tagline": "Calculate total fabric dimensions including seam allowances",
+    "keywords": "seam allowance calculator, sewing seam allowance, pattern sizing, fabric cutting",
+    "relatedTools": ["fabric-shrinkage-calculator", "quilt-binding-length-calculator", "zipper-length-calculator"],
+    "inputs": [
+      {"id": "finishedW", "label": "Finished Width", "default": 18, "unit": "inches"},
+      {"id": "finishedH", "label": "Finished Height", "default": 22, "unit": "inches"},
+      {"id": "seamWidth", "label": "Seam Allowance", "default": "0.625", "options": [{"value":"0.25","label":"1/4 inch (quilting)"},{"value":"0.375","label":"3/8 inch (light fabrics)"},{"value":"0.5","label":"1/2 inch (general)"},{"value":"0.625","label":"5/8 inch (standard patterns)"},{"value":"1.0","label":"1 inch (alteration ease)"}]},
+      {"id": "hemWidth", "label": "Hem Allowance", "default": 1, "unit": "inches"},
+      {"id": "numPieces", "label": "Number of Pieces", "default": 2, "unit": "pieces"}
+    ],
+    "results": [
+      {"id": "cutW", "label": "Cut Width"},
+      {"id": "cutH", "label": "Cut Height"},
+      {"id": "totalFabric", "label": "Total Fabric Area"},
+      {"id": "added", "label": "Extra Fabric from SA"}
+    ],
+    "calcFn": "var sa = parseFloat(seamWidth); var cutW = finishedW + (sa * 2); var cutH = finishedH + (sa * 2) + (hemWidth * 2); var area = cutW * cutH * numPieces; var finArea = finishedW * finishedH * numPieces; var extra = area - finArea; document.getElementById('cutW').textContent = fmt(cutW, 3) + ' inches'; document.getElementById('cutH').textContent = fmt(cutH, 3) + ' inches'; document.getElementById('totalFabric').textContent = fmt(area, 1) + ' sq in (' + fmt(area / 144, 2) + ' sq ft)'; document.getElementById('added').textContent = fmt(extra, 1) + ' sq in extra (' + fmt((extra/finArea)*100, 1) + '%)';",
+    "formulas": ["Cut Width = Finished Width + (2 x Seam Allowance)", "Cut Height = Finished Height + (2 x SA) + (2 x Hem)"],
+    "faq": [
+      {"question": "What is the standard seam allowance?", "answer": "Commercial patterns (Simplicity, McCall's, Butterick) use 5/8 inch (1.5 cm). Quilting patterns use 1/4 inch. Independent/indie patterns vary — always check the instructions. European patterns often use 1 cm. Knit garments may use 3/8 inch."},
+      {"question": "Why is 5/8 inch the standard?", "answer": "5/8 inch provides enough fabric to finish seams (serge, zigzag, or French seam) while not wasting material. It also allows room for fitting adjustments. Quilting uses 1/4 inch because quilts have many seams and bulk matters."}
+    ]
+  },
+  {
+    "slug": "zipper-length-calculator",
+    "toolName": "Zipper Length Calculator",
+    "category": "sewing",
+    "tagline": "Determine the correct zipper size for your sewing project",
+    "keywords": "zipper length calculator, zipper sizing, sewing zipper, zipper for dress",
+    "relatedTools": ["seam-allowance-calculator", "elastic-length-calculator", "fabric-shrinkage-calculator"],
+    "inputs": [
+      {"id": "openingLength", "label": "Opening Length", "default": 14, "unit": "inches"},
+      {"id": "zipperType", "label": "Zipper Type", "default": "invisible", "options": [{"value":"invisible","label":"Invisible (dress/skirt)"},{"value":"regular","label":"Regular (clothing)"},{"value":"separating","label":"Separating (jacket)"},{"value":"continuous","label":"Continuous/By-the-yard"},{"value":"heavy","label":"Heavy Duty (bag/luggage)"}]},
+      {"id": "application", "label": "Application", "default": "back", "options": [{"value":"back","label":"Back of Dress"},{"value":"side","label":"Side Seam"},{"value":"front","label":"Front Opening"},{"value":"fly","label":"Fly Front"},{"value":"bag","label":"Bag/Pouch"}]},
+      {"id": "seamAllowance", "label": "Seam Allowance", "default": 0.625, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "zipperLength", "label": "Zipper to Buy"},
+      {"id": "standardSize", "label": "Nearest Standard Size"},
+      {"id": "tapeLength", "label": "Tape Length Needed"},
+      {"id": "tip", "label": "Tip"}
+    ],
+    "calcFn": "var extra = 1; if (application === 'fly') extra = 0.5; if (application === 'bag') extra = 0; var needed = openingLength + extra; var standards = [4,5,6,7,8,9,10,12,14,16,18,20,22,24,26,28,30,36]; var nearest = standards[0]; for (var i = 0; i < standards.length; i++) { if (standards[i] >= needed) { nearest = standards[i]; break; } } var tape = nearest + 2; var tip = zipperType === 'invisible' ? 'Sew with zipper foot; stitch close to coils' : zipperType === 'separating' ? 'Must match exact length - cannot shorten' : 'Can shorten regular zippers by sewing a new stop'; document.getElementById('zipperLength').textContent = fmt(needed, 1) + ' inches (minimum)'; document.getElementById('standardSize').textContent = nearest + ' inch zipper'; document.getElementById('tapeLength').textContent = fmt(tape, 0) + ' inches'; document.getElementById('tip').textContent = tip;",
+    "formulas": ["Zipper Length = Opening Length + 1 inch (ease/overlap)", "Buy the next standard size up from calculated length"],
+    "faq": [
+      {"question": "Should I buy a longer zipper and shorten it?", "answer": "Yes, for regular and invisible zippers. Buy 1-2 inches longer than needed and sew a new bottom stop with zigzag stitches. Separating zippers (jackets) cannot be shortened and must be the exact length. Continuous zippers are cut to any length."},
+      {"question": "What zipper type for what project?", "answer": "Invisible: dresses, skirts, formal wear. Regular all-purpose: casual clothing, home dec. Separating: jackets, hoodies. Continuous: bags, cushions, bedding. Metal: jeans, heavy garments. Molded plastic: sportswear, bags."}
+    ]
+  },
+  {
+    "slug": "interfacing-yardage-calculator",
+    "toolName": "Interfacing Yardage Calculator",
+    "category": "sewing",
+    "tagline": "Calculate interfacing needed for collars, cuffs, and facings",
+    "keywords": "interfacing calculator, fusible interfacing, sewing interfacing, interfacing yardage",
+    "relatedTools": ["fabric-shrinkage-calculator", "seam-allowance-calculator", "quilt-binding-length-calculator"],
+    "inputs": [
+      {"id": "numPieces", "label": "Number of Pieces", "default": 6, "unit": "pieces"},
+      {"id": "avgPieceW", "label": "Avg Piece Width", "default": 8, "unit": "inches"},
+      {"id": "avgPieceH", "label": "Avg Piece Height", "default": 10, "unit": "inches"},
+      {"id": "interfacingWidth", "label": "Interfacing Bolt Width", "default": 20, "unit": "inches"},
+      {"id": "interfacingType", "label": "Interfacing Type", "default": "medium_fusible", "options": [{"value":"light_fusible","label":"Light Fusible"},{"value":"medium_fusible","label":"Medium Fusible"},{"value":"heavy_fusible","label":"Heavy Fusible"},{"value":"sew_in","label":"Sew-In"},{"value":"weft","label":"Weft Insertion"}]},
+      {"id": "pricePerYard", "label": "Price per Yard", "default": 5, "unit": "$/yard"}
+    ],
+    "results": [
+      {"id": "totalArea", "label": "Total Area Needed"},
+      {"id": "yardage", "label": "Yardage to Buy"},
+      {"id": "cost", "label": "Total Cost"},
+      {"id": "tip", "label": "Application Tip"}
+    ],
+    "calcFn": "var area = numPieces * avgPieceW * avgPieceH * 1.1; var lengthNeeded = area / interfacingWidth; var yards = Math.ceil(lengthNeeded / 36 * 4) / 4; var cost = yards * pricePerYard; var tips = {light_fusible:'Use for lightweight fabrics — voile, lawn, challis',medium_fusible:'All-purpose — cotton, linen, light wool',heavy_fusible:'Structured areas — waistbands, bag bases, hats',sew_in:'For fabrics that cannot take heat — velvet, sequined',weft:'Best drape — suits, tailored jackets'}; var tip = tips[interfacingType] || ''; document.getElementById('totalArea').textContent = fmt(area, 0) + ' sq in'; document.getElementById('yardage').textContent = fmt(yards, 2) + ' yards'; document.getElementById('cost').textContent = dollar(cost); document.getElementById('tip').textContent = tip;",
+    "formulas": ["Total Area = Pieces x Width x Height x 1.1 (waste)", "Yardage = Total Area / Bolt Width / 36"],
+    "faq": [
+      {"question": "When should I use fusible vs. sew-in interfacing?", "answer": "Fusible interfacing is quicker and works for most fabrics. Use sew-in for: fabrics that cannot tolerate heat or steam (velvet, leather, sequins), very sheer fabrics where glue dots would show, and when you need softer drape in tailoring."},
+      {"question": "How do I choose interfacing weight?", "answer": "Match interfacing weight to your fabric or go one weight lighter. The interfacing should support without overpowering. Test on a scrap first. Light: blouses, facing. Medium: cotton dresses, collars. Heavy: waistbands, hats, bags. The finished piece should still drape naturally."}
+    ]
+  },
+  {
+    "slug": "tariff-impact-on-price-calculator",
+    "toolName": "Tariff Impact on Price Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate how tariffs affect the final consumer price",
+    "keywords": "tariff impact calculator, tariff consumer price, import tariff cost, tariff price increase",
+    "relatedTools": ["anti-dumping-duty-calculator", "section-301-tariff-calculator", "free-trade-zone-savings-calculator"],
+    "inputs": [
+      {"id": "fobPrice", "label": "FOB Price (per unit)", "default": 10, "unit": "$"},
+      {"id": "shippingPct", "label": "Shipping/Freight", "default": 15, "unit": "% of FOB"},
+      {"id": "tariffRate", "label": "Tariff Rate", "default": 25, "unit": "%"},
+      {"id": "importerMargin", "label": "Importer Margin", "default": 30, "unit": "%"},
+      {"id": "retailMargin", "label": "Retail Markup", "default": 50, "unit": "%"}
+    ],
+    "results": [
+      {"id": "landedCost", "label": "Landed Cost (w/ tariff)"},
+      {"id": "noTariffLanded", "label": "Landed Cost (no tariff)"},
+      {"id": "retailWithTariff", "label": "Retail Price (w/ tariff)"},
+      {"id": "retailNoTariff", "label": "Retail Price (no tariff)"},
+      {"id": "consumerImpact", "label": "Consumer Price Increase"}
+    ],
+    "calcFn": "var shipping = fobPrice * (shippingPct / 100); var cif = fobPrice + shipping; var tariffAmt = cif * (tariffRate / 100); var landedWith = cif + tariffAmt; var landedNo = cif; var wholesale = landedWith * (1 + importerMargin / 100); var wholesaleNo = landedNo * (1 + importerMargin / 100); var retailWith = wholesale * (1 + retailMargin / 100); var retailNo = wholesaleNo * (1 + retailMargin / 100); var increase = ((retailWith - retailNo) / retailNo) * 100; document.getElementById('landedCost').textContent = dollar(landedWith); document.getElementById('noTariffLanded').textContent = dollar(landedNo); document.getElementById('retailWithTariff').textContent = dollar(retailWith); document.getElementById('retailNoTariff').textContent = dollar(retailNo); document.getElementById('consumerImpact').textContent = '+' + fmt(increase, 1) + '% (' + dollar(retailWith - retailNo) + ')';",
+    "formulas": ["Landed = FOB + Shipping + (CIF x Tariff Rate)", "Retail = Landed x (1 + Importer Margin) x (1 + Retail Margin)", "Tariff cost is amplified through each markup in the supply chain"],
+    "faq": [
+      {"question": "Who actually pays tariffs?", "answer": "The importing company pays tariffs to customs at the border. However, studies consistently show that most tariff costs (60-100%) are passed to consumers through higher prices. A 25% tariff on a $10 FOB item can increase retail price by $5-8 due to markup amplification."},
+      {"question": "Why is the price increase larger than the tariff rate?", "answer": "Tariffs are applied at the landed cost level, but each middleman (importer, distributor, retailer) applies their percentage markup to the already-tariffed cost. A 25% tariff becomes a 30-40% consumer price increase after each party takes their margin on the higher base cost."}
+    ]
+  },
+  {
+    "slug": "anti-dumping-duty-calculator",
+    "toolName": "Anti-Dumping Duty Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate anti-dumping duties on unfairly priced imports",
+    "keywords": "anti-dumping duty calculator, AD duty, dumping margin, trade remedy calculator",
+    "relatedTools": ["tariff-impact-on-price-calculator", "section-301-tariff-calculator", "tariff-rate-quota-calculator"],
+    "inputs": [
+      {"id": "importPrice", "label": "Import Price (per unit)", "default": 50, "unit": "$"},
+      {"id": "normalValue", "label": "Normal Value (home market)", "default": 80, "unit": "$"},
+      {"id": "quantity", "label": "Quantity Imported", "default": 10000, "unit": "units"},
+      {"id": "regularDuty", "label": "Regular Duty Rate", "default": 5, "unit": "%"}
+    ],
+    "results": [
+      {"id": "dumpingMargin", "label": "Dumping Margin"},
+      {"id": "adDutyPerUnit", "label": "AD Duty Per Unit"},
+      {"id": "totalDuty", "label": "Total AD + Regular Duty"},
+      {"id": "effectiveRate", "label": "Effective Total Rate"}
+    ],
+    "calcFn": "var margin = Math.max(0, ((normalValue - importPrice) / importPrice) * 100); var adPerUnit = importPrice * (margin / 100); var regDutyPerUnit = importPrice * (regularDuty / 100); var totalPerUnit = adPerUnit + regDutyPerUnit; var totalDuty = totalPerUnit * quantity; var effectiveRate = ((adPerUnit + regDutyPerUnit) / importPrice) * 100; document.getElementById('dumpingMargin').textContent = fmt(margin, 1) + '%'; document.getElementById('adDutyPerUnit').textContent = dollar(adPerUnit); document.getElementById('totalDuty').textContent = dollar(totalDuty); document.getElementById('effectiveRate').textContent = fmt(effectiveRate, 1) + '% combined';",
+    "formulas": ["Dumping Margin = (Normal Value - Import Price) / Import Price x 100", "AD Duty = Import Price x Dumping Margin %"],
+    "faq": [
+      {"question": "What is an anti-dumping duty?", "answer": "An anti-dumping (AD) duty is a tariff imposed when a foreign company sells goods in the U.S. below their normal value (home market price). The duty equals the dumping margin. AD duties can range from 5% to over 400% and are in addition to regular tariffs."},
+      {"question": "How long do anti-dumping duties last?", "answer": "AD duties remain in effect indefinitely but are reviewed annually (administrative review) and every 5 years (sunset review). If dumping has stopped and the domestic industry is no longer injured, duties can be revoked. Most AD orders last 10-20+ years in practice."}
+    ]
+  },
+  {
+    "slug": "free-trade-zone-savings-calculator",
+    "toolName": "Free Trade Zone Savings Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate potential savings from using a Foreign Trade Zone",
+    "keywords": "free trade zone calculator, FTZ savings, foreign trade zone, duty deferral",
+    "relatedTools": ["tariff-impact-on-price-calculator", "rules-of-origin-calculator", "section-301-tariff-calculator"],
+    "inputs": [
+      {"id": "annualImports", "label": "Annual Import Value", "default": 5000000, "unit": "$"},
+      {"id": "dutyRate", "label": "Standard Duty Rate", "default": 8, "unit": "%"},
+      {"id": "reexportPct", "label": "% Re-exported", "default": 20, "unit": "%"},
+      {"id": "avgInventoryDays", "label": "Avg Inventory Days", "default": 90, "unit": "days"},
+      {"id": "interestRate", "label": "Cost of Capital", "default": 6, "unit": "%"}
+    ],
+    "results": [
+      {"id": "reexportSavings", "label": "Re-export Duty Savings"},
+      {"id": "deferralSavings", "label": "Duty Deferral Savings"},
+      {"id": "weeklyEntry", "label": "Weekly Entry Savings"},
+      {"id": "totalSavings", "label": "Total Annual Savings"}
+    ],
+    "calcFn": "var annualDuty = annualImports * (dutyRate / 100); var reexportSave = annualDuty * (reexportPct / 100); var deferralDays = avgInventoryDays; var deferralSave = annualDuty * (interestRate / 100) * (deferralDays / 365); var weeklyEntrySave = 52 * 50; var total = reexportSave + deferralSave + weeklyEntrySave; document.getElementById('reexportSavings').textContent = dollar(reexportSave); document.getElementById('deferralSavings').textContent = dollar(deferralSave); document.getElementById('weeklyEntry').textContent = dollar(weeklyEntrySave) + ' (vs daily entries)'; document.getElementById('totalSavings').textContent = dollar(total);",
+    "formulas": ["Re-export Savings = Annual Duty x Re-export %", "Deferral Savings = Annual Duty x Interest Rate x (Days / 365)", "Weekly entry reduces customs broker fees by ~$50/week"],
+    "faq": [
+      {"question": "What is a Foreign Trade Zone?", "answer": "An FTZ is a designated area within the U.S. where goods can be imported, stored, handled, manufactured, or reconfigured without paying customs duties until goods enter U.S. commerce. Goods re-exported from an FTZ avoid duties entirely. There are about 190 active FTZs in the U.S."},
+      {"question": "When is an FTZ worth it?", "answer": "FTZs are most valuable when: you re-export 15%+ of imports (full duty elimination), import high-duty goods with long inventory cycles (deferral savings), or use inverted tariff benefits (finished product duty lower than component duties). Annual savings of $50K+ typically justify FTZ activation costs."}
+    ]
+  },
+  {
+    "slug": "tariff-rate-quota-calculator",
+    "toolName": "Tariff Rate Quota Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate duties under tariff rate quota systems",
+    "keywords": "tariff rate quota, TRQ calculator, in-quota tariff, over-quota tariff",
+    "relatedTools": ["tariff-impact-on-price-calculator", "anti-dumping-duty-calculator", "rules-of-origin-calculator"],
+    "inputs": [
+      {"id": "importQuantity", "label": "Import Quantity", "default": 50000, "unit": "kg"},
+      {"id": "unitPrice", "label": "Unit Price", "default": 5, "unit": "$/kg"},
+      {"id": "quotaLimit", "label": "Quota Limit", "default": 30000, "unit": "kg"},
+      {"id": "inQuotaRate", "label": "In-Quota Tariff", "default": 5, "unit": "%"},
+      {"id": "overQuotaRate", "label": "Over-Quota Tariff", "default": 40, "unit": "%"}
+    ],
+    "results": [
+      {"id": "inQuotaQty", "label": "In-Quota Quantity"},
+      {"id": "overQuotaQty", "label": "Over-Quota Quantity"},
+      {"id": "inQuotaDuty", "label": "In-Quota Duty"},
+      {"id": "overQuotaDuty", "label": "Over-Quota Duty"},
+      {"id": "totalDuty", "label": "Total Duty"},
+      {"id": "effectiveRate", "label": "Blended Effective Rate"}
+    ],
+    "calcFn": "var inQ = Math.min(importQuantity, quotaLimit); var overQ = Math.max(0, importQuantity - quotaLimit); var inDuty = inQ * unitPrice * (inQuotaRate / 100); var overDuty = overQ * unitPrice * (overQuotaRate / 100); var totalDuty = inDuty + overDuty; var totalValue = importQuantity * unitPrice; var effRate = (totalDuty / totalValue) * 100; document.getElementById('inQuotaQty').textContent = fmt(inQ, 0) + ' kg'; document.getElementById('overQuotaQty').textContent = fmt(overQ, 0) + ' kg'; document.getElementById('inQuotaDuty').textContent = dollar(inDuty); document.getElementById('overQuotaDuty').textContent = dollar(overDuty); document.getElementById('totalDuty').textContent = dollar(totalDuty); document.getElementById('effectiveRate').textContent = fmt(effRate, 1) + '%';",
+    "formulas": ["In-Quota Duty = min(Qty, Quota) x Price x In-Quota Rate", "Over-Quota Duty = max(0, Qty - Quota) x Price x Over-Quota Rate"],
+    "faq": [
+      {"question": "What is a tariff rate quota?", "answer": "A TRQ allows a limited quantity of imports at a low tariff rate (in-quota), with quantities above the limit subject to a much higher rate (over-quota). For example, U.S. sugar imports face 1.4 cents/kg in-quota vs. 33.87 cents/kg over-quota. TRQs are common for agricultural products."},
+      {"question": "How are TRQ allocations distributed?", "answer": "TRQs are typically allocated by country (country-specific quotas) or on a first-come-first-served basis. Some quotas are allocated by historical market share. Importers must present quota certificates at time of entry. Once the quota fills, subsequent imports pay the over-quota rate."}
+    ]
+  },
+  {
+    "slug": "rules-of-origin-calculator",
+    "toolName": "Rules of Origin Calculator",
+    "category": "tariffs",
+    "tagline": "Determine if your product qualifies for preferential tariff treatment",
+    "keywords": "rules of origin calculator, origin determination, substantial transformation, preferential tariff",
+    "relatedTools": ["tariff-impact-on-price-calculator", "free-trade-zone-savings-calculator", "section-301-tariff-calculator"],
+    "inputs": [
+      {"id": "totalValue", "label": "Product Value (FOB)", "default": 100, "unit": "$"},
+      {"id": "domesticContent", "label": "Domestic/FTA Content", "default": 55, "unit": "$"},
+      {"id": "directLabor", "label": "Direct Labor Cost", "default": 15, "unit": "$"},
+      {"id": "overhead", "label": "Manufacturing Overhead", "default": 10, "unit": "$"},
+      {"id": "requiredPct", "label": "Required RVC %", "default": "62.5", "options": [{"value":"35","label":"35% (GSP)"},{"value":"50","label":"50% (Many FTAs)"},{"value":"62.5","label":"62.5% (USMCA auto)"},{"value":"75","label":"75% (USMCA core auto)"}]}
+    ],
+    "results": [
+      {"id": "rvc", "label": "Regional Value Content"},
+      {"id": "nonOriginating", "label": "Non-Originating Content"},
+      {"id": "qualifies", "label": "Qualification Status"},
+      {"id": "dutySavings", "label": "Potential Duty Savings"}
+    ],
+    "calcFn": "var req = parseFloat(requiredPct); var origContent = domesticContent + directLabor + overhead; var rvcPct = (origContent / totalValue) * 100; var nonOrig = totalValue - origContent; var qualifies = rvcPct >= req ? 'QUALIFIES — meets ' + req + '% threshold' : 'DOES NOT QUALIFY — need ' + fmt(req - rvcPct, 1) + '% more'; var dutySave = rvcPct >= req ? totalValue * 0.05 : 0; document.getElementById('rvc').textContent = fmt(rvcPct, 1) + '%'; document.getElementById('nonOriginating').textContent = dollar(nonOrig) + ' (' + fmt((nonOrig/totalValue)*100, 1) + '%)'; document.getElementById('qualifies').textContent = qualifies; document.getElementById('dutySavings').textContent = dollar(dutySave) + ' (at est. 5% duty)';",
+    "formulas": ["RVC = (Originating Materials + Labor + Overhead) / Total Value x 100", "Product qualifies if RVC >= Required Percentage"],
+    "faq": [
+      {"question": "What are rules of origin?", "answer": "Rules of origin determine the 'nationality' of a product for tariff purposes. To qualify for preferential rates under a free trade agreement, products must meet minimum local/regional content requirements. Methods include Regional Value Content (RVC), tariff shift, and net cost."},
+      {"question": "What is the USMCA origin requirement?", "answer": "Under USMCA (replacing NAFTA), most goods need 75% regional value content. Automobiles have specific rules: 75% RVC for vehicles, 70% for core parts (engines, transmissions), and 65% for other parts. Steel and aluminum must be melted and poured in North America."}
+    ]
+  },
+  {
+    "slug": "section-301-tariff-calculator",
+    "toolName": "Section 301 Tariff Calculator",
+    "category": "tariffs",
+    "tagline": "Calculate the total duty including Section 301 tariffs on Chinese goods",
+    "keywords": "Section 301 tariff, China tariff calculator, trade war tariff, 301 duty",
+    "relatedTools": ["tariff-impact-on-price-calculator", "anti-dumping-duty-calculator", "rules-of-origin-calculator"],
+    "inputs": [
+      {"id": "productValue", "label": "Product CIF Value", "default": 10000, "unit": "$"},
+      {"id": "baseDutyRate", "label": "Base Duty Rate", "default": 5, "unit": "%"},
+      {"id": "section301Rate", "label": "Section 301 Rate", "default": "25", "options": [{"value":"7.5","label":"List 4a (7.5%)"},{"value":"25","label":"Lists 1-3 (25%)"},{"value":"50","label":"EV/Battery (50%)"},{"value":"100","label":"EV (100%)"}]},
+      {"id": "quantity", "label": "Shipment Qty", "default": 500, "unit": "units"},
+      {"id": "unitCost", "label": "Unit Cost", "default": 20, "unit": "$"}
+    ],
+    "results": [
+      {"id": "baseDuty", "label": "Base Duty"},
+      {"id": "s301Duty", "label": "Section 301 Duty"},
+      {"id": "totalDuty", "label": "Total Duty"},
+      {"id": "effectiveRate", "label": "Effective Duty Rate"},
+      {"id": "landedCost", "label": "Landed Cost/Unit"}
+    ],
+    "calcFn": "var s301 = parseFloat(section301Rate); var baseDuty = productValue * (baseDutyRate / 100); var s301Duty = productValue * (s301 / 100); var totalDuty = baseDuty + s301Duty; var effRate = ((baseDutyRate + s301) ); var landedPerUnit = (productValue + totalDuty) / quantity; document.getElementById('baseDuty').textContent = dollar(baseDuty); document.getElementById('s301Duty').textContent = dollar(s301Duty); document.getElementById('totalDuty').textContent = dollar(totalDuty); document.getElementById('effectiveRate').textContent = fmt(effRate, 1) + '%'; document.getElementById('landedCost').textContent = dollar(landedPerUnit) + '/unit';",
+    "formulas": ["Total Duty = (Base Rate + Section 301 Rate) x CIF Value", "Section 301 stacks on top of regular duties"],
+    "faq": [
+      {"question": "What is Section 301?", "answer": "Section 301 of the Trade Act of 1974 authorizes the President to impose tariffs on countries engaged in unfair trade practices. The current Section 301 tariffs target Chinese goods in response to IP theft and forced technology transfer. Rates range from 7.5% to 100% depending on product category."},
+      {"question": "Can I get an exclusion from Section 301 tariffs?", "answer": "The USTR periodically opens exclusion request processes for specific products. Exclusions are granted when the product is only available from China, tariffs cause severe economic harm, or the product is not strategically important. Approved exclusions are retroactive and temporary (usually 1 year, renewable)."}
+    ]
+  }
+]
