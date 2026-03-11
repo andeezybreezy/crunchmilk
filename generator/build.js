@@ -396,7 +396,23 @@ function buildWhenToUse(config) {
  */
 function buildContentIntro(config) {
   if (!config.contentIntro) return '';
-  return '  <div class="info-section">\n    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">' + escapeHtml(config.contentIntro) + '</p>\n  </div>';
+  var ci = config.contentIntro;
+  // Handle object with sections array
+  if (typeof ci === 'object' && ci.sections && ci.sections.length > 0) {
+    var html = '';
+    ci.sections.forEach(function(section) {
+      html += '  <div class="info-section">\n';
+      if (section.title) html += '    <h2>' + escapeHtml(section.title) + '</h2>\n';
+      if (section.body) html += '    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">' + escapeHtml(section.body) + '</p>\n';
+      html += '  </div>\n';
+    });
+    return html;
+  }
+  // Handle plain string
+  if (typeof ci === 'string') {
+    return '  <div class="info-section">\n    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">' + escapeHtml(ci) + '</p>\n  </div>';
+  }
+  return '';
 }
 
 /**
@@ -406,7 +422,14 @@ function buildHowToSteps(config) {
   if (!config.howToSteps || config.howToSteps.length === 0) return '';
   var html = '  <div class="info-section">\n    <h2>How to Use This Calculator</h2>\n    <ol style="margin-left:20px;margin-bottom:12px">\n';
   config.howToSteps.forEach(function(step) {
-    html += '      <li style="margin-bottom:8px">' + escapeHtml(step) + '</li>\n';
+    if (typeof step === 'object' && step !== null) {
+      var stepHtml = '';
+      if (step.title) stepHtml += '<strong>' + escapeHtml(step.title) + ':</strong> ';
+      if (step.description) stepHtml += escapeHtml(step.description);
+      html += '      <li style="margin-bottom:8px">' + stepHtml + '</li>\n';
+    } else {
+      html += '      <li style="margin-bottom:8px">' + escapeHtml(String(step)) + '</li>\n';
+    }
   });
   html += '    </ol>\n  </div>';
   return html;
@@ -416,10 +439,11 @@ function buildHowToSteps(config) {
  * Build tips and considerations section.
  */
 function buildTips(config) {
-  if (!config.tipsAndConsiderations || config.tipsAndConsiderations.length === 0) return '';
+  var tips = config.tipsAndConsiderations || config.tips || [];
+  if (!tips || tips.length === 0) return '';
   var html = '  <div class="info-section">\n    <h2>Tips &amp; Considerations</h2>\n    <ul>\n';
-  config.tipsAndConsiderations.forEach(function(tip) {
-    html += '      <li style="margin-bottom:8px">' + escapeHtml(tip) + '</li>\n';
+  tips.forEach(function(tip) {
+    html += '      <li style="margin-bottom:8px">' + escapeHtml(String(tip)) + '</li>\n';
   });
   html += '    </ul>\n  </div>';
   return html;
