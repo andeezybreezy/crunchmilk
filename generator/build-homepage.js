@@ -62,7 +62,10 @@ const CATEGORY_META = {
   'gaming':              { name: 'Gaming',                slug: 'gaming-calculators',               icon: SVG('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="10" r="1"/><circle cx="18" cy="12" r="1"/>') },
   'electrical':          { name: 'Electrical',            slug: 'electrical-calculators',           icon: SVG('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>') },
   'plumbing':            { name: 'Plumbing',              slug: 'plumbing-calculators',             icon: SVG('<path d="M6 12h6"/><path d="M12 6v12"/><circle cx="12" cy="12" r="10"/>') },
-  'geopolitical-energy': { name: 'Geopolitical & Energy', slug: 'geopolitical-energy-calculators',  icon: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>') }
+  'geopolitical-energy': { name: 'Geopolitical & Energy', slug: 'geopolitical-energy-calculators',  icon: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>') },
+  'mental-health':       { name: 'Mental Health',          slug: 'mental-health-calculators',         icon: SVG('<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>') },
+  'pregnancy':           { name: 'Pregnancy & Baby',       slug: 'pregnancy-calculators',             icon: SVG('<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8"/><path d="M12 8v8"/>') },
+  'insurance':           { name: 'Insurance',              slug: 'insurance-calculators',             icon: SVG('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>') }
 };
 
 function main() {
