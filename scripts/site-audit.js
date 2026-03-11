@@ -266,7 +266,11 @@ function main() {
       continue;
     }
 
-    // Skip non-tool pages (privacy, terms)
+    // Skip non-tool pages (privacy, terms, about, contact)
+    const SKIP_SLUGS = ['privacy', 'terms', 'about', 'contact'];
+    if (SKIP_SLUGS.includes(slug)) {
+      continue;
+    }
     const html = fs.readFileSync(indexPath, 'utf8');
     if (/noindex/i.test(html)) {
       continue;

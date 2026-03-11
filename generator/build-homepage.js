@@ -87,30 +87,30 @@ function main() {
 
   // Popular tools - the 20 highest-traffic tools
   const POPULAR_TOOLS = [
-    { slug: 'net-worth-percentile-calculator', name: 'Net Worth Percentile Calculator', tag: 'Where do you rank?', badge: 'viral', badgeText: 'Viral' },
-    { slug: 'salary-after-tax-calculator', name: 'Salary After Tax Calculator', tag: 'Take-home pay by state', badge: 'high-rpm', badgeText: 'High Value' },
-    { slug: 'mortgage-affordability-calculator', name: 'Mortgage Affordability Calculator', tag: 'How much house can you afford?', badge: 'high-rpm', badgeText: 'High Value' },
-    { slug: 'rent-vs-buy-calculator', name: 'Rent vs Buy Calculator', tag: 'The big decision', badge: 'high-rpm', badgeText: 'High Value' },
-    { slug: 'property-tax-calculator', name: 'Property Tax Calculator', tag: 'By state comparison', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'concrete-calculator', name: 'Concrete Calculator', tag: 'Bags, yards & cost', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'gravel-calculator', name: 'Gravel & Fill Calculator', tag: 'Driveways, paths & more', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'deck-material-calculator', name: 'Deck Material Calculator', tag: 'Boards, joists & cost', badge: 'high-rpm', badgeText: 'High Value' },
-    { slug: 'paint-coverage-calculator', name: 'Paint Coverage Calculator', tag: 'Gallons for any room', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'roof-pitch-calculator', name: 'Roof Pitch Calculator', tag: 'Angle, ratio & area', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'irs-audit-probability-calculator', name: 'IRS Audit Probability Calculator', tag: 'What are your odds?', badge: 'viral', badgeText: 'Viral' },
-    { slug: 'ai-job-replacement-risk-calculator', name: 'AI Job Replacement Risk', tag: 'Will AI take your job?', badge: 'viral', badgeText: 'Viral' },
-    { slug: 'billionaire-wealth-comparison', name: 'Billionaire Wealth Comparison', tag: 'How rich is too rich?', badge: 'viral', badgeText: 'Viral' },
-    { slug: 'nuclear-blast-radius-calculator', name: 'Nuclear Blast Radius Calculator', tag: 'Destruction mapped', badge: 'viral', badgeText: 'Viral' },
-    { slug: 'cost-of-living-comparison', name: 'Cost of Living Comparison', tag: 'City vs city', badge: 'high-rpm', badgeText: 'High Value' },
-    { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator', tag: 'Watch your money grow', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'loan-payment-calculator', name: 'Loan Payment Calculator', tag: 'Monthly payments & more', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'inflation-calculator', name: 'Inflation Calculator', tag: 'Purchasing power over time', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'body-fat-calculator', name: 'Body Fat Calculator', tag: 'Navy method estimate', badge: 'evergreen', badgeText: 'Evergreen' },
-    { slug: 'biological-age-calculator', name: 'Biological Age Calculator', tag: 'Your real age revealed', badge: 'viral', badgeText: 'Viral' }
+    { slug: 'net-worth-percentile-calculator', name: 'Net Worth Percentile Calculator', tag: 'Where do you rank?' },
+    { slug: 'salary-after-tax-calculator', name: 'Salary After Tax Calculator', tag: 'Take-home pay by state' },
+    { slug: 'mortgage-affordability-calculator', name: 'Mortgage Affordability Calculator', tag: 'How much house can you afford?' },
+    { slug: 'rent-vs-buy-calculator', name: 'Rent vs Buy Calculator', tag: 'The big decision' },
+    { slug: 'property-tax-calculator', name: 'Property Tax Calculator', tag: 'By state comparison' },
+    { slug: 'concrete-calculator', name: 'Concrete Calculator', tag: 'Bags, yards & cost' },
+    { slug: 'gravel-calculator', name: 'Gravel & Fill Calculator', tag: 'Driveways, paths & more' },
+    { slug: 'deck-material-calculator', name: 'Deck Material Calculator', tag: 'Boards, joists & cost' },
+    { slug: 'paint-coverage-calculator', name: 'Paint Coverage Calculator', tag: 'Gallons for any room' },
+    { slug: 'roof-pitch-calculator', name: 'Roof Pitch Calculator', tag: 'Angle, ratio & area' },
+    { slug: 'irs-audit-probability-calculator', name: 'IRS Audit Probability Calculator', tag: 'What are your odds?' },
+    { slug: 'ai-job-replacement-risk-calculator', name: 'AI Job Replacement Risk', tag: 'Will AI take your job?' },
+    { slug: 'billionaire-wealth-comparison', name: 'Billionaire Wealth Comparison', tag: 'How rich is too rich?' },
+    { slug: 'nuclear-blast-radius-calculator', name: 'Nuclear Blast Radius Calculator', tag: 'Destruction mapped' },
+    { slug: 'cost-of-living-comparison', name: 'Cost of Living Comparison', tag: 'City vs city' },
+    { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator', tag: 'Watch your money grow' },
+    { slug: 'loan-payment-calculator', name: 'Loan Payment Calculator', tag: 'Monthly payments & more' },
+    { slug: 'inflation-calculator', name: 'Inflation Calculator', tag: 'Purchasing power over time' },
+    { slug: 'body-fat-calculator', name: 'Body Fat Calculator', tag: 'Navy method estimate' },
+    { slug: 'biological-age-calculator', name: 'Biological Age Calculator', tag: 'Your real age revealed' }
   ];
 
   const popCards = POPULAR_TOOLS.map((t, i) => {
-    return `<a href="/${t.slug}/" class="pop-card"><span class="pop-rank">${i + 1}</span><div class="pop-info"><div class="pop-name">${t.name}</div><div class="pop-tag">${t.tag}</div></div><span class="pop-badge ${t.badge}">${t.badgeText}</span></a>`;
+    return `<a href="/${t.slug}/" class="pop-card"><span class="pop-rank">${i + 1}</span><div class="pop-info"><div class="pop-name">${t.name}</div><div class="pop-tag">${t.tag}</div></div></a>`;
   }).join('\n      ');
 
   // Build category grid
@@ -261,10 +261,6 @@ main{padding:48px 0 64px}
 .pop-info{flex:1;min-width:0}
 .pop-name{font-family:var(--font-display);font-weight:700;font-size:0.88rem;letter-spacing:-0.2px;line-height:1.3}
 .pop-tag{font-size:0.72rem;color:var(--text-light);margin-top:2px}
-.pop-badge{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:3px;flex-shrink:0;white-space:nowrap}
-.pop-badge.high-rpm{background:rgba(37,99,235,0.08);color:#2563eb}
-.pop-badge.viral{background:rgba(230,57,70,0.08);color:var(--coral)}
-.pop-badge.evergreen{background:rgba(5,150,105,0.08);color:#059669}
 
 /* Footer */
 footer{background:var(--navy);padding:36px 0;text-align:center;font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:16px}
@@ -364,6 +360,8 @@ footer a:hover{color:#fff}
     <hr class="footer-rule">
     <p>&copy; ${year} CrunchMilk. All tools free \u2014 no signup required.</p>
     <div class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
       <a href="/privacy/">Privacy</a>
       <a href="/terms/">Terms</a>
       <a href="/sitemap.xml">Sitemap</a>
