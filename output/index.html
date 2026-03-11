@@ -15,6 +15,9 @@
 <meta name="twitter:title" content="CrunchMilk — 303+ Free Online Calculators">
 <meta name="twitter:description" content="303+ free calculators for construction, cooking, fitness, finance, and more.">
 <meta name="robots" content="index, follow">
+<meta property="og:image" content="https://crunchmilk.com/og-image.svg">
+<meta name="twitter:image" content="https://crunchmilk.com/og-image.svg">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -103,8 +106,16 @@ main{padding:48px 0 64px}
 
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-/* Ad slots */
-.ad-slot{background:var(--cream-dark);border:1px dashed var(--border);padding:20px;text-align:center;color:var(--text-light);font-size:0.8rem;margin:24px 0;border-radius:var(--radius);font-weight:500}
+/* Search */
+.search-wrap{margin-bottom:28px}
+.search-input{width:100%;padding:14px 18px 14px 46px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font-body);background:var(--card);color:var(--text);transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;box-shadow:var(--shadow)}
+.search-input:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 3px rgba(230,57,70,0.08)}
+.search-input::placeholder{color:var(--text-light)}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-light);pointer-events:none;width:18px;height:18px}
+.search-empty{text-align:center;padding:48px 24px;color:var(--text-light);font-size:0.95rem}
+.search-empty strong{display:block;font-family:var(--font-display);font-size:1.1rem;color:var(--text);margin-bottom:6px}
+.cat-card.hidden{display:none}
 
 /* Footer */
 footer{background:var(--navy);padding:36px 0;text-align:center;font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:16px}
@@ -172,13 +183,16 @@ footer a:hover{color:#fff}
 
 <main>
 <div class="container">
-  <div class="ad-slot" aria-hidden="true">Ad Space — 728x90 Leaderboard</div>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" class="search-input" id="catSearch" placeholder="Search categories…" autocomplete="off">
+  </div>
 
   <div class="section-header">
     <h2 class="section-title">Browse by Category</h2>
-    <span class="section-count">39 categories</span>
+    <span class="section-count" id="catCount">39 categories</span>
   </div>
-  <div class="cat-grid">
+  <div class="cat-grid" id="catGrid">
       <a href="/construction-calculators/" class="cat-card" style="animation-delay:0ms"><span class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 6V2"/><path d="M6 6V4"/><path d="M18 6V4"/></svg></span><span class="cat-name">Construction</span><span class="cat-count">77</span></a>
       <a href="/cooking-calculators/" class="cat-card" style="animation-delay:40ms"><span class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M8 2v6"/><path d="M16 2v6"/><path d="M2 10h20"/><path d="M4 10v10a2 2 0 002 2h12a2 2 0 002-2V10"/></svg></span><span class="cat-name">Cooking & Recipes</span><span class="cat-count">27</span></a>
       <a href="/finance-calculators/" class="cat-card" style="animation-delay:80ms"><span class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span class="cat-name">Finance & Money</span><span class="cat-count">21</span></a>
@@ -219,8 +233,10 @@ footer a:hover{color:#fff}
       <a href="/3d-printing-calculators/" class="cat-card" style="animation-delay:1480ms"><span class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l10 6v8l-10 6L2 16V8l10-6z"/><path d="M12 8l10 6"/><path d="M12 8L2 14"/><path d="M12 8v14"/></svg></span><span class="cat-name">3D Printing</span><span class="cat-count">2</span></a>
       <a href="/rv-calculators/" class="cat-card" style="animation-delay:1520ms"><span class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="8" width="18" height="10" rx="2"/><path d="M19 12h3l2 3v3h-5"/><circle cx="5" cy="19" r="1.5"/><circle cx="21" cy="19" r="1.5"/></svg></span><span class="cat-name">RV</span><span class="cat-count">1</span></a>
   </div>
-
-  <div class="ad-slot" aria-hidden="true">Ad Space — 336x280 Rectangle</div>
+  <div class="search-empty" id="searchEmpty" style="display:none">
+    <strong>No categories found</strong>
+    Try a different search term.
+  </div>
 </div>
 </main>
 
@@ -236,6 +252,29 @@ footer a:hover{color:#fff}
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var input=document.getElementById('catSearch');
+  var grid=document.getElementById('catGrid');
+  var cards=grid.querySelectorAll('.cat-card');
+  var empty=document.getElementById('searchEmpty');
+  var countEl=document.getElementById('catCount');
+  var total=cards.length;
+  input.addEventListener('input',function(){
+    var q=this.value.toLowerCase().trim();
+    var visible=0;
+    cards.forEach(function(c){
+      var name=c.querySelector('.cat-name').textContent.toLowerCase();
+      var match=!q||name.indexOf(q)!==-1;
+      c.classList.toggle('hidden',!match);
+      if(match)visible++;
+    });
+    empty.style.display=visible===0?'block':'none';
+    countEl.textContent=q?visible+' of '+total+' categories':total+' categories';
+  });
+})();
+</script>
 
 </body>
 </html>
