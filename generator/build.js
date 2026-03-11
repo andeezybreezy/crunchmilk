@@ -72,6 +72,8 @@ function buildJsonLdWeb(config) {
  * Build the FAQPage JSON-LD block from config.faq array.
  */
 function buildJsonLdFaq(config) {
+  // Some configs store jsonLdFaq as a pre-built object
+  if (config.jsonLdFaq) return JSON.stringify(config.jsonLdFaq, null, 2);
   if (!config.faq || config.faq.length === 0) return '{}';
   const obj = {
     "@context": "https://schema.org",
@@ -127,6 +129,8 @@ function buildHowItWorks(config) {
  * Build the FAQ HTML section from config.faq array.
  */
 function buildFaqHtml(config) {
+  // Some configs store faqHTML as a pre-built HTML string
+  if (typeof config.faqHTML === 'string') return config.faqHTML;
   if (!config.faq || config.faq.length === 0) return '';
   let html = '  <div class="faq-section">\n';
   html += '    <h2>Frequently Asked Questions</h2>\n\n';
