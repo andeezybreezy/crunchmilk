@@ -486,6 +486,7 @@ function buildSite(configFile) {
     faqHTML: faqHTML,
     relatedToolsHTML: relatedToolsHTML,
     customJS: customJS,
+    robotsMeta: config.noindex ? 'noindex, follow' : 'index, follow',
     shareJS: buildShareJS(config),
     year: new Date().getFullYear().toString()
   };
