@@ -95,6 +95,8 @@ function buildJsonLdFaq(config) {
  */
 function buildHowItWorks(config) {
   if (!config.howItWorks) return '';
+  // Some configs store howItWorks as pre-built HTML string
+  if (typeof config.howItWorks === 'string') return config.howItWorks;
   const hw = config.howItWorks;
   const title = hw.title || 'How It Works';
   let html = '  <div class="calc-card">\n';
