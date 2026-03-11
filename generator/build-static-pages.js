@@ -37,11 +37,11 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--text);line
 body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.025;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* Site Nav */
-.site-nav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.06)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:760px;margin:0 auto;padding:10px 24px}
+.site-nav{background:var(--navy);padding:0;position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:760px;margin:0 auto;padding:14px 24px}
 .logo{display:flex;align-items:center;text-decoration:none;gap:10px}
-.logo-mark{width:28px;height:28px;background:var(--coral);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;color:#fff;font-weight:800;letter-spacing:-0.5px;transform:rotate(-2deg)}
-.logo-text{font-family:var(--font-display);font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-mark{width:30px;height:30px;background:var(--coral);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;color:#fff;font-weight:800;letter-spacing:-0.5px;transform:rotate(-2deg)}
+.logo-text{font-family:var(--font-display);font-size:1.1rem;font-weight:800;color:#fff;letter-spacing:-0.5px}
 .logo-text span{color:var(--coral)}
 
 .container{max-width:760px;margin:0 auto;padding:0 24px}
@@ -159,9 +159,9 @@ ${FAVICON}
 <style>
 ${SHARED_CSS}
 
-.page-header{background:var(--navy);color:#fff;padding:0 0 24px}
-.page-header h1{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2;padding-top:20px}
-.page-header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:16px;border-radius:2px}
+.page-header{background:var(--navy);color:#fff;padding:32px 0 36px}
+.page-header h1{font-family:var(--font-display);font-size:1.8rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2}
+.page-header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:20px;border-radius:2px}
 
 main{padding:28px 0 48px}
 .legal-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 28px;border:1px solid rgba(0,0,0,0.04)}
@@ -231,9 +231,9 @@ ${FAVICON}
 <style>
 ${SHARED_CSS}
 
-.page-header{background:var(--navy);color:#fff;padding:0 0 24px}
-.page-header h1{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2;padding-top:20px}
-.page-header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:16px;border-radius:2px}
+.page-header{background:var(--navy);color:#fff;padding:32px 0 36px}
+.page-header h1{font-family:var(--font-display);font-size:1.8rem;font-weight:800;letter-spacing:-0.5px;line-height:1.2}
+.page-header::after{content:'';display:block;width:40px;height:3px;background:var(--coral);margin-top:20px;border-radius:2px}
 
 main{padding:28px 0 48px}
 .legal-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 28px;border:1px solid rgba(0,0,0,0.04)}
