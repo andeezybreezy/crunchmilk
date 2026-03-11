@@ -96,13 +96,9 @@ function buildJsonLdFaq(config) {
 function buildHowItWorks(config) {
   if (!config.howItWorks) return '';
   const hw = config.howItWorks;
+  const title = hw.title || 'How It Works';
   let html = '  <div class="calc-card">\n';
-  html += '    <h2>How to Convert Oven Recipes to Air Fryer</h2>\n';
-
-  if (hw.title) {
-    html = '  <div class="calc-card">\n';
-    html += '    <h2>' + hw.title + '</h2>\n';
-  }
+  html += '    <h2>' + title + '</h2>\n';
 
   if (hw.intro) {
     html += '    <p style="margin-bottom:12px">' + hw.intro + '</p>\n';
