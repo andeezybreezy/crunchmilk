@@ -65,6 +65,14 @@ function main() {
   const totalTools = masterList.length;
   const year = new Date().getFullYear();
 
+  // Build tool search index (slim: name, slug, category label)
+  const toolIndex = masterList.map(t => {
+    const catMeta = CATEGORY_META[t.category];
+    const catLabel = catMeta ? catMeta.name : t.category;
+    return { n: t.toolName, s: t.slug, c: catLabel };
+  });
+  const toolIndexJSON = JSON.stringify(toolIndex);
+
   // Build category grid
   const catCards = Object.keys(CATEGORY_META)
     .filter(k => catCounts[k] > 0)
@@ -184,15 +192,21 @@ main{padding:48px 0 64px}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* Search */
-.search-wrap{margin-bottom:28px}
+.search-wrap{margin-bottom:28px;position:relative}
 .search-input{width:100%;padding:14px 18px 14px 46px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font-body);background:var(--card);color:var(--text);transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;box-shadow:var(--shadow)}
 .search-input:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 3px rgba(230,57,70,0.08)}
 .search-input::placeholder{color:var(--text-light)}
-.search-wrap{position:relative}
-.search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-light);pointer-events:none;width:18px;height:18px}
-.search-empty{text-align:center;padding:48px 24px;color:var(--text-light);font-size:0.95rem}
-.search-empty strong{display:block;font-family:var(--font-display);font-size:1.1rem;color:var(--text);margin-bottom:6px}
-.cat-card.hidden{display:none}
+.search-wrap svg.search-icon{position:absolute;left:16px;top:16px;color:var(--text-light);pointer-events:none;width:18px;height:18px}
+.search-dropdown{display:none;position:absolute;top:100%;left:0;right:0;margin-top:4px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:0 8px 32px rgba(28,25,23,0.12);max-height:380px;overflow-y:auto;z-index:200}
+.search-dropdown.visible{display:block}
+.search-dropdown a{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;text-decoration:none;color:var(--text);border-bottom:1px solid var(--cream-dark);transition:background 0.1s}
+.search-dropdown a:last-child{border-bottom:none}
+.search-dropdown a:hover,.search-dropdown a.active{background:var(--cream)}
+.search-dropdown a .tool-name{font-family:var(--font-display);font-size:0.9rem;font-weight:600;letter-spacing:-0.2px}
+.search-dropdown a .tool-name mark{background:rgba(230,57,70,0.12);color:var(--coral);border-radius:2px;padding:0 1px;font-weight:700}
+.search-dropdown a .tool-cat{font-size:0.72rem;color:var(--text-light);font-weight:500;white-space:nowrap;flex-shrink:0;margin-left:12px}
+.search-dropdown .search-no-results{padding:24px 18px;text-align:center;color:var(--text-light);font-size:0.88rem}
+.search-dropdown .search-hint{padding:10px 18px;font-size:0.72rem;color:var(--text-light);border-top:1px solid var(--cream-dark);text-align:center;font-weight:500}
 
 /* Footer */
 footer{background:var(--navy);padding:36px 0;text-align:center;font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:16px}
@@ -260,21 +274,18 @@ footer a:hover{color:#fff}
 
 <main>
 <div class="container">
-  <div class="search-wrap">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" class="search-input" id="catSearch" placeholder="Search categories\u2026" autocomplete="off">
+  <div class="search-wrap" id="searchWrap">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" class="search-input" id="toolSearch" placeholder="Search ${totalTools}+ calculators\u2026" autocomplete="off">
+    <div class="search-dropdown" id="searchDropdown"></div>
   </div>
 
   <div class="section-header">
     <h2 class="section-title">Browse by Category</h2>
-    <span class="section-count" id="catCount">${Object.keys(CATEGORY_META).filter(k => catCounts[k] > 0).length} categories</span>
+    <span class="section-count">${Object.keys(CATEGORY_META).filter(k => catCounts[k] > 0).length} categories</span>
   </div>
-  <div class="cat-grid" id="catGrid">
+  <div class="cat-grid">
       ${catCards}
-  </div>
-  <div class="search-empty" id="searchEmpty" style="display:none">
-    <strong>No categories found</strong>
-    Try a different search term.
   </div>
 </div>
 </main>
@@ -294,24 +305,79 @@ footer a:hover{color:#fff}
 
 <script>
 (function(){
-  var input=document.getElementById('catSearch');
-  var grid=document.getElementById('catGrid');
-  var cards=grid.querySelectorAll('.cat-card');
-  var empty=document.getElementById('searchEmpty');
-  var countEl=document.getElementById('catCount');
-  var total=cards.length;
-  input.addEventListener('input',function(){
-    var q=this.value.toLowerCase().trim();
-    var visible=0;
-    cards.forEach(function(c){
-      var name=c.querySelector('.cat-name').textContent.toLowerCase();
-      var match=!q||name.indexOf(q)!==-1;
-      c.classList.toggle('hidden',!match);
-      if(match)visible++;
+  var TOOLS=${toolIndexJSON};
+  var input=document.getElementById('toolSearch');
+  var dropdown=document.getElementById('searchDropdown');
+  var activeIdx=-1;
+  var results=[];
+
+  function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+  function highlight(text,query){
+    if(!query)return escapeHtml(text);
+    var i=text.toLowerCase().indexOf(query.toLowerCase());
+    if(i===-1)return escapeHtml(text);
+    return escapeHtml(text.slice(0,i))+'<mark>'+escapeHtml(text.slice(i,i+query.length))+'</mark>'+escapeHtml(text.slice(i+query.length));
+  }
+
+  function render(q){
+    if(!q){dropdown.classList.remove('visible');activeIdx=-1;return}
+    var ql=q.toLowerCase();
+    // Score: starts-with > word-boundary > contains
+    results=[];
+    TOOLS.forEach(function(t){
+      var nl=t.n.toLowerCase();
+      var i=nl.indexOf(ql);
+      if(i===-1)return;
+      var score=i===0?0:(nl.charAt(i-1)===' '?1:2);
+      results.push({t:t,score:score});
     });
-    empty.style.display=visible===0?'block':'none';
-    countEl.textContent=q?visible+' of '+total+' categories':total+' categories';
+    results.sort(function(a,b){return a.score-b.score});
+    results=results.slice(0,8);
+
+    if(results.length===0){
+      dropdown.innerHTML='<div class="search-no-results">No calculators found for &ldquo;'+escapeHtml(q)+'&rdquo;</div>';
+    }else{
+      var html='';
+      results.forEach(function(r,i){
+        html+='<a href="/'+r.t.s+'/" data-idx="'+i+'"><span class="tool-name">'+highlight(r.t.n,q)+'</span><span class="tool-cat">'+escapeHtml(r.t.c)+'</span></a>';
+      });
+      html+='<div class="search-hint">'+results.length+' result'+(results.length===1?'':'s')+' \u00b7 \u2191\u2193 to navigate \u00b7 Enter to select</div>';
+      dropdown.innerHTML=html;
+    }
+    activeIdx=-1;
+    dropdown.classList.add('visible');
+  }
+
+  function setActive(idx){
+    var links=dropdown.querySelectorAll('a');
+    if(links.length===0)return;
+    if(idx<0)idx=links.length-1;
+    if(idx>=links.length)idx=0;
+    links.forEach(function(l){l.classList.remove('active')});
+    links[idx].classList.add('active');
+    links[idx].scrollIntoView({block:'nearest'});
+    activeIdx=idx;
+  }
+
+  input.addEventListener('input',function(){render(this.value.trim())});
+
+  input.addEventListener('keydown',function(e){
+    if(!dropdown.classList.contains('visible'))return;
+    var links=dropdown.querySelectorAll('a');
+    if(e.key==='ArrowDown'){e.preventDefault();setActive(activeIdx+1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();setActive(activeIdx-1)}
+    else if(e.key==='Enter'&&activeIdx>=0&&links[activeIdx]){e.preventDefault();links[activeIdx].click()}
+    else if(e.key==='Escape'){dropdown.classList.remove('visible');activeIdx=-1}
   });
+
+  document.addEventListener('click',function(e){
+    if(!document.getElementById('searchWrap').contains(e.target)){
+      dropdown.classList.remove('visible');activeIdx=-1;
+    }
+  });
+
+  input.addEventListener('focus',function(){if(this.value.trim())render(this.value.trim())});
 })();
 </script>
 
