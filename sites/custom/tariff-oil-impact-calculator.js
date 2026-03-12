@@ -15,7 +15,7 @@
     var householdSize = parseFloat(document.getElementById('householdSize').value) || 0;
 
     // Calculation logic
-    var importedGoodsSpend = v.householdIncome * 0.15; var tariffCost = importedGoodsSpend * (v.tariffRate / 100) * 0.7; var energyCost = (v.householdSize * 1800 + 2400) * (v.oilIncrease / 100) * 0.4; var combined = tariffCost + energyCost; var monthlyHit = combined / 12; var effectiveTax = (combined / v.householdIncome * 100); var inflation = v.tariffRate * 0.15 + v.oilIncrease * 0.08;     document.getElementById('tariffCost').textContent = '+$' + Math.round(tariffCost).toLocaleString() + '/yr';
+    var importedGoodsSpend = householdIncome * 0.15; var tariffCost = importedGoodsSpend * (tariffRate / 100) * 0.7; var energyCost = (householdSize * 1800 + 2400) * (oilIncrease / 100) * 0.4; var combined = tariffCost + energyCost; var monthlyHit = combined / 12; var effectiveTax = (combined / householdIncome * 100); var inflation = tariffRate * 0.15 + oilIncrease * 0.08;     document.getElementById('tariffCost').textContent = '+$' + Math.round(tariffCost).toLocaleString() + '/yr';
     document.getElementById('oilCost').textContent = '+$' + Math.round(energyCost).toLocaleString() + '/yr';
     document.getElementById('combinedCost').textContent = '+$' + Math.round(combined).toLocaleString() + '/yr';
     document.getElementById('monthlyHit').textContent = '+$' + Math.round(monthlyHit) + '/mo';

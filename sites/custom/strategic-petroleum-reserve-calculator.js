@@ -15,7 +15,7 @@
     var maxDrawdown = parseFloat(document.getElementById('maxDrawdown').value) || 0;
 
     // Calculation logic
-    var dailyGap = v.dailyUse * (v.disruptionPct / 100); var effectiveRelease = Math.min(v.maxDrawdown, dailyGap); var days = Math.round(v.sprLevel / effectiveRelease); var months = (days / 30.44).toFixed(1); var capacity = 714; var pctFull = (v.sprLevel / capacity * 100).toFixed(1); var depDate = new Date(); depDate.setDate(depDate.getDate() + days); var dateStr = depDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});     document.getElementById('daysOfCover').textContent = days + ' days';
+    var dailyGap = dailyUse * (disruptionPct / 100); var effectiveRelease = Math.min(maxDrawdown, dailyGap); var days = Math.round(sprLevel / effectiveRelease); var months = (days / 30.44).toFixed(1); var capacity = 714; var pctFull = (sprLevel / capacity * 100).toFixed(1); var depDate = new Date(); depDate.setDate(depDate.getDate() + days); var dateStr = depDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});     document.getElementById('daysOfCover').textContent = days + ' days';
     document.getElementById('monthsOfCover').textContent = months + ' months';
     document.getElementById('barrelGap').textContent = dailyGap.toFixed(1) + ' million bpd';
     document.getElementById('sprPctFull').textContent = pctFull + '% of 714M capacity';

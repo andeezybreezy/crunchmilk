@@ -14,7 +14,7 @@
     var years = parseFloat(document.getElementById('years').value) || 0;
 
     // Calculation logic
-    var annual = v.annualDefense * (v.contractorShare / 100); var total = annual * v.years; var perDay = annual * 1e9 / 365; var perHour = perDay / 24;     document.getElementById('annualRevenue').textContent = '$' + annual.toFixed(1) + ' billion/year';
+    var annual = annualDefense * (contractorShare / 100); var total = annual * years; var perDay = annual * 1e9 / 365; var perHour = perDay / 24;     document.getElementById('annualRevenue').textContent = '$' + annual.toFixed(1) + ' billion/year';
     document.getElementById('totalRevenue').textContent = '$' + total.toFixed(0) + ' billion';
     document.getElementById('perDay').textContent = '$' + Math.round(perDay / 1e6) + ' million/day';
     document.getElementById('perHour').textContent = '$' + Math.round(perHour / 1e6) + ' million/hour';

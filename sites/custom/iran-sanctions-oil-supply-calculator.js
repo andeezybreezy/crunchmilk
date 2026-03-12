@@ -15,11 +15,11 @@
     var gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
 
     // Calculation logic
-    var levels = {loose: {exportPct: 0.70, desc: '70%'}, moderate: {exportPct: 0.45, desc: '45%'}, strict: {exportPct: 0.20, desc: '20%'}, maximum: {exportPct: 0.05, desc: '5%'}}; var l = levels[v.enforcementLevel]; var exportsRemaining = v.iranBaseline * l.exportPct; var supplyLoss = v.iranBaseline * (1 - l.exportPct); var pctLoss = supplyLoss / 100; var oilInc = pctLoss * 8; var newOil = v.currentOil * (1 + oilInc); var gasInc = oilInc * 0.6; var newGas = v.gasPrice * (1 + gasInc); var revLoss = supplyLoss * (1 - l.exportPct) * v.currentOil * 365;     document.getElementById('iranExports').textContent = exportsRemaining.toFixed(1) + ' million bpd (' + l.desc + ' of baseline)';
+    var levels = {loose: {exportPct: 0.70, desc: '70%'}, moderate: {exportPct: 0.45, desc: '45%'}, strict: {exportPct: 0.20, desc: '20%'}, maximum: {exportPct: 0.05, desc: '5%'}}; var l = levels[enforcementLevel]; var exportsRemaining = iranBaseline * l.exportPct; var supplyLoss = iranBaseline * (1 - l.exportPct); var pctLoss = supplyLoss / 100; var oilInc = pctLoss * 8; var newOil = currentOil * (1 + oilInc); var gasInc = oilInc * 0.6; var newGas = gasPrice * (1 + gasInc); var revLoss = supplyLoss * (1 - l.exportPct) * currentOil * 365;     document.getElementById('iranExports').textContent = exportsRemaining.toFixed(1) + ' million bpd (' + l.desc + ' of baseline)';
     document.getElementById('supplyLoss').textContent = supplyLoss.toFixed(1) + ' million bpd removed';
     document.getElementById('oilPriceImpact').textContent = '$' + newOil.toFixed(0) + '/barrel (+' + (oilInc * 100).toFixed(0) + '%)';
     document.getElementById('gasPriceImpact').textContent = '$' + newGas.toFixed(2) + '/gal';
-    document.getElementById('iranRevenueLoss').textContent = '$' + Math.round(supplyLoss * v.currentOil * 365 / 1e9) + ' billion/year';
+    document.getElementById('iranRevenueLoss').textContent = '$' + Math.round(supplyLoss * currentOil * 365 / 1e9) + ' billion/year';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

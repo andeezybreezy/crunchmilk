@@ -13,7 +13,7 @@
     var timeline = document.getElementById('timeline').value;
 
     // Calculation logic
-    var oilMarketT = 3; var totalReserves = 12; var reserveShift = v.nonDollarPct / 100 * 0.3; var dollarDecline = reserveShift * 15; var rateIncrease = dollarDecline * 0.05; var debtCost = 34e12 * rateIncrease / 100; var inflation = dollarDecline * 0.1; var importInc = dollarDecline * 0.8; var years = parseInt(v.timeline);     document.getElementById('dollarImpact').textContent = '-' + dollarDecline.toFixed(1) + '% over ' + years + ' years';
+    var oilMarketT = 3; var totalReserves = 12; var reserveShift = nonDollarPct / 100 * 0.3; var dollarDecline = reserveShift * 15; var rateIncrease = dollarDecline * 0.05; var debtCost = 34e12 * rateIncrease / 100; var inflation = dollarDecline * 0.1; var importInc = dollarDecline * 0.8; var years = parseInt(timeline);     document.getElementById('dollarImpact').textContent = '-' + dollarDecline.toFixed(1) + '% over ' + years + ' years';
     document.getElementById('interestRateImpact').textContent = '+' + rateIncrease.toFixed(2) + '% on Treasury yields';
     document.getElementById('debtCostIncrease').textContent = '+$' + Math.round(debtCost / 1e9) + ' billion/year';
     document.getElementById('inflationImpact').textContent = '+' + inflation.toFixed(1) + '% additional inflation';

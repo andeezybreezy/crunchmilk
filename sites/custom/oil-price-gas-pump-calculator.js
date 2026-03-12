@@ -14,7 +14,7 @@
     var refiningCost = parseFloat(document.getElementById('refiningCost').value) || 0;
 
     // Calculation logic
-    var crudePerGal = v.crudePrice / 42; var fedTax = 0.184; var totalTax = fedTax + v.stateTax; var margin = 0.15; var est = crudePerGal + v.refiningCost + totalTax + margin; var crudePct = (crudePerGal / est * 100);     document.getElementById('crudePerGallon').textContent = '$' + crudePerGal.toFixed(2);
+    var crudePerGal = crudePrice / 42; var fedTax = 0.184; var totalTax = fedTax + stateTax; var margin = 0.15; var est = crudePerGal + refiningCost + totalTax + margin; var crudePct = (crudePerGal / est * 100);     document.getElementById('crudePerGallon').textContent = '$' + crudePerGal.toFixed(2);
     document.getElementById('federalTax').textContent = '$' + fedTax.toFixed(3);
     document.getElementById('totalTax').textContent = '$' + totalTax.toFixed(3);
     document.getElementById('retailMargin').textContent = '$' + margin.toFixed(2);

@@ -504,10 +504,10 @@ footer a:hover{color:#fff}
     var centrifugeType = document.getElementById('centrifugeType').value;
 
     // Calculation logic
-    var swuPerCentrifuge = {ir1: 0.8, ir2: 3, ir4: 4.5, ir6: 10}; var swuRate = v.centrifuges * (swuPerCentrifuge[v.centrifugeType] || 3); var weaponsKg = 25; var swuToWeaponsGrade = 5000; var pctDone = v.enrichmentPct / 90 * 100; var swuRemaining = swuToWeaponsGrade * (1 - v.enrichmentPct / 90) * (weaponsKg / Math.max(v.stockpileKg, 1)); var daysToBreakout = Math.max(1, Math.round((swuRemaining / swuRate) * 365)); var timeStr = daysToBreakout < 30 ? daysToBreakout + ' days' : daysToBreakout < 365 ? Math.round(daysToBreakout / 30) + ' months' : (daysToBreakout / 365).toFixed(1) + ' years';     document.getElementById('breakoutTime').textContent = timeStr;
+    var swuPerCentrifuge = {ir1: 0.8, ir2: 3, ir4: 4.5, ir6: 10}; var swuRate = centrifuges * (swuPerCentrifuge[centrifugeType] || 3); var weaponsKg = 25; var swuToWeaponsGrade = 5000; var pctDone = enrichmentPct / 90 * 100; var swuRemaining = swuToWeaponsGrade * (1 - enrichmentPct / 90) * (weaponsKg / Math.max(stockpileKg, 1)); var daysToBreakout = Math.max(1, Math.round((swuRemaining / swuRate) * 365)); var timeStr = daysToBreakout < 30 ? daysToBreakout + ' days' : daysToBreakout < 365 ? Math.round(daysToBreakout / 30) + ' months' : (daysToBreakout / 365).toFixed(1) + ' years';     document.getElementById('breakoutTime').textContent = timeStr;
     document.getElementById('weaponsGradeNeeded').textContent = weaponsKg + ' kg at 90%';
     document.getElementById('currentProgress').textContent = pctDone.toFixed(1) + '% to weapons-grade';
-    document.getElementById('enrichmentGap').textContent = (90 - v.enrichmentPct).toFixed(1) + '% remaining';
+    document.getElementById('enrichmentGap').textContent = (90 - enrichmentPct).toFixed(1) + '% remaining';
     document.getElementById('swuCapacity').textContent = Math.round(swuRate).toLocaleString() + ' SWU/yr';
 
     resultEl.classList.add('visible');

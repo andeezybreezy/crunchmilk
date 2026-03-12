@@ -15,11 +15,11 @@
     var monthlyMiles = parseFloat(document.getElementById('monthlyMiles').value) || 0;
 
     // Calculation logic
-    var globalSupply = 100; var pctCut = v.cutSize / globalSupply; var priceElasticity = 8; var oilIncrease = pctCut * priceElasticity; var newOil = v.currentOil * (1 + oilIncrease); var gasIncrease = oilIncrease * 0.6; var newGas = v.gasPrice * (1 + gasIncrease); var gallonsPerMonth = v.monthlyMiles / 25; var extraMonthly = gallonsPerMonth * (newGas - v.gasPrice);     document.getElementById('oilPriceImpact').textContent = '$' + newOil.toFixed(0) + '/barrel (+' + (oilIncrease * 100).toFixed(0) + '%)';
+    var globalSupply = 100; var pctCut = cutSize / globalSupply; var priceElasticity = 8; var oilIncrease = pctCut * priceElasticity; var newOil = currentOil * (1 + oilIncrease); var gasIncrease = oilIncrease * 0.6; var newGas = gasPrice * (1 + gasIncrease); var gallonsPerMonth = monthlyMiles / 25; var extraMonthly = gallonsPerMonth * (newGas - gasPrice);     document.getElementById('oilPriceImpact').textContent = '$' + newOil.toFixed(0) + '/barrel (+' + (oilIncrease * 100).toFixed(0) + '%)';
     document.getElementById('gasPriceImpact').textContent = '$' + newGas.toFixed(2) + '/gal';
     document.getElementById('monthlyExtraCost').textContent = '+$' + extraMonthly.toFixed(0) + '/mo';
     document.getElementById('annualExtraCost').textContent = '+$' + Math.round(extraMonthly * 12) + '/yr';
-    document.getElementById('globalImpact').textContent = v.cutSize + ' million bpd = ' + (pctCut * 100).toFixed(1) + '% of global supply';
+    document.getElementById('globalImpact').textContent = cutSize + ' million bpd = ' + (pctCut * 100).toFixed(1) + '% of global supply';
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

@@ -14,7 +14,7 @@
     var oilPrice = parseFloat(document.getElementById('oilPrice').value) || 0;
 
     // Calculation logic
-    var totalConsumption = 15.4; var domesticProd = 4.1; var imports = totalConsumption - domesticProd; var depPct = (imports / totalConsumption * 100); var disrupted = imports * (v.disruptionPct / 100); var sprBarrels = v.sprDays * disrupted; var actualSprDays = Math.round(sprBarrels / disrupted); var gdpImpact = (v.disruptionPct / 100) * 3.5;     document.getElementById('importDependency').textContent = depPct.toFixed(0) + '% of oil imported';
+    var totalConsumption = 15.4; var domesticProd = 4.1; var imports = totalConsumption - domesticProd; var depPct = (imports / totalConsumption * 100); var disrupted = imports * (disruptionPct / 100); var sprBarrels = sprDays * disrupted; var actualSprDays = Math.round(sprBarrels / disrupted); var gdpImpact = (disruptionPct / 100) * 3.5;     document.getElementById('importDependency').textContent = depPct.toFixed(0) + '% of oil imported';
     document.getElementById('dailyImports').textContent = imports.toFixed(1) + ' million bpd';
     document.getElementById('supplyLoss').textContent = disrupted.toFixed(1) + ' million bpd cut';
     document.getElementById('sprCoverage').textContent = actualSprDays + ' days at disrupted rate';
