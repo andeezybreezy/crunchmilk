@@ -117,6 +117,65 @@ function main() {
     return `<a href="/${t.slug}/" class="pop-card"><span class="pop-rank">${i + 1}</span><div class="pop-info"><div class="pop-name">${t.name}</div><div class="pop-tag">${t.tag}</div></div></a>`;
   }).join('\n      ');
 
+  // Quiz cards
+  const QUIZZES = [
+    { slug: 'financial-health-quiz', name: 'Financial Health Quiz', icon: '💰', tag: 'Score your finances' },
+    { slug: 'retirement-readiness-quiz', name: 'Retirement Readiness', icon: '🏖️', tag: 'Are you on track?' },
+    { slug: 'home-buying-readiness-quiz', name: 'Home Buying Readiness', icon: '🏠', tag: 'Ready to buy?' },
+    { slug: 'tax-optimization-quiz', name: 'Tax Optimization', icon: '📋', tag: 'Leaving money on the table?' },
+    { slug: 'investment-risk-tolerance-quiz', name: 'Investment Risk Tolerance', icon: '📈', tag: 'Know your risk profile' },
+    { slug: 'debt-danger-quiz', name: 'Debt Danger Assessment', icon: '⚠️', tag: 'Is your debt under control?' },
+    { slug: 'emergency-preparedness-quiz', name: 'Emergency Preparedness', icon: '🛡️', tag: 'How prepared are you?' },
+    { slug: 'insurance-coverage-gap-quiz', name: 'Insurance Coverage Gap', icon: '🏥', tag: 'Find coverage holes' },
+    { slug: 'career-earnings-potential-quiz', name: 'Career Earnings Potential', icon: '💼', tag: 'Maximize your income' },
+    { slug: 'business-idea-viability-quiz', name: 'Business Idea Viability', icon: '🚀', tag: 'Will your idea work?' }
+  ];
+
+  const quizCards = QUIZZES.map(q => {
+    return `<a href="/${q.slug}/" class="feat-card feat-quiz"><span class="feat-icon">${q.icon}</span><div class="feat-info"><div class="feat-name">${q.name}</div><div class="feat-tag">${q.tag}</div></div></a>`;
+  }).join('\n      ');
+
+  // Comparison tool cards
+  const COMPARISONS = [
+    { slug: 'rent-vs-buy-comparison', name: 'Rent vs Buy Comparison', icon: '🏠', tag: 'Side-by-side analysis' },
+    { slug: 'best-state-to-retire-calculator', name: 'Best State to Retire', icon: '🗺️', tag: 'Compare all 50 states' },
+    { slug: 'new-vs-used-car-calculator', name: 'New vs Used Car', icon: '🚗', tag: 'Total cost of ownership' },
+    { slug: 'llc-vs-scorp-vs-sole-prop-calculator', name: 'LLC vs S-Corp vs Sole Prop', icon: '🏢', tag: 'Best business structure' },
+    { slug: 'term-vs-whole-life-insurance-calculator', name: 'Term vs Whole Life Insurance', icon: '🛡️', tag: 'Which policy wins?' },
+    { slug: 'college-vs-trade-school-calculator', name: 'College vs Trade School', icon: '🎓', tag: 'ROI comparison' },
+    { slug: 'solar-vs-grid-vs-generator-calculator', name: 'Solar vs Grid vs Generator', icon: '⚡', tag: 'Energy cost showdown' },
+    { slug: 'buy-vs-lease-vs-finance-calculator', name: 'Buy vs Lease vs Finance', icon: '📊', tag: 'Vehicle decision tool' }
+  ];
+
+  const compCards = COMPARISONS.map(c => {
+    return `<a href="/${c.slug}/" class="feat-card feat-compare"><span class="feat-icon">${c.icon}</span><div class="feat-info"><div class="feat-name">${c.name}</div><div class="feat-tag">${c.tag}</div></div></a>`;
+  }).join('\n      ');
+
+  // International hub cards
+  const INTL_HUBS = [
+    { slug: 'uk', flag: '🇬🇧', name: 'UK Calculators', count: 10, tag: 'VAT, stamp duty, pensions & more' },
+    { slug: 'canada', flag: '🇨🇦', name: 'Canada Calculators', count: 10, tag: 'GST/HST, RRSP, TFSA & more' },
+    { slug: 'australia', flag: '🇦🇺', name: 'Australia Calculators', count: 10, tag: 'Super, stamp duty, HECS & more' }
+  ];
+
+  const intlCards = INTL_HUBS.map(h => {
+    return `<a href="/${h.slug}/" class="intl-card"><span class="intl-flag">${h.flag}</span><div class="intl-info"><div class="intl-name">${h.name}</div><div class="intl-tag">${h.tag}</div></div><span class="intl-count">${h.count} tools</span></a>`;
+  }).join('\n      ');
+
+  // Legal document generator cards
+  const LEGAL_TOOLS = [
+    { slug: 'demand-letter-generator', name: 'Demand Letter Generator', tag: 'Professional templates' },
+    { slug: 'llc-operating-agreement-generator', name: 'LLC Operating Agreement', tag: 'State-compliant docs' },
+    { slug: 'contractor-agreement-generator', name: 'Contractor Agreement', tag: 'Protect your business' },
+    { slug: 'nda-generator', name: 'NDA Generator', tag: 'Confidentiality made easy' },
+    { slug: 'lease-agreement-generator', name: 'Lease Agreement', tag: 'Landlord & tenant' },
+    { slug: 'simple-will-generator', name: 'Simple Will Generator', tag: 'Estate planning basics' }
+  ];
+
+  const legalCards = LEGAL_TOOLS.map(l => {
+    return `<a href="/${l.slug}/" class="feat-card feat-legal"><span class="feat-icon">📄</span><div class="feat-info"><div class="feat-name">${l.name}</div><div class="feat-tag">${l.tag}</div></div></a>`;
+  }).join('\n      ');
+
   // Build category grid
   const catCards = Object.keys(CATEGORY_META)
     .filter(k => catCounts[k] > 0)
@@ -202,6 +261,8 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointe
 .logo-text{font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:#fff;letter-spacing:-0.5px}
 .logo-text span{color:var(--coral)}
 .header-nav{display:flex;align-items:center;gap:16px}
+.nav-link{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;font-weight:600;transition:color 0.2s;font-family:var(--font-body)}
+.nav-link:hover{color:#fff}
 .header-stat{font-size:0.72rem;color:var(--cream);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:5px 14px;border-radius:4px;font-weight:600;font-family:var(--font-body);letter-spacing:0.5px;text-transform:uppercase}
 
 /* Hero */
@@ -269,6 +330,30 @@ main{padding:48px 0 64px}
 .pop-name{font-family:var(--font-display);font-weight:700;font-size:0.88rem;letter-spacing:-0.2px;line-height:1.3}
 .pop-tag{font-size:0.72rem;color:var(--text-light);margin-top:2px}
 
+/* Featured sections */
+.feat-section{margin-bottom:48px}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.feat-card{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:1px solid rgba(0,0,0,0.04);transition:all 0.2s ease;position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;transform:scaleY(0);transition:transform 0.2s ease;transform-origin:bottom}
+.feat-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(28,25,23,0.1)}
+.feat-card:hover::before{transform:scaleY(1)}
+.feat-quiz::before{background:#E63946}
+.feat-compare::before{background:#1D3557}
+.feat-legal::before{background:#457B9D}
+.feat-icon{font-size:1.5rem;flex-shrink:0;width:38px;text-align:center}
+.feat-info{flex:1;min-width:0}
+.feat-name{font-family:var(--font-display);font-weight:700;font-size:0.88rem;letter-spacing:-0.2px;line-height:1.3}
+.feat-tag{font-size:0.72rem;color:var(--text-light);margin-top:2px}
+/* International cards */
+.intl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.intl-card{display:flex;align-items:center;gap:16px;padding:20px 22px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);text-decoration:none;color:var(--text);border:1px solid rgba(0,0,0,0.04);transition:all 0.2s ease}
+.intl-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(28,25,23,0.1)}
+.intl-flag{font-size:2rem;flex-shrink:0}
+.intl-info{flex:1;min-width:0}
+.intl-name{font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:-0.3px}
+.intl-tag{font-size:0.78rem;color:var(--text-light);margin-top:2px}
+.intl-count{font-size:0.72rem;color:var(--text-light);font-weight:600;white-space:nowrap;background:var(--cream);padding:4px 12px;border-radius:10px}
+
 /* Footer */
 footer{background:var(--navy);padding:36px 0;text-align:center;font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:16px}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
@@ -288,6 +373,7 @@ footer a:hover{color:#fff}
   .cat-card{padding:14px 16px;gap:10px}
   .cat-icon{width:32px;height:32px;font-size:1.1rem}
   .header-stat{display:none}
+  .nav-link{font-size:0.75rem;gap:10px}
   .section-header{flex-direction:column;gap:4px}
 }
 @media(max-width:400px){
@@ -305,6 +391,9 @@ footer a:hover{color:#fff}
       <div class="logo-text">Crunch<span>Milk</span></div>
     </a>
     <nav class="header-nav">
+      <a href="#quizzes" class="nav-link">Quizzes</a>
+      <a href="#compare" class="nav-link">Compare</a>
+      <a href="#international" class="nav-link">International</a>
       <span class="header-stat">${totalTools}+ Tools</span>
     </nav>
   </div>
@@ -348,6 +437,46 @@ footer a:hover{color:#fff}
     </div>
     <div class="popular-grid">
       ${popCards}
+    </div>
+  </div>
+
+  <div class="feat-section" id="quizzes">
+    <div class="section-header">
+      <h2 class="section-title">Take a Quiz</h2>
+      <span class="section-count">10 interactive quizzes</span>
+    </div>
+    <div class="feat-grid">
+      ${quizCards}
+    </div>
+  </div>
+
+  <div class="feat-section" id="compare">
+    <div class="section-header">
+      <h2 class="section-title">Compare Options</h2>
+      <span class="section-count">Side-by-side decision tools</span>
+    </div>
+    <div class="feat-grid">
+      ${compCards}
+    </div>
+  </div>
+
+  <div class="feat-section" id="international">
+    <div class="section-header">
+      <h2 class="section-title">International Calculators</h2>
+      <span class="section-count">UK, Canada & Australia</span>
+    </div>
+    <div class="intl-grid">
+      ${intlCards}
+    </div>
+  </div>
+
+  <div class="feat-section">
+    <div class="section-header">
+      <h2 class="section-title">Legal Document Generators</h2>
+      <span class="section-count">Free legal templates</span>
+    </div>
+    <div class="feat-grid">
+      ${legalCards}
     </div>
   </div>
 
