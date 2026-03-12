@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -14,7 +14,7 @@
     var loadType = document.getElementById('loadType').value;
 
     // Calculation logic
-    var beams = {'W8x18':{Sx:15.2,Ix:61.9,w:18},'W8x31':{Sx:27.5,Ix:110,w:31},'W10x22':{Sx:23.2,Ix:118,w:22},'W10x33':{Sx:35.0,Ix:171,w:33},'W12x26':{Sx:33.4,Ix:204,w:26},'W12x40':{Sx:51.5,Ix:310,w:40},'W14x30':{Sx:42.0,Ix:291,w:30},'W14x48':{Sx:70.3,Ix:485,w:48}}; var b = beams[beamSize] || beams['W10x22']; var Fb = 24000; var moment = b.Sx * Fb; var maxLbs = 0; if (loadType === 'uniform') { maxLbs = (8 * moment) / (span * 12); } else { maxLbs = (4 * moment) / (span * 12); } var deflIn = 0; var E = 29000000; if (loadType === 'uniform') { deflIn = (5 * maxLbs * Math.pow(span * 12, 3)) / (384 * E * b.Ix); } else { deflIn = (maxLbs * Math.pow(span * 12, 3)) / (48 * E * b.Ix); } document.getElementById('maxLoad').textContent = fmt(Math.round(maxLbs), 0) + ' lbs'; document.getElementById('momentCapacity').textContent = fmt(Math.round(moment / 12), 0) + ' ft-lbs'; document.getElementById('beamWeight').textContent = b.w + ' lbs/ft'; document.getElementById('deflection').textContent = fmt(deflIn, 3);
+    var beams = {'W8x18':{Sx:15.2,Ix:61.9,w:18},'W8x31':{Sx:27.5,Ix:110,w:31},'W10x22':{Sx:23.2,Ix:118,w:22},'W10x33':{Sx:35.0,Ix:171,w:33},'W12x26':{Sx:33.4,Ix:204,w:26},'W12x40':{Sx:51.5,Ix:310,w:40},'W14x30':{Sx:42.0,Ix:291,w:30},'W14x48':{Sx:70.3,Ix:485,w:48}}; var b = beams[beamSize] || beams['W10x22']; var Fb = 24000; var moment = b.Sx * Fb; var maxLbs = 0; if (loadType === 'uniform') { maxLbs = (8 * moment) / (span * 12); } else { maxLbs = (4 * moment) / (span * 12); } var deflIn = 0; var E = 29000000; if (loadType === 'uniform') { deflIn = (5 * maxLbs * Math.pow(span * 12, 2)) / (384 * E * b.Ix); } else { deflIn = (maxLbs * Math.pow(span * 12, 2)) / (48 * E * b.Ix); } document.getElementById('maxLoad').textContent = fmt(Math.round(maxLbs), 0) + ' lbs'; document.getElementById('momentCapacity').textContent = fmt(Math.round(moment / 12), 0) + ' ft-lbs'; document.getElementById('beamWeight').textContent = b.w + ' lbs/ft'; document.getElementById('deflection').textContent = fmt(deflIn, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

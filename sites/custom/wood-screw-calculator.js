@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -31,7 +31,7 @@
       if (sixteenths % 4 === 0) return (sixteenths/16).toFixed(3) + '" (' + (sixteenths/4) + '/4")';
       return (sixteenths/16).toFixed(3) + '" (' + sixteenths + '/16")';
     }
-    var nearestBit = function(d) { var s = Math.round(d * 64) / 64; return fmt(s, 4) + '" (' + Math.round(s * 64) + '/64")'; };
+    var nearestBit = function(d) { var s = Math.round(d * 64) / 64; return fmt(s, 2) + '" (' + Math.round(s * 64) + '/64")'; };
     document.getElementById('screwLength').textContent = fmt(recLength, 2) + '"';
     document.getElementById('pilotHole').textContent = nearestBit(pilot);
     document.getElementById('clearanceHole').textContent = nearestBit(clearance);

@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -14,8 +14,8 @@
     var temperature = parseFloat(document.getElementById('temperature').value) || 0;
 
     // Calculation logic
-    var R = 0.08206; var tempK = temperature + 273.15; var volume = (moles * R * tempK) / pressure; var volumeM3 = volume / 1000;     document.getElementById('volume').textContent = fmt(volume,3);
-    document.getElementById('volumeM3').textContent = fmt(volumeM3,5);
+    var R = 0.08206; var tempK = temperature + 273.15; var volume = (moles * R * tempK) / pressure; var volumeM3 = volume / 1000;     document.getElementById('volume').textContent = fmt(volume, 2);
+    document.getElementById('volumeM3').textContent = fmt(volumeM3, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

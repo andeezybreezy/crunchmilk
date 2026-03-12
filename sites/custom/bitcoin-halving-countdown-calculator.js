@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -17,7 +17,7 @@
     var halvingInterval=210000; var currentEpoch=Math.floor(currentBlock/halvingInterval); var nextHalving=(currentEpoch+1)*halvingInterval; var blocksRemaining=nextHalving-currentBlock; var daysRemaining=Math.round(blocksRemaining*10/60/24); var newReward=blockReward/2; var dailyBTC=blockReward*144;     document.getElementById('nextHalving').textContent = fmt(nextHalving,0);
     document.getElementById('blocksRemaining').textContent = fmt(blocksRemaining,0)+' blocks';
     document.getElementById('daysRemaining').textContent = fmt(daysRemaining,0)+' days (~'+fmt(daysRemaining/365,1)+' years)';
-    document.getElementById('newReward').textContent = fmt(newReward,4)+' BTC';
+    document.getElementById('newReward').textContent = fmt(newReward, 2)+' BTC';
     document.getElementById('dailySupply').textContent = fmt(dailyBTC,1)+' BTC/day ('+dollar(dailyBTC*btcPrice)+')';
 
     resultEl.classList.add('visible');

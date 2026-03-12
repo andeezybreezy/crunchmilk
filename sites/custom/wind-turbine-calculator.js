@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -20,7 +20,7 @@
     var area = Math.PI * Math.pow(rotorM / 2, 2);
     var airDensity = 1.225;
     var betzLimit = 0.35;
-    var ratedPower = 0.5 * airDensity * area * Math.pow(windMs, 3) * betzLimit;
+    var ratedPower = 0.5 * airDensity * area * Math.pow(windMs, 2) * betzLimit;
     var capacityFactor = 0.25;
     var annualKWH = ratedPower * 8760 * capacityFactor / 1000;
     var monthlySav = (annualKWH / 12) * electricRate;

@@ -71,7 +71,7 @@
     // Calculate tons (1 ton = 12,000 BTU)
     var exactTons = adjustedBTU / 12000;
 
-    // Round to nearest standard size (1.5, 2, 2.5, 3, 3.5, 4, 5)
+    // Round to nearest standard size (1.5, 2, 2.5, 3, 3.5, 4, 2)
     var standardSizes = [1.5, 2, 2.5, 3, 3.5, 4, 5];
     var recommended = standardSizes[standardSizes.length - 1];
     for (var i = 0; i < standardSizes.length; i++) {

@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -13,7 +13,7 @@
 
     // Calculation logic
     var freqHz = 3e17 / wavelength; var frequency = freqHz / 1e12; var energy = 1240 / wavelength; var spectrum = wavelength < 10 ? 'X-ray' : wavelength < 400 ? 'Ultraviolet' : wavelength < 700 ? 'Visible Light' : wavelength < 1000 ? 'Near Infrared' : 'Infrared';     document.getElementById('frequency').textContent = fmt(frequency,2);
-    document.getElementById('energy').textContent = fmt(energy,3);
+    document.getElementById('energy').textContent = fmt(energy, 2);
     document.getElementById('spectrum').textContent = spectrum;
 
     resultEl.classList.add('visible');

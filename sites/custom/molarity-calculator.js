@@ -81,16 +81,16 @@
 
     var fmt = function(v, d) { return isNaN(v) ? '—' : (v < 0.001 ? v.toExponential(3) : v.toFixed(d || 4)); };
 
-    document.getElementById('resMolarity').textContent = fmt(M, 4) + ' M';
-    document.getElementById('resMoles').textContent = fmt(mol, 6) + ' mol';
+    document.getElementById('resMolarity').textContent = fmt(M, 2) + ' M';
+    document.getElementById('resMoles').textContent = fmt(mol, 2) + ' mol';
 
     if (volL >= 1) {
-      document.getElementById('resVolume').textContent = fmt(volL, 4) + ' L';
+      document.getElementById('resVolume').textContent = fmt(volL, 2) + ' L';
     } else {
       document.getElementById('resVolume').textContent = fmt(volL * 1000, 2) + ' mL';
     }
 
-    document.getElementById('resMass').textContent = isNaN(mass) ? 'Enter MW' : fmt(mass, 4) + ' g';
+    document.getElementById('resMass').textContent = isNaN(mass) ? 'Enter MW' : fmt(mass, 2) + ' g';
 
     var resultEl = document.getElementById('result');
     resultEl.classList.add('visible');

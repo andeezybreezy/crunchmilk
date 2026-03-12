@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -12,7 +12,7 @@
     var numbers = parseFloat(document.getElementById('numbers').value) || 0;
 
     // Calculation logic
-    var nums=numbers.split(',').map(function(s){return parseFloat(s.trim());}).filter(function(n){return !isNaN(n);});if(nums.length===0){document.getElementById('mean').textContent='Please enter at least one number';return;}document.getElementById('count').textContent=nums.length;var sum=nums.reduce(function(a,b){return a+b;},0);document.getElementById('mean').textContent=fmt(sum/nums.length,4);var sorted=nums.slice().sort(function(a,b){return a-b;});var mid=Math.floor(sorted.length/2);var median=sorted.length%2===0?(sorted[mid-1]+sorted[mid])/2:sorted[mid];document.getElementById('median').textContent=fmt(median,4);var freq={};nums.forEach(function(n){freq[n]=(freq[n]||0)+1;});var maxFreq=Math.max.apply(null,Object.values(freq));var modes=Object.keys(freq).filter(function(k){return freq[k]===maxFreq;});if(maxFreq===1){document.getElementById('mode').textContent='No mode (all values appear once)';}else{document.getElementById('mode').textContent=modes.join(', ')+' (appears '+maxFreq+' times)';}document.getElementById('range').textContent=fmt(sorted[sorted.length-1]-sorted[0],4);
+    var nums=numbers.split(',').map(function(s){return parseFloat(s.trim());}).filter(function(n){return !isNaN(n);});if(nums.length===0){document.getElementById('mean').textContent='Please enter at least one number';return;}document.getElementById('count').textContent=nums.length;var sum=nums.reduce(function(a,b){return a+b;},0);document.getElementById('mean').textContent=fmt(sum/nums.length, 2);var sorted=nums.slice().sort(function(a,b){return a-b;});var mid=Math.floor(sorted.length/2);var median=sorted.length%2===0?(sorted[mid-1]+sorted[mid])/2:sorted[mid];document.getElementById('median').textContent=fmt(median, 2);var freq={};nums.forEach(function(n){freq[n]=(freq[n]||0)+1;});var maxFreq=Math.max.apply(null,Object.values(freq));var modes=Object.keys(freq).filter(function(k){return freq[k]===maxFreq;});if(maxFreq===1){document.getElementById('mode').textContent='No mode (all values appear once)';}else{document.getElementById('mode').textContent=modes.join(', ')+' (appears '+maxFreq+' times)';}document.getElementById('range').textContent=fmt(sorted[sorted.length-1]-sorted[0], 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

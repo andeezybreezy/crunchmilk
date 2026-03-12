@@ -464,7 +464,7 @@ footer a:hover{color:#fff}
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -474,7 +474,7 @@ footer a:hover{color:#fff}
     var height = parseFloat(document.getElementById('height').value) || 0;
 
     // Calculation logic
-    var shape=document.getElementById('shape').value; var r=parseFloat(document.getElementById('radius').value); var h=parseFloat(document.getElementById('height').value); if(isNaN(r)||r<=0){document.getElementById('volume').textContent='Enter a positive radius';return;} var vol,sa; if(shape==='sphere'){vol=(4/3)*Math.PI*r*r*r; sa=4*Math.PI*r*r; document.getElementById('formula').textContent='V = (4/3)\u03C0r\u00B3; SA = 4\u03C0r\u00B2';} else if(shape==='cone'){if(isNaN(h)||h<=0){document.getElementById('volume').textContent='Enter a positive height';return;} vol=(1/3)*Math.PI*r*r*h; var slant=Math.sqrt(r*r+h*h); sa=Math.PI*r*(r+slant); document.getElementById('formula').textContent='V = (1/3)\u03C0r\u00B2h; SA = \u03C0r(r + slant)';} else {if(isNaN(h)||h<=0){document.getElementById('volume').textContent='Enter a positive height';return;} vol=Math.PI*r*r*h; sa=2*Math.PI*r*(r+h); document.getElementById('formula').textContent='V = \u03C0r\u00B2h; SA = 2\u03C0r(r + h)';} document.getElementById('volume').textContent=fmt(vol,4); document.getElementById('surfaceArea').textContent=fmt(sa,4);
+    var shape=document.getElementById('shape').value; var r=parseFloat(document.getElementById('radius').value); var h=parseFloat(document.getElementById('height').value); if(isNaN(r)||r<=0){document.getElementById('volume').textContent='Enter a positive radius';return;} var vol,sa; if(shape==='sphere'){vol=(4/3)*Math.PI*r*r*r; sa=4*Math.PI*r*r; document.getElementById('formula').textContent='V = (4/3)\u03C0r\u00B3; SA = 4\u03C0r\u00B2';} else if(shape==='cone'){if(isNaN(h)||h<=0){document.getElementById('volume').textContent='Enter a positive height';return;} vol=(1/3)*Math.PI*r*r*h; var slant=Math.sqrt(r*r+h*h); sa=Math.PI*r*(r+slant); document.getElementById('formula').textContent='V = (1/3)\u03C0r\u00B2h; SA = \u03C0r(r + slant)';} else {if(isNaN(h)||h<=0){document.getElementById('volume').textContent='Enter a positive height';return;} vol=Math.PI*r*r*h; sa=2*Math.PI*r*(r+h); document.getElementById('formula').textContent='V = \u03C0r\u00B2h; SA = 2\u03C0r(r + h)';} document.getElementById('volume').textContent=fmt(vol, 2); document.getElementById('surfaceArea').textContent=fmt(sa, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

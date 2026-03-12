@@ -507,7 +507,7 @@ footer a:hover{color:#fff}
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -519,8 +519,8 @@ footer a:hover{color:#fff}
     var ratios={avg:1.33,code:1.5,simple:1.2}; var ratio=ratios[method]||1.33; var tokens=Math.round(words*ratio); var characters=Math.round(words*5); var pages=fmt(words/250,1); var costHaiku=(tokens/1000000)*0.25; var costSonnet=(tokens/1000000)*3;     document.getElementById('tokens').textContent = fmt(tokens,0)+' tokens';
     document.getElementById('characters').textContent = fmt(characters,0);
     document.getElementById('pages').textContent = pages;
-    document.getElementById('costHaiku').textContent = '$'+fmt(costHaiku,6);
-    document.getElementById('costSonnet').textContent = '$'+fmt(costSonnet,6);
+    document.getElementById('costHaiku').textContent = '$'+fmt(costHaiku, 2);
+    document.getElementById('costSonnet').textContent = '$'+fmt(costSonnet, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

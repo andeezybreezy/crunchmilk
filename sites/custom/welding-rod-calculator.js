@@ -117,10 +117,10 @@
     }
 
     document.getElementById('rRods').textContent = rodsNeeded + ' rods';
-    document.getElementById('rWeight').textContent = fmt(weldMetalLbs, 3) + ' lbs';
+    document.getElementById('rWeight').textContent = fmt(weldMetalLbs, 2) + ' lbs';
     document.getElementById('rElectrodes').textContent = fmt(electrodeWeight, 2) + ' lbs';
-    document.getElementById('rVolume').textContent = fmt(volumeCuIn, 4) + ' cu in';
-    document.getElementById('rCrossSection').textContent = fmt(crossSection, 4) + ' sq in';
+    document.getElementById('rVolume').textContent = fmt(volumeCuIn, 2) + ' cu in';
+    document.getElementById('rCrossSection').textContent = fmt(crossSection, 2) + ' sq in';
     document.getElementById('rPasses').textContent = passes + (passes === 1 ? ' pass' : ' passes');
 
     resultEl.classList.add('visible');

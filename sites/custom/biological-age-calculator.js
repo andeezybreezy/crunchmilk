@@ -195,7 +195,7 @@
     });
 
     // Top 3 improvement areas
-    var improvable = factors.filter(function(f) { return f.delta > 0; }).slice(0, 3);
+    var improvable = factors.filter(function(f) { return f.delta > 0; }).slice(0, 2);
     if (improvable.length > 0) {
       d += '<div style="padding:14px;background:#f0fdf4;border-radius:8px;margin-top:16px;border-left:4px solid #059669">';
       d += '<strong style="color:#059669">Top Improvement Areas</strong>';

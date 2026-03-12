@@ -83,7 +83,7 @@
 
     var d = '';
     d += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;font-size:0.9rem">';
-    d += '<div><strong>Per Tube</strong><br>' + fmt(cuFtEach, 2) + ' ft\u00B3 (' + fmt(cuFtEach / 27, 4) + ' yd\u00B3)</div>';
+    d += '<div><strong>Per Tube</strong><br>' + fmt(cuFtEach, 2) + ' ft\u00B3 (' + fmt(cuFtEach / 27, 2) + ' yd\u00B3)</div>';
     d += '<div><strong>Quantity</strong><br>' + qty + ' tube' + (qty > 1 ? 's' : '') + '</div>';
     d += '<div><strong>Total Volume</strong><br>' + fmt(totalCuFt, 1) + ' ft\u00B3 (' + fmt(totalCuYd) + ' yd\u00B3)</div>';
     d += '<div><strong>With 10% Overage</strong><br>' + fmt(totalCuYdExtra) + ' yd\u00B3</div>';

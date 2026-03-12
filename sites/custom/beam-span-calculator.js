@@ -107,7 +107,7 @@
         var s = lvlSizes[i];
         var S = sectionMod(s.b, s.d);
         var I = momentOfInertia(s.b, s.d);
-        var defl = 5 * wPLI * Math.pow(spanIn, 4) / (384 * E * I);
+        var defl = 5 * wPLI * Math.pow(spanIn, 2) / (384 * E * I);
         if (S >= reqS && defl <= deflLimit) { beamName = s.name; break; }
       }
       if (!beamName) beamName = 'Exceeds LVL tables';
@@ -120,7 +120,7 @@
         var g = glulamSizes[j];
         var Sg = sectionMod(g.b, g.d);
         var Ig = momentOfInertia(g.b, g.d);
-        var deflG = 5 * wPLI * Math.pow(spanIn, 4) / (384 * E2 * Ig);
+        var deflG = 5 * wPLI * Math.pow(spanIn, 2) / (384 * E2 * Ig);
         if (Sg >= reqS2 && deflG <= deflLimit2) { beamName = g.name; break; }
       }
       if (!beamName) beamName = 'Exceeds glulam tables';
@@ -133,7 +133,7 @@
         var l = lumberSizes[k];
         var Sl = sectionMod(l.b, l.d);
         var Il = momentOfInertia(l.b, l.d);
-        var deflL = 5 * wPLI * Math.pow(spanIn, 4) / (384 * E3 * Il);
+        var deflL = 5 * wPLI * Math.pow(spanIn, 2) / (384 * E3 * Il);
         if (Sl >= reqS3 && deflL <= deflLimit3) { beamName = l.name; break; }
       }
       if (!beamName) beamName = 'Use LVL or steel';
@@ -145,7 +145,7 @@
       var deflLimitS = spanIn / 360;
       for (var m = 0; m < steelSections.length; m++) {
         var st = steelSections[m];
-        var deflS = 5 * wPLI * Math.pow(spanIn, 4) / (384 * Esteel * st.Ix);
+        var deflS = 5 * wPLI * Math.pow(spanIn, 2) / (384 * Esteel * st.Ix);
         if (st.Sx >= reqSs && deflS <= deflLimitS) { beamName = st.name; break; }
       }
       if (!beamName) beamName = 'Exceeds tables — consult engineer';

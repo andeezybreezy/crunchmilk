@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -15,7 +15,7 @@
 
     // Calculation logic
     var convToOz={oz:1,g:0.03215,kg:32.1507,dwt:0.05}; var oz=weight*(convToOz[unit]||1); var value=oz*spotPrice; var grams=oz*31.1035;     document.getElementById('value').textContent = dollar(value);
-    document.getElementById('weightOz').textContent = fmt(oz,4)+' troy oz';
+    document.getElementById('weightOz').textContent = fmt(oz, 2)+' troy oz';
     document.getElementById('weightG').textContent = fmt(grams,2)+' g';
 
     resultEl.classList.add('visible');

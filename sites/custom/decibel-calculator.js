@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -25,12 +25,12 @@
     } else if (mode === 'power') {
       var dbP = 10 * Math.log10(val1 / (val2 || 0.001));
       r1 = fmt(dbP, 2) + ' dB';
-      r2 = fmt(val1, 3) + 'W vs ' + fmt(val2, 3) + 'W reference';
+      r2 = fmt(val1, 2) + 'W vs ' + fmt(val2, 2) + 'W reference';
       percept = dbP >= 10 ? 'Perceived as ~' + fmt(Math.pow(2, dbP/10), 1) + '× louder' : 'Moderate difference';
     } else if (mode === 'voltage') {
       var dbV = 20 * Math.log10(val1 / (val2 || 0.001));
       r1 = fmt(dbV, 2) + ' dB';
-      r2 = fmt(val1, 3) + 'V vs ' + fmt(val2, 3) + 'V reference';
+      r2 = fmt(val1, 2) + 'V vs ' + fmt(val2, 2) + 'V reference';
       percept = 'Voltage ratio: ' + fmt(val1/val2, 2) + ':1';
     } else {
       var dbAtDist = val1 - 20 * Math.log10(distance / (val2 || 1));

@@ -455,7 +455,7 @@ footer a:hover{color:#fff}
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -465,7 +465,7 @@ footer a:hover{color:#fff}
     var c = parseFloat(document.getElementById('c').value) || 0;
 
     // Calculation logic
-    var av=parseFloat(a),bv=parseFloat(b),cv=parseFloat(c);if(av===0){document.getElementById('answer').textContent='Error: a cannot be zero';return;}var x=(bv*cv)/av;document.getElementById('answer').textContent=fmt(x,4);document.getElementById('equation').textContent=av+'/'+bv+' = '+cv+'/'+fmt(x,4)+' → '+av+' × '+fmt(x,4)+' = '+bv+' × '+cv+' → '+fmt(av*x,4)+' = '+fmt(bv*cv,4);
+    var av=parseFloat(a),bv=parseFloat(b),cv=parseFloat(c);if(av===0){document.getElementById('answer').textContent='Error: a cannot be zero';return;}var x=(bv*cv)/av;document.getElementById('answer').textContent=fmt(x, 2);document.getElementById('equation').textContent=av+'/'+bv+' = '+cv+'/'+fmt(x, 2)+' → '+av+' × '+fmt(x, 2)+' = '+bv+' × '+cv+' → '+fmt(av*x, 2)+' = '+fmt(bv*cv, 2);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

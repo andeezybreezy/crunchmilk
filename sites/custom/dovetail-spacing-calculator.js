@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -23,14 +23,14 @@
     var tailWide = tailSpacing - 2 * slopeOffset + 2 * slopeOffset;
     var pinNarrow = tailSpacing - tailWide + slopeOffset;
     var marks = [];
-    marks.push(fmt(pinWidth, 3) + '"');
+    marks.push(fmt(pinWidth, 2) + '"');
     for (var i = 0; i < numTails; i++) {
       var pos = pinWidth + i * tailSpacing;
-      marks.push(fmt(pos, 3) + '"');
+      marks.push(fmt(pos, 2) + '"');
     }
-    marks.push(fmt(boardWidth - pinWidth, 3) + '"');
-    document.getElementById('tailWidth').textContent = fmt(tailSpacing, 3) + '"';
-    document.getElementById('pinSpacing').textContent = fmt(tailSpacing, 3) + '" on center';
+    marks.push(fmt(boardWidth - pinWidth, 2) + '"');
+    document.getElementById('tailWidth').textContent = fmt(tailSpacing, 2) + '"';
+    document.getElementById('pinSpacing').textContent = fmt(tailSpacing, 2) + '" on center';
     document.getElementById('layoutMarks').textContent = marks.join(', ');
     document.getElementById('pinNarrow').textContent = 'Ratio 1:' + ratio + ' (angle: ' + fmt(Math.atan(1/ratio)*180/Math.PI, 1) + '°)';
 

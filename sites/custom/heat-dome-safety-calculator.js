@@ -58,7 +58,7 @@
 
     // Globe temperature approximation
     var sunFactor = sun === 'full' ? 15 : sun === 'partial' ? 7 : 0;
-    var windReduction = Math.min(wind * 0.5, 5);
+    var windReduction = Math.min(wind * 0.5, 2);
     var tGlobe = tempC + sunFactor - windReduction;
 
     // WBGT = 0.7 * Twet + 0.2 * Tglobe + 0.1 * Tdry

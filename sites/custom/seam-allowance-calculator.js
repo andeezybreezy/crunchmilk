@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -25,8 +25,8 @@
     var piecesAcross = Math.floor(fabricWidth / cutW);
     var rows = Math.ceil(numPieces / piecesAcross);
     var fabricLength = rows * cutH;
-    document.getElementById('cutWidth').textContent = fmt(cutW, 3) + '" (finished ' + fmt(finishedWidth, 1) + '" + ' + fmt(sa * 2, 3) + '" seam)';
-    document.getElementById('cutHeight').textContent = fmt(cutH, 3) + '" (finished ' + fmt(finishedHeight, 1) + '" + ' + fmt(sa * 2, 3) + '" seam + ' + fmt(hemAllowance, 1) + '" hem)';
+    document.getElementById('cutWidth').textContent = fmt(cutW, 2) + '" (finished ' + fmt(finishedWidth, 1) + '" + ' + fmt(sa * 2, 2) + '" seam)';
+    document.getElementById('cutHeight').textContent = fmt(cutH, 2) + '" (finished ' + fmt(finishedHeight, 1) + '" + ' + fmt(sa * 2, 2) + '" seam + ' + fmt(hemAllowance, 1) + '" hem)';
     document.getElementById('fabricPerPiece').textContent = fmt(sqInPerPiece, 1) + ' sq in (' + fmt(sqInPerPiece / 144, 2) + ' sq ft)';
     document.getElementById('totalFabric').textContent = fmt(fabricLength, 1) + '" of 45"-wide fabric (' + fmt(fabricLength / 36, 2) + ' yards)';
 

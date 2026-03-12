@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -14,8 +14,8 @@
     var toUnit = document.getElementById('toUnit').value;
 
     // Calculation logic
-    var toGrams={oz:31.1035,g:1,kg:1000,dwt:1.55517,avoz:28.3495}; var grams=amount*(toGrams[fromUnit]||1); var result=grams/(toGrams[toUnit]||1); var factor=(toGrams[fromUnit]||1)/(toGrams[toUnit]||1);     document.getElementById('result').textContent = fmt(result,4);
-    document.getElementById('factor').textContent = '1 '+fromUnit+' = '+fmt(factor,6)+' '+toUnit;
+    var toGrams={oz:31.1035,g:1,kg:1000,dwt:1.55517,avoz:28.3495}; var grams=amount*(toGrams[fromUnit]||1); var result=grams/(toGrams[toUnit]||1); var factor=(toGrams[fromUnit]||1)/(toGrams[toUnit]||1);     document.getElementById('result').textContent = fmt(result, 2);
+    document.getElementById('factor').textContent = '1 '+fromUnit+' = '+fmt(factor, 2)+' '+toUnit;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

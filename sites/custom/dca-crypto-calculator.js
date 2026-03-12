@@ -144,7 +144,7 @@
     d += '<div style="padding:14px;background:#fffbeb;border-radius:8px;border-left:4px solid #f59e0b">';
     d += '<strong style="color:#f59e0b">DCA Strategy</strong><br>';
     d += 'Total invested: ' + fmtD(totalInvested) + '<br>';
-    d += 'Coins acquired: ' + fmt(totalCoins, 6) + ' ' + coinLabel + '<br>';
+    d += 'Coins acquired: ' + fmt(totalCoins, 2) + ' ' + coinLabel + '<br>';
     d += 'Avg cost basis: $' + fmt(avgCostBasis, 2) + '<br>';
     d += 'Current value: <strong>' + fmtD(currentValue) + '</strong><br>';
     d += 'Profit/Loss: <strong style="color:' + (dcaProfit >= 0 ? '#059669' : '#dc2626') + '">' + (dcaProfit >= 0 ? '+' : '') + fmtD(dcaProfit) + '</strong><br>';
@@ -154,7 +154,7 @@
     d += '<div style="padding:14px;background:#f9fafb;border-radius:8px;border-left:4px solid #6b7280">';
     d += '<strong>Lump Sum (All at Start)</strong><br>';
     d += 'Total invested: ' + fmtD(totalInvested) + '<br>';
-    d += 'Coins acquired: ' + fmt(lumpCoins, 6) + ' ' + coinLabel + '<br>';
+    d += 'Coins acquired: ' + fmt(lumpCoins, 2) + ' ' + coinLabel + '<br>';
     d += 'Buy price: $' + fmt(startPrice, 2) + '<br>';
     d += 'Current value: <strong>' + fmtD(lumpValue) + '</strong><br>';
     d += 'Profit/Loss: <strong style="color:' + (lumpProfit >= 0 ? '#059669' : '#dc2626') + '">' + (lumpProfit >= 0 ? '+' : '') + fmtD(lumpProfit) + '</strong><br>';
@@ -192,7 +192,7 @@
       d += '<tr style="border-bottom:1px solid #f3f4f6">';
       d += '<td style="padding:6px">' + p.period + '</td>';
       d += '<td style="text-align:right;padding:6px">$' + fmt(p.price, 0) + '</td>';
-      d += '<td style="text-align:right;padding:6px">' + fmt(p.totalCoins, 4) + '</td>';
+      d += '<td style="text-align:right;padding:6px">' + fmt(p.totalCoins, 2) + '</td>';
       d += '<td style="text-align:right;padding:6px">' + fmtD(p.totalInvested) + '</td>';
       d += '<td style="text-align:right;padding:6px;color:' + (val >= p.totalInvested ? '#059669' : '#dc2626') + '">' + fmtD(val) + '</td>';
       d += '</tr>';

@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -23,7 +23,7 @@
     var locMult = {'us':1.0,'eu':1.1,'asia':1.3};
     var baseCost = (ram * 4) + (cores * 8);
     var monthly = baseCost * hostingMult[hosting] * locMult[location];
-    monthly = Math.max(monthly, 5);
+    monthly = Math.max(monthly, 2);
     document.getElementById('monthlyCost').textContent = dollar(monthly) + '/month';
     document.getElementById('ramNeeded').textContent = fmt(ram, 0) + ' GB RAM';
     document.getElementById('cpuNeeded').textContent = fmt(cores, 0) + ' CPU cores';

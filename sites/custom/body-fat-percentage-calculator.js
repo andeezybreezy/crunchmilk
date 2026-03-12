@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -16,7 +16,7 @@
     var hip = parseFloat(document.getElementById('hip').value) || 0;
 
     // Calculation logic
-    var bodyFat; if (sex === 'Male') { bodyFat = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76; } else { bodyFat = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 78.387; } bodyFat = Math.max(bodyFat, 3); var category; if (sex === 'Male') { category = bodyFat < 6 ? 'Essential' : bodyFat < 14 ? 'Athletic' : bodyFat < 18 ? 'Fit' : bodyFat < 25 ? 'Average' : 'Above Average'; } else { category = bodyFat < 14 ? 'Essential' : bodyFat < 21 ? 'Athletic' : bodyFat < 25 ? 'Fit' : bodyFat < 32 ? 'Average' : 'Above Average'; }     document.getElementById('bodyFat').textContent = fmt(bodyFat,1);
+    var bodyFat; if (sex === 'Male') { bodyFat = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76; } else { bodyFat = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 78.387; } bodyFat = Math.max(bodyFat, 2); var category; if (sex === 'Male') { category = bodyFat < 6 ? 'Essential' : bodyFat < 14 ? 'Athletic' : bodyFat < 18 ? 'Fit' : bodyFat < 25 ? 'Average' : 'Above Average'; } else { category = bodyFat < 14 ? 'Essential' : bodyFat < 21 ? 'Athletic' : bodyFat < 25 ? 'Fit' : bodyFat < 32 ? 'Average' : 'Above Average'; }     document.getElementById('bodyFat').textContent = fmt(bodyFat,1);
     document.getElementById('category').textContent = category;
 
     resultEl.classList.add('visible');

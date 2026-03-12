@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -15,7 +15,7 @@
     var dim3 = parseFloat(document.getElementById('dim3').value) || 0;
 
     // Calculation logic
-    var d1=parseFloat(dim1),d2=parseFloat(dim2),d3=parseFloat(dim3);var vol,formula;if(shape==='cube'){vol=d1*d1*d1;formula='V = s³ = '+d1+'³ = '+fmt(vol,4);}else if(shape==='rectangular-prism'){vol=d1*d2*d3;formula='V = l × w × h = '+d1+' × '+d2+' × '+d3+' = '+fmt(vol,4);}else if(shape==='cylinder'){vol=Math.PI*d1*d1*d2;formula='V = πr²h = π × '+d1+'² × '+d2+' = '+fmt(vol,4);}else if(shape==='cone'){vol=(1/3)*Math.PI*d1*d1*d2;formula='V = ⅓πr²h = ⅓ × π × '+d1+'² × '+d2+' = '+fmt(vol,4);}else if(shape==='sphere'){vol=(4/3)*Math.PI*d1*d1*d1;formula='V = ⁴⁄₃πr³ = ⁴⁄₃ × π × '+d1+'³ = '+fmt(vol,4);}document.getElementById('volume').textContent=fmt(vol,4)+' cubic units';document.getElementById('formula').textContent=formula;
+    var d1=parseFloat(dim1),d2=parseFloat(dim2),d3=parseFloat(dim3);var vol,formula;if(shape==='cube'){vol=d1*d1*d1;formula='V = s³ = '+d1+'³ = '+fmt(vol, 2);}else if(shape==='rectangular-prism'){vol=d1*d2*d3;formula='V = l × w × h = '+d1+' × '+d2+' × '+d3+' = '+fmt(vol, 2);}else if(shape==='cylinder'){vol=Math.PI*d1*d1*d2;formula='V = πr²h = π × '+d1+'² × '+d2+' = '+fmt(vol, 2);}else if(shape==='cone'){vol=(1/3)*Math.PI*d1*d1*d2;formula='V = ⅓πr²h = ⅓ × π × '+d1+'² × '+d2+' = '+fmt(vol, 2);}else if(shape==='sphere'){vol=(4/3)*Math.PI*d1*d1*d1;formula='V = ⁴⁄₃πr³ = ⁴⁄₃ × π × '+d1+'³ = '+fmt(vol, 2);}document.getElementById('volume').textContent=fmt(vol, 2)+' cubic units';document.getElementById('formula').textContent=formula;
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';

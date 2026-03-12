@@ -4,7 +4,7 @@
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
+  function fmt(n, d) { d = (d === undefined) ? 2 : d; if (d > 2) d = 2; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (p[1]) p[1] = p[1].replace(/0+$/, ''); return p[1] ? p.join('.') : p[0]; }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
@@ -40,7 +40,7 @@
     }
     document.getElementById('signalLoss').textContent = typeof loss === 'string' ? loss : fmt(loss, 2) + ' dB';
     document.getElementById('maxRecommended').textContent = fmt(maxLen, 0) + ' feet';
-    document.getElementById('resistance').textContent = fmt(totalR, 3) + ' ohms';
+    document.getElementById('resistance').textContent = fmt(totalR, 2) + ' ohms';
     document.getElementById('powerLoss').textContent = pwrLoss;
 
     resultEl.classList.add('visible');

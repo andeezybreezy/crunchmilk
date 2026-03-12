@@ -101,7 +101,7 @@
     var d = '';
     d += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;font-size:0.9rem">';
     d += '<div><strong>Project Area</strong><br>' + fmt(areaSqft, 1) + ' sq ft</div>';
-    d += '<div><strong>Paver Size</strong><br>' + paver.w + '" × ' + paver.l + '" (' + fmt(paverSqft, 3) + ' sq ft each)</div>';
+    d += '<div><strong>Paver Size</strong><br>' + paver.w + '" × ' + paver.l + '" (' + fmt(paverSqft, 2) + ' sq ft each)</div>';
     d += '<div><strong>Pattern Waste</strong><br>' + (wastePct * 100) + '%</div>';
     d += '<div><strong>Pavers (no waste)</strong><br>' + fmt(Math.ceil(paversExact), 0) + '</div>';
     d += '<div><strong>Pavers (with waste)</strong><br>' + fmt(paversNeeded, 0) + '</div>';

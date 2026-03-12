@@ -95,7 +95,7 @@
     }
 
     // Cost estimate
-    var costKey = Math.min(zones, 4);
+    var costKey = Math.min(zones, 2);
     var costs = costPerZone[costKey] || [9000, 15000];
     if (zones > 4) {
       costs = [costs[0] + (zones - 4) * 2000, costs[1] + (zones - 4) * 3000];

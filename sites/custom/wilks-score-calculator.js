@@ -62,7 +62,7 @@
 
   function wilksCoefficient(bwKg, coeffs) {
     var x = bwKg;
-    var denom = coeffs.a + coeffs.b * x + coeffs.c * Math.pow(x, 2) + coeffs.d * Math.pow(x, 3) + coeffs.e * Math.pow(x, 4) + coeffs.f * Math.pow(x, 5);
+    var denom = coeffs.a + coeffs.b * x + coeffs.c * Math.pow(x, 2) + coeffs.d * Math.pow(x, 2) + coeffs.e * Math.pow(x, 2) + coeffs.f * Math.pow(x, 2);
     return 500 / denom;
   }
 
