@@ -65,7 +65,9 @@ const CATEGORY_META = {
   'geopolitical-energy': { name: 'Geopolitical & Energy', slug: 'geopolitical-energy-calculators',  icon: SVG('<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>') },
   'mental-health':       { name: 'Mental Health',          slug: 'mental-health-calculators',         icon: SVG('<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>') },
   'pregnancy':           { name: 'Pregnancy & Baby',       slug: 'pregnancy-calculators',             icon: SVG('<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8"/><path d="M12 8v8"/>') },
-  'insurance':           { name: 'Insurance',              slug: 'insurance-calculators',             icon: SVG('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>') }
+  'insurance':           { name: 'Insurance',              slug: 'insurance-calculators',             icon: SVG('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>') },
+  'middle-school-math':  { name: 'Middle School Math',    slug: 'middle-school-math-calculators',    icon: SVG('<path d="M4 19V5a2 2 0 012-2h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M9 13h6"/><path d="M12 10v6"/><path d="M14 3v4a2 2 0 002 2h4"/>') },
+  'high-school-math':    { name: 'Algebra & Beyond',      slug: 'high-school-math-calculators',      icon: SVG('<path d="M4 19V5a2 2 0 012-2h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M9 11l6 6"/><path d="M15 11l-6 6"/><path d="M14 3v4a2 2 0 002 2h4"/>') }
 };
 
 function main() {
