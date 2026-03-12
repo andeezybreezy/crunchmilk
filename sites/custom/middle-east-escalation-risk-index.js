@@ -32,4 +32,9 @@
     var el = document.getElementById(id);
     if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
   });
+  document.getElementById('militaryActivity').addEventListener('input', function() { document.getElementById('militaryActivityVal').textContent = this.value + '/10'; });
+  document.getElementById('diplomaticTension').addEventListener('input', function() { document.getElementById('diplomaticTensionVal').textContent = this.value + '/10'; });
+  document.getElementById('proxyConflict').addEventListener('input', function() { document.getElementById('proxyConflictVal').textContent = this.value + '/10'; });
+  document.getElementById('oilMarketStress').addEventListener('input', function() { document.getElementById('oilMarketStressVal').textContent = this.value + '/10'; });
+  document.getElementById('nuclearThreat').addEventListener('input', function() { document.getElementById('nuclearThreatVal').textContent = this.value + '/10'; });
 })();

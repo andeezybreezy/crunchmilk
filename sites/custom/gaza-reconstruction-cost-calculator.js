@@ -31,4 +31,5 @@
     var el = document.getElementById(id);
     if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
   });
+  document.getElementById('destructionLevel').addEventListener('input', function() { document.getElementById('destructionLevelVal').textContent = this.value + '%'; });
 })();

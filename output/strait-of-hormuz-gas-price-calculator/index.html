@@ -345,6 +345,7 @@ footer a:hover{color:#fff}
     <div class="input-group" style="margin-bottom:0">
       <label for="disruption">Disruption Level (%)</label>
       <input type="range" id="disruption" value="50" min="10" max="100" step="5">
+      <span id="disruptionVal" style="display:inline-block;min-width:48px;text-align:center;font-weight:700;font-size:1.05rem;color:var(--primary);margin-top:4px">50%</span>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -525,6 +526,7 @@ footer a:hover{color:#fff}
     var el = document.getElementById(id);
     if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
   });
+  document.getElementById('disruption').addEventListener('input', function() { document.getElementById('disruptionVal').textContent = this.value + '%'; });
 })();
 
 </script>

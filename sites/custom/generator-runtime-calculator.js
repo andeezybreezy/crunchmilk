@@ -104,4 +104,5 @@
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);
+  document.getElementById('loadPct').addEventListener('input', function() { document.getElementById('loadPctVal').textContent = this.value + '%'; });
 })();

@@ -33,4 +33,9 @@
     var el = document.getElementById(id);
     if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
   });
+  document.getElementById('ukraine').addEventListener('input', function() { document.getElementById('ukraineVal').textContent = this.value + '/10'; });
+  document.getElementById('mideast').addEventListener('input', function() { document.getElementById('mideastVal').textContent = this.value + '/10'; });
+  document.getElementById('taiwan').addEventListener('input', function() { document.getElementById('taiwanVal').textContent = this.value + '/10'; });
+  document.getElementById('tradeWar').addEventListener('input', function() { document.getElementById('tradeWarVal').textContent = this.value + '/10'; });
+  document.getElementById('nuclear').addEventListener('input', function() { document.getElementById('nuclearVal').textContent = this.value + '/10'; });
 })();

@@ -341,25 +341,30 @@ footer a:hover{color:#fff}
     <div class="input-group" style="margin-bottom:0">
       <label for="ukraine">Ukraine/Russia Intensity (1-10)</label>
       <input type="range" id="ukraine" value="7" min="1" max="10" step="1">
+      <span id="ukraineVal" style="display:inline-block;min-width:48px;text-align:center;font-weight:700;font-size:1.05rem;color:var(--primary);margin-top:4px">7/10</span>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="mideast">Middle East Intensity (1-10)</label>
       <input type="range" id="mideast" value="8" min="1" max="10" step="1">
+      <span id="mideastVal" style="display:inline-block;min-width:48px;text-align:center;font-weight:700;font-size:1.05rem;color:var(--primary);margin-top:4px">8/10</span>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
     <div class="input-group" style="margin-bottom:0">
       <label for="taiwan">Taiwan Strait Tension (1-10)</label>
       <input type="range" id="taiwan" value="5" min="1" max="10" step="1">
+      <span id="taiwanVal" style="display:inline-block;min-width:48px;text-align:center;font-weight:700;font-size:1.05rem;color:var(--primary);margin-top:4px">5/10</span>
     </div>
     <div class="input-group" style="margin-bottom:0">
       <label for="tradeWar">Trade War Severity (1-10)</label>
       <input type="range" id="tradeWar" value="7" min="1" max="10" step="1">
+      <span id="tradeWarVal" style="display:inline-block;min-width:48px;text-align:center;font-weight:700;font-size:1.05rem;color:var(--primary);margin-top:4px">7/10</span>
     </div>
   </div>
     <div class="input-group">
       <label for="nuclear">Nuclear Threat Level (1-10)</label>
       <input type="range" id="nuclear" value="4" min="1" max="10" step="1">
+      <span id="nuclearVal" style="display:inline-block;min-width:48px;text-align:center;font-weight:700;font-size:1.05rem;color:var(--primary);margin-top:4px">4/10</span>
     </div>
 
   <button type="button" class="convert-btn" id="calcBtn">Calculate</button>
@@ -529,6 +534,11 @@ footer a:hover{color:#fff}
     var el = document.getElementById(id);
     if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
   });
+  document.getElementById('ukraine').addEventListener('input', function() { document.getElementById('ukraineVal').textContent = this.value + '/10'; });
+  document.getElementById('mideast').addEventListener('input', function() { document.getElementById('mideastVal').textContent = this.value + '/10'; });
+  document.getElementById('taiwan').addEventListener('input', function() { document.getElementById('taiwanVal').textContent = this.value + '/10'; });
+  document.getElementById('tradeWar').addEventListener('input', function() { document.getElementById('tradeWarVal').textContent = this.value + '/10'; });
+  document.getElementById('nuclear').addEventListener('input', function() { document.getElementById('nuclearVal').textContent = this.value + '/10'; });
 })();
 
 </script>

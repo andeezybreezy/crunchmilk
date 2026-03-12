@@ -32,4 +32,5 @@
     var el = document.getElementById(id);
     if (el) el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
   });
+  document.getElementById('disruption').addEventListener('input', function() { document.getElementById('disruptionVal').textContent = this.value + '%'; });
 })();
