@@ -85,6 +85,7 @@
       rec += '</div>';
     }
     rafterSizeRec.innerHTML = rec;
+    document.getElementById('result').classList.add('visible');
   }
 
   roofSpan.addEventListener('input', calculate);

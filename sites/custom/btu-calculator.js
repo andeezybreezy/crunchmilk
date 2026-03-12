@@ -107,6 +107,7 @@
     }
 
     resultDetails.innerHTML = html;
+    document.getElementById('result').classList.add('visible');
   }
 
   calcBtn.addEventListener('click', calculate);

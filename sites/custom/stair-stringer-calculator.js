@@ -104,6 +104,7 @@
     else tips.push('Riser + tread = ' + riserPlusTread.toFixed(2) + '" — within the ideal 17-18" comfort range.');
 
     resultTip.textContent = tips.join(' ');
+    document.getElementById('result').classList.add('visible');
   }
 
   totalRise.addEventListener('input', calculate);

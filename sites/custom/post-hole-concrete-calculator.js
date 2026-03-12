@@ -67,6 +67,7 @@
     outWeight.textContent = '—';
     outHoleVol.textContent = '—';
     resultTip.textContent = 'Configure post and hole settings to calculate concrete needed.';
+    document.getElementById('result').classList.add('visible');
   }
 
   postSize.addEventListener('change', calculate);

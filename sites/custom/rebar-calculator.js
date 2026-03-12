@@ -54,6 +54,7 @@
     outArea.textContent = area.toFixed(0) + ' sq ft';
 
     resultTip.textContent = barsAlongLength + ' bars along length + ' + barsAlongWidth + ' bars along width = ' + totalBars + ' bars, ' + Math.ceil(linFtWithOverlap).toLocaleString() + ' linear ft (incl. 10% overlap), ' + Math.ceil(weight).toLocaleString() + ' lbs.';
+    document.getElementById('result').classList.add('visible');
   }
 
   slabLen.addEventListener('input', calculate);

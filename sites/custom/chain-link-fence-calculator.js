@@ -82,6 +82,7 @@
     outTenBands.textContent = '—';
     outTenBars.textContent = '—';
     resultTip.textContent = 'Enter fence details to calculate materials.';
+    document.getElementById('result').classList.add('visible');
   }
 
   clLength.addEventListener('input', calculate);

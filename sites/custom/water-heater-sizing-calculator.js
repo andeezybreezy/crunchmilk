@@ -118,6 +118,7 @@
     html += '<p style="margin:0"><strong>Lifespan:</strong> 20+ years</p>';
 
     resultDetails.innerHTML = html;
+    document.getElementById('result').classList.add('visible');
   }
 
   calcBtn.addEventListener('click', calculate);

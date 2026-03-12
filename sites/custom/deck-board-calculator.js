@@ -72,6 +72,7 @@
     outJoists.textContent = joists + ' joists';
 
     resultTip.textContent = rows + ' rows of ' + boardsPerRow + ' board(s) each = ' + totalBoardsRaw + ' boards + ' + Math.round(waste * 100) + '% waste = ' + totalBoards + ' total.';
+    document.getElementById('result').classList.add('visible');
   }
 
   deckLength.addEventListener('input', calculate);

@@ -90,6 +90,7 @@
     document.getElementById('quarterly').textContent = fmt(quarterly);
     document.getElementById('effectiveRate').textContent = effectiveRate.toFixed(1) + '%';
     document.getElementById('seRate').textContent = seEffRate.toFixed(1) + '%';
+    document.getElementById('result').classList.add('visible');
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

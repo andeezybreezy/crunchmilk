@@ -76,6 +76,7 @@
     outDiameter.textContent = tube + '"';
 
     resultTip.textContent = totalFootings + ' footings: ' + beamLines + ' beam lines × ' + postsPerBeam + ' posts each. ' + totalBags + ' bags of concrete total.';
+    document.getElementById('result').classList.add('visible');
   }
 
   deckL.addEventListener('input', calculate);

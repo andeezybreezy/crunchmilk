@@ -82,6 +82,7 @@
 
     var style = isBob ? 'board-on-board' : (gap > 0 ? 'spaced picket' : 'privacy');
     resultTip.textContent = len + ' ft ' + style + ' fence: ' + posts + ' posts, ' + totalRails + ' rails, ' + pickets.toLocaleString() + ' pickets, ' + concreteBags + ' bags concrete.';
+    document.getElementById('result').classList.add('visible');
   }
 
   fenceLen.addEventListener('input', calculate);

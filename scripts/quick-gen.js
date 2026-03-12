@@ -49,7 +49,8 @@ const CATEGORY_COLORS = {
   'blockchain': ['#f59e0b', '#d97706'], 'food-beverage': ['#dc2626', '#b91c1c'],
   'music': ['#7c3aed', '#6d28d9'], 'diy-home': ['#ea580c', '#c2410c'],
   'travel': ['#0891b2', '#0e7490'], 'gaming': ['#6366f1', '#4f46e5'],
-  'electrical': ['#eab308', '#ca8a04'], 'plumbing': ['#0369a1', '#075985']
+  'electrical': ['#eab308', '#ca8a04'], 'plumbing': ['#0369a1', '#075985'],
+  'geopolitical-energy': ['#991b1b', '#7f1d1d']
 };
 
 function buildCalcHTML(tool) {

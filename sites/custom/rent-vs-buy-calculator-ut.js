@@ -112,6 +112,7 @@
     document.getElementById('investValue').textContent = fmt(investBalance);
     document.getElementById('netAdvantage').textContent = advantageLabel;
     document.getElementById('breakEven').textContent = breakEvenYear > 0 ? 'Year ' + breakEvenYear : 'Not within ' + years + ' years';
+    document.getElementById('result').classList.add('visible');
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

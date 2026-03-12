@@ -126,6 +126,7 @@
     html += '<p style="margin:0"><strong>Electrical:</strong> Dedicated ' + amps + ' circuit required</p>';
 
     resultDetails.innerHTML = html;
+    document.getElementById('result').classList.add('visible');
   }
 
   calcBtn.addEventListener('click', calculate);

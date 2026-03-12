@@ -30,6 +30,7 @@
     document.getElementById('totalHours').textContent = totalHours.toFixed(1) + ' hrs';
     document.getElementById('biweeklyGross').textContent = fmt(weeklyGross * 2);
     document.getElementById('monthlyGross').textContent = fmt(weeklyGross * 52 / 12);
+    document.getElementById('result').classList.add('visible');
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

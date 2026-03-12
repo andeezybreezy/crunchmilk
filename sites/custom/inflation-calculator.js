@@ -61,6 +61,7 @@
     document.getElementById('powerChange').textContent = powerChange.toFixed(1) + '%';
     document.getElementById('numYears').textContent = years + (years === 1 ? ' year' : ' years');
     document.getElementById('avgRate').textContent = rate.toFixed(1) + '%';
+    document.getElementById('result').classList.add('visible');
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);
