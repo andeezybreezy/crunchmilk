@@ -13,7 +13,6 @@ const OUTPUT_DIR = path.join(ROOT, 'output');
 const MASTER_LIST_PATH = path.join(ROOT, 'data', 'master-tool-list.json');
 const { SHARE_SYSTEM_JS } = require('./share-system');
 const { EMAIL_CAPTURE_JS } = require('./email-capture');
-const { buildAffiliateCTA } = require('./affiliate-system');
 
 // ---------------------------------------------------------------------------
 // Master tool list (loaded once, may not exist)
@@ -565,7 +564,6 @@ function buildSite(configFile) {
     lastUpdatedHTML: lastUpdatedHTML,
     embedCodeHTML: embedCodeHTML,
     faqHTML: faqHTML,
-    affiliateCTA: buildAffiliateCTA(config),
     relatedToolsHTML: relatedToolsHTML,
     customJS: customJS,
     robotsMeta: config.noindex ? 'noindex, follow' : 'index, follow',
