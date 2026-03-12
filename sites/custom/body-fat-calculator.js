@@ -3,6 +3,7 @@
 
   let gender = 'male';
   let system = 'imperial';
+  var lastCalc = null;
 
   // Gender toggle
   document.querySelectorAll('[data-gender]').forEach(function(btn) {
@@ -51,6 +52,63 @@
     }
   }
 
+  function calcBF(heightCm, weightKg, neckCm, waistCm, hipCm, isMale) {
+    var bf;
+    if (isMale) {
+      bf = 495 / (1.0324 - 0.19077 * Math.log10(waistCm - neckCm) + 0.15456 * Math.log10(heightCm)) - 450;
+    } else {
+      bf = 495 / (1.29579 - 0.35004 * Math.log10(waistCm + hipCm - neckCm) + 0.22100 * Math.log10(heightCm)) - 450;
+    }
+    return Math.max(bf, 1);
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var weightChange = parseFloat(document.getElementById('wiWeight').value) || 0;
+    // Convert to kg if needed
+    var changeKg = system === 'imperial' ? weightChange * 0.453592 : weightChange;
+    var newWeightKg = lastCalc.weightKg + changeKg;
+    if (newWeightKg <= 0) newWeightKg = 1;
+
+    // Assume weight change is fat (body comp estimation)
+    var origFatKg = lastCalc.weightKg * lastCalc.bf / 100;
+    var newFatKg = origFatKg + changeKg;
+    if (newFatKg < 0) newFatKg = 0;
+    var newBF = (newFatKg / newWeightKg) * 100;
+    if (newBF < 1) newBF = 1;
+    if (newBF > 70) newBF = 70;
+
+    var diff = newBF - lastCalc.bf;
+
+    document.getElementById('wiOriginal').textContent = lastCalc.bf.toFixed(1) + '%';
+    document.getElementById('wiNew').textContent = newBF.toFixed(1) + '%';
+    document.getElementById('wiDelta').textContent = (diff >= 0 ? '+' : '') + diff.toFixed(1) + '%';
+    document.getElementById('wiDelta').style.color = diff <= 0 ? '#059669' : '#dc2626';
+    document.getElementById('wiCategory').textContent = getCategory(newBF, gender === 'male');
+
+    // Update weight unit label
+    document.getElementById('wiWeightUnit').textContent = system === 'imperial' ? 'lbs' : 'kg';
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiWeight = document.getElementById('wiWeight');
+  if (wiWeight) {
+    wiWeight.addEventListener('input', function() {
+      var v = parseInt(this.value);
+      document.getElementById('wiWeightVal').textContent = (v >= 0 ? '+' : '') + v;
+      updateWhatIf();
+    });
+  }
+
   document.getElementById('calcBtn').addEventListener('click', function() {
     var heightCm, weightLbs, weightKg, neckCm, waistCm, hipCm;
 
@@ -81,14 +139,8 @@
       return;
     }
 
-    var bf;
-    if (gender === 'male') {
-      bf = 495 / (1.0324 - 0.19077 * Math.log10(waistCm - neckCm) + 0.15456 * Math.log10(heightCm)) - 450;
-    } else {
-      bf = 495 / (1.29579 - 0.35004 * Math.log10(waistCm + hipCm - neckCm) + 0.22100 * Math.log10(heightCm)) - 450;
-    }
+    var bf = calcBF(heightCm, weightKg, neckCm, waistCm, hipCm, gender === 'male');
 
-    bf = Math.max(bf, 1);
     var fatMassKg = weightKg * bf / 100;
     var leanMassKg = weightKg - fatMassKg;
 
@@ -101,5 +153,9 @@
     document.getElementById('fatMass').textContent = fatDisplay + ' ' + unitLabel;
     document.getElementById('leanMass').textContent = leanDisplay + ' ' + unitLabel;
     document.getElementById('result').style.display = '';
+
+    lastCalc = { bf: bf, weightKg: weightKg, heightCm: heightCm, neckCm: neckCm, waistCm: waistCm, hipCm: hipCm };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
   });
 })();

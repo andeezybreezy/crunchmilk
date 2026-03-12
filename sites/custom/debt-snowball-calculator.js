@@ -16,6 +16,7 @@
   var scheduleBody = document.getElementById('scheduleBody');
 
   var debtCount = 1;
+  var lastCalcData = null;
 
   function fmt(n) {
     return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -66,7 +67,6 @@
   }
 
   function simulate(debts, extra) {
-    // Deep copy
     var d = debts.map(function(x) { return { name: x.name, balance: x.balance, minPay: x.minPay, rate: x.rate, paidOff: false, paidMonth: 0 }; });
     var totalInterest = 0;
     var month = 0;
@@ -82,7 +82,6 @@
       var row = { month: month };
       var extraLeft = extra;
 
-      // Apply interest
       d.forEach(function(debt) {
         if (!debt.paidOff) {
           var interest = debt.balance * debt.rate;
@@ -91,7 +90,6 @@
         }
       });
 
-      // Make minimum payments
       d.forEach(function(debt) {
         if (!debt.paidOff) {
           var payment = Math.min(debt.minPay, debt.balance);
@@ -106,7 +104,6 @@
         }
       });
 
-      // Apply extra to target (first non-paid-off in list, already sorted by snowball)
       for (var i = 0; i < d.length && extraLeft > 0; i++) {
         if (!d[i].paidOff) {
           var pay = Math.min(extraLeft, d[i].balance);
@@ -131,18 +128,59 @@
     return { totalInterest: totalInterest, months: month, schedule: schedule, payoffList: payoffList };
   }
 
+  function updateWhatIf() {
+    if (!lastCalcData) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var wiExtra = parseFloat(document.getElementById('wiExtra').value) || 0;
+    var debts = lastCalcData.debts.map(function(d) { return { name: d.name, balance: d.balance, minPay: d.minPay, rate: d.rate }; });
+    var wiResult = simulate(debts, lastCalcData.extra + wiExtra);
+    var saved = lastCalcData.totalInterest - wiResult.totalInterest;
+    var monthsDiff = lastCalcData.months - wiResult.months;
+
+    document.getElementById('wiOriginal').textContent = fmt(lastCalcData.totalInterest);
+    document.getElementById('wiNew').textContent = fmt(wiResult.totalInterest);
+    document.getElementById('wiDelta').textContent = saved >= 0 ? fmt(saved) : '-' + fmt(Math.abs(saved));
+    document.getElementById('wiDelta').style.color = saved >= 0 ? '#059669' : '#dc2626';
+
+    var timeText = '';
+    if (monthsDiff > 0) {
+      var y = Math.floor(monthsDiff / 12); var m = monthsDiff % 12;
+      timeText = (y > 0 ? y + ' yr ' : '') + (m > 0 ? m + ' mo ' : '') + 'sooner';
+    } else if (monthsDiff < 0) {
+      var y2 = Math.floor(Math.abs(monthsDiff) / 12); var m2 = Math.abs(monthsDiff) % 12;
+      timeText = (y2 > 0 ? y2 + ' yr ' : '') + (m2 > 0 ? m2 + ' mo ' : '') + 'longer';
+    } else {
+      timeText = 'No change';
+    }
+    document.getElementById('wiTimeDelta').textContent = timeText;
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiExtraSlider = document.getElementById('wiExtra');
+  if (wiExtraSlider) {
+    wiExtraSlider.addEventListener('input', function() {
+      document.getElementById('wiExtraVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+
   function calculate() {
     var debts = getDebts();
     if (debts.length === 0) return;
 
     var extra = parseFloat(extraPayment.value) || 0;
 
-    // Sort by smallest balance (snowball)
     debts.sort(function(a, b) { return a.balance - b.balance; });
 
     var result = simulate(debts, extra);
-
-    // Minimum-only simulation
     var minResult = simulate(debts, 0);
 
     totalInterestEl.textContent = fmt(result.totalInterest);
@@ -168,7 +206,7 @@
     payoffOrder.innerHTML = orderHTML;
     payoffOrderWrap.style.display = 'block';
 
-    // Schedule table (show every 3rd month or all if short)
+    // Schedule table
     var headHTML = '<th>Month</th>';
     debts.forEach(function(d) { headHTML += '<th>' + d.name + '</th>'; });
     scheduleHead.innerHTML = headHTML;
@@ -184,7 +222,6 @@
       });
       bodyHTML += '</tr>';
     }
-    // Always show last row
     if (result.schedule.length % step !== 1 && result.schedule.length > 0) {
       var lastRow = result.schedule[result.schedule.length - 1];
       bodyHTML += '<tr><td>' + lastRow.month + '</td>';
@@ -196,6 +233,11 @@
     }
     scheduleBody.innerHTML = bodyHTML;
     scheduleWrap.style.display = 'block';
+
+    // Store for what-if
+    lastCalcData = { debts: debts, extra: extra, totalInterest: result.totalInterest, months: result.months };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
   }
 
   calcBtn.addEventListener('click', calculate);

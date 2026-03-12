@@ -1,6 +1,8 @@
 (function() {
   'use strict';
 
+  var lastCalc = null;
+
   function fmt(n) {
     return '$' + Math.round(n).toLocaleString('en-US');
   }
@@ -14,6 +16,66 @@
     var n = years * 12;
     if (r === 0) return principal / n;
     return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  function runCalc(homePrice, downPct, mortRate, loanTerm, propTaxRate, insurance, maintPct, monthlyRent, rentIncrease, investReturn, years, appreciationRate) {
+    var downPayment = homePrice * (downPct / 100);
+    var loanAmount = homePrice - downPayment;
+    var monthlyMortgage = calcMortgagePayment(loanAmount, mortRate, loanTerm);
+    var monthlyPropTax = (homePrice * propTaxRate / 100) / 12;
+    var monthlyInsurance = insurance / 12;
+    var monthlyMaint = (homePrice * maintPct / 100) / 12;
+    var totalMonthlyBuy = monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
+
+    var totalBuyCost = downPayment;
+    var totalRentCost = 0;
+    var balance = loanAmount;
+    var monthlyR = mortRate / 100 / 12;
+    var investBalance = downPayment;
+    var monthlyInvestR = investReturn / 100 / 12;
+    var currentRent = monthlyRent;
+    var currentHomeValue = homePrice;
+    var breakEvenYear = 0;
+
+    for (var y = 1; y <= years; y++) {
+      for (var m = 0; m < 12; m++) {
+        var interestPayment = balance * monthlyR;
+        var principalPayment = monthlyMortgage - interestPayment;
+        if (principalPayment > balance) principalPayment = balance;
+        balance -= principalPayment;
+        totalBuyCost += monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
+        totalRentCost += currentRent;
+        var monthlySavings = totalMonthlyBuy - currentRent;
+        if (monthlySavings > 0) {
+          investBalance = investBalance * (1 + monthlyInvestR) + monthlySavings;
+        } else {
+          investBalance = investBalance * (1 + monthlyInvestR);
+        }
+      }
+      currentRent *= (1 + rentIncrease / 100);
+      if (appreciationRate !== undefined) {
+        currentHomeValue *= (1 + appreciationRate / 100);
+      }
+    }
+
+    var finalEquity = downPayment + (loanAmount - balance);
+    if (appreciationRate !== undefined) {
+      finalEquity = currentHomeValue - balance;
+    }
+    var netBuyFinal = totalBuyCost - finalEquity;
+    var netRentFinal = totalRentCost;
+    var advantage = netRentFinal - netBuyFinal;
+
+    return {
+      totalMonthlyBuy: totalMonthlyBuy,
+      monthlyMortgage: monthlyMortgage,
+      totalBuyCost: totalBuyCost,
+      totalRentCost: totalRentCost,
+      finalEquity: finalEquity,
+      investBalance: investBalance,
+      advantage: advantage,
+      homeValue: currentHomeValue
+    };
   }
 
   function calculate() {
@@ -31,6 +93,7 @@
 
     if (homePrice <= 0 || monthlyRent <= 0) return;
 
+    // Run original calculation (no appreciation for backward compat on main display)
     var downPayment = homePrice * (downPct / 100);
     var loanAmount = homePrice - downPayment;
     var monthlyMortgage = calcMortgagePayment(loanAmount, mortRate, loanTerm);
@@ -39,12 +102,11 @@
     var monthlyMaint = (homePrice * maintPct / 100) / 12;
     var totalMonthlyBuy = monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
 
-    // Year-by-year calculation
     var totalBuyCost = downPayment;
     var totalRentCost = 0;
     var balance = loanAmount;
     var monthlyR = mortRate / 100 / 12;
-    var investBalance = downPayment; // Renter invests down payment
+    var investBalance = downPayment;
     var monthlyInvestR = investReturn / 100 / 12;
     var currentRent = monthlyRent;
     var breakEvenYear = 0;
@@ -53,21 +115,13 @@
     tbody.innerHTML = '';
 
     for (var y = 1; y <= years; y++) {
-      var yearBuyCost = 0;
-      var yearRentCost = 0;
-
       for (var m = 0; m < 12; m++) {
-        // Buy side
         var interestPayment = balance * monthlyR;
         var principalPayment = monthlyMortgage - interestPayment;
         if (principalPayment > balance) principalPayment = balance;
         balance -= principalPayment;
-        yearBuyCost += monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
-
-        // Rent side
-        yearRentCost += currentRent;
-
-        // Renter invests the monthly difference
+        totalBuyCost += monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
+        totalRentCost += currentRent;
         var monthlySavings = totalMonthlyBuy - currentRent;
         if (monthlySavings > 0) {
           investBalance = investBalance * (1 + monthlyInvestR) + monthlySavings;
@@ -75,21 +129,14 @@
           investBalance = investBalance * (1 + monthlyInvestR);
         }
       }
-
-      totalBuyCost += yearBuyCost;
-      totalRentCost += yearRentCost;
+      totalBuyCost += 0;
       currentRent *= (1 + rentIncrease / 100);
-
-      var equity = homePrice - balance - (homePrice - downPayment - (loanAmount - balance));
-      equity = downPayment + (loanAmount - balance);
-
-      // Check break-even (net cost of buying < net cost of renting)
+      var equity = downPayment + (loanAmount - balance);
       var netBuy = totalBuyCost - equity;
       var netRent = totalRentCost - (investBalance - downPayment);
       if (breakEvenYear === 0 && netBuy <= netRent) {
         breakEvenYear = y;
       }
-
       var tr = document.createElement('tr');
       tr.innerHTML = '<td style="padding:6px;border-bottom:1px solid #eee">' + y + '</td>' +
         '<td style="padding:6px;border-bottom:1px solid #eee;text-align:right">' + fmt(totalBuyCost) + '</td>' +
@@ -113,6 +160,61 @@
     document.getElementById('netAdvantage').textContent = advantageLabel;
     document.getElementById('breakEven').textContent = breakEvenYear > 0 ? 'Year ' + breakEvenYear : 'Not within ' + years + ' years';
     document.getElementById('result').classList.add('visible');
+
+    lastCalc = {
+      homePrice: homePrice, downPct: downPct, mortRate: mortRate, loanTerm: loanTerm,
+      propTaxRate: propTaxRate, insurance: insurance, maintPct: maintPct,
+      monthlyRent: monthlyRent, rentIncrease: rentIncrease, investReturn: investReturn,
+      years: years, advantage: advantage
+    };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var appreciationRate = parseFloat(document.getElementById('wiApprec').value) || 0;
+    var rateChange = parseFloat(document.getElementById('wiRate').value) || 0;
+    var newRate = lastCalc.mortRate + rateChange;
+    if (newRate < 0) newRate = 0;
+
+    var wiResult = runCalc(lastCalc.homePrice, lastCalc.downPct, newRate, lastCalc.loanTerm,
+      lastCalc.propTaxRate, lastCalc.insurance, lastCalc.maintPct,
+      lastCalc.monthlyRent, lastCalc.rentIncrease, lastCalc.investReturn,
+      lastCalc.years, appreciationRate);
+
+    var origLabel = lastCalc.advantage > 0 ? 'Buying saves ' + fmt(Math.abs(lastCalc.advantage)) : 'Renting saves ' + fmt(Math.abs(lastCalc.advantage));
+    var newLabel = wiResult.advantage > 0 ? 'Buying saves ' + fmt(Math.abs(wiResult.advantage)) : 'Renting saves ' + fmt(Math.abs(wiResult.advantage));
+
+    document.getElementById('wiOriginal').textContent = origLabel;
+    document.getElementById('wiNew').textContent = newLabel;
+    document.getElementById('wiHomeValue').textContent = fmt(wiResult.homeValue);
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiApprec = document.getElementById('wiApprec');
+  var wiRate = document.getElementById('wiRate');
+  if (wiApprec) {
+    wiApprec.addEventListener('input', function() {
+      document.getElementById('wiApprecVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+  if (wiRate) {
+    wiRate.addEventListener('input', function() {
+      var v = parseFloat(this.value);
+      document.getElementById('wiRateVal').textContent = (v >= 0 ? '+' : '') + v.toFixed(2);
+      updateWhatIf();
+    });
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

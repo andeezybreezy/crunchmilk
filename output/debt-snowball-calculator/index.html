@@ -407,6 +407,30 @@ footer a:hover{color:#fff}
     <div id="payoffOrder"></div>
   </div>
 
+  <div id="whatIfSection" style="display:none;margin-top:20px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:28px 24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="margin:0;font-size:1.1rem;color:var(--navy)">What If Mode</h3>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="whatIfToggle"><span style="font-weight:600;font-size:0.85rem;color:var(--text-mid)">Enable</span></label>
+    </div>
+    <div id="whatIfControls" style="display:none">
+      <div style="margin-bottom:16px">
+        <label style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Additional Extra Payment: $<span id="wiExtraVal">0</span>/mo</label>
+        <input type="range" id="wiExtra" min="0" max="1000" value="0" step="25" style="width:100%;margin-top:6px">
+      </div>
+      <div id="whatIfResult" style="margin-top:16px;padding:16px;background:var(--cream);border-radius:8px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+          <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Original Interest</div><div id="wiOriginal" style="font-size:1.1rem;font-weight:700;color:var(--navy)">—</div></div>
+          <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">What If Interest</div><div id="wiNew" style="font-size:1.1rem;font-weight:700;color:var(--primary)">—</div></div>
+          <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Interest Saved</div><div id="wiDelta" style="font-size:1.1rem;font-weight:700;color:#059669">—</div></div>
+        </div>
+        <div style="margin-top:12px;text-align:center">
+          <div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Payoff Time Change</div>
+          <div id="wiTimeDelta" style="font-size:1rem;font-weight:600;color:var(--primary)">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="scheduleWrap" style="display:none;margin-top:20px">
     <h3 style="margin-bottom:12px">Month-by-Month Schedule</h3>
     <div style="overflow-x:auto">
@@ -559,6 +583,7 @@ footer a:hover{color:#fff}
   var scheduleBody = document.getElementById('scheduleBody');
 
   var debtCount = 1;
+  var lastCalcData = null;
 
   function fmt(n) {
     return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -609,7 +634,6 @@ footer a:hover{color:#fff}
   }
 
   function simulate(debts, extra) {
-    // Deep copy
     var d = debts.map(function(x) { return { name: x.name, balance: x.balance, minPay: x.minPay, rate: x.rate, paidOff: false, paidMonth: 0 }; });
     var totalInterest = 0;
     var month = 0;
@@ -625,7 +649,6 @@ footer a:hover{color:#fff}
       var row = { month: month };
       var extraLeft = extra;
 
-      // Apply interest
       d.forEach(function(debt) {
         if (!debt.paidOff) {
           var interest = debt.balance * debt.rate;
@@ -634,7 +657,6 @@ footer a:hover{color:#fff}
         }
       });
 
-      // Make minimum payments
       d.forEach(function(debt) {
         if (!debt.paidOff) {
           var payment = Math.min(debt.minPay, debt.balance);
@@ -649,7 +671,6 @@ footer a:hover{color:#fff}
         }
       });
 
-      // Apply extra to target (first non-paid-off in list, already sorted by snowball)
       for (var i = 0; i < d.length && extraLeft > 0; i++) {
         if (!d[i].paidOff) {
           var pay = Math.min(extraLeft, d[i].balance);
@@ -674,18 +695,59 @@ footer a:hover{color:#fff}
     return { totalInterest: totalInterest, months: month, schedule: schedule, payoffList: payoffList };
   }
 
+  function updateWhatIf() {
+    if (!lastCalcData) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var wiExtra = parseFloat(document.getElementById('wiExtra').value) || 0;
+    var debts = lastCalcData.debts.map(function(d) { return { name: d.name, balance: d.balance, minPay: d.minPay, rate: d.rate }; });
+    var wiResult = simulate(debts, lastCalcData.extra + wiExtra);
+    var saved = lastCalcData.totalInterest - wiResult.totalInterest;
+    var monthsDiff = lastCalcData.months - wiResult.months;
+
+    document.getElementById('wiOriginal').textContent = fmt(lastCalcData.totalInterest);
+    document.getElementById('wiNew').textContent = fmt(wiResult.totalInterest);
+    document.getElementById('wiDelta').textContent = saved >= 0 ? fmt(saved) : '-' + fmt(Math.abs(saved));
+    document.getElementById('wiDelta').style.color = saved >= 0 ? '#059669' : '#dc2626';
+
+    var timeText = '';
+    if (monthsDiff > 0) {
+      var y = Math.floor(monthsDiff / 12); var m = monthsDiff % 12;
+      timeText = (y > 0 ? y + ' yr ' : '') + (m > 0 ? m + ' mo ' : '') + 'sooner';
+    } else if (monthsDiff < 0) {
+      var y2 = Math.floor(Math.abs(monthsDiff) / 12); var m2 = Math.abs(monthsDiff) % 12;
+      timeText = (y2 > 0 ? y2 + ' yr ' : '') + (m2 > 0 ? m2 + ' mo ' : '') + 'longer';
+    } else {
+      timeText = 'No change';
+    }
+    document.getElementById('wiTimeDelta').textContent = timeText;
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiExtraSlider = document.getElementById('wiExtra');
+  if (wiExtraSlider) {
+    wiExtraSlider.addEventListener('input', function() {
+      document.getElementById('wiExtraVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+
   function calculate() {
     var debts = getDebts();
     if (debts.length === 0) return;
 
     var extra = parseFloat(extraPayment.value) || 0;
 
-    // Sort by smallest balance (snowball)
     debts.sort(function(a, b) { return a.balance - b.balance; });
 
     var result = simulate(debts, extra);
-
-    // Minimum-only simulation
     var minResult = simulate(debts, 0);
 
     totalInterestEl.textContent = fmt(result.totalInterest);
@@ -711,7 +773,7 @@ footer a:hover{color:#fff}
     payoffOrder.innerHTML = orderHTML;
     payoffOrderWrap.style.display = 'block';
 
-    // Schedule table (show every 3rd month or all if short)
+    // Schedule table
     var headHTML = '<th>Month</th>';
     debts.forEach(function(d) { headHTML += '<th>' + d.name + '</th>'; });
     scheduleHead.innerHTML = headHTML;
@@ -727,7 +789,6 @@ footer a:hover{color:#fff}
       });
       bodyHTML += '</tr>';
     }
-    // Always show last row
     if (result.schedule.length % step !== 1 && result.schedule.length > 0) {
       var lastRow = result.schedule[result.schedule.length - 1];
       bodyHTML += '<tr><td>' + lastRow.month + '</td>';
@@ -739,6 +800,11 @@ footer a:hover{color:#fff}
     }
     scheduleBody.innerHTML = bodyHTML;
     scheduleWrap.style.display = 'block';
+
+    // Store for what-if
+    lastCalcData = { debts: debts, extra: extra, totalInterest: result.totalInterest, months: result.months };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
   }
 
   calcBtn.addEventListener('click', calculate);

@@ -1,0 +1,189 @@
+[
+  {
+    "slug": "wedding-budget-calculator",
+    "toolName": "Wedding Budget Calculator",
+    "category": "finance",
+    "tagline": "Estimate your total wedding budget by guest count and style tier",
+    "keywords": "wedding budget calculator, how much does a wedding cost, wedding cost estimator, average wedding cost, wedding budget breakdown, wedding planning budget, wedding cost by guest count, wedding expenses calculator, affordable wedding budget, luxury wedding cost",
+    "relatedTools": ["wedding-cost-per-head-calculator", "catering-cost-estimator", "venue-cost-comparison-calculator", "honeymoon-budget-calculator"],
+    "inputs": [
+      {"id": "guestCount", "label": "Guest Count", "default": 150, "min": 10, "max": 500, "step": 5},
+      {"id": "tier", "label": "Wedding Style", "default": "mid", "type": "select", "options": [{"value": "budget", "label": "Budget-Friendly ($75-125/guest)"}, {"value": "mid", "label": "Mid-Range ($150-250/guest)"}, {"value": "upscale", "label": "Upscale ($300-450/guest)"}, {"value": "luxury", "label": "Luxury ($500+/guest)"}]},
+      {"id": "region", "label": "Region", "default": "average", "type": "select", "options": [{"value": "lcol", "label": "Low Cost of Living"}, {"value": "average", "label": "Average Cost Area"}, {"value": "hcol", "label": "High Cost (NYC, SF, LA)"}, {"value": "destination", "label": "Destination Wedding"}]},
+      {"id": "barType", "label": "Bar Service", "default": "open", "type": "select", "options": [{"value": "none", "label": "No Alcohol"}, {"value": "beer_wine", "label": "Beer & Wine Only"}, {"value": "open", "label": "Full Open Bar"}, {"value": "premium", "label": "Premium Open Bar"}]},
+      {"id": "photoVideo", "label": "Photo + Video Package", "default": "both", "type": "select", "options": [{"value": "photo", "label": "Photography Only"}, {"value": "both", "label": "Photo + Video"}, {"value": "premium", "label": "Premium Photo + Video + Drone"}]}
+    ],
+    "results": [
+      {"id": "totalBudget", "label": "Estimated Total Budget"},
+      {"id": "venueFood", "label": "Venue + Catering"},
+      {"id": "barCost", "label": "Bar / Drinks"},
+      {"id": "photoCost", "label": "Photography & Video"},
+      {"id": "florals", "label": "Florals & Decor"},
+      {"id": "perGuest", "label": "Cost Per Guest"}
+    ],
+    "calcFn": "var perGuest = {budget:100,mid:200,upscale:375,luxury:550}; var regionMult = {lcol:0.75,average:1.0,hcol:1.55,destination:1.35}; var basePerGuest = perGuest[tier] || 200; var mult = regionMult[region] || 1.0; var adjustedPG = basePerGuest * mult; var venueAndFood = adjustedPG * guestCount * 0.50; var barRates = {none:0,beer_wine:25,open:55,premium:85}; var barTotal = (barRates[barType] || 0) * guestCount * mult; var photoRates = {photo:3000,both:5500,premium:9000}; var photoTotal = (photoRates[photoVideo] || 5500) * mult; var floralCost = adjustedPG * guestCount * 0.10; var otherCosts = adjustedPG * guestCount * 0.15; var total = venueAndFood + barTotal + photoTotal + floralCost + otherCosts; var cpg = total / guestCount; document.getElementById('totalBudget').textContent = dollar(total); document.getElementById('venueFood').textContent = dollar(venueAndFood); document.getElementById('barCost').textContent = dollar(barTotal); document.getElementById('photoCost').textContent = dollar(photoTotal); document.getElementById('florals').textContent = dollar(floralCost); document.getElementById('perGuest').textContent = dollar(cpg);",
+    "formulas": ["Total Budget = Venue/Catering + Bar + Photo/Video + Florals + Other", "Per-guest base rate adjusted by region cost multiplier", "Venue & catering typically 45-50% of total budget", "Bar costs range from $25 (beer/wine) to $85+ (premium) per guest"],
+    "faq": [
+      {"question": "How much does the average wedding cost?", "answer": "The national average wedding cost in the US is approximately $33,000-$35,000, but this number is heavily skewed by expensive metro areas. The median (what a typical couple actually spends) is closer to $20,000-$25,000. Costs vary dramatically by region — a wedding in rural Tennessee might cost $15,000 while a comparable celebration in Manhattan could run $75,000+. Guest count is the single biggest driver of total cost."},
+      {"question": "What is the biggest wedding expense?", "answer": "Venue and catering combined typically account for 45-55% of the total wedding budget. The reception venue rental plus food and beverage service for 150 guests averages $15,000-$25,000 in most markets. After venue and catering, the next largest expenses are typically photography/videography (10-12%), entertainment/DJ or band (7-10%), florals and decor (8-12%), and wedding attire (5-8%)."},
+      {"question": "How can I reduce my wedding budget without it looking cheap?", "answer": "The biggest savings come from: choosing an off-peak date (Friday evening or Sunday afternoon saves 20-40% on venues), limiting guest count (every guest cut saves $150-300+), selecting an all-inclusive venue that bundles food and space, using in-season flowers, doing a brunch or lunch reception instead of dinner, and DIYing decor items. Cutting the guest list by 25 people can easily save $5,000-$8,000."},
+      {"question": "Should I hire a wedding planner?", "answer": "A full-service wedding planner costs 10-15% of your total budget ($3,000-$10,000+), but a day-of coordinator ($1,000-$2,500) is almost always worth it. Planners can negotiate vendor discounts that partially offset their fee. For budgets over $30,000, a planner often saves money through vendor relationships and preventing costly mistakes. For smaller budgets, a day-of coordinator handles logistics so you can enjoy your wedding."}
+    ]
+  },
+  {
+    "slug": "wedding-cost-per-head-calculator",
+    "toolName": "Wedding Cost Per Head Calculator",
+    "category": "finance",
+    "tagline": "Calculate the true per-guest cost of your wedding by venue type and service level",
+    "keywords": "wedding cost per head, cost per guest wedding, per person wedding cost, wedding per plate cost, wedding cost per attendee, reception cost per person, how much per guest wedding, wedding dinner cost per person, per head wedding budget, cost per wedding guest",
+    "relatedTools": ["wedding-budget-calculator", "catering-cost-estimator", "venue-cost-comparison-calculator"],
+    "inputs": [
+      {"id": "totalBudget", "label": "Total Wedding Budget", "default": 30000, "min": 5000, "max": 500000, "step": 1000},
+      {"id": "guestCount", "label": "Expected Guest Count", "default": 150, "min": 10, "max": 500, "step": 5},
+      {"id": "fixedCosts", "label": "Fixed Costs (photographer, DJ, dress, etc.)", "default": 12000, "min": 0, "max": 200000, "step": 500},
+      {"id": "venueType", "label": "Venue Type", "default": "banquet", "type": "select", "options": [{"value": "backyard", "label": "Backyard / Park"}, {"value": "restaurant", "label": "Restaurant"}, {"value": "banquet", "label": "Banquet Hall"}, {"value": "hotel", "label": "Hotel Ballroom"}, {"value": "estate", "label": "Estate / Winery"}]},
+      {"id": "mealType", "label": "Meal Service", "default": "plated", "type": "select", "options": [{"value": "buffet", "label": "Buffet"}, {"value": "plated", "label": "Plated Dinner"}, {"value": "family", "label": "Family Style"}, {"value": "stations", "label": "Food Stations"}]}
+    ],
+    "results": [
+      {"id": "costPerHead", "label": "Total Cost Per Guest"},
+      {"id": "variablePerHead", "label": "Variable Cost Per Guest"},
+      {"id": "cateringPerHead", "label": "Catering Per Guest"},
+      {"id": "variableBudget", "label": "Variable Budget (guest-dependent)"},
+      {"id": "maxGuests", "label": "Max Guests Within Budget"},
+      {"id": "savingsPerCut", "label": "Savings Per Guest Cut"}
+    ],
+    "calcFn": "var variableBudget = totalBudget - fixedCosts; var costPerGuest = totalBudget / guestCount; var varPerGuest = variableBudget / guestCount; var venueMult = {backyard:0.6,restaurant:1.0,banquet:0.9,hotel:1.25,estate:1.15}; var mealCosts = {buffet:45,plated:65,family:55,stations:60}; var cateringPG = (mealCosts[mealType] || 65) * (venueMult[venueType] || 1.0); var maxG = Math.floor(variableBudget / varPerGuest); var savingsCut = varPerGuest; document.getElementById('costPerHead').textContent = dollar(costPerGuest); document.getElementById('variablePerHead').textContent = dollar(varPerGuest); document.getElementById('cateringPerHead').textContent = dollar(cateringPG); document.getElementById('variableBudget').textContent = dollar(variableBudget); document.getElementById('maxGuests').textContent = fmt(maxG, 0) + ' guests'; document.getElementById('savingsPerCut').textContent = dollar(savingsCut) + ' saved per guest cut';",
+    "formulas": ["Total Cost Per Guest = Total Budget / Guest Count", "Variable Cost Per Guest = (Total Budget − Fixed Costs) / Guest Count", "Variable Budget = Total Budget − Fixed Costs (photographer, DJ, dress, etc.)", "Max Guests = Variable Budget / Variable Cost Per Guest"],
+    "faq": [
+      {"question": "What is a normal cost per head for a wedding?", "answer": "The national average cost per wedding guest ranges from $100-$300 depending on location and style. Budget weddings run $75-$125 per head, mid-range weddings $150-$250, and upscale celebrations $300-$500+. In expensive cities like New York or San Francisco, even a modest wedding can cost $250-$400 per guest. These figures include all variable costs, not just food — drinks, favors, place settings, and per-person venue fees."},
+      {"question": "What is the difference between fixed and variable wedding costs?", "answer": "Fixed costs stay the same regardless of guest count — photographer ($3,000-$8,000), DJ ($1,000-$2,500), wedding dress ($1,500-$5,000), officiant ($200-$1,000), and wedding rings. Variable costs increase with each additional guest — catering ($45-$150/person), bar ($25-$85/person), table rentals, place settings, favors ($3-$10 each), and invitations. Knowing this split helps you understand the true cost of adding or cutting guests."},
+      {"question": "How much should I budget for catering per person?", "answer": "Catering costs per person vary significantly by style: buffet dinners run $35-$65/person, plated dinners $55-$125/person, family style $45-$85/person, and food stations $50-$90/person. These are food-only costs — add $25-$85/person for bar service. Hotel and estate venues often charge more per plate than standalone caterers. Always confirm whether prices include tax (7-10%), gratuity (18-22%), and service charges."},
+      {"question": "How many guests should I invite to stay within budget?", "answer": "Divide your variable budget (total budget minus fixed costs) by your target per-guest spending. For example, with a $30,000 budget, $12,000 in fixed costs, and a $150/guest target, you can invite 120 guests ($18,000 / $150). Always plan for 80-85% acceptance rate, so invite proportionally more. The biggest mistake couples make is inviting too many people and then scrambling to cut costs on food, drinks, and decor quality."}
+    ]
+  },
+  {
+    "slug": "honeymoon-budget-calculator",
+    "toolName": "Honeymoon Budget Calculator",
+    "category": "finance",
+    "tagline": "Plan your honeymoon budget by destination, duration, and travel style",
+    "keywords": "honeymoon budget calculator, honeymoon cost estimator, how much does a honeymoon cost, honeymoon planning budget, honeymoon expenses, destination honeymoon cost, honeymoon trip cost, honeymoon savings calculator, affordable honeymoon budget, luxury honeymoon cost",
+    "relatedTools": ["wedding-budget-calculator", "wedding-debt-payoff-calculator"],
+    "inputs": [
+      {"id": "destination", "label": "Destination Type", "default": "caribbean", "type": "select", "options": [{"value": "domestic", "label": "Domestic (US)"}, {"value": "caribbean", "label": "Caribbean / Mexico"}, {"value": "europe", "label": "Europe"}, {"value": "asia", "label": "Southeast Asia"}, {"value": "pacific", "label": "South Pacific / Maldives"}, {"value": "africa", "label": "Africa Safari"}]},
+      {"id": "nights", "label": "Number of Nights", "default": 7, "min": 2, "max": 30, "step": 1},
+      {"id": "travelStyle", "label": "Travel Style", "default": "mid", "type": "select", "options": [{"value": "budget", "label": "Budget-Conscious"}, {"value": "mid", "label": "Mid-Range Comfort"}, {"value": "luxury", "label": "Luxury / All-Inclusive"}, {"value": "ultra", "label": "Ultra-Luxury"}]},
+      {"id": "includeFlights", "label": "Include Flights", "default": "yes", "type": "select", "options": [{"value": "yes", "label": "Yes"}, {"value": "no", "label": "No (using points/miles)"}]},
+      {"id": "activities", "label": "Activity Level", "default": "moderate", "type": "select", "options": [{"value": "relaxed", "label": "Relaxed (beach/pool)"}, {"value": "moderate", "label": "Moderate (a few excursions)"}, {"value": "active", "label": "Active (daily excursions)"}]}
+    ],
+    "results": [
+      {"id": "totalBudget", "label": "Total Honeymoon Budget"},
+      {"id": "flightsCost", "label": "Flights (2 people)"},
+      {"id": "hotelCost", "label": "Accommodations"},
+      {"id": "foodCost", "label": "Food & Drinks"},
+      {"id": "activityCost", "label": "Activities & Excursions"},
+      {"id": "dailyAvg", "label": "Average Daily Spend"}
+    ],
+    "calcFn": "var flightCosts = {domestic:600,caribbean:900,europe:1800,asia:2200,pacific:3000,africa:2800}; var hotelPerNight = {budget:{domestic:120,caribbean:150,europe:130,asia:60,pacific:200,africa:180},mid:{domestic:220,caribbean:300,europe:250,asia:120,pacific:450,africa:400},luxury:{domestic:400,caribbean:550,europe:500,asia:250,pacific:900,africa:750},ultra:{domestic:700,caribbean:1000,europe:900,asia:500,pacific:1800,africa:1500}}; var flights = includeFlights === 'yes' ? (flightCosts[destination] || 1500) * 2 : 0; if(travelStyle === 'luxury') flights *= 1.5; if(travelStyle === 'ultra') flights *= 2.5; var hotel = (hotelPerNight[travelStyle][destination] || 250) * nights; var foodPerDay = {budget:80,mid:150,luxury:250,ultra:450}; var food = (foodPerDay[travelStyle] || 150) * nights; var actMult = {relaxed:0.3,moderate:1.0,active:1.8}; var actPerDay = {budget:40,mid:100,luxury:200,ultra:400}; var act = (actPerDay[travelStyle] || 100) * nights * (actMult[activities] || 1.0); var total = flights + hotel + food + act; var daily = total / nights; document.getElementById('totalBudget').textContent = dollar(total); document.getElementById('flightsCost').textContent = includeFlights === 'yes' ? dollar(flights) : 'Using Points'; document.getElementById('hotelCost').textContent = dollar(hotel); document.getElementById('foodCost').textContent = dollar(food); document.getElementById('activityCost').textContent = dollar(act); document.getElementById('dailyAvg').textContent = dollar(daily) + '/day';",
+    "formulas": ["Total = Flights + Accommodations + Food & Drinks + Activities", "Flight costs for 2 people, adjusted by travel style class", "Hotel rates vary by destination and comfort tier", "Activity costs scaled by activity level (relaxed 30%, moderate 100%, active 180%)"],
+    "faq": [
+      {"question": "How much does an average honeymoon cost?", "answer": "The average American honeymoon costs $4,500-$6,500, with most couples spending between $3,000 and $10,000. Caribbean and Mexico all-inclusive resorts are the most popular option, typically running $3,000-$7,000 for a week. European honeymoons average $5,000-$12,000, while luxury destinations like the Maldives or Bora Bora start at $8,000-$15,000 for a week. Using credit card points for flights can cut costs by 30-40%."},
+      {"question": "When is the cheapest time to honeymoon?", "answer": "Shoulder seasons offer the best value: Caribbean in May or early December (before Christmas surge), Europe in April-May or September-October, Southeast Asia November-February (dry season but not peak holiday weeks). Avoid school holidays and major US holiday weekends. Booking flights 2-3 months ahead and hotels 3-6 months ahead typically yields the best prices. Tuesday departures are often cheapest for flights."},
+      {"question": "Is an all-inclusive resort worth it for a honeymoon?", "answer": "All-inclusive resorts are excellent value for couples who want to relax without worrying about costs. A good Caribbean all-inclusive runs $250-$500/night per couple including meals, drinks, and basic activities — comparable to or cheaper than paying for a hotel room plus restaurants and bar tabs separately. The main downside is limited local exploration. For destinations like Europe or Japan where the culture and food scene is the attraction, all-inclusive makes less sense."},
+      {"question": "How do we budget for a honeymoon on top of wedding costs?", "answer": "Many couples set aside 10-15% of their total wedding and honeymoon combined budget for the trip. Start saving early — even $200/month for 12 months gives you $2,400 before adding wedding gift cash. Consider a honeymoon registry instead of traditional gifts, use credit card sign-up bonuses for free flights (many travel cards offer 60,000-80,000 points), and consider delaying the honeymoon 2-3 months to spread out costs and find off-peak deals."}
+    ]
+  },
+  {
+    "slug": "wedding-debt-payoff-calculator",
+    "toolName": "Wedding Debt Payoff Calculator",
+    "category": "finance",
+    "tagline": "Calculate how long it will take to pay off wedding expenses and total interest",
+    "keywords": "wedding debt payoff, pay off wedding debt, wedding loan calculator, wedding credit card debt, how long to pay off wedding, wedding financing calculator, wedding debt interest, wedding payment plan, wedding loan payoff, wedding expenses debt",
+    "relatedTools": ["wedding-budget-calculator", "honeymoon-budget-calculator"],
+    "inputs": [
+      {"id": "debtAmount", "label": "Total Wedding Debt", "default": 15000, "min": 500, "max": 200000, "step": 500},
+      {"id": "interestRate", "label": "Interest Rate (APR)", "default": 18.5, "min": 0, "max": 35, "step": 0.5, "unit": "%"},
+      {"id": "monthlyPayment", "label": "Monthly Payment", "default": 500, "min": 50, "max": 10000, "step": 50},
+      {"id": "extraPayment", "label": "Extra Monthly Payment", "default": 0, "min": 0, "max": 5000, "step": 50},
+      {"id": "debtType", "label": "Debt Type", "default": "credit_card", "type": "select", "options": [{"value": "credit_card", "label": "Credit Card(s)"}, {"value": "personal_loan", "label": "Personal Loan"}, {"value": "wedding_loan", "label": "Wedding Loan"}, {"value": "family_loan", "label": "Family Loan (0% interest)"}]}
+    ],
+    "results": [
+      {"id": "payoffMonths", "label": "Months to Pay Off"},
+      {"id": "payoffDate", "label": "Payoff Date"},
+      {"id": "totalInterest", "label": "Total Interest Paid"},
+      {"id": "totalPaid", "label": "Total Amount Paid"},
+      {"id": "savedWithExtra", "label": "Interest Saved with Extra Payment"},
+      {"id": "monthsSaved", "label": "Months Saved with Extra Payment"}
+    ],
+    "calcFn": "var rate = debtType === 'family_loan' ? 0 : interestRate; var monthlyRate = rate / 100 / 12; var payment = monthlyPayment; var extraPay = extraPayment; var balance = debtAmount; var months = 0; var totalInt = 0; var maxMonths = 600; while(balance > 0 && months < maxMonths) { var interest = balance * monthlyRate; totalInt += interest; var princPayment = payment + extraPay - interest; if(princPayment <= 0) { months = maxMonths; break; } balance -= princPayment; if(balance < 0) balance = 0; months++; } var balance2 = debtAmount; var months2 = 0; var totalInt2 = 0; while(balance2 > 0 && months2 < maxMonths) { var int2 = balance2 * monthlyRate; totalInt2 += int2; var princ2 = payment - int2; if(princ2 <= 0) { months2 = maxMonths; break; } balance2 -= princ2; if(balance2 < 0) balance2 = 0; months2++; } var totalPaidAmt = debtAmount + totalInt; var interestSaved = totalInt2 - totalInt; var monthsSav = months2 - months; var payoffDate = new Date(); payoffDate.setMonth(payoffDate.getMonth() + months); var dateStr = payoffDate.toLocaleDateString('en-US', {month:'long',year:'numeric'}); document.getElementById('payoffMonths').textContent = months >= maxMonths ? 'Never (increase payment)' : months + ' months'; document.getElementById('payoffDate').textContent = months >= maxMonths ? 'N/A' : dateStr; document.getElementById('totalInterest').textContent = dollar(totalInt); document.getElementById('totalPaid').textContent = dollar(totalPaidAmt); document.getElementById('savedWithExtra').textContent = extraPay > 0 ? dollar(interestSaved) : 'Add extra payment to see'; document.getElementById('monthsSaved').textContent = extraPay > 0 ? monthsSav + ' months faster' : 'N/A';",
+    "formulas": ["Monthly Interest = Remaining Balance × (APR / 12)", "Principal Payment = Monthly Payment − Monthly Interest", "Payoff Time calculated iteratively until balance reaches $0", "Interest Saved = Interest without extra payment − Interest with extra payment"],
+    "faq": [
+      {"question": "How much wedding debt is normal?", "answer": "Studies show 45-50% of couples go into debt for their wedding, with the average wedding-related debt being $8,000-$12,000. About 15% of couples take on more than $20,000 in wedding debt. Credit cards are the most common source (75% of wedding debt), followed by personal loans and family loans. Starting a marriage with significant high-interest debt can strain finances during the critical first years together."},
+      {"question": "Should I take a personal loan or use credit cards for wedding expenses?", "answer": "A personal loan is almost always better than credit cards for wedding expenses over $5,000. Personal loan rates are typically 7-15% versus 18-28% for credit cards, which can save thousands in interest. A $15,000 wedding debt at 8% (personal loan) costs about $3,200 in interest over 4 years, versus $7,500+ at 22% (credit card). Some couples use a 0% APR credit card for the introductory period, then transfer to a personal loan."},
+      {"question": "What percentage of income should go to wedding debt payments?", "answer": "Financial advisors recommend allocating 15-20% of combined take-home pay to wedding debt repayment. For a couple earning $8,000/month combined after taxes, that is $1,200-$1,600/month toward the debt. Prioritize wedding debt payments above discretionary spending but below emergency fund contributions and retirement savings. Aggressive repayment in the first 1-2 years of marriage sets a strong financial foundation."},
+      {"question": "How can we pay off wedding debt faster?", "answer": "Top strategies include: sell wedding items you no longer need (decorations, dress), redirect wedding gift cash directly to debt, pick up temporary side income for 6-12 months post-wedding, use the debt avalanche method (highest interest first), negotiate a lower credit card APR (call and ask — it works about 70% of the time), and consider a balance transfer to a 0% APR card if your credit score qualifies (usually 700+)."}
+    ]
+  },
+  {
+    "slug": "venue-cost-comparison-calculator",
+    "toolName": "Venue Cost Comparison Calculator",
+    "category": "finance",
+    "tagline": "Compare wedding venue types side by side with total cost estimates",
+    "keywords": "wedding venue cost comparison, venue cost calculator, compare wedding venues, wedding venue pricing, reception venue cost, wedding venue budget, venue rental cost, wedding venue estimate, banquet hall vs hotel cost, venue cost breakdown",
+    "relatedTools": ["wedding-budget-calculator", "wedding-cost-per-head-calculator", "catering-cost-estimator"],
+    "inputs": [
+      {"id": "guestCount", "label": "Guest Count", "default": 130, "min": 20, "max": 500, "step": 5},
+      {"id": "venue1", "label": "Venue Option 1", "default": "banquet", "type": "select", "options": [{"value": "backyard", "label": "Backyard / Private Property"}, {"value": "park", "label": "Public Park / Garden"}, {"value": "restaurant", "label": "Restaurant Private Room"}, {"value": "banquet", "label": "Banquet Hall"}, {"value": "hotel", "label": "Hotel Ballroom"}, {"value": "barn", "label": "Barn / Rustic Venue"}, {"value": "estate", "label": "Estate / Winery"}, {"value": "rooftop", "label": "Rooftop Venue"}]},
+      {"id": "venue2", "label": "Venue Option 2", "default": "hotel", "type": "select", "options": [{"value": "backyard", "label": "Backyard / Private Property"}, {"value": "park", "label": "Public Park / Garden"}, {"value": "restaurant", "label": "Restaurant Private Room"}, {"value": "banquet", "label": "Banquet Hall"}, {"value": "hotel", "label": "Hotel Ballroom"}, {"value": "barn", "label": "Barn / Rustic Venue"}, {"value": "estate", "label": "Estate / Winery"}, {"value": "rooftop", "label": "Rooftop Venue"}]},
+      {"id": "season", "label": "Season", "default": "peak", "type": "select", "options": [{"value": "off", "label": "Off-Season (Nov-Mar)"}, {"value": "shoulder", "label": "Shoulder (Apr, Oct)"}, {"value": "peak", "label": "Peak Season (May-Sep)"}]},
+      {"id": "dayOfWeek", "label": "Day of Week", "default": "saturday", "type": "select", "options": [{"value": "weekday", "label": "Monday-Thursday"}, {"value": "friday", "label": "Friday"}, {"value": "saturday", "label": "Saturday"}, {"value": "sunday", "label": "Sunday"}]}
+    ],
+    "results": [
+      {"id": "venue1Total", "label": "Venue 1 — Total Estimate"},
+      {"id": "venue2Total", "label": "Venue 2 — Total Estimate"},
+      {"id": "venue1Rental", "label": "Venue 1 — Rental Fee"},
+      {"id": "venue2Rental", "label": "Venue 2 — Rental Fee"},
+      {"id": "savings", "label": "Savings (cheaper option)"},
+      {"id": "hiddenCosts", "label": "Venue 1 Hidden Costs Note"}
+    ],
+    "calcFn": "var rentalFees = {backyard:500,park:1500,restaurant:2000,banquet:4000,hotel:6000,barn:5000,estate:7500,rooftop:6500}; var cateringPG = {backyard:55,park:60,restaurant:75,banquet:65,hotel:85,barn:60,estate:80,rooftop:80}; var hiddenCosts = {backyard:3500,park:2500,restaurant:500,banquet:1000,hotel:1500,barn:3000,estate:2000,rooftop:1500}; var seasonMult = {off:0.75,shoulder:0.90,peak:1.0}; var dayMult = {weekday:0.70,friday:0.85,saturday:1.0,sunday:0.80}; var sm = seasonMult[season] || 1.0; var dm = dayMult[dayOfWeek] || 1.0; var mult = sm * dm; var r1 = (rentalFees[venue1] || 4000) * mult; var c1 = (cateringPG[venue1] || 65) * guestCount; var h1 = (hiddenCosts[venue1] || 1500) * mult; var t1 = r1 + c1 + h1; var r2 = (rentalFees[venue2] || 4000) * mult; var c2 = (cateringPG[venue2] || 65) * guestCount; var h2 = (hiddenCosts[venue2] || 1500) * mult; var t2 = r2 + c2 + h2; var diff = Math.abs(t1 - t2); var cheaper = t1 < t2 ? 'Venue 1 saves ' + dollar(diff) : 'Venue 2 saves ' + dollar(diff); var hiddenNote = {backyard:'Tent, tables, chairs, restrooms, power',park:'Permit, tent, catering setup, generators',restaurant:'Usually all-inclusive — fewer hidden costs',banquet:'Service charge, overtime fees, cake cutting fee',hotel:'Valet, resort fee, corkage, service charge',barn:'Restrooms, power, lighting, HVAC rental',estate:'Grounds fee, insurance, vendor meals',rooftop:'Weather backup plan, elevator logistics'}; document.getElementById('venue1Total').textContent = dollar(t1); document.getElementById('venue2Total').textContent = dollar(t2); document.getElementById('venue1Rental').textContent = dollar(r1); document.getElementById('venue2Rental').textContent = dollar(r2); document.getElementById('savings').textContent = cheaper; document.getElementById('hiddenCosts').textContent = hiddenNote[venue1] || 'Ask about service charges and overtime';",
+    "formulas": ["Total Venue Cost = Rental Fee + (Catering Per Guest × Guests) + Hidden Costs", "Season discount: Off-season 25% off, Shoulder 10% off", "Day discount: Weekday 30% off, Friday 15% off, Sunday 20% off", "Hidden costs include rentals, permits, service charges, and logistics"],
+    "faq": [
+      {"question": "What is the cheapest type of wedding venue?", "answer": "The most affordable venue options are: backyard weddings ($500-$2,000 for rentals like tent and chairs), public parks ($500-$2,500 permit fees), community centers ($500-$3,000), and restaurant private rooms ($1,000-$4,000 with food minimums). However, cheap venues often require more outside vendor spending — a backyard wedding needs tent, tables, chairs, linens, restrooms, lighting, and generators, which can add $3,000-$8,000."},
+      {"question": "How much does a hotel ballroom wedding cost?", "answer": "Hotel ballroom weddings typically cost $5,000-$15,000 for the room rental plus $85-$150+ per person for catering (food and beverage minimum). A 150-guest hotel wedding averages $20,000-$35,000 for venue and catering alone. The advantage is that hotels are often all-inclusive — they provide tables, chairs, linens, A/V equipment, and a coordinator, plus guest room blocks at discounted rates."},
+      {"question": "How much can I save with an off-peak wedding date?", "answer": "Off-peak dates (November through March, excluding holidays) can save 20-40% on venue rental fees. Friday and Sunday weddings save 15-30% compared to Saturday. Combining both — a Friday evening in November — can save 40-50% on the venue alone. For a $6,000 venue rental, that is $2,400-$3,000 in savings. Some vendors (photographers, DJs, florists) also offer off-peak discounts of 10-20%."},
+      {"question": "What hidden fees should I ask about when touring venues?", "answer": "Always ask about: service charge or gratuity (15-25% added to food and beverage), overtime fees ($500-$2,000/hour beyond contracted time), cake cutting fee ($1-$3/slice), corkage fee ($15-$35/bottle for outside alcohol), valet/parking fees, setup and breakdown charges, ceremony fee (separate from reception), vendor meals ($25-$50 each), and required insurance ($150-$300). These hidden costs can add $2,000-$5,000 to your bill."}
+    ]
+  },
+  {
+    "slug": "catering-cost-estimator",
+    "toolName": "Catering Cost Estimator",
+    "category": "finance",
+    "tagline": "Estimate wedding catering costs by meal style, guest count, and service level",
+    "keywords": "wedding catering cost, catering cost per person, wedding food cost estimator, reception catering budget, wedding dinner cost, buffet vs plated cost, wedding catering calculator, catering price per head, wedding food budget, reception food cost",
+    "relatedTools": ["wedding-budget-calculator", "wedding-cost-per-head-calculator", "venue-cost-comparison-calculator"],
+    "inputs": [
+      {"id": "guestCount", "label": "Guest Count", "default": 140, "min": 20, "max": 500, "step": 5},
+      {"id": "mealStyle", "label": "Meal Style", "default": "plated", "type": "select", "options": [{"value": "cocktail", "label": "Heavy Appetizers / Cocktail"}, {"value": "buffet", "label": "Buffet"}, {"value": "plated", "label": "Plated Dinner"}, {"value": "family", "label": "Family Style"}, {"value": "stations", "label": "Food Stations"}]},
+      {"id": "courseCount", "label": "Number of Courses", "default": 3, "min": 1, "max": 6, "step": 1},
+      {"id": "barService", "label": "Bar Service", "default": "open_full", "type": "select", "options": [{"value": "none", "label": "No Bar"}, {"value": "cash", "label": "Cash Bar"}, {"value": "beer_wine", "label": "Open Beer & Wine"}, {"value": "open_full", "label": "Full Open Bar"}, {"value": "premium", "label": "Premium Open Bar + Cocktails"}]},
+      {"id": "barHours", "label": "Bar Hours", "default": 5, "min": 2, "max": 8, "step": 1},
+      {"id": "dietaryNeeds", "label": "Special Dietary Percentage", "default": 15, "min": 0, "max": 50, "step": 5, "unit": "%"}
+    ],
+    "results": [
+      {"id": "foodPerPerson", "label": "Food Cost Per Person"},
+      {"id": "barPerPerson", "label": "Bar Cost Per Person"},
+      {"id": "totalPerPerson", "label": "Total Per Person (food + bar)"},
+      {"id": "subtotal", "label": "Subtotal (all guests)"},
+      {"id": "serviceCharge", "label": "Service Charge + Tax (est.)"},
+      {"id": "grandTotal", "label": "Grand Total"}
+    ],
+    "calcFn": "var baseFoodCost = {cocktail:35,buffet:45,plated:70,family:55,stations:60}; var foodBase = baseFoodCost[mealStyle] || 60; var courseAdj = 1 + (courseCount - 3) * 0.15; var foodPP = foodBase * Math.max(courseAdj, 0.7); var dietaryAdj = 1 + (dietaryNeeds / 100) * 0.10; foodPP *= dietaryAdj; var barCostPH = {none:0,cash:5,beer_wine:12,open_full:22,premium:35}; var barPP = (barCostPH[barService] || 0) * barHours; var totalPP = foodPP + barPP; var subtotal = totalPP * guestCount; var serviceAndTax = subtotal * 0.28; var grand = subtotal + serviceAndTax; document.getElementById('foodPerPerson').textContent = dollar(foodPP); document.getElementById('barPerPerson').textContent = dollar(barPP); document.getElementById('totalPerPerson').textContent = dollar(totalPP); document.getElementById('subtotal').textContent = dollar(subtotal); document.getElementById('serviceCharge').textContent = dollar(serviceAndTax); document.getElementById('grandTotal').textContent = dollar(grand);",
+    "formulas": ["Food Cost = Base Rate × Course Adjustment × Dietary Adjustment", "Bar Cost Per Person = Hourly Rate × Bar Hours", "Subtotal = (Food + Bar) × Guest Count", "Grand Total = Subtotal + Service Charge (20%) + Tax (8%)"],
+    "faq": [
+      {"question": "How much does wedding catering cost per person?", "answer": "Wedding catering ranges from $35-$150+ per person for food alone, before bar, service charges, and tax. Cocktail/appetizer receptions run $35-$55/person, buffets $45-$75, plated dinners $65-$150+, and food stations $50-$90. Add $25-$85 per person for bar service. After the 20% service charge and 7-10% tax, your true per-person cost is typically 25-30% higher than the quoted food price."},
+      {"question": "Is a buffet cheaper than a plated dinner?", "answer": "Yes, buffets are typically 20-35% cheaper than plated dinners per person. A buffet might run $45-$75/person versus $65-$150 for plated. However, buffets require more food (caterers prepare 15-20% more to keep stations full) and some venues charge extra for buffet setup and stations. The savings are most significant for larger weddings (150+ guests) where the per-person food cost outweighs the setup costs."},
+      {"question": "How much should I budget for an open bar at a wedding?", "answer": "An open beer and wine bar costs $25-$45 per person for a 4-5 hour reception. A full open bar with liquor runs $55-$100 per person. Premium bars with craft cocktails and top-shelf spirits can exceed $100/person. To reduce bar costs: limit hours (start with cocktail hour then switch to beer/wine), offer a signature cocktail instead of full bar, or use a consumption-based bar where you pay per drink rather than per person."},
+      {"question": "What is the service charge on wedding catering and is it the same as a tip?", "answer": "Most caterers add an 18-22% service charge to the bill, which covers staff wages and coordination but is not the same as a gratuity. The service charge goes to the catering company, not directly to servers. Many couples tip the catering captain ($100-$300) and servers ($20-$50 each) separately. Additionally, sales tax (7-10% depending on state) is applied on top of everything, including the service charge in most states. Always ask what is and is not included."}
+    ]
+  }
+]

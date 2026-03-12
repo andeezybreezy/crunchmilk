@@ -1,0 +1,256 @@
+[
+  {
+    "slug": "spotify-royalty-calculator",
+    "toolName": "Spotify Royalty Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Estimate your Spotify earnings based on stream count, per-stream rate, and listener geography",
+    "keywords": "Spotify royalty calculator, Spotify earnings, per stream rate, Spotify payout, music streaming revenue, Spotify income",
+    "inputs": [
+      {"id": "streams", "label": "Total Streams", "default": 100000, "min": 0, "step": 1000},
+      {"id": "perStreamRate", "label": "Per-Stream Rate ($)", "type": "select", "default": "0.004", "options": [{"value": "0.003", "label": "Low ($0.003)"}, {"value": "0.004", "label": "Average ($0.004)"}, {"value": "0.005", "label": "High ($0.005)"}, {"value": "0.006", "label": "Premium ($0.006)"}]},
+      {"id": "labelSplit", "label": "Your Royalty Share (%)", "default": 100, "min": 1, "max": 100, "step": 1},
+      {"id": "monthlyGrowth", "label": "Monthly Stream Growth (%)", "default": 5, "min": 0, "max": 100, "step": 1},
+      {"id": "months", "label": "Projection Period (months)", "default": 12, "min": 1, "max": 60, "step": 1}
+    ],
+    "results": [
+      {"id": "currentRevenue", "label": "Current Revenue"},
+      {"id": "yourShare", "label": "Your Share"},
+      {"id": "projectedStreams", "label": "Projected Total Streams"},
+      {"id": "projectedRevenue", "label": "Projected Revenue"},
+      {"id": "monthlyAvg", "label": "Avg Monthly Income"}
+    ],
+    "calcFn": "var rate = parseFloat(perStreamRate);\n    var gross = streams * rate;\n    var share = gross * (labelSplit / 100);\n    var totalStreams = 0;\n    var monthlyStreams = streams;\n    var growthFactor = 1 + (monthlyGrowth / 100);\n    for (var i = 0; i < months; i++) {\n      totalStreams += monthlyStreams;\n      monthlyStreams = Math.round(monthlyStreams * growthFactor);\n    }\n    var projRev = totalStreams * rate * (labelSplit / 100);\n    var monthlyAvgVal = projRev / months;\n    document.getElementById('currentRevenue').textContent = '$' + gross.toFixed(2);\n    document.getElementById('yourShare').textContent = '$' + share.toFixed(2);\n    document.getElementById('projectedStreams').textContent = totalStreams.toLocaleString();\n    document.getElementById('projectedRevenue').textContent = '$' + projRev.toFixed(2);\n    document.getElementById('monthlyAvg').textContent = '$' + monthlyAvgVal.toFixed(2) + '/mo';",
+    "faq": [
+      {"question": "How much does Spotify pay per stream?", "answer": "Spotify pays between $0.003 and $0.005 per stream on average, though the exact rate varies by listener country, subscription type (free vs premium), and total platform streams that month."},
+      {"question": "Why does the royalty share percentage matter?", "answer": "If you are signed to a label or distributor, they typically take a percentage of your streaming revenue. Independent artists using distributors like DistroKid or TuneCore often keep 80-100% of their royalties."},
+      {"question": "How are Spotify royalties actually calculated?", "answer": "Spotify uses a pro-rata model where your streams as a proportion of total platform streams determine your share of the monthly royalty pool. The per-stream rate is an average approximation of this calculation."}
+    ],
+    "formulas": [
+      "Revenue = Total Streams x Per-Stream Rate",
+      "Your Share = Revenue x (Royalty Split % / 100)",
+      "Projected Streams = Sum of monthly streams with compound growth",
+      "Average Monthly Income = Projected Revenue / Months"
+    ],
+    "relatedTools": ["youtube-revenue-calculator", "music-licensing-fee-calculator", "merch-profit-margin-calculator"]
+  },
+  {
+    "slug": "youtube-revenue-calculator",
+    "toolName": "YouTube Revenue Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Estimate YouTube ad revenue from views using CPM and RPM rates for music and video content",
+    "keywords": "YouTube revenue calculator, YouTube CPM, YouTube RPM, YouTube earnings, ad revenue, YouTube monetization, YouTube income",
+    "inputs": [
+      {"id": "monthlyViews", "label": "Monthly Views", "default": 500000, "min": 0, "step": 10000},
+      {"id": "cpm", "label": "CPM - Cost Per 1,000 Impressions ($)", "default": 4, "min": 0.5, "max": 30, "step": 0.5},
+      {"id": "adRate", "label": "Ad Impression Rate (%)", "default": 50, "min": 10, "max": 100, "step": 5},
+      {"id": "revSharePct", "label": "YouTube Rev Share (%)", "type": "select", "default": "55", "options": [{"value": "55", "label": "Standard (55%)"}, {"value": "45", "label": "Music (45% via Content ID)"}, {"value": "70", "label": "Shorts (45% of pool)"}]},
+      {"id": "months", "label": "Projection (months)", "default": 12, "min": 1, "max": 36, "step": 1},
+      {"id": "growthRate", "label": "Monthly View Growth (%)", "default": 3, "min": 0, "max": 50, "step": 1}
+    ],
+    "results": [
+      {"id": "grossRevenue", "label": "Gross Monthly Ad Revenue"},
+      {"id": "creatorRevenue", "label": "Your Monthly Revenue"},
+      {"id": "rpm", "label": "Effective RPM"},
+      {"id": "annualProjection", "label": "Projected Period Revenue"},
+      {"id": "dailyAvg", "label": "Daily Average Income"}
+    ],
+    "calcFn": "var adImpressions = monthlyViews * (adRate / 100);\n    var grossMonthly = adImpressions * cpm / 1000;\n    var creatorShare = parseFloat(revSharePct) / 100;\n    var creatorMonthly = grossMonthly * creatorShare;\n    var rpmVal = monthlyViews > 0 ? (creatorMonthly / monthlyViews * 1000) : 0;\n    var totalRev = 0;\n    var views = monthlyViews;\n    var gf = 1 + (growthRate / 100);\n    for (var i = 0; i < months; i++) {\n      totalRev += (views * (adRate / 100) * cpm / 1000) * creatorShare;\n      views = Math.round(views * gf);\n    }\n    var dailyAvgVal = creatorMonthly / 30;\n    document.getElementById('grossRevenue').textContent = '$' + grossMonthly.toFixed(2);\n    document.getElementById('creatorRevenue').textContent = '$' + creatorMonthly.toFixed(2);\n    document.getElementById('rpm').textContent = '$' + rpmVal.toFixed(2);\n    document.getElementById('annualProjection').textContent = '$' + totalRev.toFixed(2);\n    document.getElementById('dailyAvg').textContent = '$' + dailyAvgVal.toFixed(2) + '/day';",
+    "faq": [
+      {"question": "What is the difference between CPM and RPM?", "answer": "CPM (Cost Per Mille) is what advertisers pay per 1,000 ad impressions. RPM (Revenue Per Mille) is what you actually earn per 1,000 video views after YouTube takes its share and accounting for videos where no ad was shown."},
+      {"question": "What is a typical YouTube CPM for music channels?", "answer": "Music channels typically see CPMs of $2-$6, though it varies widely by audience geography. US and UK viewers generate higher CPMs ($5-$12) compared to developing countries ($0.50-$2)."},
+      {"question": "How does YouTube's revenue share work?", "answer": "For standard long-form videos, creators receive 55% of ad revenue. Music content monetized through Content ID typically receives 45%. YouTube Shorts revenue is distributed from a creator pool at a different rate."}
+    ],
+    "formulas": [
+      "Gross Revenue = (Monthly Views x Ad Rate) x CPM / 1,000",
+      "Creator Revenue = Gross Revenue x Revenue Share %",
+      "RPM = (Creator Revenue / Total Views) x 1,000",
+      "Projected Revenue = Sum of monthly revenues with growth"
+    ],
+    "relatedTools": ["spotify-royalty-calculator", "music-licensing-fee-calculator", "merch-profit-margin-calculator"]
+  },
+  {
+    "slug": "music-licensing-fee-calculator",
+    "toolName": "Music Licensing Fee Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Estimate music licensing fees for TV, film, social media, podcasts, and commercial usage",
+    "keywords": "music licensing fee, sync license cost, music for video, TV music license, podcast music, commercial music license",
+    "inputs": [
+      {"id": "usageType", "label": "Usage Type", "type": "select", "default": "social", "options": [{"value": "tv", "label": "TV Show / Series"}, {"value": "film", "label": "Film / Documentary"}, {"value": "commercial", "label": "Commercial / Ad"}, {"value": "social", "label": "Social Media / YouTube"}, {"value": "podcast", "label": "Podcast"}, {"value": "game", "label": "Video Game"}]},
+      {"id": "productionTier", "label": "Production Budget Tier", "type": "select", "default": "mid", "options": [{"value": "indie", "label": "Indie / Low Budget"}, {"value": "mid", "label": "Mid Budget"}, {"value": "major", "label": "Major / High Budget"}]},
+      {"id": "duration", "label": "Usage Duration (seconds)", "default": 30, "min": 5, "max": 300, "step": 5},
+      {"id": "territory", "label": "Territory", "type": "select", "default": "national", "options": [{"value": "local", "label": "Local / Regional"}, {"value": "national", "label": "National"}, {"value": "worldwide", "label": "Worldwide"}]},
+      {"id": "exclusivity", "label": "Exclusivity", "type": "select", "default": "non", "options": [{"value": "non", "label": "Non-Exclusive"}, {"value": "exclusive", "label": "Exclusive (+100%)"}]},
+      {"id": "tracks", "label": "Number of Tracks", "default": 1, "min": 1, "max": 20, "step": 1}
+    ],
+    "results": [
+      {"id": "baseFee", "label": "Base License Fee (per track)"},
+      {"id": "territoryAdj", "label": "Territory Adjustment"},
+      {"id": "exclusivityAdj", "label": "Exclusivity Adjustment"},
+      {"id": "perTrackTotal", "label": "Total Per Track"},
+      {"id": "grandTotal", "label": "Grand Total (all tracks)"}
+    ],
+    "calcFn": "var baseFees = {\n      tv:    {indie: 500,  mid: 2500,  major: 10000},\n      film:  {indie: 1000, mid: 5000,  major: 25000},\n      commercial: {indie: 1500, mid: 7500, major: 30000},\n      social: {indie: 100, mid: 500,   major: 2000},\n      podcast: {indie: 50, mid: 250,   major: 1000},\n      game:  {indie: 750,  mid: 3000,  major: 15000}\n    };\n    var base = baseFees[usageType][productionTier];\n    var durationMult = duration > 60 ? 1.5 : (duration > 15 ? 1.0 : 0.75);\n    base = base * durationMult;\n    var territoryMult = {local: 0.5, national: 1.0, worldwide: 2.0};\n    var terrAdj = base * territoryMult[territory] - base;\n    var withTerritory = base + terrAdj;\n    var exclAdj = exclusivity === 'exclusive' ? withTerritory : 0;\n    var perTrack = withTerritory + exclAdj;\n    var total = perTrack * tracks;\n    document.getElementById('baseFee').textContent = '$' + base.toFixed(0);\n    document.getElementById('territoryAdj').textContent = (terrAdj >= 0 ? '+$' : '-$') + Math.abs(terrAdj).toFixed(0);\n    document.getElementById('exclusivityAdj').textContent = exclAdj > 0 ? '+$' + exclAdj.toFixed(0) : '$0';\n    document.getElementById('perTrackTotal').textContent = '$' + perTrack.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('grandTotal').textContent = '$' + total.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What factors determine music licensing fees?", "answer": "Key factors include usage type (TV, film, ad), production budget, territory (local vs worldwide), duration of use, exclusivity, and whether the track is from an established or independent artist."},
+      {"question": "What is a sync license vs a master license?", "answer": "A sync license grants permission to use the composition (from the songwriter/publisher), while a master license grants permission to use the specific recording (from the label/artist). Both are typically needed for commercial use."},
+      {"question": "Can I use music on social media without a license?", "answer": "Platforms like YouTube and Instagram have licensing deals with major labels, but this only covers personal/non-commercial use. Commercial or branded content typically requires a separate sync license."}
+    ],
+    "formulas": [
+      "Base Fee = Usage type rate x Production tier multiplier",
+      "Duration adjustment: <15s = 0.75x, 15-60s = 1x, >60s = 1.5x",
+      "Territory: Local 0.5x, National 1x, Worldwide 2x",
+      "Exclusive license = Base fee x 2 (100% surcharge)"
+    ],
+    "relatedTools": ["spotify-royalty-calculator", "youtube-revenue-calculator", "tour-profit-calculator"]
+  },
+  {
+    "slug": "home-studio-cost-calculator",
+    "toolName": "Home Studio Cost Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Estimate the total cost of building a home recording studio by equipment tier and room treatment",
+    "keywords": "home studio cost, recording studio setup, studio equipment cost, bedroom studio, music production setup, studio budget",
+    "inputs": [
+      {"id": "tier", "label": "Studio Tier", "type": "select", "default": "prosumer", "options": [{"value": "bedroom", "label": "Bedroom / Beginner"}, {"value": "prosumer", "label": "Prosumer / Semi-Pro"}, {"value": "pro", "label": "Professional"}]},
+      {"id": "computer", "label": "Computer Budget ($)", "default": 1500, "min": 0, "max": 10000, "step": 100},
+      {"id": "hasInterface", "label": "Audio Interface", "type": "select", "default": "no", "options": [{"value": "yes", "label": "Already Own"}, {"value": "no", "label": "Need to Buy"}]},
+      {"id": "hasMic", "label": "Microphone", "type": "select", "default": "no", "options": [{"value": "yes", "label": "Already Own"}, {"value": "no", "label": "Need to Buy"}]},
+      {"id": "roomTreatment", "label": "Acoustic Treatment", "type": "select", "default": "basic", "options": [{"value": "none", "label": "None"}, {"value": "basic", "label": "Basic Panels"}, {"value": "full", "label": "Full Treatment"}]},
+      {"id": "daw", "label": "DAW Software", "type": "select", "default": "mid", "options": [{"value": "free", "label": "Free (GarageBand, Audacity)"}, {"value": "mid", "label": "Mid ($100-$300)"}, {"value": "pro", "label": "Pro ($500-$600)"}]}
+    ],
+    "results": [
+      {"id": "interfaceCost", "label": "Audio Interface"},
+      {"id": "micCost", "label": "Microphone + Accessories"},
+      {"id": "monitorCost", "label": "Monitors / Headphones"},
+      {"id": "treatmentCost", "label": "Acoustic Treatment"},
+      {"id": "softwareCost", "label": "Software (DAW + Plugins)"},
+      {"id": "totalCost", "label": "Estimated Total Cost"}
+    ],
+    "calcFn": "var interfaces = {bedroom: 100, prosumer: 350, pro: 1200};\n    var mics = {bedroom: 100, prosumer: 500, pro: 2000};\n    var monitors = {bedroom: 150, prosumer: 500, pro: 1500};\n    var treatments = {none: 0, basic: 200, full: 1500};\n    var daws = {free: 0, mid: 200, pro: 550};\n    var pluginCost = {bedroom: 0, prosumer: 200, pro: 800};\n    var intCost = hasInterface === 'yes' ? 0 : interfaces[tier];\n    var mCost = hasMic === 'yes' ? 0 : mics[tier];\n    var monCost = monitors[tier];\n    var treatCost = treatments[roomTreatment];\n    var softCost = daws[daw] + pluginCost[tier];\n    var total = computer + intCost + mCost + monCost + treatCost + softCost;\n    document.getElementById('interfaceCost').textContent = intCost > 0 ? '$' + intCost.toFixed(0) : 'Already owned';\n    document.getElementById('micCost').textContent = mCost > 0 ? '$' + mCost.toFixed(0) : 'Already owned';\n    document.getElementById('monitorCost').textContent = '$' + monCost.toFixed(0);\n    document.getElementById('treatmentCost').textContent = treatCost > 0 ? '$' + treatCost.toFixed(0) : '$0';\n    document.getElementById('softwareCost').textContent = '$' + softCost.toFixed(0);\n    document.getElementById('totalCost').textContent = '$' + total.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "How much does a basic home studio cost?", "answer": "A bedroom studio can be set up for $500-$1,500 with a budget audio interface, USB microphone, headphones, and free DAW software. A prosumer setup typically runs $2,000-$5,000 with better equipment and acoustic treatment."},
+      {"question": "Do I need acoustic treatment for a home studio?", "answer": "Acoustic treatment significantly improves recording and mixing quality. Even basic absorption panels ($200-$500) reduce reflections and room modes. Full treatment with bass traps and diffusers provides professional-grade acoustics."},
+      {"question": "What is the most important piece of studio equipment?", "answer": "The audio interface and microphone are the most critical components for recording quality. For mixing, studio monitors or high-quality open-back headphones are essential for accurate sound reproduction."}
+    ],
+    "formulas": [
+      "Total Cost = Computer + Interface + Microphone + Monitors + Treatment + Software",
+      "Bedroom tier: $500-$1,500 (excluding computer)",
+      "Prosumer tier: $2,000-$5,000 (excluding computer)",
+      "Professional tier: $5,000-$15,000+ (excluding computer)"
+    ],
+    "relatedTools": ["spotify-royalty-calculator", "youtube-revenue-calculator", "merch-profit-margin-calculator"]
+  },
+  {
+    "slug": "tour-profit-calculator",
+    "toolName": "Tour Profit Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Calculate net profit from a music tour factoring in ticket sales, venue costs, travel, and crew expenses",
+    "keywords": "tour profit calculator, concert revenue, tour expenses, touring costs, live music income, gig profit, tour budget",
+    "inputs": [
+      {"id": "shows", "label": "Number of Shows", "default": 15, "min": 1, "max": 200, "step": 1},
+      {"id": "avgTicketPrice", "label": "Avg Ticket Price ($)", "default": 35, "min": 5, "max": 500, "step": 5},
+      {"id": "avgAttendance", "label": "Avg Attendance per Show", "default": 300, "min": 10, "max": 50000, "step": 10},
+      {"id": "venueSplit", "label": "Venue/Promoter Take (%)", "default": 20, "min": 0, "max": 50, "step": 5},
+      {"id": "travelPerShow", "label": "Travel Cost per Show ($)", "default": 500, "min": 0, "max": 10000, "step": 100},
+      {"id": "crewCostPerShow", "label": "Crew + Lodging per Show ($)", "default": 800, "min": 0, "max": 20000, "step": 100}
+    ],
+    "results": [
+      {"id": "grossTicketRev", "label": "Gross Ticket Revenue"},
+      {"id": "venueDeductions", "label": "Venue/Promoter Deductions"},
+      {"id": "netTicketRev", "label": "Net Ticket Revenue"},
+      {"id": "totalExpenses", "label": "Total Tour Expenses"},
+      {"id": "netProfit", "label": "Net Tour Profit"},
+      {"id": "profitPerShow", "label": "Profit Per Show"}
+    ],
+    "calcFn": "var grossRev = shows * avgTicketPrice * avgAttendance;\n    var venueCut = grossRev * (venueSplit / 100);\n    var netTicket = grossRev - venueCut;\n    var totalExp = shows * (travelPerShow + crewCostPerShow);\n    var netProfitVal = netTicket - totalExp;\n    var perShow = shows > 0 ? netProfitVal / shows : 0;\n    document.getElementById('grossTicketRev').textContent = '$' + grossRev.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('venueDeductions').textContent = '-$' + venueCut.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('netTicketRev').textContent = '$' + netTicket.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalExpenses').textContent = '-$' + totalExp.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('netProfit').textContent = (netProfitVal >= 0 ? '$' : '-$') + Math.abs(netProfitVal).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('profitPerShow').textContent = (perShow >= 0 ? '$' : '-$') + Math.abs(perShow).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What percentage do venues typically take from ticket sales?", "answer": "Venue and promoter splits vary widely. Small clubs may take 10-20% or charge a flat room fee. Larger venues with promoter deals typically take 15-25%. Arena-level acts often negotiate 80-90% of net revenue after expenses."},
+      {"question": "What are the biggest expenses on a music tour?", "answer": "The largest tour expenses are typically crew salaries and lodging (30-40%), transportation including bus or van rental and fuel (20-30%), and production costs like sound and lighting (15-25%)."},
+      {"question": "How can independent artists reduce touring costs?", "answer": "Book routing efficiently to minimize travel between cities, share bills with other acts to split venue costs, use house sound systems instead of carrying production, and negotiate guarantees vs door splits with venues."}
+    ],
+    "formulas": [
+      "Gross Revenue = Shows x Avg Ticket Price x Avg Attendance",
+      "Net Ticket Revenue = Gross Revenue x (1 - Venue Split %)",
+      "Total Expenses = Shows x (Travel + Crew cost per show)",
+      "Net Profit = Net Ticket Revenue - Total Expenses"
+    ],
+    "relatedTools": ["merch-profit-margin-calculator", "spotify-royalty-calculator", "music-licensing-fee-calculator"]
+  },
+  {
+    "slug": "merch-profit-margin-calculator",
+    "toolName": "Merch Profit Margin Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Calculate profit margins on merchandise by comparing unit cost, sale price, and volume across product types",
+    "keywords": "merch profit calculator, merchandise margin, t-shirt profit, band merch, merch pricing, product profit margin",
+    "inputs": [
+      {"id": "productType", "label": "Product Type", "type": "select", "default": "tshirt", "options": [{"value": "tshirt", "label": "T-Shirt"}, {"value": "hoodie", "label": "Hoodie"}, {"value": "hat", "label": "Hat / Cap"}, {"value": "poster", "label": "Poster / Print"}, {"value": "sticker", "label": "Sticker Pack"}, {"value": "vinyl", "label": "Vinyl Record"}]},
+      {"id": "unitCost", "label": "Unit Cost ($)", "default": 8, "min": 0.5, "max": 100, "step": 0.5},
+      {"id": "salePrice", "label": "Sale Price ($)", "default": 25, "min": 1, "max": 500, "step": 1},
+      {"id": "quantity", "label": "Quantity to Sell", "default": 200, "min": 1, "max": 10000, "step": 10},
+      {"id": "shippingPerUnit", "label": "Shipping per Unit ($)", "default": 0, "min": 0, "max": 20, "step": 0.5},
+      {"id": "platformFee", "label": "Platform/Payment Fee (%)", "default": 5, "min": 0, "max": 30, "step": 0.5}
+    ],
+    "results": [
+      {"id": "profitPerUnit", "label": "Profit Per Unit"},
+      {"id": "marginPct", "label": "Profit Margin"},
+      {"id": "totalRevenue", "label": "Total Revenue"},
+      {"id": "totalCost", "label": "Total Cost"},
+      {"id": "totalProfit", "label": "Total Profit"}
+    ],
+    "calcFn": "var fees = salePrice * (platformFee / 100);\n    var totalUnitCost = unitCost + shippingPerUnit + fees;\n    var profitUnit = salePrice - totalUnitCost;\n    var margin = salePrice > 0 ? (profitUnit / salePrice * 100) : 0;\n    var totalRev = salePrice * quantity;\n    var totalCostVal = totalUnitCost * quantity;\n    var totalProfitVal = profitUnit * quantity;\n    document.getElementById('profitPerUnit').textContent = '$' + profitUnit.toFixed(2);\n    document.getElementById('marginPct').textContent = margin.toFixed(1) + '%';\n    document.getElementById('totalRevenue').textContent = '$' + totalRev.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalCost').textContent = '$' + totalCostVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalProfit').textContent = '$' + totalProfitVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is a good profit margin for band merchandise?", "answer": "Most successful merch operations target 40-60% profit margins. T-shirts typically achieve 50-70% margins (cost $5-$10, sell $25-$35), while premium items like hoodies have lower margins but higher dollar profits."},
+      {"question": "Should I include shipping in the sale price?", "answer": "For online sales, offering free shipping (built into the price) often increases conversion rates. At live shows, shipping is not a factor. Platform fees from Shopify, Bandcamp, or PayPal should always be factored into your pricing."},
+      {"question": "How many merch items should I order?", "answer": "Start with smaller runs (50-100 units) to test demand. Focus on your best-selling sizes (M, L, XL). At live shows, plan for roughly 10-15% of attendees to buy merch. Overordering ties up cash in unsold inventory."}
+    ],
+    "formulas": [
+      "Profit Per Unit = Sale Price - Unit Cost - Shipping - Platform Fees",
+      "Profit Margin = (Profit Per Unit / Sale Price) x 100",
+      "Platform Fees = Sale Price x Fee %",
+      "Total Profit = Profit Per Unit x Quantity"
+    ],
+    "relatedTools": ["tour-profit-calculator", "vinyl-pressing-cost-calculator", "spotify-royalty-calculator"]
+  },
+  {
+    "slug": "vinyl-pressing-cost-calculator",
+    "toolName": "Vinyl Pressing Cost Calculator",
+    "category": "music",
+    "subcategory": "music",
+    "tagline": "Calculate the per-unit and total cost of pressing vinyl records with economies of scale by quantity",
+    "keywords": "vinyl pressing cost, vinyl record manufacturing, vinyl production, record pressing, vinyl unit cost, vinyl order quantity",
+    "inputs": [
+      {"id": "quantity", "label": "Press Quantity", "type": "select", "default": "300", "options": [{"value": "100", "label": "100 units"}, {"value": "300", "label": "300 units"}, {"value": "500", "label": "500 units"}, {"value": "1000", "label": "1,000 units"}, {"value": "2000", "label": "2,000+ units"}]},
+      {"id": "format", "label": "Format", "type": "select", "default": "12lp", "options": [{"value": "7single", "label": "7\" Single"}, {"value": "10ep", "label": "10\" EP"}, {"value": "12lp", "label": "12\" LP"}, {"value": "12double", "label": "12\" Double LP"}]},
+      {"id": "color", "label": "Vinyl Color", "type": "select", "default": "black", "options": [{"value": "black", "label": "Standard Black"}, {"value": "color", "label": "Solid Color (+$0.50/unit)"}, {"value": "splatter", "label": "Splatter/Special (+$1.50/unit)"}]},
+      {"id": "jacket", "label": "Jacket Type", "type": "select", "default": "single", "options": [{"value": "generic", "label": "Generic Inner Sleeve"}, {"value": "single", "label": "Single Pocket Jacket"}, {"value": "gatefold", "label": "Gatefold Jacket (+$1.50/unit)"}]},
+      {"id": "salePrice", "label": "Retail Sale Price ($)", "default": 30, "min": 10, "max": 100, "step": 1},
+      {"id": "insert", "label": "Printed Insert", "type": "select", "default": "no", "options": [{"value": "no", "label": "None"}, {"value": "yes", "label": "Yes (+$0.30/unit)"}]}
+    ],
+    "results": [
+      {"id": "unitPressCost", "label": "Per-Unit Pressing Cost"},
+      {"id": "unitPackageCost", "label": "Per-Unit Packaging Cost"},
+      {"id": "totalUnitCost", "label": "Total Per-Unit Cost"},
+      {"id": "totalOrderCost", "label": "Total Order Cost"},
+      {"id": "profitPerUnit", "label": "Profit Per Unit at Sale Price"},
+      {"id": "breakEvenUnits", "label": "Break-Even Units"}
+    ],
+    "calcFn": "var qty = parseInt(quantity);\n    var baseCosts = {\n      '7single':  {100: 6.00, 300: 4.00, 500: 3.00, 1000: 2.25, 2000: 1.75},\n      '10ep':     {100: 8.00, 300: 5.50, 500: 4.00, 1000: 3.00, 2000: 2.50},\n      '12lp':     {100: 10.00, 300: 7.00, 500: 5.50, 1000: 4.00, 2000: 3.00},\n      '12double': {100: 16.00, 300: 11.00, 500: 8.50, 1000: 6.50, 2000: 5.00}\n    };\n    var pressCost = baseCosts[format][qty] || 5.50;\n    var colorAdj = color === 'color' ? 0.50 : (color === 'splatter' ? 1.50 : 0);\n    pressCost += colorAdj;\n    var jacketCost = jacket === 'generic' ? 0.25 : (jacket === 'gatefold' ? 2.50 : 1.00);\n    var insertCost = insert === 'yes' ? 0.30 : 0;\n    var pkgCost = jacketCost + insertCost;\n    var totalUnit = pressCost + pkgCost;\n    var totalOrder = totalUnit * qty;\n    var profitUnit = salePrice - totalUnit;\n    var breakEven = totalUnit > 0 ? Math.ceil(totalOrder / salePrice) : 0;\n    document.getElementById('unitPressCost').textContent = '$' + pressCost.toFixed(2);\n    document.getElementById('unitPackageCost').textContent = '$' + pkgCost.toFixed(2);\n    document.getElementById('totalUnitCost').textContent = '$' + totalUnit.toFixed(2);\n    document.getElementById('totalOrderCost').textContent = '$' + totalOrder.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('profitPerUnit').textContent = '$' + profitUnit.toFixed(2);\n    document.getElementById('breakEvenUnits').textContent = breakEven + ' units';",
+    "faq": [
+      {"question": "What is the minimum order for vinyl pressing?", "answer": "Most pressing plants have a minimum order of 100-300 units. Some offer short runs of 50 units at a premium per-unit cost. The sweet spot for cost efficiency is typically 300-500 units."},
+      {"question": "How do economies of scale affect vinyl pressing costs?", "answer": "Per-unit costs drop significantly with quantity. A 12-inch LP might cost $10/unit at 100 copies but only $3/unit at 2,000 copies. The setup costs (lacquer cutting, plating, test presses) are amortized over more units."},
+      {"question": "How long does vinyl pressing take?", "answer": "Current turnaround times range from 8-16 weeks for standard orders. Colored vinyl and special packaging can add 2-4 weeks. Rush orders are available from some plants at a premium of 20-50%."}
+    ],
+    "formulas": [
+      "Per-Unit Cost = Base pressing + Color surcharge + Jacket + Insert",
+      "Total Order Cost = Per-Unit Cost x Quantity",
+      "Profit Per Unit = Sale Price - Per-Unit Cost",
+      "Break-Even = Total Order Cost / Sale Price (rounded up)"
+    ],
+    "relatedTools": ["merch-profit-margin-calculator", "tour-profit-calculator", "spotify-royalty-calculator"]
+  }
+]

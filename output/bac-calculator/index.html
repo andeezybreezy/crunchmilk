@@ -403,6 +403,30 @@ footer a:hover{color:#fff}
       </div>
       <div class="result-tip" id="resultTip" style="margin-top:0.5rem;font-size:0.85rem;color:#c62828"></div>
     </div>
+
+    <div id="whatIfSection" style="display:none;margin-top:20px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:28px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="margin:0;font-size:1.1rem;color:var(--navy)">What If Mode</h3>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="whatIfToggle"><span style="font-weight:600;font-size:0.85rem;color:var(--text-mid)">Enable</span></label>
+      </div>
+      <div id="whatIfControls" style="display:none">
+        <div style="margin-bottom:16px">
+          <label style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Additional Drinks: +<span id="wiDrinksVal">0</span></label>
+          <input type="range" id="wiDrinks" min="0" max="6" value="0" step="0.5" style="width:100%;margin-top:6px">
+        </div>
+        <div id="whatIfResult" style="margin-top:16px;padding:16px;background:var(--cream);border-radius:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Current BAC</div><div id="wiOriginal" style="font-size:1.1rem;font-weight:700;color:var(--navy)">—</div></div>
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">What If BAC</div><div id="wiNew" style="font-size:1.1rem;font-weight:700;color:var(--primary)">—</div></div>
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Increase</div><div id="wiDelta" style="font-size:1.1rem;font-weight:700;color:#dc2626">—</div></div>
+          </div>
+          <div style="margin-top:12px;text-align:center">
+            <div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">New Status</div>
+            <div id="wiStatus" style="font-size:1rem;font-weight:600;color:var(--primary)">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -553,6 +577,7 @@ footer a:hover{color:#fff}
 
   var unit = 'lbs';
   var sex = 'male';
+  var lastCalc = null;
 
   var chartData = [
     ['0.02%', 'Slight relaxation, mild mood changes', 'Some loss of judgment'],
@@ -603,22 +628,55 @@ footer a:hover{color:#fff}
     return 'Dangerously intoxicated';
   }
 
+  function calcBAC(drinks, weightGrams, r, hours) {
+    var alcoholGrams = drinks * 14;
+    var bac = (alcoholGrams / (weightGrams * r)) * 100 - (0.015 * hours);
+    return Math.max(bac, 0);
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var extraDrinks = parseFloat(document.getElementById('wiDrinks').value) || 0;
+    var newDrinks = lastCalc.drinks + extraDrinks;
+    var newBAC = calcBAC(newDrinks, lastCalc.weightGrams, lastCalc.r, lastCalc.hours);
+    var diff = newBAC - lastCalc.bac;
+
+    document.getElementById('wiOriginal').textContent = lastCalc.bac.toFixed(3) + '%';
+    document.getElementById('wiNew').textContent = newBAC.toFixed(3) + '%';
+    document.getElementById('wiDelta').textContent = '+' + diff.toFixed(3) + '%';
+    document.getElementById('wiDelta').style.color = newBAC >= 0.08 ? '#dc2626' : (newBAC >= 0.05 ? '#e65100' : '#059669');
+    document.getElementById('wiStatus').textContent = getStatus(newBAC);
+    document.getElementById('wiStatus').style.color = newBAC >= 0.08 ? '#dc2626' : 'var(--primary)';
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiDrinks = document.getElementById('wiDrinks');
+  if (wiDrinks) {
+    wiDrinks.addEventListener('input', function() {
+      document.getElementById('wiDrinksVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+
   function calculate() {
     var drinks = parseFloat(document.getElementById('drinks').value);
     var weight = parseFloat(document.getElementById('weight').value);
     var hours = parseFloat(document.getElementById('hours').value) || 0;
     if (isNaN(drinks) || isNaN(weight) || drinks < 0 || weight <= 0) return;
 
-    // Convert to grams for Widmark formula
     var weightGrams = (unit === 'kg' ? weight : weight * 0.453592) * 1000;
-    var alcoholGrams = drinks * 14; // 14g per standard drink
-    var r = sex === 'male' ? 0.68 : 0.55; // Widmark factor
+    var r = sex === 'male' ? 0.68 : 0.55;
+    var bac = calcBAC(drinks, weightGrams, r, hours);
 
-    // Widmark formula: BAC = (A / (W × r)) × 100 - (0.015 × hours)
-    var bac = (alcoholGrams / (weightGrams * r)) * 100 - (0.015 * hours);
-    if (bac < 0) bac = 0;
-
-    // Time until sober
     var hoursUntilSober = bac / 0.015;
     var soberHours = Math.floor(hoursUntilSober);
     var soberMinutes = Math.round((hoursUntilSober - soberHours) * 60);
@@ -644,6 +702,10 @@ footer a:hover{color:#fff}
     var resultEl = document.getElementById('result');
     resultEl.classList.add('visible');
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    lastCalc = { drinks: drinks, weightGrams: weightGrams, r: r, hours: hours, bac: bac };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

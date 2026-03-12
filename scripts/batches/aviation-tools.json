@@ -1,0 +1,195 @@
+[
+  {
+    "slug": "flight-time-calculator",
+    "toolName": "Flight Time Calculator",
+    "category": "travel",
+    "tagline": "Calculate flight time based on distance, aircraft speed, and wind conditions",
+    "keywords": "flight time calculator, how long is my flight, flight duration calculator, flight time by distance, aircraft speed calculator, flight time estimator, air travel time, flying time between cities, aviation time calculator, flight hours calculator",
+    "relatedTools": ["aircraft-fuel-burn-calculator", "vfr-fuel-reserve-calculator", "crosswind-component-calculator"],
+    "inputs": [
+      {"id": "distance", "label": "Distance", "default": 500, "min": 10, "max": 15000, "step": 10, "unit": "nm"},
+      {"id": "aircraftType", "label": "Aircraft Type", "default": "single", "type": "select", "options": [{"value": "single", "label": "Single Engine Piston (110-140 kts)"}, {"value": "twin", "label": "Twin Engine Piston (160-200 kts)"}, {"value": "turboprop", "label": "Turboprop (200-300 kts)"}, {"value": "light_jet", "label": "Light Jet (350-450 kts)"}, {"value": "airliner", "label": "Airliner (450-520 kts)"}]},
+      {"id": "cruiseSpeed", "label": "Cruise Speed (override)", "default": 0, "min": 0, "max": 600, "step": 5, "unit": "kts"},
+      {"id": "windSpeed", "label": "Headwind (+) / Tailwind (-)", "default": 0, "min": -100, "max": 100, "step": 5, "unit": "kts"},
+      {"id": "climbDescent", "label": "Climb + Descent Time", "default": 20, "min": 0, "max": 120, "step": 5, "unit": "min"}
+    ],
+    "results": [
+      {"id": "groundSpeed", "label": "Estimated Ground Speed"},
+      {"id": "enrouteTime", "label": "Enroute Time"},
+      {"id": "totalTime", "label": "Total Flight Time"},
+      {"id": "hobbsTime", "label": "Hobbs Time (engine running)"},
+      {"id": "etaNote", "label": "Flight Planning Note"}
+    ],
+    "calcFn": "var defaultSpeeds = {single:130,twin:180,turboprop:250,light_jet:400,airliner:480}; var tas = cruiseSpeed > 0 ? cruiseSpeed : (defaultSpeeds[aircraftType] || 130); var gs = tas - windSpeed; gs = Math.max(gs, 30); var enrouteMin = (distance / gs) * 60; var totalMin = enrouteMin + climbDescent; var hobbsMin = totalMin + 10; var hours = Math.floor(totalMin / 60); var mins = Math.round(totalMin % 60); var enrouteH = Math.floor(enrouteMin / 60); var enrouteM = Math.round(enrouteMin % 60); var hobbsH = Math.floor(hobbsMin / 60); var hobbsM = Math.round(hobbsMin % 60); var note = windSpeed > 20 ? 'Strong headwind — consider altitude change for better winds' : windSpeed < -20 ? 'Strong tailwind — favorable conditions' : 'Normal wind conditions'; if(distance > 1000 && (aircraftType === 'single' || aircraftType === 'twin')) { note = 'Long distance — verify fuel range and plan fuel stops'; } document.getElementById('groundSpeed').textContent = fmt(gs, 0) + ' kts'; document.getElementById('enrouteTime').textContent = enrouteH + 'h ' + enrouteM + 'm (cruise only)'; document.getElementById('totalTime').textContent = hours + 'h ' + mins + 'm'; document.getElementById('hobbsTime').textContent = hobbsH + 'h ' + hobbsM + 'm (incl. taxi)'; document.getElementById('etaNote').textContent = note;",
+    "formulas": ["Ground Speed = True Airspeed - Headwind (or + Tailwind)", "Enroute Time = Distance / Ground Speed", "Total Flight Time = Enroute Time + Climb/Descent Time", "Hobbs Time = Total Flight Time + ~10 min taxi/runup"],
+    "faq": [
+      {"question": "How do you calculate flight time?", "answer": "Flight time is calculated by dividing the distance by the ground speed (true airspeed adjusted for wind). For example, a 500 nm trip at 130 kts ground speed takes about 3 hours 51 minutes of cruise time. Add climb and descent time (typically 10-30 minutes depending on altitude and aircraft) for total flight time. Pilots add about 10 minutes to account for taxi, runup, and ground operations when estimating Hobbs (billing) time."},
+      {"question": "What is the difference between airspeed and ground speed?", "answer": "Airspeed is how fast you move through the air — it determines lift and aircraft performance. Ground speed is how fast you move over the ground — it determines trip time. A 15-knot headwind reduces your ground speed by 15 knots (you arrive later), while a 15-knot tailwind adds 15 knots (you arrive earlier). At 35,000 feet, jetstream winds of 100-200 knots can dramatically affect ground speed, which is why eastbound flights are often shorter than westbound."},
+      {"question": "How fast do different aircraft fly?", "answer": "Typical cruise speeds: single-engine piston (Cessna 172, Piper Cherokee) 110-140 kts, twin-engine piston (Baron, Seneca) 160-200 kts, turboprops (King Air, Pilatus PC-12) 200-300 kts, light jets (Citation CJ, Phenom 300) 350-450 kts, midsize jets (Challenger, Citation Latitude) 430-480 kts, airliners (737, A320) 450-520 kts. Actual speeds depend on altitude, temperature, weight, and power settings."},
+      {"question": "Why do flight times vary from estimates?", "answer": "Real flight times differ from calculations due to: wind changes at different altitudes, ATC routing (radar vectors, holds, longer approach paths), weather deviations, restricted airspace routing, non-direct routing between waypoints, and varying climb/descent profiles. Commercial flights typically add 15-30 minutes of buffer to published schedules. Private pilots should plan fuel for the calculated time plus required reserves (30-45 minutes for VFR, 45 minutes for IFR)."}
+    ]
+  },
+  {
+    "slug": "aircraft-fuel-burn-calculator",
+    "toolName": "Aircraft Fuel Burn Calculator",
+    "category": "travel",
+    "tagline": "Calculate fuel consumption and cost by aircraft type, distance, and flight profile",
+    "keywords": "aircraft fuel burn calculator, airplane fuel consumption, aviation fuel cost, fuel burn rate aircraft, fuel planning calculator, avgas cost calculator, jet fuel consumption, aircraft fuel burn rate, flight fuel calculator, airplane fuel burn per hour",
+    "relatedTools": ["flight-time-calculator", "vfr-fuel-reserve-calculator", "landing-fee-calculator"],
+    "inputs": [
+      {"id": "aircraftType", "label": "Aircraft Type", "default": "single", "type": "select", "options": [{"value": "single", "label": "Single Engine Piston (8-12 GPH)"}, {"value": "twin", "label": "Twin Engine Piston (20-30 GPH)"}, {"value": "turboprop", "label": "Turboprop (30-80 GPH)"}, {"value": "light_jet", "label": "Light Jet (100-200 GPH)"}, {"value": "airliner", "label": "Airliner (700-900 GPH)"}]},
+      {"id": "burnRate", "label": "Fuel Burn Rate (override)", "default": 0, "min": 0, "max": 2000, "step": 1, "unit": "GPH"},
+      {"id": "flightTime", "label": "Flight Time", "default": 3, "min": 0.5, "max": 18, "step": 0.5, "unit": "hours"},
+      {"id": "fuelType", "label": "Fuel Type", "default": "avgas", "type": "select", "options": [{"value": "avgas", "label": "100LL Avgas"}, {"value": "jetA", "label": "Jet-A"}]},
+      {"id": "fuelPrice", "label": "Fuel Price Per Gallon", "default": 6.50, "min": 3, "max": 15, "step": 0.25},
+      {"id": "reserveTime", "label": "Reserve Time", "default": 0.75, "min": 0.5, "max": 2, "step": 0.25, "unit": "hours"}
+    ],
+    "results": [
+      {"id": "burnRateUsed", "label": "Fuel Burn Rate"},
+      {"id": "tripFuel", "label": "Trip Fuel Required"},
+      {"id": "reserveFuel", "label": "Reserve Fuel"},
+      {"id": "totalFuel", "label": "Total Fuel Needed"},
+      {"id": "fuelCost", "label": "Trip Fuel Cost"},
+      {"id": "costPerNm", "label": "Fuel Cost Per Nautical Mile"}
+    ],
+    "calcFn": "var defaultBurn = {single:10,twin:24,turboprop:55,light_jet:150,airliner:800}; var burn = burnRate > 0 ? burnRate : (defaultBurn[aircraftType] || 10); var tripGal = burn * flightTime; var reserveGal = burn * reserveTime; var totalGal = tripGal + reserveGal; var tripCost = tripGal * fuelPrice; var defaultSpeed = {single:130,twin:180,turboprop:250,light_jet:400,airliner:480}; var speed = defaultSpeed[aircraftType] || 130; var tripNm = speed * flightTime; var costNm = tripNm > 0 ? tripCost / tripNm : 0; document.getElementById('burnRateUsed').textContent = fmt(burn, 1) + ' GPH'; document.getElementById('tripFuel').textContent = fmt(tripGal, 1) + ' gal'; document.getElementById('reserveFuel').textContent = fmt(reserveGal, 1) + ' gal'; document.getElementById('totalFuel').textContent = fmt(totalGal, 1) + ' gal'; document.getElementById('fuelCost').textContent = dollar(tripCost); document.getElementById('costPerNm').textContent = '$' + costNm.toFixed(2) + '/nm';",
+    "formulas": ["Trip Fuel = Fuel Burn Rate (GPH) x Flight Time (hours)", "Reserve Fuel = Burn Rate x Reserve Time (45 min VFR, 1 hr IFR typical)", "Total Fuel = Trip Fuel + Reserve Fuel", "Cost = Trip Fuel x Price Per Gallon"],
+    "faq": [
+      {"question": "How much fuel does a small airplane burn per hour?", "answer": "Single-engine piston aircraft like the Cessna 172 burn 8-10 gallons per hour (GPH) of 100LL avgas, while higher-performance singles like the Cirrus SR22 burn 13-17 GPH. Twin-engine pistons burn 20-30 GPH combined. At current avgas prices of $6-$7/gallon, that is $50-$70/hour for a trainer and $130-$200/hour for a twin. Fuel costs make up 30-50% of total operating costs for piston aircraft."},
+      {"question": "How much does avgas cost?", "answer": "100LL avgas (the most common piston aircraft fuel) averages $5.50-$7.50 per gallon in the US, though prices vary dramatically by location. Small rural airports often charge $5-$6/gallon, while major metro airports can charge $7-$9+/gallon. Self-serve pumps are typically $0.50-$1.50 cheaper than full-service. Jet-A fuel averages $5-$7/gallon. Fuel is generally cheapest at non-towered airports away from major cities."},
+      {"question": "What fuel reserves are legally required?", "answer": "For VFR (visual flight rules): enough fuel to fly to the destination plus 30 minutes at normal cruise speed during the day, or 45 minutes at night. For IFR (instrument flight rules): enough to fly to the destination, then to an alternate airport (if required), plus 45 minutes at normal cruise. Prudent pilots carry more than the legal minimum — most instructors recommend 1 hour of reserve fuel regardless of conditions. Running low on fuel is a leading cause of general aviation accidents."},
+      {"question": "How do I reduce fuel costs when flying?", "answer": "Key strategies: fly at lean-of-peak mixture settings (saves 15-25% fuel with proper engine monitoring), cruise at lower power settings (55-65% power instead of 75%), fly at optimal altitudes for wind (higher altitudes often have favorable winds for one direction), maintain proper tire inflation and clean airframe (drag reduction), plan direct routes when possible, and buy fuel at cheaper airports (use apps like ForeFlight or FuelPlanner to find the best prices along your route)."}
+    ]
+  },
+  {
+    "slug": "landing-fee-calculator",
+    "toolName": "Landing Fee Calculator",
+    "category": "travel",
+    "tagline": "Estimate airport landing fees based on airport type and aircraft weight",
+    "keywords": "landing fee calculator, airport landing fees, airport fees calculator, FBO fees, ramp fee, landing fee by airport, general aviation landing fees, aircraft landing cost, airport charges, overnight parking fee aircraft",
+    "relatedTools": ["aircraft-fuel-burn-calculator", "flight-time-calculator", "weight-balance-calculator"],
+    "inputs": [
+      {"id": "aircraftWeight", "label": "Maximum Gross Weight", "default": 3400, "min": 1000, "max": 600000, "step": 100, "unit": "lbs"},
+      {"id": "airportType", "label": "Airport Type", "default": "towered", "type": "select", "options": [{"value": "untowered", "label": "Small Untowered Airport"}, {"value": "towered", "label": "Towered GA Airport"}, {"value": "regional", "label": "Regional Commercial Airport"}, {"value": "major", "label": "Major Metro Airport"}, {"value": "international", "label": "International Hub"}]},
+      {"id": "fboType", "label": "FBO Service Level", "default": "standard", "type": "select", "options": [{"value": "none", "label": "No FBO (tie-down only)"}, {"value": "standard", "label": "Standard FBO"}, {"value": "premium", "label": "Premium FBO (Signature, Atlantic)"}]},
+      {"id": "overnightStay", "label": "Overnight Parking", "default": 0, "min": 0, "max": 30, "step": 1, "unit": "nights"},
+      {"id": "fuelPurchase", "label": "Fuel Purchase (gallons)", "default": 30, "min": 0, "max": 5000, "step": 10},
+      {"id": "hangarRequest", "label": "Hangar Requested", "default": "no", "type": "select", "options": [{"value": "no", "label": "No — Ramp/Tie-Down"}, {"value": "yes", "label": "Yes — Hangar if Available"}]}
+    ],
+    "results": [
+      {"id": "landingFee", "label": "Landing Fee"},
+      {"id": "rampFee", "label": "Ramp / Facility Fee"},
+      {"id": "parkingFee", "label": "Overnight Parking/Hangar"},
+      {"id": "fuelWaiver", "label": "Fee Waiver with Fuel Purchase"},
+      {"id": "totalFees", "label": "Total Airport Fees"},
+      {"id": "netCost", "label": "Net Cost After Waivers"}
+    ],
+    "calcFn": "var landingRates = {untowered:0,towered:0,regional:0.003,major:0.005,international:0.008}; var landFee = aircraftWeight * (landingRates[airportType] || 0); if(airportType === 'untowered') landFee = 0; else if(airportType === 'towered') landFee = aircraftWeight > 12500 ? aircraftWeight * 0.002 : 0; var rampFees = {none:0,standard:{base:25,heavy:75},premium:{base:75,heavy:250}}; var rampFee = 0; if(fboType !== 'none') { rampFee = aircraftWeight > 12500 ? rampFees[fboType].heavy : rampFees[fboType].base; } var parkRate = 0; if(overnightStay > 0) { if(hangarRequest === 'yes') { parkRate = aircraftWeight > 12500 ? 150 : 50; if(fboType === 'premium') parkRate *= 2; } else { parkRate = aircraftWeight > 12500 ? 50 : 15; if(fboType === 'premium') parkRate *= 1.5; } } var parkTotal = parkRate * overnightStay; var fuelWaiverMin = {none:0,standard:20,premium:40}; var minGal = fuelWaiverMin[fboType] || 0; var waived = fuelPurchase >= minGal && minGal > 0 ? rampFee : 0; var total = landFee + rampFee + parkTotal; var net = total - waived; document.getElementById('landingFee').textContent = landFee > 0 ? dollar(landFee) : 'No landing fee'; document.getElementById('rampFee').textContent = rampFee > 0 ? dollar(rampFee) : 'No ramp fee'; document.getElementById('parkingFee').textContent = overnightStay > 0 ? dollar(parkTotal) + ' (' + overnightStay + ' night' + (overnightStay > 1 ? 's' : '') + ')' : 'N/A'; document.getElementById('fuelWaiver').textContent = waived > 0 ? dollar(waived) + ' waived (bought ' + fmt(fuelPurchase, 0) + ' gal)' : minGal > 0 ? 'Buy ' + minGal + '+ gal to waive ramp fee' : 'N/A'; document.getElementById('totalFees').textContent = dollar(total); document.getElementById('netCost').textContent = dollar(net);",
+    "formulas": ["Landing Fee = Aircraft Weight x Per-Pound Rate (varies by airport class)", "Ramp Fee = Fixed FBO facility fee (often waived with fuel purchase)", "Parking = Per-Night Rate x Nights (higher for hangar vs tie-down)", "Many FBOs waive ramp fees with minimum fuel purchase (20-50 gallons)"],
+    "faq": [
+      {"question": "Do small airports charge landing fees?", "answer": "Most small, untowered airports do not charge landing fees for general aviation aircraft. Towered GA airports typically do not charge landing fees for aircraft under 12,500 lbs. Landing fees are most common at regional and commercial airports, typically $5-$25 for light GA aircraft and increasing by weight. Major airports like JFK, LAX, or ORD charge landing fees based on weight, often $0.005-$0.01 per pound, which makes them very expensive for small aircraft with minimal benefit."},
+      {"question": "What is a ramp fee and can I avoid it?", "answer": "A ramp fee (also called a facility fee or handling fee) is charged by FBOs for using their ramp, facilities, and services. Typical ramp fees are $25-$75 for light aircraft at standard FBOs and $75-$500+ at premium FBOs in major cities. Most FBOs waive the ramp fee if you purchase fuel — usually a minimum of 10-30 gallons. Always ask about the fuel minimum to waive the ramp fee before landing. Some pilots plan fuel stops at FBOs with reasonable waiver minimums."},
+      {"question": "How much does overnight aircraft parking cost?", "answer": "Overnight tie-down on the ramp costs $10-$25/night at most GA airports and $25-$75 at larger or premium airports. Hangar storage runs $35-$100/night for single-engine aircraft and $100-$300/night for twins and turboprops. At major city airports (Teterboro, Van Nuys, Centennial), hangar rates can exceed $200-$500/night. Some FBOs include one night of parking with a fuel purchase. Long-term parking at your home airport typically runs $200-$500/month for tie-down."},
+      {"question": "How do I find the cheapest airport to fly into?", "answer": "Use AirNav.com or ForeFlight to compare FBO prices at nearby airports. Look for: non-towered airports near your destination (no landing fees), FBOs with low fuel minimums for ramp fee waivers, self-serve fuel (typically $0.50-$1.50/gallon cheaper), and courtesy cars (free transportation instead of expensive rental cars). Flying into a small airport 20-30 miles from a major city often saves $100-$300 compared to the major metro airport, even after accounting for ground transportation."}
+    ]
+  },
+  {
+    "slug": "weight-balance-calculator",
+    "toolName": "Weight & Balance Calculator",
+    "category": "travel",
+    "tagline": "Calculate aircraft weight and balance to verify safe center of gravity",
+    "keywords": "weight and balance calculator, aircraft weight balance, CG calculator, center of gravity aircraft, weight balance aviation, W&B calculator, aircraft loading calculator, pilot weight balance, airplane weight limit, CG envelope calculator",
+    "relatedTools": ["aircraft-fuel-burn-calculator", "flight-time-calculator", "vfr-fuel-reserve-calculator"],
+    "inputs": [
+      {"id": "emptyWeight", "label": "Empty Weight", "default": 1663, "min": 500, "max": 500000, "step": 1, "unit": "lbs"},
+      {"id": "emptyArm", "label": "Empty Weight Arm (CG)", "default": 39.5, "min": 0, "max": 500, "step": 0.1, "unit": "inches"},
+      {"id": "frontSeat", "label": "Front Seat Occupants", "default": 340, "min": 0, "max": 600, "step": 5, "unit": "lbs"},
+      {"id": "frontArm", "label": "Front Seat Arm", "default": 37, "min": 0, "max": 200, "step": 0.5, "unit": "inches"},
+      {"id": "rearSeat", "label": "Rear Seat Occupants", "default": 200, "min": 0, "max": 600, "step": 5, "unit": "lbs"},
+      {"id": "rearArm", "label": "Rear Seat Arm", "default": 73, "min": 0, "max": 200, "step": 0.5, "unit": "inches"},
+      {"id": "baggage", "label": "Baggage", "default": 50, "min": 0, "max": 500, "step": 5, "unit": "lbs"},
+      {"id": "baggageArm", "label": "Baggage Arm", "default": 95, "min": 0, "max": 200, "step": 0.5, "unit": "inches"},
+      {"id": "fuelGallons", "label": "Fuel", "default": 48, "min": 0, "max": 500, "step": 1, "unit": "gallons"},
+      {"id": "fuelArm", "label": "Fuel Arm", "default": 48, "min": 0, "max": 200, "step": 0.5, "unit": "inches"}
+    ],
+    "results": [
+      {"id": "grossWeight", "label": "Gross Weight"},
+      {"id": "totalMoment", "label": "Total Moment"},
+      {"id": "cg", "label": "Center of Gravity (CG)"},
+      {"id": "usefulLoad", "label": "Useful Load Used"},
+      {"id": "fuelWeight", "label": "Fuel Weight"},
+      {"id": "status", "label": "Status"}
+    ],
+    "calcFn": "var fuelWeight = fuelGallons * 6; var emptyMoment = emptyWeight * emptyArm; var frontMoment = frontSeat * frontArm; var rearMoment = rearSeat * rearArm; var bagMoment = baggage * baggageArm; var fuelMoment = fuelWeight * fuelArm; var totalWeight = emptyWeight + frontSeat + rearSeat + baggage + fuelWeight; var totalMom = emptyMoment + frontMoment + rearMoment + bagMoment + fuelMoment; var cgPos = totalWeight > 0 ? totalMom / totalWeight : 0; var maxGross = 2550; var fwdLimit = 35; var aftLimit = 47.3; var overweight = totalWeight > maxGross; var cgForward = cgPos < fwdLimit; var cgAft = cgPos > aftLimit; var statusMsg = ''; if(overweight && (cgForward || cgAft)) { statusMsg = 'UNSAFE — Over max gross weight AND CG out of limits'; } else if(overweight) { statusMsg = 'OVER WEIGHT by ' + fmt(totalWeight - maxGross, 0) + ' lbs — reduce load'; } else if(cgForward) { statusMsg = 'CG TOO FAR FORWARD — move weight aft or reduce front load'; } else if(cgAft) { statusMsg = 'CG TOO FAR AFT — move weight forward or reduce rear load'; } else { statusMsg = 'WITHIN LIMITS — ' + fmt(maxGross - totalWeight, 0) + ' lbs under max gross (C172 defaults)'; } document.getElementById('grossWeight').textContent = fmt(totalWeight, 0) + ' lbs'; document.getElementById('totalMoment').textContent = fmt(totalMom, 0) + ' lb-in'; document.getElementById('cg').textContent = fmt(cgPos, 1) + ' inches aft of datum'; document.getElementById('usefulLoad').textContent = fmt(totalWeight - emptyWeight, 0) + ' lbs'; document.getElementById('fuelWeight').textContent = fmt(fuelWeight, 0) + ' lbs (' + fmt(fuelGallons, 0) + ' gal)'; document.getElementById('status').textContent = statusMsg;",
+    "formulas": ["Fuel Weight = Gallons x 6 lbs/gal (avgas)", "Moment = Weight x Arm (distance from datum)", "Total Moment = Sum of all individual moments", "CG = Total Moment / Total Weight (must be within envelope limits)"],
+    "faq": [
+      {"question": "Why is weight and balance important?", "answer": "An aircraft loaded outside its weight and balance limits is dangerous and potentially uncontrollable. If the CG is too far forward, the aircraft needs excessive back pressure on the yoke, stall speed increases, and landing can be difficult. If the CG is too far aft, the aircraft becomes increasingly unstable and may become unrecoverable from a stall or spin. Overloaded aircraft have reduced climb performance, higher stall speeds, and longer takeoff and landing distances. Many fatal GA accidents involve improper loading."},
+      {"question": "What is the CG envelope?", "answer": "The CG envelope is the range of acceptable center-of-gravity positions at various gross weights, shown in the aircraft's POH/AFM. It defines forward and aft CG limits that change with weight. For a Cessna 172, typical CG limits are 35-47 inches aft of the datum at max gross weight. The envelope is depicted as a graph — your calculated weight and CG point must fall within the shaded area. Always use your specific aircraft's POH data, as limits vary even between models of the same aircraft."},
+      {"question": "How much does aviation fuel weigh?", "answer": "100LL avgas weighs 6.0 pounds per gallon. Jet-A fuel weighs 6.7-6.8 pounds per gallon. These weights are at standard temperature — fuel is slightly lighter when hot and heavier when cold, but the standard values are used for weight and balance calculations. For a Cessna 172 with 56 gallons of fuel capacity, full fuel weighs 336 pounds — a significant portion of the 878-pound useful load."},
+      {"question": "What if my aircraft is over max gross weight?", "answer": "If your weight and balance calculation shows you are over max gross weight, you must reduce the load before flying. Options include: reduce fuel (calculate minimum needed for the trip plus reserves), leave passengers behind, remove baggage, or split the trip into two legs with fewer passengers per leg. Never fly overloaded — insurance may not cover accidents in an overloaded aircraft, and you violate FAR 91.9. Many pilots are tempted to fly slightly over gross, but performance margins disappear quickly, especially on hot days or at high-altitude airports."}
+    ]
+  },
+  {
+    "slug": "crosswind-component-calculator",
+    "toolName": "Crosswind Component Calculator",
+    "category": "travel",
+    "tagline": "Calculate crosswind and headwind components from wind speed and direction data",
+    "keywords": "crosswind component calculator, crosswind calculator, headwind component, crosswind landing calculator, wind component calculator, aviation wind calculator, crosswind limit, runway wind calculator, wind correction angle, pilot crosswind calculator",
+    "relatedTools": ["flight-time-calculator", "weight-balance-calculator", "vfr-fuel-reserve-calculator"],
+    "inputs": [
+      {"id": "windDirection", "label": "Wind Direction", "default": 270, "min": 0, "max": 360, "step": 10, "unit": "degrees"},
+      {"id": "windSpeed", "label": "Wind Speed", "default": 18, "min": 0, "max": 100, "step": 1, "unit": "kts"},
+      {"id": "gustSpeed", "label": "Gust Speed (0 if none)", "default": 25, "min": 0, "max": 120, "step": 1, "unit": "kts"},
+      {"id": "runwayHeading", "label": "Runway Heading", "default": 240, "min": 0, "max": 360, "step": 10, "unit": "degrees"},
+      {"id": "crosswindLimit", "label": "Aircraft Crosswind Limit", "default": 15, "min": 5, "max": 40, "step": 1, "unit": "kts"}
+    ],
+    "results": [
+      {"id": "crosswindComp", "label": "Crosswind Component"},
+      {"id": "headwindComp", "label": "Headwind/Tailwind Component"},
+      {"id": "gustCrosswind", "label": "Gust Crosswind Component"},
+      {"id": "windAngle", "label": "Wind Angle to Runway"},
+      {"id": "withinLimits", "label": "Within Limits?"},
+      {"id": "direction", "label": "Crosswind From"}
+    ],
+    "calcFn": "var angleDeg = windDirection - runwayHeading; var angleRad = angleDeg * Math.PI / 180; var crosswind = Math.abs(windSpeed * Math.sin(angleRad)); var headwind = windSpeed * Math.cos(angleRad); var gustCross = gustSpeed > 0 ? Math.abs(gustSpeed * Math.sin(angleRad)) : 0; var absAngle = Math.abs(((angleDeg + 180) % 360) - 180); var isHeadwind = headwind > 0; var hwLabel = isHeadwind ? fmt(Math.abs(headwind), 0) + ' kt headwind' : fmt(Math.abs(headwind), 0) + ' kt TAILWIND'; var maxCross = gustSpeed > 0 ? gustCross : crosswind; var withinLimits = maxCross <= crosswindLimit; var limitMsg = withinLimits ? 'YES — ' + fmt(crosswindLimit - maxCross, 0) + ' kts under limit' : 'NO — Exceeds limit by ' + fmt(maxCross - crosswindLimit, 0) + ' kts'; var sinAngle = Math.sin(angleRad); var dir = sinAngle > 0.01 ? 'Right' : sinAngle < -0.01 ? 'Left' : 'Direct head/tail'; document.getElementById('crosswindComp').textContent = fmt(crosswind, 0) + ' kts'; document.getElementById('headwindComp').textContent = hwLabel; document.getElementById('gustCrosswind').textContent = gustSpeed > 0 ? fmt(gustCross, 0) + ' kts (gusting)' : 'No gusts reported'; document.getElementById('windAngle').textContent = fmt(absAngle, 0) + ' degrees'; document.getElementById('withinLimits').textContent = limitMsg; document.getElementById('direction').textContent = dir;",
+    "formulas": ["Crosswind Component = Wind Speed x sin(Wind Angle)", "Headwind Component = Wind Speed x cos(Wind Angle)", "Wind Angle = Wind Direction - Runway Heading", "Use gust speed for crosswind limit checks (worst case)"],
+    "faq": [
+      {"question": "How do you calculate crosswind component?", "answer": "Multiply the wind speed by the sine of the angle between the wind direction and the runway heading. For example, wind from 270 at 20 knots with runway 24 (240 degrees): the angle is 30 degrees, sin(30) = 0.5, so the crosswind is 20 x 0.5 = 10 knots. A quick estimate: at 30 degrees off the runway, crosswind is half the wind speed; at 45 degrees, it is about 70%; at 60 degrees, about 87%; and at 90 degrees, it equals the full wind speed."},
+      {"question": "What is a safe crosswind limit for student pilots?", "answer": "Student pilots should limit crosswinds to 5-8 knots while learning and gradually work up to the aircraft's demonstrated crosswind component. Most training aircraft (Cessna 172, Piper Warrior) have demonstrated crosswind components of 15 knots, but this is not a limitation — it is the maximum tested during certification. Experienced pilots routinely handle crosswinds up to and beyond the demonstrated value, but gusty crosswinds are significantly more challenging than steady crosswinds."},
+      {"question": "What is the difference between demonstrated and maximum crosswind?", "answer": "The demonstrated crosswind component listed in the POH is the maximum crosswind encountered during certification flight testing — it is not a legal limitation for Part 91 operations. Many experienced pilots safely operate in crosswinds 5-10 knots above the demonstrated value. However, the demonstrated value represents a good practical limit for most pilots. The actual limiting factor is pilot skill, proficiency, and currency. Gusty conditions are much harder than steady crosswinds of the same magnitude."},
+      {"question": "Should I use gust speed or steady wind for crosswind calculations?", "answer": "Use the gust speed for determining if conditions exceed your personal or aircraft limits, as gusts represent the worst-case crosswind you will encounter during the approach and landing. Use the steady-state wind for establishing your initial crab angle and approach planning. A practical rule: if the gust crosswind component exceeds your limit, do not attempt the landing even if the steady-state crosswind is within limits. A sudden gust during the flare or rollout can be unrecoverable."}
+    ]
+  },
+  {
+    "slug": "vfr-fuel-reserve-calculator",
+    "toolName": "VFR Fuel Reserve Calculator",
+    "category": "travel",
+    "tagline": "Calculate required fuel reserves for VFR flights including legal minimums and safety margins",
+    "keywords": "VFR fuel reserve calculator, fuel reserve requirements, FAR fuel requirements, VFR fuel planning, minimum fuel reserve aviation, fuel reserve calculation, flight planning fuel, VFR fuel minimums, aviation fuel planning, fuel endurance calculator",
+    "relatedTools": ["aircraft-fuel-burn-calculator", "flight-time-calculator", "crosswind-component-calculator"],
+    "inputs": [
+      {"id": "tripDistance", "label": "Trip Distance", "default": 350, "min": 10, "max": 5000, "step": 10, "unit": "nm"},
+      {"id": "groundSpeed", "label": "Expected Ground Speed", "default": 125, "min": 50, "max": 500, "step": 5, "unit": "kts"},
+      {"id": "burnRate", "label": "Fuel Burn Rate", "default": 10, "min": 2, "max": 200, "step": 0.5, "unit": "GPH"},
+      {"id": "tankCapacity", "label": "Usable Fuel Capacity", "default": 53, "min": 10, "max": 1000, "step": 1, "unit": "gallons"},
+      {"id": "timeOfDay", "label": "Time of Day at Destination", "default": "day", "type": "select", "options": [{"value": "day", "label": "Daytime (30 min reserve)"}, {"value": "night", "label": "Nighttime (45 min reserve)"}]},
+      {"id": "safetyMargin", "label": "Personal Safety Margin", "default": 15, "min": 0, "max": 60, "step": 5, "unit": "min extra"}
+    ],
+    "results": [
+      {"id": "tripTime", "label": "Estimated Trip Time"},
+      {"id": "tripFuel", "label": "Trip Fuel"},
+      {"id": "legalReserve", "label": "Legal Minimum Reserve"},
+      {"id": "safetyFuel", "label": "Personal Safety Margin Fuel"},
+      {"id": "totalRequired", "label": "Total Fuel Required"},
+      {"id": "fuelRemaining", "label": "Fuel Remaining at Destination"}
+    ],
+    "calcFn": "var tripTimeHrs = tripDistance / groundSpeed; var tripMin = tripTimeHrs * 60; var tripFuelGal = burnRate * tripTimeHrs; var reserveMin = timeOfDay === 'night' ? 45 : 30; var reserveGal = burnRate * (reserveMin / 60); var safetyGal = burnRate * (safetyMargin / 60); var totalRequired = tripFuelGal + reserveGal + safetyGal; var remaining = tankCapacity - tripFuelGal; var remainingMin = remaining > 0 ? (remaining / burnRate) * 60 : 0; var tripH = Math.floor(tripMin / 60); var tripM = Math.round(tripMin % 60); var canMakeIt = totalRequired <= tankCapacity; var status = canMakeIt ? fmt(remaining, 1) + ' gal (' + fmt(remainingMin, 0) + ' min endurance)' : 'INSUFFICIENT — need ' + fmt(totalRequired - tankCapacity, 1) + ' gal more or plan fuel stop'; document.getElementById('tripTime').textContent = tripH + 'h ' + tripM + 'm'; document.getElementById('tripFuel').textContent = fmt(tripFuelGal, 1) + ' gal'; document.getElementById('legalReserve').textContent = fmt(reserveGal, 1) + ' gal (' + reserveMin + ' min — FAR 91.151)'; document.getElementById('safetyFuel').textContent = safetyMargin > 0 ? fmt(safetyGal, 1) + ' gal (' + safetyMargin + ' min)' : 'None added'; document.getElementById('totalRequired').textContent = fmt(totalRequired, 1) + ' gal'; document.getElementById('fuelRemaining').textContent = status;",
+    "formulas": ["Trip Fuel = Burn Rate x (Distance / Ground Speed)", "Legal VFR Reserve: 30 min day / 45 min night at normal cruise (FAR 91.151)", "Total Required = Trip Fuel + Legal Reserve + Personal Safety Margin", "Fuel Remaining = Tank Capacity - Trip Fuel"],
+    "faq": [
+      {"question": "What are the legal fuel reserve requirements for VFR?", "answer": "Under FAR 91.151, VFR flights require enough fuel to fly to the first point of intended landing and then fly for 30 minutes at normal cruising speed during the day, or 45 minutes at night. This is a legal minimum — many experienced pilots carry significantly more. For a Cessna 172 burning 10 GPH, that is 5 gallons (day) or 7.5 gallons (night) of reserve fuel. Unlike IFR, VFR does not require fuel to an alternate airport, but planning for diversions is wise."},
+      {"question": "How much extra fuel should I carry beyond legal minimums?", "answer": "Most flight instructors and experienced pilots recommend carrying at least 1 hour of total reserve fuel (30-60 minutes beyond the legal minimum). This provides margin for headwinds stronger than forecast, ATC delays, unexpected weather diversions, and difficulty finding the destination airport. Running low on fuel is consistently among the top 10 causes of general aviation accidents. An extra 15-30 minutes of fuel weighs very little relative to the safety it provides."},
+      {"question": "How do I plan fuel for a long cross-country flight?", "answer": "For flights approaching your aircraft's range limit: plan fuel stops every 2-3 hours or when you will arrive with less than 1 hour of fuel remaining. Check fuel prices along the route using ForeFlight or AirNav. Consider headwinds at different altitudes — a higher altitude might have stronger headwinds, burning more fuel despite better efficiency. Always have at least 2 alternate airports identified with fuel availability confirmed. Check NOTAMs for fuel availability at planned stops — small airports sometimes run out."},
+      {"question": "What should I do if I am running low on fuel in flight?", "answer": "If fuel is becoming a concern: immediately lean the mixture for best economy (reduces burn rate 15-25%), reduce speed to best-endurance speed (lower than best-range speed), identify the nearest suitable airport and divert immediately, declare a fuel emergency (Mayday) with ATC if you have less than 30 minutes of fuel — this gives you priority handling. Do not wait until the situation is critical to declare an emergency. Pilots often delay diverting hoping to make their destination, which turns a manageable situation into a dangerous one."}
+    ]
+  }
+]

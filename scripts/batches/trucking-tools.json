@@ -1,0 +1,223 @@
+[
+  {
+    "slug": "per-diem-tax-deduction-calculator",
+    "toolName": "Per Diem Tax Deduction Calculator",
+    "category": "automotive",
+    "tagline": "Calculate your owner-operator per diem tax deduction based on days away from home",
+    "keywords": "per diem trucking, trucker per diem calculator, owner operator tax deduction, per diem rate truckers, OTR per diem, truck driver per diem 2024, per diem meals deduction, trucker tax deductions, CDL per diem, long haul per diem",
+    "relatedTools": ["fuel-cost-per-mile-trucking-calculator", "load-profitability-calculator", "freight-factoring-fee-calculator"],
+    "inputs": [
+      {"id": "daysOut", "label": "Days Away From Home", "default": 250, "min": 0, "max": 365, "step": 1},
+      {"id": "partialDays", "label": "Partial Days (departure/return)", "default": 50, "min": 0, "max": 365, "step": 1},
+      {"id": "perDiemRate", "label": "Per Diem Rate (per day)", "default": 69, "min": 0, "max": 200, "step": 1},
+      {"id": "deductPct", "label": "Deductible Percentage", "default": 80, "min": 0, "max": 100, "step": 1, "unit": "%"},
+      {"id": "taxBracket", "label": "Tax Bracket", "default": "22", "type": "select", "options": [{"value": "10", "label": "10%"}, {"value": "12", "label": "12%"}, {"value": "22", "label": "22%"}, {"value": "24", "label": "24%"}, {"value": "32", "label": "32%"}]},
+      {"id": "selfEmployed", "label": "Employment Type", "default": "yes", "type": "select", "options": [{"value": "yes", "label": "Self-Employed / Owner Operator"}, {"value": "no", "label": "Company Driver (W-2)"}]}
+    ],
+    "results": [
+      {"id": "fullDayAmt", "label": "Full Day Deduction"},
+      {"id": "partialDayAmt", "label": "Partial Day Deduction"},
+      {"id": "totalPerDiem", "label": "Total Per Diem Amount"},
+      {"id": "deductibleAmt", "label": "Deductible Amount"},
+      {"id": "taxSavings", "label": "Estimated Tax Savings"},
+      {"id": "monthlyBenefit", "label": "Monthly Tax Benefit"}
+    ],
+    "calcFn": "var fullAmt = daysOut * perDiemRate; var partialRate = perDiemRate * 0.75; var partAmt = partialDays * partialRate; var totalPD = fullAmt + partAmt; var deductible = totalPD * (deductPct / 100); var bracket = parseFloat(selfEmployed === 'yes' ? taxBracket : taxBracket) / 100; var seTaxSaving = selfEmployed === 'yes' ? deductible * 0.153 * 0.5 : 0; var savings = deductible * bracket + seTaxSaving; document.getElementById('fullDayAmt').textContent = dollar(fullAmt); document.getElementById('partialDayAmt').textContent = dollar(partAmt); document.getElementById('totalPerDiem').textContent = dollar(totalPD); document.getElementById('deductibleAmt').textContent = dollar(deductible); document.getElementById('taxSavings').textContent = dollar(savings); document.getElementById('monthlyBenefit').textContent = dollar(savings / 12);",
+    "formulas": ["Full Day Per Diem = Days Away x Per Diem Rate ($69/day for 2024)", "Partial Day Per Diem = Partial Days x 75% of Daily Rate", "Deductible Amount = Total Per Diem x 80% (IRS meals deduction rate)", "Tax Savings = Deductible Amount x Marginal Tax Rate + SE Tax Savings"],
+    "faq": [
+      {"question": "What is the trucker per diem rate for 2024?", "answer": "The IRS standard per diem rate for transportation workers is $69 per day within the continental US (CONUS) and $74 per day for travel outside CONUS. This rate is specifically for meals and incidental expenses while away from your tax home overnight. Owner-operators can deduct 80% of this amount, which is higher than the 50% that most other taxpayers can claim."},
+      {"question": "Can company drivers claim per diem?", "answer": "Since the Tax Cuts and Jobs Act of 2017, W-2 company drivers generally cannot deduct per diem on their personal tax returns because unreimbursed employee expenses were eliminated as itemized deductions through 2025. However, many carriers offer per diem pay programs that reduce your taxable wages, effectively giving you a similar benefit. Ask your carrier about their per diem pay option."},
+      {"question": "What counts as a day away from home?", "answer": "A full per diem day requires you to be away from your tax home for a period that requires sleep or rest. Your tax home is typically the city where your business is based, not necessarily where your family lives. Departure and return days count as partial days at 75% of the full rate. Days you spend at your tax home do not qualify."},
+      {"question": "Do I need to keep receipts for per diem?", "answer": "No, the per diem method is an alternative to tracking actual meal expenses. You only need a log showing dates you were away from your tax home, where you traveled, and the business purpose. However, you must consistently use either the per diem method or actual receipts for the entire year — you cannot switch between methods during the same tax year."}
+    ]
+  },
+  {
+    "slug": "fuel-cost-per-mile-trucking-calculator",
+    "toolName": "Fuel Cost Per Mile Calculator (Trucking)",
+    "category": "automotive",
+    "tagline": "Calculate your fuel cost per mile based on MPG, fuel price, and route distance",
+    "keywords": "fuel cost per mile trucking, truck fuel cost calculator, semi truck mpg calculator, diesel cost per mile, trucking fuel expense, fuel cost per mile calculator, owner operator fuel costs, truck fuel economy, CDL fuel calculator, trucking expenses per mile",
+    "relatedTools": ["per-diem-tax-deduction-calculator", "load-profitability-calculator", "deadhead-miles-cost-calculator"],
+    "inputs": [
+      {"id": "routeDistance", "label": "Route Distance", "default": 1200, "min": 1, "max": 10000, "step": 1, "unit": "miles"},
+      {"id": "mpg", "label": "Fuel Economy", "default": 6.5, "min": 2, "max": 15, "step": 0.1, "unit": "MPG"},
+      {"id": "fuelPrice", "label": "Diesel Price Per Gallon", "default": 3.85, "min": 1, "max": 10, "step": 0.01},
+      {"id": "loadWeight", "label": "Load Weight", "default": 40000, "min": 0, "max": 80000, "step": 1000, "unit": "lbs"},
+      {"id": "terrain", "label": "Terrain Type", "default": "mixed", "type": "select", "options": [{"value": "flat", "label": "Flat (Interstate)"}, {"value": "mixed", "label": "Mixed Terrain"}, {"value": "mountain", "label": "Mountainous"}]}
+    ],
+    "results": [
+      {"id": "fuelCostMile", "label": "Fuel Cost Per Mile"},
+      {"id": "totalFuel", "label": "Total Fuel Cost"},
+      {"id": "gallonsNeeded", "label": "Gallons Needed"},
+      {"id": "adjustedMpg", "label": "Adjusted MPG"},
+      {"id": "costPer100", "label": "Cost Per 100 Miles"}
+    ],
+    "calcFn": "var terrainFactor = terrain === 'flat' ? 1.0 : terrain === 'mixed' ? 0.92 : 0.82; var weightPenalty = loadWeight > 30000 ? (loadWeight - 30000) / 50000 * 0.15 : 0; var adjMpg = mpg * terrainFactor * (1 - weightPenalty); adjMpg = Math.max(adjMpg, 2); var gallons = routeDistance / adjMpg; var totalCost = gallons * fuelPrice; var costPerMile = totalCost / routeDistance; document.getElementById('fuelCostMile').textContent = '$' + costPerMile.toFixed(3); document.getElementById('totalFuel').textContent = dollar(totalCost); document.getElementById('gallonsNeeded').textContent = fmt(gallons, 1) + ' gal'; document.getElementById('adjustedMpg').textContent = fmt(adjMpg, 1) + ' MPG'; document.getElementById('costPer100').textContent = dollar(costPerMile * 100);",
+    "formulas": ["Gallons Needed = Route Distance / Adjusted MPG", "Fuel Cost Per Mile = (Gallons x Fuel Price) / Route Distance", "Adjusted MPG accounts for terrain (flat 100%, mixed 92%, mountain 82%) and load weight penalty"],
+    "faq": [
+      {"question": "What is the average fuel cost per mile for a semi truck?", "answer": "The average fuel cost per mile for a semi truck ranges from $0.50 to $0.75 depending on diesel prices, truck efficiency, and load weight. At $3.85/gallon diesel and 6.5 MPG, you are looking at roughly $0.59 per mile. This is typically the single largest operating expense for trucking companies and owner-operators, representing 30-40% of total operating costs."},
+      {"question": "What MPG does a semi truck get?", "answer": "Most Class 8 semi trucks average 5.5 to 7.5 MPG depending on the engine, aerodynamics, load weight, terrain, and driving habits. Newer trucks with aerodynamic packages can achieve 7-8 MPG on flat highways. Fully loaded trucks on mountainous routes may drop to 3-4 MPG. Speed has a massive impact — every 1 MPH over 55 reduces fuel economy by about 0.1 MPG."},
+      {"question": "How does load weight affect fuel economy?", "answer": "Every additional 10,000 pounds of cargo reduces fuel economy by approximately 2-5%. An empty truck getting 8 MPG might drop to 6 MPG at 45,000 pounds gross weight. The relationship is not perfectly linear — the penalty is smaller at lower weights and increases as you approach maximum gross weight. Aerodynamic drag matters more at highway speeds than weight does."},
+      {"question": "How can owner-operators reduce fuel costs?", "answer": "Top strategies include: maintain steady speeds at 60-62 MPH (the sweet spot for most trucks), use fuel cards and apps like TruckPark or GasBuddy to find cheaper diesel, keep tires properly inflated (underinflation by 10 PSI costs about 1% in fuel), reduce idle time with APUs, plan routes to avoid mountains when possible, and keep up with engine maintenance — clean air filters alone can improve MPG by 3-5%."}
+    ]
+  },
+  {
+    "slug": "truck-payment-vs-lease-calculator",
+    "toolName": "Truck Payment vs Lease Calculator",
+    "category": "automotive",
+    "tagline": "Compare the total cost of buying versus leasing a semi truck",
+    "keywords": "truck lease vs buy, semi truck payment calculator, lease purchase trucking, owner operator truck financing, truck lease calculator, CDL truck payment, semi truck lease cost, commercial truck financing, truck loan calculator, lease purchase vs own authority",
+    "relatedTools": ["fuel-cost-per-mile-trucking-calculator", "load-profitability-calculator", "per-diem-tax-deduction-calculator"],
+    "inputs": [
+      {"id": "truckPrice", "label": "Truck Purchase Price", "default": 165000, "min": 20000, "max": 500000, "step": 1000},
+      {"id": "downPayment", "label": "Down Payment", "default": 25000, "min": 0, "max": 200000, "step": 1000},
+      {"id": "loanRate", "label": "Loan Interest Rate", "default": 7.5, "min": 0, "max": 25, "step": 0.25, "unit": "%"},
+      {"id": "loanTerm", "label": "Loan Term (months)", "default": 60, "min": 12, "max": 84, "step": 12},
+      {"id": "leasePayment", "label": "Weekly Lease Payment", "default": 750, "min": 100, "max": 3000, "step": 25},
+      {"id": "leaseTerm", "label": "Lease Term (months)", "default": 48, "min": 12, "max": 72, "step": 6}
+    ],
+    "results": [
+      {"id": "monthlyLoan", "label": "Monthly Loan Payment"},
+      {"id": "monthlyLease", "label": "Monthly Lease Cost"},
+      {"id": "totalLoanCost", "label": "Total Loan Cost"},
+      {"id": "totalLeaseCost", "label": "Total Lease Cost"},
+      {"id": "loanInterest", "label": "Total Interest Paid"},
+      {"id": "savings", "label": "Savings (Buy vs Lease)"}
+    ],
+    "calcFn": "var principal = truckPrice - downPayment; var monthlyRate = (loanRate / 100) / 12; var payment = monthlyRate > 0 ? principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -loanTerm)) : principal / loanTerm; var totalLoan = payment * loanTerm + downPayment; var interest = totalLoan - truckPrice; var monthLease = leasePayment * 52 / 12; var totalLease = monthLease * leaseTerm; var diff = totalLease - totalLoan; var label = diff > 0 ? 'Buying saves ' + dollar(diff) : 'Leasing saves ' + dollar(Math.abs(diff)); document.getElementById('monthlyLoan').textContent = dollar(payment); document.getElementById('monthlyLease').textContent = dollar(monthLease); document.getElementById('totalLoanCost').textContent = dollar(totalLoan); document.getElementById('totalLeaseCost').textContent = dollar(totalLease); document.getElementById('loanInterest').textContent = dollar(interest); document.getElementById('savings').textContent = label;",
+    "formulas": ["Monthly Loan Payment = P × r / (1 − (1+r)^−n) where P = principal, r = monthly rate, n = months", "Monthly Lease Cost = Weekly Payment × 52 / 12", "Total Loan Cost = Monthly Payment × Term + Down Payment", "Savings = Total Lease Cost − Total Loan Cost"],
+    "faq": [
+      {"question": "Is it better to buy or lease a semi truck?", "answer": "Buying is usually cheaper in the long run because you build equity and own the truck outright after payoff. However, leasing requires less upfront capital, includes maintenance in some programs, and lets you walk away if trucking does not work out. New owner-operators with limited savings or credit history often start with lease-purchase programs, then buy their second truck outright."},
+      {"question": "What is a typical lease-purchase payment for a semi truck?", "answer": "Lease-purchase payments typically range from $600 to $1,200 per week depending on the truck age, mileage, and carrier program. Most programs run 36-60 months with a buyout option at the end. Be cautious of programs with high weekly payments, mandatory dispatch, or balloon payments — these are the programs where many owner-operators fail financially."},
+      {"question": "What credit score do I need to finance a semi truck?", "answer": "Most traditional lenders require a credit score of 600 or higher for commercial truck financing, with the best rates reserved for 700+. Scores below 600 typically mean higher interest rates (12-20%) or may require a larger down payment (20-30%). Some specialized truck lenders work with scores as low as 500 but charge significantly higher rates."},
+      {"question": "How much should I put down on a semi truck?", "answer": "A typical down payment for a used semi truck is 10-20% of the purchase price, or $15,000-$35,000 for a $150,000 truck. Putting more down reduces your monthly payment and total interest paid. For new trucks or borrowers with lower credit scores, lenders may require 20-30% down. Some lease-purchase programs require little to no money down but charge higher weekly payments."}
+    ]
+  },
+  {
+    "slug": "dot-compliance-fine-estimator",
+    "toolName": "DOT Compliance Fine Estimator",
+    "category": "automotive",
+    "tagline": "Estimate DOT and FMCSA fines by violation type and severity",
+    "keywords": "DOT fine calculator, FMCSA violation fines, trucking violation penalties, DOT inspection fines, hours of service violation fine, ELD violation penalty, overweight truck fine, DOT out of service fine, trucking compliance costs, CSA score violations",
+    "relatedTools": ["per-diem-tax-deduction-calculator", "load-profitability-calculator", "fuel-cost-per-mile-trucking-calculator"],
+    "inputs": [
+      {"id": "violationType", "label": "Violation Type", "default": "hos", "type": "select", "options": [{"value": "hos", "label": "Hours of Service (HOS)"}, {"value": "eld", "label": "ELD / Logbook"}, {"value": "overweight", "label": "Overweight Vehicle"}, {"value": "vehicle", "label": "Vehicle Maintenance / OOS"}, {"value": "hazmat", "label": "Hazmat Violation"}, {"value": "medical", "label": "Medical Certificate"}]},
+      {"id": "severity", "label": "Severity Level", "default": "moderate", "type": "select", "options": [{"value": "minor", "label": "Minor / First Offense"}, {"value": "moderate", "label": "Moderate / Repeat"}, {"value": "severe", "label": "Severe / Willful"}]},
+      {"id": "overweightLbs", "label": "Pounds Overweight (if applicable)", "default": 0, "min": 0, "max": 50000, "step": 500},
+      {"id": "numViolations", "label": "Number of Violations", "default": 1, "min": 1, "max": 20, "step": 1},
+      {"id": "hasAttorney", "label": "Legal Representation", "default": "no", "type": "select", "options": [{"value": "no", "label": "No Attorney"}, {"value": "yes", "label": "Will Hire Attorney"}]}
+    ],
+    "results": [
+      {"id": "baseFine", "label": "Base Fine Per Violation"},
+      {"id": "totalFine", "label": "Total Fine Estimate"},
+      {"id": "maxFine", "label": "Maximum Possible Fine"},
+      {"id": "attorneyCost", "label": "Attorney Cost Estimate"},
+      {"id": "reducedFine", "label": "Fine After Legal Help"},
+      {"id": "csaImpact", "label": "CSA Score Impact"}
+    ],
+    "calcFn": "var fines = {hos:{minor:1000,moderate:2750,severe:5500},eld:{minor:1000,moderate:2500,severe:5000},overweight:{minor:500,moderate:2000,severe:5000},vehicle:{minor:1500,moderate:4000,severe:8000},hazmat:{minor:2000,moderate:10000,severe:25000},medical:{minor:500,moderate:2500,severe:5000}}; var maxFines = {hos:16000,eld:16000,overweight:16000,vehicle:26000,hazmat:79000,medical:16000}; var base = fines[violationType] ? fines[violationType][severity] : 1000; if(violationType === 'overweight' && overweightLbs > 0) { base = Math.max(base, overweightLbs * 0.15 + 500); } var total = base * numViolations; var maxF = maxFines[violationType] || 16000; total = Math.min(total, maxF); var attCost = hasAttorney === 'yes' ? Math.max(500, total * 0.4) : 0; var reduced = hasAttorney === 'yes' ? total * 0.55 : total; var csaPoints = severity === 'minor' ? '1-3 points' : severity === 'moderate' ? '4-6 points' : '7-10 points'; document.getElementById('baseFine').textContent = dollar(base); document.getElementById('totalFine').textContent = dollar(total); document.getElementById('maxFine').textContent = dollar(maxF); document.getElementById('attorneyCost').textContent = hasAttorney === 'yes' ? dollar(attCost) : 'N/A'; document.getElementById('reducedFine').textContent = hasAttorney === 'yes' ? dollar(reduced) : 'N/A'; document.getElementById('csaImpact').textContent = csaPoints;",
+    "formulas": ["Base Fine varies by violation type and severity level", "Overweight Fine = Pounds Overweight × $0.15 + $500 base (minimum)", "Total capped at FMCSA maximum per violation type ($16,000-$79,000)", "Attorney negotiation typically reduces fines by 40-50%"],
+    "faq": [
+      {"question": "How much is an Hours of Service violation fine?", "answer": "HOS violation fines range from $1,000 for minor first offenses to $16,000 maximum per violation. Typical fines are $1,000-$2,750 for standard violations and $5,500+ for willful or egregious violations. If a pattern of violations is found, FMCSA can assess penalties up to $16,000 per violation. Falsifying logs carries criminal penalties of up to $16,000 in fines."},
+      {"question": "What happens when you get a DOT violation?", "answer": "When cited for a DOT violation, you receive a written citation specifying the violation and fine amount. You typically have 30-60 days to pay or contest the fine. Violations are recorded in your carrier profile and affect your CSA (Compliance, Safety, Accountability) score. High CSA scores trigger additional inspections and can lead to an out-of-service order, effectively shutting down your operation."},
+      {"question": "Should I hire an attorney for a DOT fine?", "answer": "For fines under $1,000, an attorney may cost more than the savings. For fines over $2,500, a good transportation attorney can often negotiate reductions of 40-60% and may prevent points from affecting your CSA score. The real value is protecting your operating authority and CSA score, which affect your insurance rates and ability to get loads from brokers who check safety ratings."},
+      {"question": "How do overweight truck fines work?", "answer": "Overweight fines vary dramatically by state. Most states charge per-pound penalties starting at $0.05-$0.25 per pound over the limit, with escalating rates for greater overages. Some states like New York and California have particularly steep penalties exceeding $1,000 for even minor overages. Federal limits are 80,000 lbs gross weight and 34,000 lbs per tandem axle, but state bridge laws may impose lower limits on certain roads."}
+    ]
+  },
+  {
+    "slug": "load-profitability-calculator",
+    "toolName": "Load Profitability Calculator",
+    "category": "automotive",
+    "tagline": "Calculate profit per load after fuel, tolls, time, and operating expenses",
+    "keywords": "load profitability calculator, trucking profit per load, is this load worth it, rate per mile calculator trucking, owner operator profit calculator, trucking load calculator, freight rate calculator, trucking revenue per mile, cost per mile trucking, load board profit calculator",
+    "relatedTools": ["fuel-cost-per-mile-trucking-calculator", "deadhead-miles-cost-calculator", "freight-factoring-fee-calculator", "per-diem-tax-deduction-calculator"],
+    "inputs": [
+      {"id": "loadRate", "label": "Load Rate (total pay)", "default": 3200, "min": 0, "max": 50000, "step": 50},
+      {"id": "loadMiles", "label": "Loaded Miles", "default": 1100, "min": 1, "max": 10000, "step": 10},
+      {"id": "deadheadMiles", "label": "Deadhead Miles to Pickup", "default": 120, "min": 0, "max": 2000, "step": 10},
+      {"id": "fuelCostMile", "label": "Fuel Cost Per Mile", "default": 0.62, "min": 0.20, "max": 2, "step": 0.01},
+      {"id": "tolls", "label": "Estimated Tolls", "default": 85, "min": 0, "max": 1000, "step": 5},
+      {"id": "fixedCostMile", "label": "Fixed Cost Per Mile (insurance, payment, etc.)", "default": 0.45, "min": 0, "max": 2, "step": 0.01}
+    ],
+    "results": [
+      {"id": "totalMiles", "label": "Total Miles (loaded + dead)"},
+      {"id": "ratePerMile", "label": "Rate Per Mile (all miles)"},
+      {"id": "fuelCost", "label": "Total Fuel Cost"},
+      {"id": "fixedCost", "label": "Fixed Operating Cost"},
+      {"id": "netProfit", "label": "Net Profit"},
+      {"id": "profitPerMile", "label": "Profit Per Mile"}
+    ],
+    "calcFn": "var totalM = loadMiles + deadheadMiles; var rpm = loadRate / totalM; var fuel = totalM * fuelCostMile; var fixed = totalM * fixedCostMile; var totalExpense = fuel + fixed + tolls; var profit = loadRate - totalExpense; var ppm = profit / totalM; document.getElementById('totalMiles').textContent = fmt(totalM, 0) + ' mi'; document.getElementById('ratePerMile').textContent = '$' + rpm.toFixed(2) + '/mi'; document.getElementById('fuelCost').textContent = dollar(fuel); document.getElementById('fixedCost').textContent = dollar(fixed); document.getElementById('netProfit').textContent = dollar(profit); document.getElementById('profitPerMile').textContent = '$' + ppm.toFixed(2) + '/mi';",
+    "formulas": ["Total Miles = Loaded Miles + Deadhead Miles", "Rate Per Mile = Load Rate / Total Miles", "Total Expenses = (Total Miles × Fuel CPM) + (Total Miles × Fixed CPM) + Tolls", "Net Profit = Load Rate − Total Expenses"],
+    "faq": [
+      {"question": "What is a good rate per mile for trucking?", "answer": "A good rate per mile depends on your operating costs, but most owner-operators target $2.50-$3.50 per loaded mile as a minimum to be profitable. After accounting for deadhead miles, you want at least $2.00 per total mile. Van loads typically pay $2.00-$3.00/mile, reefer loads $2.50-$3.50/mile, and flatbed loads $2.50-$4.00/mile. Always calculate your rate based on total miles, not just loaded miles."},
+      {"question": "What should my cost per mile be as an owner-operator?", "answer": "Average owner-operator total cost per mile (all-in) ranges from $1.20 to $1.85. This breaks down roughly as: fuel $0.50-$0.75, truck payment $0.20-$0.40, insurance $0.10-$0.18, maintenance $0.10-$0.20, tires $0.03-$0.05, permits/fees $0.02-$0.05, and other expenses $0.05-$0.15. Knowing your exact cost per mile is critical for deciding which loads are profitable."},
+      {"question": "Should I include deadhead miles in my rate calculation?", "answer": "Absolutely. Deadhead miles are real miles that cost you fuel and wear but generate zero revenue. Always divide the load rate by total miles (loaded + deadhead) to get your true rate per mile. A $3,000 load for 1,000 loaded miles looks great at $3.00/mi, but if you deadhead 400 miles to the pickup, your real rate is only $2.14/mi. Many unprofitable loads look good until you factor in deadhead."},
+      {"question": "How do I know if a load is worth taking?", "answer": "A load is worth taking if the profit per total mile exceeds your minimum threshold (most owner-operators need at least $0.50-$1.00 profit per mile). Also consider: will this load position you near a high-demand freight area for your next load? A slightly lower-paying load that positions you in a strong market can be more profitable than a higher rate that leaves you stranded in a dead zone with expensive deadhead to your next pickup."}
+    ]
+  },
+  {
+    "slug": "deadhead-miles-cost-calculator",
+    "toolName": "Deadhead Miles Cost Calculator",
+    "category": "automotive",
+    "tagline": "Calculate the true cost of driving empty between loads",
+    "keywords": "deadhead miles calculator, empty miles cost trucking, deadhead cost, repositioning cost trucking, empty truck cost per mile, trucking deadhead percentage, non-revenue miles calculator, empty miles trucking, deadhead ratio, bobtail cost calculator",
+    "relatedTools": ["load-profitability-calculator", "fuel-cost-per-mile-trucking-calculator", "freight-factoring-fee-calculator"],
+    "inputs": [
+      {"id": "deadMiles", "label": "Deadhead Miles", "default": 200, "min": 0, "max": 5000, "step": 10},
+      {"id": "fuelCPM", "label": "Fuel Cost Per Mile", "default": 0.58, "min": 0.10, "max": 2, "step": 0.01},
+      {"id": "fixedCPM", "label": "Fixed Cost Per Mile", "default": 0.42, "min": 0, "max": 2, "step": 0.01},
+      {"id": "avgSpeed", "label": "Average Speed", "default": 55, "min": 20, "max": 75, "step": 5, "unit": "mph"},
+      {"id": "driverPay", "label": "Driver Value Per Hour", "default": 28, "min": 0, "max": 100, "step": 1},
+      {"id": "nextLoadRate", "label": "Next Load Rate (total)", "default": 2800, "min": 0, "max": 50000, "step": 50}
+    ],
+    "results": [
+      {"id": "fuelCost", "label": "Deadhead Fuel Cost"},
+      {"id": "fixedCost", "label": "Deadhead Fixed Costs"},
+      {"id": "timeCost", "label": "Time Cost (driver value)"},
+      {"id": "totalDeadCost", "label": "Total Deadhead Cost"},
+      {"id": "hoursLost", "label": "Hours Lost"},
+      {"id": "effectiveRate", "label": "Effective Rate After Deadhead"}
+    ],
+    "calcFn": "var fuel = deadMiles * fuelCPM; var fixed = deadMiles * fixedCPM; var hours = deadMiles / avgSpeed; var timeCost = hours * driverPay; var totalCost = fuel + fixed + timeCost; var effectiveRPM = nextLoadRate > 0 ? (nextLoadRate - totalCost) / deadMiles : 0; document.getElementById('fuelCost').textContent = dollar(fuel); document.getElementById('fixedCost').textContent = dollar(fixed); document.getElementById('timeCost').textContent = dollar(timeCost); document.getElementById('totalDeadCost').textContent = dollar(totalCost); document.getElementById('hoursLost').textContent = fmt(hours, 1) + ' hrs'; document.getElementById('effectiveRate').textContent = nextLoadRate > 0 ? '$' + effectiveRPM.toFixed(2) + '/mi net' : 'N/A';",
+    "formulas": ["Deadhead Fuel Cost = Empty Miles × Fuel Cost Per Mile", "Time Cost = (Empty Miles / Average Speed) × Driver Hourly Value", "Total Deadhead Cost = Fuel + Fixed Costs + Time Cost", "Effective Rate = (Next Load Rate − Deadhead Cost) / Deadhead Miles"],
+    "faq": [
+      {"question": "What percentage of miles should be deadhead?", "answer": "Industry average deadhead percentage is 12-15% of total miles. Top-performing owner-operators keep it under 10%. A deadhead ratio above 20% is a red flag that you are not planning loads efficiently. Some deadhead is unavoidable, but excessive empty miles are one of the biggest profit killers in trucking. Track your deadhead percentage monthly and aim to reduce it over time."},
+      {"question": "How do I reduce deadhead miles?", "answer": "Key strategies include: plan round-trip routes or triangulated lanes, build relationships with shippers in your delivery areas, use multiple load boards to find nearby pickups, be flexible on timing to wait for a closer load rather than deadheading far, position yourself in high-freight areas (major metro areas, agricultural regions during harvest), and negotiate detention pay to offset waiting for better-positioned loads."},
+      {"question": "Should I take a cheap load to avoid deadhead?", "answer": "Sometimes yes, sometimes no. Calculate the total cost both ways: the cheap load rate minus the cheap load expenses versus the deadhead cost to a better-paying load. If a $1.50/mile load saves you 200 miles of deadhead, the net savings might make it worthwhile. Also consider HOS clocks — if deadheading burns driving hours you need for a better-paying load, the cheap load might be smarter."},
+      {"question": "Does an empty truck get better fuel mileage?", "answer": "Yes, but not as much as you might think. An empty semi truck typically gets 1-2 MPG better than a fully loaded one — roughly 7.5-8.5 MPG empty versus 5.5-6.5 MPG loaded. The fuel savings from being empty only offset about 15-25% of the deadhead fuel cost. You are still paying for every mile in fuel, tires, maintenance, insurance, and lost time."}
+    ]
+  },
+  {
+    "slug": "freight-factoring-fee-calculator",
+    "toolName": "Freight Factoring Fee Calculator",
+    "category": "automotive",
+    "tagline": "Calculate factoring company fees and net payout on freight invoices",
+    "keywords": "freight factoring calculator, factoring fee trucking, factoring rate calculator, invoice factoring trucking, factoring company fees, freight bill factoring, trucking factoring costs, accounts receivable factoring, trucking cash flow, factoring vs waiting for payment",
+    "relatedTools": ["load-profitability-calculator", "per-diem-tax-deduction-calculator", "deadhead-miles-cost-calculator"],
+    "inputs": [
+      {"id": "invoiceAmount", "label": "Invoice Amount", "default": 3500, "min": 100, "max": 100000, "step": 50},
+      {"id": "factoringRate", "label": "Factoring Rate", "default": 3, "min": 0.5, "max": 10, "step": 0.25, "unit": "%"},
+      {"id": "advanceRate", "label": "Advance Rate", "default": 95, "min": 70, "max": 100, "step": 1, "unit": "%"},
+      {"id": "monthlyInvoices", "label": "Invoices Per Month", "default": 15, "min": 1, "max": 100, "step": 1},
+      {"id": "avgPayDays", "label": "Avg Days Broker Pays (without factoring)", "default": 35, "min": 15, "max": 90, "step": 5},
+      {"id": "monthlyExpenses", "label": "Monthly Operating Expenses", "default": 12000, "min": 0, "max": 100000, "step": 500}
+    ],
+    "results": [
+      {"id": "factoringFee", "label": "Factoring Fee Per Invoice"},
+      {"id": "advanceAmt", "label": "Advance Amount (same day)"},
+      {"id": "reserveAmt", "label": "Reserve (paid after collection)"},
+      {"id": "monthlyFees", "label": "Total Monthly Factoring Fees"},
+      {"id": "annualFees", "label": "Annual Factoring Cost"},
+      {"id": "cashFlowGap", "label": "Cash Flow Gap Without Factoring"}
+    ],
+    "calcFn": "var fee = invoiceAmount * (factoringRate / 100); var advance = invoiceAmount * (advanceRate / 100) - fee; var reserve = invoiceAmount - advance - fee; var monthlyFee = fee * monthlyInvoices; var annualFee = monthlyFee * 12; var monthlyRevenue = invoiceAmount * monthlyInvoices; var cashGap = (monthlyRevenue / 30) * avgPayDays - monthlyExpenses; var gapLabel = cashGap > monthlyExpenses ? dollar(cashGap) + ' tied up in receivables' : dollar(Math.max(0, (monthlyRevenue / 30) * avgPayDays)) + ' tied up in receivables'; document.getElementById('factoringFee').textContent = dollar(fee); document.getElementById('advanceAmt').textContent = dollar(advance); document.getElementById('reserveAmt').textContent = dollar(reserve); document.getElementById('monthlyFees').textContent = dollar(monthlyFee); document.getElementById('annualFees').textContent = dollar(annualFee); document.getElementById('cashFlowGap').textContent = gapLabel;",
+    "formulas": ["Factoring Fee = Invoice Amount × Factoring Rate %", "Advance Amount = (Invoice × Advance Rate) − Factoring Fee", "Reserve = Invoice Amount − Advance − Fee (released after broker pays)", "Annual Cost = Fee Per Invoice × Monthly Invoices × 12"],
+    "faq": [
+      {"question": "What is freight factoring and how does it work?", "answer": "Freight factoring is when you sell your unpaid freight invoices to a factoring company at a discount in exchange for immediate cash (usually same-day or next-day). Instead of waiting 30-60 days for brokers to pay, you get 90-97% of the invoice value upfront. The factoring company then collects payment from the broker. It is essentially a cash flow tool, not a loan — you are selling an asset (your receivable), not borrowing money."},
+      {"question": "What is a good factoring rate for trucking?", "answer": "Factoring rates for trucking typically range from 1.5% to 5%, with most owner-operators paying 2-3.5%. Rates depend on your monthly volume, average invoice size, and creditworthiness of your brokers. High-volume carriers with established credit can negotiate rates as low as 1-1.5%. Watch out for hidden fees like setup charges, ACH fees, invoice processing fees, and minimum monthly volume requirements that can increase your effective rate."},
+      {"question": "Is freight factoring worth the cost?", "answer": "For new owner-operators or small carriers with tight cash flow, factoring is often essential to cover fuel, insurance, and truck payments while waiting 30-45 days for broker payments. The 2-3% fee is the cost of reliable cash flow. However, as your business grows and you build cash reserves, you may be able to self-finance the payment gap and save thousands annually. Many successful carriers use factoring for the first 1-2 years then phase it out."},
+      {"question": "What is the difference between recourse and non-recourse factoring?", "answer": "With recourse factoring, if the broker does not pay the invoice, you must buy it back or replace it with another invoice. Rates are typically lower (1.5-3%). With non-recourse factoring, the factoring company absorbs the loss if the broker does not pay, but rates are higher (3-5%) and they will only factor invoices from brokers with good credit. Most trucking factoring is technically recourse, though some companies market limited non-recourse protection."}
+    ]
+  }
+]

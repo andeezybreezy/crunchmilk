@@ -388,6 +388,30 @@ footer a:hover{color:#fff}
         <tbody id="compareBody"></tbody>
       </table>
     </div>
+
+    <div id="whatIfSection" style="display:none;margin-top:20px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:28px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="margin:0;font-size:1.1rem;color:var(--navy)">What If Mode</h3>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="whatIfToggle"><span style="font-weight:600;font-size:0.85rem;color:var(--text-mid)">Enable</span></label>
+      </div>
+      <div id="whatIfControls" style="display:none">
+        <div style="margin-bottom:16px">
+          <label style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">What If Tip: <span id="wiTipVal">20</span>%</label>
+          <input type="range" id="wiTip" min="0" max="50" value="20" step="1" style="width:100%;margin-top:6px">
+        </div>
+        <div id="whatIfResult" style="margin-top:16px;padding:16px;background:var(--cream);border-radius:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Original Tip</div><div id="wiOriginal" style="font-size:1.1rem;font-weight:700;color:var(--navy)">—</div></div>
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">What If Tip</div><div id="wiNew" style="font-size:1.1rem;font-weight:700;color:var(--primary)">—</div></div>
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Difference</div><div id="wiDelta" style="font-size:1.1rem;font-weight:700;color:#059669">—</div></div>
+          </div>
+          <div style="margin-top:12px;text-align:center">
+            <div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">New Total Per Person</div>
+            <div id="wiPerPerson" style="font-size:1rem;font-weight:600;color:var(--primary)">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -537,6 +561,7 @@ footer a:hover{color:#fff}
 
   var tipPct = 20;
   var isCustom = false;
+  var lastCalc = null;
 
   function fmt(n) {
     return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -560,6 +585,39 @@ footer a:hover{color:#fff}
       }
     });
   });
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var wiPct = parseFloat(document.getElementById('wiTip').value) || 0;
+    var wiTip = lastCalc.bill * (wiPct / 100);
+    var wiTotal = lastCalc.bill + wiTip;
+    var wiPerPerson = wiTotal / lastCalc.people;
+    var diff = wiTip - lastCalc.tip;
+
+    document.getElementById('wiOriginal').textContent = fmt(lastCalc.tip);
+    document.getElementById('wiNew').textContent = fmt(wiTip);
+    document.getElementById('wiDelta').textContent = (diff >= 0 ? '+' : '-') + fmt(Math.abs(diff));
+    document.getElementById('wiDelta').style.color = diff >= 0 ? '#dc2626' : '#059669';
+    document.getElementById('wiPerPerson').textContent = fmt(wiPerPerson);
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiTip = document.getElementById('wiTip');
+  if (wiTip) {
+    wiTip.addEventListener('input', function() {
+      document.getElementById('wiTipVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
 
   function calculate() {
     var bill = parseFloat(document.getElementById('billAmount').value) || 0;
@@ -599,6 +657,16 @@ footer a:hover{color:#fff}
         '<td style="padding:6px;border-bottom:1px solid #eee;text-align:right;' + highlight + '">' + fmt(pp) + '</td>';
       tbody.appendChild(tr);
     });
+
+    lastCalc = { bill: bill, people: people, pct: pct, tip: tip };
+    document.getElementById('whatIfSection').style.display = 'block';
+    // Set slider to current pct
+    var wiSlider = document.getElementById('wiTip');
+    if (wiSlider) {
+      wiSlider.value = pct;
+      document.getElementById('wiTipVal').textContent = pct;
+    }
+    updateWhatIf();
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

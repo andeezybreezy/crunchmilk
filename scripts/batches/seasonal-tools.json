@@ -1,0 +1,438 @@
+[
+  {
+    "slug": "tax-refund-estimator",
+    "toolName": "Tax Refund Estimator",
+    "category": "finance",
+    "tagline": "Estimate your federal tax refund based on income, withholding, and deductions",
+    "keywords": "tax refund calculator, tax refund estimator, how much tax refund, federal tax refund, tax return estimate",
+    "inputs": [
+      {"id": "grossIncome", "label": "Gross Income ($)", "default": 75000, "min": 0, "step": 1000},
+      {"id": "withheld", "label": "Federal Tax Withheld ($)", "default": 12000, "min": 0, "step": 100},
+      {"id": "filingStatus", "label": "Filing Status", "type": "select", "default": "single", "options": [{"value": "single", "label": "Single ($14,600 std deduction)"}, {"value": "married", "label": "Married Filing Jointly ($29,200)"}, {"value": "head", "label": "Head of Household ($21,900)"}]},
+      {"id": "deductions", "label": "Additional Deductions ($)", "default": 0, "min": 0, "step": 100},
+      {"id": "credits", "label": "Tax Credits ($)", "default": 0, "min": 0, "step": 100}
+    ],
+    "results": [
+      {"id": "taxableIncome", "label": "Taxable Income"},
+      {"id": "taxOwed", "label": "Estimated Tax Owed"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"},
+      {"id": "refundAmount", "label": "Estimated Refund"},
+      {"id": "monthlyTakeHome", "label": "Monthly Take-Home"}
+    ],
+    "calcFn": "var stdDed = {single:14600, married:29200, head:21900}; var ded = stdDed[filingStatus] || 14600; var totalDed = Math.max(ded, deductions + ded); var ti = Math.max(0, grossIncome - totalDed); var tax = 0; if (filingStatus === 'married') { if (ti <= 23200) tax = ti * 0.10; else if (ti <= 94300) tax = 2320 + (ti - 23200) * 0.12; else if (ti <= 201050) tax = 10852 + (ti - 94300) * 0.22; else if (ti <= 383900) tax = 34337 + (ti - 201050) * 0.24; else tax = 78221 + (ti - 383900) * 0.32; } else { if (ti <= 11600) tax = ti * 0.10; else if (ti <= 47150) tax = 1160 + (ti - 11600) * 0.12; else if (ti <= 100525) tax = 5426 + (ti - 47150) * 0.22; else if (ti <= 191950) tax = 17168.50 + (ti - 100525) * 0.24; else tax = 39110.50 + (ti - 191950) * 0.32; } tax = Math.max(0, tax - credits); var refund = withheld - tax; var effRate = grossIncome > 0 ? (tax / grossIncome) * 100 : 0; var monthly = (grossIncome - tax) / 12; document.getElementById('taxableIncome').textContent = dollar(ti); document.getElementById('taxOwed').textContent = dollar(tax); document.getElementById('effectiveRate').textContent = fmt(effRate, 1) + '%'; document.getElementById('refundAmount').textContent = (refund >= 0 ? '+' : '') + dollar(refund) + (refund >= 0 ? ' refund' : ' owed'); document.getElementById('monthlyTakeHome').textContent = dollar(monthly) + '/month';",
+    "faq": [
+      {"question": "How is my tax refund calculated?", "answer": "Your refund equals the total tax withheld from paychecks minus your actual tax liability. If you overpaid through withholding, you get a refund. If you underpaid, you owe the difference."},
+      {"question": "When should I file my taxes?", "answer": "The tax filing deadline is typically April 15. Filing early (January-February) usually means faster refunds. You can file an extension to October 15, but any taxes owed are still due April 15."},
+      {"question": "Should I adjust my withholding to get a smaller refund?", "answer": "A large refund means you gave the government an interest-free loan. Adjusting your W-4 to reduce withholding puts more money in each paycheck, which you could invest instead."},
+      {"question": "What is the standard deduction for 2024?", "answer": "For 2024, the standard deduction is $14,600 for single filers, $29,200 for married filing jointly, and $21,900 for head of household."}
+    ],
+    "formulas": [
+      "Taxable Income = Gross Income - Standard/Itemized Deductions",
+      "Tax Owed = Sum of graduated bracket amounts - Credits",
+      "Refund = Total Withholding - Tax Owed",
+      "Effective Rate = Tax Owed / Gross Income x 100"
+    ],
+    "relatedTools": ["effective-tax-rate-by-income-calculator", "tax-penalty-calculator", "overtime-worth-calculator"],
+    "subcategory": "taxes"
+  },
+  {
+    "slug": "valentines-day-spending-calculator",
+    "toolName": "Valentine's Day Spending Calculator",
+    "category": "finance",
+    "tagline": "Plan your Valentine's Day budget based on relationship stage and activities",
+    "keywords": "valentines day budget, valentines spending calculator, valentine gift budget, how much to spend valentines",
+    "inputs": [
+      {"id": "relationship", "label": "Relationship Stage", "type": "select", "default": "dating", "options": [{"value": "new", "label": "New (1-3 months)"}, {"value": "dating", "label": "Dating (3-12 months)"}, {"value": "serious", "label": "Serious/Engaged"}, {"value": "married", "label": "Married"}, {"value": "longterm", "label": "Long-term (10+ years)"}]},
+      {"id": "dinnerBudget", "label": "Dinner Budget ($)", "default": 100, "min": 0, "step": 10},
+      {"id": "giftBudget", "label": "Gift Budget ($)", "default": 75, "min": 0, "step": 10},
+      {"id": "flowersBudget", "label": "Flowers/Chocolate ($)", "default": 50, "min": 0, "step": 5},
+      {"id": "activityBudget", "label": "Activity/Experience ($)", "default": 50, "min": 0, "step": 10},
+      {"id": "income", "label": "Monthly Income ($)", "default": 5000, "min": 0, "step": 100}
+    ],
+    "results": [
+      {"id": "totalSpend", "label": "Total Planned Spend"},
+      {"id": "avgComparison", "label": "vs National Average"},
+      {"id": "incomePercent", "label": "% of Monthly Income"},
+      {"id": "costPerYear", "label": "Annual V-Day Cost (10 yrs)"},
+      {"id": "tipAndTax", "label": "Don't Forget: Tip & Tax"}
+    ],
+    "calcFn": "var total = dinnerBudget + giftBudget + flowersBudget + activityBudget; var avgSpend = {new: 50, dating: 100, serious: 175, married: 150, longterm: 100}; var avg = avgSpend[relationship] || 100; var diff = total - avg; var pctIncome = income > 0 ? (total / income) * 100 : 0; var tenYearCost = total * 10 * 1.03; var tipTax = dinnerBudget * 0.30; document.getElementById('totalSpend').textContent = dollar(total); document.getElementById('avgComparison').textContent = (diff >= 0 ? '+' : '') + dollar(diff) + ' vs ' + dollar(avg) + ' average'; document.getElementById('incomePercent').textContent = fmt(pctIncome, 1) + '% of income'; document.getElementById('costPerYear').textContent = dollar(tenYearCost) + ' (with inflation)'; document.getElementById('tipAndTax').textContent = '~' + dollar(tipTax) + ' in tip & tax on dinner';",
+    "faq": [
+      {"question": "How much does the average person spend on Valentine's Day?", "answer": "The average American spends about $185 on Valentine's Day according to NRF data, though this varies widely. Spending typically peaks during the serious/engaged stage and decreases for longer-term couples."},
+      {"question": "Is it worth spending a lot on Valentine's Day?", "answer": "Research shows experiences (dinners, trips) create more lasting happiness than material gifts. A thoughtful $30 experience often means more than an expensive but impersonal gift."},
+      {"question": "How can I save on Valentine's Day?", "answer": "Celebrate the weekend before or after (restaurant prices drop), cook at home, buy flowers from a grocery store instead of a florist, and focus on handmade or experience-based gifts."}
+    ],
+    "formulas": [
+      "Total Spend = Dinner + Gifts + Flowers + Activities",
+      "National averages based on NRF Valentine's Day spending surveys",
+      "Tip & Tax estimate = Dinner Budget x 30% (20% tip + 10% tax)"
+    ],
+    "relatedTools": ["christmas-budget-calculator", "black-friday-savings-calculator"],
+    "subcategory": "budgeting"
+  },
+  {
+    "slug": "march-madness-bracket-calculator",
+    "toolName": "March Madness Bracket Calculator",
+    "category": "sports",
+    "tagline": "Calculate bracket pool value, odds, and expected winnings for NCAA tournament pools",
+    "keywords": "march madness bracket calculator, bracket pool odds, NCAA tournament pool, bracket challenge calculator",
+    "inputs": [
+      {"id": "poolSize", "label": "Number of Entries", "default": 25, "min": 2, "max": 10000},
+      {"id": "entryFee", "label": "Entry Fee ($)", "default": 20, "min": 0, "step": 5},
+      {"id": "numEntries", "label": "Your Entries", "default": 1, "min": 1, "max": 100},
+      {"id": "payoutStructure", "label": "Payout Structure", "type": "select", "default": "top3", "options": [{"value": "winner", "label": "Winner Takes All"}, {"value": "top3", "label": "Top 3 (60/25/15)"}, {"value": "top5", "label": "Top 5 (40/25/15/12/8)"}]},
+      {"id": "skillFactor", "label": "Your Skill Level", "type": "select", "default": "average", "options": [{"value": "casual", "label": "Casual Fan (0.8x)"}, {"value": "average", "label": "Average (1.0x)"}, {"value": "knowledgeable", "label": "Knowledgeable (1.3x)"}, {"value": "expert", "label": "Expert/Analyst (1.6x)"}]}
+    ],
+    "results": [
+      {"id": "totalPot", "label": "Total Prize Pool"},
+      {"id": "firstPrize", "label": "First Place Prize"},
+      {"id": "winProb", "label": "Win Probability"},
+      {"id": "expectedValue", "label": "Expected Value"},
+      {"id": "perfectOdds", "label": "Perfect Bracket Odds"}
+    ],
+    "calcFn": "var pot = poolSize * entryFee; var skillMult = {casual: 0.8, average: 1.0, knowledgeable: 1.3, expert: 1.6}; var mult = skillMult[skillFactor] || 1.0; var payouts = {winner: [1.0], top3: [0.60, 0.25, 0.15], top5: [0.40, 0.25, 0.15, 0.12, 0.08]}; var payout = payouts[payoutStructure]; var firstPrize = pot * payout[0]; var baseWinProb = numEntries / poolSize; var adjWinProb = Math.min(baseWinProb * mult, 0.95); var ev = 0; for (var i = 0; i < payout.length; i++) { var placeProb = Math.min((numEntries / poolSize) * mult * (payout.length - i) / payout.length, 0.95); ev += pot * payout[i] * placeProb; } ev -= numEntries * entryFee; document.getElementById('totalPot').textContent = dollar(pot); document.getElementById('firstPrize').textContent = dollar(firstPrize); document.getElementById('winProb').textContent = fmt(adjWinProb * 100, 1) + '%'; document.getElementById('expectedValue').textContent = (ev >= 0 ? '+' : '') + dollar(ev); document.getElementById('perfectOdds').textContent = '1 in 9.2 quintillion';",
+    "faq": [
+      {"question": "What are the odds of a perfect bracket?", "answer": "The odds of a perfect NCAA bracket are approximately 1 in 9.2 quintillion (9,223,372,036,854,775,808). Even accounting for seeding knowledge, realistic odds are about 1 in 120 billion."},
+      {"question": "Does basketball knowledge help in bracket pools?", "answer": "Yes, but less than you might think. Studies show knowledgeable fans win bracket pools about 30-60% more often than random picks, but upsets create huge variance that levels the playing field."},
+      {"question": "How many brackets should I enter?", "answer": "In large pools, entering multiple brackets with different strategies (one chalk, one upset-heavy) can improve your odds. In small pools (under 20), one well-researched bracket is usually sufficient."},
+      {"question": "What is the best bracket strategy?", "answer": "Pick mostly favorites through the first two rounds, be selective with 2-3 upsets in the Sweet 16, and differentiate your Final Four picks from the crowd. A contrarian champion pick can be very valuable in large pools."}
+    ],
+    "formulas": [
+      "Prize Pool = Number of Entries x Entry Fee",
+      "Base Win Probability = Your Entries / Total Entries",
+      "Adjusted Probability = Base Probability x Skill Multiplier",
+      "Expected Value = Sum(Prize x Probability) - Entry Costs"
+    ],
+    "relatedTools": ["tax-refund-estimator"],
+    "subcategory": "betting"
+  },
+  {
+    "slug": "tax-penalty-calculator",
+    "toolName": "Tax Penalty Calculator",
+    "category": "finance",
+    "tagline": "Estimate IRS penalties for late filing and late payment of taxes",
+    "keywords": "tax penalty calculator, late filing penalty, late payment penalty, IRS penalty, failure to file penalty",
+    "inputs": [
+      {"id": "taxOwed", "label": "Tax Owed ($)", "default": 5000, "min": 0, "step": 100},
+      {"id": "monthsLate", "label": "Months Late", "default": 3, "min": 1, "max": 60, "step": 1},
+      {"id": "penaltyType", "label": "Penalty Type", "type": "select", "default": "both", "options": [{"value": "filing", "label": "Late Filing Only"}, {"value": "payment", "label": "Late Payment Only"}, {"value": "both", "label": "Both Late Filing & Payment"}]},
+      {"id": "annualIncome", "label": "Annual Income ($)", "default": 75000, "min": 0, "step": 1000},
+      {"id": "filedExtension", "label": "Filed Extension?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No Extension Filed"}, {"value": "yes", "label": "Filed Extension (extra 6 mo)"}]}
+    ],
+    "results": [
+      {"id": "filingPenalty", "label": "Late Filing Penalty"},
+      {"id": "paymentPenalty", "label": "Late Payment Penalty"},
+      {"id": "interestCharged", "label": "Interest Charged"},
+      {"id": "totalPenalty", "label": "Total Penalties + Interest"},
+      {"id": "effectiveCost", "label": "Effective Annual Rate"}
+    ],
+    "calcFn": "var filePen = 0; var payPen = 0; var effectiveMonths = filedExtension === 'yes' ? Math.max(0, monthsLate - 6) : monthsLate; if (penaltyType === 'filing' || penaltyType === 'both') { var fileRate = 0.05; var fileMonths = Math.min(effectiveMonths, 5); filePen = taxOwed * fileRate * fileMonths; filePen = Math.min(filePen, taxOwed * 0.25); } if (penaltyType === 'payment' || penaltyType === 'both') { payPen = taxOwed * 0.005 * monthsLate; } if (penaltyType === 'both' && effectiveMonths <= 5) { filePen = Math.max(0, filePen - payPen); } var interest = taxOwed * (0.08 / 12) * monthsLate; var total = filePen + payPen + interest; var effRate = taxOwed > 0 ? (total / taxOwed) * (12 / monthsLate) * 100 : 0; document.getElementById('filingPenalty').textContent = dollar(filePen); document.getElementById('paymentPenalty').textContent = dollar(payPen); document.getElementById('interestCharged').textContent = dollar(interest); document.getElementById('totalPenalty').textContent = dollar(total); document.getElementById('effectiveCost').textContent = fmt(effRate, 1) + '% annualized';",
+    "faq": [
+      {"question": "What is the penalty for filing taxes late?", "answer": "The late filing penalty is 5% of unpaid taxes per month, up to 25% maximum. If you file more than 60 days late, the minimum penalty is $485 or 100% of unpaid tax (whichever is less). Filing an extension avoids this penalty."},
+      {"question": "What is the penalty for paying taxes late?", "answer": "The late payment penalty is 0.5% of unpaid taxes per month, up to 25% maximum. Interest also accrues at the federal short-term rate plus 3% (currently about 8% annually)."},
+      {"question": "Can I avoid tax penalties?", "answer": "File on time even if you cannot pay (to avoid the much larger filing penalty). Request an installment agreement or apply for penalty abatement if you have reasonable cause (illness, disaster, bad tax advice)."},
+      {"question": "Does filing an extension help with penalties?", "answer": "An extension gives you 6 extra months to FILE without penalty, but it does NOT extend the deadline to PAY. You still owe interest and late payment penalties on any unpaid balance after April 15."}
+    ],
+    "formulas": [
+      "Filing Penalty = 5% per month x Unpaid Tax (max 25%)",
+      "Payment Penalty = 0.5% per month x Unpaid Tax (max 25%)",
+      "Interest = Unpaid Tax x (Federal Rate + 3%) / 12 x Months",
+      "Combined: Filing penalty reduced by payment penalty amount when both apply"
+    ],
+    "relatedTools": ["tax-refund-estimator", "effective-tax-rate-by-income-calculator", "overtime-worth-calculator"],
+    "subcategory": "taxes"
+  },
+  {
+    "slug": "memorial-day-travel-cost-calculator",
+    "toolName": "Memorial Day Travel Cost Calculator",
+    "category": "travel",
+    "tagline": "Estimate total costs for a Memorial Day weekend trip including holiday surcharges",
+    "keywords": "memorial day travel cost, holiday weekend trip calculator, memorial day trip budget, holiday travel expenses",
+    "inputs": [
+      {"id": "distance", "label": "Round Trip Distance (miles)", "default": 500, "min": 0, "step": 50},
+      {"id": "travelMode", "label": "Travel Mode", "type": "select", "default": "car", "options": [{"value": "car", "label": "Drive (car)"}, {"value": "flight", "label": "Fly (per person)"}]},
+      {"id": "nights", "label": "Nights of Lodging", "default": 3, "min": 0, "max": 7},
+      {"id": "hotelRate", "label": "Nightly Hotel Rate ($)", "default": 150, "min": 0, "step": 10},
+      {"id": "travelers", "label": "Number of Travelers", "default": 2, "min": 1, "max": 10},
+      {"id": "dailyFood", "label": "Daily Food Budget/Person ($)", "default": 60, "min": 0, "step": 10}
+    ],
+    "results": [
+      {"id": "transportCost", "label": "Transportation Cost"},
+      {"id": "lodgingCost", "label": "Lodging Cost"},
+      {"id": "foodCost", "label": "Food Cost"},
+      {"id": "holidaySurcharge", "label": "Holiday Surcharge Est."},
+      {"id": "totalTrip", "label": "Total Trip Cost"},
+      {"id": "perPerson", "label": "Cost per Person"}
+    ],
+    "calcFn": "var transport = 0; if (travelMode === 'car') { var mpg = 28; var gasPrice = 3.60; transport = (distance / mpg) * gasPrice; } else { transport = 350 * travelers; } var lodging = nights * hotelRate; var food = (nights + 1) * dailyFood * travelers; var subtotal = transport + lodging + food; var surcharge = subtotal * 0.20; var total = subtotal + surcharge; var pp = total / travelers; document.getElementById('transportCost').textContent = dollar(transport); document.getElementById('lodgingCost').textContent = dollar(lodging); document.getElementById('foodCost').textContent = dollar(food); document.getElementById('holidaySurcharge').textContent = dollar(surcharge) + ' (~20% holiday markup)'; document.getElementById('totalTrip').textContent = dollar(total); document.getElementById('perPerson').textContent = dollar(pp) + '/person';",
+    "faq": [
+      {"question": "How much more expensive is travel on Memorial Day weekend?", "answer": "Hotels typically charge 15-30% more during Memorial Day weekend. Flights can be 20-40% higher than off-peak. Gas prices often rise 10-20 cents per gallon heading into summer."},
+      {"question": "When is the best time to book Memorial Day travel?", "answer": "Book flights 4-6 weeks in advance and hotels 3-4 weeks ahead for the best rates. Last-minute deals are rare for holiday weekends. Tuesday-Wednesday departures are cheapest."},
+      {"question": "How can I save on Memorial Day travel?", "answer": "Drive instead of fly for trips under 400 miles, stay with friends or family, use camping or vacation rentals, pack cooler meals to reduce food costs, and travel Tuesday before or Tuesday after to avoid peak pricing."}
+    ],
+    "formulas": [
+      "Driving Cost = (Round Trip Miles / MPG) x Gas Price",
+      "Lodging = Nightly Rate x Nights",
+      "Food = Days x Daily Budget x Travelers",
+      "Holiday Surcharge estimated at ~20% of subtotal"
+    ],
+    "relatedTools": ["summer-road-trip-cost-calculator"],
+    "subcategory": "trip-planning"
+  },
+  {
+    "slug": "summer-road-trip-cost-calculator",
+    "toolName": "Summer Road Trip Cost Calculator",
+    "category": "travel",
+    "tagline": "Calculate total road trip costs including gas, food, lodging, and activities",
+    "keywords": "road trip cost calculator, road trip budget, gas cost calculator trip, road trip planner cost",
+    "inputs": [
+      {"id": "totalMiles", "label": "Total Miles", "default": 1500, "min": 0, "step": 100},
+      {"id": "mpg", "label": "Vehicle MPG", "default": 28, "min": 5, "max": 60, "step": 1},
+      {"id": "gasPrice", "label": "Gas Price ($/gal)", "default": 3.60, "min": 1, "max": 8, "step": 0.10},
+      {"id": "tripDays", "label": "Trip Days", "default": 7, "min": 1, "max": 30},
+      {"id": "lodgingPerNight", "label": "Lodging per Night ($)", "default": 120, "min": 0, "step": 10},
+      {"id": "travelers", "label": "Number of Travelers", "default": 4, "min": 1, "max": 10}
+    ],
+    "results": [
+      {"id": "gasCost", "label": "Total Gas Cost"},
+      {"id": "lodgingTotal", "label": "Total Lodging"},
+      {"id": "foodTotal", "label": "Estimated Food"},
+      {"id": "activitiesEst", "label": "Activities Estimate"},
+      {"id": "grandTotal", "label": "Grand Total"},
+      {"id": "costPerPerson", "label": "Cost per Person"}
+    ],
+    "calcFn": "var gallons = totalMiles / mpg; var gas = gallons * gasPrice; var lodgingNights = Math.max(0, tripDays - 1); var lodging = lodgingNights * lodgingPerNight; var foodPerDay = 50 * travelers; var food = foodPerDay * tripDays; var activities = 30 * travelers * tripDays; var total = gas + lodging + food + activities; var perPerson = total / travelers; document.getElementById('gasCost').textContent = dollar(gas) + ' (' + fmt(gallons, 0) + ' gal)'; document.getElementById('lodgingTotal').textContent = dollar(lodging) + ' (' + lodgingNights + ' nights)'; document.getElementById('foodTotal').textContent = dollar(food) + ' (~$50/person/day)'; document.getElementById('activitiesEst').textContent = dollar(activities) + ' (~$30/person/day)'; document.getElementById('grandTotal').textContent = dollar(total); document.getElementById('costPerPerson').textContent = dollar(perPerson);",
+    "faq": [
+      {"question": "How much does a road trip cost per mile?", "answer": "The average road trip costs $0.50-$1.00 per mile when you factor in gas, wear and tear, food, and lodging. Gas alone typically costs $0.10-$0.20 per mile depending on your vehicle's MPG and gas prices."},
+      {"question": "How can I save money on a road trip?", "answer": "Pack a cooler for meals, use GasBuddy to find cheap gas, camp or use budget motels, drive during off-peak hours, maintain proper tire pressure for better MPG, and look for free activities at each stop."},
+      {"question": "What hidden costs do people forget on road trips?", "answer": "Common forgotten costs include toll roads ($20-100+ on long trips), parking fees ($10-40/day in cities), vehicle maintenance before the trip, snacks and drinks, souvenirs, and tip money."},
+      {"question": "Is it cheaper to drive or fly?", "answer": "For 1-2 travelers, driving is usually cheaper for trips under 500 miles. For 3+ travelers, driving is almost always cheaper because you split gas costs while airfare multiplies per person."}
+    ],
+    "formulas": [
+      "Gas Cost = (Total Miles / MPG) x Gas Price per Gallon",
+      "Lodging = (Trip Days - 1) x Nightly Rate",
+      "Food estimated at $50/person/day",
+      "Activities estimated at $30/person/day"
+    ],
+    "relatedTools": ["memorial-day-travel-cost-calculator"],
+    "subcategory": "trip-planning"
+  },
+  {
+    "slug": "summer-utility-cost-calculator",
+    "toolName": "Summer Utility Cost Calculator",
+    "category": "energy",
+    "tagline": "Estimate summer cooling costs based on your AC usage, home size, and region",
+    "keywords": "summer electric bill calculator, AC cost calculator, cooling cost estimator, summer utility costs, air conditioning cost",
+    "inputs": [
+      {"id": "sqft", "label": "Home Size (sq ft)", "default": 1800, "min": 200, "max": 10000, "step": 100},
+      {"id": "region", "label": "Climate Region", "type": "select", "default": "south", "options": [{"value": "north", "label": "Northern US (mild summers)"}, {"value": "midwest", "label": "Midwest (moderate)"}, {"value": "south", "label": "South/Southeast (hot & humid)"}, {"value": "southwest", "label": "Southwest (dry heat)"}, {"value": "west", "label": "West Coast (mild)"}]},
+      {"id": "elecRate", "label": "Electric Rate ($/kWh)", "default": 0.16, "min": 0.05, "max": 0.50, "step": 0.01},
+      {"id": "acAge", "label": "AC Unit Age (years)", "default": 8, "min": 0, "max": 25, "step": 1},
+      {"id": "thermostat", "label": "Thermostat Setting (F)", "default": 72, "min": 65, "max": 82, "step": 1}
+    ],
+    "results": [
+      {"id": "monthlyCooling", "label": "Monthly Cooling Cost"},
+      {"id": "summerTotal", "label": "Summer Total (Jun-Sep)"},
+      {"id": "dailyCost", "label": "Daily AC Cost"},
+      {"id": "savingsAt78", "label": "Savings if Set to 78F"},
+      {"id": "yearlyAC", "label": "Annual AC Cost"}
+    ],
+    "calcFn": "var btuNeeded = sqft * 20; var tonnage = btuNeeded / 12000; var regionHours = {north: 600, midwest: 900, south: 1400, southwest: 1200, west: 400}; var hours = regionHours[region] || 900; var seer = Math.max(8, 16 - acAge * 0.4); var kwhPerHour = (btuNeeded / 1000) / seer; var monthlyHours = hours / 4; var monthlyCost = kwhPerHour * monthlyHours * elecRate; var summerTotal = monthlyCost * 4; var dailyCost = monthlyCost / 30; var degreeDiff = Math.max(0, 78 - thermostat); var savings = summerTotal * (degreeDiff * 0.03); var yearlyCost = kwhPerHour * hours * elecRate; document.getElementById('monthlyCooling').textContent = dollar(monthlyCost) + '/month'; document.getElementById('summerTotal').textContent = dollar(summerTotal); document.getElementById('dailyCost').textContent = dollar(dailyCost) + '/day'; document.getElementById('savingsAt78').textContent = savings > 0 ? dollar(savings) + ' saved' : 'Already at/above 78F'; document.getElementById('yearlyAC').textContent = dollar(yearlyCost);",
+    "faq": [
+      {"question": "How much does it cost to run AC per month?", "answer": "The average US household spends $150-350/month on summer cooling depending on region, home size, and AC efficiency. Southern states average $250+/month, while northern states average $80-150."},
+      {"question": "Does raising the thermostat really save money?", "answer": "Yes. Each degree you raise the thermostat above 72F saves approximately 3% on cooling costs. Setting it to 78F instead of 72F can save 18% or more on your summer electric bill."},
+      {"question": "When should I replace my AC unit?", "answer": "Consider replacing units over 15 years old. Modern units (SEER 16+) use 30-50% less energy than older units (SEER 8-10). A new unit often pays for itself in 5-7 years through energy savings."},
+      {"question": "What other ways can I reduce summer cooling costs?", "answer": "Use ceiling fans (costs pennies/hour), seal air leaks, add attic insulation, use blackout curtains, run AC primarily at night, and keep the outdoor unit shaded and clean."}
+    ],
+    "formulas": [
+      "BTU Needed = Square Footage x 20 BTU/sq ft",
+      "kWh per Hour = (BTU / 1000) / SEER Rating",
+      "Monthly Cost = kWh/hour x Monthly Run Hours x Electric Rate",
+      "Each degree above 72F saves approximately 3% on cooling"
+    ],
+    "relatedTools": ["fall-home-maintenance-cost-calculator"],
+    "subcategory": "home-energy"
+  },
+  {
+    "slug": "back-to-school-cost-calculator",
+    "toolName": "Back-to-School Cost Calculator",
+    "category": "education",
+    "tagline": "Estimate school supply, clothing, and gear costs by grade level",
+    "keywords": "back to school cost calculator, school supply costs, back to school budget, school shopping list cost",
+    "inputs": [
+      {"id": "gradeLevel", "label": "Grade Level", "type": "select", "default": "elementary", "options": [{"value": "prek", "label": "Pre-K / Kindergarten"}, {"value": "elementary", "label": "Elementary (1-5)"}, {"value": "middle", "label": "Middle School (6-8)"}, {"value": "high", "label": "High School (9-12)"}, {"value": "college", "label": "College Freshman"}]},
+      {"id": "numKids", "label": "Number of Kids", "default": 2, "min": 1, "max": 8},
+      {"id": "clothingBudget", "label": "Clothing Budget/Child ($)", "default": 200, "min": 0, "step": 25},
+      {"id": "electronics", "label": "Electronics Budget ($)", "default": 0, "min": 0, "step": 50},
+      {"id": "quality", "label": "Quality Level", "type": "select", "default": "mid", "options": [{"value": "budget", "label": "Budget (0.7x)"}, {"value": "mid", "label": "Mid-Range (1.0x)"}, {"value": "premium", "label": "Premium (1.5x)"}]}
+    ],
+    "results": [
+      {"id": "supplyCost", "label": "Supplies per Child"},
+      {"id": "clothingTotal", "label": "Clothing Total"},
+      {"id": "techCost", "label": "Technology Cost"},
+      {"id": "totalCost", "label": "Total Back-to-School"},
+      {"id": "vsAverage", "label": "vs National Average"}
+    ],
+    "calcFn": "var baseCosts = {prek: 80, elementary: 120, middle: 180, high: 220, college: 400}; var qualMult = {budget: 0.7, mid: 1.0, premium: 1.5}; var base = baseCosts[gradeLevel] || 120; var qm = qualMult[quality] || 1.0; var supplyPerKid = base * qm; var clothingAll = clothingBudget * numKids; var techCost = electronics; var totalPerKid = supplyPerKid + clothingBudget + (electronics / numKids); var total = supplyPerKid * numKids + clothingAll + techCost; var avgPerKid = 890; var diff = totalPerKid - avgPerKid; document.getElementById('supplyCost').textContent = dollar(supplyPerKid); document.getElementById('clothingTotal').textContent = dollar(clothingAll) + ' (' + numKids + ' kids)'; document.getElementById('techCost').textContent = dollar(techCost); document.getElementById('totalCost').textContent = dollar(total); document.getElementById('vsAverage').textContent = (diff >= 0 ? '+' : '') + dollar(diff) + '/child vs $890 avg';",
+    "faq": [
+      {"question": "How much does the average family spend on back-to-school?", "answer": "The average American family spends about $890 per child on back-to-school shopping including supplies, clothing, shoes, and electronics. College students average $1,200+ including dorm supplies."},
+      {"question": "When is the best time to buy school supplies?", "answer": "The best deals hit in mid-to-late July when stores run loss leaders on basics. Many states offer tax-free weekends in August. Wait until after school starts for clearance deals on extras."},
+      {"question": "How can I save on back-to-school shopping?", "answer": "Buy basics in bulk at warehouse stores, reuse supplies from last year, shop tax-free weekends, check for teacher supply lists before buying, use cashback apps, and buy generic brands for basics like notebooks and folders."}
+    ],
+    "formulas": [
+      "Supply Cost = Base Cost by Grade x Quality Multiplier",
+      "Total = (Supply/child x Kids) + (Clothing/child x Kids) + Electronics",
+      "National average: ~$890/child (NRF Back-to-School survey)"
+    ],
+    "relatedTools": ["college-roi-by-major-calculator"],
+    "subcategory": "costs"
+  },
+  {
+    "slug": "fall-home-maintenance-cost-calculator",
+    "toolName": "Fall Home Maintenance Cost Calculator",
+    "category": "diy-home",
+    "tagline": "Estimate costs for essential fall home preparation and winterization tasks",
+    "keywords": "fall home maintenance cost, winterization cost calculator, fall home prep budget, home maintenance checklist cost",
+    "inputs": [
+      {"id": "sqft", "label": "Home Size (sq ft)", "default": 2000, "min": 500, "max": 8000, "step": 100},
+      {"id": "homeAge", "label": "Home Age (years)", "default": 20, "min": 0, "max": 100, "step": 1},
+      {"id": "furnaceService", "label": "Furnace Service", "type": "select", "default": "tuneup", "options": [{"value": "none", "label": "Skip ($0)"}, {"value": "tuneup", "label": "Tune-up ($120-180)"}, {"value": "repair", "label": "Needs Repair ($300-800)"}]},
+      {"id": "gutterClean", "label": "Gutter Cleaning", "type": "select", "default": "yes", "options": [{"value": "no", "label": "Skip / DIY ($0)"}, {"value": "yes", "label": "Professional ($150-300)"}]},
+      {"id": "diyLevel", "label": "DIY Ability", "type": "select", "default": "some", "options": [{"value": "none", "label": "Hire Everything (1.5x)"}, {"value": "some", "label": "Some DIY (1.0x)"}, {"value": "handy", "label": "Very Handy (0.6x)"}]}
+    ],
+    "results": [
+      {"id": "hvacCost", "label": "HVAC / Furnace"},
+      {"id": "gutterCost", "label": "Gutters & Drainage"},
+      {"id": "sealingCost", "label": "Weatherstripping & Sealing"},
+      {"id": "yardCost", "label": "Yard & Exterior"},
+      {"id": "totalCost", "label": "Total Fall Maintenance"},
+      {"id": "skipCost", "label": "Cost of Skipping Maintenance"}
+    ],
+    "calcFn": "var diyMult = {none: 1.5, some: 1.0, handy: 0.6}; var dm = diyMult[diyLevel] || 1.0; var hvac = 0; if (furnaceService === 'tuneup') hvac = 150; else if (furnaceService === 'repair') hvac = 550; var gutters = gutterClean === 'yes' ? 225 * (sqft / 2000) : 0; var sealing = (40 + homeAge * 2) * dm; var yard = (100 + sqft * 0.02) * dm; var total = hvac + gutters + sealing + yard; var skipPenalty = total * 3.5; document.getElementById('hvacCost').textContent = dollar(hvac); document.getElementById('gutterCost').textContent = dollar(gutters); document.getElementById('sealingCost').textContent = dollar(sealing); document.getElementById('yardCost').textContent = dollar(yard); document.getElementById('totalCost').textContent = dollar(total); document.getElementById('skipCost').textContent = dollar(skipPenalty) + ' in potential repair bills';",
+    "faq": [
+      {"question": "What fall home maintenance should I prioritize?", "answer": "The highest-priority tasks are: furnace inspection, gutter cleaning, weatherstripping doors and windows, and disconnecting outdoor hoses. Skipping furnace maintenance risks carbon monoxide issues and costly mid-winter breakdowns."},
+      {"question": "How much does fall home maintenance cost on average?", "answer": "Most homeowners spend $300-800 on fall maintenance. Costs increase with home size, age, and if you hire professionals. The investment prevents much larger winter repair bills."},
+      {"question": "When should I start fall home maintenance?", "answer": "Start in September before the rush. HVAC companies get booked up in October, and you want weatherization done before the first freeze. Schedule furnace service earliest since technicians fill up fast."},
+      {"question": "Is fall maintenance worth the cost?", "answer": "Absolutely. For every $1 spent on preventive maintenance, you typically avoid $3-5 in emergency repairs. A $150 furnace tune-up can prevent a $3,000+ mid-winter furnace replacement."}
+    ],
+    "formulas": [
+      "HVAC cost based on service type (tune-up ~$150, repair ~$550)",
+      "Gutter cost scales with home size: $225 base x (sqft / 2000)",
+      "Sealing cost = (Base $40 + $2/year of home age) x DIY multiplier",
+      "Cost of Skipping estimate = Total Maintenance x 3.5"
+    ],
+    "relatedTools": ["summer-utility-cost-calculator"],
+    "subcategory": "maintenance"
+  },
+  {
+    "slug": "halloween-candy-cost-calculator",
+    "toolName": "Halloween Candy Cost Calculator",
+    "category": "food-beverage",
+    "tagline": "Calculate how much candy you need and what it will cost for trick-or-treaters",
+    "keywords": "halloween candy calculator, trick or treat candy budget, how much candy do I need, halloween candy cost",
+    "inputs": [
+      {"id": "expectedKids", "label": "Expected Trick-or-Treaters", "default": 80, "min": 0, "max": 500, "step": 10},
+      {"id": "piecesPerKid", "label": "Pieces per Child", "default": 3, "min": 1, "max": 10},
+      {"id": "candyQuality", "label": "Candy Quality", "type": "select", "default": "mid", "options": [{"value": "budget", "label": "Budget Mix ($0.08/piece)"}, {"value": "mid", "label": "Name Brand Mix ($0.15/piece)"}, {"value": "fullsize", "label": "Full-Size Bars ($1.00/piece)"}, {"value": "premium", "label": "Premium/King Size ($1.50/piece)"}]},
+      {"id": "decorBudget", "label": "Decoration Budget ($)", "default": 50, "min": 0, "step": 10},
+      {"id": "bufferPct", "label": "Extra Buffer (%)", "default": 20, "min": 0, "max": 50, "step": 5}
+    ],
+    "results": [
+      {"id": "totalPieces", "label": "Total Pieces Needed"},
+      {"id": "candyCost", "label": "Candy Cost"},
+      {"id": "totalHalloween", "label": "Total Halloween Budget"},
+      {"id": "costPerKid", "label": "Cost per Trick-or-Treater"},
+      {"id": "bagsNeeded", "label": "Bags to Buy (est.)"}
+    ],
+    "calcFn": "var costPerPiece = {budget: 0.08, mid: 0.15, fullsize: 1.00, premium: 1.50}; var cpp = costPerPiece[candyQuality] || 0.15; var basePieces = expectedKids * piecesPerKid; var totalPieces = Math.ceil(basePieces * (1 + bufferPct / 100)); var candyCost = totalPieces * cpp; var total = candyCost + decorBudget; var costPer = expectedKids > 0 ? candyCost / expectedKids : 0; var piecesPerBag = candyQuality === 'fullsize' || candyQuality === 'premium' ? 18 : 90; var bags = Math.ceil(totalPieces / piecesPerBag); document.getElementById('totalPieces').textContent = fmt(totalPieces, 0) + ' pieces'; document.getElementById('candyCost').textContent = dollar(candyCost); document.getElementById('totalHalloween').textContent = dollar(total) + ' (candy + decor)'; document.getElementById('costPerKid').textContent = dollar(costPer) + '/child'; document.getElementById('bagsNeeded').textContent = bags + ' bags';",
+    "faq": [
+      {"question": "How much candy do I need for Halloween?", "answer": "Plan for 2-3 pieces per child. In an average suburban neighborhood, expect 50-100 trick-or-treaters. Buy 20% extra as a buffer. Track your numbers each year to refine the estimate."},
+      {"question": "What is the most cost-effective Halloween candy?", "answer": "Bulk variety bags from warehouse stores offer the best per-piece value at $0.06-0.10 each. Name brand bags from grocery stores average $0.12-0.18 per piece. Buy after-season clearance candy for next year at 50-75% off."},
+      {"question": "When is the best time to buy Halloween candy?", "answer": "Buy candy in early-to-mid October for the best selection. Prices are lowest at warehouse stores. Avoid buying too early or you will eat it before Halloween. November 1st clearance sales offer 50-75% off."},
+      {"question": "Should I give out full-size bars?", "answer": "Full-size bars make you the neighborhood hero but cost 7-10x more than fun-size. A compromise is giving full-size bars to the first 20-30 kids and switching to fun-size after that."}
+    ],
+    "formulas": [
+      "Total Pieces = Expected Kids x Pieces per Child x (1 + Buffer %)",
+      "Candy Cost = Total Pieces x Cost per Piece",
+      "Bags Needed = Total Pieces / Pieces per Bag",
+      "Cost per Trick-or-Treater = Candy Cost / Expected Kids"
+    ],
+    "relatedTools": ["christmas-budget-calculator", "valentines-day-spending-calculator"],
+    "subcategory": "budgeting"
+  },
+  {
+    "slug": "black-friday-savings-calculator",
+    "toolName": "Black Friday Savings Calculator",
+    "category": "finance",
+    "tagline": "Compare Black Friday deal savings against regular prices and hidden costs",
+    "keywords": "black friday savings calculator, black friday deal calculator, is this deal worth it, black friday comparison",
+    "inputs": [
+      {"id": "originalPrice", "label": "Original/Regular Price ($)", "default": 500, "min": 0, "step": 10},
+      {"id": "salePrice", "label": "Black Friday Price ($)", "default": 350, "min": 0, "step": 10},
+      {"id": "shippingCost", "label": "Shipping Cost ($)", "default": 0, "min": 0, "step": 5},
+      {"id": "driveTime", "label": "Round Trip Drive (minutes)", "default": 60, "min": 0, "max": 300, "step": 15},
+      {"id": "waitTime", "label": "Expected Wait Time (minutes)", "default": 45, "min": 0, "max": 300, "step": 15},
+      {"id": "hourlyWage", "label": "Your Hourly Wage ($)", "default": 30, "min": 0, "step": 5}
+    ],
+    "results": [
+      {"id": "dollarSaved", "label": "Dollar Savings"},
+      {"id": "pctOff", "label": "Actual Discount %"},
+      {"id": "timeCost", "label": "Your Time Value"},
+      {"id": "realSavings", "label": "Real Savings (After Time)"},
+      {"id": "hourlyReturn", "label": "Savings per Hour Spent"},
+      {"id": "verdict", "label": "Verdict"}
+    ],
+    "calcFn": "var dollarSaved = originalPrice - salePrice; var pctOff = originalPrice > 0 ? (dollarSaved / originalPrice) * 100 : 0; var totalMinutes = driveTime + waitTime; var timeCostValue = (totalMinutes / 60) * hourlyWage; var realSavings = dollarSaved - shippingCost - timeCostValue; var hoursSpent = totalMinutes / 60; var hourlyReturn = hoursSpent > 0 ? realSavings / hoursSpent : realSavings; var verdict = realSavings > hourlyWage * 2 ? 'Great deal! Worth your time' : realSavings > 0 ? 'Marginal — savings barely cover your time' : 'Skip it — you lose money factoring in time'; document.getElementById('dollarSaved').textContent = dollar(dollarSaved); document.getElementById('pctOff').textContent = fmt(pctOff, 1) + '% off'; document.getElementById('timeCost').textContent = dollar(timeCostValue) + ' (' + fmt(totalMinutes, 0) + ' min)'; document.getElementById('realSavings').textContent = dollar(realSavings); document.getElementById('hourlyReturn').textContent = dollar(hourlyReturn) + '/hour'; document.getElementById('verdict').textContent = verdict;",
+    "faq": [
+      {"question": "Are Black Friday deals actually good?", "answer": "About 35% of Black Friday deals are genuine savings of 20%+ off the real regular price. Many retailers inflate prices before Black Friday to make discounts look larger. Use price tracking tools like CamelCamelCamel to verify."},
+      {"question": "Should I factor in my time when evaluating deals?", "answer": "Yes! If you spend 3 hours in lines and traffic to save $40, you effectively earned $13/hour — likely less than your regular wage. Online deals often provide similar savings without the time cost."},
+      {"question": "When are the best deals actually available?", "answer": "Cyber Monday often matches or beats Black Friday for electronics. The best TV deals are actually during Super Bowl week. Appliances are cheapest during holiday weekends (Memorial Day, Labor Day, Black Friday)."}
+    ],
+    "formulas": [
+      "Dollar Savings = Original Price - Sale Price",
+      "Time Cost = (Drive + Wait Minutes / 60) x Hourly Wage",
+      "Real Savings = Dollar Savings - Shipping - Time Cost",
+      "Hourly Return = Real Savings / Total Hours Spent"
+    ],
+    "relatedTools": ["christmas-budget-calculator", "valentines-day-spending-calculator"],
+    "subcategory": "shopping"
+  },
+  {
+    "slug": "christmas-budget-calculator",
+    "toolName": "Christmas Budget Calculator",
+    "category": "finance",
+    "tagline": "Plan your holiday spending by recipients, gifts, and budget limits",
+    "keywords": "christmas budget calculator, holiday spending planner, gift budget calculator, christmas spending plan",
+    "inputs": [
+      {"id": "totalBudget", "label": "Total Gift Budget ($)", "default": 800, "min": 0, "step": 50},
+      {"id": "numAdults", "label": "Adult Recipients", "default": 6, "min": 0, "max": 30},
+      {"id": "numKids", "label": "Child Recipients", "default": 4, "min": 0, "max": 20},
+      {"id": "foodBudget", "label": "Holiday Food/Hosting ($)", "default": 200, "min": 0, "step": 25},
+      {"id": "decorBudget", "label": "Decor & Tree ($)", "default": 100, "min": 0, "step": 25},
+      {"id": "travelBudget", "label": "Holiday Travel ($)", "default": 300, "min": 0, "step": 50}
+    ],
+    "results": [
+      {"id": "perAdult", "label": "Budget per Adult Gift"},
+      {"id": "perKid", "label": "Budget per Child Gift"},
+      {"id": "giftTotal", "label": "Total Gifts"},
+      {"id": "grandTotal", "label": "Grand Total Holiday Cost"},
+      {"id": "vsAverage", "label": "vs Average American"},
+      {"id": "monthlySaving", "label": "Monthly Saving (start Jan)"}
+    ],
+    "calcFn": "var kidMultiplier = 1.5; var totalRecipientWeight = numAdults + (numKids * kidMultiplier); var perRecipient = totalRecipientWeight > 0 ? totalBudget / totalRecipientWeight : 0; var perAdult = perRecipient; var perKid = perRecipient * kidMultiplier; var giftTotal = (perAdult * numAdults) + (perKid * numKids); var grandTotal = giftTotal + foodBudget + decorBudget + travelBudget; var avgAmerican = 920; var diff = grandTotal - avgAmerican; var monthlySaving = grandTotal / 11; document.getElementById('perAdult').textContent = dollar(perAdult); document.getElementById('perKid').textContent = dollar(perKid); document.getElementById('giftTotal').textContent = dollar(giftTotal); document.getElementById('grandTotal').textContent = dollar(grandTotal); document.getElementById('vsAverage').textContent = (diff >= 0 ? '+' : '') + dollar(diff) + ' vs $920 average'; document.getElementById('monthlySaving').textContent = dollar(monthlySaving) + '/month (Jan-Nov)';",
+    "faq": [
+      {"question": "How much does the average American spend on Christmas?", "answer": "The average American spends about $920 on holiday gifts, according to Gallup. Total holiday spending including food, travel, and decorations averages $1,500-2,000 per household."},
+      {"question": "How should I allocate my Christmas budget?", "answer": "A common rule is 50% gifts, 25% food/hosting, 15% travel, 10% decorations. Spend more on kids than adults (1.5-2x). Set a per-person limit and stick to it to avoid overspending."},
+      {"question": "How can I avoid holiday debt?", "answer": "Start a Christmas savings fund in January (divide total budget by 11 months). Use cash or debit only. Set spending limits with family members. Consider gift exchanges or Secret Santa to reduce the number of gifts."},
+      {"question": "When should I start Christmas shopping?", "answer": "Start in October for the best selection without holiday markups. Black Friday and Cyber Monday offer genuine deals on electronics and toys. After-Christmas sales (Dec 26+) are great for wrapping paper and decorations for next year."}
+    ],
+    "formulas": [
+      "Per Adult = Total Gift Budget / (Adults + Kids x 1.5)",
+      "Per Child = Per Adult x 1.5 (weighted higher)",
+      "Grand Total = Gifts + Food + Decor + Travel",
+      "Monthly Saving = Grand Total / 11 months (Jan-Nov)"
+    ],
+    "relatedTools": ["black-friday-savings-calculator", "valentines-day-spending-calculator"],
+    "subcategory": "budgeting"
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "slug": "mortgage-rate-forecast-calculator",
+    "toolName": "Mortgage Rate Forecast Calculator",
+    "category": "finance",
+    "tagline": "Project future mortgage rates and see the payment impact on your loan",
+    "keywords": "mortgage rate forecast, future mortgage rates, mortgage rate prediction, interest rate projection, mortgage payment calculator",
+    "inputs": [
+      {"id": "currentRate", "label": "Current 30-Year Rate (%)", "default": 6.75, "min": 0.5, "max": 15, "step": 0.125},
+      {"id": "fedDirection", "label": "Fed Direction", "type": "select", "default": "hold", "options": [{"value": "cut3", "label": "Aggressive Cuts (-0.75%)"},{"value": "cut1", "label": "Moderate Cuts (-0.25%)"},{"value": "hold", "label": "Holding Steady"},{"value": "hike1", "label": "Moderate Hikes (+0.25%)"},{"value": "hike3", "label": "Aggressive Hikes (+0.75%)"}]},
+      {"id": "inflationTrend", "label": "Inflation Trend", "type": "select", "default": "elevated", "options": [{"value": "falling", "label": "Falling Below 2%"},{"value": "target", "label": "At 2% Target"},{"value": "elevated", "label": "Elevated (3-4%)"},{"value": "high", "label": "High (5%+)"}]},
+      {"id": "loanAmount", "label": "Loan Amount ($)", "default": 350000, "min": 10000, "step": 5000},
+      {"id": "loanTerm", "label": "Loan Term (Years)", "default": 30, "min": 10, "max": 30, "step": 5},
+      {"id": "forecastMonths", "label": "Forecast Horizon (Months)", "default": 12, "min": 3, "max": 36, "step": 3}
+    ],
+    "results": [
+      {"id": "projectedRate", "label": "Projected Rate"},
+      {"id": "currentPayment", "label": "Current Monthly Payment"},
+      {"id": "projectedPayment", "label": "Projected Monthly Payment"},
+      {"id": "paymentDiff", "label": "Monthly Payment Difference"},
+      {"id": "totalCostDiff", "label": "Total Interest Difference"},
+      {"id": "recommendation", "label": "Timing Recommendation"}
+    ],
+    "calcFn": "var fedImpact = {cut3: -0.75, cut1: -0.25, hold: 0, hike1: 0.25, hike3: 0.75}; var inflImpact = {falling: -0.5, target: -0.15, elevated: 0.2, high: 0.6}; var rateShift = fedImpact[fedDirection] + inflImpact[inflationTrend]; var spreadAdjust = (forecastMonths / 12) * 0.1 * (rateShift > 0 ? 1 : -1); var projRate = Math.max(2.5, currentRate + rateShift + spreadAdjust); var monthlyRate1 = currentRate / 100 / 12; var monthlyRate2 = projRate / 100 / 12; var n = loanTerm * 12; var pmt1 = loanAmount * (monthlyRate1 * Math.pow(1 + monthlyRate1, n)) / (Math.pow(1 + monthlyRate1, n) - 1); var pmt2 = loanAmount * (monthlyRate2 * Math.pow(1 + monthlyRate2, n)) / (Math.pow(1 + monthlyRate2, n) - 1); var totalDiff = (pmt2 - pmt1) * n; var rec = rateShift < -0.3 ? 'Wait — rates likely falling' : rateShift > 0.3 ? 'Lock now — rates likely rising' : 'Neutral — rate timing uncertain'; document.getElementById('projectedRate').textContent = fmt(projRate, 3) + '%'; document.getElementById('currentPayment').textContent = dollar(pmt1); document.getElementById('projectedPayment').textContent = dollar(pmt2); document.getElementById('paymentDiff').textContent = (pmt2 >= pmt1 ? '+' : '') + dollar(pmt2 - pmt1) + '/mo'; document.getElementById('totalCostDiff').textContent = (totalDiff >= 0 ? '+' : '') + dollar(totalDiff) + ' over loan life'; document.getElementById('recommendation').textContent = rec;",
+    "faq": [
+      {"question": "How accurate are mortgage rate forecasts?", "answer": "No one can predict mortgage rates precisely. This tool models directional trends based on Fed policy, inflation, and historical spread behavior. Actual rates depend on many additional factors including global capital flows, Treasury auctions, and MBS demand."},
+      {"question": "How does the Fed rate affect mortgage rates?", "answer": "The Fed sets the federal funds rate, which influences short-term rates directly. Mortgage rates (tied to 10-year Treasury yields) correlate but do not move 1:1. Historically, a 1% Fed cut translates to roughly a 0.5-0.75% mortgage rate decline over 6-12 months."},
+      {"question": "Should I wait for lower rates or buy now?", "answer": "The common advice is: marry the house, date the rate. If you find the right home and can afford payments, buying now and refinancing later when rates drop may be better than waiting — especially if home prices continue rising."},
+      {"question": "What is the historical average for 30-year mortgage rates?", "answer": "The 30-year fixed rate has averaged about 7.7% since 1971. Rates below 5% (2009-2022) were historically unusual. The all-time low was 2.65% in January 2021."}
+    ],
+    "formulas": [
+      "Projected Rate = Current Rate + Fed Impact + Inflation Impact + Spread Adjustment",
+      "Monthly Payment = Loan × [r(1+r)^n] / [(1+r)^n - 1] where r = monthly rate, n = total months",
+      "Total Interest Difference = (Projected Payment - Current Payment) × Loan Term in Months"
+    ],
+    "relatedTools": ["mortgage-affordability-calculator", "mortgage-refinance-calculator", "home-buying-cost-calculator"]
+  },
+  {
+    "slug": "inflation-purchasing-power-calculator",
+    "toolName": "Inflation Purchasing Power Calculator",
+    "category": "economics",
+    "tagline": "See where your purchasing power will be in 1, 5, 10, and 20 years at any inflation rate",
+    "keywords": "purchasing power forecast, inflation impact calculator, future dollar value, inflation erosion, savings purchasing power",
+    "inputs": [
+      {"id": "savings", "label": "Current Savings ($)", "default": 50000, "min": 0, "step": 1000},
+      {"id": "annualIncome", "label": "Annual Income ($)", "default": 75000, "min": 0, "step": 1000},
+      {"id": "inflationRate", "label": "Expected Inflation (%)", "default": 3.5, "min": 0.5, "max": 15, "step": 0.1},
+      {"id": "annualRaise", "label": "Expected Annual Raise (%)", "default": 2.5, "min": 0, "max": 15, "step": 0.1},
+      {"id": "monthlyContrib", "label": "Monthly Savings Contribution ($)", "default": 500, "min": 0, "step": 50}
+    ],
+    "results": [
+      {"id": "power1yr", "label": "Purchasing Power in 1 Year"},
+      {"id": "power5yr", "label": "Purchasing Power in 5 Years"},
+      {"id": "power10yr", "label": "Purchasing Power in 10 Years"},
+      {"id": "power20yr", "label": "Purchasing Power in 20 Years"},
+      {"id": "incomeGap10", "label": "Income Gap at 10 Years"},
+      {"id": "totalErosion20", "label": "Total Wealth Erosion (20 Yrs)"}
+    ],
+    "calcFn": "var inf = inflationRate / 100; var raise = annualRaise / 100; function realPower(yrs) { var nominalSavings = savings; for (var i = 0; i < yrs; i++) { nominalSavings += monthlyContrib * 12; } var realVal = nominalSavings / Math.pow(1 + inf, yrs); return realVal; } var rp1 = realPower(1); var rp5 = realPower(5); var rp10 = realPower(10); var rp20 = realPower(20); var nomSav20 = savings + monthlyContrib * 12 * 20; var erosion20 = nomSav20 - rp20; var incomeNeeded10 = annualIncome * Math.pow(1 + inf, 10); var incomeActual10 = annualIncome * Math.pow(1 + raise, 10); var gap10 = incomeNeeded10 - incomeActual10; document.getElementById('power1yr').textContent = dollar(rp1) + ' (of ' + dollar(savings + monthlyContrib * 12) + ')'; document.getElementById('power5yr').textContent = dollar(rp5); document.getElementById('power10yr').textContent = dollar(rp10); document.getElementById('power20yr').textContent = dollar(rp20); document.getElementById('incomeGap10').textContent = gap10 > 0 ? '-' + dollar(gap10) + '/yr shortfall' : '+' + dollar(Math.abs(gap10)) + '/yr surplus'; document.getElementById('totalErosion20').textContent = dollar(erosion20) + ' lost to inflation';",
+    "faq": [
+      {"question": "How does inflation erode purchasing power?", "answer": "At 3% inflation, prices double roughly every 24 years. Your $100 today buys only $74 worth of goods in 10 years and $55 in 20 years. Money sitting in a low-yield savings account loses real value every year."},
+      {"question": "What is the real inflation rate vs official CPI?", "answer": "The official CPI may understate actual cost increases for essentials. Housing, healthcare, and education have historically risen faster than headline CPI. Many economists estimate true cost-of-living increases are 1-2% higher than reported CPI."},
+      {"question": "How can I protect against inflation?", "answer": "Invest in assets that historically outpace inflation: equities (7-10% historical real return), real estate, TIPS (Treasury Inflation-Protected Securities), I-Bonds, and commodities. Holding excess cash is the worst strategy during high inflation."}
+    ],
+    "formulas": [
+      "Real Purchasing Power = Nominal Value / (1 + Inflation Rate)^Years",
+      "Income Gap = Income Needed (inflation-adjusted) - Projected Income (raise-adjusted)",
+      "Total Erosion = Nominal Savings - Real Purchasing Power"
+    ],
+    "relatedTools": ["purchasing-power-calculator", "cpi-inflation-calculator", "real-wage-calculator"]
+  },
+  {
+    "slug": "social-security-depletion-calculator",
+    "toolName": "Social Security Depletion Calculator",
+    "category": "finance",
+    "tagline": "Estimate when the Social Security trust fund runs out and how it affects your benefits",
+    "keywords": "social security depletion, trust fund depletion date, social security bankruptcy, will social security run out, benefit cut calculator",
+    "inputs": [
+      {"id": "trustBalance", "label": "Trust Fund Balance (Trillions $)", "default": 2.83, "min": 0, "step": 0.01},
+      {"id": "annualDeficit", "label": "Annual Deficit (Billions $)", "default": 200, "min": 50, "max": 500, "step": 10},
+      {"id": "deficitGrowth", "label": "Deficit Growth Rate (%/yr)", "default": 5, "min": 0, "max": 15, "step": 0.5},
+      {"id": "monthlyBenefit", "label": "Your Expected Benefit ($/mo)", "default": 2000, "min": 500, "max": 5000, "step": 50},
+      {"id": "currentAge", "label": "Your Current Age", "default": 45, "min": 20, "max": 70, "step": 1},
+      {"id": "retireAge", "label": "Planned Retirement Age", "default": 67, "min": 62, "max": 72, "step": 1}
+    ],
+    "results": [
+      {"id": "depletionYear", "label": "Estimated Depletion Year"},
+      {"id": "yearsLeft", "label": "Trust Fund Years Remaining"},
+      {"id": "yourAge", "label": "Your Age at Depletion"},
+      {"id": "reducedBenefit", "label": "Reduced Benefit (After Depletion)"},
+      {"id": "monthlyLoss", "label": "Monthly Benefit Loss"},
+      {"id": "lifetimeLoss", "label": "Lifetime Benefit Loss (to age 85)"}
+    ],
+    "calcFn": "var balance = trustBalance * 1e12; var deficit = annualDeficit * 1e9; var growth = deficitGrowth / 100; var year = 2024; var yearsToDepletion = 0; while (balance > 0 && yearsToDepletion < 50) { yearsToDepletion++; deficit = deficit * (1 + growth); balance -= deficit; year++; } var depYear = 2024 + yearsToDepletion; var ageAtDepletion = currentAge + yearsToDepletion; var payableRatio = 0.77; var reducedBen = monthlyBenefit * payableRatio; var loss = monthlyBenefit - reducedBen; var yearsRetired = Math.max(0, 85 - retireAge); var yearsAffected = Math.max(0, 85 - Math.max(retireAge, ageAtDepletion)); var lifetimeLoss = loss * 12 * yearsAffected; document.getElementById('depletionYear').textContent = depYear; document.getElementById('yearsLeft').textContent = yearsToDepletion + ' years from 2024'; document.getElementById('yourAge').textContent = ageAtDepletion + ' years old'; document.getElementById('reducedBenefit').textContent = dollar(reducedBen) + '/mo (77% of full)'; document.getElementById('monthlyLoss').textContent = '-' + dollar(loss) + '/mo'; document.getElementById('lifetimeLoss').textContent = '-' + dollar(lifetimeLoss) + ' (to age 85)';",
+    "faq": [
+      {"question": "Will Social Security actually run out?", "answer": "Social Security will not disappear entirely. Even after trust fund depletion (projected around 2033-2035), ongoing payroll taxes will still cover about 77% of scheduled benefits. Congress would need to act to prevent automatic benefit cuts."},
+      {"question": "What happens when the trust fund is depleted?", "answer": "By law, Social Security can only pay benefits from the trust fund and incoming payroll taxes. Once reserves are gone, benefits would automatically be reduced to match incoming tax revenue — roughly a 23% cut across the board."},
+      {"question": "How can Social Security be fixed?", "answer": "Common proposals include raising the payroll tax cap (currently $168,600), increasing the retirement age, means-testing benefits, adjusting the COLA formula, or increasing the payroll tax rate. Most actuaries say a combination of modest changes could close the gap."},
+      {"question": "Should I claim Social Security early?", "answer": "Claiming at 62 permanently reduces benefits by about 30%. If trust fund depletion concerns you, the math depends on your expected lifespan and whether you believe Congress will act. Delaying to 70 increases benefits by 8% per year but carries trust-fund timing risk."}
+    ],
+    "formulas": [
+      "Depletion Year = Year when cumulative growing deficits exhaust trust fund balance",
+      "Post-Depletion Benefit = Scheduled Benefit × 0.77 (payroll tax revenue ratio)",
+      "Lifetime Loss = Monthly Loss × 12 × Years Affected"
+    ],
+    "relatedTools": ["retirement-savings-calculator", "social-security-break-even-calculator", "retirement-income-gap-calculator"]
+  },
+  {
+    "slug": "us-debt-crisis-timeline-calculator",
+    "toolName": "US Debt Crisis Timeline Calculator",
+    "category": "economics",
+    "tagline": "Project the US national debt trajectory and see when interest costs become unsustainable",
+    "keywords": "US national debt projection, debt crisis timeline, debt to GDP forecast, interest on national debt, fiscal crisis calculator",
+    "inputs": [
+      {"id": "currentDebt", "label": "Current National Debt (Trillions $)", "default": 34, "min": 20, "max": 50, "step": 0.5},
+      {"id": "gdp", "label": "Current GDP (Trillions $)", "default": 28, "min": 15, "max": 40, "step": 0.5},
+      {"id": "deficitGrowth", "label": "Annual Deficit Growth (%)", "default": 6, "min": 0, "max": 15, "step": 0.5},
+      {"id": "gdpGrowth", "label": "Annual GDP Growth (%)", "default": 2.5, "min": -2, "max": 8, "step": 0.5},
+      {"id": "avgInterestRate", "label": "Avg Interest on Debt (%)", "default": 3.2, "min": 1, "max": 8, "step": 0.1},
+      {"id": "yearsForward", "label": "Years to Project", "default": 15, "min": 5, "max": 30, "step": 5}
+    ],
+    "results": [
+      {"id": "futureDebt", "label": "Projected National Debt"},
+      {"id": "futureGDP", "label": "Projected GDP"},
+      {"id": "futureRatio", "label": "Debt-to-GDP Ratio"},
+      {"id": "annualInterest", "label": "Annual Interest Cost"},
+      {"id": "interestPctRevenue", "label": "Interest as % of Revenue"},
+      {"id": "crisisYear", "label": "Critical Threshold Year"},
+      {"id": "perCapita", "label": "Debt Per Citizen"}
+    ],
+    "calcFn": "var debt = currentDebt; var g = gdp; var defGr = deficitGrowth / 100; var gdpGr = gdpGrowth / 100; var intRate = avgInterestRate / 100; var deficit = 1.7; var crisisYr = 'Beyond projection'; for (var i = 0; i < yearsForward; i++) { deficit = deficit * (1 + defGr); debt += deficit; g = g * (1 + gdpGr); var interest = debt * intRate; var revenue = g * 0.17; if (interest / revenue > 0.5 && crisisYr === 'Beyond projection') { crisisYr = (2024 + i + 1) + ' (interest > 50% of revenue)'; } } var ratio = (debt / g) * 100; var annInt = debt * intRate; var rev = g * 0.17; var intPctRev = (annInt / rev) * 100; var pop = 335; var perCap = (debt * 1e12) / (pop * 1e6); document.getElementById('futureDebt').textContent = '$' + fmt(debt, 1) + ' Trillion'; document.getElementById('futureGDP').textContent = '$' + fmt(g, 1) + ' Trillion'; document.getElementById('futureRatio').textContent = fmt(ratio, 1) + '%'; document.getElementById('annualInterest').textContent = '$' + fmt(annInt, 2) + ' Trillion/yr'; document.getElementById('interestPctRevenue').textContent = fmt(intPctRev, 1) + '% of federal revenue'; document.getElementById('crisisYear').textContent = crisisYr; document.getElementById('perCapita').textContent = dollar(perCap) + ' per person';",
+    "faq": [
+      {"question": "What is a sustainable debt-to-GDP ratio?", "answer": "There is no hard limit, but most economists consider ratios above 100% concerning. When interest payments consume more than 20-30% of federal revenue, a country faces mounting fiscal pressure. The US is currently around 120% debt-to-GDP with interest costs exceeding $1 trillion annually."},
+      {"question": "Could the US actually default on its debt?", "answer": "A voluntary default is extremely unlikely since the US borrows in its own currency. However, an involuntary crisis — where investors demand much higher rates, creating a debt spiral — is a theoretical risk if debt growth far outpaces GDP growth for too long."},
+      {"question": "How does the US debt compare to other countries?", "answer": "Japan has a debt-to-GDP ratio over 260% but holds most debt domestically. Greece defaulted at about 170%. The US at 120% is high for a country that relies heavily on foreign creditors (about 30% of debt is foreign-held)."},
+      {"question": "What would a US debt crisis look like?", "answer": "It would likely involve rapidly rising Treasury yields, a dollar decline, higher borrowing costs throughout the economy, and potential austerity measures — significant spending cuts and tax increases similar to what Greece experienced in 2010-2015."}
+    ],
+    "formulas": [
+      "Future Debt = Current Debt + Cumulative Annual Deficits (growing at deficit growth rate)",
+      "Debt-to-GDP Ratio = National Debt / GDP × 100",
+      "Annual Interest Cost = Debt × Average Interest Rate",
+      "Interest Burden = Annual Interest / Federal Revenue (approx. 17% of GDP)"
+    ],
+    "relatedTools": ["debt-to-gdp-calculator", "national-debt-per-capita-calculator", "us-dollar-collapse-calculator"]
+  },
+  {
+    "slug": "housing-market-correction-calculator",
+    "toolName": "Housing Market Correction Calculator",
+    "category": "housing",
+    "tagline": "Estimate the probability and impact of a housing correction on your home value",
+    "keywords": "housing market correction, housing crash calculator, home value decline, housing bubble, real estate correction probability",
+    "inputs": [
+      {"id": "homeValue", "label": "Current Home Value ($)", "default": 450000, "min": 50000, "step": 10000},
+      {"id": "priceToIncome", "label": "Local Price-to-Income Ratio", "default": 5.5, "min": 2, "max": 12, "step": 0.1},
+      {"id": "inventoryMonths", "label": "Months of Inventory", "default": 3, "min": 0.5, "max": 12, "step": 0.5},
+      {"id": "mortgageRate", "label": "Current Mortgage Rate (%)", "default": 6.75, "min": 2, "max": 10, "step": 0.25},
+      {"id": "mortgageBalance", "label": "Mortgage Balance ($)", "default": 300000, "min": 0, "step": 10000},
+      {"id": "yearsPurchased", "label": "Years Since Purchase", "default": 5, "min": 0, "max": 30, "step": 1}
+    ],
+    "results": [
+      {"id": "correctionProb", "label": "Correction Probability (5yr)"},
+      {"id": "mildDrop", "label": "Mild Correction (-10%)"},
+      {"id": "moderateDrop", "label": "Moderate Correction (-20%)"},
+      {"id": "severeDrop", "label": "Severe Correction (-30%)"},
+      {"id": "equityAtRisk", "label": "Equity at Risk (Moderate)"},
+      {"id": "underwaterThreshold", "label": "Underwater Threshold"}
+    ],
+    "calcFn": "var riskScore = 0; if (priceToIncome > 5) riskScore += (priceToIncome - 5) * 10; if (priceToIncome > 7) riskScore += 10; if (inventoryMonths < 2) riskScore -= 10; else if (inventoryMonths > 4) riskScore += (inventoryMonths - 4) * 5; if (mortgageRate > 6) riskScore += (mortgageRate - 6) * 5; else if (mortgageRate < 4) riskScore += 5; riskScore = Math.max(5, Math.min(85, riskScore)); var equity = homeValue - mortgageBalance; var mild = homeValue * 0.10; var moderate = homeValue * 0.20; var severe = homeValue * 0.30; var mildVal = homeValue - mild; var modVal = homeValue - moderate; var sevVal = homeValue - severe; var equityAfterMod = modVal - mortgageBalance; var uwPct = mortgageBalance > 0 ? ((homeValue - mortgageBalance) / homeValue) * 100 : 100; document.getElementById('correctionProb').textContent = fmt(riskScore, 0) + '% risk score'; document.getElementById('mildDrop').textContent = dollar(mildVal) + ' (lose ' + dollar(mild) + ')'; document.getElementById('moderateDrop').textContent = dollar(modVal) + ' (lose ' + dollar(moderate) + ')'; document.getElementById('severeDrop').textContent = dollar(sevVal) + ' (lose ' + dollar(severe) + ')'; document.getElementById('equityAtRisk').textContent = equityAfterMod >= 0 ? dollar(equityAfterMod) + ' equity remaining' : '-' + dollar(Math.abs(equityAfterMod)) + ' UNDERWATER'; document.getElementById('underwaterThreshold').textContent = uwPct < 100 ? '-' + fmt(uwPct, 1) + '% decline = underwater' : 'No mortgage — no underwater risk';",
+    "faq": [
+      {"question": "How likely is a housing market correction?", "answer": "Housing corrections of 10%+ are historically uncommon at the national level but regular at local levels. The 2008 crash saw a 27% national decline. Markets with high price-to-income ratios and rising inventory face higher correction risk. Most analysts distinguish between a correction (10-20% decline) and a crash (20%+)."},
+      {"question": "What is a healthy price-to-income ratio?", "answer": "The historical US average is about 3.5x median household income. Ratios above 5x suggest overvaluation. Many coastal metros now exceed 8-10x, similar to levels seen before the 2008 crash. However, low inventory and structural undersupply can sustain higher ratios longer."},
+      {"question": "Should I sell before a correction?", "answer": "Timing the market is extremely difficult. If you plan to live in your home long-term (7+ years), short-term declines matter less. If you are heavily leveraged (low equity) in an overvalued market and considering selling anyway, moving sooner reduces downside risk."},
+      {"question": "What protects against a housing correction?", "answer": "Having at least 20% equity, a fixed-rate mortgage, stable income, and no need to sell soon are the best protections. Underwater homeowners who can continue making payments through a downturn generally recover as markets eventually rebound."}
+    ],
+    "formulas": [
+      "Risk Score based on: Price-to-Income deviation, Inventory levels, and Mortgage rate environment",
+      "Equity at Risk = (Home Value × (1 - Correction %)) - Mortgage Balance",
+      "Underwater Threshold = (Current Equity / Home Value) × 100"
+    ],
+    "relatedTools": ["home-value-estimator", "mortgage-affordability-calculator", "rent-vs-buy-calculator"]
+  },
+  {
+    "slug": "stock-market-crash-probability-calculator",
+    "toolName": "Stock Market Crash Probability Calculator",
+    "category": "finance",
+    "tagline": "See the historical probability of market drawdowns by holding period and portfolio impact",
+    "keywords": "stock market crash probability, market drawdown calculator, portfolio crash impact, stock market correction odds, bear market probability",
+    "inputs": [
+      {"id": "portfolioValue", "label": "Portfolio Value ($)", "default": 250000, "min": 1000, "step": 5000},
+      {"id": "timeHorizon", "label": "Time Horizon (Years)", "default": 10, "min": 1, "max": 40, "step": 1},
+      {"id": "stockPct", "label": "Stock Allocation (%)", "default": 70, "min": 0, "max": 100, "step": 5},
+      {"id": "capeBasis", "label": "CAPE Ratio (Shiller P/E)", "default": 33, "min": 10, "max": 50, "step": 1},
+      {"id": "monthlyContrib", "label": "Monthly Contribution ($)", "default": 1000, "min": 0, "step": 100}
+    ],
+    "results": [
+      {"id": "prob10", "label": "Prob of 10%+ Drop"},
+      {"id": "prob20", "label": "Prob of 20%+ Drop (Bear)"},
+      {"id": "prob30", "label": "Prob of 30%+ Crash"},
+      {"id": "prob50", "label": "Prob of 50%+ Crash"},
+      {"id": "maxDrawdown", "label": "Portfolio at -30%"},
+      {"id": "recoveryNote", "label": "Historical Recovery Time"},
+      {"id": "stayInvested", "label": "Expected Value (Stay Invested)"}
+    ],
+    "calcFn": "var yrs = timeHorizon; var capeAdj = capeBasis > 25 ? 1.15 : capeBasis > 20 ? 1.0 : 0.85; var base10 = 1 - Math.pow(0.40, yrs); var base20 = 1 - Math.pow(0.70, yrs); var base30 = 1 - Math.pow(0.85, yrs); var base50 = 1 - Math.pow(0.94, yrs); var p10 = Math.min(99, base10 * 100 * capeAdj); var p20 = Math.min(95, base20 * 100 * capeAdj); var p30 = Math.min(80, base30 * 100 * capeAdj); var p50 = Math.min(50, base50 * 100 * capeAdj); var stockExposure = portfolioValue * (stockPct / 100); var bondExposure = portfolioValue * (1 - stockPct / 100); var at30 = stockExposure * 0.70 + bondExposure * 1.05; var avgReturn = 0.07; var expectedVal = portfolioValue; for (var i = 0; i < yrs; i++) { expectedVal = expectedVal * (1 + avgReturn * stockPct / 100 + 0.03 * (1 - stockPct / 100)) + monthlyContrib * 12; } var recoveryTime = '30% drops: ~2-4 years avg recovery'; document.getElementById('prob10').textContent = fmt(p10, 0) + '% over ' + yrs + ' years'; document.getElementById('prob20').textContent = fmt(p20, 0) + '% over ' + yrs + ' years'; document.getElementById('prob30').textContent = fmt(p30, 0) + '% over ' + yrs + ' years'; document.getElementById('prob50').textContent = fmt(p50, 0) + '% over ' + yrs + ' years'; document.getElementById('maxDrawdown').textContent = dollar(at30); document.getElementById('recoveryNote').textContent = recoveryTime; document.getElementById('stayInvested').textContent = dollar(expectedVal) + ' (avg historical)';",
+    "faq": [
+      {"question": "How often does the stock market crash?", "answer": "The S&P 500 experiences a 10%+ correction roughly every 1.5 years, a 20%+ bear market every 3-4 years, and a 30%+ crash roughly once per decade. Drops of 50%+ have occurred twice since 2000 (2001-2002 dot-com, 2008-2009 financial crisis)."},
+      {"question": "What is the CAPE ratio and why does it matter?", "answer": "The Cyclically Adjusted Price-to-Earnings (CAPE or Shiller P/E) ratio averages earnings over 10 years to smooth out business cycles. High CAPE values (above 25) have historically preceded below-average future returns and above-average crash probability. The long-term average is about 17."},
+      {"question": "Should I move to cash before a crash?", "answer": "Market timing consistently underperforms staying invested. Missing the 10 best trading days over 20 years can cut returns by more than half. Historically, the best days often follow the worst days. A better strategy is maintaining an appropriate asset allocation for your risk tolerance."},
+      {"question": "How long does the market take to recover from crashes?", "answer": "The S&P 500 has recovered from every crash in history. Average recovery times: 10% correction = 4 months, 20% bear = 14 months, 30%+ crash = 2-4 years. The longest recovery was the Great Depression at about 25 years, but that was extraordinary."}
+    ],
+    "formulas": [
+      "Crash Probability = 1 - (1 - Annual Probability)^Years, adjusted for CAPE valuation",
+      "Portfolio at Drawdown = (Stock Allocation × (1 - Drawdown%)) + (Bond Allocation × ~1.05)",
+      "Expected Value = Compounded growth at historical average return + contributions"
+    ],
+    "relatedTools": ["portfolio-rebalancing-calculator", "retirement-savings-calculator", "risk-tolerance-calculator"]
+  },
+  {
+    "slug": "dollar-collapse-impact-calculator",
+    "toolName": "Dollar Collapse Impact Calculator",
+    "category": "economics",
+    "tagline": "Model how a dollar decline would impact your daily costs, mortgage, and savings",
+    "keywords": "dollar collapse calculator, dollar devaluation impact, weak dollar effects, currency decline impact, dollar purchasing power loss",
+    "inputs": [
+      {"id": "declinePct", "label": "Dollar Decline (%)", "default": 25, "min": 5, "max": 80, "step": 5},
+      {"id": "savingsAmount", "label": "Total Savings ($)", "default": 75000, "min": 0, "step": 5000},
+      {"id": "annualIncome", "label": "Annual Income ($)", "default": 70000, "min": 0, "step": 5000},
+      {"id": "mortgageBalance", "label": "Mortgage Balance ($)", "default": 250000, "min": 0, "step": 10000},
+      {"id": "monthlyGroceries", "label": "Monthly Groceries ($)", "default": 800, "min": 100, "max": 3000, "step": 50},
+      {"id": "goldPct", "label": "Gold/Commodities Allocation (%)", "default": 5, "min": 0, "max": 100, "step": 5}
+    ],
+    "results": [
+      {"id": "savingsImpact", "label": "Savings Real Value"},
+      {"id": "gasPrice", "label": "Gas Price ($3.50 now)"},
+      {"id": "groceryImpact", "label": "Monthly Grocery Bill"},
+      {"id": "importCosts", "label": "Import Price Increase"},
+      {"id": "mortgageEffect", "label": "Mortgage in Real Terms"},
+      {"id": "hedgeValue", "label": "Gold/Commodity Hedge Value"},
+      {"id": "netImpact", "label": "Net Wealth Impact"}
+    ],
+    "calcFn": "var decline = declinePct / 100; var importMult = 1 / (1 - decline); var domesticMult = 1 + decline * 0.4; var savingsReal = savingsAmount * (1 - decline); var gasNew = 3.50 * importMult; var importPct = 0.35; var groceryNew = monthlyGroceries * (1 + decline * importPct + decline * 0.15); var mortgageReal = mortgageBalance * (1 - decline); var goldAlloc = savingsAmount * (goldPct / 100); var cashAlloc = savingsAmount * (1 - goldPct / 100); var goldValue = goldAlloc * importMult; var cashValue = cashAlloc * (1 - decline); var totalAfter = goldValue + cashValue; var netChange = totalAfter - savingsAmount; document.getElementById('savingsImpact').textContent = dollar(savingsReal) + ' (was ' + dollar(savingsAmount) + ')'; document.getElementById('gasPrice').textContent = dollar(gasNew) + '/gallon'; document.getElementById('groceryImpact').textContent = dollar(groceryNew) + '/mo (was ' + dollar(monthlyGroceries) + ')'; document.getElementById('importCosts').textContent = '+' + fmt(((importMult - 1) * 100), 0) + '% on imported goods'; document.getElementById('mortgageEffect').textContent = dollar(mortgageReal) + ' (debt shrinks in real terms)'; document.getElementById('hedgeValue').textContent = dollar(goldValue) + ' (from ' + dollar(goldAlloc) + ')'; document.getElementById('netImpact').textContent = (netChange >= 0 ? '+' : '') + dollar(netChange);",
+    "faq": [
+      {"question": "What would cause the US dollar to collapse?", "answer": "Potential triggers include: unsustainable national debt leading to loss of confidence, de-dollarization as global reserve currency, hyperinflationary monetary policy, or a major geopolitical shift. A gradual decline is far more likely than a sudden collapse."},
+      {"question": "How does a weak dollar affect everyday prices?", "answer": "A weaker dollar makes imports more expensive — directly impacting gas (priced globally in dollars), electronics, clothing, and imported food. About 35% of grocery items have significant import content. Domestic goods see smaller increases due to reduced import competition pressure."},
+      {"question": "Does a weaker dollar have any benefits?", "answer": "Yes. A weaker dollar makes US exports more competitive globally, helps manufacturing jobs, reduces the real burden of existing debt (including mortgages), and can boost tourism to the US. For homeowners and debtors, a declining dollar effectively reduces what you owe in real terms."},
+      {"question": "How can I protect against dollar weakness?", "answer": "Diversification into hard assets (gold, silver, real estate), foreign currency-denominated investments, commodity stocks, TIPS, and international equity funds all serve as hedges against dollar decline."}
+    ],
+    "formulas": [
+      "Import Price Impact = Current Price / (1 - Dollar Decline %)",
+      "Savings Real Value = Savings × (1 - Decline %)",
+      "Mortgage Real Value = Balance × (1 - Decline %) — debt shrinks with inflation",
+      "Gold Hedge Value = Gold Allocation × Import Price Multiplier"
+    ],
+    "relatedTools": ["us-dollar-collapse-calculator", "de-dollarization-calculator", "purchasing-power-calculator"]
+  },
+  {
+    "slug": "ev-adoption-timeline-calculator",
+    "toolName": "EV Adoption Timeline Calculator",
+    "category": "automotive",
+    "tagline": "Project when EVs reach market milestones based on growth rate, policy, and gas prices",
+    "keywords": "EV adoption forecast, electric vehicle timeline, when will EVs dominate, EV market share projection, gas car phase out",
+    "inputs": [
+      {"id": "currentShare", "label": "Current EV Market Share (%)", "default": 9, "min": 1, "max": 50, "step": 0.5},
+      {"id": "growthRate", "label": "Annual Growth Rate (%)", "default": 25, "min": 5, "max": 60, "step": 5},
+      {"id": "policySupport", "label": "Policy Environment", "type": "select", "default": "moderate", "options": [{"value": "hostile", "label": "Hostile (subsidies removed)"},{"value": "neutral", "label": "Neutral (current pace)"},{"value": "moderate", "label": "Moderate (increased incentives)"},{"value": "aggressive", "label": "Aggressive (ICE bans scheduled)"}]},
+      {"id": "gasPrice", "label": "Gas Price ($/gallon)", "default": 3.50, "min": 1.50, "max": 8, "step": 0.25},
+      {"id": "avgEVPrice", "label": "Avg EV Price ($)", "default": 45000, "min": 20000, "max": 80000, "step": 1000}
+    ],
+    "results": [
+      {"id": "year25", "label": "Year EVs Hit 25% Share"},
+      {"id": "year50", "label": "Year EVs Hit 50% Share"},
+      {"id": "year75", "label": "Year EVs Hit 75% Share"},
+      {"id": "gasStationDecline", "label": "Gas Station Closures Begin"},
+      {"id": "priceParityYear", "label": "Est. EV Price Parity Year"},
+      {"id": "savingsPerYear", "label": "EV Fuel Savings vs Gas"}
+    ],
+    "calcFn": "var policyAdj = {hostile: 0.6, neutral: 0.85, moderate: 1.0, aggressive: 1.3}; var gasPriceFactor = gasPrice > 5 ? 1.15 : gasPrice > 4 ? 1.05 : gasPrice < 2.50 ? 0.85 : 1.0; var adjGrowth = (growthRate / 100) * policyAdj[policySupport] * gasPriceFactor; var share = currentShare; var yr25 = 'Already reached'; var yr50 = 'Already reached'; var yr75 = 'Already reached'; var y = 2024; for (var i = 0; i < 30; i++) { var slowdown = share > 30 ? Math.max(0.3, 1 - (share - 30) / 100) : 1; share = share + share * adjGrowth * slowdown; y++; if (share >= 25 && yr25 === 'Already reached' && currentShare < 25) yr25 = y; if (share >= 50 && yr50 === 'Already reached' && currentShare < 50) yr50 = y; if (share >= 75 && yr75 === 'Already reached' && currentShare < 75) yr75 = y; if (share >= 99) break; } if (currentShare < 25 && yr25 === 'Already reached') yr25 = 'Beyond 2054'; if (currentShare < 50 && yr50 === 'Already reached') yr50 = 'Beyond 2054'; if (currentShare < 75 && yr75 === 'Already reached') yr75 = 'Beyond 2054'; var gasDecline = yr50 !== 'Beyond 2054' && typeof yr50 === 'number' ? (yr50 - 3) + ' (at ~40% EV share)' : 'Beyond projection'; var priceDrop = avgEVPrice; var parityYr = 2024; while (priceDrop > 30000 && parityYr < 2050) { priceDrop *= 0.94; parityYr++; } var annualMiles = 12000; var mpg = 28; var gasAnnual = (annualMiles / mpg) * gasPrice; var evCostPerMile = 0.04; var evAnnual = annualMiles * evCostPerMile; var fuelSavings = gasAnnual - evAnnual; document.getElementById('year25').textContent = yr25; document.getElementById('year50').textContent = yr50; document.getElementById('year75').textContent = yr75; document.getElementById('gasStationDecline').textContent = gasDecline; document.getElementById('priceParityYear').textContent = parityYr >= 2050 ? 'Beyond 2050' : parityYr; document.getElementById('savingsPerYear').textContent = dollar(fuelSavings) + '/yr in fuel';",
+    "faq": [
+      {"question": "When will EVs outsell gas cars?", "answer": "Most forecasts project EVs will reach 50% of new car sales between 2030-2040 in the US, depending on policy, battery costs, and charging infrastructure. Norway already exceeded 80% EV share in 2023, showing it is achievable with strong policy support."},
+      {"question": "What happens to gas stations as EVs grow?", "answer": "Gas stations will begin closing in significant numbers when EV share reaches 40-50% and fuel demand drops enough to make many locations unprofitable. Rural stations will be most vulnerable. Many will convert to charging stations, convenience stores, or close entirely."},
+      {"question": "When will EVs reach price parity with gas cars?", "answer": "Battery costs have fallen from $1,100/kWh in 2010 to under $140/kWh in 2023. Most analysts project purchase price parity (without subsidies) between 2025-2028 as battery costs approach $80/kWh. EVs are already cheaper on a total-cost-of-ownership basis in many segments."},
+      {"question": "Will the grid handle everyone charging EVs?", "answer": "If all US cars switched to EVs overnight, electricity demand would increase about 25%. But adoption will be gradual, giving utilities time to upgrade. Smart charging during off-peak hours, home solar, and vehicle-to-grid technology will help manage the transition."}
+    ],
+    "formulas": [
+      "Adjusted Growth = Base Growth × Policy Factor × Gas Price Factor",
+      "Market Share Projection with S-curve slowdown above 30% penetration",
+      "Annual Fuel Savings = (Annual Miles / MPG × Gas Price) - (Annual Miles × $0.04/mi EV cost)"
+    ],
+    "relatedTools": ["ev-charging-cost-calculator", "ev-vs-gas-cost-calculator", "ev-range-calculator"]
+  },
+  {
+    "slug": "ai-job-replacement-timeline-calculator",
+    "toolName": "AI Job Replacement Timeline Calculator",
+    "category": "ai-automation",
+    "tagline": "Estimate AI automation risk and timeline for your career field",
+    "keywords": "AI job replacement, automation risk calculator, will AI take my job, AI employment impact, career automation timeline",
+    "inputs": [
+      {"id": "careerField", "label": "Career Field", "type": "select", "default": "office", "options": [{"value": "manual", "label": "Manual Labor / Trades"},{"value": "retail", "label": "Retail / Customer Service"},{"value": "office", "label": "Office / Administrative"},{"value": "data", "label": "Data Entry / Analysis"},{"value": "creative", "label": "Creative / Design"},{"value": "healthcare", "label": "Healthcare / Medical"},{"value": "education", "label": "Education / Training"},{"value": "tech", "label": "Software / IT"},{"value": "legal", "label": "Legal / Compliance"},{"value": "management", "label": "Management / Executive"}]},
+      {"id": "taskType", "label": "Primary Task Type", "type": "select", "default": "mixed", "options": [{"value": "routine", "label": "Routine / Repetitive"},{"value": "mixed", "label": "Mixed Routine + Creative"},{"value": "creative", "label": "Mostly Creative / Strategic"},{"value": "physical", "label": "Physical / Hands-on"},{"value": "interpersonal", "label": "Interpersonal / Relationship-based"}]},
+      {"id": "income", "label": "Annual Income ($)", "default": 65000, "min": 20000, "max": 500000, "step": 5000},
+      {"id": "experience", "label": "Years of Experience", "default": 10, "min": 0, "max": 40, "step": 1},
+      {"id": "yearsToRetire", "label": "Years Until Retirement", "default": 20, "min": 1, "max": 40, "step": 1}
+    ],
+    "results": [
+      {"id": "riskLevel", "label": "Automation Risk Level"},
+      {"id": "riskPct", "label": "Task Automation Probability"},
+      {"id": "timelineEst", "label": "Significant Impact Timeline"},
+      {"id": "incomeAtRisk", "label": "Lifetime Income at Risk"},
+      {"id": "augmentedRole", "label": "AI-Augmented Outlook"},
+      {"id": "adaptAdvice", "label": "Adaptation Strategy"}
+    ],
+    "calcFn": "var fieldRisk = {manual: 25, retail: 55, office: 65, data: 80, creative: 35, healthcare: 20, education: 30, tech: 40, legal: 50, management: 15}; var taskAdj = {routine: 1.4, mixed: 1.0, creative: 0.6, physical: 0.5, interpersonal: 0.4}; var baseRisk = fieldRisk[careerField] || 50; var adjRisk = Math.min(95, baseRisk * taskAdj[taskType]); var expProtection = Math.min(15, experience * 0.5); adjRisk = Math.max(5, adjRisk - expProtection); var riskLabel = adjRisk >= 70 ? 'HIGH' : adjRisk >= 40 ? 'MODERATE' : 'LOW'; var timeline = adjRisk >= 70 ? '3-7 years' : adjRisk >= 40 ? '7-15 years' : '15+ years'; var incomeRisk = income * yearsToRetire * (adjRisk / 100) * 0.5; var augmented = adjRisk >= 60 ? 'Role likely transforms — AI handles ' + fmt(adjRisk * 0.7, 0) + '% of current tasks' : 'Role adapts — AI assists with ' + fmt(adjRisk * 0.5, 0) + '% of tasks'; var advice = adjRisk >= 70 ? 'Urgent: Upskill in AI tools, pivot to supervisory/creative aspects' : adjRisk >= 40 ? 'Learn AI tools in your field, focus on interpersonal skills' : 'Stay current with AI developments, leverage AI to increase productivity'; document.getElementById('riskLevel').textContent = riskLabel + ' RISK'; document.getElementById('riskPct').textContent = fmt(adjRisk, 0) + '% of tasks automatable'; document.getElementById('timelineEst').textContent = timeline; document.getElementById('incomeAtRisk').textContent = dollar(incomeRisk) + ' over ' + yearsToRetire + ' years'; document.getElementById('augmentedRole').textContent = augmented; document.getElementById('adaptAdvice').textContent = advice;",
+    "faq": [
+      {"question": "Will AI replace my job entirely?", "answer": "Most research suggests AI will transform jobs more than eliminate them. McKinsey estimates about 30% of work hours could be automated by 2030, but most workers will see their roles change rather than disappear entirely. Jobs combining routine tasks with judgment, creativity, or physical work are hardest to fully automate."},
+      {"question": "Which jobs are most at risk from AI?", "answer": "Data entry, basic coding, customer service chat, document review, translation, content summarization, bookkeeping, and routine analysis face the highest near-term risk. Jobs requiring physical dexterity (trades, surgery), deep relationships (therapy, sales), or novel creativity face lower risk."},
+      {"question": "How can I make my career more AI-resistant?", "answer": "Focus on skills AI struggles with: complex problem-solving, emotional intelligence, physical craftsmanship, ethical judgment, leadership, and creative strategy. Learn to use AI tools as a productivity multiplier rather than competing against them."},
+      {"question": "What does AI-augmented work look like?", "answer": "AI-augmented workers use AI to handle routine aspects of their job while focusing on higher-value tasks. A lawyer using AI for document review but focusing on strategy. A designer using AI for drafts but refining for quality. These workers are often more productive and valuable."}
+    ],
+    "formulas": [
+      "Risk Score = Base Field Risk × Task Type Multiplier - Experience Protection",
+      "Lifetime Income at Risk = Annual Income × Years to Retirement × Risk % × 0.5 (partial displacement)",
+      "Experience Protection = min(15%, Years of Experience × 0.5%)"
+    ],
+    "relatedTools": ["ai-productivity-calculator", "career-change-roi-calculator", "salary-negotiation-calculator"]
+  },
+  {
+    "slug": "climate-impact-cost-calculator",
+    "toolName": "Climate Impact Cost Calculator",
+    "category": "climate",
+    "tagline": "Project your personal climate-related cost increases for insurance, energy, food, and property",
+    "keywords": "climate change cost calculator, climate impact personal finance, insurance climate risk, climate cost projection, property climate risk",
+    "inputs": [
+      {"id": "region", "label": "US Region", "type": "select", "default": "southeast", "options": [{"value": "northeast", "label": "Northeast"},{"value": "southeast", "label": "Southeast / Gulf Coast"},{"value": "midwest", "label": "Midwest"},{"value": "southwest", "label": "Southwest / Desert"},{"value": "pacific", "label": "Pacific Coast"},{"value": "mountain", "label": "Mountain / Plains"}]},
+      {"id": "homeValue", "label": "Home Value ($)", "default": 350000, "min": 50000, "step": 10000},
+      {"id": "annualInsurance", "label": "Annual Home Insurance ($)", "default": 2400, "min": 500, "max": 15000, "step": 100},
+      {"id": "monthlyEnergy", "label": "Monthly Energy Bill ($)", "default": 250, "min": 50, "max": 800, "step": 25},
+      {"id": "monthlyFood", "label": "Monthly Food Budget ($)", "default": 800, "min": 200, "max": 3000, "step": 50},
+      {"id": "yearsForward", "label": "Years to Project", "default": 10, "min": 5, "max": 30, "step": 5}
+    ],
+    "results": [
+      {"id": "insuranceProjected", "label": "Projected Annual Insurance"},
+      {"id": "energyProjected", "label": "Projected Monthly Energy"},
+      {"id": "foodProjected", "label": "Projected Monthly Food"},
+      {"id": "propertyImpact", "label": "Property Value Impact"},
+      {"id": "totalAnnualIncrease", "label": "Total Annual Cost Increase"},
+      {"id": "cumulativeCost", "label": "Cumulative Extra Cost"}
+    ],
+    "calcFn": "var regionRisk = {northeast: {ins: 6, energy: 3, food: 3, prop: -2}, southeast: {ins: 12, energy: 5, food: 4, prop: -8}, midwest: {ins: 7, energy: 3, food: 3.5, prop: -3}, southwest: {ins: 9, energy: 6, food: 4, prop: -5}, pacific: {ins: 10, energy: 4, food: 3.5, prop: -4}, mountain: {ins: 8, energy: 3.5, food: 3, prop: -2}}; var risk = regionRisk[region]; var futureIns = annualInsurance * Math.pow(1 + risk.ins / 100, yearsForward); var futureEnergy = monthlyEnergy * Math.pow(1 + risk.energy / 100, yearsForward); var futureFood = monthlyFood * Math.pow(1 + risk.food / 100, yearsForward); var propChange = homeValue * (risk.prop / 100) * (yearsForward / 10); var propFuture = homeValue + propChange; var annualInsIncrease = futureIns - annualInsurance; var annualEnergyIncrease = (futureEnergy - monthlyEnergy) * 12; var annualFoodIncrease = (futureFood - monthlyFood) * 12; var totalAnnual = annualInsIncrease + annualEnergyIncrease + annualFoodIncrease; var cumulative = 0; for (var i = 1; i <= yearsForward; i++) { var yIns = annualInsurance * Math.pow(1 + risk.ins / 100, i) - annualInsurance; var yEnergy = (monthlyEnergy * Math.pow(1 + risk.energy / 100, i) - monthlyEnergy) * 12; var yFood = (monthlyFood * Math.pow(1 + risk.food / 100, i) - monthlyFood) * 12; cumulative += yIns + yEnergy + yFood; } document.getElementById('insuranceProjected').textContent = dollar(futureIns) + '/yr (+' + fmt(((futureIns / annualInsurance - 1) * 100), 0) + '%)'; document.getElementById('energyProjected').textContent = dollar(futureEnergy) + '/mo (+' + fmt(((futureEnergy / monthlyEnergy - 1) * 100), 0) + '%)'; document.getElementById('foodProjected').textContent = dollar(futureFood) + '/mo (+' + fmt(((futureFood / monthlyFood - 1) * 100), 0) + '%)'; document.getElementById('propertyImpact').textContent = dollar(propFuture) + ' (' + (propChange >= 0 ? '+' : '') + dollar(propChange) + ')'; document.getElementById('totalAnnualIncrease').textContent = '+' + dollar(totalAnnual) + '/yr by year ' + yearsForward; document.getElementById('cumulativeCost').textContent = dollar(cumulative) + ' total extra over ' + yearsForward + ' years';",
+    "faq": [
+      {"question": "How does climate change affect insurance costs?", "answer": "Insurers are repricing risk based on increasing frequency and severity of hurricanes, wildfires, flooding, and hail. Southeast and Gulf Coast states have seen 25-50% insurance increases since 2020. Some insurers have exited high-risk states entirely (State Farm and Allstate left California in 2023)."},
+      {"question": "Which US regions face the highest climate costs?", "answer": "The Southeast and Gulf Coast face the highest combined costs from hurricanes, flooding, heat, and insurance. The Southwest faces water scarcity and extreme heat costs. Pacific Coast deals with wildfire risk and insurance issues. The Midwest faces increasing tornado and flood risk. No region is unaffected."},
+      {"question": "How does climate change affect food prices?", "answer": "Droughts, floods, and heat waves reduce crop yields. The USDA estimates climate change could increase food prices 2-4% annually beyond normal inflation. Specific items like coffee, chocolate, citrus, and wheat are most vulnerable to climate disruption."},
+      {"question": "Will property values decline in climate-vulnerable areas?", "answer": "Research from the Federal Reserve and academic institutions shows properties in high-risk flood and wildfire zones are already seeing price discounts of 5-10%. Coastal properties face the largest long-term risk from sea level rise and insurance unavailability."}
+    ],
+    "formulas": [
+      "Projected Cost = Current Cost × (1 + Annual Climate Increase %)^Years",
+      "Property Impact = Home Value × Regional Risk Factor × (Years / 10)",
+      "Cumulative Extra Cost = Sum of annual cost increases over projection period"
+    ],
+    "relatedTools": ["home-insurance-calculator", "energy-cost-calculator", "flood-risk-calculator"]
+  }
+]

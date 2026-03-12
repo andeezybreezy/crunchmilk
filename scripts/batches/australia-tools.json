@@ -1,0 +1,367 @@
+[
+  {
+    "slug": "australia-superannuation-calculator",
+    "toolName": "Australia Superannuation Calculator",
+    "category": "finance",
+    "subcategory": "australia-retirement",
+    "tagline": "Calculate your super contributions, employer SG, and projected retirement balance with compound growth",
+    "keywords": "superannuation calculator, super guarantee, super contributions, retirement calculator Australia, super balance projection",
+    "inputs": [
+      {"id": "salary", "label": "Annual Salary (A$)", "default": 85000, "min": 0, "step": 1000},
+      {"id": "sgRate", "label": "Employer SG Rate (%)", "default": 11.5, "min": 9.5, "max": 15, "step": 0.5},
+      {"id": "salarySacrifice", "label": "Salary Sacrifice (A$/year)", "default": 0, "min": 0, "step": 500},
+      {"id": "currentBalance", "label": "Current Super Balance (A$)", "default": 80000, "min": 0, "step": 5000},
+      {"id": "yearsToRetirement", "label": "Years to Retirement", "default": 25, "min": 1, "max": 45, "step": 1},
+      {"id": "returnRate", "label": "Expected Return (%)", "default": 7, "min": 0, "max": 15, "step": 0.5}
+    ],
+    "results": [
+      {"id": "employerContrib", "label": "Annual Employer Contribution"},
+      {"id": "totalAnnualContrib", "label": "Total Annual Contributions"},
+      {"id": "projectedBalance", "label": "Projected Balance at Retirement"},
+      {"id": "taxOnContrib", "label": "Annual Tax on Contributions (15%)"},
+      {"id": "monthlyRetirement", "label": "Est. Monthly Income (4% drawdown)"}
+    ],
+    "calcFn": "var sgContrib = salary * (sgRate / 100);\n    var totalContrib = sgContrib + salarySacrifice;\n    var concessionalCap = 30000;\n    var taxOnContribVal = Math.min(totalContrib, concessionalCap) * 0.15;\n    var afterTaxContrib = totalContrib - taxOnContribVal;\n    var monthlyReturn = returnRate / 100 / 12;\n    var months = yearsToRetirement * 12;\n    var balance = currentBalance;\n    var monthlyContrib = afterTaxContrib / 12;\n    for (var i = 0; i < months; i++) {\n      balance = balance * (1 + monthlyReturn) + monthlyContrib;\n    }\n    var monthlyIncome = balance * 0.04 / 12;\n    document.getElementById('employerContrib').textContent = 'A$' + sgContrib.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalAnnualContrib').textContent = 'A$' + totalContrib.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('projectedBalance').textContent = 'A$' + balance.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxOnContrib').textContent = 'A$' + taxOnContribVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyRetirement').textContent = 'A$' + monthlyIncome.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo';",
+    "faq": [
+      {"question": "What is the current super guarantee rate?", "answer": "The Super Guarantee (SG) rate is 11.5% for 2024-25, increasing to 12% from 1 July 2025. Employers must pay SG on top of your salary for eligible employees earning $450+ per month."},
+      {"question": "What is the concessional contributions cap?", "answer": "The concessional (before-tax) contributions cap is $30,000 per year for 2024-25. This includes employer SG, salary sacrifice, and personal deductible contributions. Contributions are taxed at 15% within the fund."},
+      {"question": "When can I access my super?", "answer": "You can access your super when you reach your preservation age (60 for those born after 1 July 1964) and retire, or at age 65 regardless. Some early access is possible for severe financial hardship or compassionate grounds."},
+      {"question": "Should I salary sacrifice into super?", "answer": "Salary sacrifice is generally tax-effective if your marginal rate exceeds 15% (the super tax rate). For someone on a 32.5% or 37% marginal rate, each $1,000 salary sacrificed saves $175-$220 in tax. Ensure total concessional contributions stay under the $30,000 cap."}
+    ],
+    "formulas": [
+      "Employer SG = Salary x 11.5% (2024-25)",
+      "Tax on concessional contributions = 15% within super",
+      "Concessional cap: $30,000/year (employer + salary sacrifice + personal deductible)",
+      "Projected balance = Current balance compounded + net contributions compounded"
+    ],
+    "relatedTools": ["australia-income-tax-calculator", "australia-payg-tax-calculator", "australia-hecs-help-calculator"]
+  },
+  {
+    "slug": "australia-stamp-duty-calculator",
+    "toolName": "Australia Stamp Duty Calculator",
+    "category": "finance",
+    "subcategory": "australia-housing",
+    "tagline": "Calculate stamp duty (transfer duty) by state and territory for Australian property purchases",
+    "keywords": "stamp duty calculator Australia, transfer duty, property tax, stamp duty NSW, stamp duty VIC, first home buyer stamp duty",
+    "inputs": [
+      {"id": "propertyValue", "label": "Property Value (A$)", "default": 750000, "min": 0, "step": 10000},
+      {"id": "state", "label": "State/Territory", "type": "select", "default": "NSW", "options": [{"value": "NSW", "label": "New South Wales"}, {"value": "VIC", "label": "Victoria"}, {"value": "QLD", "label": "Queensland"}, {"value": "WA", "label": "Western Australia"}, {"value": "SA", "label": "South Australia"}, {"value": "TAS", "label": "Tasmania"}, {"value": "ACT", "label": "ACT"}]},
+      {"id": "propertyType", "label": "Property Type", "type": "select", "default": "established", "options": [{"value": "established", "label": "Established Home"}, {"value": "new", "label": "New Home"}, {"value": "vacant", "label": "Vacant Land"}, {"value": "investment", "label": "Investment Property"}]},
+      {"id": "firstHomeBuyer", "label": "First Home Buyer?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes"}]},
+      {"id": "foreignBuyer", "label": "Foreign Buyer?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No (Australian citizen/PR)"}, {"value": "yes", "label": "Yes (foreign purchaser)"}]}
+    ],
+    "results": [
+      {"id": "stampDuty", "label": "Stamp Duty (Transfer Duty)"},
+      {"id": "fhbConcession", "label": "First Home Buyer Concession"},
+      {"id": "foreignSurcharge", "label": "Foreign Buyer Surcharge"},
+      {"id": "totalDuty", "label": "Total Duty Payable"},
+      {"id": "totalPurchaseCost", "label": "Total Purchase Cost"}
+    ],
+    "calcFn": "var price = propertyValue;\n    var duty = 0;\n    if (state === 'NSW') {\n      if (price <= 17000) duty = price * 0.0125;\n      else if (price <= 36000) duty = 212 + (price - 17000) * 0.015;\n      else if (price <= 97000) duty = 497 + (price - 36000) * 0.0175;\n      else if (price <= 364000) duty = 1564 + (price - 97000) * 0.035;\n      else if (price <= 1214000) duty = 10909 + (price - 364000) * 0.045;\n      else duty = 49159 + (price - 1214000) * 0.055;\n    } else if (state === 'VIC') {\n      if (price <= 25000) duty = price * 0.014;\n      else if (price <= 130000) duty = 350 + (price - 25000) * 0.024;\n      else if (price <= 960000) duty = 2870 + (price - 130000) * 0.06;\n      else if (price <= 2000000) duty = 28070 + (price - 960000) * 0.055;\n      else duty = 110000 + (price - 2000000) * 0.065;\n    } else if (state === 'QLD') {\n      if (price <= 5000) duty = 0;\n      else if (price <= 75000) duty = (price - 5000) * 0.015;\n      else if (price <= 540000) duty = 1050 + (price - 75000) * 0.035;\n      else if (price <= 1000000) duty = 17325 + (price - 540000) * 0.045;\n      else duty = 38025 + (price - 1000000) * 0.0575;\n    } else if (state === 'WA') {\n      if (price <= 120000) duty = price * 0.019;\n      else if (price <= 150000) duty = 2280 + (price - 120000) * 0.0285;\n      else if (price <= 360000) duty = 3135 + (price - 150000) * 0.038;\n      else if (price <= 725000) duty = 11115 + (price - 360000) * 0.0475;\n      else duty = 28453 + (price - 725000) * 0.0515;\n    } else if (state === 'SA') {\n      if (price <= 12000) duty = price * 0.01;\n      else if (price <= 30000) duty = 120 + (price - 12000) * 0.02;\n      else if (price <= 50000) duty = 480 + (price - 30000) * 0.03;\n      else if (price <= 100000) duty = 1080 + (price - 50000) * 0.035;\n      else if (price <= 200000) duty = 2830 + (price - 100000) * 0.04;\n      else if (price <= 250000) duty = 6830 + (price - 200000) * 0.0425;\n      else if (price <= 300000) duty = 8955 + (price - 250000) * 0.0475;\n      else if (price <= 500000) duty = 11330 + (price - 300000) * 0.05;\n      else duty = 21330 + (price - 500000) * 0.055;\n    } else if (state === 'TAS') {\n      if (price <= 3000) duty = 50;\n      else if (price <= 25000) duty = 50 + (price - 3000) * 0.0175;\n      else if (price <= 75000) duty = 435 + (price - 25000) * 0.025;\n      else if (price <= 200000) duty = 1685 + (price - 75000) * 0.035;\n      else if (price <= 375000) duty = 6060 + (price - 200000) * 0.04;\n      else if (price <= 725000) duty = 13060 + (price - 375000) * 0.0425;\n      else duty = 27935 + (price - 725000) * 0.045;\n    } else if (state === 'ACT') {\n      if (price <= 260000) duty = price * 0.006 * (price / 1000);\n      else duty = price * 0.045;\n      duty = Math.min(duty, price * 0.055);\n    }\n    var fhbVal = 0;\n    if (firstHomeBuyer === 'yes') {\n      if (state === 'NSW' && price <= 800000) fhbVal = duty;\n      if (state === 'VIC' && price <= 600000) fhbVal = duty;\n      if (state === 'QLD' && price <= 700000) fhbVal = duty;\n      if (state === 'WA' && price <= 530000) fhbVal = duty;\n      if (state === 'SA' && price <= 650000) fhbVal = duty;\n      if (state === 'ACT') fhbVal = duty;\n    }\n    var foreignSurchargeVal = 0;\n    if (foreignBuyer === 'yes') {\n      var foreignRates = {NSW: 0.08, VIC: 0.08, QLD: 0.07, WA: 0.07, SA: 0.07, TAS: 0.08, ACT: 0.075};\n      foreignSurchargeVal = price * (foreignRates[state] || 0.08);\n    }\n    var totalDutyVal = Math.max(0, duty - fhbVal) + foreignSurchargeVal;\n    var totalCost = price + totalDutyVal;\n    document.getElementById('stampDuty').textContent = 'A$' + duty.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('fhbConcession').textContent = fhbVal > 0 ? '-A$' + fhbVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A';\n    document.getElementById('foreignSurcharge').textContent = foreignSurchargeVal > 0 ? 'A$' + foreignSurchargeVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A';\n    document.getElementById('totalDuty').textContent = 'A$' + totalDutyVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalPurchaseCost').textContent = 'A$' + totalCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "How is stamp duty calculated in Australia?", "answer": "Stamp duty (transfer duty) is calculated on a sliding scale that varies by state. Each state has different thresholds and rates. The duty increases progressively with the property price, typically ranging from 1-6% of the purchase price."},
+      {"question": "Do first home buyers get a stamp duty exemption?", "answer": "Yes, most states offer concessions. NSW: full exemption up to $800,000. VIC: full exemption up to $600,000. QLD: full concession up to $700,000. Thresholds and eligibility vary by state and property type."},
+      {"question": "Is there a foreign buyer surcharge?", "answer": "Yes. All states charge additional duty for foreign purchasers: NSW 8%, VIC 8%, QLD 7%, WA 7%, SA 7%, TAS 8%, ACT 7.5%. This is on top of the standard stamp duty."},
+      {"question": "Can I add stamp duty to my mortgage?", "answer": "Generally no. Stamp duty must be paid at settlement from your own funds. Some lenders may allow capitalisation into the loan if your LVR is low enough, but this is uncommon and increases your total borrowing."}
+    ],
+    "formulas": [
+      "Stamp duty is calculated on progressive bands that vary by state/territory",
+      "NSW example: 1.25% to $17k, 1.5% $17k-$36k, 1.75% $36k-$97k, 3.5% $97k-$364k, 4.5% $364k-$1.21M, 5.5% above",
+      "First home buyer exemptions vary by state (e.g., NSW up to $800k, VIC up to $600k)",
+      "Foreign buyer surcharges: 7-8% additional on top of standard duty"
+    ],
+    "relatedTools": ["australia-first-home-buyer-calculator", "australia-income-tax-calculator", "australia-negative-gearing-calculator"]
+  },
+  {
+    "slug": "australia-income-tax-calculator",
+    "toolName": "Australia Income Tax Calculator",
+    "category": "finance",
+    "subcategory": "australia-tax",
+    "tagline": "Calculate your Australian income tax including Medicare levy using the 2024-25 tax brackets",
+    "keywords": "Australia income tax calculator, tax brackets 2024, Medicare levy, Australian tax rates, ATO tax calculator",
+    "inputs": [
+      {"id": "taxableIncome", "label": "Taxable Income (A$)", "default": 85000, "min": 0, "step": 1000},
+      {"id": "residency", "label": "Residency Status", "type": "select", "default": "resident", "options": [{"value": "resident", "label": "Australian Resident"}, {"value": "nonResident", "label": "Non-Resident"}, {"value": "whm", "label": "Working Holiday Maker"}]},
+      {"id": "privateHealth", "label": "Private Health Insurance?", "type": "select", "default": "yes", "options": [{"value": "yes", "label": "Yes (no MLS)"}, {"value": "no", "label": "No"}]},
+      {"id": "helpDebt", "label": "HECS-HELP Debt?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes"}]}
+    ],
+    "results": [
+      {"id": "incomeTax", "label": "Income Tax"},
+      {"id": "medicareLevy", "label": "Medicare Levy (2%)"},
+      {"id": "medicareSurcharge", "label": "Medicare Levy Surcharge"},
+      {"id": "helpRepayment", "label": "HECS-HELP Repayment"},
+      {"id": "totalTax", "label": "Total Tax"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"},
+      {"id": "takeHome", "label": "Annual Take-Home Pay"},
+      {"id": "monthlyTakeHome", "label": "Monthly Take-Home Pay"}
+    ],
+    "calcFn": "var income = taxableIncome;\n    var tax = 0;\n    if (residency === 'resident') {\n      if (income <= 18200) tax = 0;\n      else if (income <= 45000) tax = (income - 18200) * 0.16;\n      else if (income <= 135000) tax = 4288 + (income - 45000) * 0.30;\n      else if (income <= 190000) tax = 31288 + (income - 135000) * 0.37;\n      else tax = 51638 + (income - 190000) * 0.45;\n    } else if (residency === 'nonResident') {\n      if (income <= 135000) tax = income * 0.30;\n      else if (income <= 190000) tax = 40500 + (income - 135000) * 0.37;\n      else tax = 60850 + (income - 190000) * 0.45;\n    } else {\n      if (income <= 45000) tax = income * 0.15;\n      else if (income <= 135000) tax = 6750 + (income - 45000) * 0.30;\n      else if (income <= 190000) tax = 33750 + (income - 135000) * 0.37;\n      else tax = 54100 + (income - 190000) * 0.45;\n    }\n    var medicare = 0;\n    if (residency === 'resident') {\n      if (income > 26000) medicare = income * 0.02;\n      else if (income > 24276) medicare = (income - 24276) * 0.10;\n    }\n    var mls = 0;\n    if (privateHealth === 'no' && residency === 'resident') {\n      if (income > 93000 && income <= 108000) mls = income * 0.01;\n      else if (income > 108000 && income <= 144000) mls = income * 0.0125;\n      else if (income > 144000) mls = income * 0.015;\n    }\n    var help = 0;\n    if (helpDebt === 'yes' && residency === 'resident') {\n      if (income >= 54435 && income < 62850) help = income * 0.01;\n      else if (income >= 62850 && income < 66620) help = income * 0.02;\n      else if (income >= 66620 && income < 70618) help = income * 0.025;\n      else if (income >= 70618 && income < 74855) help = income * 0.03;\n      else if (income >= 74855 && income < 79346) help = income * 0.035;\n      else if (income >= 79346 && income < 84107) help = income * 0.04;\n      else if (income >= 84107 && income < 89154) help = income * 0.045;\n      else if (income >= 89154 && income < 94503) help = income * 0.05;\n      else if (income >= 94503 && income < 100174) help = income * 0.055;\n      else if (income >= 100174 && income < 106185) help = income * 0.06;\n      else if (income >= 106185 && income < 112556) help = income * 0.065;\n      else if (income >= 112556 && income < 119310) help = income * 0.07;\n      else if (income >= 119310 && income < 126467) help = income * 0.075;\n      else if (income >= 126467 && income < 134056) help = income * 0.08;\n      else if (income >= 134056 && income < 142100) help = income * 0.085;\n      else if (income >= 142100 && income < 150626) help = income * 0.09;\n      else if (income >= 150626 && income < 159663) help = income * 0.095;\n      else if (income >= 159663) help = income * 0.10;\n    }\n    var totalTaxVal = tax + medicare + mls + help;\n    var effRate = income > 0 ? (totalTaxVal / income * 100) : 0;\n    var takeHomeVal = income - totalTaxVal;\n    var monthlyVal = takeHomeVal / 12;\n    document.getElementById('incomeTax').textContent = 'A$' + tax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('medicareLevy').textContent = 'A$' + medicare.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('medicareSurcharge').textContent = mls > 0 ? 'A$' + mls.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'A$0';\n    document.getElementById('helpRepayment').textContent = help > 0 ? 'A$' + help.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'A$0';\n    document.getElementById('totalTax').textContent = 'A$' + totalTaxVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('effectiveRate').textContent = effRate.toFixed(2) + '%';\n    document.getElementById('takeHome').textContent = 'A$' + takeHomeVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyTakeHome').textContent = 'A$' + monthlyVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What are the 2024-25 Australian tax brackets?", "answer": "For residents: 0% on $0-$18,200, 16% on $18,201-$45,000, 30% on $45,001-$135,000, 37% on $135,001-$190,000, and 45% above $190,000. The 2024-25 Stage 3 tax cuts lowered the 19% rate to 16% and raised the 37% threshold from $120,000 to $135,000."},
+      {"question": "What is the Medicare levy?", "answer": "The Medicare levy is 2% of taxable income for Australian residents, funding the public health system. Low-income earners (under $26,000 for singles) may be exempt or pay a reduced rate. The levy is in addition to income tax."},
+      {"question": "What is the Medicare levy surcharge?", "answer": "The MLS applies to higher earners without private hospital cover: 1% for $93,001-$108,000, 1.25% for $108,001-$144,000, and 1.5% above $144,000 (singles thresholds). Having private health insurance exempts you from the MLS."},
+      {"question": "How did the Stage 3 tax cuts change things?", "answer": "From 1 July 2024: the 19% rate was cut to 16%, the 32.5% rate was cut to 30%, the $120,000 threshold was raised to $135,000, and the 37% bracket now starts at $135,001. All taxpayers earning over $18,200 received a tax cut."}
+    ],
+    "formulas": [
+      "2024-25 resident rates: 0% to $18,200, 16% $18,201-$45,000, 30% $45,001-$135,000, 37% $135,001-$190,000, 45% over $190,000",
+      "Medicare levy: 2% of taxable income (residents, income above $26,000)",
+      "Medicare levy surcharge: 1-1.5% if no private hospital cover and income above $93,000",
+      "Effective rate = Total tax / Taxable income x 100"
+    ],
+    "relatedTools": ["australia-payg-tax-calculator", "australia-superannuation-calculator", "australia-hecs-help-calculator", "australia-cgt-calculator"]
+  },
+  {
+    "slug": "australia-hecs-help-calculator",
+    "toolName": "Australia HECS-HELP Repayment Calculator",
+    "category": "finance",
+    "subcategory": "australia-tax",
+    "tagline": "Calculate your HECS-HELP compulsory repayment based on your income and outstanding debt",
+    "keywords": "HECS calculator, HELP repayment, student loan Australia, HECS-HELP threshold, compulsory repayment",
+    "inputs": [
+      {"id": "repaymentIncome", "label": "Repayment Income (A$)", "default": 70000, "min": 0, "step": 1000},
+      {"id": "helpBalance", "label": "Outstanding HELP Debt (A$)", "default": 30000, "min": 0, "step": 1000},
+      {"id": "salaryGrowth", "label": "Annual Salary Growth (%)", "default": 3, "min": 0, "max": 10, "step": 0.5},
+      {"id": "indexationRate", "label": "Indexation Rate (%)", "default": 3.2, "min": 0, "max": 10, "step": 0.1}
+    ],
+    "results": [
+      {"id": "repaymentRate", "label": "Current Repayment Rate"},
+      {"id": "annualRepayment", "label": "Annual Compulsory Repayment"},
+      {"id": "monthlyRepayment", "label": "Monthly Equivalent"},
+      {"id": "yearsToRepay", "label": "Estimated Years to Repay"},
+      {"id": "totalRepaid", "label": "Total Amount Repaid"}
+    ],
+    "calcFn": "var rates = [\n      {min: 0, max: 54435, rate: 0},\n      {min: 54435, max: 62850, rate: 0.01},\n      {min: 62850, max: 66620, rate: 0.02},\n      {min: 66620, max: 70618, rate: 0.025},\n      {min: 70618, max: 74855, rate: 0.03},\n      {min: 74855, max: 79346, rate: 0.035},\n      {min: 79346, max: 84107, rate: 0.04},\n      {min: 84107, max: 89154, rate: 0.045},\n      {min: 89154, max: 94503, rate: 0.05},\n      {min: 94503, max: 100174, rate: 0.055},\n      {min: 100174, max: 106185, rate: 0.06},\n      {min: 106185, max: 112556, rate: 0.065},\n      {min: 112556, max: 119310, rate: 0.07},\n      {min: 119310, max: 126467, rate: 0.075},\n      {min: 126467, max: 134056, rate: 0.08},\n      {min: 134056, max: 142100, rate: 0.085},\n      {min: 142100, max: 150626, rate: 0.09},\n      {min: 150626, max: 159663, rate: 0.095},\n      {min: 159663, max: Infinity, rate: 0.10}\n    ];\n    var currentRate = 0;\n    for (var i = 0; i < rates.length; i++) {\n      if (repaymentIncome >= rates[i].min && repaymentIncome < rates[i].max) {\n        currentRate = rates[i].rate;\n        break;\n      }\n    }\n    var annualRepay = repaymentIncome * currentRate;\n    var monthlyRepay = annualRepay / 12;\n    var balance = helpBalance;\n    var totalPaid = 0;\n    var years = 0;\n    var sal = repaymentIncome;\n    while (balance > 0 && years < 50) {\n      balance = balance * (1 + indexationRate / 100);\n      var rateForYear = 0;\n      for (var j = 0; j < rates.length; j++) {\n        if (sal >= rates[j].min && sal < rates[j].max) { rateForYear = rates[j].rate; break; }\n      }\n      var yearRepay = Math.min(sal * rateForYear, balance);\n      balance -= yearRepay;\n      totalPaid += yearRepay;\n      years++;\n      sal *= (1 + salaryGrowth / 100);\n    }\n    document.getElementById('repaymentRate').textContent = (currentRate * 100).toFixed(1) + '%';\n    document.getElementById('annualRepayment').textContent = 'A$' + annualRepay.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyRepayment').textContent = 'A$' + monthlyRepay.toFixed(0) + '/mo';\n    document.getElementById('yearsToRepay').textContent = balance <= 0 ? years + ' years' : 'Over 50 years';\n    document.getElementById('totalRepaid').textContent = 'A$' + totalPaid.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is the HECS-HELP repayment threshold?", "answer": "For 2024-25, you start repaying when your repayment income reaches $54,435. The rate starts at 1% and increases progressively up to 10% for incomes above $159,663. Below the threshold, no repayment is required."},
+      {"question": "How is HECS-HELP indexed?", "answer": "From 1 June 2023, HELP debts are indexed at the lower of CPI or the Wage Price Index (WPI), capped to ensure debts do not grow faster than wages. Indexation is applied annually on 1 June."},
+      {"question": "What counts as repayment income?", "answer": "Repayment income includes taxable income plus any net investment losses, reportable fringe benefits, reportable super contributions, and exempt foreign income. It is generally higher than taxable income alone."},
+      {"question": "Can I make voluntary repayments?", "answer": "Yes. You can make voluntary repayments at any time through the ATO. As of 2024, the 5% bonus for voluntary payments over $500 has been removed, but voluntary payments still reduce your debt and future indexation charges."}
+    ],
+    "formulas": [
+      "Repayment threshold: $54,435 (2024-25), rate starts at 1%",
+      "Compulsory repayment = Repayment income x Applicable rate (1%-10%)",
+      "Indexation = Lower of CPI or WPI (applied 1 June each year)",
+      "Repayment rates increase progressively across 19 income bands"
+    ],
+    "relatedTools": ["australia-income-tax-calculator", "australia-payg-tax-calculator", "australia-superannuation-calculator"]
+  },
+  {
+    "slug": "australia-cgt-calculator",
+    "toolName": "Australia Capital Gains Tax Calculator",
+    "category": "finance",
+    "subcategory": "australia-tax",
+    "tagline": "Calculate Australian capital gains tax with the 50% CGT discount for assets held over 12 months",
+    "keywords": "capital gains tax Australia, CGT calculator, CGT discount, 50% discount, capital gains tax rate, ATO CGT",
+    "inputs": [
+      {"id": "salePrice", "label": "Sale Price (A$)", "default": 500000, "min": 0, "step": 1000},
+      {"id": "costBase", "label": "Cost Base (A$)", "default": 300000, "min": 0, "step": 1000},
+      {"id": "holdingPeriod", "label": "Holding Period", "type": "select", "default": "over12", "options": [{"value": "under12", "label": "Under 12 months"}, {"value": "over12", "label": "12 months or more (50% discount)"}]},
+      {"id": "otherIncome", "label": "Other Taxable Income (A$)", "default": 80000, "min": 0, "step": 1000},
+      {"id": "capitalLosses", "label": "Capital Losses to Offset (A$)", "default": 0, "min": 0, "step": 1000}
+    ],
+    "results": [
+      {"id": "totalGain", "label": "Total Capital Gain"},
+      {"id": "netGain", "label": "Net Gain (after losses)"},
+      {"id": "cgtDiscount", "label": "CGT Discount (50%)"},
+      {"id": "taxableGain", "label": "Taxable Capital Gain"},
+      {"id": "marginalRate", "label": "Marginal Tax Rate on Gain"},
+      {"id": "cgtPayable", "label": "Estimated CGT Payable"}
+    ],
+    "calcFn": "var totalGainVal = Math.max(0, salePrice - costBase);\n    var netGainVal = Math.max(0, totalGainVal - capitalLosses);\n    var discountVal = 0;\n    var taxableGainVal = netGainVal;\n    if (holdingPeriod === 'over12' && netGainVal > 0) {\n      discountVal = netGainVal * 0.50;\n      taxableGainVal = netGainVal * 0.50;\n    }\n    var totalIncome = otherIncome + taxableGainVal;\n    var taxWithGain = 0;\n    if (totalIncome <= 18200) taxWithGain = 0;\n    else if (totalIncome <= 45000) taxWithGain = (totalIncome - 18200) * 0.16;\n    else if (totalIncome <= 135000) taxWithGain = 4288 + (totalIncome - 45000) * 0.30;\n    else if (totalIncome <= 190000) taxWithGain = 31288 + (totalIncome - 135000) * 0.37;\n    else taxWithGain = 51638 + (totalIncome - 190000) * 0.45;\n    var taxWithout = 0;\n    if (otherIncome <= 18200) taxWithout = 0;\n    else if (otherIncome <= 45000) taxWithout = (otherIncome - 18200) * 0.16;\n    else if (otherIncome <= 135000) taxWithout = 4288 + (otherIncome - 45000) * 0.30;\n    else if (otherIncome <= 190000) taxWithout = 31288 + (otherIncome - 135000) * 0.37;\n    else taxWithout = 51638 + (otherIncome - 190000) * 0.45;\n    var cgtPayableVal = taxWithGain - taxWithout;\n    var margRate = 0;\n    if (totalIncome <= 18200) margRate = 0;\n    else if (totalIncome <= 45000) margRate = 16;\n    else if (totalIncome <= 135000) margRate = 30;\n    else if (totalIncome <= 190000) margRate = 37;\n    else margRate = 45;\n    document.getElementById('totalGain').textContent = 'A$' + totalGainVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('netGain').textContent = 'A$' + netGainVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('cgtDiscount').textContent = holdingPeriod === 'over12' ? 'A$' + discountVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A (held < 12 months)';\n    document.getElementById('taxableGain').textContent = 'A$' + taxableGainVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('marginalRate').textContent = margRate + '%';\n    document.getElementById('cgtPayable').textContent = 'A$' + cgtPayableVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is the CGT discount in Australia?", "answer": "Australian resident individuals who hold an asset for 12 months or more before selling receive a 50% CGT discount. This means only half the capital gain is added to taxable income. The discount does not apply to companies."},
+      {"question": "How is CGT calculated?", "answer": "CGT is calculated by adding your taxable capital gain to your other income and applying your marginal tax rate. The tax on the gain is the difference between tax on total income and tax without the gain. There is no separate CGT rate."},
+      {"question": "What is the cost base for CGT purposes?", "answer": "The cost base includes the purchase price, stamp duty, legal fees, and capital improvements. It does not include maintenance, interest, or insurance. For shares, it includes brokerage fees on both purchase and sale."},
+      {"question": "Is a primary residence exempt from CGT?", "answer": "Yes. Your main residence is generally fully exempt from CGT if you have lived in it for the entire ownership period. A partial exemption applies if you rented it out or were absent for extended periods."}
+    ],
+    "formulas": [
+      "Capital Gain = Sale Price - Cost Base",
+      "50% CGT Discount applies if held 12+ months (individuals only)",
+      "Taxable gain = Net gain x 50% (if discount applies)",
+      "CGT = Tax on (Other income + Taxable gain) - Tax on (Other income alone)"
+    ],
+    "relatedTools": ["australia-income-tax-calculator", "australia-negative-gearing-calculator", "australia-superannuation-calculator"]
+  },
+  {
+    "slug": "australia-negative-gearing-calculator",
+    "toolName": "Australia Negative Gearing Calculator",
+    "category": "finance",
+    "subcategory": "australia-property",
+    "tagline": "Calculate the tax benefit of negative gearing on your Australian investment property",
+    "keywords": "negative gearing calculator, investment property tax, rental property tax benefit, negative gearing Australia, property investment",
+    "inputs": [
+      {"id": "weeklyRent", "label": "Weekly Rental Income (A$)", "default": 550, "min": 0, "step": 10},
+      {"id": "loanAmount", "label": "Mortgage Loan Amount (A$)", "default": 600000, "min": 0, "step": 10000},
+      {"id": "interestRate", "label": "Mortgage Interest Rate (%)", "default": 6.0, "min": 0, "max": 15, "step": 0.1},
+      {"id": "annualExpenses", "label": "Other Annual Expenses (A$)", "default": 8000, "min": 0, "step": 500},
+      {"id": "depreciationYear", "label": "Annual Depreciation (A$)", "default": 10000, "min": 0, "step": 500},
+      {"id": "marginalRate", "label": "Your Marginal Tax Rate (%)", "default": 37, "min": 16, "max": 45, "step": 0.5}
+    ],
+    "results": [
+      {"id": "annualRent", "label": "Annual Rental Income"},
+      {"id": "annualInterest", "label": "Annual Interest Cost"},
+      {"id": "totalDeductions", "label": "Total Deductions"},
+      {"id": "netRentalLoss", "label": "Net Rental Income/Loss"},
+      {"id": "taxBenefit", "label": "Annual Tax Benefit"},
+      {"id": "afterTaxCost", "label": "After-Tax Weekly Cost"}
+    ],
+    "calcFn": "var annualRentVal = weeklyRent * 52;\n    var annualInterestVal = loanAmount * (interestRate / 100);\n    var totalDeductionsVal = annualInterestVal + annualExpenses + depreciationYear;\n    var netRental = annualRentVal - totalDeductionsVal;\n    var taxBenefitVal = 0;\n    var afterTaxCostWeekly = 0;\n    if (netRental < 0) {\n      taxBenefitVal = Math.abs(netRental) * (marginalRate / 100);\n      var outOfPocket = Math.abs(netRental) - taxBenefitVal + depreciationYear;\n      afterTaxCostWeekly = outOfPocket / 52;\n    }\n    document.getElementById('annualRent').textContent = 'A$' + annualRentVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('annualInterest').textContent = 'A$' + annualInterestVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalDeductions').textContent = 'A$' + totalDeductionsVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('netRentalLoss').textContent = (netRental < 0 ? '-' : '') + 'A$' + Math.abs(netRental).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxBenefit').textContent = netRental < 0 ? 'A$' + taxBenefitVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'A$0 (positively geared)';\n    document.getElementById('afterTaxCost').textContent = netRental < 0 ? 'A$' + afterTaxCostWeekly.toFixed(0) + '/wk' : 'A$0 (cash flow positive)';",
+    "faq": [
+      {"question": "What is negative gearing?", "answer": "Negative gearing occurs when your investment property expenses (interest, maintenance, depreciation, etc.) exceed the rental income. The resulting loss can be offset against your other income, reducing your total tax."},
+      {"question": "How much tax do you save from negative gearing?", "answer": "Your tax saving equals the net rental loss multiplied by your marginal tax rate. For example, a $15,000 net loss at a 37% marginal rate saves $5,550 in tax. Higher income earners save more per dollar of loss."},
+      {"question": "What expenses can I claim on an investment property?", "answer": "Deductible expenses include mortgage interest, council rates, water rates, insurance, property management fees, repairs and maintenance, depreciation of the building and fixtures, and landlord insurance."},
+      {"question": "Is depreciation a real expense?", "answer": "Depreciation is a non-cash deduction for the decline in value of the building and its fixtures. While you do not pay it out of pocket, it reduces your taxable income. A quantity surveyor can prepare a depreciation schedule for your property."}
+    ],
+    "formulas": [
+      "Net Rental Income = Annual Rent - (Interest + Expenses + Depreciation)",
+      "Tax Benefit = Net Rental Loss x Marginal Tax Rate",
+      "After-tax weekly cost = (Loss - Tax benefit + Depreciation) / 52",
+      "Total deductions include interest, expenses, and depreciation"
+    ],
+    "relatedTools": ["australia-cgt-calculator", "australia-income-tax-calculator", "australia-stamp-duty-calculator"]
+  },
+  {
+    "slug": "australia-gst-calculator",
+    "toolName": "Australia GST Calculator",
+    "category": "finance",
+    "subcategory": "australia-tax",
+    "tagline": "Add or remove 10% Australian GST from any amount — instant Goods and Services Tax calculation",
+    "keywords": "GST calculator Australia, 10% GST, add GST, remove GST, reverse GST, BAS GST, Australian GST",
+    "inputs": [
+      {"id": "amount", "label": "Amount (A$)", "default": 1000, "min": 0, "step": 0.01},
+      {"id": "direction", "label": "Calculation", "type": "select", "default": "add", "options": [{"value": "add", "label": "Add GST to amount"}, {"value": "remove", "label": "Remove GST from amount"}]},
+      {"id": "quantity", "label": "Quantity", "default": 1, "min": 1, "step": 1},
+      {"id": "gstStatus", "label": "GST Status", "type": "select", "default": "taxable", "options": [{"value": "taxable", "label": "GST-Taxable Supply (10%)"}, {"value": "free", "label": "GST-Free Supply (0%)"}, {"value": "input", "label": "Input Taxed (no GST credit)"}]}
+    ],
+    "results": [
+      {"id": "exGST", "label": "Amount Excluding GST"},
+      {"id": "gstAmount", "label": "GST Amount (10%)"},
+      {"id": "incGST", "label": "Amount Including GST"},
+      {"id": "totalAll", "label": "Total for All Items"}
+    ],
+    "calcFn": "var rate = gstStatus === 'taxable' ? 0.10 : 0;\n    var exGSTval, gstVal, incGSTval;\n    if (direction === 'add') {\n      exGSTval = amount;\n      gstVal = amount * rate;\n      incGSTval = amount + gstVal;\n    } else {\n      incGSTval = amount;\n      exGSTval = amount / (1 + rate);\n      gstVal = incGSTval - exGSTval;\n    }\n    if (rate === 0) { gstVal = 0; exGSTval = amount; incGSTval = amount; }\n    var totalVal = incGSTval * quantity;\n    document.getElementById('exGST').textContent = 'A$' + exGSTval.toFixed(2);\n    document.getElementById('gstAmount').textContent = 'A$' + gstVal.toFixed(2);\n    document.getElementById('incGST').textContent = 'A$' + incGSTval.toFixed(2);\n    document.getElementById('totalAll').textContent = 'A$' + totalVal.toFixed(2);",
+    "faq": [
+      {"question": "What is the GST rate in Australia?", "answer": "Australia's GST rate is a flat 10% on most goods and services. Unlike some countries, Australia has a single GST rate with no reduced or elevated rates. Some items are GST-free, including basic food, education, health, and exports."},
+      {"question": "How do I calculate GST from a total price?", "answer": "To find the GST in a GST-inclusive price, divide by 11. For example, an item costing A$110 includes A$10 GST (A$110 / 11 = A$10). The GST-exclusive price is A$100 (A$110 / 1.1)."},
+      {"question": "What items are GST-free?", "answer": "GST-free items include most basic food (bread, milk, fruit, vegetables, meat), medical services, education courses, exports, and some childcare. Prepared foods, restaurant meals, and snack foods are taxable."},
+      {"question": "When do I need to register for GST?", "answer": "You must register for GST if your business has an annual turnover of $75,000 or more ($150,000 for non-profits). Below this threshold, registration is optional. Registered businesses charge GST and claim input tax credits."}
+    ],
+    "formulas": [
+      "GST = Ex-GST amount x 10%",
+      "Inc-GST price = Ex-GST amount x 1.1",
+      "Ex-GST from inclusive = Inc-GST price / 1.1",
+      "GST component from inclusive = Inc-GST price / 11"
+    ],
+    "relatedTools": ["australia-income-tax-calculator", "uk-vat-calculator", "canada-gst-hst-calculator"]
+  },
+  {
+    "slug": "australia-fuel-excise-calculator",
+    "toolName": "Australia Fuel Excise Calculator",
+    "category": "finance",
+    "subcategory": "australia-household",
+    "tagline": "See how much of your fuel bill goes to excise duty, GST, and other costs per litre",
+    "keywords": "fuel excise calculator, petrol excise Australia, fuel tax, petrol price breakdown, diesel excise, fuel cost calculator",
+    "inputs": [
+      {"id": "fuelPrice", "label": "Pump Price (A$ per litre)", "default": 1.85, "min": 0.5, "max": 3.5, "step": 0.01},
+      {"id": "fuelType", "label": "Fuel Type", "type": "select", "default": "petrol", "options": [{"value": "petrol", "label": "Unleaded Petrol"}, {"value": "diesel", "label": "Diesel"}, {"value": "premium", "label": "Premium Unleaded (98)"}]},
+      {"id": "weeklyLitres", "label": "Weekly Fuel Usage (litres)", "default": 40, "min": 0, "max": 200, "step": 5},
+      {"id": "kmPerLitre", "label": "Vehicle Fuel Economy (km/L)", "default": 10, "min": 3, "max": 30, "step": 0.5},
+      {"id": "weeksPerYear", "label": "Driving Weeks per Year", "default": 50, "min": 1, "max": 52, "step": 1}
+    ],
+    "results": [
+      {"id": "excisePerLitre", "label": "Excise Duty per Litre"},
+      {"id": "gstPerLitre", "label": "GST per Litre"},
+      {"id": "taxPct", "label": "Tax as % of Pump Price"},
+      {"id": "weeklyTax", "label": "Weekly Tax You Pay"},
+      {"id": "annualFuelCost", "label": "Annual Fuel Cost"},
+      {"id": "annualTaxPaid", "label": "Annual Tax on Fuel"}
+    ],
+    "calcFn": "var exciseRates = {petrol: 0.503, diesel: 0.503, premium: 0.503};\n    var excise = exciseRates[fuelType];\n    var gstPerL = fuelPrice / 11;\n    var totalTaxPerL = excise + gstPerL;\n    var taxPctVal = (totalTaxPerL / fuelPrice) * 100;\n    var weeklyTaxVal = totalTaxPerL * weeklyLitres;\n    var annualFuel = fuelPrice * weeklyLitres * weeksPerYear;\n    var annualTax = totalTaxPerL * weeklyLitres * weeksPerYear;\n    document.getElementById('excisePerLitre').textContent = 'A$' + excise.toFixed(3) + '/L';\n    document.getElementById('gstPerLitre').textContent = 'A$' + gstPerL.toFixed(3) + '/L';\n    document.getElementById('taxPct').textContent = taxPctVal.toFixed(1) + '%';\n    document.getElementById('weeklyTax').textContent = 'A$' + weeklyTaxVal.toFixed(2);\n    document.getElementById('annualFuelCost').textContent = 'A$' + annualFuel.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('annualTaxPaid').textContent = 'A$' + annualTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "How much is the Australian fuel excise?", "answer": "The fuel excise duty is 50.3 cents per litre (from February 2024, indexed bi-annually to CPI). This is a flat rate applied to petrol, diesel, and other fuels, and is collected at the refinery or import stage."},
+      {"question": "How much tax is on a litre of petrol?", "answer": "At a pump price of A$1.85/L, roughly 50.3c goes to excise and 16.8c to GST, totalling about 67c or 36% of the pump price. The remainder covers crude oil cost, refining margin, and retail margin."},
+      {"question": "What happened to the fuel excise cut?", "answer": "The temporary fuel excise halving (to 22.1c/L) was introduced in March 2022 and ended in September 2022. The full excise was restored and has since been indexed to CPI, reaching 50.3c/L."},
+      {"question": "Do businesses get a fuel tax credit?", "answer": "Yes. Businesses can claim fuel tax credits for fuel used in heavy vehicles (over 4.5 tonnes GVM), off-road machinery, and certain other business activities. The credit rate varies depending on when and where the fuel is used."}
+    ],
+    "formulas": [
+      "Fuel excise: 50.3 cents per litre (indexed bi-annually to CPI)",
+      "GST on fuel = Pump price / 11 (10% GST is included in the pump price)",
+      "Total tax per litre = Excise + GST",
+      "Annual fuel tax = Total tax per litre x Weekly litres x Weeks per year"
+    ],
+    "relatedTools": ["australia-gst-calculator", "australia-income-tax-calculator", "australia-payg-tax-calculator"]
+  },
+  {
+    "slug": "australia-first-home-buyer-calculator",
+    "toolName": "Australia First Home Buyer Calculator",
+    "category": "finance",
+    "subcategory": "australia-housing",
+    "tagline": "Calculate First Home Owner Grant, stamp duty concessions, and total savings by state",
+    "keywords": "first home buyer, FHOG, first home owner grant, stamp duty concession, first home buyer calculator, first home guarantee",
+    "inputs": [
+      {"id": "propertyPrice", "label": "Property Price (A$)", "default": 600000, "min": 0, "step": 10000},
+      {"id": "state", "label": "State/Territory", "type": "select", "default": "NSW", "options": [{"value": "NSW", "label": "New South Wales"}, {"value": "VIC", "label": "Victoria"}, {"value": "QLD", "label": "Queensland"}, {"value": "WA", "label": "Western Australia"}, {"value": "SA", "label": "South Australia"}, {"value": "TAS", "label": "Tasmania"}, {"value": "ACT", "label": "ACT"}, {"value": "NT", "label": "Northern Territory"}]},
+      {"id": "propertyType", "label": "Property Type", "type": "select", "default": "new", "options": [{"value": "new", "label": "New Build / Off-the-Plan"}, {"value": "established", "label": "Established Home"}]},
+      {"id": "savings", "label": "Total Savings (A$)", "default": 50000, "min": 0, "step": 5000},
+      {"id": "annualIncome", "label": "Annual Household Income (A$)", "default": 100000, "min": 0, "step": 5000}
+    ],
+    "results": [
+      {"id": "fhog", "label": "First Home Owner Grant"},
+      {"id": "stampDutyConcession", "label": "Stamp Duty Concession"},
+      {"id": "normalStampDuty", "label": "Normal Stamp Duty (without concession)"},
+      {"id": "totalSavings", "label": "Total First Home Buyer Savings"},
+      {"id": "depositPct", "label": "Effective Deposit %"}
+    ],
+    "calcFn": "var price = propertyPrice;\n    var fhogAmounts = {\n      NSW: {amount: 10000, newCap: 600000, estCap: 0},\n      VIC: {amount: 10000, newCap: 750000, estCap: 0},\n      QLD: {amount: 30000, newCap: 750000, estCap: 0},\n      WA: {amount: 10000, newCap: 750000, estCap: 0},\n      SA: {amount: 15000, newCap: 650000, estCap: 0},\n      TAS: {amount: 30000, newCap: 750000, estCap: 0},\n      ACT: {amount: 7500, newCap: 750000, estCap: 0},\n      NT: {amount: 10000, newCap: 750000, estCap: 0}\n    };\n    var f = fhogAmounts[state];\n    var fhogVal = 0;\n    if (propertyType === 'new') {\n      if (price <= f.newCap) fhogVal = f.amount;\n    }\n    var normalDuty = 0;\n    if (state === 'NSW') {\n      if (price <= 17000) normalDuty = price * 0.0125;\n      else if (price <= 36000) normalDuty = 212 + (price - 17000) * 0.015;\n      else if (price <= 97000) normalDuty = 497 + (price - 36000) * 0.0175;\n      else if (price <= 364000) normalDuty = 1564 + (price - 97000) * 0.035;\n      else if (price <= 1214000) normalDuty = 10909 + (price - 364000) * 0.045;\n      else normalDuty = 49159 + (price - 1214000) * 0.055;\n    } else if (state === 'VIC') {\n      if (price <= 25000) normalDuty = price * 0.014;\n      else if (price <= 130000) normalDuty = 350 + (price - 25000) * 0.024;\n      else if (price <= 960000) normalDuty = 2870 + (price - 130000) * 0.06;\n      else normalDuty = 28070 + (price - 960000) * 0.055;\n    } else if (state === 'QLD') {\n      if (price <= 5000) normalDuty = 0;\n      else if (price <= 75000) normalDuty = (price - 5000) * 0.015;\n      else if (price <= 540000) normalDuty = 1050 + (price - 75000) * 0.035;\n      else if (price <= 1000000) normalDuty = 17325 + (price - 540000) * 0.045;\n      else normalDuty = 38025 + (price - 1000000) * 0.0575;\n    } else {\n      normalDuty = price * 0.04;\n    }\n    var stampConcession = 0;\n    if (state === 'NSW' && price <= 800000) stampConcession = normalDuty;\n    else if (state === 'VIC' && price <= 600000) stampConcession = normalDuty;\n    else if (state === 'QLD' && price <= 700000) stampConcession = normalDuty;\n    else if (state === 'WA' && price <= 530000) stampConcession = normalDuty;\n    else if (state === 'SA' && price <= 650000 && propertyType === 'new') stampConcession = normalDuty;\n    else if (state === 'ACT') stampConcession = normalDuty;\n    else if (state === 'TAS' && price <= 750000) stampConcession = normalDuty * 0.5;\n    else if (state === 'NT') stampConcession = Math.min(normalDuty, 18601);\n    var totalSav = fhogVal + stampConcession;\n    var effectiveDeposit = ((savings + fhogVal) / price * 100);\n    document.getElementById('fhog').textContent = fhogVal > 0 ? 'A$' + fhogVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'Not eligible';\n    document.getElementById('stampDutyConcession').textContent = stampConcession > 0 ? 'A$' + stampConcession.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'No concession';\n    document.getElementById('normalStampDuty').textContent = 'A$' + normalDuty.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalSavings').textContent = 'A$' + totalSav.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('depositPct').textContent = effectiveDeposit.toFixed(1) + '%';",
+    "faq": [
+      {"question": "What is the First Home Owner Grant?", "answer": "The FHOG is a one-off government payment for first home buyers purchasing or building a new home. Amounts vary by state: NSW $10,000, VIC $10,000, QLD $30,000, WA $10,000, SA $15,000, TAS $30,000, ACT $7,500, NT $10,000."},
+      {"question": "Can I get the grant for an established home?", "answer": "In most states, the FHOG is only available for new homes, substantially renovated homes, or off-the-plan purchases. It is generally not available for established (previously lived-in) homes."},
+      {"question": "What stamp duty concessions are available?", "answer": "Most states offer stamp duty exemptions or concessions for first home buyers. For example, NSW offers full exemption on new and existing homes up to $800,000. Thresholds and concessions differ significantly by state."},
+      {"question": "What is the First Home Guarantee scheme?", "answer": "The First Home Guarantee (formerly First Home Loan Deposit Scheme) allows eligible first home buyers to purchase with as little as 5% deposit without paying Lenders Mortgage Insurance. The government guarantees up to 15% of the property value. Income cap is $125,000 (singles) or $200,000 (couples)."}
+    ],
+    "formulas": [
+      "FHOG varies by state: $7,500-$30,000 for new builds (subject to price caps)",
+      "Stamp duty concessions: full exemption in many states for properties under threshold",
+      "Effective deposit = (Savings + FHOG) / Property price x 100",
+      "Total savings = FHOG + Stamp duty concession"
+    ],
+    "relatedTools": ["australia-stamp-duty-calculator", "australia-income-tax-calculator", "australia-negative-gearing-calculator"]
+  },
+  {
+    "slug": "australia-payg-tax-calculator",
+    "toolName": "Australia PAYG Tax Calculator",
+    "category": "finance",
+    "subcategory": "australia-tax",
+    "tagline": "Calculate your PAYG withholding and take-home pay from your wages using 2024-25 tax rates",
+    "keywords": "PAYG calculator, pay as you go, PAYG withholding, take home pay Australia, wage calculator, after tax pay",
+    "inputs": [
+      {"id": "grossPay", "label": "Gross Pay Amount (A$)", "default": 1600, "min": 0, "step": 10},
+      {"id": "payFrequency", "label": "Pay Frequency", "type": "select", "default": "fortnightly", "options": [{"value": "weekly", "label": "Weekly"}, {"value": "fortnightly", "label": "Fortnightly"}, {"value": "monthly", "label": "Monthly"}, {"value": "annual", "label": "Annual"}]},
+      {"id": "taxFreeThreshold", "label": "Tax-Free Threshold Claimed?", "type": "select", "default": "yes", "options": [{"value": "yes", "label": "Yes (main job)"}, {"value": "no", "label": "No (second job)"}]},
+      {"id": "helpDebt", "label": "HECS-HELP Debt?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes"}]},
+      {"id": "superIncluded", "label": "Super Included in Pay?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No (super on top)"}, {"value": "yes", "label": "Yes (salary sacrifice package)"}]}
+    ],
+    "results": [
+      {"id": "annualSalary", "label": "Annualised Salary"},
+      {"id": "paygWithheld", "label": "PAYG Tax Withheld (per pay)"},
+      {"id": "medicareLevy", "label": "Medicare Levy (per pay)"},
+      {"id": "helpPayment", "label": "HELP Repayment (per pay)"},
+      {"id": "netPay", "label": "Net Take-Home Pay (per pay)"},
+      {"id": "superContrib", "label": "Super Contribution (per pay)"}
+    ],
+    "calcFn": "var periodsPerYear = {weekly: 52, fortnightly: 26, monthly: 12, annual: 1};\n    var periods = periodsPerYear[payFrequency];\n    var annualGross = grossPay * periods;\n    if (superIncluded === 'yes') annualGross = annualGross / 1.115;\n    var annualTax = 0;\n    if (taxFreeThreshold === 'yes') {\n      if (annualGross <= 18200) annualTax = 0;\n      else if (annualGross <= 45000) annualTax = (annualGross - 18200) * 0.16;\n      else if (annualGross <= 135000) annualTax = 4288 + (annualGross - 45000) * 0.30;\n      else if (annualGross <= 190000) annualTax = 31288 + (annualGross - 135000) * 0.37;\n      else annualTax = 51638 + (annualGross - 190000) * 0.45;\n    } else {\n      if (annualGross <= 135000) annualTax = annualGross * 0.30;\n      else if (annualGross <= 190000) annualTax = 40500 + (annualGross - 135000) * 0.37;\n      else annualTax = 60850 + (annualGross - 190000) * 0.45;\n    }\n    var paygPerPay = annualTax / periods;\n    var medicarePeriod = annualGross > 26000 ? annualGross * 0.02 / periods : 0;\n    var helpPeriod = 0;\n    if (helpDebt === 'yes') {\n      var helpRates = [{min: 54435, rate: 0.01}, {min: 62850, rate: 0.02}, {min: 66620, rate: 0.025}, {min: 70618, rate: 0.03}, {min: 74855, rate: 0.035}, {min: 79346, rate: 0.04}, {min: 84107, rate: 0.045}, {min: 89154, rate: 0.05}, {min: 94503, rate: 0.055}, {min: 100174, rate: 0.06}, {min: 106185, rate: 0.065}, {min: 112556, rate: 0.07}, {min: 119310, rate: 0.075}, {min: 126467, rate: 0.08}, {min: 134056, rate: 0.085}, {min: 142100, rate: 0.09}, {min: 150626, rate: 0.095}, {min: 159663, rate: 0.10}];\n      for (var i = helpRates.length - 1; i >= 0; i--) {\n        if (annualGross >= helpRates[i].min) { helpPeriod = annualGross * helpRates[i].rate / periods; break; }\n      }\n    }\n    var netPayVal = grossPay - paygPerPay - medicarePeriod - helpPeriod;\n    if (superIncluded === 'yes') netPayVal = netPayVal;\n    var superPerPay = (superIncluded === 'yes') ? grossPay - annualGross / periods : annualGross * 0.115 / periods;\n    document.getElementById('annualSalary').textContent = 'A$' + annualGross.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('paygWithheld').textContent = 'A$' + paygPerPay.toFixed(2);\n    document.getElementById('medicareLevy').textContent = 'A$' + medicarePeriod.toFixed(2);\n    document.getElementById('helpPayment').textContent = helpPeriod > 0 ? 'A$' + helpPeriod.toFixed(2) : 'A$0';\n    document.getElementById('netPay').textContent = 'A$' + netPayVal.toFixed(2);\n    document.getElementById('superContrib').textContent = 'A$' + superPerPay.toFixed(2);",
+    "faq": [
+      {"question": "What is PAYG withholding?", "answer": "Pay As You Go (PAYG) withholding is the system where your employer deducts income tax from your wages each pay period and sends it to the ATO. The amount withheld is based on your declared tax-free threshold status and income level."},
+      {"question": "Should I claim the tax-free threshold?", "answer": "Claim the tax-free threshold at your main job only. If you have multiple jobs, only one employer should apply the threshold. Not claiming it at a second job avoids a large tax debt at tax time."},
+      {"question": "How much super does my employer pay?", "answer": "Employers must pay Superannuation Guarantee (SG) of 11.5% (2024-25) on top of your ordinary time earnings, rising to 12% from July 2025. Super is generally paid on top of your salary, not deducted from it."},
+      {"question": "Will I get a tax refund?", "answer": "You may receive a refund if your employer withheld more tax than needed, or if you have deductible expenses (work-related, self-education, donations). Lodge your tax return after 30 June to find out your actual tax position."}
+    ],
+    "formulas": [
+      "2024-25 rates with tax-free threshold: 0% to $18,200, 16% $18,201-$45,000, 30% $45,001-$135,000, 37% $135,001-$190,000, 45% over $190,000",
+      "Without tax-free threshold (second job): 30% from first dollar up to $135,000",
+      "Medicare levy: 2% of taxable income (above $26,000)",
+      "Super Guarantee: 11.5% of ordinary time earnings (2024-25)"
+    ],
+    "relatedTools": ["australia-income-tax-calculator", "australia-superannuation-calculator", "australia-hecs-help-calculator"]
+  }
+]

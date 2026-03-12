@@ -1,0 +1,227 @@
+[
+  {
+    "slug": "fed-rate-mortgage-impact-calculator",
+    "toolName": "Fed Rate Mortgage Impact Calculator",
+    "category": "finance",
+    "tagline": "See exactly how Federal Reserve rate changes affect your mortgage payment",
+    "keywords": "fed rate mortgage impact, interest rate change mortgage, federal reserve rate calculator, how fed rate affects mortgage",
+    "inputs": [
+      {"id": "homePrice", "label": "Home Price ($)", "default": 400000, "min": 50000, "step": 10000},
+      {"id": "downPayment", "label": "Down Payment (%)", "default": 20, "min": 0, "max": 50, "step": 5},
+      {"id": "currentRate", "label": "Current Mortgage Rate (%)", "default": 6.75, "min": 2, "max": 12, "step": 0.125},
+      {"id": "fedChange", "label": "Fed Rate Change", "type": "select", "default": "-0.25", "options": [{"value": "-1.00", "label": "-1.00% (Major Cut)"}, {"value": "-0.50", "label": "-0.50% (Double Cut)"}, {"value": "-0.25", "label": "-0.25% (Standard Cut)"}, {"value": "0.25", "label": "+0.25% (Standard Hike)"}, {"value": "0.50", "label": "+0.50% (Double Hike)"}, {"value": "1.00", "label": "+1.00% (Major Hike)"}]},
+      {"id": "loanTerm", "label": "Loan Term (years)", "default": 30, "min": 15, "max": 30, "step": 15}
+    ],
+    "results": [
+      {"id": "currentPayment", "label": "Current Monthly Payment"},
+      {"id": "newPayment", "label": "New Monthly Payment"},
+      {"id": "monthlyDiff", "label": "Monthly Difference"},
+      {"id": "yearlyDiff", "label": "Yearly Difference"},
+      {"id": "lifetimeDiff", "label": "Lifetime Interest Difference"},
+      {"id": "buyingPower", "label": "Buying Power Change"}
+    ],
+    "calcFn": "var dp = homePrice * (downPayment / 100); var loan = homePrice - dp; var n = loanTerm * 12; var fedChg = parseFloat(fedChange); var passthrough = 0.65; var newRate = currentRate + (fedChg * passthrough); var r1 = currentRate / 100 / 12; var r2 = newRate / 100 / 12; var pmt1 = loan * (r1 * Math.pow(1 + r1, n)) / (Math.pow(1 + r1, n) - 1); var pmt2 = loan * (r2 * Math.pow(1 + r2, n)) / (Math.pow(1 + r2, n) - 1); var monthDiff = pmt2 - pmt1; var yearDiff = monthDiff * 12; var lifeDiff = monthDiff * n; var samePmt = pmt1; var newLoanAmt = samePmt * (Math.pow(1 + r2, n) - 1) / (r2 * Math.pow(1 + r2, n)); var buyingPowerChg = newLoanAmt - loan + dp; document.getElementById('currentPayment').textContent = dollar(pmt1) + '/month'; document.getElementById('newPayment').textContent = dollar(pmt2) + '/month (at ' + fmt(newRate, 2) + '%)'; document.getElementById('monthlyDiff').textContent = (monthDiff >= 0 ? '+' : '') + dollar(monthDiff) + '/month'; document.getElementById('yearlyDiff').textContent = (yearDiff >= 0 ? '+' : '') + dollar(yearDiff) + '/year'; document.getElementById('lifetimeDiff').textContent = (lifeDiff >= 0 ? '+' : '') + dollar(lifeDiff) + ' over ' + loanTerm + ' years'; document.getElementById('buyingPower').textContent = (fedChg < 0 ? '+' : '') + dollar(buyingPowerChg - homePrice) + ' buying power at same payment';",
+    "faq": [
+      {"question": "How does the Fed rate affect mortgage rates?", "answer": "The Fed funds rate does not directly set mortgage rates, but it strongly influences them. Mortgage rates typically move 50-75% of a Fed rate change, with a lag of days to weeks. A 0.25% Fed cut usually translates to a 0.15-0.20% mortgage rate decline."},
+      {"question": "Should I wait for a rate cut to buy a house?", "answer": "Not necessarily. Rate cuts often increase buyer demand, driving up home prices. Buying at a higher rate and refinancing after a cut can be smarter than competing in a low-rate market. The saying goes: marry the house, date the rate."},
+      {"question": "How much does a 1% rate change affect my payment?", "answer": "On a $320,000 loan, each 1% rate change moves the monthly payment by roughly $200-220. Over 30 years, that is $72,000-$80,000 in total interest. Even 0.25% matters — it is about $50/month or $18,000 over the life of a loan."},
+      {"question": "When will mortgage rates go down?", "answer": "Mortgage rates depend on inflation, Fed policy, and bond markets. Rates tend to fall when inflation is controlled and the economy slows. Most forecasters expect gradual declines as inflation normalizes, but rates below 5% likely require a recession."}
+    ],
+    "formulas": [
+      "Mortgage Payment = Loan x (r(1+r)^n) / ((1+r)^n - 1)",
+      "Fed-to-Mortgage passthrough rate: approximately 65%",
+      "Buying Power = Loan amount at new rate that produces the same monthly payment",
+      "Lifetime Impact = Monthly Difference x Total Payments"
+    ],
+    "relatedTools": ["rent-vs-own-honest-comparison-calculator", "housing-report-buyer-impact-calculator"],
+    "subcategory": "mortgage"
+  },
+  {
+    "slug": "stock-market-drop-401k-calculator",
+    "toolName": "Stock Market Drop 401k Calculator",
+    "category": "finance",
+    "tagline": "See what today's market drop actually cost your retirement account",
+    "keywords": "401k market drop calculator, stock market crash 401k, market drop retirement impact, how much did I lose today",
+    "inputs": [
+      {"id": "balance401k", "label": "401k/IRA Balance ($)", "default": 150000, "min": 0, "step": 5000},
+      {"id": "stockAllocation", "label": "Stock Allocation (%)", "default": 80, "min": 0, "max": 100, "step": 5},
+      {"id": "marketDrop", "label": "Market Drop (%)", "default": 3, "min": 0.1, "max": 50, "step": 0.1},
+      {"id": "yearsToRetirement", "label": "Years to Retirement", "default": 25, "min": 0, "max": 45, "step": 1},
+      {"id": "monthlyContrib", "label": "Monthly Contribution ($)", "default": 500, "min": 0, "step": 50},
+      {"id": "avgReturn", "label": "Expected Avg Return (%/yr)", "default": 9, "min": 4, "max": 14, "step": 0.5}
+    ],
+    "results": [
+      {"id": "todayLoss", "label": "Today's Paper Loss"},
+      {"id": "actualExposure", "label": "Stock Portion Affected"},
+      {"id": "recoveryTime", "label": "Historical Recovery Time"},
+      {"id": "futureImpact", "label": "Impact at Retirement (if permanent)"},
+      {"id": "withRecovery", "label": "Projected Balance (with recovery)"},
+      {"id": "perspective", "label": "Perspective"}
+    ],
+    "calcFn": "var stockPortion = balance401k * (stockAllocation / 100); var bondPortion = balance401k - stockPortion; var todayLoss = stockPortion * (marketDrop / 100); var newBalance = balance401k - todayLoss; var recoveryMonths = marketDrop <= 5 ? 2 : marketDrop <= 10 ? 4 : marketDrop <= 20 ? 14 : marketDrop <= 30 ? 24 : 48; var futureWithLoss = newBalance * Math.pow(1 + avgReturn / 100, yearsToRetirement); for (var m = 0; m < yearsToRetirement * 12; m++) { futureWithLoss += monthlyContrib * Math.pow(1 + avgReturn / 100, (yearsToRetirement * 12 - m) / 12); } var futureWithout = balance401k * Math.pow(1 + avgReturn / 100, yearsToRetirement); for (var m2 = 0; m2 < yearsToRetirement * 12; m2++) { futureWithout += monthlyContrib * Math.pow(1 + avgReturn / 100, (yearsToRetirement * 12 - m2) / 12); } var futureDiff = futureWithout - futureWithLoss; var dailyContrib = monthlyContrib / 22; var daysOfContribs = todayLoss > 0 ? todayLoss / dailyContrib : 0; document.getElementById('todayLoss').textContent = dollar(todayLoss); document.getElementById('actualExposure').textContent = dollar(stockPortion) + ' (' + stockAllocation + '% of portfolio)'; document.getElementById('recoveryTime').textContent = recoveryMonths + ' months (historical average for ' + fmt(marketDrop, 1) + '% drops)'; document.getElementById('futureImpact').textContent = dollar(futureDiff) + ' less at retirement (if never recovered)'; document.getElementById('withRecovery').textContent = dollar(futureWithout) + ' (markets historically recover)'; document.getElementById('perspective').textContent = fmt(daysOfContribs, 0) + ' days of contributions (you will make it back)';",
+    "faq": [
+      {"question": "Should I sell when the market drops?", "answer": "Almost never. Historically, the S&P 500 has recovered from every decline. Selling locks in losses and means you miss the recovery. Studies show the best market days often follow the worst days — missing just the 10 best days over 20 years can cut returns by 50%."},
+      {"question": "How long does the market take to recover?", "answer": "Average recovery times: 5% drops recover in 1-2 months, 10% corrections in 4 months, 20% bear markets in 14 months, 30%+ crashes in 2-4 years. The S&P 500 has recovered from every historical decline, including the 2008 financial crisis and 2020 COVID crash."},
+      {"question": "Should I buy more when the market drops?", "answer": "If you have a long time horizon (10+ years), buying during drops has historically been rewarding. Dollar-cost averaging through drops means you buy more shares at lower prices. However, never invest money you need in the short term."},
+      {"question": "How much can I lose in a 401k?", "answer": "Your maximum loss depends on your asset allocation. A 100% stock portfolio could lose 30-50% in a severe crash. A 60/40 stock/bond mix typically limits losses to 15-25%. Diversification does not prevent losses but significantly reduces them."}
+    ],
+    "formulas": [
+      "Today's Loss = 401k Balance x Stock Allocation % x Market Drop %",
+      "Future Impact = Lost Amount x (1 + Avg Return)^Years (compounding the loss forward)",
+      "Recovery times based on historical S&P 500 drawdown analysis",
+      "Days of Contributions = Today's Loss / (Monthly Contribution / 22 workdays)"
+    ],
+    "relatedTools": ["gdp-report-wallet-impact-calculator", "jobs-report-rate-impact-calculator"],
+    "subcategory": "investing"
+  },
+  {
+    "slug": "inflation-grocery-impact-calculator",
+    "toolName": "Inflation Grocery Impact Calculator",
+    "category": "economics",
+    "tagline": "See exactly what the inflation rate means for your weekly grocery bill",
+    "keywords": "inflation grocery calculator, food inflation impact, grocery cost inflation, what inflation means for groceries",
+    "inputs": [
+      {"id": "weeklyGrocery", "label": "Weekly Grocery Spend ($)", "default": 175, "min": 25, "max": 500, "step": 10},
+      {"id": "inflationRate", "label": "Current Inflation Rate (%)", "default": 3.5, "min": 0, "max": 15, "step": 0.1},
+      {"id": "foodInflation", "label": "Food-Specific Inflation (%)", "default": 5.0, "min": 0, "max": 20, "step": 0.1},
+      {"id": "familySize", "label": "Family Size", "default": 3, "min": 1, "max": 8},
+      {"id": "incomeGrowth", "label": "Your Wage Growth (%)", "default": 3.0, "min": 0, "max": 15, "step": 0.5}
+    ],
+    "results": [
+      {"id": "weeklyIncrease", "label": "Weekly Grocery Increase"},
+      {"id": "monthlyImpact", "label": "Monthly Extra Cost"},
+      {"id": "annualImpact", "label": "Annual Extra Cost"},
+      {"id": "fiveYearCost", "label": "5-Year Cumulative Extra"},
+      {"id": "realWageImpact", "label": "Real Wage Impact"},
+      {"id": "itemExamples", "label": "Everyday Item Impacts"}
+    ],
+    "calcFn": "var weeklyInc = weeklyGrocery * (foodInflation / 100); var monthlyInc = weeklyInc * 4.33; var annualInc = weeklyInc * 52; var fiveYear = 0; for (var y = 1; y <= 5; y++) { fiveYear += weeklyGrocery * 52 * (Math.pow(1 + foodInflation / 100, y) - 1); } var realWageLoss = foodInflation - incomeGrowth; var perPerson = annualInc / familySize; var milk = 4.50 * (foodInflation / 100); var bread = 3.50 * (foodInflation / 100); var eggs = 5.00 * (foodInflation / 100); var chicken = 4.00 * (foodInflation / 100); document.getElementById('weeklyIncrease').textContent = '+' + dollar(weeklyInc) + '/week'; document.getElementById('monthlyImpact').textContent = '+' + dollar(monthlyInc) + '/month'; document.getElementById('annualImpact').textContent = '+' + dollar(annualInc) + '/year (' + dollar(perPerson) + '/person)'; document.getElementById('fiveYearCost').textContent = '+' + dollar(fiveYear) + ' over 5 years'; document.getElementById('realWageImpact').textContent = (realWageLoss > 0 ? 'Losing ' + fmt(realWageLoss, 1) + '% purchasing power' : 'Wages outpacing food inflation by ' + fmt(Math.abs(realWageLoss), 1) + '%'); document.getElementById('itemExamples').textContent = 'Milk +$' + fmt(milk, 2) + ' | Bread +$' + fmt(bread, 2) + ' | Eggs +$' + fmt(eggs, 2) + ' | Chicken/lb +$' + fmt(chicken, 2);",
+    "faq": [
+      {"question": "Why does food inflation feel worse than the official rate?", "answer": "Food inflation often runs higher than overall CPI. In 2022-2023, food-at-home inflation hit 11-13% while overall CPI was 6-9%. Items you buy frequently (eggs, meat, bread) are noticed more than items measured less often. Also, shrinkflation (smaller packages, same price) is not fully captured."},
+      {"question": "What foods have gone up the most?", "answer": "Since 2020, eggs (+70%), butter (+35%), bread (+30%), and beef (+25%) have seen the largest increases. Fresh produce varies seasonally. Processed foods generally increase less than fresh foods due to longer supply chains absorbing some costs."},
+      {"question": "How can I fight grocery inflation?", "answer": "Buy store brands (20-30% cheaper), shop sales and use coupons strategically, buy in bulk for non-perishables, meal plan to reduce waste (the average family wastes $1,500+/year in food), consider cheaper protein sources, and compare unit prices across stores."},
+      {"question": "Will grocery prices ever go back down?", "answer": "Prices rarely decrease overall (deflation). Lower inflation means prices rise more slowly, not that they fall. Some individual items may drop due to supply normalization (eggs after bird flu), but expect your grocery bill to remain at elevated levels and grow more slowly."}
+    ],
+    "formulas": [
+      "Weekly Increase = Current Weekly Spend x Food Inflation Rate",
+      "5-Year Cumulative = Sum of (Weekly x 52 x ((1 + Rate)^year - 1)) for years 1-5",
+      "Real Wage Impact = Food Inflation Rate - Your Wage Growth Rate",
+      "Item impacts calculated at the food-specific inflation rate"
+    ],
+    "relatedTools": ["purchasing-power-calculator", "cpi-inflation-calculator", "organic-food-value-calculator"],
+    "subcategory": "cost-of-living"
+  },
+  {
+    "slug": "jobs-report-rate-impact-calculator",
+    "toolName": "Jobs Report Rate Impact Calculator",
+    "category": "economics",
+    "tagline": "Understand what monthly jobs numbers mean for interest rates and your finances",
+    "keywords": "jobs report calculator, nonfarm payroll impact, jobs number interest rate, employment report meaning",
+    "inputs": [
+      {"id": "jobsAdded", "label": "Jobs Added (thousands)", "default": 250, "min": -500, "max": 1000, "step": 10},
+      {"id": "expectedJobs", "label": "Expected/Consensus (thousands)", "default": 200, "min": -500, "max": 1000, "step": 10},
+      {"id": "unemploymentRate", "label": "Unemployment Rate (%)", "default": 3.8, "min": 2, "max": 15, "step": 0.1},
+      {"id": "wageGrowth", "label": "Wage Growth YoY (%)", "default": 4.1, "min": 0, "max": 10, "step": 0.1},
+      {"id": "mortgageBalance", "label": "Your Mortgage/Loan Balance ($)", "default": 300000, "min": 0, "step": 10000},
+      {"id": "savingsBalance", "label": "Your Savings Balance ($)", "default": 25000, "min": 0, "step": 1000}
+    ],
+    "results": [
+      {"id": "surprise", "label": "Jobs Surprise"},
+      {"id": "rateOutlook", "label": "Interest Rate Outlook"},
+      {"id": "mortgageImpact", "label": "Your Mortgage Impact"},
+      {"id": "savingsImpact", "label": "Your Savings APY Impact"},
+      {"id": "marketReaction", "label": "Likely Market Reaction"},
+      {"id": "fedAction", "label": "Fed Policy Implication"}
+    ],
+    "calcFn": "var surprise = jobsAdded - expectedJobs; var surprisePct = expectedJobs !== 0 ? (surprise / expectedJobs) * 100 : 0; var hotLabor = jobsAdded > 300 || wageGrowth > 4.5; var coldLabor = jobsAdded < 100 || unemploymentRate > 5; var rateMove = 0; if (surprise > 100) rateMove = 0.15; else if (surprise > 50) rateMove = 0.08; else if (surprise > 0) rateMove = 0.03; else if (surprise > -50) rateMove = -0.03; else if (surprise > -100) rateMove = -0.08; else rateMove = -0.15; if (wageGrowth > 4.5) rateMove += 0.05; var rateOutlook = rateMove > 0 ? 'Rates likely to rise or stay higher longer' : 'Rates more likely to fall — Fed may cut sooner'; var mortgageAnnual = mortgageBalance * (rateMove / 100); var savingsAnnual = savingsBalance * (rateMove / 100); var marketDir = surprise > 50 ? 'Stocks may dip (higher-for-longer rates)' : surprise < -50 ? 'Stocks may rally (rate cuts expected)' : 'Modest market reaction expected'; var fedAction = hotLabor ? 'Fed likely to hold rates or hike — strong jobs reduce cut urgency' : coldLabor ? 'Fed likely to cut rates — weak jobs signal economic slowdown' : 'Fed likely to stay the course — labor market in balance'; document.getElementById('surprise').textContent = (surprise >= 0 ? '+' : '') + fmt(surprise, 0) + 'K (' + (surprise > 0 ? 'hotter' : surprise < 0 ? 'cooler' : 'in-line') + ' than expected)'; document.getElementById('rateOutlook').textContent = rateOutlook; document.getElementById('mortgageImpact').textContent = (mortgageAnnual >= 0 ? '+' : '') + dollar(Math.abs(mortgageAnnual)) + '/year ' + (mortgageAnnual >= 0 ? 'more' : 'less') + ' in interest'; document.getElementById('savingsImpact').textContent = (savingsAnnual >= 0 ? '+' : '') + dollar(Math.abs(savingsAnnual)) + '/year ' + (savingsAnnual >= 0 ? 'more' : 'less') + ' earned'; document.getElementById('marketReaction').textContent = marketDir; document.getElementById('fedAction').textContent = fedAction;",
+    "faq": [
+      {"question": "Why does the jobs report move markets?", "answer": "The monthly jobs report (nonfarm payrolls) is the most market-moving economic release. Strong jobs suggest the Fed will keep rates higher (bad for stocks, bonds). Weak jobs suggest rate cuts ahead (good for stocks, bonds). The surprise vs expectations matters most."},
+      {"question": "What is a good jobs number?", "answer": "The economy needs about 100-150K new jobs per month to keep up with population growth. Numbers above 200K are considered strong, above 300K is very hot. Below 100K signals slowdown. Negative numbers indicate recession."},
+      {"question": "How does the jobs report affect my mortgage?", "answer": "Strong jobs reports push mortgage rates higher because they reduce expectations for Fed rate cuts. A jobs report that beats expectations by 100K+ can move mortgage rates 0.10-0.15% higher within days. Weak reports have the opposite effect."},
+      {"question": "Why does wage growth matter?", "answer": "The Fed watches wage growth closely because it can fuel inflation (the wage-price spiral). Wage growth above 4% concerns the Fed, while growth matching inflation (3-3.5%) is considered healthy. Slowing wage growth gives the Fed room to cut rates."}
+    ],
+    "formulas": [
+      "Jobs Surprise = Actual Jobs Added - Consensus Expectation",
+      "Rate Move estimated from surprise magnitude and wage growth",
+      "Mortgage Impact = Loan Balance x Estimated Rate Change",
+      "Strong jobs (>300K or wages >4.5%) signal higher-for-longer rates"
+    ],
+    "relatedTools": ["fed-rate-mortgage-impact-calculator", "gdp-report-wallet-impact-calculator", "inflation-grocery-impact-calculator"],
+    "subcategory": "economic-indicators"
+  },
+  {
+    "slug": "gdp-report-wallet-impact-calculator",
+    "toolName": "GDP Report Wallet Impact Calculator",
+    "category": "economics",
+    "tagline": "Understand what GDP growth numbers actually mean for your income and daily life",
+    "keywords": "GDP report meaning, GDP impact calculator, what GDP means for me, GDP growth personal impact",
+    "inputs": [
+      {"id": "gdpGrowth", "label": "GDP Growth Rate (%)", "default": 2.5, "min": -10, "max": 15, "step": 0.1},
+      {"id": "expectedGDP", "label": "Expected GDP Growth (%)", "default": 2.0, "min": -10, "max": 15, "step": 0.1},
+      {"id": "annualIncome", "label": "Your Annual Income ($)", "default": 75000, "min": 0, "step": 5000},
+      {"id": "investmentBalance", "label": "Investment Balance ($)", "default": 100000, "min": 0, "step": 5000},
+      {"id": "jobSector", "label": "Your Job Sector", "type": "select", "default": "services", "options": [{"value": "tech", "label": "Technology (1.5x GDP sensitivity)"}, {"value": "finance", "label": "Finance (1.3x)"}, {"value": "manufacturing", "label": "Manufacturing (1.2x)"}, {"value": "services", "label": "Services (1.0x)"}, {"value": "government", "label": "Government (0.5x)"}, {"value": "healthcare", "label": "Healthcare (0.3x)"}]}
+    ],
+    "results": [
+      {"id": "gdpSurprise", "label": "GDP Surprise"},
+      {"id": "incomeImpact", "label": "Expected Income Impact"},
+      {"id": "jobOutlook", "label": "Your Job Sector Outlook"},
+      {"id": "investmentImpact", "label": "Investment Impact (est.)"},
+      {"id": "inflationSignal", "label": "Inflation Signal"},
+      {"id": "bigPicture", "label": "Big Picture"}
+    ],
+    "calcFn": "var surprise = gdpGrowth - expectedGDP; var sectorMult = {tech: 1.5, finance: 1.3, manufacturing: 1.2, services: 1.0, government: 0.5, healthcare: 0.3}; var mult = sectorMult[jobSector] || 1.0; var impliedWageGrowth = gdpGrowth * 0.6 * mult; var incomeChange = annualIncome * (impliedWageGrowth / 100); var stockReaction = surprise * 2; var investChange = investmentBalance * (stockReaction / 100); var jobOutlook = gdpGrowth > 3 ? 'Strong hiring environment — good time for raises/job switching' : gdpGrowth > 1.5 ? 'Stable employment — moderate hiring' : gdpGrowth > 0 ? 'Slow growth — limited new hiring, hold steady' : 'Contraction — layoff risk increasing, build emergency fund'; var inflationSignal = gdpGrowth > 3.5 ? 'Hot economy — inflation risk elevated, Fed may hike' : gdpGrowth > 2 ? 'Goldilocks — growth with manageable inflation' : gdpGrowth > 0 ? 'Cooling — inflation should ease, rate cuts possible' : 'Deflationary risk — Fed will likely cut aggressively'; var bigPicture = gdpGrowth > 3 ? 'Economy expanding strongly — opportunities but watch for overheating' : gdpGrowth > 1.5 ? 'Healthy sustainable growth — no major concerns' : gdpGrowth > 0 ? 'Below-trend growth — caution warranted' : 'Economic contraction — recession likely, defensive positioning wise'; document.getElementById('gdpSurprise').textContent = (surprise >= 0 ? '+' : '') + fmt(surprise, 1) + '% vs expectations (' + (surprise > 0 ? 'stronger' : surprise < 0 ? 'weaker' : 'in-line') + ')'; document.getElementById('incomeImpact').textContent = (incomeChange >= 0 ? '+' : '') + dollar(incomeChange) + '/year implied wage growth'; document.getElementById('jobOutlook').textContent = jobOutlook; document.getElementById('investmentImpact').textContent = (investChange >= 0 ? '+' : '') + dollar(investChange) + ' estimated market reaction'; document.getElementById('inflationSignal').textContent = inflationSignal; document.getElementById('bigPicture').textContent = bigPicture;",
+    "faq": [
+      {"question": "What is GDP and why does it matter to me?", "answer": "GDP (Gross Domestic Product) measures the total value of goods and services produced. When GDP grows, businesses earn more, create more jobs, and raise wages. When GDP shrinks, layoffs increase and wage growth stalls. GDP growth of 2-3% is considered healthy."},
+      {"question": "What does negative GDP mean?", "answer": "Two consecutive quarters of negative GDP is the informal definition of a recession. Negative GDP means the economy is shrinking — businesses produce less, hiring freezes or reverses, and consumer spending drops. This historically leads to higher unemployment within 3-6 months."},
+      {"question": "How does GDP growth affect the stock market?", "answer": "GDP surprises drive markets more than the absolute number. Better-than-expected GDP can boost stocks (more profits) but also hurt bonds (higher rates). The relationship is complex because very strong GDP raises inflation fears, which can actually hurt stocks."},
+      {"question": "Does GDP growth affect my salary?", "answer": "Indirectly, yes. Over time, wage growth correlates with GDP growth at about 60% sensitivity. In booming economies (GDP >3%), workers have more bargaining power for raises and job-switching. In contractions, wage growth stalls or turns negative."}
+    ],
+    "formulas": [
+      "GDP Surprise = Actual GDP - Expected GDP",
+      "Implied Wage Growth = GDP Growth x 0.6 x Sector Sensitivity Multiplier",
+      "Stock Market Reaction estimate: ~2x the GDP surprise %",
+      "Sector sensitivity ranges from 0.3x (healthcare) to 1.5x (tech)"
+    ],
+    "relatedTools": ["jobs-report-rate-impact-calculator", "inflation-grocery-impact-calculator", "fed-rate-mortgage-impact-calculator"],
+    "subcategory": "economic-indicators"
+  },
+  {
+    "slug": "housing-report-buyer-impact-calculator",
+    "toolName": "Housing Report Buyer Impact Calculator",
+    "category": "housing",
+    "tagline": "Understand what housing market data means if you are buying or selling a home",
+    "keywords": "housing report calculator, housing market impact, home buyer market data, housing data meaning",
+    "inputs": [
+      {"id": "medianPriceChange", "label": "Median Price Change YoY (%)", "default": 4.5, "min": -20, "max": 30, "step": 0.5},
+      {"id": "inventoryMonths", "label": "Months of Inventory", "default": 3.5, "min": 0.5, "max": 12, "step": 0.5},
+      {"id": "daysOnMarket", "label": "Avg Days on Market", "default": 35, "min": 5, "max": 180, "step": 5},
+      {"id": "targetPrice", "label": "Your Target Home Price ($)", "default": 400000, "min": 50000, "step": 10000},
+      {"id": "annualIncome", "label": "Household Income ($)", "default": 100000, "min": 0, "step": 5000},
+      {"id": "currentRate", "label": "Current Mortgage Rate (%)", "default": 6.75, "min": 2, "max": 10, "step": 0.125}
+    ],
+    "results": [
+      {"id": "marketType", "label": "Market Conditions"},
+      {"id": "buyerPower", "label": "Buyer Negotiating Power"},
+      {"id": "priceDirection", "label": "Price Direction Signal"},
+      {"id": "affordability", "label": "Affordability Score"},
+      {"id": "waitImpact", "label": "Cost of Waiting 1 Year"},
+      {"id": "strategy", "label": "Recommended Strategy"}
+    ],
+    "calcFn": "var marketType = inventoryMonths < 3 ? 'Strong Seller\\'s Market' : inventoryMonths < 5 ? 'Balanced Market' : inventoryMonths < 7 ? 'Buyer\\'s Market' : 'Strong Buyer\\'s Market'; var buyerPower = inventoryMonths < 2 ? 'Very Low — expect bidding wars' : inventoryMonths < 4 ? 'Low to Moderate — some room to negotiate' : inventoryMonths < 6 ? 'Good — can negotiate price and terms' : 'Strong — significant leverage on price'; var priceDir = medianPriceChange > 5 ? 'Prices rising fast — urgency to buy' : medianPriceChange > 0 ? 'Prices rising moderately — steady appreciation' : medianPriceChange > -5 ? 'Prices softening — potential buyer opportunity' : 'Prices falling — wait or negotiate hard'; var dp = targetPrice * 0.20; var loanAmt = targetPrice * 0.80; var monthlyRate = currentRate / 100 / 12; var payment = loanAmt * (monthlyRate * Math.pow(1 + monthlyRate, 360)) / (Math.pow(1 + monthlyRate, 360) - 1); var piti = payment + (targetPrice * 0.012 / 12) + (targetPrice * 0.005 / 12); var dti = annualIncome > 0 ? (piti * 12 / annualIncome) * 100 : 0; var affordScore = dti < 28 ? 'Comfortable (' + fmt(dti, 0) + '% DTI)' : dti < 36 ? 'Stretched (' + fmt(dti, 0) + '% DTI)' : 'Unaffordable (' + fmt(dti, 0) + '% DTI — above 36% guideline)'; var futurePrice = targetPrice * (1 + medianPriceChange / 100); var waitCost = futurePrice - targetPrice; var strategy = inventoryMonths < 3 && medianPriceChange > 3 ? 'Act quickly if you find a home you like — waive minor contingencies if comfortable' : inventoryMonths >= 5 ? 'Take your time — make below-asking offers and request seller concessions' : 'Balanced approach — make fair offers, keep standard contingencies'; document.getElementById('marketType').textContent = marketType + ' (' + fmt(inventoryMonths, 1) + ' months supply)'; document.getElementById('buyerPower').textContent = buyerPower; document.getElementById('priceDirection').textContent = priceDir; document.getElementById('affordability').textContent = affordScore; document.getElementById('waitImpact').textContent = (waitCost >= 0 ? '+' : '') + dollar(waitCost) + ' if prices continue trend'; document.getElementById('strategy').textContent = strategy;",
+    "faq": [
+      {"question": "What do months of inventory mean?", "answer": "Months of inventory measures how long it would take to sell all listed homes at the current sales pace. Under 3 months favors sellers (low supply, bidding wars). 4-6 months is balanced. Over 6 months favors buyers (lots of choice, negotiation power)."},
+      {"question": "Is it a good time to buy a house?", "answer": "There is no universally good or bad time — it depends on your local market, finances, and timeline. High inventory and falling prices favor buyers. Low rates favor buyers. The best time is when you can comfortably afford the payment and plan to stay 5+ years."},
+      {"question": "What does days on market tell me?", "answer": "Low days on market (under 20) means homes sell quickly — you need to act fast. High days (over 45) means homes are sitting — you have time and negotiation leverage. Rising days on market signals a market shifting toward buyers."},
+      {"question": "Should I wait for prices to drop?", "answer": "Timing the market is very difficult. If you wait for lower prices but rates rise, your payment may be higher. If you wait for lower rates, prices may rise from increased demand. If you can afford today's payment and plan to stay long-term, time in the market beats timing the market."}
+    ],
+    "formulas": [
+      "Market Type based on months of inventory: <3 seller's, 3-5 balanced, >5 buyer's",
+      "PITI = Mortgage Payment + Property Tax (1.2%/yr) + Insurance (0.5%/yr)",
+      "DTI = (PITI x 12) / Annual Income x 100",
+      "Cost of Waiting = Current Price x Annual Price Change %"
+    ],
+    "relatedTools": ["rent-vs-own-honest-comparison-calculator", "fed-rate-mortgage-impact-calculator"],
+    "subcategory": "real-estate"
+  }
+]

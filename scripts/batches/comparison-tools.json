@@ -1,0 +1,319 @@
+[
+  {
+    "slug": "rent-vs-buy-comparison",
+    "toolName": "Rent vs Buy Comparison Calculator",
+    "category": "housing",
+    "tagline": "Compare the true 10-year cost of renting versus buying a home including mortgage, taxes, appreciation, and investment returns",
+    "keywords": "rent vs buy, renting vs buying, home purchase comparison, mortgage vs rent, housing cost comparison, rent or buy calculator",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "homePrice", "label": "Home Price", "default": 350000, "min": 50000, "max": 2000000, "step": 5000},
+      {"id": "downPaymentPct", "label": "Down Payment (%)", "default": 20, "min": 0, "max": 100, "step": 1},
+      {"id": "mortgageRate", "label": "Mortgage Rate (%)", "default": 6.5, "min": 1, "max": 12, "step": 0.1},
+      {"id": "monthlyRent", "label": "Monthly Rent", "default": 1800, "min": 200, "max": 10000, "step": 50},
+      {"id": "annualAppreciation", "label": "Home Appreciation (%/yr)", "default": 3, "min": -5, "max": 15, "step": 0.5},
+      {"id": "investReturnPct", "label": "Investment Return (%/yr)", "default": 7, "min": 0, "max": 15, "step": 0.5}
+    ],
+    "results": [
+      {"id": "totalBuyCost", "label": "10-Year Buy Cost"},
+      {"id": "totalRentCost", "label": "10-Year Rent Cost"},
+      {"id": "buyEquity", "label": "Equity Built (Buying)"},
+      {"id": "rentInvestGrowth", "label": "Investment Growth (Renting)"},
+      {"id": "buyNetCost", "label": "Net Cost of Buying"},
+      {"id": "rentNetCost", "label": "Net Cost of Renting"},
+      {"id": "monthlyMortgage", "label": "Monthly Mortgage Payment"},
+      {"id": "verdict", "label": "Better Option"}
+    ],
+    "calcFn": "var downPayment = homePrice * (downPaymentPct / 100); var loanAmount = homePrice - downPayment; var monthlyRate = (mortgageRate / 100) / 12; var nPayments = 360; var monthlyMortgagePayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, nPayments)) / (Math.pow(1 + monthlyRate, nPayments) - 1); var monthlyPropertyTax = (homePrice * 0.012) / 12; var monthlyInsurance = (homePrice * 0.005) / 12; var monthlyMaintenance = (homePrice * 0.01) / 12; var totalMonthlyBuy = monthlyMortgagePayment + monthlyPropertyTax + monthlyInsurance + monthlyMaintenance; var totalBuyPayments = 0; var remainingBalance = loanAmount; for (var m = 0; m < 120; m++) { var interestPart = remainingBalance * monthlyRate; var principalPart = monthlyMortgagePayment - interestPart; remainingBalance -= principalPart; totalBuyPayments += totalMonthlyBuy; } var homeValueAt10 = homePrice * Math.pow(1 + annualAppreciation / 100, 10); var equityBuilt = homeValueAt10 - remainingBalance; var totalBuyAll = totalBuyPayments + downPayment; var buyNet = totalBuyAll - equityBuilt; var annualRentIncrease = 0.03; var totalRentPaid = 0; var rentSavingsInvested = 0; var currentRent = monthlyRent; var monthlyInvestReturn = Math.pow(1 + investReturnPct / 100, 1/12) - 1; for (var m2 = 0; m2 < 120; m2++) { if (m2 > 0 && m2 % 12 === 0) currentRent *= (1 + annualRentIncrease); totalRentPaid += currentRent; var monthlySavings = totalMonthlyBuy - currentRent + (m2 === 0 ? downPayment / 120 : downPayment / 120); rentSavingsInvested = (rentSavingsInvested + Math.max(0, monthlySavings)) * (1 + monthlyInvestReturn); } var rentNet = totalRentPaid - rentSavingsInvested; document.getElementById('totalBuyCost').textContent = '$' + totalBuyAll.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('totalRentCost').textContent = '$' + totalRentPaid.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('buyEquity').textContent = '$' + equityBuilt.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('rentInvestGrowth').textContent = '$' + rentSavingsInvested.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('buyNetCost').textContent = '$' + buyNet.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('rentNetCost').textContent = '$' + rentNet.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('monthlyMortgage').textContent = '$' + monthlyMortgagePayment.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo'; document.getElementById('verdict').textContent = buyNet < rentNet ? 'Buying saves $' + (rentNet - buyNet).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'Renting saves $' + (buyNet - rentNet).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What costs does this calculator include for buying?", "answer": "It includes your mortgage payment (principal + interest), property taxes (estimated at 1.2% of home value), homeowner's insurance (0.5%), maintenance (1%), down payment, and factors in home appreciation to calculate equity built over 10 years."},
+      {"question": "How does the rent investment comparison work?", "answer": "When renting is cheaper than the total monthly cost of owning, the calculator assumes you invest the difference plus a proportional share of what would have been your down payment. Those savings grow at your specified investment return rate, compounding monthly."},
+      {"question": "Does this account for rent increases?", "answer": "Yes, the calculator assumes a 3% annual rent increase, which is close to the national average. Your actual rent increases may vary depending on your lease terms and local market conditions."},
+      {"question": "What mortgage term does this use?", "answer": "The calculator uses a standard 30-year fixed-rate mortgage. The 10-year comparison shows your costs and equity built during that period, with the remaining mortgage balance factored into the equity calculation."}
+    ],
+    "formulas": [
+      "Monthly Mortgage = Loan * [r(1+r)^n] / [(1+r)^n - 1] where r = monthly rate, n = total payments",
+      "Total Buy Cost = Sum of all monthly payments (mortgage + tax + insurance + maintenance) + down payment",
+      "Equity Built = Appreciated Home Value - Remaining Loan Balance",
+      "Net Buy Cost = Total Buy Cost - Equity Built"
+    ],
+    "relatedTools": ["rent-vs-buy-home-calculator", "mortgage-affordability-calculator", "house-affordability-calculator", "closing-cost-calculator"]
+  },
+  {
+    "slug": "best-state-to-retire-calculator",
+    "toolName": "Best State to Retire Calculator",
+    "category": "finance",
+    "tagline": "Find the best states to retire based on your income, tax burden, healthcare costs, cost of living, and lifestyle priorities",
+    "keywords": "best state to retire, retirement state comparison, retire cheaply, low tax retirement states, retirement cost of living, state retirement ranking",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "retirementIncome", "label": "Annual Retirement Income", "default": 60000, "min": 10000, "max": 500000, "step": 5000},
+      {"id": "taxWeight", "label": "Tax Priority (1-10)", "default": 8, "min": 1, "max": 10, "step": 1},
+      {"id": "colWeight", "label": "Cost of Living Priority (1-10)", "default": 7, "min": 1, "max": 10, "step": 1},
+      {"id": "healthWeight", "label": "Healthcare Priority (1-10)", "default": 6, "min": 1, "max": 10, "step": 1},
+      {"id": "weatherWeight", "label": "Weather Priority (1-10)", "default": 5, "min": 1, "max": 10, "step": 1}
+    ],
+    "results": [
+      {"id": "state1", "label": "#1 Recommended State"},
+      {"id": "score1", "label": "#1 Score"},
+      {"id": "state2", "label": "#2 Recommended State"},
+      {"id": "score2", "label": "#2 Score"},
+      {"id": "state3", "label": "#3 Recommended State"},
+      {"id": "score3", "label": "#3 Score"},
+      {"id": "estTaxBurden", "label": "Est. Tax Burden (#1)"},
+      {"id": "estCOL", "label": "Est. Monthly COL (#1)"}
+    ],
+    "calcFn": "var states = [ {name:'Florida',taxScore:10,colScore:6,healthScore:7,weatherScore:9,taxRate:0,colIdx:1.03}, {name:'Texas',taxScore:10,colScore:7,healthScore:5,weatherScore:6,taxRate:0,colIdx:0.93}, {name:'Tennessee',taxScore:9,colScore:8,healthScore:5,weatherScore:6,taxRate:0,colIdx:0.89}, {name:'Nevada',taxScore:10,colScore:6,healthScore:5,weatherScore:7,taxRate:0,colIdx:1.01}, {name:'Wyoming',taxScore:10,colScore:7,healthScore:4,weatherScore:3,taxRate:0,colIdx:0.95}, {name:'South Dakota',taxScore:10,colScore:8,healthScore:5,weatherScore:2,taxRate:0,colIdx:0.88}, {name:'Arizona',taxScore:8,colScore:7,healthScore:6,weatherScore:8,taxRate:0.025,colIdx:0.97}, {name:'Georgia',taxScore:6,colScore:8,healthScore:6,weatherScore:7,taxRate:0.055,colIdx:0.91}, {name:'South Carolina',taxScore:7,colScore:8,healthScore:5,weatherScore:7,taxRate:0.065,colIdx:0.90}, {name:'North Carolina',taxScore:7,colScore:7,healthScore:7,weatherScore:7,taxRate:0.0475,colIdx:0.95}, {name:'New Hampshire',taxScore:9,colScore:4,healthScore:8,weatherScore:3,taxRate:0.05,colIdx:1.15}, {name:'Pennsylvania',taxScore:7,colScore:7,healthScore:7,weatherScore:4,taxRate:0.0307,colIdx:0.98}, {name:'Delaware',taxScore:7,colScore:6,healthScore:7,weatherScore:5,taxRate:0.066,colIdx:1.02}, {name:'Virginia',taxScore:6,colScore:6,healthScore:7,weatherScore:6,taxRate:0.0575,colIdx:1.04}, {name:'Colorado',taxScore:7,colScore:5,healthScore:8,weatherScore:6,taxRate:0.044,colIdx:1.10} ]; var totalWeight = taxWeight + colWeight + healthWeight + weatherWeight; states.forEach(function(s) { s.score = ((s.taxScore * taxWeight + s.colScore * colWeight + s.healthScore * healthWeight + s.weatherScore * weatherWeight) / totalWeight * 10); }); states.sort(function(a, b) { return b.score - a.score; }); var top = states.slice(0, 3); var estTax = top[0].taxRate * retirementIncome; var estMonthly = (retirementIncome / 12) * top[0].colIdx * 0.7; document.getElementById('state1').textContent = top[0].name; document.getElementById('score1').textContent = top[0].score.toFixed(1) + ' / 10'; document.getElementById('state2').textContent = top[1].name; document.getElementById('score2').textContent = top[1].score.toFixed(1) + ' / 10'; document.getElementById('state3').textContent = top[2].name; document.getElementById('score3').textContent = top[2].score.toFixed(1) + ' / 10'; document.getElementById('estTaxBurden').textContent = '$' + estTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/yr'; document.getElementById('estCOL').textContent = '$' + estMonthly.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo';",
+    "faq": [
+      {"question": "How are the state scores calculated?", "answer": "Each state is rated on four dimensions: tax burden, cost of living, healthcare quality, and weather/climate. Your priority weights determine how much each factor contributes to the final score. States with no income tax score highest on the tax dimension."},
+      {"question": "Which states have no income tax?", "answer": "Florida, Texas, Tennessee, Nevada, Wyoming, South Dakota, and Washington have no state income tax. New Hampshire only taxes interest and dividend income. Alaska also has no income tax plus pays residents a dividend."},
+      {"question": "Does this account for property taxes and sales tax?", "answer": "The tax score incorporates the overall tax burden including property tax and sales tax trends. States like Texas and New Hampshire have no income tax but higher property taxes, which is reflected in their scores."},
+      {"question": "How accurate is the cost of living estimate?", "answer": "The monthly cost of living estimate is based on cost of living indices relative to the national average, assuming about 70% of retirement income goes to living expenses. Actual costs vary significantly by city within each state."}
+    ],
+    "formulas": [
+      "Weighted Score = (Tax Score x Tax Weight + COL Score x COL Weight + Health Score x Health Weight + Weather Score x Weather Weight) / Total Weights x 10",
+      "Estimated Tax Burden = Retirement Income x State Income Tax Rate",
+      "Estimated Monthly COL = (Retirement Income / 12) x Cost of Living Index x 0.70"
+    ],
+    "relatedTools": ["retirement-savings-calculator", "safe-withdrawal-rate-calculator", "fire-calculator", "budget-calculator"]
+  },
+  {
+    "slug": "new-vs-used-car-calculator",
+    "toolName": "New vs Used Car Calculator",
+    "category": "automotive",
+    "tagline": "Compare the true 5-year cost of buying a new car versus a 3-year-old used car including depreciation, insurance, maintenance, and fuel",
+    "keywords": "new vs used car, car cost comparison, used car savings, depreciation calculator, car buying comparison, vehicle cost analysis",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "newPrice", "label": "New Car Price", "default": 35000, "min": 10000, "max": 150000, "step": 1000},
+      {"id": "usedPrice", "label": "Used Car Price (3-yr old)", "default": 22000, "min": 5000, "max": 100000, "step": 1000},
+      {"id": "annualMiles", "label": "Annual Miles Driven", "default": 12000, "min": 1000, "max": 50000, "step": 1000},
+      {"id": "mpg", "label": "Fuel Economy (MPG)", "default": 28, "min": 10, "max": 60, "step": 1},
+      {"id": "gasPrice", "label": "Gas Price ($/gallon)", "default": 3.50, "min": 1, "max": 8, "step": 0.10},
+      {"id": "loanRate", "label": "Loan Rate (%)", "default": 6.5, "min": 0, "max": 15, "step": 0.25}
+    ],
+    "results": [
+      {"id": "newTotal5yr", "label": "New Car 5-Year Total Cost"},
+      {"id": "usedTotal5yr", "label": "Used Car 5-Year Total Cost"},
+      {"id": "newDepreciation", "label": "New Car Depreciation Loss"},
+      {"id": "usedDepreciation", "label": "Used Car Depreciation Loss"},
+      {"id": "newInsurance5yr", "label": "New Car Insurance (5yr)"},
+      {"id": "usedInsurance5yr", "label": "Used Car Insurance (5yr)"},
+      {"id": "totalSavings", "label": "5-Year Savings"},
+      {"id": "betterDeal", "label": "Better Value"}
+    ],
+    "calcFn": "var newDepr = [0.20, 0.15, 0.12, 0.10, 0.09]; var usedDepr = [0.12, 0.10, 0.09, 0.08, 0.07]; var newValueEnd = newPrice; var newTotalDepr = 0; for (var i = 0; i < 5; i++) { var loss = newPrice * newDepr[i]; newTotalDepr += loss; newValueEnd = newPrice - newTotalDepr; } var usedValueEnd = usedPrice; var usedTotalDepr = 0; for (var j = 0; j < 5; j++) { var loss2 = usedPrice * usedDepr[j]; usedTotalDepr += loss2; usedValueEnd = usedPrice - usedTotalDepr; } var fuelCostPerYear = (annualMiles / mpg) * gasPrice; var totalFuel5yr = fuelCostPerYear * 5; var newInsPerYear = newPrice * 0.045; var usedInsPerYear = usedPrice * 0.04; var newInsTotal = newInsPerYear * 5; var usedInsTotal = usedInsPerYear * 5; var newMaintPerYear = [300, 400, 500, 700, 900]; var usedMaintPerYear = [700, 900, 1100, 1300, 1500]; var newMaintTotal = 0; var usedMaintTotal = 0; for (var k = 0; k < 5; k++) { newMaintTotal += newMaintPerYear[k]; usedMaintTotal += usedMaintPerYear[k]; } var newMonthlyRate = (loanRate / 100) / 12; var usedMonthlyRate = ((loanRate + 1.5) / 100) / 12; var newLoanPmt = newPrice * 0.9 * (newMonthlyRate * Math.pow(1 + newMonthlyRate, 60)) / (Math.pow(1 + newMonthlyRate, 60) - 1); var usedLoanPmt = usedPrice * 0.9 * (usedMonthlyRate * Math.pow(1 + usedMonthlyRate, 60)) / (Math.pow(1 + usedMonthlyRate, 60) - 1); var newInterestPaid = (newLoanPmt * 60) - (newPrice * 0.9); var usedInterestPaid = (usedLoanPmt * 60) - (usedPrice * 0.9); var newTotal = newPrice + newInterestPaid + newInsTotal + newMaintTotal + totalFuel5yr - newValueEnd; var usedTotal = usedPrice + usedInterestPaid + usedInsTotal + usedMaintTotal + totalFuel5yr - usedValueEnd; var savings = Math.abs(newTotal - usedTotal); document.getElementById('newTotal5yr').textContent = '$' + newTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('usedTotal5yr').textContent = '$' + usedTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('newDepreciation').textContent = '$' + newTotalDepr.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('usedDepreciation').textContent = '$' + usedTotalDepr.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('newInsurance5yr').textContent = '$' + newInsTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('usedInsurance5yr').textContent = '$' + usedInsTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('totalSavings').textContent = '$' + savings.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('betterDeal').textContent = newTotal < usedTotal ? 'New Car' : 'Used Car';",
+    "faq": [
+      {"question": "How is depreciation calculated for new vs used cars?", "answer": "New cars lose about 20% in year 1, then 15%, 12%, 10%, and 9% in subsequent years. A 3-year-old used car has already absorbed the steepest depreciation, losing roughly 12% in its first owned year and declining more gradually. These are industry averages from depreciation studies."},
+      {"question": "Why is the used car loan rate higher?", "answer": "Used car loan rates are typically 1-2% higher than new car rates because lenders see used vehicles as higher risk. The calculator adds 1.5% to your new car rate for the used car loan. Both assume a 10% down payment and 5-year loan term."},
+      {"question": "What maintenance costs are included?", "answer": "New cars start around $300/year for basic maintenance and gradually increase as the warranty expires. Used cars start higher (~$700/year) since they are already out of the bumper-to-bumper warranty period and need more frequent repairs."},
+      {"question": "Does this include registration and sales tax?", "answer": "The calculator focuses on the major cost categories: purchase price, depreciation, financing, insurance, maintenance, and fuel. Registration and sales tax vary significantly by state but would generally favor the lower-priced used car."}
+    ],
+    "formulas": [
+      "Total Cost = Purchase Price + Interest Paid + Insurance + Maintenance + Fuel - Residual Value",
+      "New Car Depreciation: Year 1 = 20%, Year 2 = 15%, Year 3 = 12%, Year 4 = 10%, Year 5 = 9%",
+      "Insurance: New = 4.5% of price/year, Used = 4.0% of price/year",
+      "Loan Payment = P * [r(1+r)^n] / [(1+r)^n - 1] with 10% down, 60-month term"
+    ],
+    "relatedTools": ["car-depreciation-calculator", "cost-per-mile-calculator", "fuel-cost-trip-calculator", "car-loan-refinance-calculator"]
+  },
+  {
+    "slug": "llc-vs-scorp-vs-sole-prop-calculator",
+    "toolName": "LLC vs S-Corp vs Sole Proprietorship Tax Calculator",
+    "category": "finance",
+    "tagline": "Compare tax liability for LLC, S-Corp, and Sole Proprietorship at your income level including self-employment tax and filing costs",
+    "keywords": "LLC vs S-Corp, sole proprietorship taxes, business structure comparison, self-employment tax, S-Corp tax savings, business entity calculator",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "grossIncome", "label": "Annual Business Income", "default": 120000, "min": 10000, "max": 1000000, "step": 5000},
+      {"id": "bizExpenses", "label": "Business Expenses", "default": 20000, "min": 0, "max": 500000, "step": 1000},
+      {"id": "filingStatus", "label": "Filing Status", "type": "select", "default": "single", "options": [{"value": "single", "label": "Single"}, {"value": "married", "label": "Married Filing Jointly"}]},
+      {"id": "scorpSalaryPct", "label": "S-Corp Salary (% of profit)", "default": 60, "min": 30, "max": 100, "step": 5},
+      {"id": "stateIncomeTaxRate", "label": "State Income Tax Rate (%)", "default": 5, "min": 0, "max": 13, "step": 0.5}
+    ],
+    "results": [
+      {"id": "solePropTax", "label": "Sole Prop Total Tax"},
+      {"id": "llcTax", "label": "LLC Total Tax"},
+      {"id": "scorpTax", "label": "S-Corp Total Tax"},
+      {"id": "soleSETax", "label": "Sole Prop SE Tax"},
+      {"id": "scorpSETax", "label": "S-Corp Payroll Tax"},
+      {"id": "scorpSavings", "label": "S-Corp Tax Savings"},
+      {"id": "annualFilingCost", "label": "Est. Annual Filing Costs"},
+      {"id": "bestStructure", "label": "Recommended Structure"}
+    ],
+    "calcFn": "var netIncome = grossIncome - bizExpenses; var seTaxRate = 0.153; var seTaxableIncome = netIncome * 0.9235; var seTax = Math.min(seTaxableIncome, 168600) * 0.153 + Math.max(0, seTaxableIncome - 168600) * 0.029; var seDeduction = seTax / 2; var brackets; if (filingStatus === 'married') { brackets = [[22000, 0.10], [89450, 0.12], [190750, 0.22], [364200, 0.24], [462500, 0.32], [693750, 0.35], [Infinity, 0.37]]; } else { brackets = [[11000, 0.10], [44725, 0.12], [95375, 0.22], [182100, 0.24], [231250, 0.32], [578125, 0.35], [Infinity, 0.37]]; } var stdDeduction = filingStatus === 'married' ? 27700 : 13850; function calcFedTax(taxableIncome) { var tax = 0; var prev = 0; for (var b = 0; b < brackets.length; b++) { var bracketTop = brackets[b][0]; var rate = brackets[b][1]; var bracketIncome = Math.min(taxableIncome, bracketTop) - prev; if (bracketIncome <= 0) break; tax += bracketIncome * rate; prev = bracketTop; } return tax; } var qbiDeduction = Math.min(netIncome * 0.20, (filingStatus === 'married' ? 364200 : 182100) * 0.20); var soleTaxableIncome = Math.max(0, netIncome - seDeduction - stdDeduction - qbiDeduction); var soleFedTax = calcFedTax(soleTaxableIncome); var soleStateTax = netIncome * (stateIncomeTaxRate / 100); var soleTotalTax = soleFedTax + seTax + soleStateTax; var llcTotalTax = soleTotalTax; var scorpSalary = netIncome * (scorpSalaryPct / 100); var scorpDistribution = netIncome - scorpSalary; var scorpPayrollTax = scorpSalary * 0.153; var scorpSeDeduction = scorpPayrollTax / 2; var scorpQbi = Math.min(scorpDistribution * 0.20, qbiDeduction); var scorpTaxableIncome = Math.max(0, netIncome - scorpSeDeduction - stdDeduction - scorpQbi); var scorpFedTax = calcFedTax(scorpTaxableIncome); var scorpStateTax = netIncome * (stateIncomeTaxRate / 100); var scorpTotal = scorpFedTax + scorpPayrollTax + scorpStateTax; var savings = soleTotalTax - scorpTotal; var soleFiling = 200; var llcFiling = 500; var scorpFiling = 1500; var best = 'Sole Proprietorship'; if (netIncome > 40000 && netIncome <= 80000) best = 'LLC'; if (netIncome > 80000) best = 'S-Corp'; var scorpNetSavings = savings - (scorpFiling - soleFiling); if (scorpNetSavings < 0 && netIncome > 40000) best = 'LLC'; document.getElementById('solePropTax').textContent = '$' + soleTotalTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('llcTax').textContent = '$' + llcTotalTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ' (same as Sole Prop)'; document.getElementById('scorpTax').textContent = '$' + scorpTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('soleSETax').textContent = '$' + seTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('scorpSETax').textContent = '$' + scorpPayrollTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('scorpSavings').textContent = savings > 0 ? '$' + savings.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/yr' : 'No savings'; document.getElementById('annualFilingCost').textContent = 'Sole: $' + soleFiling + ' | LLC: $' + llcFiling + ' | S-Corp: $' + scorpFiling; document.getElementById('bestStructure').textContent = best;",
+    "faq": [
+      {"question": "Why does an S-Corp save on taxes?", "answer": "In a sole proprietorship or single-member LLC, all net income is subject to self-employment tax (15.3%). With an S-Corp, you pay yourself a reasonable salary (subject to payroll taxes) and take the rest as distributions, which are not subject to SE tax. The savings come from the distribution portion avoiding the 15.3% SE tax."},
+      {"question": "What is a reasonable S-Corp salary?", "answer": "The IRS requires S-Corp owner-employees to pay themselves a reasonable salary before taking distributions. Generally, 50-70% of net profit is considered reasonable, though this depends on your industry and role. Setting it too low risks an IRS audit."},
+      {"question": "Why is the LLC tax the same as Sole Proprietorship?", "answer": "A single-member LLC is a disregarded entity for federal tax purposes, meaning it's taxed identically to a sole proprietorship. The LLC provides liability protection but no federal tax advantage. You can elect S-Corp taxation for an LLC to get the payroll tax savings."},
+      {"question": "When should I choose S-Corp status?", "answer": "S-Corp status generally makes sense when net business income exceeds $60,000-$80,000 per year. Below that, the additional accounting and payroll costs ($1,000-$2,000/year) often exceed the tax savings. The calculator accounts for typical filing costs in its recommendation."}
+    ],
+    "formulas": [
+      "Self-Employment Tax = Net Income x 0.9235 x 15.3% (up to Social Security wage base)",
+      "S-Corp Payroll Tax = Salary Portion x 15.3% (employer + employee share)",
+      "QBI Deduction = 20% of qualified business income (subject to income limits)",
+      "Tax Savings = Sole Prop Total Tax - S-Corp Total Tax"
+    ],
+    "relatedTools": ["self-employment-tax-calculator", "freelance-rate-calculator", "profit-margin-calculator", "break-even-calculator"]
+  },
+  {
+    "slug": "term-vs-whole-life-insurance-calculator",
+    "toolName": "Term vs Whole Life Insurance Calculator",
+    "category": "insurance",
+    "tagline": "Compare 30-year costs of term life versus whole life insurance including cash value growth and investing the premium difference",
+    "keywords": "term vs whole life, life insurance comparison, term life calculator, whole life cash value, buy term invest difference, insurance cost comparison",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "coverageAmount", "label": "Coverage Amount", "default": 500000, "min": 50000, "max": 5000000, "step": 50000},
+      {"id": "age", "label": "Current Age", "default": 35, "min": 20, "max": 65, "step": 1},
+      {"id": "termPremium", "label": "Monthly Term Premium", "default": 35, "min": 5, "max": 500, "step": 5},
+      {"id": "wholePremium", "label": "Monthly Whole Life Premium", "default": 450, "min": 50, "max": 5000, "step": 25},
+      {"id": "investReturn", "label": "Investment Return (%/yr)", "default": 7, "min": 1, "max": 15, "step": 0.5},
+      {"id": "cashValueReturn", "label": "Cash Value Return (%/yr)", "default": 3.5, "min": 1, "max": 7, "step": 0.5}
+    ],
+    "results": [
+      {"id": "termTotal30", "label": "Term 30-Year Total Premiums"},
+      {"id": "wholeTotal30", "label": "Whole Life 30-Year Total Premiums"},
+      {"id": "premiumDiff", "label": "Monthly Premium Difference"},
+      {"id": "investedDiffValue", "label": "Invested Difference (30yr)"},
+      {"id": "cashValue30", "label": "Whole Life Cash Value (30yr)"},
+      {"id": "termPlusInvest", "label": "Term + Investments Net Worth"},
+      {"id": "wholeNetCost", "label": "Whole Life Net Cost"},
+      {"id": "recommendation", "label": "Recommended Strategy"}
+    ],
+    "calcFn": "var termTotal = termPremium * 12 * 30; var wholeTotal = wholePremium * 12 * 30; var monthlyDiff = wholePremium - termPremium; var monthlyInvestRate = Math.pow(1 + investReturn / 100, 1/12) - 1; var investedValue = 0; for (var m = 0; m < 360; m++) { investedValue = (investedValue + monthlyDiff) * (1 + monthlyInvestRate); } var monthlyCashRate = Math.pow(1 + cashValueReturn / 100, 1/12) - 1; var cashValue = 0; var premiumToCash = wholePremium * 0.35; for (var m2 = 0; m2 < 360; m2++) { if (m2 < 24) { cashValue = cashValue * (1 + monthlyCashRate); } else if (m2 < 120) { cashValue = (cashValue + premiumToCash * 0.7) * (1 + monthlyCashRate); } else { cashValue = (cashValue + premiumToCash) * (1 + monthlyCashRate); } } var termNetWorth = investedValue; var wholeNetCostVal = wholeTotal - cashValue; var termAdvantage = investedValue - cashValue; document.getElementById('termTotal30').textContent = '$' + termTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('wholeTotal30').textContent = '$' + wholeTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('premiumDiff').textContent = '$' + monthlyDiff.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo'; document.getElementById('investedDiffValue').textContent = '$' + investedValue.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('cashValue30').textContent = '$' + cashValue.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('termPlusInvest').textContent = '$' + termNetWorth.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('wholeNetCost').textContent = '$' + wholeNetCostVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('recommendation').textContent = termAdvantage > 0 ? 'Buy Term & Invest the Difference (+$' + termAdvantage.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ')' : 'Whole Life (+$' + Math.abs(termAdvantage).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ')';",
+    "faq": [
+      {"question": "What does 'Buy Term and Invest the Difference' mean?", "answer": "This popular strategy suggests buying cheaper term life insurance and investing the money you save on premiums compared to whole life. If your investments earn a higher return than the whole life policy's cash value growth rate, you come out ahead financially over the long term."},
+      {"question": "How does whole life cash value work?", "answer": "Whole life policies accumulate cash value over time. In the early years (first 2-3 years), most of your premium goes to insurance costs and fees. Cash value builds slowly at first, then accelerates. The calculator models this with reduced accumulation in early years and a guaranteed growth rate you specify."},
+      {"question": "Why might someone still choose whole life?", "answer": "Whole life offers guaranteed death benefit for life (term expires), forced savings discipline, tax-deferred cash value growth, potential dividends from mutual companies, and the ability to borrow against cash value. It can be valuable for estate planning at high income levels."},
+      {"question": "What happens when the term policy expires?", "answer": "A 30-year term policy provides coverage for exactly 30 years. After it expires, you have no life insurance but ideally have built enough wealth through investments that your family no longer needs the death benefit. Renewing term coverage at an older age is significantly more expensive."}
+    ],
+    "formulas": [
+      "Invested Difference = Monthly savings compounded at investment return rate for 30 years",
+      "Cash Value = Premiums allocated to cash value (35% of premium) compounded at cash value return rate, with reduced allocation in early years",
+      "Term Net Worth = Total value of invested premium difference after 30 years",
+      "Whole Life Net Cost = Total premiums paid - accumulated cash value"
+    ],
+    "relatedTools": ["life-insurance-calculator", "term-life-insurance-calculator", "life-insurance-needs-calculator", "compound-interest-calculator"]
+  },
+  {
+    "slug": "college-vs-trade-school-calculator",
+    "toolName": "College vs Trade School Calculator",
+    "category": "education",
+    "tagline": "Compare lifetime earnings for a 4-year degree, 2-year trade program, and direct workforce entry including student debt and opportunity cost",
+    "keywords": "college vs trade school, trade school ROI, college worth it, lifetime earnings comparison, student loan impact, career path calculator",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "collegeTuition", "label": "4-Year College Total Cost", "default": 120000, "min": 20000, "max": 400000, "step": 5000},
+      {"id": "tradeCost", "label": "Trade Program Total Cost", "default": 25000, "min": 5000, "max": 80000, "step": 1000},
+      {"id": "collegeStartSalary", "label": "College Grad Starting Salary", "default": 55000, "min": 20000, "max": 200000, "step": 5000},
+      {"id": "tradeStartSalary", "label": "Trade Starting Salary", "default": 45000, "min": 20000, "max": 150000, "step": 5000},
+      {"id": "directStartSalary", "label": "Direct Workforce Starting Salary", "default": 30000, "min": 15000, "max": 80000, "step": 2000},
+      {"id": "loanRate", "label": "Student Loan Rate (%)", "default": 5.5, "min": 2, "max": 12, "step": 0.5}
+    ],
+    "results": [
+      {"id": "college30yr", "label": "College 30-Year Net Earnings"},
+      {"id": "trade30yr", "label": "Trade 30-Year Net Earnings"},
+      {"id": "direct30yr", "label": "Direct Work 30-Year Net Earnings"},
+      {"id": "collegeBreakeven", "label": "College Break-Even Year"},
+      {"id": "collegeLoanTotal", "label": "College Total Loan Cost"},
+      {"id": "tradeLoanTotal", "label": "Trade Total Loan Cost"},
+      {"id": "bestPath", "label": "Highest 30-Year Earnings"},
+      {"id": "earningsDiff", "label": "Difference (Best vs Worst)"}
+    ],
+    "calcFn": "var collegeGrowth = 0.035; var tradeGrowth = 0.025; var directGrowth = 0.02; var collegeMonthlyRate = (loanRate / 100) / 12; var collegeLoanPayment = collegeTuition * (collegeMonthlyRate * Math.pow(1 + collegeMonthlyRate, 120)) / (Math.pow(1 + collegeMonthlyRate, 120) - 1); var collegeTotalLoan = collegeLoanPayment * 120; var tradeMonthlyRate = (loanRate / 100) / 12; var tradeLoanPayment = tradeCost * (tradeMonthlyRate * Math.pow(1 + tradeMonthlyRate, 60)) / (Math.pow(1 + tradeMonthlyRate, 60) - 1); var tradeTotalLoan = tradeLoanPayment * 60; var collegeEarnings = 0; var tradeEarnings = 0; var directEarnings = 0; var collegeSalary = collegeStartSalary; var tradeSalary = tradeStartSalary; var directSalary = directStartSalary; var collegeBreak = 0; var directCumulative = 0; var collegeCumulative = 0; for (var yr = 1; yr <= 30; yr++) { if (yr <= 4) { directEarnings += directSalary; directSalary *= (1 + directGrowth); if (yr <= 2) { tradeEarnings -= tradeCost / 2; } else { tradeEarnings += tradeSalary; tradeSalary *= (1 + tradeGrowth); } collegeEarnings -= collegeTuition / 4; } else { directEarnings += directSalary; directSalary *= (1 + directGrowth); tradeEarnings += tradeSalary; tradeSalary *= (1 + tradeGrowth); collegeEarnings += collegeSalary; collegeSalary *= (1 + collegeGrowth); if (yr <= 14) { collegeEarnings -= collegeLoanPayment * 12; } if (yr <= 9) { tradeEarnings -= tradeLoanPayment * 12; } } directCumulative = directEarnings; collegeCumulative = collegeEarnings; if (collegeBreak === 0 && collegeCumulative > directCumulative) { collegeBreak = yr; } } document.getElementById('college30yr').textContent = '$' + collegeEarnings.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('trade30yr').textContent = '$' + tradeEarnings.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('direct30yr').textContent = '$' + directEarnings.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('collegeBreakeven').textContent = collegeBreak > 0 ? 'Year ' + collegeBreak : 'Not within 30 years'; document.getElementById('collegeLoanTotal').textContent = '$' + collegeTotalLoan.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('tradeLoanTotal').textContent = '$' + tradeTotalLoan.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); var best = 'College'; var bestVal = collegeEarnings; var worst = directEarnings; if (tradeEarnings > bestVal) { best = 'Trade School'; bestVal = tradeEarnings; } if (directEarnings > bestVal) { best = 'Direct Workforce'; bestVal = directEarnings; } if (collegeEarnings < tradeEarnings && collegeEarnings < directEarnings) worst = collegeEarnings; if (tradeEarnings < collegeEarnings && tradeEarnings < directEarnings) worst = tradeEarnings; var diff = bestVal - worst; document.getElementById('bestPath').textContent = best; document.getElementById('earningsDiff').textContent = '$' + diff.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What salary growth rates does this use?", "answer": "College graduates average 3.5% annual salary growth reflecting higher advancement potential. Trade professionals average 2.5% growth, reflecting steady skilled labor demand. Direct workforce entrants average 2% growth. These are inflation-adjusted real growth rates based on Bureau of Labor Statistics data."},
+      {"question": "How is the break-even year calculated?", "answer": "The break-even year is when cumulative college earnings (minus tuition and loan payments) first exceed cumulative earnings from entering the workforce directly after high school. This accounts for 4 years of zero income during college plus loan repayment."},
+      {"question": "Does this account for opportunity cost?", "answer": "Yes. During the 4 years of college, you earn nothing while direct workforce entrants are earning salary. During the 2 years of trade school, trade students earn nothing. These lost earnings are a significant factor that many people overlook when comparing paths."},
+      {"question": "What about benefits and job satisfaction?", "answer": "This calculator focuses on financial comparison. College degrees often provide additional benefits like employer healthcare, retirement matching, and more job flexibility. Trade careers can offer strong benefits through unions. These non-financial factors should also inform your decision."}
+    ],
+    "formulas": [
+      "Net Earnings = Cumulative salary - education costs - total loan payments (principal + interest)",
+      "College loan: 10-year standard repayment at specified rate",
+      "Trade loan: 5-year repayment at specified rate",
+      "Break-even = Year when college cumulative earnings exceed direct workforce cumulative earnings"
+    ],
+    "relatedTools": ["student-loan-calculator", "college-roi-calculator", "trade-vs-college-calculator", "student-loan-repayment-calculator"]
+  },
+  {
+    "slug": "solar-vs-grid-vs-generator-calculator",
+    "toolName": "Solar vs Grid vs Generator Cost Calculator",
+    "category": "energy",
+    "tagline": "Compare 20-year costs of solar panels, grid electricity, and generator power including installation, maintenance, fuel, and rate increases",
+    "keywords": "solar vs grid cost, generator cost comparison, solar panel ROI, electricity cost comparison, off-grid calculator, energy cost analysis",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "monthlyKwh", "label": "Monthly Electricity Use (kWh)", "default": 900, "min": 100, "max": 5000, "step": 50},
+      {"id": "gridRate", "label": "Current Grid Rate ($/kWh)", "default": 0.15, "min": 0.05, "max": 0.50, "step": 0.01},
+      {"id": "solarCost", "label": "Solar System Cost (installed)", "default": 25000, "min": 5000, "max": 80000, "step": 1000},
+      {"id": "solarTaxCredit", "label": "Solar Tax Credit (%)", "default": 30, "min": 0, "max": 40, "step": 5},
+      {"id": "genCost", "label": "Generator Purchase Cost", "default": 5000, "min": 1000, "max": 30000, "step": 500},
+      {"id": "fuelCostGal", "label": "Generator Fuel Cost ($/gal)", "default": 3.80, "min": 1, "max": 8, "step": 0.10}
+    ],
+    "results": [
+      {"id": "gridTotal20", "label": "Grid 20-Year Total Cost"},
+      {"id": "solarTotal20", "label": "Solar 20-Year Total Cost"},
+      {"id": "genTotal20", "label": "Generator 20-Year Total Cost"},
+      {"id": "solarPayback", "label": "Solar Payback Period"},
+      {"id": "solarSavings20", "label": "Solar Savings vs Grid (20yr)"},
+      {"id": "solarCostPerKwh", "label": "Solar Cost per kWh"},
+      {"id": "genCostPerKwh", "label": "Generator Cost per kWh"},
+      {"id": "bestOption", "label": "Lowest 20-Year Cost"}
+    ],
+    "calcFn": "var annualKwh = monthlyKwh * 12; var gridInflation = 0.03; var fuelInflation = 0.04; var gridTotal = 0; var currentRate = gridRate; for (var y = 0; y < 20; y++) { gridTotal += annualKwh * currentRate; currentRate *= (1 + gridInflation); } var netSolarCost = solarCost * (1 - solarTaxCredit / 100); var solarMaintenance = 200; var inverterReplace = 3000; var solarTotalCost = netSolarCost; for (var y2 = 0; y2 < 20; y2++) { solarTotalCost += solarMaintenance; if (y2 === 11) solarTotalCost += inverterReplace; } var solarAnnualSavings = annualKwh * gridRate; var paybackYears = netSolarCost / solarAnnualSavings; var solarEffectiveCostPerKwh = solarTotalCost / (annualKwh * 20); var genKwhPerGal = 8; var genFuelPerYear = annualKwh / genKwhPerGal; var genMaintenancePerYear = 800; var genReplaceInterval = 7; var genTotal = genCost; var currentFuelCost = fuelCostGal; for (var y3 = 0; y3 < 20; y3++) { genTotal += genFuelPerYear * currentFuelCost + genMaintenancePerYear; currentFuelCost *= (1 + fuelInflation); if (y3 > 0 && y3 % genReplaceInterval === 0) genTotal += genCost * 0.7; } var genCostPerKwhVal = genTotal / (annualKwh * 20); var solarSavingsVal = gridTotal - solarTotalCost; var bestOpt = 'Solar'; var bestCost = solarTotalCost; if (gridTotal < bestCost) { bestOpt = 'Grid'; bestCost = gridTotal; } if (genTotal < bestCost) { bestOpt = 'Generator'; bestCost = genTotal; } document.getElementById('gridTotal20').textContent = '$' + gridTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('solarTotal20').textContent = '$' + solarTotalCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('genTotal20').textContent = '$' + genTotal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('solarPayback').textContent = paybackYears.toFixed(1) + ' years'; document.getElementById('solarSavings20').textContent = solarSavingsVal > 0 ? '$' + solarSavingsVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : '-$' + Math.abs(solarSavingsVal).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('solarCostPerKwh').textContent = '$' + solarEffectiveCostPerKwh.toFixed(3) + '/kWh'; document.getElementById('genCostPerKwh').textContent = '$' + genCostPerKwhVal.toFixed(3) + '/kWh'; document.getElementById('bestOption').textContent = bestOpt + ' ($' + bestCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ')';",
+    "faq": [
+      {"question": "What solar tax credit is available?", "answer": "The federal Investment Tax Credit (ITC) currently offers 30% off solar installation costs through 2032, stepping down to 26% in 2033 and 22% in 2034. Some states offer additional incentives. The calculator lets you adjust the credit percentage to match current programs."},
+      {"question": "How is the generator cost calculated?", "answer": "Generator costs include the initial purchase, fuel consumption (based on ~8 kWh per gallon for a typical standby generator), annual maintenance ($800/year), and replacement units every 7 years at 70% of original cost. Fuel costs increase at 4% annually."},
+      {"question": "Does the solar calculation include battery storage?", "answer": "The base calculation assumes a grid-tied solar system without battery storage. Battery systems add $10,000-$15,000 to the upfront cost. If you need off-grid capability, increase the Solar System Cost to include battery costs."},
+      {"question": "How long do solar panels last?", "answer": "Modern solar panels are warranted for 25 years and often produce power for 30+ years with gradual efficiency loss (~0.5% per year). The calculator uses a 20-year comparison period. Inverters typically need replacement around year 12, which is included in the solar cost."}
+    ],
+    "formulas": [
+      "Grid 20-Year Cost = Sum of annual electricity costs with 3% annual rate increase",
+      "Solar 20-Year Cost = (System Cost x (1 - Tax Credit)) + maintenance + inverter replacement",
+      "Solar Payback = Net System Cost / First Year Grid Savings",
+      "Generator 20-Year Cost = Purchase + fuel (4% annual increase) + maintenance + replacements every 7 years"
+    ],
+    "relatedTools": ["solar-panel-calculator", "solar-panel-payback-calculator", "electricity-cost-calculator", "kwh-cost-calculator"]
+  },
+  {
+    "slug": "buy-vs-lease-vs-finance-calculator",
+    "toolName": "Buy vs Lease vs Finance Calculator",
+    "category": "automotive",
+    "tagline": "Compare the total cost of buying outright, leasing, or financing a vehicle over your chosen ownership period",
+    "keywords": "buy vs lease, lease vs finance, car lease calculator, vehicle financing comparison, lease or buy car, auto lease analysis",
+    "subcategory": "comparison",
+    "inputs": [
+      {"id": "vehiclePrice", "label": "Vehicle Price (MSRP)", "default": 38000, "min": 10000, "max": 150000, "step": 1000},
+      {"id": "downPayment", "label": "Down Payment", "default": 5000, "min": 0, "max": 50000, "step": 500},
+      {"id": "loanRate", "label": "Finance APR (%)", "default": 6.5, "min": 0, "max": 15, "step": 0.25},
+      {"id": "loanTermMonths", "label": "Finance Term (months)", "default": 60, "min": 24, "max": 84, "step": 12},
+      {"id": "leaseMonthly", "label": "Monthly Lease Payment", "default": 399, "min": 100, "max": 2000, "step": 25},
+      {"id": "ownershipYears", "label": "Ownership Period (years)", "default": 5, "min": 2, "max": 10, "step": 1}
+    ],
+    "results": [
+      {"id": "cashBuyTotal", "label": "Cash Buy Total Cost"},
+      {"id": "financeTotal", "label": "Finance Total Cost"},
+      {"id": "leaseTotal", "label": "Lease Total Cost"},
+      {"id": "cashEquity", "label": "Cash Buy Residual Value"},
+      {"id": "financeEquity", "label": "Finance Residual Value"},
+      {"id": "leaseEquity", "label": "Lease Residual Value"},
+      {"id": "financeMonthly", "label": "Monthly Finance Payment"},
+      {"id": "bestValue", "label": "Lowest Net Cost Option"}
+    ],
+    "calcFn": "var depRates = [0.20, 0.15, 0.12, 0.10, 0.09, 0.08, 0.07, 0.06, 0.05, 0.05]; var residualValue = vehiclePrice; for (var d = 0; d < ownershipYears && d < depRates.length; d++) { residualValue -= vehiclePrice * depRates[d]; } residualValue = Math.max(residualValue, vehiclePrice * 0.1); var annualInsurance = vehiclePrice * 0.04; var annualMaintenance = 0; var maintCosts = [400, 500, 700, 900, 1100, 1300, 1500, 1700, 1900, 2100]; for (var mi = 0; mi < ownershipYears && mi < maintCosts.length; mi++) { annualMaintenance += maintCosts[mi]; } var cashTotal = vehiclePrice + (annualInsurance * ownershipYears) + annualMaintenance; var cashNetCost = cashTotal - residualValue; var opportunityCost = vehiclePrice * Math.pow(1.05, ownershipYears) - vehiclePrice; cashNetCost += opportunityCost; var loanAmount = vehiclePrice - downPayment; var monthlyRate = (loanRate / 100) / 12; var financePayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTermMonths)) / (Math.pow(1 + monthlyRate, loanTermMonths) - 1); var totalFinancePayments = financePayment * loanTermMonths + downPayment; var interestPaid = totalFinancePayments - vehiclePrice; var financeInsurance = annualInsurance * ownershipYears; var financeMaintenance = annualMaintenance; var financeTotalCost = totalFinancePayments + financeInsurance + financeMaintenance; var financeNetCost = financeTotalCost - residualValue; var leaseTermMonths = 36; var numLeases = Math.ceil(ownershipYears / 3); var leaseDownPerLease = 2000; var leaseDispositionFee = 350; var leaseTotalCost = 0; for (var li = 0; li < numLeases; li++) { var leaseMonths = Math.min(36, (ownershipYears - li * 3) * 12); leaseTotalCost += (leaseMonthly * leaseMonths) + leaseDownPerLease + leaseDispositionFee; } var leaseInsurance = (annualInsurance * 1.1) * ownershipYears; leaseTotalCost += leaseInsurance; var leaseNetCost = leaseTotalCost; var bestLabel = 'Cash Buy'; var bestCost = cashNetCost; if (financeNetCost < bestCost) { bestLabel = 'Finance'; bestCost = financeNetCost; } if (leaseNetCost < bestCost) { bestLabel = 'Lease'; bestCost = leaseNetCost; } document.getElementById('cashBuyTotal').textContent = '$' + cashNetCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('financeTotal').textContent = '$' + financeNetCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('leaseTotal').textContent = '$' + leaseNetCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('cashEquity').textContent = '$' + residualValue.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('financeEquity').textContent = '$' + residualValue.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); document.getElementById('leaseEquity').textContent = '$0 (no ownership)'; document.getElementById('financeMonthly').textContent = '$' + financePayment.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo'; document.getElementById('bestValue').textContent = bestLabel + ' (net $' + bestCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + ')';",
+    "faq": [
+      {"question": "How does this compare cash buying to financing?", "answer": "Cash buying avoids interest charges but ties up capital that could earn investment returns. The calculator includes a 5% annual opportunity cost on the cash purchase price. Financing spreads payments over time but adds interest costs. Both options leave you with a vehicle you own and can sell."},
+      {"question": "What lease costs are included?", "answer": "The lease calculation includes monthly payments, a $2,000 down payment per lease, and a $350 disposition fee at the end of each lease term. If your ownership period exceeds 3 years, the calculator assumes you start a new lease. Insurance is 10% higher for leased vehicles as required by most lessors."},
+      {"question": "Why might leasing still be a good option?", "answer": "Despite often having the highest total cost, leasing offers lower monthly payments, always driving a new car under warranty (minimal maintenance), no resale hassle, and potential tax benefits for business use. If you value having a new car every 3 years, the premium may be worth it."},
+      {"question": "How is depreciation calculated?", "answer": "The calculator uses industry-standard depreciation rates: 20% in year 1, 15% in year 2, then gradually declining. After 5 years, a typical vehicle retains about 34% of its original value. Luxury vehicles and trucks may retain value differently."}
+    ],
+    "formulas": [
+      "Cash Net Cost = Vehicle Price + Insurance + Maintenance - Residual Value + Opportunity Cost (5%/yr)",
+      "Finance Net Cost = Total Payments (principal + interest) + Insurance + Maintenance - Residual Value",
+      "Lease Net Cost = (Monthly Payment x Months + Down Payment + Disposition Fee) x Number of Leases + Insurance",
+      "Finance Payment = Loan * [r(1+r)^n] / [(1+r)^n - 1]"
+    ],
+    "relatedTools": ["car-depreciation-calculator", "cost-per-mile-calculator", "car-loan-refinance-calculator", "vehicle-cost-calculator"]
+  }
+]

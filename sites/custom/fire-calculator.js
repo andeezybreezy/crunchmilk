@@ -21,8 +21,23 @@
   var progressLabel = document.getElementById('progressLabel');
   var resultDiv = document.getElementById('result');
 
+  var lastCalc = null;
+
   function fmt(n) {
     return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function calcYearsToFire(savings, annSavings, retRate, fireNum) {
+    var bal = savings;
+    var years = 0;
+    var maxYears = 100;
+    if (bal >= fireNum) return 0;
+    if (annSavings <= 0 && retRate <= 0) return -1;
+    while (bal < fireNum && years < maxYears) {
+      bal = bal * (1 + retRate) + annSavings;
+      years++;
+    }
+    return years >= maxYears ? -1 : years;
   }
 
   function calculate() {
@@ -36,35 +51,17 @@
 
     if (expenses <= 0) return;
 
-    // FIRE number
     var fireNum = expenses / wdRate;
     fireNumberEl.textContent = fmt(fireNum);
 
-    // Progress
     var progress = Math.min((savings / fireNum) * 100, 100);
     savingsProgressEl.textContent = progress.toFixed(1) + '%';
 
-    // Progress bar
     progressBarWrap.style.display = 'block';
     progressBar.style.width = progress + '%';
     progressLabel.textContent = fmt(fireNum);
 
-    // Years to FIRE (simulate year by year)
-    var bal = savings;
-    var years = 0;
-    var maxYears = 100;
-
-    if (bal >= fireNum) {
-      years = 0;
-    } else if (annSavings <= 0 && retRate <= 0) {
-      years = -1; // Never
-    } else {
-      while (bal < fireNum && years < maxYears) {
-        bal = bal * (1 + retRate) + annSavings;
-        years++;
-      }
-      if (years >= maxYears) years = -1;
-    }
+    var years = calcYearsToFire(savings, annSavings, retRate, fireNum);
 
     if (years === -1) {
       yearsToFireEl.textContent = 'N/A';
@@ -79,7 +76,6 @@
       fireDateEl.textContent = fireYear + ' (age ' + fireAge + ')';
     }
 
-    // Coast FIRE
     var yearsToRetirement = Math.max(retAge - age, 1);
     var coastFireNum = fireNum / Math.pow(1 + retRate, yearsToRetirement);
     coastFireEl.textContent = fmt(coastFireNum);
@@ -94,6 +90,52 @@
     }
 
     resultDiv.classList.add('visible');
+
+    lastCalc = { savings: savings, annSavings: annSavings, retRate: retRate, fireNum: fireNum, years: years };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var extraSavings = parseFloat(document.getElementById('wiSavings').value) || 0;
+    var extraYears = parseFloat(document.getElementById('wiYears').value) || 0;
+
+    var newYears = calcYearsToFire(lastCalc.savings, lastCalc.annSavings + extraSavings, lastCalc.retRate, lastCalc.fireNum);
+
+    var origLabel = lastCalc.years === -1 ? 'N/A' : lastCalc.years + ' years';
+    var newLabel = newYears === -1 ? 'N/A' : newYears + ' years';
+    var yearsSaved = (lastCalc.years !== -1 && newYears !== -1) ? (lastCalc.years - newYears) : 0;
+
+    document.getElementById('wiOriginal').textContent = origLabel;
+    document.getElementById('wiNew').textContent = newLabel;
+    document.getElementById('wiDelta').textContent = yearsSaved > 0 ? yearsSaved + ' years' : (yearsSaved === 0 ? 'No change' : Math.abs(yearsSaved) + ' years more');
+    document.getElementById('wiDelta').style.color = yearsSaved > 0 ? '#059669' : (yearsSaved === 0 ? 'var(--text-mid)' : '#dc2626');
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiSavings = document.getElementById('wiSavings');
+  var wiYears = document.getElementById('wiYears');
+  if (wiSavings) {
+    wiSavings.addEventListener('input', function() {
+      document.getElementById('wiSavingsVal').textContent = parseInt(this.value).toLocaleString();
+      updateWhatIf();
+    });
+  }
+  if (wiYears) {
+    wiYears.addEventListener('input', function() {
+      document.getElementById('wiYearsVal').textContent = this.value;
+      updateWhatIf();
+    });
   }
 
   calcBtn.addEventListener('click', calculate);

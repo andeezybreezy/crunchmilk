@@ -1,0 +1,360 @@
+[
+  {
+    "slug": "uk-vat-calculator",
+    "toolName": "UK VAT Calculator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Calculate UK Value Added Tax at standard, reduced, or zero rates — add or remove VAT instantly",
+    "keywords": "UK VAT calculator, value added tax, VAT 20%, add VAT, remove VAT, reverse VAT, UK tax",
+    "inputs": [
+      {"id": "amount", "label": "Amount (£)", "default": 1000, "min": 0, "step": 0.01},
+      {"id": "vatRate", "label": "VAT Rate", "type": "select", "default": "20", "options": [{"value": "20", "label": "Standard Rate (20%)"}, {"value": "5", "label": "Reduced Rate (5%)"}, {"value": "0", "label": "Zero Rate (0%)"}]},
+      {"id": "direction", "label": "Calculation Direction", "type": "select", "default": "add", "options": [{"value": "add", "label": "Add VAT to amount"}, {"value": "remove", "label": "Remove VAT from amount"}]},
+      {"id": "quantity", "label": "Number of Items", "default": 1, "min": 1, "step": 1}
+    ],
+    "results": [
+      {"id": "netAmount", "label": "Net Amount (excl. VAT)"},
+      {"id": "vatAmount", "label": "VAT Amount"},
+      {"id": "grossAmount", "label": "Gross Amount (incl. VAT)"},
+      {"id": "totalWithQty", "label": "Total for All Items"}
+    ],
+    "calcFn": "var rate = parseFloat(vatRate) / 100;\n    var net, vat, gross;\n    if (direction === 'add') {\n      net = amount;\n      vat = amount * rate;\n      gross = amount + vat;\n    } else {\n      gross = amount;\n      net = amount / (1 + rate);\n      vat = gross - net;\n    }\n    var total = gross * quantity;\n    document.getElementById('netAmount').textContent = '\\u00A3' + net.toFixed(2);\n    document.getElementById('vatAmount').textContent = '\\u00A3' + vat.toFixed(2);\n    document.getElementById('grossAmount').textContent = '\\u00A3' + gross.toFixed(2);\n    document.getElementById('totalWithQty').textContent = '\\u00A3' + total.toFixed(2);",
+    "faq": [
+      {"question": "What is the current UK VAT rate?", "answer": "The standard UK VAT rate is 20%. A reduced rate of 5% applies to certain goods like home energy and children's car seats. Some items such as most food and children's clothing are zero-rated (0%)."},
+      {"question": "How do I remove VAT from a price?", "answer": "To remove 20% VAT, divide the gross amount by 1.20. For example, an item priced at £120 including VAT has a net price of £100 and £20 VAT."},
+      {"question": "When do I need to register for VAT?", "answer": "You must register for VAT if your taxable turnover exceeds £85,000 in any 12-month period. You can also register voluntarily below this threshold."},
+      {"question": "What items have reduced or zero VAT?", "answer": "Reduced rate (5%) items include domestic fuel, children's car seats, and smoking cessation products. Zero-rated items include most food, children's clothing, books, and newspapers."}
+    ],
+    "formulas": [
+      "VAT Amount = Net Price x VAT Rate",
+      "Gross Price = Net Price + VAT Amount",
+      "Net from Gross = Gross Price / (1 + VAT Rate)",
+      "Standard rate: 20%, Reduced rate: 5%, Zero rate: 0%"
+    ],
+    "relatedTools": ["uk-income-tax-calculator", "uk-national-insurance-calculator", "australia-gst-calculator", "canada-gst-hst-calculator"]
+  },
+  {
+    "slug": "uk-stamp-duty-calculator",
+    "toolName": "UK Stamp Duty Calculator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Calculate Stamp Duty Land Tax (SDLT) on UK property purchases using 2024 thresholds",
+    "keywords": "stamp duty calculator, SDLT, stamp duty land tax, UK property tax, house purchase tax, first time buyer stamp duty",
+    "inputs": [
+      {"id": "propertyPrice", "label": "Property Price (£)", "default": 350000, "min": 0, "step": 1000},
+      {"id": "buyerType", "label": "Buyer Type", "type": "select", "default": "standard", "options": [{"value": "ftb", "label": "First-Time Buyer"}, {"value": "standard", "label": "Standard Buyer"}, {"value": "additional", "label": "Additional Property (+3%)"}]},
+      {"id": "isEnglandOrNI", "label": "Location", "type": "select", "default": "england", "options": [{"value": "england", "label": "England or Northern Ireland"}]},
+      {"id": "completionYear", "label": "Completion Year", "type": "select", "default": "2024", "options": [{"value": "2024", "label": "2024-25"}]}
+    ],
+    "results": [
+      {"id": "totalSDLT", "label": "Total Stamp Duty"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"},
+      {"id": "totalCost", "label": "Total Purchase Cost"},
+      {"id": "bandBreakdown", "label": "Band Breakdown"}
+    ],
+    "calcFn": "var price = propertyPrice;\n    var sdlt = 0;\n    var surcharge = buyerType === 'additional' ? 0.03 : 0;\n    if (buyerType === 'ftb' && price <= 625000) {\n      if (price <= 425000) { sdlt = 0; }\n      else { sdlt = (price - 425000) * 0.05; }\n    } else {\n      if (price > 250000) { sdlt += Math.min(price, 925000) > 250000 ? (Math.min(price, 925000) - 250000) * 0.05 : 0; }\n      if (price > 925000) { sdlt += (Math.min(price, 1500000) - 925000) * 0.10; }\n      if (price > 1500000) { sdlt += (price - 1500000) * 0.12; }\n    }\n    sdlt += price * surcharge;\n    var effRate = price > 0 ? (sdlt / price * 100) : 0;\n    var totalCost = price + sdlt;\n    var breakdown = '';\n    if (buyerType === 'ftb' && price <= 625000) {\n      breakdown = '0% on first \\u00A3425k, 5% on \\u00A3425k-\\u00A3625k';\n    } else {\n      breakdown = '0% up to \\u00A3250k, 5% \\u00A3250k-\\u00A3925k, 10% \\u00A3925k-\\u00A31.5m, 12% above \\u00A31.5m';\n    }\n    if (surcharge > 0) breakdown += ' + 3% surcharge';\n    document.getElementById('totalSDLT').textContent = '\\u00A3' + sdlt.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('effectiveRate').textContent = effRate.toFixed(2) + '%';\n    document.getElementById('totalCost').textContent = '\\u00A3' + totalCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('bandBreakdown').textContent = breakdown;",
+    "faq": [
+      {"question": "What are the current UK Stamp Duty rates?", "answer": "For 2024-25: 0% on the first £250,000, 5% on £250,001-£925,000, 10% on £925,001-£1,500,000, and 12% above £1,500,000. First-time buyers pay 0% up to £425,000 and 5% from £425,001-£625,000."},
+      {"question": "Do first-time buyers get a Stamp Duty discount?", "answer": "Yes. First-time buyers pay no Stamp Duty on properties up to £425,000 and 5% on the portion between £425,001 and £625,000. Above £625,000, standard rates apply."},
+      {"question": "What is the additional property surcharge?", "answer": "If you already own a property and buy another (e.g., buy-to-let or second home), you pay an extra 3% surcharge on each band on top of the standard SDLT rates."},
+      {"question": "When must Stamp Duty be paid?", "answer": "Stamp Duty must be paid within 14 days of completion. Your solicitor or conveyancer typically handles the payment and SDLT return filing with HMRC."}
+    ],
+    "formulas": [
+      "SDLT is charged on price bands: 0% up to £250k, 5% £250k-£925k, 10% £925k-£1.5m, 12% over £1.5m",
+      "First-time buyer relief: 0% up to £425k, 5% £425k-£625k (properties up to £625k only)",
+      "Additional property surcharge: +3% on entire price",
+      "Effective rate = Total SDLT / Purchase Price x 100"
+    ],
+    "relatedTools": ["uk-mortgage-stamp-duty-calculator", "uk-income-tax-calculator", "australia-stamp-duty-calculator", "canada-land-transfer-tax-calculator"]
+  },
+  {
+    "slug": "uk-council-tax-estimator",
+    "toolName": "UK Council Tax Estimator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Estimate your annual council tax bill by property band and region across England and Wales",
+    "keywords": "council tax calculator, council tax bands, council tax UK, property band, council tax estimate, local authority tax",
+    "inputs": [
+      {"id": "band", "label": "Council Tax Band", "type": "select", "default": "D", "options": [{"value": "A", "label": "Band A (up to £40,000)"}, {"value": "B", "label": "Band B (£40,001-£52,000)"}, {"value": "C", "label": "Band C (£52,001-£68,000)"}, {"value": "D", "label": "Band D (£68,001-£88,000)"}, {"value": "E", "label": "Band E (£88,001-£120,000)"}, {"value": "F", "label": "Band F (£120,001-£160,000)"}, {"value": "G", "label": "Band G (£160,001-£320,000)"}, {"value": "H", "label": "Band H (over £320,000)"}]},
+      {"id": "region", "label": "Region", "type": "select", "default": "average", "options": [{"value": "average", "label": "England Average"}, {"value": "london", "label": "London"}, {"value": "southeast", "label": "South East"}, {"value": "northwest", "label": "North West"}, {"value": "northeast", "label": "North East"}, {"value": "midlands", "label": "Midlands"}, {"value": "southwest", "label": "South West"}, {"value": "yorkshire", "label": "Yorkshire"}]},
+      {"id": "singleOccupant", "label": "Single Occupant Discount?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No (2+ adults)"}, {"value": "yes", "label": "Yes (25% discount)"}]},
+      {"id": "paymentMonths", "label": "Payment Spread", "type": "select", "default": "10", "options": [{"value": "10", "label": "10 months (standard)"}, {"value": "12", "label": "12 months"}]}
+    ],
+    "results": [
+      {"id": "annualBill", "label": "Annual Council Tax"},
+      {"id": "monthlyPayment", "label": "Monthly Payment"},
+      {"id": "weeklyEquiv", "label": "Weekly Equivalent"},
+      {"id": "bandRatio", "label": "Band Ratio to Band D"}
+    ],
+    "calcFn": "var bandD = {average: 2171, london: 1898, southeast: 2152, northwest: 2191, northeast: 2190, midlands: 2175, southwest: 2290, yorkshire: 2108};\n    var ratios = {A: 6/9, B: 7/9, C: 8/9, D: 1, E: 11/9, F: 13/9, G: 15/9, H: 2};\n    var baseBandD = bandD[region] || 2171;\n    var ratio = ratios[band] || 1;\n    var annual = baseBandD * ratio;\n    if (singleOccupant === 'yes') annual *= 0.75;\n    var monthly = annual / parseFloat(paymentMonths);\n    var weekly = annual / 52;\n    document.getElementById('annualBill').textContent = '\\u00A3' + annual.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyPayment').textContent = '\\u00A3' + monthly.toFixed(2);\n    document.getElementById('weeklyEquiv').textContent = '\\u00A3' + weekly.toFixed(2);\n    document.getElementById('bandRatio').textContent = ratio.toFixed(4) + ' (Band ' + band + ' vs Band D)';",
+    "faq": [
+      {"question": "How are council tax bands determined?", "answer": "Bands are based on the property's value on 1 April 1991 in England (or 2003 in Wales). Band A covers properties valued up to £40,000, and Band H covers those over £320,000 at that date."},
+      {"question": "Can I get a council tax discount?", "answer": "Yes. Single occupants receive a 25% discount. Full-time students, people with severe mental impairments, and some carers may be exempt. Council Tax Reduction (formerly Council Tax Benefit) is available for low-income households."},
+      {"question": "Why does council tax vary by region?", "answer": "Each local authority sets its own Band D rate based on its spending needs. Parish/town council precepts, police, and fire authority charges also vary. London boroughs tend to be lower as the GLA covers some services."},
+      {"question": "Can I challenge my council tax band?", "answer": "Yes. You can challenge your band with the Valuation Office Agency (VOA) if you believe it is incorrect. Be aware that a challenge could result in the band going up as well as down."}
+    ],
+    "formulas": [
+      "Council Tax = Band D rate x Band ratio",
+      "Band ratios: A=6/9, B=7/9, C=8/9, D=1, E=11/9, F=13/9, G=15/9, H=2",
+      "Single occupant discount: 25% reduction",
+      "Monthly payment = Annual bill / payment months (10 or 12)"
+    ],
+    "relatedTools": ["uk-income-tax-calculator", "uk-energy-bill-calculator", "uk-mortgage-stamp-duty-calculator"]
+  },
+  {
+    "slug": "uk-national-insurance-calculator",
+    "toolName": "UK National Insurance Calculator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Calculate your National Insurance contributions based on employment type and earnings for 2024-25",
+    "keywords": "national insurance calculator, NI contributions, NIC, Class 1, Class 2, Class 4, employee NI, self-employed NI",
+    "inputs": [
+      {"id": "annualIncome", "label": "Annual Gross Income (£)", "default": 35000, "min": 0, "step": 100},
+      {"id": "employmentType", "label": "Employment Type", "type": "select", "default": "employed", "options": [{"value": "employed", "label": "Employed (Class 1)"}, {"value": "selfEmployed", "label": "Self-Employed (Class 2 + Class 4)"}]},
+      {"id": "payPeriod", "label": "Pay Period", "type": "select", "default": "annual", "options": [{"value": "annual", "label": "Annual"}, {"value": "monthly", "label": "Monthly"}, {"value": "weekly", "label": "Weekly"}]},
+      {"id": "ageOver", "label": "Over State Pension Age?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes (no NI due)"}]}
+    ],
+    "results": [
+      {"id": "annualNI", "label": "Annual NI Contributions"},
+      {"id": "monthlyNI", "label": "Monthly NI"},
+      {"id": "weeklyNI", "label": "Weekly NI"},
+      {"id": "effectiveNIRate", "label": "Effective NI Rate"},
+      {"id": "takeHomePay", "label": "Income After NI"}
+    ],
+    "calcFn": "var annual = annualIncome;\n    if (payPeriod === 'monthly') annual = annualIncome * 12;\n    if (payPeriod === 'weekly') annual = annualIncome * 52;\n    var ni = 0;\n    if (ageOver === 'no') {\n      if (employmentType === 'employed') {\n        var threshold = 12570;\n        var upperLimit = 50270;\n        if (annual > threshold) {\n          ni += Math.min(annual, upperLimit) > threshold ? (Math.min(annual, upperLimit) - threshold) * 0.08 : 0;\n        }\n        if (annual > upperLimit) {\n          ni += (annual - upperLimit) * 0.02;\n        }\n      } else {\n        var class2 = 3.45 * 52;\n        var lowerProfits = 12570;\n        var upperProfits = 50270;\n        var class4 = 0;\n        if (annual > lowerProfits) {\n          class4 += (Math.min(annual, upperProfits) - lowerProfits) * 0.06;\n        }\n        if (annual > upperProfits) {\n          class4 += (annual - upperProfits) * 0.02;\n        }\n        ni = (annual >= 6725 ? class2 : 0) + class4;\n      }\n    }\n    var monthlyNIval = ni / 12;\n    var weeklyNIval = ni / 52;\n    var effRate = annual > 0 ? (ni / annual * 100) : 0;\n    var takeHome = annual - ni;\n    document.getElementById('annualNI').textContent = '\\u00A3' + ni.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyNI').textContent = '\\u00A3' + monthlyNIval.toFixed(2);\n    document.getElementById('weeklyNI').textContent = '\\u00A3' + weeklyNIval.toFixed(2);\n    document.getElementById('effectiveNIRate').textContent = effRate.toFixed(2) + '%';\n    document.getElementById('takeHomePay').textContent = '\\u00A3' + takeHome.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What are the 2024-25 NI rates for employees?", "answer": "Employees pay 8% on earnings between £12,570 and £50,270 (the Primary Threshold to Upper Earnings Limit), and 2% on earnings above £50,270. The rate was cut from 10% to 8% in April 2024."},
+      {"question": "How much NI do self-employed people pay?", "answer": "Self-employed pay Class 2 NI at £3.45/week (if profits exceed £6,725) and Class 4 at 6% on profits between £12,570 and £50,270, plus 2% above £50,270. Class 4 was cut from 8% to 6% in April 2024."},
+      {"question": "Do I pay NI after state pension age?", "answer": "No. Once you reach State Pension age you stop paying NI contributions, even if you continue working. Your employer also stops paying secondary NI on your earnings."},
+      {"question": "What does National Insurance pay for?", "answer": "NI contributions fund the State Pension, statutory sick pay, maternity pay, and other benefits. At least 35 qualifying years of NI are needed for a full State Pension."}
+    ],
+    "formulas": [
+      "Employee Class 1: 8% on earnings £12,570-£50,270 + 2% above £50,270",
+      "Self-employed Class 2: £3.45/week if profits over £6,725",
+      "Self-employed Class 4: 6% on profits £12,570-£50,270 + 2% above £50,270",
+      "Effective rate = Total NI / Gross Income x 100"
+    ],
+    "relatedTools": ["uk-income-tax-calculator", "uk-pension-calculator", "uk-student-loan-repayment-calculator"]
+  },
+  {
+    "slug": "uk-income-tax-calculator",
+    "toolName": "UK Income Tax Calculator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Calculate your UK PAYE income tax with personal allowance, basic, higher, and additional rate bands for 2024-25",
+    "keywords": "UK income tax calculator, PAYE calculator, tax bands, personal allowance, higher rate tax, additional rate tax",
+    "inputs": [
+      {"id": "grossIncome", "label": "Annual Gross Income (£)", "default": 45000, "min": 0, "step": 100},
+      {"id": "taxCode", "label": "Tax Situation", "type": "select", "default": "standard", "options": [{"value": "standard", "label": "Standard (1257L)"}, {"value": "scottish", "label": "Scottish Taxpayer"}, {"value": "blind", "label": "Blind Person's Allowance (+£2,870)"}]},
+      {"id": "pensionContrib", "label": "Pension Contribution (£/year)", "default": 0, "min": 0, "step": 100},
+      {"id": "giftAid", "label": "Gift Aid Donations (£/year)", "default": 0, "min": 0, "step": 100}
+    ],
+    "results": [
+      {"id": "personalAllowance", "label": "Personal Allowance"},
+      {"id": "totalIncomeTax", "label": "Total Income Tax"},
+      {"id": "effectiveTaxRate", "label": "Effective Tax Rate"},
+      {"id": "monthlyTax", "label": "Monthly Tax"},
+      {"id": "takeHomeAnnual", "label": "Annual Take-Home (before NI)"},
+      {"id": "takeHomeMonthly", "label": "Monthly Take-Home (before NI)"}
+    ],
+    "calcFn": "var income = grossIncome - pensionContrib;\n    var pa = 12570;\n    if (taxCode === 'blind') pa += 2870;\n    if (income > 100000) {\n      pa = Math.max(0, pa - (income - 100000) / 2);\n    }\n    var taxableIncome = Math.max(0, income - pa);\n    var tax = 0;\n    if (taxCode === 'scottish') {\n      var bands = [{limit: 2162, rate: 0.19}, {limit: 13118 - 2162, rate: 0.20}, {limit: 31092 - 13118, rate: 0.21}, {limit: 62430 - 31092, rate: 0.42}, {limit: 125140 - 62430, rate: 0.45}, {limit: Infinity, rate: 0.48}];\n      var remaining = taxableIncome;\n      for (var i = 0; i < bands.length && remaining > 0; i++) {\n        var chunk = Math.min(remaining, bands[i].limit);\n        tax += chunk * bands[i].rate;\n        remaining -= chunk;\n      }\n    } else {\n      var basicLimit = 37700;\n      if (giftAid > 0) basicLimit += giftAid * 0.25;\n      if (taxableIncome <= basicLimit) {\n        tax = taxableIncome * 0.20;\n      } else if (taxableIncome <= 125140) {\n        tax = basicLimit * 0.20 + (taxableIncome - basicLimit) * 0.40;\n      } else {\n        tax = basicLimit * 0.20 + (125140 - basicLimit) * 0.40 + (taxableIncome - 125140) * 0.45;\n      }\n    }\n    var effRate = grossIncome > 0 ? (tax / grossIncome * 100) : 0;\n    var monthlyTaxVal = tax / 12;\n    var takeHomeAnn = grossIncome - tax;\n    var takeHomeMon = takeHomeAnn / 12;\n    document.getElementById('personalAllowance').textContent = '\\u00A3' + pa.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalIncomeTax').textContent = '\\u00A3' + tax.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('effectiveTaxRate').textContent = effRate.toFixed(2) + '%';\n    document.getElementById('monthlyTax').textContent = '\\u00A3' + monthlyTaxVal.toFixed(2);\n    document.getElementById('takeHomeAnnual').textContent = '\\u00A3' + takeHomeAnn.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('takeHomeMonthly').textContent = '\\u00A3' + takeHomeMon.toFixed(2);",
+    "faq": [
+      {"question": "What are the UK income tax rates for 2024-25?", "answer": "For England, Wales, and NI: 20% basic rate on £12,571-£50,270, 40% higher rate on £50,271-£125,140, and 45% additional rate above £125,140. The personal allowance is £12,570."},
+      {"question": "What happens to my personal allowance over £100,000?", "answer": "Your personal allowance is reduced by £1 for every £2 of income above £100,000. This means at £125,140 income, your personal allowance is completely eliminated, creating an effective 60% marginal tax rate between £100,000 and £125,140."},
+      {"question": "How does Gift Aid affect my tax?", "answer": "If you are a higher or additional rate taxpayer, Gift Aid donations extend your basic rate band. This means more of your income is taxed at 20% rather than 40% or 45%, reducing your tax bill."},
+      {"question": "Are Scottish income tax rates different?", "answer": "Yes. Scotland has its own rates: 19% starter rate, 20% basic, 21% intermediate, 42% higher, 45% advanced, and 48% top rate. These apply to non-savings, non-dividend income for Scottish taxpayers."}
+    ],
+    "formulas": [
+      "Personal Allowance: £12,570 (reduced by £1 for every £2 over £100,000)",
+      "Basic rate: 20% on £12,571-£50,270",
+      "Higher rate: 40% on £50,271-£125,140",
+      "Additional rate: 45% above £125,140"
+    ],
+    "relatedTools": ["uk-national-insurance-calculator", "uk-pension-calculator", "uk-student-loan-repayment-calculator", "uk-vat-calculator"]
+  },
+  {
+    "slug": "uk-pension-calculator",
+    "toolName": "UK Workplace Pension Calculator",
+    "category": "finance",
+    "subcategory": "uk-retirement",
+    "tagline": "Calculate your workplace pension contributions, employer match, tax relief, and projected retirement pot",
+    "keywords": "workplace pension calculator, auto enrolment, employer pension contribution, pension tax relief, retirement pot UK",
+    "inputs": [
+      {"id": "salary", "label": "Annual Salary (£)", "default": 35000, "min": 0, "step": 100},
+      {"id": "employeeRate", "label": "Your Contribution (%)", "default": 5, "min": 0, "max": 100, "step": 0.5},
+      {"id": "employerRate", "label": "Employer Contribution (%)", "default": 3, "min": 0, "max": 100, "step": 0.5},
+      {"id": "currentPot", "label": "Current Pension Pot (£)", "default": 10000, "min": 0, "step": 1000},
+      {"id": "yearsToRetirement", "label": "Years to Retirement", "default": 30, "min": 1, "max": 50, "step": 1},
+      {"id": "growthRate", "label": "Annual Growth Rate (%)", "default": 5, "min": 0, "max": 15, "step": 0.5}
+    ],
+    "results": [
+      {"id": "monthlyYou", "label": "Your Monthly Contribution"},
+      {"id": "monthlyEmployer", "label": "Employer Monthly Contribution"},
+      {"id": "monthlyTotal", "label": "Total Monthly Contribution"},
+      {"id": "taxRelief", "label": "Annual Tax Relief"},
+      {"id": "projectedPot", "label": "Projected Pension Pot"},
+      {"id": "annualDrawdown", "label": "Est. Annual Income (4% drawdown)"}
+    ],
+    "calcFn": "var qualifyingEarnings = Math.max(0, Math.min(salary, 50270) - 6240);\n    var empContrib = qualifyingEarnings * (employeeRate / 100);\n    var erContrib = qualifyingEarnings * (employerRate / 100);\n    var totalAnnual = empContrib + erContrib;\n    var taxRelief20 = empContrib * 0.25;\n    var totalWithRelief = totalAnnual + taxRelief20;\n    var monthlyEmp = empContrib / 12;\n    var monthlyEr = erContrib / 12;\n    var monthlyTotal = totalWithRelief / 12;\n    var monthlyGrowth = growthRate / 100 / 12;\n    var months = yearsToRetirement * 12;\n    var futureVal = currentPot * Math.pow(1 + monthlyGrowth, months);\n    for (var m = 0; m < months; m++) {\n      futureVal += monthlyTotal * Math.pow(1 + monthlyGrowth, months - m - 1);\n    }\n    var annualIncome = futureVal * 0.04;\n    document.getElementById('monthlyYou').textContent = '\\u00A3' + monthlyEmp.toFixed(2);\n    document.getElementById('monthlyEmployer').textContent = '\\u00A3' + monthlyEr.toFixed(2);\n    document.getElementById('monthlyTotal').textContent = '\\u00A3' + monthlyTotal.toFixed(2);\n    document.getElementById('taxRelief').textContent = '\\u00A3' + taxRelief20.toFixed(2);\n    document.getElementById('projectedPot').textContent = '\\u00A3' + futureVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('annualDrawdown').textContent = '\\u00A3' + annualIncome.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is the minimum workplace pension contribution?", "answer": "Under auto-enrolment, the minimum total contribution is 8% of qualifying earnings (£6,240-£50,270): at least 3% from the employer and 5% from the employee. These are minimums; many employers offer more."},
+      {"question": "How does pension tax relief work?", "answer": "Basic rate (20%) tax relief is added automatically by your pension provider for relief-at-source schemes. If you are a higher rate (40%) or additional rate (45%) taxpayer, you claim additional relief through self-assessment."},
+      {"question": "What are qualifying earnings?", "answer": "Qualifying earnings for auto-enrolment are your earnings between the lower threshold (£6,240) and the upper threshold (£50,270) for 2024-25. Some employers calculate contributions on total salary instead."},
+      {"question": "When can I access my pension pot?", "answer": "You can normally access your pension from age 55 (rising to 57 from 2028). You can take 25% tax-free and use the rest for drawdown or an annuity. Accessing early may have tax implications."}
+    ],
+    "formulas": [
+      "Qualifying Earnings = Salary between £6,240 and £50,270",
+      "Tax relief (basic rate) = Employee contribution x 25%",
+      "Projected pot = Current pot x (1+r)^n + monthly contributions compounded",
+      "Estimated income = Pot x 4% sustainable drawdown rate"
+    ],
+    "relatedTools": ["uk-income-tax-calculator", "uk-national-insurance-calculator", "uk-inheritance-tax-calculator"]
+  },
+  {
+    "slug": "uk-student-loan-repayment-calculator",
+    "toolName": "UK Student Loan Repayment Calculator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Calculate your monthly student loan repayments for Plan 1, Plan 2, Plan 4, Plan 5, and Postgraduate loans",
+    "keywords": "student loan repayment calculator, Plan 1, Plan 2, Plan 5, student loan threshold, SLC repayment",
+    "inputs": [
+      {"id": "salary", "label": "Annual Gross Salary (£)", "default": 32000, "min": 0, "step": 100},
+      {"id": "loanPlan", "label": "Loan Plan", "type": "select", "default": "plan2", "options": [{"value": "plan1", "label": "Plan 1 (started before Sep 2012)"}, {"value": "plan2", "label": "Plan 2 (started Sep 2012 onwards)"}, {"value": "plan4", "label": "Plan 4 (Scotland)"}, {"value": "plan5", "label": "Plan 5 (started Sep 2023 onwards)"}, {"value": "postgrad", "label": "Postgraduate Loan"}]},
+      {"id": "loanBalance", "label": "Outstanding Loan Balance (£)", "default": 45000, "min": 0, "step": 1000},
+      {"id": "interestRate", "label": "Interest Rate (%)", "default": 7.3, "min": 0, "max": 20, "step": 0.1},
+      {"id": "salaryGrowth", "label": "Annual Salary Growth (%)", "default": 2, "min": 0, "max": 10, "step": 0.5}
+    ],
+    "results": [
+      {"id": "monthlyRepayment", "label": "Monthly Repayment"},
+      {"id": "annualRepayment", "label": "Annual Repayment"},
+      {"id": "repaymentThreshold", "label": "Repayment Threshold"},
+      {"id": "yearsToRepay", "label": "Estimated Years to Repay"},
+      {"id": "totalRepaid", "label": "Total Amount Repaid"}
+    ],
+    "calcFn": "var thresholds = {plan1: 22015, plan2: 27295, plan4: 27660, plan5: 25000, postgrad: 21000};\n    var rates = {plan1: 0.09, plan2: 0.09, plan4: 0.09, plan5: 0.09, postgrad: 0.06};\n    var writeOffYears = {plan1: 25, plan2: 30, plan4: 30, plan5: 40, postgrad: 30};\n    var threshold = thresholds[loanPlan];\n    var repayRate = rates[loanPlan];\n    var excess = Math.max(0, salary - threshold);\n    var annualRepay = excess * repayRate;\n    var monthlyRepay = annualRepay / 12;\n    var balance = loanBalance;\n    var totalPaid = 0;\n    var years = 0;\n    var maxYears = writeOffYears[loanPlan];\n    var currentSal = salary;\n    while (balance > 0 && years < maxYears) {\n      var yearExcess = Math.max(0, currentSal - threshold);\n      var yearRepay = Math.min(yearExcess * repayRate, balance + balance * (interestRate / 100));\n      balance = balance * (1 + interestRate / 100) - yearRepay;\n      totalPaid += yearRepay;\n      years++;\n      currentSal *= (1 + salaryGrowth / 100);\n      if (balance <= 0) break;\n    }\n    if (balance > 0) { totalPaid = totalPaid; years = maxYears; }\n    document.getElementById('monthlyRepayment').textContent = '\\u00A3' + monthlyRepay.toFixed(2);\n    document.getElementById('annualRepayment').textContent = '\\u00A3' + annualRepay.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('repaymentThreshold').textContent = '\\u00A3' + threshold.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/year';\n    document.getElementById('yearsToRepay').textContent = balance > 0 ? years + ' (written off)' : years + ' years';\n    document.getElementById('totalRepaid').textContent = '\\u00A3' + totalPaid.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What are the student loan repayment thresholds?", "answer": "For 2024-25: Plan 1 is £22,015, Plan 2 is £27,295, Plan 4 (Scotland) is £27,660, Plan 5 is £25,000, and Postgraduate Loan is £21,000. You only repay on income above these thresholds."},
+      {"question": "How much do I repay each month?", "answer": "You repay 9% of income above your plan's threshold (6% for Postgraduate loans). For example, on Plan 2 earning £35,000: 9% of (£35,000 - £27,295) = £693.45/year or about £57.79/month."},
+      {"question": "When is my student loan written off?", "answer": "Plan 1: 25 years after first repayment. Plan 2: 30 years. Plan 4: 30 years. Plan 5: 40 years. Postgraduate: 30 years. Any remaining balance is written off and you owe nothing more."},
+      {"question": "What is the interest rate on student loans?", "answer": "Plan 1 and 4: lower of RPI or Bank of England base rate + 1%. Plan 2: RPI + up to 3% depending on income (currently capped at 7.3%). Plan 5: RPI only. Postgraduate: RPI + 3%."}
+    ],
+    "formulas": [
+      "Monthly repayment = (Salary - Threshold) x 9% / 12 (6% for Postgraduate)",
+      "Plan 1 threshold: £22,015, Plan 2: £27,295, Plan 5: £25,000",
+      "Write-off: Plan 1 after 25 years, Plan 2 after 30 years, Plan 5 after 40 years",
+      "Balance grows by interest rate annually, reduced by repayments"
+    ],
+    "relatedTools": ["uk-income-tax-calculator", "uk-national-insurance-calculator", "uk-pension-calculator"]
+  },
+  {
+    "slug": "uk-mortgage-stamp-duty-calculator",
+    "toolName": "UK Mortgage & Stamp Duty Calculator",
+    "category": "finance",
+    "subcategory": "uk-housing",
+    "tagline": "Calculate your combined monthly mortgage payment and Stamp Duty for UK property purchases",
+    "keywords": "UK mortgage calculator, stamp duty, mortgage payment UK, home buying cost, property purchase calculator",
+    "inputs": [
+      {"id": "propertyPrice", "label": "Property Price (£)", "default": 300000, "min": 0, "step": 5000},
+      {"id": "deposit", "label": "Deposit (£)", "default": 30000, "min": 0, "step": 1000},
+      {"id": "interestRate", "label": "Mortgage Interest Rate (%)", "default": 4.5, "min": 0.1, "max": 15, "step": 0.1},
+      {"id": "term", "label": "Mortgage Term (years)", "default": 25, "min": 5, "max": 40, "step": 1},
+      {"id": "buyerType", "label": "Buyer Type", "type": "select", "default": "standard", "options": [{"value": "ftb", "label": "First-Time Buyer"}, {"value": "standard", "label": "Standard Buyer"}, {"value": "additional", "label": "Additional Property (+3%)"}]}
+    ],
+    "results": [
+      {"id": "loanAmount", "label": "Mortgage Loan Amount"},
+      {"id": "monthlyPayment", "label": "Monthly Mortgage Payment"},
+      {"id": "stampDuty", "label": "Stamp Duty (SDLT)"},
+      {"id": "totalUpfront", "label": "Total Upfront Cost (Deposit + SDLT)"},
+      {"id": "totalRepaid", "label": "Total Repaid Over Term"},
+      {"id": "totalInterest", "label": "Total Interest Paid"}
+    ],
+    "calcFn": "var loan = propertyPrice - deposit;\n    var ltv = (loan / propertyPrice * 100);\n    var monthlyRate = interestRate / 100 / 12;\n    var numPayments = term * 12;\n    var monthlyPmt = loan * monthlyRate * Math.pow(1 + monthlyRate, numPayments) / (Math.pow(1 + monthlyRate, numPayments) - 1);\n    var totalRepaidVal = monthlyPmt * numPayments;\n    var totalInterestVal = totalRepaidVal - loan;\n    var price = propertyPrice;\n    var sdlt = 0;\n    var surcharge = buyerType === 'additional' ? 0.03 : 0;\n    if (buyerType === 'ftb' && price <= 625000) {\n      if (price > 425000) sdlt = (price - 425000) * 0.05;\n    } else {\n      if (price > 250000) sdlt += (Math.min(price, 925000) - 250000) * 0.05;\n      if (price > 925000) sdlt += (Math.min(price, 1500000) - 925000) * 0.10;\n      if (price > 1500000) sdlt += (price - 1500000) * 0.12;\n    }\n    sdlt += price * surcharge;\n    var totalUpfrontVal = deposit + sdlt;\n    document.getElementById('loanAmount').textContent = '\\u00A3' + loan.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyPayment').textContent = '\\u00A3' + monthlyPmt.toFixed(2);\n    document.getElementById('stampDuty').textContent = '\\u00A3' + sdlt.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalUpfront').textContent = '\\u00A3' + totalUpfrontVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalRepaid').textContent = '\\u00A3' + totalRepaidVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalInterest').textContent = '\\u00A3' + totalInterestVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "How is a UK mortgage payment calculated?", "answer": "Monthly payments are calculated using the standard annuity formula: Loan x (rate x (1+rate)^n) / ((1+rate)^n - 1), where rate is monthly interest rate and n is total number of monthly payments."},
+      {"question": "What deposit do I need for a UK mortgage?", "answer": "Most lenders require at least 5-10% deposit. A 10% deposit gives access to more competitive rates. First-time buyers can use Help to Buy or Lifetime ISA bonuses toward their deposit."},
+      {"question": "Is Stamp Duty included in the mortgage?", "answer": "No. Stamp Duty must be paid separately from your own funds at completion. It cannot be added to your mortgage. Budget for it alongside your deposit and solicitor fees."},
+      {"question": "What is a good mortgage rate in 2024?", "answer": "As of 2024, competitive fixed rates range from about 4-5% for 2-year fixes and 4-5% for 5-year fixes, depending on LTV and credit profile. Rates change frequently with Bank of England decisions."}
+    ],
+    "formulas": [
+      "Monthly payment = Loan x r(1+r)^n / ((1+r)^n - 1) where r = monthly rate, n = total payments",
+      "Total interest = Total repaid - Loan amount",
+      "SDLT bands: 0% to £250k, 5% £250k-£925k, 10% £925k-£1.5m, 12% over £1.5m",
+      "Total upfront = Deposit + Stamp Duty"
+    ],
+    "relatedTools": ["uk-stamp-duty-calculator", "uk-income-tax-calculator", "uk-council-tax-estimator"]
+  },
+  {
+    "slug": "uk-energy-bill-calculator",
+    "toolName": "UK Energy Bill Calculator",
+    "category": "finance",
+    "subcategory": "uk-household",
+    "tagline": "Estimate your gas and electricity costs based on usage and the Ofgem price cap rates",
+    "keywords": "UK energy bill calculator, Ofgem price cap, gas bill, electricity bill, energy cost estimator, standing charge",
+    "inputs": [
+      {"id": "electricityKwh", "label": "Electricity Usage (kWh/year)", "default": 2700, "min": 0, "step": 100},
+      {"id": "gasKwh", "label": "Gas Usage (kWh/year)", "default": 11500, "min": 0, "step": 100},
+      {"id": "tariffType", "label": "Tariff", "type": "select", "default": "cap", "options": [{"value": "cap", "label": "Ofgem Price Cap (Q1 2025)"}, {"value": "custom", "label": "Custom Rates"}]},
+      {"id": "elecRate", "label": "Electricity Rate (p/kWh) if custom", "default": 24.5, "min": 0, "step": 0.1},
+      {"id": "gasRate", "label": "Gas Rate (p/kWh) if custom", "default": 6.76, "min": 0, "step": 0.01}
+    ],
+    "results": [
+      {"id": "annualElec", "label": "Annual Electricity Cost"},
+      {"id": "annualGas", "label": "Annual Gas Cost"},
+      {"id": "annualTotal", "label": "Total Annual Energy Cost"},
+      {"id": "monthlyTotal", "label": "Monthly Average"},
+      {"id": "dailyCost", "label": "Daily Average Cost"}
+    ],
+    "calcFn": "var elecP, gasP, elecStanding, gasStanding;\n    if (tariffType === 'cap') {\n      elecP = 24.50; gasP = 6.76;\n      elecStanding = 61.64; gasStanding = 31.65;\n    } else {\n      elecP = elecRate; gasP = gasRate;\n      elecStanding = 61.64; gasStanding = 31.65;\n    }\n    var elecUsageCost = electricityKwh * elecP / 100;\n    var gasUsageCost = gasKwh * gasP / 100;\n    var elecStandingAnnual = elecStanding / 100 * 365;\n    var gasStandingAnnual = gasStanding / 100 * 365;\n    var annualElecVal = elecUsageCost + elecStandingAnnual;\n    var annualGasVal = gasUsageCost + gasStandingAnnual;\n    var annualTotalVal = annualElecVal + annualGasVal;\n    var monthly = annualTotalVal / 12;\n    var daily = annualTotalVal / 365;\n    document.getElementById('annualElec').textContent = '\\u00A3' + annualElecVal.toFixed(0);\n    document.getElementById('annualGas').textContent = '\\u00A3' + annualGasVal.toFixed(0);\n    document.getElementById('annualTotal').textContent = '\\u00A3' + annualTotalVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyTotal').textContent = '\\u00A3' + monthly.toFixed(2);\n    document.getElementById('dailyCost').textContent = '\\u00A3' + daily.toFixed(2);",
+    "faq": [
+      {"question": "What is the Ofgem energy price cap?", "answer": "The Ofgem price cap limits the maximum amount suppliers can charge per unit of energy and for the standing charge. It is reviewed quarterly. For Q1 2025, the cap sets electricity at 24.50p/kWh and gas at 6.76p/kWh."},
+      {"question": "What is a typical UK household energy usage?", "answer": "Ofgem's typical usage for a medium household is 2,700 kWh of electricity and 11,500 kWh of gas per year. Actual usage varies significantly based on property size, insulation, and household habits."},
+      {"question": "What is a standing charge?", "answer": "The standing charge is a daily fixed fee for being connected to the energy supply, regardless of usage. It covers network maintenance and policy costs. Typical standing charges are around 61p/day for electricity and 32p/day for gas."},
+      {"question": "How can I reduce my energy bill?", "answer": "Key actions include improving insulation, using a smart thermostat, switching to LED bulbs, using appliances at off-peak times, and comparing tariffs. Cavity wall and loft insulation can save £100-£300 per year."}
+    ],
+    "formulas": [
+      "Annual cost = (Usage kWh x Rate p/kWh / 100) + (Standing charge p/day x 365 / 100)",
+      "Ofgem cap Q1 2025: Electricity 24.50p/kWh, Gas 6.76p/kWh",
+      "Standing charges: Electricity ~61.64p/day, Gas ~31.65p/day",
+      "Typical medium household: 2,700 kWh electricity + 11,500 kWh gas per year"
+    ],
+    "relatedTools": ["uk-council-tax-estimator", "uk-income-tax-calculator", "uk-mortgage-stamp-duty-calculator"]
+  },
+  {
+    "slug": "uk-inheritance-tax-calculator",
+    "toolName": "UK Inheritance Tax Calculator",
+    "category": "finance",
+    "subcategory": "uk-tax",
+    "tagline": "Calculate potential Inheritance Tax liability with nil-rate band and residence nil-rate band allowances",
+    "keywords": "inheritance tax calculator, IHT, nil-rate band, residence nil-rate band, estate tax UK, death duties",
+    "inputs": [
+      {"id": "estateValue", "label": "Total Estate Value (£)", "default": 500000, "min": 0, "step": 10000},
+      {"id": "propertyValue", "label": "Main Residence Value (£)", "default": 300000, "min": 0, "step": 10000},
+      {"id": "directDescendants", "label": "Leaving to Direct Descendants?", "type": "select", "default": "yes", "options": [{"value": "yes", "label": "Yes (children/grandchildren)"}, {"value": "no", "label": "No"}]},
+      {"id": "maritalStatus", "label": "Marital Status", "type": "select", "default": "single", "options": [{"value": "single", "label": "Single/Widowed (own allowance)"}, {"value": "married", "label": "Married/Civil Partner (transferable allowance)"}]},
+      {"id": "giftsLast7Years", "label": "Gifts in Last 7 Years (£)", "default": 0, "min": 0, "step": 1000},
+      {"id": "charitableLegacy", "label": "Charitable Legacy (%)", "default": 0, "min": 0, "max": 100, "step": 1}
+    ],
+    "results": [
+      {"id": "nilRateBand", "label": "Nil-Rate Band"},
+      {"id": "residenceNRB", "label": "Residence Nil-Rate Band"},
+      {"id": "totalAllowance", "label": "Total Tax-Free Allowance"},
+      {"id": "taxableEstate", "label": "Taxable Estate"},
+      {"id": "ihtRate", "label": "IHT Rate Applied"},
+      {"id": "ihtLiability", "label": "Inheritance Tax Liability"}
+    ],
+    "calcFn": "var nrb = 325000;\n    var rnrb = 0;\n    if (directDescendants === 'yes') {\n      rnrb = Math.min(175000, propertyValue);\n      if (estateValue > 2000000) {\n        var taperReduction = (estateValue - 2000000) / 2;\n        rnrb = Math.max(0, rnrb - taperReduction);\n      }\n    }\n    if (maritalStatus === 'married') {\n      nrb *= 2;\n      rnrb *= 2;\n    }\n    var totalAllowanceVal = nrb + rnrb;\n    var taxableGifts = Math.max(0, giftsLast7Years - 3000);\n    var taxableEstateVal = Math.max(0, estateValue + taxableGifts - totalAllowanceVal);\n    var rate = 0.40;\n    if (charitableLegacy >= 10) rate = 0.36;\n    var iht = taxableEstateVal * rate;\n    document.getElementById('nilRateBand').textContent = '\\u00A3' + nrb.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('residenceNRB').textContent = '\\u00A3' + rnrb.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalAllowance').textContent = '\\u00A3' + totalAllowanceVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxableEstate').textContent = '\\u00A3' + taxableEstateVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('ihtRate').textContent = (rate * 100) + '%';\n    document.getElementById('ihtLiability').textContent = '\\u00A3' + iht.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is the Inheritance Tax threshold?", "answer": "The nil-rate band (NRB) is £325,000. Estates valued below this pay no IHT. An additional residence nil-rate band (RNRB) of up to £175,000 is available when passing a main residence to direct descendants, giving a potential total of £500,000 per person."},
+      {"question": "Can married couples combine their IHT allowances?", "answer": "Yes. When the first spouse dies, any unused nil-rate band and residence nil-rate band can transfer to the surviving spouse. This means a married couple can potentially pass on up to £1,000,000 tax-free."},
+      {"question": "What is the reduced rate for charitable legacies?", "answer": "If you leave at least 10% of your net estate to charity, the IHT rate is reduced from 40% to 36% on the taxable portion. This can make charitable giving effectively cost-neutral in some cases."},
+      {"question": "How do gifts affect Inheritance Tax?", "answer": "Gifts made more than 7 years before death are exempt. Gifts within 7 years may be taxed on a sliding scale (taper relief). An annual exemption of £3,000 in gifts is always tax-free, and small gifts up to £250 per person are exempt."}
+    ],
+    "formulas": [
+      "Nil-Rate Band: £325,000 per person (£650,000 for married couples)",
+      "Residence Nil-Rate Band: up to £175,000 if passing home to direct descendants",
+      "Tapered for estates over £2m: RNRB reduced by £1 for every £2 above £2m",
+      "IHT rate: 40% (or 36% if 10%+ left to charity)"
+    ],
+    "relatedTools": ["uk-income-tax-calculator", "uk-pension-calculator", "uk-stamp-duty-calculator"]
+  }
+]

@@ -1,0 +1,303 @@
+[
+  {
+    "slug": "effective-tax-rate-by-income-calculator",
+    "toolName": "Effective Tax Rate by Income Calculator",
+    "category": "finance",
+    "tagline": "Calculate your real tax burden across federal, state, payroll, and sales taxes",
+    "keywords": "effective tax rate calculator, real tax rate, total tax burden, tax rate by income, all taxes paid",
+    "inputs": [
+      {"id": "grossIncome", "label": "Gross Annual Income ($)", "default": 85000, "min": 0, "step": 5000},
+      {"id": "filingStatus", "label": "Filing Status", "type": "select", "default": "single", "options": [{"value": "single", "label": "Single"}, {"value": "married", "label": "Married Filing Jointly"}]},
+      {"id": "stateTaxRate", "label": "State Income Tax Rate (%)", "default": 5.0, "min": 0, "max": 13.3, "step": 0.1},
+      {"id": "annualSpending", "label": "Annual Taxable Spending ($)", "default": 30000, "min": 0, "step": 1000},
+      {"id": "salesTaxRate", "label": "Sales Tax Rate (%)", "default": 7.0, "min": 0, "max": 12, "step": 0.25},
+      {"id": "propertyTax", "label": "Annual Property Tax ($)", "default": 3500, "min": 0, "step": 100}
+    ],
+    "results": [
+      {"id": "federalTax", "label": "Federal Income Tax"},
+      {"id": "stateTax", "label": "State Income Tax"},
+      {"id": "ficaTax", "label": "FICA (SS + Medicare)"},
+      {"id": "salesTaxPaid", "label": "Sales Tax Paid"},
+      {"id": "totalTaxes", "label": "Total All Taxes"},
+      {"id": "effectiveRate", "label": "True Effective Rate"}
+    ],
+    "calcFn": "var stdDed = filingStatus === 'married' ? 29200 : 14600; var taxableIncome = Math.max(0, grossIncome - stdDed); var fedTax = 0; if (filingStatus === 'married') { if (taxableIncome <= 23200) fedTax = taxableIncome * 0.10; else if (taxableIncome <= 94300) fedTax = 2320 + (taxableIncome - 23200) * 0.12; else if (taxableIncome <= 201050) fedTax = 10852 + (taxableIncome - 94300) * 0.22; else if (taxableIncome <= 383900) fedTax = 34337 + (taxableIncome - 201050) * 0.24; else fedTax = 78221 + (taxableIncome - 383900) * 0.32; } else { if (taxableIncome <= 11600) fedTax = taxableIncome * 0.10; else if (taxableIncome <= 47150) fedTax = 1160 + (taxableIncome - 11600) * 0.12; else if (taxableIncome <= 100525) fedTax = 5426 + (taxableIncome - 47150) * 0.22; else if (taxableIncome <= 191950) fedTax = 17168.50 + (taxableIncome - 100525) * 0.24; else fedTax = 39110.50 + (taxableIncome - 191950) * 0.32; } var stTax = grossIncome * (stateTaxRate / 100); var ssWage = Math.min(grossIncome, 168600); var fica = ssWage * 0.062 + grossIncome * 0.0145; var salesPaid = annualSpending * (salesTaxRate / 100); var totalTax = fedTax + stTax + fica + salesPaid + propertyTax; var effRate = grossIncome > 0 ? (totalTax / grossIncome) * 100 : 0; document.getElementById('federalTax').textContent = dollar(fedTax) + ' (' + fmt((fedTax / grossIncome) * 100, 1) + '%)'; document.getElementById('stateTax').textContent = dollar(stTax) + ' (' + fmt(stateTaxRate, 1) + '%)'; document.getElementById('ficaTax').textContent = dollar(fica) + ' (' + fmt((fica / grossIncome) * 100, 1) + '%)'; document.getElementById('salesTaxPaid').textContent = dollar(salesPaid); document.getElementById('totalTaxes').textContent = dollar(totalTax); document.getElementById('effectiveRate').textContent = fmt(effRate, 1) + '% of gross income';",
+    "faq": [
+      {"question": "What is the difference between marginal and effective tax rate?", "answer": "Your marginal rate is the tax bracket on your last dollar of income (e.g., 22%). Your effective rate is the average rate across all income — always lower than your marginal rate because lower brackets are taxed at lower rates."},
+      {"question": "Do rich people really pay lower tax rates?", "answer": "It depends on income type. High earners with wage income pay 35-37% marginal rates. But those with capital gains income pay 15-20%. When you add payroll taxes (which cap at $168,600), lower earners pay a higher FICA percentage of total income."},
+      {"question": "What taxes are most people forgetting?", "answer": "Most people only think about federal income tax. But FICA (7.65%), state income tax (0-13.3%), sales tax (0-10%+), property tax, gas tax, vehicle registration, and various fees add up to a much higher total burden."},
+      {"question": "Which states have the lowest total tax burden?", "answer": "States with no income tax (TX, FL, NV, WY, SD, WA, AK, NH, TN) have lower total burdens, but often compensate with higher property or sales taxes. Overall lowest: Wyoming, Alaska, Tennessee. Highest: New York, California, New Jersey."}
+    ],
+    "formulas": [
+      "Federal Tax = Sum of graduated bracket calculations",
+      "FICA = (Min(Income, $168,600) x 6.2%) + (Income x 1.45%)",
+      "Sales Tax Paid = Annual Taxable Spending x Sales Tax Rate",
+      "True Effective Rate = Total All Taxes / Gross Income x 100"
+    ],
+    "relatedTools": ["tax-refund-estimator", "overtime-worth-calculator", "minimum-wage-impact-calculator"],
+    "subcategory": "taxes"
+  },
+  {
+    "slug": "college-roi-by-major-calculator",
+    "toolName": "College ROI by Major Calculator",
+    "category": "education",
+    "tagline": "Calculate the lifetime return on investment for specific college majors",
+    "keywords": "college ROI calculator, is college worth it, college major salary, return on investment college degree, best paying majors",
+    "inputs": [
+      {"id": "major", "label": "Field of Study", "type": "select", "default": "business", "options": [{"value": "engineering", "label": "Engineering ($78K avg start)"}, {"value": "cs", "label": "Computer Science ($80K avg start)"}, {"value": "nursing", "label": "Nursing ($62K avg start)"}, {"value": "business", "label": "Business ($58K avg start)"}, {"value": "education", "label": "Education ($42K avg start)"}, {"value": "arts", "label": "Arts/Humanities ($40K avg start)"}, {"value": "biology", "label": "Biology ($45K avg start)"}, {"value": "psychology", "label": "Psychology ($38K avg start)"}]},
+      {"id": "totalCost", "label": "Total College Cost ($)", "default": 120000, "min": 0, "step": 5000},
+      {"id": "yearsToGraduate", "label": "Years to Graduate", "default": 4, "min": 2, "max": 7, "step": 1},
+      {"id": "scholarships", "label": "Scholarships/Grants ($)", "default": 20000, "min": 0, "step": 1000},
+      {"id": "loanRate", "label": "Loan Interest Rate (%)", "default": 5.5, "min": 0, "max": 12, "step": 0.5}
+    ],
+    "results": [
+      {"id": "netCost", "label": "Net College Cost"},
+      {"id": "startingSalary", "label": "Expected Starting Salary"},
+      {"id": "lifetimeEarnings", "label": "Lifetime Earnings Premium"},
+      {"id": "breakEvenYears", "label": "Break-Even Point"},
+      {"id": "thirtyYearROI", "label": "30-Year ROI"},
+      {"id": "loanPayoff", "label": "Loan Payoff Timeline"}
+    ],
+    "calcFn": "var salaries = {engineering: 78000, cs: 80000, nursing: 62000, business: 58000, education: 42000, arts: 40000, biology: 45000, psychology: 38000}; var growthRates = {engineering: 0.04, cs: 0.045, nursing: 0.035, business: 0.035, education: 0.025, arts: 0.025, biology: 0.03, psychology: 0.03}; var startSalary = salaries[major] || 50000; var growth = growthRates[major] || 0.03; var netCost = totalCost - scholarships; var loanAmount = netCost; var hsAvgSalary = 35000; var forgoneIncome = hsAvgSalary * yearsToGraduate; var totalInvestment = netCost + forgoneIncome; var lifetimeCollege = 0; var lifetimeHS = 0; for (var y = 0; y < 30; y++) { lifetimeCollege += startSalary * Math.pow(1 + growth, y); lifetimeHS += hsAvgSalary * Math.pow(1.02, y); } var premium = lifetimeCollege - lifetimeHS; var annualPremium = (startSalary - hsAvgSalary); var breakEven = annualPremium > 0 ? totalInvestment / annualPremium : 99; var roi = totalInvestment > 0 ? ((premium - totalInvestment) / totalInvestment) * 100 : 0; var monthlyPayment = loanAmount > 0 ? (loanAmount * (loanRate / 1200)) / (1 - Math.pow(1 + loanRate / 1200, -120)) : 0; var payoffYears = monthlyPayment > 0 ? 10 : 0; document.getElementById('netCost').textContent = dollar(netCost) + ' (+ ' + dollar(forgoneIncome) + ' forgone income)'; document.getElementById('startingSalary').textContent = dollar(startSalary) + '/year'; document.getElementById('lifetimeEarnings').textContent = dollar(premium) + ' over 30 years'; document.getElementById('breakEvenYears').textContent = fmt(breakEven, 1) + ' years after graduation'; document.getElementById('thirtyYearROI').textContent = fmt(roi, 0) + '%'; document.getElementById('loanPayoff').textContent = dollar(monthlyPayment) + '/month for ' + payoffYears + ' years';",
+    "faq": [
+      {"question": "Is college still worth the cost?", "answer": "On average, yes — college graduates earn $1.2 million more over a lifetime than high school graduates. However, ROI varies hugely by major. Engineering and CS degrees often return 500-800% while some humanities degrees may never break even if you took on significant debt."},
+      {"question": "What are the highest ROI college majors?", "answer": "Computer Science, Engineering (Petroleum, Chemical, Electrical), Nursing, Finance, and Accounting consistently show the highest ROI. Key factors: high starting salary, strong salary growth, and high employment rates."},
+      {"question": "Should I consider trade school instead?", "answer": "Trade school can be an excellent alternative. Electricians, plumbers, and HVAC technicians earn $55-85K with only 1-2 years of training and minimal debt. Many trades have ROI comparable to top college majors."},
+      {"question": "Does the school you attend matter for ROI?", "answer": "For most fields, the specific school matters less than the major and completion. Elite school premiums mainly help in finance, law, and consulting. For engineering, nursing, and tech, state school graduates often achieve similar lifetime earnings."}
+    ],
+    "formulas": [
+      "Net Cost = Total College Cost - Scholarships/Grants",
+      "Total Investment = Net Cost + Forgone Income (years x HS avg salary)",
+      "Lifetime Premium = Sum of 30 years (College Salary Growth) - Sum of 30 years (HS Salary Growth)",
+      "ROI = (Lifetime Premium - Total Investment) / Total Investment x 100"
+    ],
+    "relatedTools": ["minimum-wage-impact-calculator", "back-to-school-cost-calculator"],
+    "subcategory": "career"
+  },
+  {
+    "slug": "minimum-wage-impact-calculator",
+    "toolName": "Minimum Wage Impact Calculator",
+    "category": "economics",
+    "tagline": "Model the employment and cost impacts of minimum wage changes on businesses and workers",
+    "keywords": "minimum wage calculator, minimum wage impact, $15 minimum wage, minimum wage effects, wage increase calculator",
+    "inputs": [
+      {"id": "currentWage", "label": "Current Minimum Wage ($/hr)", "default": 7.25, "min": 1, "max": 25, "step": 0.25},
+      {"id": "proposedWage", "label": "Proposed Wage ($/hr)", "default": 15.00, "min": 1, "max": 30, "step": 0.25},
+      {"id": "numEmployees", "label": "Affected Employees", "default": 10, "min": 1, "max": 1000},
+      {"id": "avgHours", "label": "Avg Hours/Week/Employee", "default": 32, "min": 10, "max": 40, "step": 1},
+      {"id": "businessRevenue", "label": "Annual Business Revenue ($)", "default": 500000, "min": 0, "step": 10000},
+      {"id": "pricePassthrough", "label": "Price Passthrough (%)", "default": 60, "min": 0, "max": 100, "step": 10}
+    ],
+    "results": [
+      {"id": "annualRaise", "label": "Annual Raise per Worker"},
+      {"id": "totalLaborIncrease", "label": "Total Labor Cost Increase"},
+      {"id": "revenueImpact", "label": "% of Revenue"},
+      {"id": "priceIncrease", "label": "Needed Price Increase"},
+      {"id": "workerBenefit", "label": "Worker Annual Benefit (pre-tax)"},
+      {"id": "jobRisk", "label": "Estimated Job Impact"}
+    ],
+    "calcFn": "var wageDiff = proposedWage - currentWage; var annualPerWorker = wageDiff * avgHours * 52; var totalIncrease = annualPerWorker * numEmployees; var payrollTaxes = totalIncrease * 0.0765; var totalCostIncrease = totalIncrease + payrollTaxes; var revPct = businessRevenue > 0 ? (totalCostIncrease / businessRevenue) * 100 : 0; var passedToCust = totalCostIncrease * (pricePassthrough / 100); var priceIncPct = businessRevenue > 0 ? (passedToCust / businessRevenue) * 100 : 0; var elasticity = -0.15; var pctIncrease = currentWage > 0 ? (wageDiff / currentWage) : 0; var jobLossPct = Math.abs(elasticity * pctIncrease) * 100; var jobsAtRisk = Math.round(numEmployees * jobLossPct / 100); document.getElementById('annualRaise').textContent = dollar(annualPerWorker) + '/year'; document.getElementById('totalLaborIncrease').textContent = dollar(totalCostIncrease) + ' (incl. payroll tax)'; document.getElementById('revenueImpact').textContent = fmt(revPct, 1) + '% of revenue'; document.getElementById('priceIncrease').textContent = fmt(priceIncPct, 1) + '% price increase needed'; document.getElementById('workerBenefit').textContent = dollar(annualPerWorker) + ' before taxes'; document.getElementById('jobRisk').textContent = fmt(jobLossPct, 1) + '% reduction (~' + jobsAtRisk + ' positions)';",
+    "faq": [
+      {"question": "Does raising the minimum wage cause job losses?", "answer": "Research is mixed. The CBO estimated a $15 federal minimum wage would lift 900,000 people out of poverty but eliminate 1.4 million jobs. Most studies find small employment effects (-1 to -3%) for moderate increases, with larger effects for dramatic increases."},
+      {"question": "How much would prices increase with a higher minimum wage?", "answer": "Studies find that a 10% minimum wage increase raises restaurant prices about 0.7% and overall prices about 0.4%. Not all costs are passed to consumers — businesses also absorb costs through reduced profits, fewer hours, and efficiency gains."},
+      {"question": "What is the current federal minimum wage?", "answer": "The federal minimum wage has been $7.25/hour since 2009. However, 30+ states and many cities have higher minimums. As of 2024, state minimums range from $7.25 to $16.28 (Washington state)."},
+      {"question": "Who actually earns minimum wage?", "answer": "About 1.1 million workers (1.3% of hourly workers) earn exactly the federal minimum. However, about 20 million workers earn less than $15/hour. The majority are adults (not teenagers), and about 60% are women."}
+    ],
+    "formulas": [
+      "Annual Raise = Wage Difference x Hours/Week x 52 weeks",
+      "Total Labor Cost Increase = Annual Raise x Employees x 1.0765 (payroll taxes)",
+      "Price Increase Needed = (Cost Increase x Passthrough %) / Revenue",
+      "Job Impact uses -0.15 elasticity estimate (moderate CBO estimate)"
+    ],
+    "relatedTools": ["effective-tax-rate-by-income-calculator", "overtime-worth-calculator", "college-roi-by-major-calculator"],
+    "subcategory": "labor"
+  },
+  {
+    "slug": "rent-vs-own-honest-comparison-calculator",
+    "toolName": "Rent vs Own Honest Comparison Calculator",
+    "category": "housing",
+    "tagline": "30-year honest comparison of renting vs buying including ALL hidden costs of homeownership",
+    "keywords": "rent vs buy calculator, rent vs own comparison, should I buy a house, renting vs owning true cost",
+    "inputs": [
+      {"id": "homePrice", "label": "Home Price ($)", "default": 350000, "min": 50000, "step": 10000},
+      {"id": "downPayment", "label": "Down Payment (%)", "default": 20, "min": 0, "max": 100, "step": 5},
+      {"id": "mortgageRate", "label": "Mortgage Rate (%)", "default": 6.5, "min": 2, "max": 10, "step": 0.125},
+      {"id": "monthlyRent", "label": "Comparable Monthly Rent ($)", "default": 1800, "min": 0, "step": 50},
+      {"id": "annualAppreciation", "label": "Home Appreciation (%/yr)", "default": 3.5, "min": -5, "max": 10, "step": 0.5},
+      {"id": "investReturn", "label": "Investment Return if Renting (%/yr)", "default": 8, "min": 0, "max": 15, "step": 0.5}
+    ],
+    "results": [
+      {"id": "monthlyOwn", "label": "True Monthly Cost to Own"},
+      {"id": "totalOwnCost", "label": "30-Year Total Ownership Cost"},
+      {"id": "totalRentCost", "label": "30-Year Total Rent Cost"},
+      {"id": "homeEquity", "label": "Home Equity at Year 30"},
+      {"id": "investPortfolio", "label": "Investment Portfolio (Renter)"},
+      {"id": "winner", "label": "Net Winner"}
+    ],
+    "calcFn": "var dp = homePrice * (downPayment / 100); var loanAmt = homePrice - dp; var monthlyRate = mortgageRate / 100 / 12; var nPayments = 360; var mortgage = loanAmt * (monthlyRate) / (1 - Math.pow(1 + monthlyRate, -nPayments)); var propertyTax = homePrice * 0.012 / 12; var insurance = homePrice * 0.005 / 12; var maintenance = homePrice * 0.01 / 12; var pmi = downPayment < 20 ? loanAmt * 0.007 / 12 : 0; var monthlyOwn = mortgage + propertyTax + insurance + maintenance + pmi; var totalMortgage = mortgage * 360; var totalPropTax = 0; var totalInsurance = 0; var totalMaint = 0; for (var y = 0; y < 30; y++) { var hv = homePrice * Math.pow(1 + annualAppreciation / 100, y); totalPropTax += hv * 0.012; totalInsurance += hv * 0.005; totalMaint += hv * 0.01; } var totalOwnCost = dp + totalMortgage + totalPropTax + totalInsurance + totalMaint; var homeValue30 = homePrice * Math.pow(1 + annualAppreciation / 100, 30); var equity = homeValue30; var totalRent = 0; var investBal = dp; var rentGrowth = 0.03; for (var yr = 0; yr < 30; yr++) { var yearRent = monthlyRent * Math.pow(1 + rentGrowth, yr) * 12; totalRent += yearRent; var monthlySavings = (monthlyOwn - monthlyRent * Math.pow(1 + rentGrowth, yr)); if (monthlySavings > 0) investBal += monthlySavings * 12; investBal *= (1 + investReturn / 100); } var ownNet = equity - totalOwnCost; var rentNet = investBal - totalRent; var winner = ownNet > rentNet ? 'Buying wins by ' + dollar(ownNet - rentNet) : 'Renting wins by ' + dollar(rentNet - ownNet); document.getElementById('monthlyOwn').textContent = dollar(monthlyOwn) + ' (mortgage+tax+ins+maint)'; document.getElementById('totalOwnCost').textContent = dollar(totalOwnCost); document.getElementById('totalRentCost').textContent = dollar(totalRent); document.getElementById('homeEquity').textContent = dollar(equity); document.getElementById('investPortfolio').textContent = dollar(investBal); document.getElementById('winner').textContent = winner;",
+    "faq": [
+      {"question": "Is renting really throwing money away?", "answer": "No. Renters avoid property taxes, maintenance, insurance, and interest — which together can exceed rent. The key comparison is: does the home appreciation beat what you would earn investing the difference? In many markets, renting and investing wins."},
+      {"question": "What hidden costs do homeowners forget?", "answer": "Property taxes (1-2% of home value/year), homeowners insurance (0.5%), maintenance and repairs (1-2%), HOA fees, closing costs (2-5%), and selling costs (5-6% realtor commissions). These add 3-5% of home value annually beyond the mortgage."},
+      {"question": "When does buying make more financial sense?", "answer": "Buying tends to win when: you stay 7+ years, appreciation exceeds 3%/year, mortgage rates are low, rent-to-price ratios exceed 0.7%, and you would not otherwise invest the savings from renting."},
+      {"question": "What about the tax benefits of homeownership?", "answer": "Since the 2018 standard deduction increase, about 90% of homeowners take the standard deduction, getting zero mortgage interest tax benefit. Only those with mortgages above ~$375K in high-tax states tend to benefit from itemizing."}
+    ],
+    "formulas": [
+      "Monthly Ownership = Mortgage + Property Tax + Insurance + Maintenance + PMI",
+      "30-Year Home Equity = Home Price x (1 + Appreciation)^30",
+      "Renter Investment = Down Payment + Monthly Savings, compounded at investment return rate",
+      "Net comparison accounts for ALL costs on both sides over 30 years"
+    ],
+    "relatedTools": ["fed-rate-mortgage-impact-calculator", "housing-report-buyer-impact-calculator"],
+    "subcategory": "real-estate"
+  },
+  {
+    "slug": "immigration-economic-impact-calculator",
+    "toolName": "Immigration Economic Impact Calculator",
+    "category": "economics",
+    "tagline": "Estimate the economic costs and benefits of immigration by type and state",
+    "keywords": "immigration economic impact, cost of immigration, immigration benefits calculator, immigration economics",
+    "inputs": [
+      {"id": "immigrantType", "label": "Immigration Type", "type": "select", "default": "legal", "options": [{"value": "highskill", "label": "High-Skill/H-1B Worker"}, {"value": "legal", "label": "Legal Permanent Resident"}, {"value": "undocumented", "label": "Undocumented Worker"}, {"value": "refugee", "label": "Refugee/Asylee"}]},
+      {"id": "numImmigrants", "label": "Number of Immigrants", "default": 1000, "min": 1, "max": 1000000, "step": 100},
+      {"id": "avgWage", "label": "Average Annual Wage ($)", "default": 35000, "min": 10000, "max": 200000, "step": 5000},
+      {"id": "yearsInUS", "label": "Years in US", "default": 10, "min": 1, "max": 40},
+      {"id": "stateServiceCost", "label": "State Services Cost/Person/Year ($)", "default": 8000, "min": 0, "step": 500}
+    ],
+    "results": [
+      {"id": "taxContribution", "label": "Total Tax Contributions"},
+      {"id": "serviceCost", "label": "Total Service Costs"},
+      {"id": "netFiscal", "label": "Net Fiscal Impact"},
+      {"id": "economicOutput", "label": "Economic Output (GDP)"},
+      {"id": "perCapitaImpact", "label": "Per Immigrant Net Impact"},
+      {"id": "jobCreation", "label": "Estimated Jobs Created"}
+    ],
+    "calcFn": "var taxRates = {highskill: 0.28, legal: 0.18, undocumented: 0.12, refugee: 0.10}; var serviceUse = {highskill: 0.5, legal: 0.8, undocumented: 0.6, refugee: 1.2}; var gdpMult = {highskill: 2.5, legal: 1.8, undocumented: 1.5, refugee: 1.3}; var jobMult = {highskill: 1.83, legal: 1.2, undocumented: 0.8, refugee: 0.6}; var taxRate = taxRates[immigrantType] || 0.18; var svcMult = serviceUse[immigrantType] || 0.8; var gMult = gdpMult[immigrantType] || 1.8; var jMult = jobMult[immigrantType] || 1.2; var annualTax = avgWage * taxRate * numImmigrants; var totalTax = annualTax * yearsInUS; var annualSvc = stateServiceCost * svcMult * numImmigrants; var totalSvc = annualSvc * yearsInUS; var netFiscal = totalTax - totalSvc; var gdpOutput = avgWage * gMult * numImmigrants * yearsInUS; var jobs = Math.round(numImmigrants * jMult); var perCapita = netFiscal / numImmigrants; document.getElementById('taxContribution').textContent = dollar(totalTax) + ' over ' + yearsInUS + ' years'; document.getElementById('serviceCost').textContent = dollar(totalSvc) + ' over ' + yearsInUS + ' years'; document.getElementById('netFiscal').textContent = (netFiscal >= 0 ? '+' : '') + dollar(netFiscal); document.getElementById('economicOutput').textContent = dollar(gdpOutput) + ' GDP contribution'; document.getElementById('perCapitaImpact').textContent = (perCapita >= 0 ? '+' : '') + dollar(perCapita) + '/immigrant'; document.getElementById('jobCreation').textContent = fmt(jobs, 0) + ' jobs created/supported';",
+    "faq": [
+      {"question": "Do immigrants cost more than they contribute?", "answer": "According to the National Academy of Sciences, immigrants are a net fiscal positive over their lifetime at the federal level (+$259K for those with college degrees). State/local costs may be negative short-term, especially for education, but children of immigrants are among the highest net contributors."},
+      {"question": "Do immigrants take jobs from Americans?", "answer": "Most research shows immigrants complement rather than substitute for native workers, creating a net positive employment effect. High-skill immigration creates about 1.83 jobs per immigrant. Low-skill immigration may slightly reduce wages for workers without a high school diploma."},
+      {"question": "How much do undocumented immigrants pay in taxes?", "answer": "The ITEP estimates undocumented immigrants pay about $11.7 billion annually in state and local taxes and contribute roughly $13 billion per year to Social Security through payroll taxes (benefits they cannot claim)."},
+      {"question": "What is the economic consensus on immigration?", "answer": "A 2017 National Academy of Sciences panel found immigration has an overall positive impact on long-run economic growth. Most economists (89% surveyed) agree that immigration has a net positive fiscal impact over a 25-year horizon."}
+    ],
+    "formulas": [
+      "Tax Contribution = Average Wage x Effective Tax Rate x Immigrants x Years",
+      "Service Cost = Per-Person State Cost x Usage Multiplier x Immigrants x Years",
+      "Net Fiscal Impact = Tax Contributions - Service Costs",
+      "GDP Contribution = Average Wage x GDP Multiplier x Immigrants x Years"
+    ],
+    "relatedTools": ["minimum-wage-impact-calculator", "cost-of-living-comparison-calculator"],
+    "subcategory": "policy"
+  },
+  {
+    "slug": "organic-food-value-calculator",
+    "toolName": "Organic Food Value Calculator",
+    "category": "food-beverage",
+    "tagline": "Compare the nutritional value per dollar between organic and conventional foods",
+    "keywords": "organic food cost calculator, organic vs conventional, is organic worth it, organic food value comparison",
+    "inputs": [
+      {"id": "foodType", "label": "Food Category", "type": "select", "default": "produce", "options": [{"value": "produce", "label": "Fruits & Vegetables"}, {"value": "dairy", "label": "Dairy & Eggs"}, {"value": "meat", "label": "Meat & Poultry"}, {"value": "grains", "label": "Grains & Bread"}, {"value": "baby", "label": "Baby Food"}]},
+      {"id": "weeklySpend", "label": "Weekly Grocery Spend ($)", "default": 150, "min": 25, "max": 500, "step": 10},
+      {"id": "organicPct", "label": "Current % Organic", "default": 25, "min": 0, "max": 100, "step": 5},
+      {"id": "targetOrganicPct", "label": "Target % Organic", "default": 75, "min": 0, "max": 100, "step": 5},
+      {"id": "familySize", "label": "Family Size", "default": 3, "min": 1, "max": 8}
+    ],
+    "results": [
+      {"id": "currentCost", "label": "Current Weekly Cost"},
+      {"id": "targetCost", "label": "Target Weekly Cost"},
+      {"id": "annualDiff", "label": "Annual Cost Difference"},
+      {"id": "premiumPct", "label": "Organic Premium"},
+      {"id": "pesticideReduction", "label": "Pesticide Exposure Reduction"},
+      {"id": "costPerNutrient", "label": "Cost per Nutrient Score"}
+    ],
+    "calcFn": "var premiums = {produce: 0.47, dairy: 0.35, meat: 0.65, grains: 0.30, baby: 0.25}; var pestReduction = {produce: 80, dairy: 40, meat: 30, grains: 50, baby: 70}; var nutritionBonus = {produce: 1.12, dairy: 1.05, meat: 1.03, grains: 1.02, baby: 1.08}; var prem = premiums[foodType] || 0.40; var pestRed = pestReduction[foodType] || 50; var nutBonus = nutritionBonus[foodType] || 1.05; var convCost = weeklySpend * (1 - organicPct / 100); var orgCost = weeklySpend * (organicPct / 100) * (1 + prem); var currentWeekly = convCost + orgCost; var targetConv = weeklySpend * (1 - targetOrganicPct / 100); var targetOrg = weeklySpend * (targetOrganicPct / 100) * (1 + prem); var targetWeekly = targetConv + targetOrg; var annualDiff = (targetWeekly - currentWeekly) * 52; var adjPestRed = pestRed * (targetOrganicPct - organicPct) / 100; var convNutrient = weeklySpend / 100; var orgNutrient = targetWeekly / (100 * nutBonus); document.getElementById('currentCost').textContent = dollar(currentWeekly) + '/week'; document.getElementById('targetCost').textContent = dollar(targetWeekly) + '/week'; document.getElementById('annualDiff').textContent = (annualDiff >= 0 ? '+' : '') + dollar(annualDiff) + '/year'; document.getElementById('premiumPct').textContent = fmt(prem * 100, 0) + '% more for organic ' + foodType; document.getElementById('pesticideReduction').textContent = fmt(adjPestRed, 0) + '% less pesticide exposure'; document.getElementById('costPerNutrient').textContent = 'Conv: $' + fmt(convNutrient, 2) + ' vs Org: $' + fmt(orgNutrient, 2) + ' per nutrition point';",
+    "faq": [
+      {"question": "Is organic food actually healthier?", "answer": "Research is mixed. Organic produce has 20-30% more antioxidants and significantly lower pesticide residues. However, nutritional differences in macronutrients (protein, fiber, vitamins) are minimal. The biggest benefit may be reduced pesticide exposure, especially important for children and pregnant women."},
+      {"question": "Which foods are most worth buying organic?", "answer": "Focus on the 'Dirty Dozen' — strawberries, spinach, kale, nectarines, apples, grapes, bell peppers, cherries, peaches, pears, celery, and tomatoes. These have the highest pesticide residues when conventional. The 'Clean Fifteen' (avocados, corn, pineapple, etc.) are fine conventional."},
+      {"question": "Why is organic food so expensive?", "answer": "Organic farming has higher labor costs, lower yields (typically 20-25% less), more expensive pest management, costly USDA certification, and smaller economies of scale. As demand grows, premiums are gradually declining."},
+      {"question": "Is organic meat worth the premium?", "answer": "Organic meat means no antibiotics, no growth hormones, and organic feed. The antibiotic-free aspect may matter most due to antibiotic resistance concerns. Pasture-raised (not just organic) tends to have better omega-3 ratios."}
+    ],
+    "formulas": [
+      "Current Cost = Conventional Portion + (Organic Portion x (1 + Premium %))",
+      "Organic premiums: Produce 47%, Dairy 35%, Meat 65%, Grains 30%",
+      "Pesticide reduction based on USDA Pesticide Data Program studies",
+      "Nutrition bonus: Organic produce averages ~12% more antioxidants"
+    ],
+    "relatedTools": ["inflation-grocery-impact-calculator"],
+    "subcategory": "food-cost"
+  },
+  {
+    "slug": "overtime-worth-calculator",
+    "toolName": "Overtime Worth Calculator",
+    "category": "finance",
+    "tagline": "Calculate your real after-tax overtime earnings and whether the extra hours are worth it",
+    "keywords": "overtime calculator, overtime after tax, is overtime worth it, overtime tax rate, overtime take home pay",
+    "inputs": [
+      {"id": "hourlyRate", "label": "Regular Hourly Rate ($)", "default": 30, "min": 7.25, "max": 200, "step": 0.50},
+      {"id": "regularHours", "label": "Regular Hours/Week", "default": 40, "min": 20, "max": 40},
+      {"id": "overtimeHours", "label": "Overtime Hours/Week", "default": 10, "min": 0, "max": 40, "step": 1},
+      {"id": "overtimeRate", "label": "OT Multiplier", "type": "select", "default": "1.5", "options": [{"value": "1.5", "label": "Time and a Half (1.5x)"}, {"value": "2.0", "label": "Double Time (2.0x)"}]},
+      {"id": "taxBracket", "label": "Marginal Tax Bracket (%)", "default": 22, "min": 10, "max": 37, "step": 2},
+      {"id": "weeksPerYear", "label": "OT Weeks per Year", "default": 48, "min": 1, "max": 52}
+    ],
+    "results": [
+      {"id": "grossOT", "label": "Gross OT per Week"},
+      {"id": "netOT", "label": "After-Tax OT per Week"},
+      {"id": "effectiveOTRate", "label": "Effective OT Hourly Rate"},
+      {"id": "annualOTGross", "label": "Annual OT Gross"},
+      {"id": "annualOTNet", "label": "Annual OT Take-Home"},
+      {"id": "hourlyAfterTax", "label": "Real After-Tax $/Hour"}
+    ],
+    "calcFn": "var otMult = parseFloat(overtimeRate); var grossOTHourly = hourlyRate * otMult; var grossOTWeek = grossOTHourly * overtimeHours; var totalTaxRate = (taxBracket + 7.65) / 100; var netOTWeek = grossOTWeek * (1 - totalTaxRate); var effectiveRate = overtimeHours > 0 ? netOTWeek / overtimeHours : 0; var annualGross = grossOTWeek * weeksPerYear; var annualNet = netOTWeek * weeksPerYear; var realHourly = effectiveRate; document.getElementById('grossOT').textContent = dollar(grossOTWeek); document.getElementById('netOT').textContent = dollar(netOTWeek); document.getElementById('effectiveOTRate').textContent = dollar(effectiveRate) + '/hour after tax'; document.getElementById('annualOTGross').textContent = dollar(annualGross); document.getElementById('annualOTNet').textContent = dollar(annualNet); document.getElementById('hourlyAfterTax').textContent = dollar(realHourly) + '/hr (vs ' + dollar(hourlyRate * (1 - totalTaxRate)) + ' regular)';",
+    "faq": [
+      {"question": "Is overtime taxed at a higher rate?", "answer": "Overtime is not taxed at a special rate, but it IS taxed at your marginal rate. Since OT pushes your income higher, it is often taxed at a higher bracket than your base pay. For someone in the 22% bracket, OT take-home is about 70% of gross after federal, state, and FICA taxes."},
+      {"question": "Is working overtime worth it financially?", "answer": "Even after higher marginal taxes, overtime at 1.5x still pays significantly more per hour than regular time. A $30/hour worker gets $45/hour gross OT, which is about $31.50/hour after taxes in the 22% bracket — still more than their regular after-tax rate."},
+      {"question": "When does overtime stop being worth it?", "answer": "Diminishing returns kick in when: OT pushes you into a much higher tax bracket, the time cost hurts relationships or health, or you could earn more per hour through a side business. Also consider that burnout reduces productivity at your regular job."},
+      {"question": "Can I avoid taxes on overtime?", "answer": "You cannot avoid income taxes on overtime, but you can reduce the impact by maximizing 401(k) contributions (which reduce taxable income) or using HSA contributions. Some states periodically propose overtime tax exemptions, but none have passed permanently."}
+    ],
+    "formulas": [
+      "Gross OT = Hourly Rate x OT Multiplier x OT Hours",
+      "Total Tax Rate = Marginal Federal Rate + 7.65% FICA",
+      "Net OT = Gross OT x (1 - Total Tax Rate)",
+      "Effective OT Rate = Net OT per Week / OT Hours"
+    ],
+    "relatedTools": ["effective-tax-rate-by-income-calculator", "tax-refund-estimator", "minimum-wage-impact-calculator"],
+    "subcategory": "income"
+  },
+  {
+    "slug": "gym-membership-value-calculator",
+    "toolName": "Gym Membership Value Calculator",
+    "category": "fitness",
+    "tagline": "Calculate your real cost per workout based on how often you actually go",
+    "keywords": "gym membership value, cost per workout, gym worth it calculator, gym membership cost, gym value calculator",
+    "inputs": [
+      {"id": "monthlyFee", "label": "Monthly Membership ($)", "default": 50, "min": 0, "max": 300, "step": 5},
+      {"id": "annualFee", "label": "Annual/Initiation Fee ($)", "default": 100, "min": 0, "step": 25},
+      {"id": "plannedVisits", "label": "Planned Visits/Week", "default": 4, "min": 1, "max": 7},
+      {"id": "actualVisits", "label": "Actual Visits/Week", "default": 2, "min": 0, "max": 7, "step": 0.5},
+      {"id": "driveTime", "label": "Round Trip Drive (minutes)", "default": 20, "min": 0, "max": 90, "step": 5},
+      {"id": "hourlyWage", "label": "Your Hourly Wage ($)", "default": 30, "min": 0, "step": 5}
+    ],
+    "results": [
+      {"id": "costPerVisit", "label": "Actual Cost per Visit"},
+      {"id": "plannedCostPerVisit", "label": "Planned Cost per Visit"},
+      {"id": "annualCost", "label": "True Annual Cost"},
+      {"id": "timeCost", "label": "Annual Time Investment"},
+      {"id": "totalCostIncTime", "label": "Total Cost (incl. time)"},
+      {"id": "alternative", "label": "Alternative Value"}
+    ],
+    "calcFn": "var annualMembership = monthlyFee * 12 + annualFee; var actualVisitsYear = actualVisits * 52; var plannedVisitsYear = plannedVisits * 52; var costPerActual = actualVisitsYear > 0 ? annualMembership / actualVisitsYear : annualMembership; var costPerPlanned = plannedVisitsYear > 0 ? annualMembership / plannedVisitsYear : annualMembership; var driveHoursYear = (driveTime / 60) * actualVisitsYear; var timeCostYear = driveHoursYear * hourlyWage; var totalWithTime = annualMembership + timeCostYear; var homeGymValue = annualMembership * 3; document.getElementById('costPerVisit').textContent = dollar(costPerActual) + '/visit'; document.getElementById('plannedCostPerVisit').textContent = dollar(costPerPlanned) + '/visit (if you went ' + plannedVisits + 'x/week)'; document.getElementById('annualCost').textContent = dollar(annualMembership) + '/year'; document.getElementById('timeCost').textContent = fmt(driveHoursYear, 0) + ' hours driving (' + dollar(timeCostYear) + ' value)'; document.getElementById('totalCostIncTime').textContent = dollar(totalWithTime) + '/year (membership + time)'; document.getElementById('alternative').textContent = dollar(homeGymValue) + ' would buy a solid home gym (3-year payback)';",
+    "faq": [
+      {"question": "What is the average cost per gym visit?", "answer": "The average gym member goes 1.5-2 times per week despite planning for 4. At a $50/month membership, that is $6-8 per visit. If you go 4x/week as planned, it drops to about $3 per visit. Many people would be better off with pay-per-visit or class packs."},
+      {"question": "How many people actually use their gym membership?", "answer": "About 67% of gym memberships go completely unused. The average member visits 4-5 times per month (about once per week). Gyms rely on this over-subscription — if all members showed up, most gyms would be over capacity by 3-5x."},
+      {"question": "When is a home gym more cost-effective?", "answer": "A basic home gym ($1,000-2,000) pays for itself in 2-3 years vs a gym membership. It also eliminates drive time. However, gyms offer social motivation, variety of equipment, and classes that home gyms cannot match."},
+      {"question": "What is the best value gym membership?", "answer": "Budget chains ($10-25/month) offer the best value if you only need basic equipment. Mid-range gyms ($30-60) add classes and amenities. Premium gyms ($80-200+) are only worth it if you heavily use pools, saunas, classes, or childcare."}
+    ],
+    "formulas": [
+      "Cost per Visit = Annual Membership Cost / Actual Yearly Visits",
+      "Annual Cost = Monthly Fee x 12 + Annual Fees",
+      "Time Cost = (Drive Time / 60) x Annual Visits x Hourly Wage",
+      "Home Gym Break-Even = Equipment Cost / Annual Membership"
+    ],
+    "relatedTools": ["black-friday-savings-calculator"],
+    "subcategory": "value"
+  }
+]

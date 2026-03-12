@@ -19,16 +19,76 @@
     });
   }
 
-  function calculate() {
-    var sal=f('salary');var pct_c=f('contrib')/100;var pct_m=f('match')/100;var bal=f('balance');var r=f('returnRate')/100/12;var y=f('years');var monthly=(sal*pct_c+sal*pct_m)/12;var fv=bal*Math.pow(1+r,y*12)+monthly*((Math.pow(1+r,y*12)-1)/r);var yourTotal=sal*pct_c*y;var empTotal=sal*pct_m*y;var _r = {finalBal:$(fv),yourContrib:$(yourTotal),employerContrib:$(empTotal),growth:$(fv-bal-yourTotal-empTotal)};
+  var lastCalc = null;
 
-    document.getElementById('finalBal').textContent = _r.finalBal;
-    document.getElementById('yourContrib').textContent = _r.yourContrib;
-    document.getElementById('employerContrib').textContent = _r.employerContrib;
-    document.getElementById('growth').textContent = _r.growth;
+  function calc401k(salary, contribPct, matchPct, balance, returnRate, years) {
+    var r = returnRate / 100 / 12;
+    var monthly = (salary * contribPct / 100 + salary * matchPct / 100) / 12;
+    var fv = balance * Math.pow(1 + r, years * 12) + monthly * ((Math.pow(1 + r, years * 12) - 1) / r);
+    return fv;
+  }
+
+  function calculate() {
+    var sal = f('salary'); var pct_c = f('contrib'); var pct_m = f('match');
+    var bal = f('balance'); var retRate = f('returnRate'); var y = f('years');
+    var monthly = (sal * pct_c / 100 + sal * pct_m / 100) / 12;
+    var r = retRate / 100 / 12;
+    var fv = bal * Math.pow(1 + r, y * 12) + monthly * ((Math.pow(1 + r, y * 12) - 1) / r);
+    var yourTotal = sal * pct_c / 100 * y;
+    var empTotal = sal * pct_m / 100 * y;
+
+    document.getElementById('finalBal').textContent = $(fv);
+    document.getElementById('yourContrib').textContent = $(yourTotal);
+    document.getElementById('employerContrib').textContent = $(empTotal);
+    document.getElementById('growth').textContent = $(fv - bal - yourTotal - empTotal);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';
+
+    lastCalc = { salary: sal, contrib: pct_c, match: pct_m, balance: bal, returnRate: retRate, years: y, finalBal: fv };
+
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var extraContrib = parseFloat(document.getElementById('wiContrib').value) || 0;
+    var extraYears = parseFloat(document.getElementById('wiYears').value) || 0;
+
+    var newFv = calc401k(lastCalc.salary, lastCalc.contrib + extraContrib, lastCalc.match, lastCalc.balance, lastCalc.returnRate, lastCalc.years + extraYears);
+    var diff = newFv - lastCalc.finalBal;
+
+    document.getElementById('wiOriginal').textContent = $(lastCalc.finalBal);
+    document.getElementById('wiNew').textContent = $(newFv);
+    document.getElementById('wiDelta').textContent = (diff >= 0 ? '+' : '-') + $(Math.abs(diff));
+    document.getElementById('wiDelta').style.color = diff >= 0 ? '#059669' : '#dc2626';
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+
+  var wiContrib = document.getElementById('wiContrib');
+  var wiYears = document.getElementById('wiYears');
+  if (wiContrib) {
+    wiContrib.addEventListener('input', function() {
+      document.getElementById('wiContribVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+  if (wiYears) {
+    wiYears.addEventListener('input', function() {
+      document.getElementById('wiYearsVal').textContent = this.value;
+      updateWhatIf();
+    });
   }
 
   calcBtn.addEventListener('click', function() {

@@ -1,0 +1,365 @@
+[
+  {
+    "slug": "canada-gst-hst-calculator",
+    "toolName": "Canada GST/HST Calculator",
+    "category": "finance",
+    "subcategory": "canada-tax",
+    "tagline": "Calculate GST, HST, or PST by province — add or remove sales tax from any amount",
+    "keywords": "GST calculator, HST calculator, PST, Canada sales tax, provincial tax, GST HST by province",
+    "inputs": [
+      {"id": "amount", "label": "Amount ($)", "default": 1000, "min": 0, "step": 0.01},
+      {"id": "province", "label": "Province/Territory", "type": "select", "default": "ON", "options": [{"value": "AB", "label": "Alberta (5% GST)"}, {"value": "BC", "label": "British Columbia (5% GST + 7% PST)"}, {"value": "MB", "label": "Manitoba (5% GST + 7% RST)"}, {"value": "NB", "label": "New Brunswick (15% HST)"}, {"value": "NL", "label": "Newfoundland & Labrador (15% HST)"}, {"value": "NS", "label": "Nova Scotia (15% HST)"}, {"value": "NT", "label": "Northwest Territories (5% GST)"}, {"value": "NU", "label": "Nunavut (5% GST)"}, {"value": "ON", "label": "Ontario (13% HST)"}, {"value": "PE", "label": "Prince Edward Island (15% HST)"}, {"value": "QC", "label": "Quebec (5% GST + 9.975% QST)"}, {"value": "SK", "label": "Saskatchewan (5% GST + 6% PST)"}, {"value": "YT", "label": "Yukon (5% GST)"}]},
+      {"id": "direction", "label": "Calculation", "type": "select", "default": "add", "options": [{"value": "add", "label": "Add tax to amount"}, {"value": "remove", "label": "Remove tax from amount"}]},
+      {"id": "quantity", "label": "Quantity", "default": 1, "min": 1, "step": 1}
+    ],
+    "results": [
+      {"id": "subtotal", "label": "Subtotal (before tax)"},
+      {"id": "gstAmount", "label": "GST/HST Amount"},
+      {"id": "pstAmount", "label": "PST/QST Amount"},
+      {"id": "totalTax", "label": "Total Tax"},
+      {"id": "grandTotal", "label": "Grand Total"}
+    ],
+    "calcFn": "var rates = {AB: {gst: 5, pst: 0, label: 'GST'}, BC: {gst: 5, pst: 7, label: 'GST+PST'}, MB: {gst: 5, pst: 7, label: 'GST+RST'}, NB: {gst: 15, pst: 0, label: 'HST'}, NL: {gst: 15, pst: 0, label: 'HST'}, NS: {gst: 15, pst: 0, label: 'HST'}, NT: {gst: 5, pst: 0, label: 'GST'}, NU: {gst: 5, pst: 0, label: 'GST'}, ON: {gst: 13, pst: 0, label: 'HST'}, PE: {gst: 15, pst: 0, label: 'HST'}, QC: {gst: 5, pst: 9.975, label: 'GST+QST'}, SK: {gst: 5, pst: 6, label: 'GST+PST'}, YT: {gst: 5, pst: 0, label: 'GST'}};\n    var r = rates[province];\n    var totalRate = (r.gst + r.pst) / 100;\n    var sub, gst, pst, total;\n    if (direction === 'add') {\n      sub = amount;\n      gst = amount * r.gst / 100;\n      pst = amount * r.pst / 100;\n      total = amount * (1 + totalRate);\n    } else {\n      total = amount;\n      sub = amount / (1 + totalRate);\n      gst = sub * r.gst / 100;\n      pst = sub * r.pst / 100;\n    }\n    var allTax = gst + pst;\n    sub *= quantity; gst *= quantity; pst *= quantity; allTax *= quantity; total *= quantity;\n    document.getElementById('subtotal').textContent = '$' + sub.toFixed(2);\n    document.getElementById('gstAmount').textContent = '$' + gst.toFixed(2) + ' (' + r.label + ')';\n    document.getElementById('pstAmount').textContent = r.pst > 0 ? '$' + pst.toFixed(2) : 'N/A';\n    document.getElementById('totalTax').textContent = '$' + allTax.toFixed(2) + ' (' + (r.gst + r.pst).toFixed(2) + '%)';\n    document.getElementById('grandTotal').textContent = '$' + total.toFixed(2);",
+    "faq": [
+      {"question": "What is the difference between GST and HST?", "answer": "GST (Goods and Services Tax) is a 5% federal tax. HST (Harmonized Sales Tax) combines GST with provincial sales tax into a single rate. Ontario charges 13% HST, while Atlantic provinces charge 15% HST."},
+      {"question": "Which provinces charge PST separately?", "answer": "British Columbia (7% PST), Saskatchewan (6% PST), Manitoba (7% RST), and Quebec (9.975% QST) charge provincial tax separately from the 5% federal GST."},
+      {"question": "Which provinces have no provincial sales tax?", "answer": "Alberta, Northwest Territories, Nunavut, and Yukon only charge the 5% federal GST with no provincial sales tax."},
+      {"question": "Can I claim GST/HST back?", "answer": "Businesses registered for GST/HST can claim Input Tax Credits (ITCs) to recover GST/HST paid on business expenses. Low-income individuals may qualify for the GST/HST credit, paid quarterly."}
+    ],
+    "formulas": [
+      "GST = Amount x GST rate (5% federal, or combined HST rate)",
+      "PST/QST = Amount x Provincial rate (varies by province)",
+      "Total with tax = Amount x (1 + combined rate)",
+      "Remove tax: Subtotal = Total / (1 + combined rate)"
+    ],
+    "relatedTools": ["canada-provincial-tax-calculator", "canada-rrsp-calculator", "uk-vat-calculator", "australia-gst-calculator"]
+  },
+  {
+    "slug": "canada-rrsp-calculator",
+    "toolName": "Canada RRSP Calculator",
+    "category": "finance",
+    "subcategory": "canada-retirement",
+    "tagline": "Calculate your RRSP contribution room, tax savings, and projected retirement savings",
+    "keywords": "RRSP calculator, RRSP contribution room, RRSP tax savings, registered retirement savings plan, RRSP deduction",
+    "inputs": [
+      {"id": "earnedIncome", "label": "Earned Income ($)", "default": 75000, "min": 0, "step": 1000},
+      {"id": "contribution", "label": "RRSP Contribution ($)", "default": 10000, "min": 0, "step": 500},
+      {"id": "marginalRate", "label": "Marginal Tax Rate (%)", "default": 30, "min": 15, "max": 54, "step": 0.5},
+      {"id": "currentRRSP", "label": "Current RRSP Balance ($)", "default": 50000, "min": 0, "step": 5000},
+      {"id": "yearsToRetirement", "label": "Years to Retirement", "default": 25, "min": 1, "max": 45, "step": 1},
+      {"id": "returnRate", "label": "Expected Annual Return (%)", "default": 6, "min": 0, "max": 15, "step": 0.5}
+    ],
+    "results": [
+      {"id": "contribRoom", "label": "Max Contribution Room (this year)"},
+      {"id": "taxSavings", "label": "Tax Savings from Contribution"},
+      {"id": "effectiveCost", "label": "After-Tax Cost of Contribution"},
+      {"id": "projectedBalance", "label": "Projected RRSP at Retirement"},
+      {"id": "monthlyRetirement", "label": "Est. Monthly Retirement Income"}
+    ],
+    "calcFn": "var maxRoom = Math.min(earnedIncome * 0.18, 31560);\n    var actualContrib = Math.min(contribution, maxRoom);\n    var taxSaved = actualContrib * (marginalRate / 100);\n    var effectCost = actualContrib - taxSaved;\n    var monthlyReturn = returnRate / 100 / 12;\n    var months = yearsToRetirement * 12;\n    var futureVal = currentRRSP * Math.pow(1 + monthlyReturn, months);\n    var monthlyContrib = actualContrib / 12;\n    for (var i = 0; i < months; i++) {\n      futureVal += monthlyContrib * Math.pow(1 + monthlyReturn, months - i - 1);\n    }\n    var monthlyIncome = futureVal * 0.04 / 12;\n    document.getElementById('contribRoom').textContent = '$' + maxRoom.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxSavings').textContent = '$' + taxSaved.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('effectiveCost').textContent = '$' + effectCost.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('projectedBalance').textContent = '$' + futureVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyRetirement').textContent = '$' + monthlyIncome.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo';",
+    "faq": [
+      {"question": "What is the RRSP contribution limit for 2024?", "answer": "The 2024 RRSP contribution limit is 18% of your previous year's earned income, up to a maximum of $31,560. Unused contribution room carries forward from previous years."},
+      {"question": "How does an RRSP reduce my taxes?", "answer": "RRSP contributions are tax-deductible. If you contribute $10,000 and your marginal tax rate is 30%, you save $3,000 in taxes. You pay tax later when you withdraw in retirement, ideally at a lower rate."},
+      {"question": "When is the RRSP contribution deadline?", "answer": "You have until 60 days after December 31 (typically March 1) to make contributions that count for the previous tax year. For the 2024 tax year, the deadline is March 3, 2025."},
+      {"question": "RRSP vs TFSA — which should I prioritize?", "answer": "If your current marginal tax rate is higher than your expected rate in retirement, the RRSP typically provides more benefit. If your rate will be similar or higher in retirement, the TFSA may be better since withdrawals are tax-free."}
+    ],
+    "formulas": [
+      "Contribution room = 18% of earned income, max $31,560 (2024)",
+      "Tax savings = Contribution x Marginal tax rate",
+      "After-tax cost = Contribution - Tax savings",
+      "Projected balance = Current balance compounded + annual contributions compounded"
+    ],
+    "relatedTools": ["canada-tfsa-calculator", "canada-provincial-tax-calculator", "canada-cpp-calculator"]
+  },
+  {
+    "slug": "canada-provincial-tax-calculator",
+    "toolName": "Canada Provincial Income Tax Calculator",
+    "category": "finance",
+    "subcategory": "canada-tax",
+    "tagline": "Calculate your combined federal and provincial income tax for any Canadian province using 2024 brackets",
+    "keywords": "Canada income tax, provincial tax calculator, federal tax brackets, Ontario tax, BC tax, Alberta tax, Quebec tax",
+    "inputs": [
+      {"id": "taxableIncome", "label": "Taxable Income ($)", "default": 65000, "min": 0, "step": 1000},
+      {"id": "province", "label": "Province/Territory", "type": "select", "default": "ON", "options": [{"value": "AB", "label": "Alberta"}, {"value": "BC", "label": "British Columbia"}, {"value": "MB", "label": "Manitoba"}, {"value": "NB", "label": "New Brunswick"}, {"value": "NL", "label": "Newfoundland & Labrador"}, {"value": "NS", "label": "Nova Scotia"}, {"value": "ON", "label": "Ontario"}, {"value": "PE", "label": "Prince Edward Island"}, {"value": "QC", "label": "Quebec"}, {"value": "SK", "label": "Saskatchewan"}]},
+      {"id": "rrspDeduction", "label": "RRSP Deduction ($)", "default": 0, "min": 0, "step": 500},
+      {"id": "eligibleDividends", "label": "Eligible Dividend Income ($)", "default": 0, "min": 0, "step": 100}
+    ],
+    "results": [
+      {"id": "federalTax", "label": "Federal Income Tax"},
+      {"id": "provincialTax", "label": "Provincial Income Tax"},
+      {"id": "totalTax", "label": "Total Income Tax"},
+      {"id": "marginalRate", "label": "Combined Marginal Rate"},
+      {"id": "effectiveRate", "label": "Effective Tax Rate"},
+      {"id": "afterTaxIncome", "label": "After-Tax Income"}
+    ],
+    "calcFn": "var income = taxableIncome - rrspDeduction;\n    var fedBrackets = [{limit: 55867, rate: 0.15}, {limit: 111733 - 55867, rate: 0.205}, {limit: 154906 - 111733, rate: 0.26}, {limit: 220000 - 154906, rate: 0.29}, {limit: Infinity, rate: 0.33}];\n    var provBrackets = {\n      AB: [{limit: 142292, rate: 0.10}, {limit: 170751 - 142292, rate: 0.12}, {limit: 227668 - 170751, rate: 0.13}, {limit: 341502 - 227668, rate: 0.14}, {limit: Infinity, rate: 0.15}],\n      BC: [{limit: 45654, rate: 0.0506}, {limit: 91310 - 45654, rate: 0.077}, {limit: 104835 - 91310, rate: 0.105}, {limit: 127299 - 104835, rate: 0.1229}, {limit: 172602 - 127299, rate: 0.147}, {limit: 240716 - 172602, rate: 0.168}, {limit: Infinity, rate: 0.205}],\n      MB: [{limit: 36842, rate: 0.108}, {limit: 79625 - 36842, rate: 0.1275}, {limit: Infinity, rate: 0.174}],\n      NB: [{limit: 47715, rate: 0.094}, {limit: 95431 - 47715, rate: 0.14}, {limit: 176756 - 95431, rate: 0.16}, {limit: Infinity, rate: 0.195}],\n      NL: [{limit: 41457, rate: 0.087}, {limit: 82913 - 41457, rate: 0.145}, {limit: 148027 - 82913, rate: 0.158}, {limit: 207239 - 148027, rate: 0.178}, {limit: 264750 - 207239, rate: 0.198}, {limit: 529500 - 264750, rate: 0.208}, {limit: 1059000 - 529500, rate: 0.213}, {limit: Infinity, rate: 0.218}],\n      NS: [{limit: 29590, rate: 0.0879}, {limit: 59180 - 29590, rate: 0.1495}, {limit: 93000 - 59180, rate: 0.1667}, {limit: 150000 - 93000, rate: 0.175}, {limit: Infinity, rate: 0.21}],\n      ON: [{limit: 51446, rate: 0.0505}, {limit: 102894 - 51446, rate: 0.0915}, {limit: 150000 - 102894, rate: 0.1116}, {limit: 220000 - 150000, rate: 0.1216}, {limit: Infinity, rate: 0.1316}],\n      PE: [{limit: 31984, rate: 0.098}, {limit: 63969 - 31984, rate: 0.138}, {limit: Infinity, rate: 0.167}],\n      QC: [{limit: 51780, rate: 0.14}, {limit: 103545 - 51780, rate: 0.19}, {limit: 126000 - 103545, rate: 0.24}, {limit: Infinity, rate: 0.2575}],\n      SK: [{limit: 49720, rate: 0.105}, {limit: 142058 - 49720, rate: 0.125}, {limit: Infinity, rate: 0.145}]\n    };\n    function calcBrackets(inc, brackets) {\n      var tax = 0; var rem = inc;\n      for (var i = 0; i < brackets.length && rem > 0; i++) {\n        var chunk = Math.min(rem, brackets[i].limit);\n        tax += chunk * brackets[i].rate;\n        rem -= chunk;\n      }\n      return tax;\n    }\n    var fedBPA = 15705;\n    var fedTaxable = Math.max(0, income - fedBPA);\n    var fedTax = calcBrackets(income, fedBrackets);\n    var fedCredit = Math.min(income, fedBPA) * 0.15;\n    fedTax = Math.max(0, fedTax - fedCredit);\n    var provTax = calcBrackets(income, provBrackets[province] || provBrackets['ON']);\n    var provBPA = {AB: 21003, BC: 11981, MB: 15000, NB: 12458, NL: 10382, NS: 8481, ON: 11865, PE: 12000, QC: 17183, SK: 17661};\n    var pBPA = provBPA[province] || 11000;\n    var pCreditRate = (provBrackets[province] || provBrackets['ON'])[0].rate;\n    provTax = Math.max(0, provTax - pBPA * pCreditRate);\n    var totalTaxVal = fedTax + provTax;\n    var margRate = 0;\n    var rem2 = income;\n    for (var j = 0; j < fedBrackets.length; j++) { if (rem2 <= fedBrackets[j].limit) { margRate = fedBrackets[j].rate; break; } rem2 -= fedBrackets[j].limit; }\n    var rem3 = income; var pBracks = provBrackets[province] || provBrackets['ON'];\n    for (var k = 0; k < pBracks.length; k++) { if (rem3 <= pBracks[k].limit) { margRate += pBracks[k].rate; break; } rem3 -= pBracks[k].limit; }\n    var effRate = taxableIncome > 0 ? (totalTaxVal / taxableIncome * 100) : 0;\n    var afterTax = taxableIncome - totalTaxVal;\n    document.getElementById('federalTax').textContent = '$' + fedTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('provincialTax').textContent = '$' + provTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalTax').textContent = '$' + totalTaxVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('marginalRate').textContent = (margRate * 100).toFixed(2) + '%';\n    document.getElementById('effectiveRate').textContent = effRate.toFixed(2) + '%';\n    document.getElementById('afterTaxIncome').textContent = '$' + afterTax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What are the 2024 federal income tax brackets?", "answer": "The 2024 federal brackets are: 15% on the first $55,867, 20.5% on $55,867-$111,733, 26% on $111,733-$154,906, 29% on $154,906-$220,000, and 33% on income above $220,000."},
+      {"question": "Which province has the lowest income tax?", "answer": "Alberta has the lowest provincial rates with a flat 10% on the first $142,292. Provinces like Quebec and Nova Scotia have the highest combined rates, with Quebec's top rate at 25.75%."},
+      {"question": "What is the basic personal amount?", "answer": "The 2024 federal basic personal amount is $15,705, meaning the first $15,705 of income is effectively tax-free at the federal level. Each province has its own basic personal amount."},
+      {"question": "How does the Quebec tax system differ?", "answer": "Quebec collects its own income tax separately (not through the CRA) and has its own brackets. Quebec residents receive a federal tax abatement of 16.5% and do not pay the federal portion on some credits."}
+    ],
+    "formulas": [
+      "Federal tax: 15% to $55,867, 20.5% to $111,733, 26% to $154,906, 29% to $220,000, 33% above",
+      "Basic personal amount: federal $15,705 (2024)",
+      "Combined marginal rate = Federal marginal rate + Provincial marginal rate",
+      "Effective rate = Total tax / Taxable income x 100"
+    ],
+    "relatedTools": ["canada-rrsp-calculator", "canada-cpp-calculator", "canada-gst-hst-calculator", "canada-capital-gains-calculator"]
+  },
+  {
+    "slug": "canada-tfsa-calculator",
+    "toolName": "Canada TFSA Calculator",
+    "category": "finance",
+    "subcategory": "canada-retirement",
+    "tagline": "Project your Tax-Free Savings Account growth and see the tax-free advantage over a regular account",
+    "keywords": "TFSA calculator, tax-free savings account, TFSA contribution room, TFSA growth, TFSA vs RRSP, TFSA limit",
+    "inputs": [
+      {"id": "annualContrib", "label": "Annual Contribution ($)", "default": 7000, "min": 0, "step": 500},
+      {"id": "currentBalance", "label": "Current TFSA Balance ($)", "default": 20000, "min": 0, "step": 1000},
+      {"id": "returnRate", "label": "Expected Return (%)", "default": 6, "min": 0, "max": 15, "step": 0.5},
+      {"id": "years", "label": "Investment Period (years)", "default": 20, "min": 1, "max": 45, "step": 1},
+      {"id": "marginalRate", "label": "Marginal Tax Rate (%)", "default": 30, "min": 15, "max": 54, "step": 0.5}
+    ],
+    "results": [
+      {"id": "totalContributions", "label": "Total Contributions"},
+      {"id": "investmentGrowth", "label": "Investment Growth"},
+      {"id": "tfsaBalance", "label": "Projected TFSA Balance"},
+      {"id": "taxSaved", "label": "Tax Saved vs Taxable Account"},
+      {"id": "monthlyIncome", "label": "Tax-Free Monthly Income (4% rule)"}
+    ],
+    "calcFn": "var monthlyRate = returnRate / 100 / 12;\n    var months = years * 12;\n    var monthlyContrib = annualContrib / 12;\n    var balance = currentBalance;\n    for (var i = 0; i < months; i++) {\n      balance = balance * (1 + monthlyRate) + monthlyContrib;\n    }\n    var totalContrib = currentBalance + annualContrib * years;\n    var growth = balance - totalContrib;\n    var taxSavedVal = growth * (marginalRate / 100);\n    var monthlyInc = balance * 0.04 / 12;\n    document.getElementById('totalContributions').textContent = '$' + totalContrib.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('investmentGrowth').textContent = '$' + growth.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('tfsaBalance').textContent = '$' + balance.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxSaved').textContent = '$' + taxSavedVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyIncome').textContent = '$' + monthlyInc.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/mo';",
+    "faq": [
+      {"question": "What is the 2024 TFSA contribution limit?", "answer": "The 2024 annual TFSA contribution limit is $7,000. If you have been eligible since the TFSA was introduced in 2009, your cumulative room is $95,000. Unused room carries forward indefinitely."},
+      {"question": "Are TFSA withdrawals tax-free?", "answer": "Yes. All withdrawals from a TFSA, including investment gains, are completely tax-free. Withdrawals also do not affect government benefits like OAS or GIS."},
+      {"question": "Can I hold stocks and ETFs in my TFSA?", "answer": "Yes. A TFSA can hold cash, GICs, bonds, mutual funds, ETFs, stocks, and other qualified investments. Using growth investments in a TFSA maximizes the tax-free benefit."},
+      {"question": "What happens if I over-contribute to my TFSA?", "answer": "Over-contributions are subject to a 1% per month penalty tax on the excess amount. Track your available room carefully through your CRA My Account."}
+    ],
+    "formulas": [
+      "TFSA contribution limit: $7,000/year (2024), cumulative $95,000 since 2009",
+      "Projected balance = current balance compounded + monthly contributions compounded",
+      "Tax saved = Investment growth x Marginal tax rate",
+      "Monthly income estimate = Balance x 4% / 12"
+    ],
+    "relatedTools": ["canada-rrsp-calculator", "canada-capital-gains-calculator", "canada-provincial-tax-calculator"]
+  },
+  {
+    "slug": "canada-cpp-calculator",
+    "toolName": "Canada Pension Plan Calculator",
+    "category": "finance",
+    "subcategory": "canada-retirement",
+    "tagline": "Calculate your CPP contributions and estimate your monthly retirement pension benefit",
+    "keywords": "CPP calculator, Canada Pension Plan, CPP contributions, CPP retirement benefit, CPP2, CPP estimate",
+    "inputs": [
+      {"id": "annualEarnings", "label": "Annual Employment Earnings ($)", "default": 65000, "min": 0, "step": 1000},
+      {"id": "employmentType", "label": "Employment Type", "type": "select", "default": "employed", "options": [{"value": "employed", "label": "Employed"}, {"value": "selfEmployed", "label": "Self-Employed"}]},
+      {"id": "startAge", "label": "Planned CPP Start Age", "type": "select", "default": "65", "options": [{"value": "60", "label": "Age 60 (36% reduction)"}, {"value": "65", "label": "Age 65 (standard)"}, {"value": "70", "label": "Age 70 (42% increase)"}]},
+      {"id": "yearsContributing", "label": "Years Contributing to CPP", "default": 30, "min": 1, "max": 47, "step": 1},
+      {"id": "currentAge", "label": "Current Age", "default": 40, "min": 18, "max": 70, "step": 1}
+    ],
+    "results": [
+      {"id": "annualContrib", "label": "Your Annual CPP Contribution"},
+      {"id": "employerContrib", "label": "Employer Contribution"},
+      {"id": "cpp2Contrib", "label": "CPP2 Additional Contribution"},
+      {"id": "estMonthlyBenefit", "label": "Estimated Monthly Benefit (at chosen age)"},
+      {"id": "estAnnualBenefit", "label": "Estimated Annual Benefit"}
+    ],
+    "calcFn": "var ympe = 68500;\n    var ympe2 = 73200;\n    var basicExemption = 3500;\n    var pensionableEarnings = Math.min(annualEarnings, ympe) - basicExemption;\n    pensionableEarnings = Math.max(0, pensionableEarnings);\n    var cpp1Rate = 0.0595;\n    var empContrib = pensionableEarnings * cpp1Rate;\n    var erContrib = empContrib;\n    if (employmentType === 'selfEmployed') {\n      empContrib = pensionableEarnings * cpp1Rate * 2;\n      erContrib = 0;\n    }\n    var cpp2 = 0;\n    if (annualEarnings > ympe) {\n      var cpp2Earnings = Math.min(annualEarnings, ympe2) - ympe;\n      cpp2 = cpp2Earnings * 0.04;\n      if (employmentType === 'selfEmployed') cpp2 *= 2;\n    }\n    var maxMonthly2024 = 1364.60;\n    var contributionFraction = Math.min(1, yearsContributing / 39);\n    var baseMonthly = maxMonthly2024 * contributionFraction * Math.min(1, pensionableEarnings / (ympe - basicExemption));\n    var ageAdj = 1;\n    if (startAge === '60') ageAdj = 0.64;\n    if (startAge === '70') ageAdj = 1.42;\n    var monthlyBenefit = baseMonthly * ageAdj;\n    var annualBenefit = monthlyBenefit * 12;\n    document.getElementById('annualContrib').textContent = '$' + empContrib.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('employerContrib').textContent = employmentType === 'selfEmployed' ? 'Included above (self-employed)' : '$' + erContrib.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('cpp2Contrib').textContent = cpp2 > 0 ? '$' + cpp2.toFixed(2) : 'N/A (earnings under YMPE)';\n    document.getElementById('estMonthlyBenefit').textContent = '$' + monthlyBenefit.toFixed(2) + '/mo';\n    document.getElementById('estAnnualBenefit').textContent = '$' + annualBenefit.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') + '/yr';",
+    "faq": [
+      {"question": "How much is the maximum CPP benefit in 2024?", "answer": "The maximum monthly CPP retirement pension at age 65 in 2024 is $1,364.60. The average payment is about $815.00. Your actual benefit depends on your contribution history and when you start receiving it."},
+      {"question": "What is CPP2?", "answer": "CPP2, starting in 2024, is a second enhanced CPP contribution on earnings between the first ceiling ($68,500) and the second ceiling ($73,200). The rate is 4% each for employee and employer. It will provide additional retirement benefits."},
+      {"question": "When should I start taking CPP?", "answer": "You can start CPP as early as 60 (with a 0.6%/month reduction, or 36% at 60) or delay until 70 (with a 0.7%/month increase, or 42% at 70). If you expect to live past 74, delaying to 70 typically provides more total lifetime income."},
+      {"question": "Do self-employed people pay double CPP?", "answer": "Yes. Self-employed individuals pay both the employee and employer portions of CPP, totaling 11.9% of pensionable earnings (5.95% x 2). The CPP2 rate is also doubled for self-employed: 8% total."}
+    ],
+    "formulas": [
+      "CPP1 contribution = (Earnings up to $68,500 - $3,500 basic exemption) x 5.95%",
+      "CPP2 contribution = Earnings between $68,500 and $73,200 x 4%",
+      "Self-employed: double both CPP1 and CPP2 rates",
+      "Early/late adjustment: -0.6%/month before 65, +0.7%/month after 65"
+    ],
+    "relatedTools": ["canada-rrsp-calculator", "canada-ei-calculator", "canada-provincial-tax-calculator"]
+  },
+  {
+    "slug": "canada-mortgage-stress-test-calculator",
+    "toolName": "Canada Mortgage Stress Test Calculator",
+    "category": "finance",
+    "subcategory": "canada-housing",
+    "tagline": "See if you qualify under the B-20 mortgage stress test using the qualifying rate",
+    "keywords": "mortgage stress test, B-20, qualifying rate, Canada mortgage, GDS, TDS, mortgage qualification",
+    "inputs": [
+      {"id": "grossIncome", "label": "Annual Gross Household Income ($)", "default": 100000, "min": 0, "step": 1000},
+      {"id": "propertyPrice", "label": "Property Price ($)", "default": 500000, "min": 0, "step": 10000},
+      {"id": "downPayment", "label": "Down Payment ($)", "default": 50000, "min": 0, "step": 5000},
+      {"id": "contractRate", "label": "Offered Mortgage Rate (%)", "default": 5.0, "min": 0.5, "max": 15, "step": 0.1},
+      {"id": "amortization", "label": "Amortization (years)", "default": 25, "min": 15, "max": 30, "step": 5},
+      {"id": "monthlyDebts", "label": "Other Monthly Debts ($)", "default": 500, "min": 0, "step": 50}
+    ],
+    "results": [
+      {"id": "qualifyingRate", "label": "Stress Test Qualifying Rate"},
+      {"id": "monthlyAtContract", "label": "Monthly Payment at Contract Rate"},
+      {"id": "monthlyAtStress", "label": "Monthly Payment at Qualifying Rate"},
+      {"id": "gdsRatio", "label": "GDS Ratio (must be < 39%)"},
+      {"id": "tdsRatio", "label": "TDS Ratio (must be < 44%)"},
+      {"id": "result", "label": "Stress Test Result"}
+    ],
+    "calcFn": "var loan = propertyPrice - downPayment;\n    var dpPct = downPayment / propertyPrice * 100;\n    var cmhcPremium = 0;\n    if (dpPct < 20) {\n      if (dpPct >= 15) cmhcPremium = loan * 0.028;\n      else if (dpPct >= 10) cmhcPremium = loan * 0.031;\n      else cmhcPremium = loan * 0.04;\n      loan += cmhcPremium;\n    }\n    var stressRate = Math.max(contractRate + 2, 5.25);\n    var contractMonthly = loan * (contractRate/100/12) * Math.pow(1 + contractRate/100/12, amortization*12) / (Math.pow(1 + contractRate/100/12, amortization*12) - 1);\n    var stressMonthly = loan * (stressRate/100/12) * Math.pow(1 + stressRate/100/12, amortization*12) / (Math.pow(1 + stressRate/100/12, amortization*12) - 1);\n    var monthlyIncome = grossIncome / 12;\n    var monthlyPropertyTax = propertyPrice * 0.01 / 12;\n    var monthlyHeat = 175;\n    var gds = (stressMonthly + monthlyPropertyTax + monthlyHeat) / monthlyIncome * 100;\n    var tds = (stressMonthly + monthlyPropertyTax + monthlyHeat + monthlyDebts) / monthlyIncome * 100;\n    var pass = gds < 39 && tds < 44;\n    document.getElementById('qualifyingRate').textContent = stressRate.toFixed(2) + '%';\n    document.getElementById('monthlyAtContract').textContent = '$' + contractMonthly.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyAtStress').textContent = '$' + stressMonthly.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('gdsRatio').textContent = gds.toFixed(1) + '%' + (gds < 39 ? ' (PASS)' : ' (FAIL)');\n    document.getElementById('tdsRatio').textContent = tds.toFixed(1) + '%' + (tds < 44 ? ' (PASS)' : ' (FAIL)');\n    document.getElementById('result').textContent = pass ? 'PASS - You qualify' : 'FAIL - Consider lower price or higher down payment';",
+    "faq": [
+      {"question": "What is the mortgage stress test?", "answer": "The B-20 stress test requires borrowers to qualify at the higher of: their contract rate + 2%, or the Bank of Canada's qualifying rate (currently 5.25%). This ensures you can afford payments if rates rise."},
+      {"question": "What are the GDS and TDS limits?", "answer": "GDS (Gross Debt Service) ratio must be under 39% — this includes mortgage, property tax, and heating costs. TDS (Total Debt Service) must be under 44% — this adds all other debt payments."},
+      {"question": "How much down payment do I need?", "answer": "Minimum 5% for homes up to $500,000. For homes $500,000-$999,999: 5% on first $500K plus 10% on remainder. Homes $1M+ require 20% minimum. Below 20%, CMHC mortgage insurance is required."},
+      {"question": "Does the stress test apply to renewals?", "answer": "The stress test only applies when obtaining a new mortgage or switching lenders. Renewing with your current lender does not require a new stress test, though some lenders may still apply it."}
+    ],
+    "formulas": [
+      "Qualifying rate = Higher of (contract rate + 2%) or 5.25%",
+      "GDS ratio = (Mortgage + Property tax + Heating) / Gross monthly income x 100",
+      "TDS ratio = (GDS costs + Other debts) / Gross monthly income x 100",
+      "CMHC insurance: 4% (5-9.99% down), 3.1% (10-14.99%), 2.8% (15-19.99%)"
+    ],
+    "relatedTools": ["canada-land-transfer-tax-calculator", "canada-provincial-tax-calculator", "canada-gst-hst-calculator"]
+  },
+  {
+    "slug": "canada-ei-calculator",
+    "toolName": "Canada Employment Insurance Calculator",
+    "category": "finance",
+    "subcategory": "canada-tax",
+    "tagline": "Calculate your EI premiums and estimate your benefit if you lose your job",
+    "keywords": "EI calculator, employment insurance, EI premiums, EI benefits, Canada EI, unemployment insurance Canada",
+    "inputs": [
+      {"id": "annualEarnings", "label": "Annual Insurable Earnings ($)", "default": 60000, "min": 0, "step": 1000},
+      {"id": "employmentType", "label": "Employment Type", "type": "select", "default": "employee", "options": [{"value": "employee", "label": "Employee"}, {"value": "selfEmployed", "label": "Self-Employed (special benefits only)"}]},
+      {"id": "province", "label": "Province", "type": "select", "default": "ON", "options": [{"value": "ON", "label": "Outside Quebec"}, {"value": "QC", "label": "Quebec (lower rate)"}]},
+      {"id": "weeklyEarnings", "label": "Average Weekly Earnings ($)", "default": 1150, "min": 0, "step": 50},
+      {"id": "hoursWorked", "label": "Insurable Hours (last 52 weeks)", "default": 1820, "min": 0, "max": 2080, "step": 10}
+    ],
+    "results": [
+      {"id": "annualPremium", "label": "Your Annual EI Premium"},
+      {"id": "employerPremium", "label": "Employer Annual Premium"},
+      {"id": "weeklyBenefit", "label": "Est. Weekly EI Benefit"},
+      {"id": "maxWeeks", "label": "Max Weeks of Benefits"},
+      {"id": "totalBenefits", "label": "Est. Total Benefits"}
+    ],
+    "calcFn": "var mie = 63200;\n    var insurable = Math.min(annualEarnings, mie);\n    var rate = province === 'QC' ? 0.01312 : 0.0166;\n    var empPremium = insurable * rate;\n    var erRate = province === 'QC' ? 0.01836 : 0.02324;\n    var erPremium = insurable * erRate;\n    if (employmentType === 'selfEmployed') {\n      empPremium = insurable * rate;\n      erPremium = 0;\n    }\n    var bestWeeks = Math.min(weeklyEarnings, mie / 52);\n    var weeklyBen = Math.min(bestWeeks * 0.55, 668);\n    var maxWks = 14;\n    if (hoursWorked >= 420) maxWks = 14;\n    if (hoursWorked >= 700) maxWks = 26;\n    if (hoursWorked >= 1260) maxWks = 36;\n    if (hoursWorked >= 1820) maxWks = 45;\n    var totalBen = weeklyBen * maxWks;\n    document.getElementById('annualPremium').textContent = '$' + empPremium.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('employerPremium').textContent = employmentType === 'selfEmployed' ? 'N/A (self-employed)' : '$' + erPremium.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('weeklyBenefit').textContent = '$' + weeklyBen.toFixed(2) + '/wk';\n    document.getElementById('maxWeeks').textContent = maxWks + ' weeks';\n    document.getElementById('totalBenefits').textContent = '$' + totalBen.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is the 2024 EI premium rate?", "answer": "The 2024 employee EI premium rate is $1.66 per $100 of insurable earnings (1.66%), or $1.312 in Quebec. The employer pays 1.4 times the employee rate. Maximum insurable earnings are $63,200, so the maximum annual employee premium is $1,049.12."},
+      {"question": "How much will I receive on EI?", "answer": "EI pays 55% of your average insurable weekly earnings, up to a maximum of $668 per week in 2024. The number of weeks depends on hours worked and the regional unemployment rate."},
+      {"question": "How many hours do I need to qualify for EI?", "answer": "You generally need 420-700 insurable hours in the past 52 weeks, depending on your region's unemployment rate. Areas with higher unemployment require fewer hours to qualify."},
+      {"question": "Can self-employed people get EI?", "answer": "Self-employed individuals can opt into EI special benefits (maternity, parental, sickness, compassionate care) but not regular benefits. You pay the employee premium but the employer portion is waived."}
+    ],
+    "formulas": [
+      "Employee premium = Insurable earnings x 1.66% (1.312% in Quebec), max $63,200",
+      "Employer premium = Employee premium x 1.4",
+      "Weekly benefit = 55% of average weekly insurable earnings, max $668/week",
+      "Benefit weeks vary by hours worked and regional unemployment rate"
+    ],
+    "relatedTools": ["canada-cpp-calculator", "canada-provincial-tax-calculator", "canada-gst-hst-calculator"]
+  },
+  {
+    "slug": "canada-child-benefit-calculator",
+    "toolName": "Canada Child Benefit Calculator",
+    "category": "finance",
+    "subcategory": "canada-tax",
+    "tagline": "Calculate your monthly Canada Child Benefit payments based on income and number of children",
+    "keywords": "Canada Child Benefit, CCB calculator, child tax benefit, child benefit by income, CCB payment",
+    "inputs": [
+      {"id": "familyIncome", "label": "Adjusted Family Net Income ($)", "default": 75000, "min": 0, "step": 1000},
+      {"id": "childrenUnder6", "label": "Children Under 6", "default": 1, "min": 0, "max": 10, "step": 1},
+      {"id": "children6to17", "label": "Children 6-17", "default": 1, "min": 0, "max": 10, "step": 1},
+      {"id": "maritalStatus", "label": "Family Status", "type": "select", "default": "couple", "options": [{"value": "couple", "label": "Couple (combined income)"}, {"value": "single", "label": "Single Parent"}]}
+    ],
+    "results": [
+      {"id": "maxBenefit", "label": "Maximum Annual Benefit"},
+      {"id": "clawback", "label": "Income-Based Reduction"},
+      {"id": "annualBenefit", "label": "Actual Annual Benefit"},
+      {"id": "monthlyBenefit", "label": "Monthly CCB Payment"},
+      {"id": "perChild", "label": "Average Per Child/Month"}
+    ],
+    "calcFn": "var maxUnder6 = 7437;\n    var max6to17 = 6275;\n    var totalChildren = childrenUnder6 + children6to17;\n    var maxAnnual = (childrenUnder6 * maxUnder6) + (children6to17 * max6to17);\n    var clawback = 0;\n    var threshold1 = 36502;\n    var threshold2 = 79087;\n    if (familyIncome > threshold1) {\n      var rate1 = totalChildren === 1 ? 0.07 : totalChildren === 2 ? 0.135 : totalChildren === 3 ? 0.19 : 0.23;\n      if (familyIncome <= threshold2) {\n        clawback = (familyIncome - threshold1) * rate1;\n      } else {\n        clawback = (threshold2 - threshold1) * rate1;\n        var rate2 = totalChildren === 1 ? 0.032 : totalChildren === 2 ? 0.057 : totalChildren === 3 ? 0.08 : 0.095;\n        clawback += (familyIncome - threshold2) * rate2;\n      }\n    }\n    var annualBen = Math.max(0, maxAnnual - clawback);\n    var monthlyBen = annualBen / 12;\n    var perChildMon = totalChildren > 0 ? monthlyBen / totalChildren : 0;\n    document.getElementById('maxBenefit').textContent = '$' + maxAnnual.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('clawback').textContent = '-$' + clawback.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('annualBenefit').textContent = '$' + annualBen.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('monthlyBenefit').textContent = '$' + monthlyBen.toFixed(2) + '/mo';\n    document.getElementById('perChild').textContent = '$' + perChildMon.toFixed(2) + '/mo';",
+    "faq": [
+      {"question": "What is the maximum Canada Child Benefit?", "answer": "For 2024-25, the maximum annual CCB is $7,437 per child under 6 and $6,275 per child aged 6-17. These amounts are tax-free and paid monthly. The benefit is reduced based on family net income."},
+      {"question": "At what income does the CCB start reducing?", "answer": "The CCB begins reducing when adjusted family net income exceeds $36,502. The reduction rate depends on the number of children: 7% for one child, 13.5% for two, 19% for three, and 23% for four or more."},
+      {"question": "Is the Canada Child Benefit taxable?", "answer": "No. CCB payments are completely tax-free. They do not need to be reported as income on your tax return and do not affect other income-tested benefits."},
+      {"question": "When are CCB payments made?", "answer": "CCB is paid monthly, usually around the 20th of each month. The benefit year runs from July to June, based on the previous year's tax return. You must file a tax return to receive CCB."}
+    ],
+    "formulas": [
+      "Max benefit: $7,437/child under 6, $6,275/child 6-17 (2024-25)",
+      "First reduction: income over $36,502 x rate (7% for 1 child, 13.5% for 2, etc.)",
+      "Second reduction: income over $79,087 x rate (3.2% for 1 child, 5.7% for 2, etc.)",
+      "Monthly payment = (Max benefit - Reduction) / 12"
+    ],
+    "relatedTools": ["canada-provincial-tax-calculator", "canada-gst-hst-calculator", "canada-ei-calculator"]
+  },
+  {
+    "slug": "canada-capital-gains-calculator",
+    "toolName": "Canada Capital Gains Tax Calculator",
+    "category": "finance",
+    "subcategory": "canada-tax",
+    "tagline": "Calculate capital gains tax with the 50% inclusion rate and new 66.67% rate for gains over $250,000",
+    "keywords": "Canada capital gains tax, capital gains inclusion rate, capital gains calculator, 50% inclusion, 66.67% inclusion",
+    "inputs": [
+      {"id": "proceedsOfSale", "label": "Proceeds of Sale ($)", "default": 500000, "min": 0, "step": 1000},
+      {"id": "adjustedCostBase", "label": "Adjusted Cost Base ($)", "default": 300000, "min": 0, "step": 1000},
+      {"id": "sellingExpenses", "label": "Selling Expenses ($)", "default": 5000, "min": 0, "step": 100},
+      {"id": "marginalRate", "label": "Combined Marginal Tax Rate (%)", "default": 33, "min": 15, "max": 54, "step": 0.5},
+      {"id": "capitalLosses", "label": "Capital Losses to Apply ($)", "default": 0, "min": 0, "step": 1000}
+    ],
+    "results": [
+      {"id": "totalGain", "label": "Total Capital Gain"},
+      {"id": "netGain", "label": "Net Gain (after losses)"},
+      {"id": "taxableGain50", "label": "Taxable at 50% Inclusion"},
+      {"id": "taxableGain67", "label": "Taxable at 66.67% Inclusion (over $250k)"},
+      {"id": "totalTaxableGain", "label": "Total Taxable Capital Gain"},
+      {"id": "estimatedTax", "label": "Estimated Capital Gains Tax"}
+    ],
+    "calcFn": "var totalGainVal = proceedsOfSale - adjustedCostBase - sellingExpenses;\n    totalGainVal = Math.max(0, totalGainVal);\n    var netGainVal = Math.max(0, totalGainVal - capitalLosses);\n    var taxable50 = 0;\n    var taxable67 = 0;\n    if (netGainVal <= 250000) {\n      taxable50 = netGainVal * 0.50;\n    } else {\n      taxable50 = 250000 * 0.50;\n      taxable67 = (netGainVal - 250000) * 0.6667;\n    }\n    var totalTaxable = taxable50 + taxable67;\n    var tax = totalTaxable * (marginalRate / 100);\n    document.getElementById('totalGain').textContent = '$' + totalGainVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('netGain').textContent = '$' + netGainVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxableGain50').textContent = '$' + taxable50.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('taxableGain67').textContent = netGainVal > 250000 ? '$' + taxable67.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A';\n    document.getElementById('totalTaxableGain').textContent = '$' + totalTaxable.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('estimatedTax').textContent = '$' + tax.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is the capital gains inclusion rate in Canada?", "answer": "As of June 25, 2024, the first $250,000 of capital gains per year is included at 50% (you pay tax on half). Capital gains above $250,000 are included at 66.67% (two-thirds). For corporations and trusts, the 66.67% rate applies to all gains."},
+      {"question": "How are capital losses applied?", "answer": "Capital losses can only be applied against capital gains, not other income. Net capital losses can be carried back 3 years or carried forward indefinitely. Only 50% of losses are deductible (the allowable capital loss)."},
+      {"question": "Is a principal residence subject to capital gains tax?", "answer": "No. Your principal residence is generally exempt from capital gains tax under the Principal Residence Exemption. You must designate the property and report the sale on your tax return."},
+      {"question": "What is the adjusted cost base (ACB)?", "answer": "The ACB is your original purchase price plus any acquisition costs (legal fees, commissions) and capital improvements. It does not include maintenance costs or mortgage interest. Accurate ACB records are essential for calculating gains."}
+    ],
+    "formulas": [
+      "Capital Gain = Proceeds - Adjusted Cost Base - Selling Expenses",
+      "First $250,000: Taxable gain = 50% inclusion x Capital gain",
+      "Above $250,000: Taxable gain = 66.67% inclusion x Capital gain",
+      "Tax = Taxable capital gain x Marginal tax rate"
+    ],
+    "relatedTools": ["canada-provincial-tax-calculator", "canada-tfsa-calculator", "canada-rrsp-calculator"]
+  },
+  {
+    "slug": "canada-land-transfer-tax-calculator",
+    "toolName": "Canada Land Transfer Tax Calculator",
+    "category": "finance",
+    "subcategory": "canada-housing",
+    "tagline": "Calculate land transfer tax by province for your property purchase, including first-time buyer rebates",
+    "keywords": "land transfer tax, property transfer tax, LTT calculator, Ontario land transfer tax, BC property transfer tax, Toronto municipal tax",
+    "inputs": [
+      {"id": "purchasePrice", "label": "Purchase Price ($)", "default": 600000, "min": 0, "step": 10000},
+      {"id": "province", "label": "Province", "type": "select", "default": "ON", "options": [{"value": "ON", "label": "Ontario"}, {"value": "BC", "label": "British Columbia"}, {"value": "QC", "label": "Quebec"}, {"value": "MB", "label": "Manitoba"}, {"value": "NS", "label": "Nova Scotia"}, {"value": "NB", "label": "New Brunswick"}, {"value": "PE", "label": "Prince Edward Island"}]},
+      {"id": "firstTimeBuyer", "label": "First-Time Buyer?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes"}]},
+      {"id": "toronto", "label": "Toronto Municipal LTT?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No"}, {"value": "yes", "label": "Yes (additional Toronto tax)"}]},
+      {"id": "foreignBuyer", "label": "Foreign Buyer?", "type": "select", "default": "no", "options": [{"value": "no", "label": "No (Canadian citizen/PR)"}, {"value": "yes", "label": "Yes (non-resident)"}]}
+    ],
+    "results": [
+      {"id": "provincialLTT", "label": "Provincial Land Transfer Tax"},
+      {"id": "municipalLTT", "label": "Municipal LTT (Toronto)"},
+      {"id": "ftbRebate", "label": "First-Time Buyer Rebate"},
+      {"id": "foreignTax", "label": "Foreign Buyer Tax"},
+      {"id": "totalLTT", "label": "Total Land Transfer Tax"},
+      {"id": "totalClosing", "label": "Est. Total Closing Costs (LTT + 1.5%)"}
+    ],
+    "calcFn": "var price = purchasePrice;\n    var provLTT = 0;\n    if (province === 'ON') {\n      if (price > 55000) provLTT += (Math.min(price, 250000) - 55000) * 0.01;\n      if (price > 250000) provLTT += (Math.min(price, 400000) - 250000) * 0.015;\n      if (price > 400000) provLTT += (Math.min(price, 2000000) - 400000) * 0.02;\n      if (price > 2000000) provLTT += (price - 2000000) * 0.025;\n      provLTT += Math.min(price, 55000) * 0.005;\n    } else if (province === 'BC') {\n      if (price <= 200000) provLTT = price * 0.01;\n      else if (price <= 2000000) provLTT = 200000 * 0.01 + (Math.min(price, 2000000) - 200000) * 0.02;\n      else provLTT = 200000 * 0.01 + 1800000 * 0.02 + (Math.min(price, 3000000) - 2000000) * 0.03;\n      if (price > 3000000) provLTT += (price - 3000000) * 0.05;\n    } else if (province === 'QC') {\n      provLTT = Math.min(price, 55200) * 0.005;\n      if (price > 55200) provLTT += (Math.min(price, 276200) - 55200) * 0.01;\n      if (price > 276200) provLTT += (Math.min(price, 552300) - 276200) * 0.015;\n      if (price > 552300) provLTT += (price - 552300) * 0.02;\n    } else if (province === 'MB') {\n      if (price > 30000) provLTT = (Math.min(price, 90000) - 30000) * 0.005;\n      if (price > 90000) provLTT += (Math.min(price, 150000) - 90000) * 0.01;\n      if (price > 150000) provLTT += (Math.min(price, 200000) - 150000) * 0.015;\n      if (price > 200000) provLTT += (price - 200000) * 0.02;\n    } else if (province === 'NS') {\n      provLTT = price * 0.015 + 78.5;\n    } else if (province === 'NB') {\n      provLTT = price * 0.01;\n    } else if (province === 'PE') {\n      provLTT = price * 0.01;\n    }\n    var munLTT = 0;\n    if (toronto === 'yes' && province === 'ON') {\n      munLTT += Math.min(price, 55000) * 0.005;\n      if (price > 55000) munLTT += (Math.min(price, 250000) - 55000) * 0.01;\n      if (price > 250000) munLTT += (Math.min(price, 400000) - 250000) * 0.015;\n      if (price > 400000) munLTT += (Math.min(price, 2000000) - 400000) * 0.02;\n      if (price > 2000000) munLTT += (price - 2000000) * 0.025;\n    }\n    var ftbRebateVal = 0;\n    if (firstTimeBuyer === 'yes') {\n      if (province === 'ON') ftbRebateVal = Math.min(provLTT, 4000);\n      if (province === 'BC' && price <= 835000) ftbRebateVal = provLTT;\n      if (toronto === 'yes') ftbRebateVal += Math.min(munLTT, 4475);\n    }\n    var foreignTaxVal = 0;\n    if (foreignBuyer === 'yes') {\n      if (province === 'ON') foreignTaxVal = price * 0.25;\n      if (province === 'BC') foreignTaxVal = price * 0.20;\n    }\n    var totalVal = provLTT + munLTT - ftbRebateVal + foreignTaxVal;\n    var closingCosts = totalVal + price * 0.015;\n    document.getElementById('provincialLTT').textContent = '$' + provLTT.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('municipalLTT').textContent = toronto === 'yes' ? '$' + munLTT.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A';\n    document.getElementById('ftbRebate').textContent = ftbRebateVal > 0 ? '-$' + ftbRebateVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A';\n    document.getElementById('foreignTax').textContent = foreignTaxVal > 0 ? '$' + foreignTaxVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',') : 'N/A';\n    document.getElementById('totalLTT').textContent = '$' + totalVal.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');\n    document.getElementById('totalClosing').textContent = '$' + closingCosts.toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');",
+    "faq": [
+      {"question": "What is land transfer tax?", "answer": "Land transfer tax (LTT) is a provincial tax paid when you purchase property. Rates vary by province and are based on the purchase price. Ontario, BC, Quebec, Manitoba, and Atlantic provinces all charge LTT. Alberta and Saskatchewan do not have a land transfer tax."},
+      {"question": "Does Toronto charge additional land transfer tax?", "answer": "Yes. Toronto is the only city in Canada that charges a municipal land transfer tax on top of the provincial LTT. The Toronto municipal LTT roughly mirrors the Ontario provincial rates, effectively doubling the tax for Toronto buyers."},
+      {"question": "What rebates are available for first-time buyers?", "answer": "Ontario offers up to $4,000 rebate on provincial LTT and $4,475 on Toronto municipal LTT for first-time buyers. BC offers a full exemption on homes up to $835,000. Other provinces may have similar programs."},
+      {"question": "What is the foreign buyer tax?", "answer": "Ontario charges a 25% Non-Resident Speculation Tax and BC charges a 20% Foreign Buyer Tax on property purchases by non-Canadian citizens or permanent residents in designated areas."}
+    ],
+    "formulas": [
+      "Ontario LTT: 0.5% on first $55k, 1% on $55k-$250k, 1.5% on $250k-$400k, 2% on $400k-$2M, 2.5% over $2M",
+      "BC PTT: 1% on first $200k, 2% on $200k-$2M, 3% on $2M-$3M, 5% over $3M",
+      "Toronto Municipal LTT mirrors Ontario provincial rates (additional charge)",
+      "First-time buyer rebates: ON up to $4,000, BC full exemption up to $835,000"
+    ],
+    "relatedTools": ["canada-mortgage-stress-test-calculator", "canada-provincial-tax-calculator", "canada-gst-hst-calculator"]
+  }
+]

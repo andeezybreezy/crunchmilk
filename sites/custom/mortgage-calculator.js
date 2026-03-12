@@ -19,15 +19,102 @@
     });
   }
 
-  function calculate() {
-    var price=f('loanAmt');var dp=f('downPct')/100;var p=price*(1-dp);var r=f('intRate')/100/12;var n=f('loanTerm')*12;if(r===0){var mp=p/n;}else{var mp=p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);}var _r = {monthlyPmt:$(mp),totalInt:$(mp*n-p),totalPaid:$(mp*n)};
+  var lastCalc = null;
 
-    document.getElementById('monthlyPmt').textContent = _r.monthlyPmt;
-    document.getElementById('totalInt').textContent = _r.totalInt;
-    document.getElementById('totalPaid').textContent = _r.totalPaid;
+  function calcMortgage(principal, rateAnnual, termYears, extraMonthly) {
+    var r = rateAnnual / 100 / 12;
+    var n = termYears * 12;
+    var mp;
+    if (r === 0) { mp = principal / n; } else { mp = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1); }
+    var totalInt = 0;
+    var bal = principal;
+    var months = 0;
+    for (var i = 0; i < n && bal > 0; i++) {
+      var interest = bal * r;
+      totalInt += interest;
+      var princPay = mp - interest + extraMonthly;
+      if (princPay > bal) princPay = bal;
+      bal -= princPay;
+      months++;
+      if (bal <= 0.01) break;
+    }
+    return { monthlyPmt: mp, totalInt: totalInt, totalPaid: mp * n, months: months };
+  }
+
+  function calculate() {
+    var price = f('loanAmt'); var dp = f('downPct') / 100; var p = price * (1 - dp);
+    var r = f('intRate'); var n = f('loanTerm');
+    var result = calcMortgage(p, r, n, 0);
+
+    document.getElementById('monthlyPmt').textContent = $(result.monthlyPmt);
+    document.getElementById('totalInt').textContent = $(result.totalInt);
+    document.getElementById('totalPaid').textContent = $(result.totalPaid);
 
     resultEl.classList.add('visible');
     resultEl.style.display = 'block';
+
+    lastCalc = { principal: p, rate: r, term: n, totalInt: result.totalInt, months: result.months, monthlyPmt: result.monthlyPmt };
+
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var extra = parseFloat(document.getElementById('wiExtra').value) || 0;
+    var rateChange = parseFloat(document.getElementById('wiRate').value) || 0;
+    var newRate = lastCalc.rate + rateChange;
+    if (newRate < 0) newRate = 0;
+
+    var wiResult = calcMortgage(lastCalc.principal, newRate, lastCalc.term, extra);
+    var saved = lastCalc.totalInt - wiResult.totalInt;
+    var monthsDiff = lastCalc.months - wiResult.months;
+
+    document.getElementById('wiOriginal').textContent = $(lastCalc.totalInt);
+    document.getElementById('wiNew').textContent = $(wiResult.totalInt);
+    document.getElementById('wiDelta').textContent = saved >= 0 ? $(saved) : '-' + $(Math.abs(saved));
+    document.getElementById('wiDelta').style.color = saved >= 0 ? '#059669' : '#dc2626';
+
+    var timeText = '';
+    if (monthsDiff > 0) {
+      var y = Math.floor(monthsDiff / 12); var m = monthsDiff % 12;
+      timeText = (y > 0 ? y + ' yr ' : '') + (m > 0 ? m + ' mo ' : '') + 'sooner';
+    } else if (monthsDiff < 0) {
+      var y2 = Math.floor(Math.abs(monthsDiff) / 12); var m2 = Math.abs(monthsDiff) % 12;
+      timeText = (y2 > 0 ? y2 + ' yr ' : '') + (m2 > 0 ? m2 + ' mo ' : '') + 'longer';
+    } else {
+      timeText = 'No change';
+    }
+    document.getElementById('wiTimeDelta').textContent = timeText;
+  }
+
+  // What If toggle
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+
+  // What If sliders
+  var wiExtra = document.getElementById('wiExtra');
+  var wiRate = document.getElementById('wiRate');
+  if (wiExtra) {
+    wiExtra.addEventListener('input', function() {
+      document.getElementById('wiExtraVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+  if (wiRate) {
+    wiRate.addEventListener('input', function() {
+      var v = parseFloat(this.value);
+      document.getElementById('wiRateVal').textContent = (v >= 0 ? '+' : '') + v.toFixed(2);
+      updateWhatIf();
+    });
   }
 
   calcBtn.addEventListener('click', function() {

@@ -3,6 +3,7 @@
 
   var unit = 'lbs';
   var sex = 'male';
+  var lastCalc = null;
 
   var chartData = [
     ['0.02%', 'Slight relaxation, mild mood changes', 'Some loss of judgment'],
@@ -53,22 +54,55 @@
     return 'Dangerously intoxicated';
   }
 
+  function calcBAC(drinks, weightGrams, r, hours) {
+    var alcoholGrams = drinks * 14;
+    var bac = (alcoholGrams / (weightGrams * r)) * 100 - (0.015 * hours);
+    return Math.max(bac, 0);
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var extraDrinks = parseFloat(document.getElementById('wiDrinks').value) || 0;
+    var newDrinks = lastCalc.drinks + extraDrinks;
+    var newBAC = calcBAC(newDrinks, lastCalc.weightGrams, lastCalc.r, lastCalc.hours);
+    var diff = newBAC - lastCalc.bac;
+
+    document.getElementById('wiOriginal').textContent = lastCalc.bac.toFixed(3) + '%';
+    document.getElementById('wiNew').textContent = newBAC.toFixed(3) + '%';
+    document.getElementById('wiDelta').textContent = '+' + diff.toFixed(3) + '%';
+    document.getElementById('wiDelta').style.color = newBAC >= 0.08 ? '#dc2626' : (newBAC >= 0.05 ? '#e65100' : '#059669');
+    document.getElementById('wiStatus').textContent = getStatus(newBAC);
+    document.getElementById('wiStatus').style.color = newBAC >= 0.08 ? '#dc2626' : 'var(--primary)';
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiDrinks = document.getElementById('wiDrinks');
+  if (wiDrinks) {
+    wiDrinks.addEventListener('input', function() {
+      document.getElementById('wiDrinksVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+
   function calculate() {
     var drinks = parseFloat(document.getElementById('drinks').value);
     var weight = parseFloat(document.getElementById('weight').value);
     var hours = parseFloat(document.getElementById('hours').value) || 0;
     if (isNaN(drinks) || isNaN(weight) || drinks < 0 || weight <= 0) return;
 
-    // Convert to grams for Widmark formula
     var weightGrams = (unit === 'kg' ? weight : weight * 0.453592) * 1000;
-    var alcoholGrams = drinks * 14; // 14g per standard drink
-    var r = sex === 'male' ? 0.68 : 0.55; // Widmark factor
+    var r = sex === 'male' ? 0.68 : 0.55;
+    var bac = calcBAC(drinks, weightGrams, r, hours);
 
-    // Widmark formula: BAC = (A / (W × r)) × 100 - (0.015 × hours)
-    var bac = (alcoholGrams / (weightGrams * r)) * 100 - (0.015 * hours);
-    if (bac < 0) bac = 0;
-
-    // Time until sober
     var hoursUntilSober = bac / 0.015;
     var soberHours = Math.floor(hoursUntilSober);
     var soberMinutes = Math.round((hoursUntilSober - soberHours) * 60);
@@ -94,6 +128,10 @@
     var resultEl = document.getElementById('result');
     resultEl.classList.add('visible');
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    lastCalc = { drinks: drinks, weightGrams: weightGrams, r: r, hours: hours, bac: bac };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);

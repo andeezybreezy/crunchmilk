@@ -415,6 +415,30 @@ footer a:hover{color:#fff}
         </table>
       </div>
     </div>
+
+    <div id="whatIfSection" style="display:none;margin-top:20px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:28px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="margin:0;font-size:1.1rem;color:var(--navy)">What If Mode</h3>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="whatIfToggle"><span style="font-weight:600;font-size:0.85rem;color:var(--text-mid)">Enable</span></label>
+      </div>
+      <div id="whatIfControls" style="display:none">
+        <div style="margin-bottom:16px">
+          <label style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Home Appreciation Rate: <span id="wiApprecVal">3</span>%/yr</label>
+          <input type="range" id="wiApprec" min="-5" max="10" value="3" step="0.5" style="width:100%;margin-top:6px">
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Rate Change: <span id="wiRateVal">0</span>%</label>
+          <input type="range" id="wiRate" min="-3" max="3" value="0" step="0.25" style="width:100%;margin-top:6px">
+        </div>
+        <div id="whatIfResult" style="margin-top:16px;padding:16px;background:var(--cream);border-radius:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Original Advantage</div><div id="wiOriginal" style="font-size:1.05rem;font-weight:700;color:var(--navy)">—</div></div>
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">What If Advantage</div><div id="wiNew" style="font-size:1.05rem;font-weight:700;color:var(--primary)">—</div></div>
+            <div><div style="font-weight:600;font-size:0.82rem;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.5px">Home Value</div><div id="wiHomeValue" style="font-size:1.05rem;font-weight:700;color:#059669">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -566,6 +590,8 @@ footer a:hover{color:#fff}
 (function() {
   'use strict';
 
+  var lastCalc = null;
+
   function fmt(n) {
     return '$' + Math.round(n).toLocaleString('en-US');
   }
@@ -579,6 +605,66 @@ footer a:hover{color:#fff}
     var n = years * 12;
     if (r === 0) return principal / n;
     return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  function runCalc(homePrice, downPct, mortRate, loanTerm, propTaxRate, insurance, maintPct, monthlyRent, rentIncrease, investReturn, years, appreciationRate) {
+    var downPayment = homePrice * (downPct / 100);
+    var loanAmount = homePrice - downPayment;
+    var monthlyMortgage = calcMortgagePayment(loanAmount, mortRate, loanTerm);
+    var monthlyPropTax = (homePrice * propTaxRate / 100) / 12;
+    var monthlyInsurance = insurance / 12;
+    var monthlyMaint = (homePrice * maintPct / 100) / 12;
+    var totalMonthlyBuy = monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
+
+    var totalBuyCost = downPayment;
+    var totalRentCost = 0;
+    var balance = loanAmount;
+    var monthlyR = mortRate / 100 / 12;
+    var investBalance = downPayment;
+    var monthlyInvestR = investReturn / 100 / 12;
+    var currentRent = monthlyRent;
+    var currentHomeValue = homePrice;
+    var breakEvenYear = 0;
+
+    for (var y = 1; y <= years; y++) {
+      for (var m = 0; m < 12; m++) {
+        var interestPayment = balance * monthlyR;
+        var principalPayment = monthlyMortgage - interestPayment;
+        if (principalPayment > balance) principalPayment = balance;
+        balance -= principalPayment;
+        totalBuyCost += monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
+        totalRentCost += currentRent;
+        var monthlySavings = totalMonthlyBuy - currentRent;
+        if (monthlySavings > 0) {
+          investBalance = investBalance * (1 + monthlyInvestR) + monthlySavings;
+        } else {
+          investBalance = investBalance * (1 + monthlyInvestR);
+        }
+      }
+      currentRent *= (1 + rentIncrease / 100);
+      if (appreciationRate !== undefined) {
+        currentHomeValue *= (1 + appreciationRate / 100);
+      }
+    }
+
+    var finalEquity = downPayment + (loanAmount - balance);
+    if (appreciationRate !== undefined) {
+      finalEquity = currentHomeValue - balance;
+    }
+    var netBuyFinal = totalBuyCost - finalEquity;
+    var netRentFinal = totalRentCost;
+    var advantage = netRentFinal - netBuyFinal;
+
+    return {
+      totalMonthlyBuy: totalMonthlyBuy,
+      monthlyMortgage: monthlyMortgage,
+      totalBuyCost: totalBuyCost,
+      totalRentCost: totalRentCost,
+      finalEquity: finalEquity,
+      investBalance: investBalance,
+      advantage: advantage,
+      homeValue: currentHomeValue
+    };
   }
 
   function calculate() {
@@ -596,6 +682,7 @@ footer a:hover{color:#fff}
 
     if (homePrice <= 0 || monthlyRent <= 0) return;
 
+    // Run original calculation (no appreciation for backward compat on main display)
     var downPayment = homePrice * (downPct / 100);
     var loanAmount = homePrice - downPayment;
     var monthlyMortgage = calcMortgagePayment(loanAmount, mortRate, loanTerm);
@@ -604,12 +691,11 @@ footer a:hover{color:#fff}
     var monthlyMaint = (homePrice * maintPct / 100) / 12;
     var totalMonthlyBuy = monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
 
-    // Year-by-year calculation
     var totalBuyCost = downPayment;
     var totalRentCost = 0;
     var balance = loanAmount;
     var monthlyR = mortRate / 100 / 12;
-    var investBalance = downPayment; // Renter invests down payment
+    var investBalance = downPayment;
     var monthlyInvestR = investReturn / 100 / 12;
     var currentRent = monthlyRent;
     var breakEvenYear = 0;
@@ -618,21 +704,13 @@ footer a:hover{color:#fff}
     tbody.innerHTML = '';
 
     for (var y = 1; y <= years; y++) {
-      var yearBuyCost = 0;
-      var yearRentCost = 0;
-
       for (var m = 0; m < 12; m++) {
-        // Buy side
         var interestPayment = balance * monthlyR;
         var principalPayment = monthlyMortgage - interestPayment;
         if (principalPayment > balance) principalPayment = balance;
         balance -= principalPayment;
-        yearBuyCost += monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
-
-        // Rent side
-        yearRentCost += currentRent;
-
-        // Renter invests the monthly difference
+        totalBuyCost += monthlyMortgage + monthlyPropTax + monthlyInsurance + monthlyMaint;
+        totalRentCost += currentRent;
         var monthlySavings = totalMonthlyBuy - currentRent;
         if (monthlySavings > 0) {
           investBalance = investBalance * (1 + monthlyInvestR) + monthlySavings;
@@ -640,21 +718,14 @@ footer a:hover{color:#fff}
           investBalance = investBalance * (1 + monthlyInvestR);
         }
       }
-
-      totalBuyCost += yearBuyCost;
-      totalRentCost += yearRentCost;
+      totalBuyCost += 0;
       currentRent *= (1 + rentIncrease / 100);
-
-      var equity = homePrice - balance - (homePrice - downPayment - (loanAmount - balance));
-      equity = downPayment + (loanAmount - balance);
-
-      // Check break-even (net cost of buying < net cost of renting)
+      var equity = downPayment + (loanAmount - balance);
       var netBuy = totalBuyCost - equity;
       var netRent = totalRentCost - (investBalance - downPayment);
       if (breakEvenYear === 0 && netBuy <= netRent) {
         breakEvenYear = y;
       }
-
       var tr = document.createElement('tr');
       tr.innerHTML = '<td style="padding:6px;border-bottom:1px solid #eee">' + y + '</td>' +
         '<td style="padding:6px;border-bottom:1px solid #eee;text-align:right">' + fmt(totalBuyCost) + '</td>' +
@@ -678,6 +749,61 @@ footer a:hover{color:#fff}
     document.getElementById('netAdvantage').textContent = advantageLabel;
     document.getElementById('breakEven').textContent = breakEvenYear > 0 ? 'Year ' + breakEvenYear : 'Not within ' + years + ' years';
     document.getElementById('result').classList.add('visible');
+
+    lastCalc = {
+      homePrice: homePrice, downPct: downPct, mortRate: mortRate, loanTerm: loanTerm,
+      propTaxRate: propTaxRate, insurance: insurance, maintPct: maintPct,
+      monthlyRent: monthlyRent, rentIncrease: rentIncrease, investReturn: investReturn,
+      years: years, advantage: advantage
+    };
+    document.getElementById('whatIfSection').style.display = 'block';
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    if (!lastCalc) return;
+    var toggle = document.getElementById('whatIfToggle');
+    if (!toggle.checked) return;
+
+    var appreciationRate = parseFloat(document.getElementById('wiApprec').value) || 0;
+    var rateChange = parseFloat(document.getElementById('wiRate').value) || 0;
+    var newRate = lastCalc.mortRate + rateChange;
+    if (newRate < 0) newRate = 0;
+
+    var wiResult = runCalc(lastCalc.homePrice, lastCalc.downPct, newRate, lastCalc.loanTerm,
+      lastCalc.propTaxRate, lastCalc.insurance, lastCalc.maintPct,
+      lastCalc.monthlyRent, lastCalc.rentIncrease, lastCalc.investReturn,
+      lastCalc.years, appreciationRate);
+
+    var origLabel = lastCalc.advantage > 0 ? 'Buying saves ' + fmt(Math.abs(lastCalc.advantage)) : 'Renting saves ' + fmt(Math.abs(lastCalc.advantage));
+    var newLabel = wiResult.advantage > 0 ? 'Buying saves ' + fmt(Math.abs(wiResult.advantage)) : 'Renting saves ' + fmt(Math.abs(wiResult.advantage));
+
+    document.getElementById('wiOriginal').textContent = origLabel;
+    document.getElementById('wiNew').textContent = newLabel;
+    document.getElementById('wiHomeValue').textContent = fmt(wiResult.homeValue);
+  }
+
+  var wiToggle = document.getElementById('whatIfToggle');
+  if (wiToggle) {
+    wiToggle.addEventListener('change', function() {
+      document.getElementById('whatIfControls').style.display = this.checked ? 'block' : 'none';
+      if (this.checked) updateWhatIf();
+    });
+  }
+  var wiApprec = document.getElementById('wiApprec');
+  var wiRate = document.getElementById('wiRate');
+  if (wiApprec) {
+    wiApprec.addEventListener('input', function() {
+      document.getElementById('wiApprecVal').textContent = this.value;
+      updateWhatIf();
+    });
+  }
+  if (wiRate) {
+    wiRate.addEventListener('input', function() {
+      var v = parseFloat(this.value);
+      document.getElementById('wiRateVal').textContent = (v >= 0 ? '+' : '') + v.toFixed(2);
+      updateWhatIf();
+    });
   }
 
   document.getElementById('calcBtn').addEventListener('click', calculate);
