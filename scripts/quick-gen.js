@@ -130,7 +130,7 @@ function buildCustomJS(tool) {
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }
+  function fmt(n, d) { d = d || 0; var parts = n.toFixed(d).split('.'); parts[0] = parts[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); return parts.join('.'); }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
