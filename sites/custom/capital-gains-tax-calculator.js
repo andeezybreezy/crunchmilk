@@ -3,7 +3,7 @@
 
   function f(id) { return parseFloat(document.getElementById(id).value) || 0; }
   function $(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
   function pct(n, d) { d = d || 1; return n.toFixed(d) + '%'; }
 
   var calcBtn = document.getElementById('calcBtn');

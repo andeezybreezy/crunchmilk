@@ -172,7 +172,7 @@ main{padding:28px 0 48px}
 .result.visible{display:block;animation:resultIn 0.35s ease}
 @keyframes resultIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .result-label{font-size:0.72rem;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
-.result-value{font-family:var(--font-body);font-size:1.6rem;font-weight:700;color:var(--primary);letter-spacing:-0.5px;line-height:1.3}
+.result-value{font-family:var(--font-body);font-size:1.5rem;font-weight:600;color:var(--text);letter-spacing:-0.3px;line-height:1.3}
 .result-row{display:flex;justify-content:flex-start;gap:48px;flex-wrap:wrap}
 .result-item{padding:12px 0}
 .result-tip{font-size:0.82rem;color:var(--text-mid);margin-top:16px;padding-top:16px;border-top:1px solid var(--border);line-height:1.6}
@@ -462,7 +462,7 @@ footer a:hover{color:#fff}
   var calcBtn = document.getElementById('calcBtn');
   var resultEl = document.getElementById('result');
 
-  function fmt(n, d) { d = d || 0; return n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function fmt(n, d) { d = d || 0; var p = n.toFixed(d).split('.'); p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return p.join('.'); }
   function dollar(n) { return '$' + fmt(n, 2); }
   function pct(n, d) { d = d || 1; return fmt(n, d) + '%'; }
 
