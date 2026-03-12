@@ -21,15 +21,14 @@ function buildAdemPromo(config) {
   if (config.category !== 'high-school-math') return '';
 
   let headline = 'Want to Actually Learn Algebra?';
-  let body = 'Calculators give you answers — but if you want to understand the math, All Day Every Day Math teaches Algebra 1 fast with structured lessons, worked examples, and practice quizzes that build real confidence.';
+  let body = 'Calculators give you answers — but if you want to understand the math, Allday Everyday Math teaches Algebra 1 fast with structured lessons, worked examples, and practice quizzes that build real confidence.';
 
   let html = '';
   html += '  <div class="adem-promo">\n';
   html += '    <div class="adem-inner">\n';
-  html += '      <p class="adem-badge">FREE RESOURCE</p>\n';
   html += '      <p class="adem-heading">' + headline + '</p>\n';
   html += '      <p class="adem-text">' + body + '</p>\n';
-  html += '      <a href="https://alldayeverydaymath.com/?utm_source=crunchmilk&utm_medium=promo&utm_campaign=math-tools&utm_content=' + config.slug + '" class="adem-btn" target="_blank" rel="noopener">Explore All Day Every Day Math &#8594;</a>\n';
+  html += '      <a href="https://alldayeverydaymath.com/?utm_source=crunchmilk&utm_medium=promo&utm_campaign=math-tools&utm_content=' + config.slug + '" class="adem-btn" target="_blank" rel="noopener">Explore Allday Everyday Math &#8594;</a>\n';
   html += '    </div>\n';
   html += '  </div>\n';
   return html;
