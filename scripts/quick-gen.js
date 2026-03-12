@@ -50,7 +50,9 @@ const CATEGORY_COLORS = {
   'music': ['#7c3aed', '#6d28d9'], 'diy-home': ['#ea580c', '#c2410c'],
   'travel': ['#0891b2', '#0e7490'], 'gaming': ['#6366f1', '#4f46e5'],
   'electrical': ['#eab308', '#ca8a04'], 'plumbing': ['#0369a1', '#075985'],
-  'geopolitical-energy': ['#991b1b', '#7f1d1d']
+  'geopolitical-energy': ['#991b1b', '#7f1d1d'],
+  'middle-school-math': ['#2563eb', '#1d4ed8'],
+  'high-school-math': ['#7c3aed', '#6d28d9']
 };
 
 function buildCalcHTML(tool) {

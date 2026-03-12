@@ -1,0 +1,1008 @@
+[
+  {
+    "slug": "fraction-calculator",
+    "toolName": "Fraction Calculator",
+    "category": "middle-school-math",
+    "tagline": "Add, subtract, multiply, and divide fractions with step-by-step solutions",
+    "keywords": "fraction calculator, add fractions, subtract fractions, multiply fractions, divide fractions, fraction math, fraction solver, fraction operations",
+    "inputs": [
+      {"id": "num1", "label": "Numerator 1", "default": 1},
+      {"id": "den1", "label": "Denominator 1", "default": 2},
+      {"id": "num2", "label": "Numerator 2", "default": 1},
+      {"id": "den2", "label": "Denominator 2", "default": 3},
+      {"id": "operation", "label": "Operation", "type": "select", "options": ["add", "subtract", "multiply", "divide"], "default": "add"}
+    ],
+    "results": [
+      {"id": "answerNum", "label": "Answer Numerator"},
+      {"id": "answerDen", "label": "Answer Denominator"},
+      {"id": "simplified", "label": "Simplified"},
+      {"id": "decimal", "label": "Decimal"}
+    ],
+    "calcFn": "var n1=parseInt(num1),d1=parseInt(den1),n2=parseInt(num2),d2=parseInt(den2);if(d1===0||d2===0){document.getElementById('simplified').textContent='Error: denominator cannot be zero';return;}var rn,rd;if(operation==='add'){rn=n1*d2+n2*d1;rd=d1*d2;}else if(operation==='subtract'){rn=n1*d2-n2*d1;rd=d1*d2;}else if(operation==='multiply'){rn=n1*n2;rd=d1*d2;}else{if(n2===0){document.getElementById('simplified').textContent='Error: cannot divide by zero';return;}rn=n1*d2;rd=d1*n2;}if(rd<0){rn=-rn;rd=-rd;}function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}var g=gcd(Math.abs(rn),rd);var sn=rn/g,sd=rd/g;document.getElementById('answerNum').textContent=rn;document.getElementById('answerDen').textContent=rd;document.getElementById('simplified').textContent=sn+'/'+sd;document.getElementById('decimal').textContent=fmt(rn/rd,6);",
+    "faq": [
+      {"question": "How do you add fractions with different denominators?", "answer": "To add fractions with different denominators, first find a common denominator by multiplying the two denominators together. Then convert each fraction so it has that common denominator by multiplying both the numerator and denominator. Finally, add the numerators and keep the common denominator."},
+      {"question": "What does it mean to simplify a fraction?", "answer": "Simplifying a fraction means dividing both the numerator and denominator by their greatest common factor (GCF) until you cannot reduce it any further. For example, 4/8 simplifies to 1/2 because both 4 and 8 can be divided by 4."},
+      {"question": "How do you divide fractions?", "answer": "To divide fractions, you multiply by the reciprocal. Flip the second fraction (swap numerator and denominator) and then multiply straight across. For example, 1/2 ÷ 3/4 = 1/2 × 4/3 = 4/6 = 2/3."},
+      {"question": "Why can't the denominator be zero?", "answer": "A denominator of zero would mean dividing by zero, which is undefined in mathematics. You cannot split something into zero equal parts, so fractions with a denominator of zero do not have a valid value."}
+    ],
+    "formulas": [
+      "a/b + c/d = (ad + bc) / bd",
+      "a/b - c/d = (ad - bc) / bd",
+      "a/b × c/d = ac / bd",
+      "a/b ÷ c/d = a/b × d/c = ad / bc"
+    ],
+    "relatedTools": ["fraction-simplifier", "mixed-number-calculator", "fraction-to-decimal-converter"]
+  },
+  {
+    "slug": "fraction-simplifier",
+    "toolName": "Fraction Simplifier",
+    "category": "middle-school-math",
+    "tagline": "Reduce fractions to their simplest form instantly by finding the greatest common factor",
+    "keywords": "fraction simplifier, reduce fractions, simplify fractions, lowest terms, greatest common factor, GCF, fraction reducer",
+    "inputs": [
+      {"id": "numerator", "label": "Numerator", "default": 12},
+      {"id": "denominator", "label": "Denominator", "default": 18}
+    ],
+    "results": [
+      {"id": "simplified", "label": "Simplified Fraction"},
+      {"id": "gcf", "label": "Greatest Common Factor"}
+    ],
+    "calcFn": "var n=parseInt(numerator),d=parseInt(denominator);if(d===0){document.getElementById('simplified').textContent='Error: denominator cannot be zero';return;}function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}var g=gcd(Math.abs(n),Math.abs(d));var sn=n/g,sd=d/g;if(sd<0){sn=-sn;sd=-sd;}document.getElementById('simplified').textContent=sn+'/'+sd;document.getElementById('gcf').textContent=g;",
+    "faq": [
+      {"question": "How do you simplify a fraction?", "answer": "Find the greatest common factor (GCF) of the numerator and denominator, then divide both by that number. For example, to simplify 12/18, the GCF is 6, so 12÷6 = 2 and 18÷6 = 3, giving you 2/3."},
+      {"question": "What is the greatest common factor (GCF)?", "answer": "The GCF is the largest number that divides evenly into two or more numbers. For 12 and 18, the factors of 12 are 1,2,3,4,6,12 and the factors of 18 are 1,2,3,6,9,18. The largest shared factor is 6."},
+      {"question": "How do you know when a fraction is fully simplified?", "answer": "A fraction is fully simplified when the only common factor between the numerator and denominator is 1. For example, 2/3 is fully simplified because 2 and 3 share no common factors other than 1."},
+      {"question": "Can improper fractions be simplified?", "answer": "Yes. Improper fractions (where the numerator is larger than the denominator) can be simplified the same way. For example, 15/10 simplifies to 3/2. You can also convert it to the mixed number 1 1/2."}
+    ],
+    "formulas": [
+      "Simplified = numerator/GCF ÷ denominator/GCF",
+      "GCF found using Euclidean algorithm: gcd(a, b) = gcd(b, a mod b)"
+    ],
+    "relatedTools": ["fraction-calculator", "equivalent-fractions-generator", "gcf-lcm-calculator"]
+  },
+  {
+    "slug": "mixed-number-calculator",
+    "toolName": "Mixed Number Calculator",
+    "category": "middle-school-math",
+    "tagline": "Perform arithmetic operations on mixed numbers with whole parts and fractions",
+    "keywords": "mixed number calculator, mixed fraction calculator, add mixed numbers, subtract mixed numbers, mixed number operations, improper fractions, mixed number math",
+    "inputs": [
+      {"id": "whole1", "label": "Whole Number 1", "default": 2},
+      {"id": "num1", "label": "Numerator 1", "default": 1},
+      {"id": "den1", "label": "Denominator 1", "default": 3},
+      {"id": "whole2", "label": "Whole Number 2", "default": 1},
+      {"id": "num2", "label": "Numerator 2", "default": 1},
+      {"id": "den2", "label": "Denominator 2", "default": 4},
+      {"id": "operation", "label": "Operation", "type": "select", "options": ["add", "subtract", "multiply", "divide"], "default": "add"}
+    ],
+    "results": [
+      {"id": "answerWhole", "label": "Whole Part"},
+      {"id": "answerNum", "label": "Numerator"},
+      {"id": "answerDen", "label": "Denominator"}
+    ],
+    "calcFn": "var w1=parseInt(whole1),n1=parseInt(num1),d1=parseInt(den1),w2=parseInt(whole2),n2=parseInt(num2),d2=parseInt(den2);if(d1===0||d2===0){document.getElementById('answerWhole').textContent='Error: denominator cannot be zero';return;}var imp1=w1*d1+(w1<0?-Math.abs(n1):n1),imp2=w2*d2+(w2<0?-Math.abs(n2):n2);var rn,rd;if(operation==='add'){rn=imp1*d2+imp2*d1;rd=d1*d2;}else if(operation==='subtract'){rn=imp1*d2-imp2*d1;rd=d1*d2;}else if(operation==='multiply'){rn=imp1*imp2;rd=d1*d2;}else{if(imp2===0){document.getElementById('answerWhole').textContent='Error: cannot divide by zero';return;}rn=imp1*d2;rd=d1*imp2;}if(rd<0){rn=-rn;rd=-rd;}function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}var g=gcd(Math.abs(rn),rd);rn=rn/g;rd=rd/g;var neg=rn<0?-1:1;rn=Math.abs(rn);var w=Math.floor(rn/rd)*neg;var rem=rn%rd;document.getElementById('answerWhole').textContent=w;document.getElementById('answerNum').textContent=rem;document.getElementById('answerDen').textContent=rd;",
+    "faq": [
+      {"question": "What is a mixed number?", "answer": "A mixed number combines a whole number with a fraction, like 2 1/3. It represents a value between two whole numbers. The whole number part tells you how many complete units you have, and the fraction tells you the remaining part."},
+      {"question": "How do you convert a mixed number to an improper fraction?", "answer": "Multiply the whole number by the denominator, then add the numerator. Keep the same denominator. For example, 2 1/3 becomes (2×3+1)/3 = 7/3."},
+      {"question": "How do you add mixed numbers?", "answer": "Convert both mixed numbers to improper fractions, find a common denominator, add the numerators, then convert back to a mixed number and simplify."},
+      {"question": "How do you convert an improper fraction back to a mixed number?", "answer": "Divide the numerator by the denominator. The quotient is the whole number, the remainder is the new numerator, and the denominator stays the same. For example, 7/3: 7÷3 = 2 remainder 1, so it becomes 2 1/3."}
+    ],
+    "formulas": [
+      "Mixed to improper: w n/d = (w×d + n) / d",
+      "Improper to mixed: n/d = (n÷d) whole, (n mod d)/d fraction",
+      "a/b + c/d = (ad + bc) / bd"
+    ],
+    "relatedTools": ["fraction-calculator", "fraction-simplifier", "fraction-to-decimal-converter"]
+  },
+  {
+    "slug": "fraction-to-decimal-converter",
+    "toolName": "Fraction to Decimal Converter",
+    "category": "middle-school-math",
+    "tagline": "Convert any fraction to its decimal equivalent and check if it repeats",
+    "keywords": "fraction to decimal, convert fraction, decimal equivalent, repeating decimal, terminating decimal, fraction converter, fraction division",
+    "inputs": [
+      {"id": "numerator", "label": "Numerator", "default": 1},
+      {"id": "denominator", "label": "Denominator", "default": 3}
+    ],
+    "results": [
+      {"id": "decimal", "label": "Decimal Value"},
+      {"id": "isRepeating", "label": "Repeating?"}
+    ],
+    "calcFn": "var n=parseInt(numerator),d=parseInt(denominator);if(d===0){document.getElementById('decimal').textContent='Error: denominator cannot be zero';return;}var dec=n/d;document.getElementById('decimal').textContent=fmt(dec,8);var tempD=Math.abs(d);function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}var g=gcd(Math.abs(n),tempD);tempD=tempD/g;while(tempD%2===0)tempD/=2;while(tempD%5===0)tempD/=5;document.getElementById('isRepeating').textContent=tempD===1?'No — terminating decimal':'Yes — repeating decimal';",
+    "faq": [
+      {"question": "How do you convert a fraction to a decimal?", "answer": "Divide the numerator by the denominator. For example, 3/4 = 3 ÷ 4 = 0.75. You can do this with long division or a calculator."},
+      {"question": "What is a repeating decimal?", "answer": "A repeating decimal is a decimal number where one or more digits repeat infinitely, like 1/3 = 0.3333... It is often written with a bar over the repeating digits."},
+      {"question": "How do you know if a fraction will be a repeating or terminating decimal?", "answer": "After simplifying the fraction, look at the denominator. If its only prime factors are 2 and/or 5, the decimal terminates. If it has any other prime factors (like 3, 7, 11), the decimal repeats."},
+      {"question": "What are some common fraction-to-decimal conversions?", "answer": "1/2 = 0.5, 1/3 = 0.333..., 1/4 = 0.25, 1/5 = 0.2, 1/8 = 0.125, 1/6 = 0.1666..., 3/4 = 0.75, 2/3 = 0.666..."}
+    ],
+    "formulas": [
+      "Decimal = Numerator ÷ Denominator",
+      "Terminating if simplified denominator has only factors of 2 and 5"
+    ],
+    "relatedTools": ["decimal-to-fraction-converter", "fraction-calculator", "fraction-simplifier"]
+  },
+  {
+    "slug": "decimal-to-fraction-converter",
+    "toolName": "Decimal to Fraction Converter",
+    "category": "middle-school-math",
+    "tagline": "Convert any decimal number to a fraction in simplest form",
+    "keywords": "decimal to fraction, convert decimal, fraction equivalent, simplify fraction, decimal converter, terminating decimal, decimal fraction",
+    "inputs": [
+      {"id": "decimal", "label": "Decimal Number", "type": "text", "default": "0.75"}
+    ],
+    "results": [
+      {"id": "fraction", "label": "Fraction"},
+      {"id": "simplified", "label": "Simplified"}
+    ],
+    "calcFn": "var dec=parseFloat(decimal);if(isNaN(dec)){document.getElementById('fraction').textContent='Please enter a valid decimal';return;}var neg=dec<0?-1:1;dec=Math.abs(dec);var str=dec.toString();var dotIndex=str.indexOf('.');var decPlaces=dotIndex===-1?0:str.length-dotIndex-1;var n=Math.round(dec*Math.pow(10,decPlaces))*neg;var d=Math.pow(10,decPlaces);document.getElementById('fraction').textContent=n+'/'+d;function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}var g=gcd(Math.abs(n),d);document.getElementById('simplified').textContent=(n/g)+'/'+(d/g);",
+    "faq": [
+      {"question": "How do you convert a decimal to a fraction?", "answer": "Count the number of decimal places. Put the digits after the decimal point over a power of 10 (10, 100, 1000, etc.) matching the number of decimal places. Then simplify. For example, 0.75 = 75/100 = 3/4."},
+      {"question": "How do you convert 0.5 to a fraction?", "answer": "0.5 has one decimal place, so put 5 over 10: 5/10. Simplify by dividing both by 5 to get 1/2."},
+      {"question": "Can you convert repeating decimals to fractions?", "answer": "Yes, but it requires algebra. For example, 0.333... = 1/3. For this calculator, enter a rounded version of the repeating decimal for an approximate fraction."},
+      {"question": "Why is it useful to convert decimals to fractions?", "answer": "Fractions are exact representations while some decimals are approximations (like 0.333... for 1/3). Fractions also make it easier to see relationships between numbers and are often required in math class."}
+    ],
+    "formulas": [
+      "Decimal with n places = (decimal × 10^n) / 10^n",
+      "Simplify by dividing numerator and denominator by GCF"
+    ],
+    "relatedTools": ["fraction-to-decimal-converter", "percent-to-fraction-converter", "fraction-simplifier"]
+  },
+  {
+    "slug": "comparing-fractions-calculator",
+    "toolName": "Comparing Fractions Calculator",
+    "category": "middle-school-math",
+    "tagline": "Compare two fractions to determine which is greater, less, or if they are equal",
+    "keywords": "compare fractions, fraction comparison, greater than, less than, equal fractions, ordering fractions, fraction inequality",
+    "inputs": [
+      {"id": "num1", "label": "Numerator 1", "default": 3},
+      {"id": "den1", "label": "Denominator 1", "default": 4},
+      {"id": "num2", "label": "Numerator 2", "default": 5},
+      {"id": "den2", "label": "Denominator 2", "default": 8}
+    ],
+    "results": [
+      {"id": "comparison", "label": "Comparison"},
+      {"id": "decimal1", "label": "Decimal of Fraction 1"},
+      {"id": "decimal2", "label": "Decimal of Fraction 2"}
+    ],
+    "calcFn": "var n1=parseInt(num1),d1=parseInt(den1),n2=parseInt(num2),d2=parseInt(den2);if(d1===0||d2===0){document.getElementById('comparison').textContent='Error: denominator cannot be zero';return;}var dec1=n1/d1,dec2=n2/d2;document.getElementById('decimal1').textContent=fmt(dec1,6);document.getElementById('decimal2').textContent=fmt(dec2,6);var cross1=n1*d2,cross2=n2*d1;if(cross1>cross2){document.getElementById('comparison').textContent=n1+'/'+d1+' > '+n2+'/'+d2+' (first fraction is greater)';}else if(cross1<cross2){document.getElementById('comparison').textContent=n1+'/'+d1+' < '+n2+'/'+d2+' (second fraction is greater)';}else{document.getElementById('comparison').textContent=n1+'/'+d1+' = '+n2+'/'+d2+' (the fractions are equal)';}",
+    "faq": [
+      {"question": "How do you compare fractions with different denominators?", "answer": "You can either convert both fractions to decimals and compare, or use cross-multiplication: multiply the numerator of the first fraction by the denominator of the second, and vice versa. The larger cross-product tells you which fraction is larger."},
+      {"question": "What is cross-multiplication for comparing fractions?", "answer": "For a/b and c/d, compute a×d and c×b. If a×d > c×b, then a/b > c/d. If a×d < c×b, then a/b < c/d. If they are equal, the fractions are equal."},
+      {"question": "How do you compare fractions with the same denominator?", "answer": "When fractions have the same denominator, just compare the numerators. The fraction with the larger numerator is the greater fraction. For example, 5/7 > 3/7 because 5 > 3."}
+    ],
+    "formulas": [
+      "Cross multiply: a/b vs c/d → compare a×d with c×b",
+      "Convert to decimals: a/b = a÷b"
+    ],
+    "relatedTools": ["fraction-calculator", "equivalent-fractions-generator", "fraction-to-decimal-converter"]
+  },
+  {
+    "slug": "equivalent-fractions-generator",
+    "toolName": "Equivalent Fractions Generator",
+    "category": "middle-school-math",
+    "tagline": "Generate a list of equivalent fractions by multiplying the numerator and denominator",
+    "keywords": "equivalent fractions, equal fractions, fraction multiples, fraction list, fraction equivalence, find equivalent fractions, fraction families",
+    "inputs": [
+      {"id": "numerator", "label": "Numerator", "default": 1},
+      {"id": "denominator", "label": "Denominator", "default": 3},
+      {"id": "count", "label": "How Many to Generate", "default": 5}
+    ],
+    "results": [
+      {"id": "equivalentList", "label": "Equivalent Fractions"}
+    ],
+    "calcFn": "var n=parseInt(numerator),d=parseInt(denominator),c=parseInt(count);if(d===0){document.getElementById('equivalentList').textContent='Error: denominator cannot be zero';return;}if(c<1||c>20)c=5;var results=[];for(var i=1;i<=c;i++){results.push((n*i)+'/'+(d*i));}document.getElementById('equivalentList').textContent=results.join(', ');",
+    "faq": [
+      {"question": "What are equivalent fractions?", "answer": "Equivalent fractions are different fractions that represent the same value. For example, 1/2, 2/4, and 3/6 are all equivalent because they all equal 0.5. You create them by multiplying or dividing both the numerator and denominator by the same number."},
+      {"question": "How do you find equivalent fractions?", "answer": "Multiply both the numerator and denominator by the same whole number. For example, starting with 2/3: multiply by 2 to get 4/6, multiply by 3 to get 6/9, and so on."},
+      {"question": "How can you tell if two fractions are equivalent?", "answer": "Cross-multiply: if a/b and c/d are equivalent, then a×d = b×c. You can also simplify both fractions to lowest terms and see if they match."},
+      {"question": "Why are equivalent fractions important?", "answer": "Equivalent fractions are essential for adding and subtracting fractions with different denominators. You need to find equivalent fractions with a common denominator before you can combine them."}
+    ],
+    "formulas": [
+      "a/b = (a×n)/(b×n) for any non-zero integer n",
+      "Two fractions a/b and c/d are equivalent if a×d = b×c"
+    ],
+    "relatedTools": ["fraction-simplifier", "comparing-fractions-calculator", "fraction-calculator"]
+  },
+  {
+    "slug": "percentage-calculator",
+    "toolName": "Percentage Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate any percentage of a number quickly and see the equation used",
+    "keywords": "percentage calculator, percent of a number, find percentage, percent math, percentage formula, calculate percent, percent solver",
+    "inputs": [
+      {"id": "value", "label": "Number", "default": 200},
+      {"id": "percentage", "label": "Percentage (%)", "default": 15}
+    ],
+    "results": [
+      {"id": "result", "label": "Result"},
+      {"id": "equation", "label": "Equation"}
+    ],
+    "calcFn": "var v=parseFloat(value),p=parseFloat(percentage);var r=v*(p/100);document.getElementById('result').textContent=fmt(r,4);document.getElementById('equation').textContent=p+'% of '+fmt(v,2)+' = '+fmt(v,2)+' × '+(p/100)+' = '+fmt(r,4);",
+    "faq": [
+      {"question": "How do you calculate a percentage of a number?", "answer": "Convert the percentage to a decimal by dividing by 100, then multiply by the number. For example, 15% of 200 = 0.15 × 200 = 30."},
+      {"question": "What does percent mean?", "answer": "Percent means 'per hundred' or 'out of 100.' So 25% means 25 out of 100, which equals the fraction 25/100 or the decimal 0.25."},
+      {"question": "How do you find what percentage one number is of another?", "answer": "Divide the part by the whole and multiply by 100. For example, 30 is what percent of 200? 30 ÷ 200 × 100 = 15%."},
+      {"question": "What are some common percentages to know?", "answer": "50% = 1/2, 25% = 1/4, 10% = 1/10, 20% = 1/5, 33.3% ≈ 1/3, 75% = 3/4. Knowing these helps with mental math and estimation."}
+    ],
+    "formulas": [
+      "Result = Value × (Percentage / 100)",
+      "Percentage = (Part / Whole) × 100",
+      "Whole = Part / (Percentage / 100)"
+    ],
+    "relatedTools": ["percent-change-calculator", "percent-to-fraction-converter", "proportion-solver"]
+  },
+  {
+    "slug": "percent-change-calculator",
+    "toolName": "Percent Change Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the percentage increase or decrease between two values",
+    "keywords": "percent change, percentage increase, percentage decrease, percent difference, rate of change, percent growth, percent reduction",
+    "inputs": [
+      {"id": "originalValue", "label": "Original Value", "default": 50},
+      {"id": "newValue", "label": "New Value", "default": 75}
+    ],
+    "results": [
+      {"id": "percentChange", "label": "Percent Change"},
+      {"id": "difference", "label": "Difference"},
+      {"id": "direction", "label": "Direction"}
+    ],
+    "calcFn": "var ov=parseFloat(originalValue),nv=parseFloat(newValue);if(ov===0){document.getElementById('percentChange').textContent='Error: original value cannot be zero';return;}var diff=nv-ov;var pct=(diff/Math.abs(ov))*100;document.getElementById('percentChange').textContent=fmt(Math.abs(pct),2)+'%';document.getElementById('difference').textContent=fmt(diff,4);document.getElementById('direction').textContent=diff>0?'Increase ↑':diff<0?'Decrease ↓':'No change';",
+    "faq": [
+      {"question": "How do you calculate percent change?", "answer": "Subtract the original value from the new value, divide by the original value, then multiply by 100. The formula is: ((New - Original) / Original) × 100."},
+      {"question": "What is the difference between percent increase and percent decrease?", "answer": "If the new value is larger than the original, it is a percent increase. If the new value is smaller, it is a percent decrease. The formula is the same; the sign of the result tells you the direction."},
+      {"question": "Can percent change be more than 100%?", "answer": "Yes. If a value more than doubles, the percent increase is over 100%. For example, going from 50 to 150 is a 200% increase."},
+      {"question": "How is percent change used in real life?", "answer": "Percent change is used to describe stock market gains/losses, price changes, population growth, grade improvements, and many other comparisons over time."}
+    ],
+    "formulas": [
+      "Percent Change = ((New Value - Original Value) / |Original Value|) × 100",
+      "Difference = New Value - Original Value"
+    ],
+    "relatedTools": ["percentage-calculator", "proportion-solver", "percent-to-fraction-converter"]
+  },
+  {
+    "slug": "percent-to-fraction-converter",
+    "toolName": "Percent to Fraction Converter",
+    "category": "middle-school-math",
+    "tagline": "Convert any percentage to a fraction in simplest form and its decimal equivalent",
+    "keywords": "percent to fraction, convert percent, percentage to fraction, percent as fraction, simplify percent, percent converter, fraction equivalent",
+    "inputs": [
+      {"id": "percent", "label": "Percentage (%)", "default": 75}
+    ],
+    "results": [
+      {"id": "fraction", "label": "Fraction"},
+      {"id": "simplified", "label": "Simplified"},
+      {"id": "decimal", "label": "Decimal"}
+    ],
+    "calcFn": "var p=parseFloat(percent);var dec=p/100;document.getElementById('decimal').textContent=dec;var n=p*100,d=10000;if(p===Math.floor(p)){n=p;d=100;}else{var str=p.toString();var dotIdx=str.indexOf('.');var places=dotIdx===-1?0:str.length-dotIdx-1;n=Math.round(p*Math.pow(10,places));d=100*Math.pow(10,places);}function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}document.getElementById('fraction').textContent=n+'/'+d;var g=gcd(Math.abs(n),d);document.getElementById('simplified').textContent=(n/g)+'/'+(d/g);",
+    "faq": [
+      {"question": "How do you convert a percent to a fraction?", "answer": "Put the percent number over 100 and simplify. For example, 75% = 75/100 = 3/4."},
+      {"question": "How do you convert a percent with a decimal to a fraction?", "answer": "First remove the decimal by multiplying numerator and denominator. For example, 12.5% = 12.5/100 = 125/1000 = 1/8."},
+      {"question": "What is 33.33% as a fraction?", "answer": "33.33% is approximately 1/3. The exact value of 1/3 as a percentage is 33.333...% (repeating)."},
+      {"question": "How do you convert a percent to a decimal?", "answer": "Divide the percentage by 100, which is the same as moving the decimal point two places to the left. For example, 75% = 0.75."}
+    ],
+    "formulas": [
+      "Fraction = Percent / 100",
+      "Decimal = Percent / 100",
+      "Simplify by dividing numerator and denominator by GCF"
+    ],
+    "relatedTools": ["percentage-calculator", "decimal-to-fraction-converter", "fraction-simplifier"]
+  },
+  {
+    "slug": "ratio-simplifier",
+    "toolName": "Ratio Simplifier",
+    "category": "middle-school-math",
+    "tagline": "Simplify any ratio to its lowest terms by finding the greatest common factor",
+    "keywords": "ratio simplifier, simplify ratio, reduce ratio, ratio calculator, lowest terms ratio, equivalent ratio, ratio math",
+    "inputs": [
+      {"id": "valueA", "label": "Value A", "default": 12},
+      {"id": "valueB", "label": "Value B", "default": 18}
+    ],
+    "results": [
+      {"id": "simplified", "label": "Simplified Ratio"},
+      {"id": "factor", "label": "Common Factor"}
+    ],
+    "calcFn": "var a=parseInt(valueA),b=parseInt(valueB);if(a===0&&b===0){document.getElementById('simplified').textContent='0 : 0 (undefined ratio)';document.getElementById('factor').textContent='N/A';return;}function gcd(x,y){x=Math.abs(x);y=Math.abs(y);while(y){var t=y;y=x%y;x=t;}return x;}var g=gcd(Math.abs(a),Math.abs(b));document.getElementById('simplified').textContent=(a/g)+' : '+(b/g);document.getElementById('factor').textContent=g;",
+    "faq": [
+      {"question": "What is a ratio?", "answer": "A ratio compares two quantities using division. It tells you how much of one thing there is compared to another. For example, a ratio of 3:2 means for every 3 of the first item, there are 2 of the second."},
+      {"question": "How do you simplify a ratio?", "answer": "Find the greatest common factor (GCF) of both numbers and divide each by it. For example, 12:18 → GCF is 6 → 12÷6 : 18÷6 = 2:3."},
+      {"question": "What is the difference between a ratio and a fraction?", "answer": "A ratio compares two quantities (part to part or part to whole), while a fraction represents a part of a whole. The ratio 3:4 can be written as the fraction 3/4, but they conceptually describe different relationships."},
+      {"question": "How are ratios used in real life?", "answer": "Ratios appear in recipes (2 cups flour to 1 cup sugar), maps (1 inch : 10 miles), mixing paint colors, sports statistics, and many other everyday situations."}
+    ],
+    "formulas": [
+      "Simplified Ratio = A/GCF : B/GCF",
+      "GCF found using Euclidean algorithm"
+    ],
+    "relatedTools": ["proportion-solver", "unit-rate-calculator", "gcf-lcm-calculator"]
+  },
+  {
+    "slug": "proportion-solver",
+    "toolName": "Proportion Solver",
+    "category": "middle-school-math",
+    "tagline": "Solve proportions by finding the missing value in equivalent ratios (a/b = c/x)",
+    "keywords": "proportion solver, solve proportion, cross multiply, equivalent ratios, find missing value, ratio equation, proportion calculator",
+    "inputs": [
+      {"id": "a", "label": "a (numerator 1)", "default": 3},
+      {"id": "b", "label": "b (denominator 1)", "default": 4},
+      {"id": "c", "label": "c (numerator 2)", "default": 9}
+    ],
+    "results": [
+      {"id": "answer", "label": "x ="},
+      {"id": "equation", "label": "Equation"}
+    ],
+    "calcFn": "var av=parseFloat(a),bv=parseFloat(b),cv=parseFloat(c);if(av===0){document.getElementById('answer').textContent='Error: a cannot be zero';return;}var x=(bv*cv)/av;document.getElementById('answer').textContent=fmt(x,4);document.getElementById('equation').textContent=av+'/'+bv+' = '+cv+'/'+fmt(x,4)+' → '+av+' × '+fmt(x,4)+' = '+bv+' × '+cv+' → '+fmt(av*x,4)+' = '+fmt(bv*cv,4);",
+    "faq": [
+      {"question": "What is a proportion?", "answer": "A proportion is an equation that states two ratios are equal. For example, 3/4 = 6/8 is a proportion. Proportions are used to find unknown values when two ratios are known to be equivalent."},
+      {"question": "How do you solve a proportion using cross-multiplication?", "answer": "For a/b = c/x, cross-multiply to get a×x = b×c, then solve for x by dividing both sides by a: x = (b×c)/a."},
+      {"question": "When do you use proportions?", "answer": "Proportions are used in scaling recipes, map reading, unit conversions, similar figures in geometry, and any situation where you need to maintain the same ratio while changing quantities."},
+      {"question": "How do you check if a proportion is true?", "answer": "Cross-multiply both sides. If the products are equal, the proportion is true. For example, 2/3 = 4/6: 2×6 = 12 and 3×4 = 12, so it is a true proportion."}
+    ],
+    "formulas": [
+      "a/b = c/x → x = (b × c) / a",
+      "Cross multiplication: a × x = b × c"
+    ],
+    "relatedTools": ["ratio-simplifier", "unit-rate-calculator", "percentage-calculator"]
+  },
+  {
+    "slug": "unit-rate-calculator",
+    "toolName": "Unit Rate Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the unit rate or price per unit from any quantity and total value",
+    "keywords": "unit rate, price per unit, rate calculator, unit price, cost per item, rate math, unit cost, rate comparison",
+    "inputs": [
+      {"id": "quantity", "label": "Quantity", "default": 12},
+      {"id": "units", "label": "Unit Label", "type": "text", "default": "items"},
+      {"id": "totalCost", "label": "Total Value / Cost", "default": 36}
+    ],
+    "results": [
+      {"id": "unitRate", "label": "Unit Rate"},
+      {"id": "explanation", "label": "Explanation"}
+    ],
+    "calcFn": "var q=parseFloat(quantity),t=parseFloat(totalCost);var u=units||'units';if(q===0){document.getElementById('unitRate').textContent='Error: quantity cannot be zero';return;}var rate=t/q;document.getElementById('unitRate').textContent=fmt(rate,4)+' per '+u;document.getElementById('explanation').textContent=fmt(t,2)+' ÷ '+fmt(q,2)+' '+u+' = '+fmt(rate,4)+' per '+u;",
+    "faq": [
+      {"question": "What is a unit rate?", "answer": "A unit rate is a ratio that compares a quantity to one unit of another quantity. For example, if 12 items cost $36, the unit rate is $3 per item. The denominator of a unit rate is always 1."},
+      {"question": "How do you find a unit rate?", "answer": "Divide the total by the number of units. For example, 150 miles in 3 hours: 150 ÷ 3 = 50 miles per hour."},
+      {"question": "What is the difference between a rate and a unit rate?", "answer": "A rate compares two different quantities (like 150 miles per 3 hours), while a unit rate expresses that comparison per one unit (50 miles per 1 hour, or simply 50 mph)."},
+      {"question": "How can unit rates help with shopping?", "answer": "Unit rates let you compare prices fairly. If a 12-pack costs $6.00 ($0.50 each) and a 20-pack costs $9.00 ($0.45 each), the unit rate shows the 20-pack is a better deal per item."}
+    ],
+    "formulas": [
+      "Unit Rate = Total Value / Quantity",
+      "Per unit = Total ÷ Number of units"
+    ],
+    "relatedTools": ["proportion-solver", "ratio-simplifier", "percentage-calculator"]
+  },
+  {
+    "slug": "order-of-operations-calculator",
+    "toolName": "Order of Operations Calculator",
+    "category": "middle-school-math",
+    "tagline": "Evaluate math expressions using PEMDAS order of operations and see each step",
+    "keywords": "order of operations, PEMDAS, math expression solver, BODMAS, parentheses, exponents, evaluate expression, math order",
+    "inputs": [
+      {"id": "expression", "label": "Expression", "type": "text", "default": "2 + 3 * (4 - 1)^2"}
+    ],
+    "results": [
+      {"id": "answer", "label": "Answer"},
+      {"id": "steps", "label": "Steps"}
+    ],
+    "calcFn": "var expr=expression.trim();var safe=/^[0-9+\\-*/().^\\s]+$/.test(expr);if(!safe){document.getElementById('answer').textContent='Error: only numbers and operators (+, -, *, /, ^, parentheses) are allowed';return;}try{var jsExpr=expr.replace(/\\^/g,'**');var result=new Function('return ('+jsExpr+')')();document.getElementById('answer').textContent=fmt(result,6);document.getElementById('steps').textContent='PEMDAS: 1) Parentheses 2) Exponents 3) Multiplication/Division (left to right) 4) Addition/Subtraction (left to right) → Result: '+fmt(result,6);}catch(e){document.getElementById('answer').textContent='Error: invalid expression';}",
+    "faq": [
+      {"question": "What is PEMDAS?", "answer": "PEMDAS is a mnemonic to remember the order of operations: Parentheses, Exponents, Multiplication and Division (left to right), Addition and Subtraction (left to right). Some people remember it as 'Please Excuse My Dear Aunt Sally.'"},
+      {"question": "Do you always multiply before dividing?", "answer": "No. Multiplication and division have equal priority and are performed left to right. The same is true for addition and subtraction. For example, in 8 ÷ 2 × 3, you divide first (going left to right) to get 4 × 3 = 12."},
+      {"question": "Why are parentheses done first?", "answer": "Parentheses override the default order of operations. They let you group operations to specify which calculations happen first. This is essential for writing expressions that compute correctly."},
+      {"question": "What is the difference between PEMDAS and BODMAS?", "answer": "They represent the same rules with different terminology. BODMAS (Brackets, Orders, Division/Multiplication, Addition/Subtraction) is used in some countries. The math is identical."}
+    ],
+    "formulas": [
+      "PEMDAS: Parentheses → Exponents → Multiplication/Division → Addition/Subtraction",
+      "^ represents exponents (e.g., 2^3 = 8)"
+    ],
+    "relatedTools": ["integer-operations-calculator", "evaluating-expressions-calculator", "exponent-calculator"]
+  },
+  {
+    "slug": "integer-operations-calculator",
+    "toolName": "Integer Operations Calculator",
+    "category": "middle-school-math",
+    "tagline": "Add, subtract, multiply, and divide positive and negative integers with sign rules explained",
+    "keywords": "integer operations, negative numbers, add integers, subtract integers, multiply integers, divide integers, signed numbers, integer rules",
+    "inputs": [
+      {"id": "number1", "label": "Number 1", "default": -8},
+      {"id": "number2", "label": "Number 2", "default": 3},
+      {"id": "operation", "label": "Operation", "type": "select", "options": ["add", "subtract", "multiply", "divide"], "default": "add"}
+    ],
+    "results": [
+      {"id": "answer", "label": "Answer"},
+      {"id": "rule", "label": "Rule Applied"}
+    ],
+    "calcFn": "var a=parseFloat(number1),b=parseFloat(number2);var result,rule;if(operation==='add'){result=a+b;if(a>=0&&b>=0)rule='Positive + Positive = Positive';else if(a<0&&b<0)rule='Negative + Negative = Negative (add absolute values, keep negative sign)';else rule='Different signs: subtract absolute values, keep sign of larger absolute value';}else if(operation==='subtract'){result=a-b;rule='Subtracting is the same as adding the opposite: '+a+' + '+(b*-1)+' = '+result;}else if(operation==='multiply'){result=a*b;if((a>=0&&b>=0)||(a<0&&b<0))rule='Same signs → Positive result';else rule='Different signs → Negative result';}else{if(b===0){document.getElementById('answer').textContent='Error: cannot divide by zero';document.getElementById('rule').textContent='Division by zero is undefined';return;}result=a/b;if((a>=0&&b>=0)||(a<0&&b<0))rule='Same signs → Positive result';else rule='Different signs → Negative result';}document.getElementById('answer').textContent=fmt(result,4);document.getElementById('rule').textContent=rule;",
+    "faq": [
+      {"question": "What are integers?", "answer": "Integers are whole numbers that can be positive, negative, or zero. Examples: -3, -2, -1, 0, 1, 2, 3. They do not include fractions or decimals."},
+      {"question": "What are the rules for multiplying integers?", "answer": "Positive × Positive = Positive, Negative × Negative = Positive, Positive × Negative = Negative. In short: same signs give a positive result, different signs give a negative result."},
+      {"question": "How do you subtract a negative number?", "answer": "Subtracting a negative is the same as adding a positive. For example, 5 - (-3) = 5 + 3 = 8. Think of it as removing a debt, which increases your total."},
+      {"question": "Why does a negative times a negative equal a positive?", "answer": "Think of it as reversing a reversal. If negative means 'opposite direction,' then two negatives reverse direction twice, bringing you back to positive. Mathematically, it maintains the distributive property."}
+    ],
+    "formulas": [
+      "Same signs multiply/divide → Positive",
+      "Different signs multiply/divide → Negative",
+      "a - b = a + (-b)",
+      "a - (-b) = a + b"
+    ],
+    "relatedTools": ["absolute-value-calculator", "order-of-operations-calculator", "exponent-calculator"]
+  },
+  {
+    "slug": "absolute-value-calculator",
+    "toolName": "Absolute Value Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the absolute value (distance from zero) of any number instantly",
+    "keywords": "absolute value, distance from zero, absolute value calculator, positive value, magnitude, number line distance, absolute value math",
+    "inputs": [
+      {"id": "number", "label": "Number", "default": -15}
+    ],
+    "results": [
+      {"id": "absoluteValue", "label": "Absolute Value"},
+      {"id": "explanation", "label": "Explanation"}
+    ],
+    "calcFn": "var n=parseFloat(number);var abs=Math.abs(n);document.getElementById('absoluteValue').textContent=fmt(abs,6);document.getElementById('explanation').textContent='|'+n+'| = '+abs+' — The number '+n+' is '+abs+' units from zero on the number line.';",
+    "faq": [
+      {"question": "What is absolute value?", "answer": "Absolute value is the distance of a number from zero on a number line, regardless of direction. It is always positive or zero. For example, |-5| = 5 and |5| = 5, because both are 5 units from zero."},
+      {"question": "What is the absolute value of zero?", "answer": "The absolute value of zero is 0. Zero is exactly at the origin on the number line, so its distance from zero is 0."},
+      {"question": "How is absolute value written?", "answer": "Absolute value is written with vertical bars around the number: |x|. For example, |-7| means the absolute value of -7, which equals 7."},
+      {"question": "When is absolute value used in real life?", "answer": "Absolute value is used when only the magnitude matters, not the direction. Examples include distance (you cannot travel -5 miles), temperature differences, and measuring error or deviation from a target."}
+    ],
+    "formulas": [
+      "|x| = x if x ≥ 0",
+      "|x| = -x if x < 0",
+      "Distance between a and b = |a - b|"
+    ],
+    "relatedTools": ["integer-operations-calculator", "coordinate-distance-calculator", "rounding-calculator"]
+  },
+  {
+    "slug": "gcf-lcm-calculator",
+    "toolName": "GCF & LCM Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the greatest common factor and least common multiple of two numbers",
+    "keywords": "GCF, LCM, greatest common factor, least common multiple, GCD, common denominator, factor calculator, multiple calculator",
+    "inputs": [
+      {"id": "number1", "label": "Number 1", "default": 24},
+      {"id": "number2", "label": "Number 2", "default": 36}
+    ],
+    "results": [
+      {"id": "gcf", "label": "Greatest Common Factor (GCF)"},
+      {"id": "lcm", "label": "Least Common Multiple (LCM)"},
+      {"id": "method", "label": "Method"}
+    ],
+    "calcFn": "var a=Math.abs(parseInt(number1)),b=Math.abs(parseInt(number2));if(a===0&&b===0){document.getElementById('gcf').textContent='Undefined';document.getElementById('lcm').textContent='Undefined';document.getElementById('method').textContent='GCF and LCM are undefined when both numbers are zero';return;}function gcd(x,y){while(y){var t=y;y=x%y;x=t;}return x;}var g=gcd(a,b);var l=(a===0||b===0)?0:(a*b)/g;document.getElementById('gcf').textContent=g;document.getElementById('lcm').textContent=l;var factorsA=[],factorsB=[];for(var i=1;i<=a;i++){if(a%i===0)factorsA.push(i);}for(var j=1;j<=b;j++){if(b%j===0)factorsB.push(j);}document.getElementById('method').textContent='Factors of '+a+': '+factorsA.join(', ')+' | Factors of '+b+': '+factorsB.join(', ')+' | GCF × LCM = '+a+' × '+b;",
+    "faq": [
+      {"question": "What is the greatest common factor (GCF)?", "answer": "The GCF is the largest number that divides evenly into two or more numbers. For example, the GCF of 24 and 36 is 12, because 12 is the largest number that divides into both 24 and 36 without a remainder."},
+      {"question": "What is the least common multiple (LCM)?", "answer": "The LCM is the smallest positive number that is a multiple of two or more numbers. For example, the LCM of 4 and 6 is 12, because 12 is the smallest number that both 4 and 6 divide into evenly."},
+      {"question": "How are GCF and LCM related?", "answer": "For any two numbers a and b: GCF(a,b) × LCM(a,b) = a × b. This relationship can help you find one if you know the other."},
+      {"question": "When do you use GCF and LCM?", "answer": "Use GCF when simplifying fractions (divide numerator and denominator by GCF). Use LCM when finding common denominators to add or subtract fractions."}
+    ],
+    "formulas": [
+      "GCF × LCM = a × b",
+      "LCM(a, b) = (a × b) / GCF(a, b)",
+      "Euclidean algorithm: GCF(a, b) = GCF(b, a mod b)"
+    ],
+    "relatedTools": ["fraction-simplifier", "prime-factorization-calculator", "divisibility-rules-checker"]
+  },
+  {
+    "slug": "prime-factorization-calculator",
+    "toolName": "Prime Factorization Calculator",
+    "category": "middle-school-math",
+    "tagline": "Break any number into its prime factors and see the complete factor tree",
+    "keywords": "prime factorization, factor tree, prime factors, prime numbers, factorization, prime decomposition, find factors, prime factor calculator",
+    "inputs": [
+      {"id": "number", "label": "Number", "default": 60}
+    ],
+    "results": [
+      {"id": "factors", "label": "Prime Factorization"},
+      {"id": "factorTree", "label": "Factor Tree"},
+      {"id": "isPrime", "label": "Is Prime?"}
+    ],
+    "calcFn": "var n=Math.abs(parseInt(number));if(n<2){document.getElementById('factors').textContent=n<2?'Numbers less than 2 have no prime factorization':'';document.getElementById('isPrime').textContent='No';return;}var orig=n;var primeFactors=[];var d=2;while(d*d<=n){while(n%d===0){primeFactors.push(d);n=n/d;}d++;}if(n>1)primeFactors.push(n);document.getElementById('factors').textContent=primeFactors.join(' × ');var counts={};primeFactors.forEach(function(f){counts[f]=(counts[f]||0)+1;});var expForm=Object.keys(counts).map(function(k){return counts[k]>1?k+'^'+counts[k]:k;}).join(' × ');document.getElementById('factorTree').textContent=orig+' = '+expForm;document.getElementById('isPrime').textContent=primeFactors.length===1?'Yes — '+orig+' is a prime number':'No — '+orig+' is a composite number';",
+    "faq": [
+      {"question": "What is prime factorization?", "answer": "Prime factorization is the process of breaking a number down into a product of prime numbers. For example, 60 = 2 × 2 × 3 × 5 = 2² × 3 × 5. Every composite number has a unique prime factorization."},
+      {"question": "What is a prime number?", "answer": "A prime number is a whole number greater than 1 that has exactly two factors: 1 and itself. Examples: 2, 3, 5, 7, 11, 13. The number 2 is the only even prime number."},
+      {"question": "What is a factor tree?", "answer": "A factor tree is a diagram where you break a number into two factors, then break those factors further until all remaining factors are prime. It is a visual way to find the prime factorization."},
+      {"question": "Why is prime factorization useful?", "answer": "Prime factorization helps find GCF and LCM, simplify fractions, and understand number theory. It is also the basis for modern cryptography and computer security."}
+    ],
+    "formulas": [
+      "Every integer > 1 is either prime or a unique product of primes",
+      "Fundamental Theorem of Arithmetic: unique prime factorization"
+    ],
+    "relatedTools": ["gcf-lcm-calculator", "divisibility-rules-checker", "fraction-simplifier"]
+  },
+  {
+    "slug": "divisibility-rules-checker",
+    "toolName": "Divisibility Rules Checker",
+    "category": "middle-school-math",
+    "tagline": "Check which numbers from 2 to 10 evenly divide into any number using divisibility rules",
+    "keywords": "divisibility rules, divisible by, divisibility test, even number, factor check, divisibility checker, divide evenly, number divisibility",
+    "inputs": [
+      {"id": "number", "label": "Number", "default": 120}
+    ],
+    "results": [
+      {"id": "divisibleBy", "label": "Divisible By"}
+    ],
+    "calcFn": "var n=Math.abs(parseInt(number));if(n===0){document.getElementById('divisibleBy').textContent='Zero is divisible by every non-zero number';return;}var divs=[];for(var i=2;i<=10;i++){if(n%i===0)divs.push(i);}document.getElementById('divisibleBy').textContent=divs.length>0?n+' is divisible by: '+divs.join(', '):n+' is not divisible by any number from 2 to 10';",
+    "faq": [
+      {"question": "What are divisibility rules?", "answer": "Divisibility rules are shortcuts to determine if a number divides evenly without doing long division. For example, a number is divisible by 2 if its last digit is even, by 3 if the sum of its digits is divisible by 3, and by 5 if it ends in 0 or 5."},
+      {"question": "How do you check divisibility by 4?", "answer": "A number is divisible by 4 if its last two digits form a number divisible by 4. For example, 316: the last two digits are 16, and 16 ÷ 4 = 4, so 316 is divisible by 4."},
+      {"question": "How do you check divisibility by 6?", "answer": "A number is divisible by 6 if it is divisible by BOTH 2 and 3. For example, 42 is even (divisible by 2) and 4+2=6 is divisible by 3, so 42 is divisible by 6."},
+      {"question": "What is the divisibility rule for 9?", "answer": "A number is divisible by 9 if the sum of its digits is divisible by 9. For example, 729: 7+2+9 = 18, and 18 is divisible by 9, so 729 is divisible by 9."}
+    ],
+    "formulas": [
+      "Divisible by 2: last digit is 0, 2, 4, 6, or 8",
+      "Divisible by 3: sum of digits is divisible by 3",
+      "Divisible by 5: last digit is 0 or 5",
+      "Divisible by 9: sum of digits is divisible by 9"
+    ],
+    "relatedTools": ["prime-factorization-calculator", "gcf-lcm-calculator", "rounding-calculator"]
+  },
+  {
+    "slug": "rounding-calculator",
+    "toolName": "Rounding Calculator",
+    "category": "middle-school-math",
+    "tagline": "Round any number to a specific place value with step-by-step rounding explanation",
+    "keywords": "rounding calculator, round numbers, round to nearest, place value, rounding rules, round decimals, round whole numbers, estimation",
+    "inputs": [
+      {"id": "number", "label": "Number", "default": 3456.789},
+      {"id": "place", "label": "Round to", "type": "select", "options": ["ones", "tens", "hundreds", "tenths", "hundredths"], "default": "tens"}
+    ],
+    "results": [
+      {"id": "rounded", "label": "Rounded"},
+      {"id": "explanation", "label": "Explanation"}
+    ],
+    "calcFn": "var n=parseFloat(number);var placeMap={'ones':0,'tens':-1,'hundreds':-2,'tenths':1,'hundredths':2};var digits=placeMap[place];var factor,rounded;if(digits>=0){factor=Math.pow(10,digits);rounded=Math.round(n*factor)/factor;}else{factor=Math.pow(10,Math.abs(digits));rounded=Math.round(n/factor)*factor;}document.getElementById('rounded').textContent=fmt(rounded,Math.max(0,digits));var lookAt;if(place==='ones')lookAt='the tenths digit';else if(place==='tens')lookAt='the ones digit';else if(place==='hundreds')lookAt='the tens digit';else if(place==='tenths')lookAt='the hundredths digit';else lookAt='the thousandths digit';document.getElementById('explanation').textContent='Look at '+lookAt+'. If it is 5 or greater, round up. If less than 5, round down. '+n+' rounded to the nearest '+place+' is '+rounded+'.';",
+    "faq": [
+      {"question": "What is the basic rule for rounding?", "answer": "Look at the digit one place to the right of where you are rounding. If that digit is 5 or greater, round up. If it is 4 or less, round down (keep the digit the same)."},
+      {"question": "How do you round to the nearest ten?", "answer": "Look at the ones digit. If it is 5 or more, round up to the next ten. If it is 4 or less, round down. For example, 47 rounds to 50 and 43 rounds to 40."},
+      {"question": "How do you round decimals?", "answer": "The same rule applies. To round to the nearest tenth, look at the hundredths digit. For example, 3.46 rounds to 3.5 (because 6 ≥ 5) and 3.42 rounds to 3.4 (because 2 < 5)."},
+      {"question": "Why is rounding useful?", "answer": "Rounding makes numbers easier to work with for estimation and mental math. It is used in everyday life for prices, measurements, and understanding approximate values."}
+    ],
+    "formulas": [
+      "If digit to the right ≥ 5, round up",
+      "If digit to the right < 5, round down (keep same)"
+    ],
+    "relatedTools": ["scientific-notation-converter", "percentage-calculator", "absolute-value-calculator"]
+  },
+  {
+    "slug": "scientific-notation-converter",
+    "toolName": "Scientific Notation Converter",
+    "category": "middle-school-math",
+    "tagline": "Convert between standard numbers and scientific notation (a × 10^n) instantly",
+    "keywords": "scientific notation, standard form, powers of ten, scientific notation converter, exponent notation, large numbers, small numbers, scientific form",
+    "inputs": [
+      {"id": "number", "label": "Number", "type": "text", "default": "4500000"}
+    ],
+    "results": [
+      {"id": "scientific", "label": "Scientific Notation"},
+      {"id": "standard", "label": "Standard Form"}
+    ],
+    "calcFn": "var str=number.trim();var n=parseFloat(str);if(isNaN(n)){document.getElementById('scientific').textContent='Please enter a valid number';return;}if(n===0){document.getElementById('scientific').textContent='0 × 10^0';document.getElementById('standard').textContent='0';return;}var exp=Math.floor(Math.log10(Math.abs(n)));var coeff=n/Math.pow(10,exp);document.getElementById('scientific').textContent=fmt(coeff,6)+' × 10^'+exp;document.getElementById('standard').textContent=n.toLocaleString('en-US',{maximumFractionDigits:20});",
+    "faq": [
+      {"question": "What is scientific notation?", "answer": "Scientific notation is a way to write very large or very small numbers as a coefficient between 1 and 10, multiplied by a power of 10. For example, 4,500,000 = 4.5 × 10^6 and 0.003 = 3 × 10^-3."},
+      {"question": "How do you convert a number to scientific notation?", "answer": "Move the decimal point until you have a number between 1 and 10. Count how many places you moved the decimal. If you moved it left, the exponent is positive; if right, it is negative."},
+      {"question": "How do you convert scientific notation back to standard form?", "answer": "Move the decimal point the number of places indicated by the exponent. Positive exponent: move right. Negative exponent: move left. Fill in zeros as needed."},
+      {"question": "Why do scientists use scientific notation?", "answer": "It makes extremely large numbers (like the distance to stars) and extremely small numbers (like the size of atoms) much easier to read, write, and calculate with."}
+    ],
+    "formulas": [
+      "a × 10^n where 1 ≤ |a| < 10",
+      "Positive exponent = large number, Negative exponent = small number"
+    ],
+    "relatedTools": ["exponent-calculator", "rounding-calculator", "order-of-operations-calculator"]
+  },
+  {
+    "slug": "evaluating-expressions-calculator",
+    "toolName": "Evaluating Expressions Calculator",
+    "category": "middle-school-math",
+    "tagline": "Substitute a value for x and evaluate any algebraic expression step by step",
+    "keywords": "evaluate expressions, substitute variable, algebraic expression, plug in value, evaluate at x, expression calculator, algebra evaluator",
+    "inputs": [
+      {"id": "expression", "label": "Expression (use x)", "type": "text", "default": "2x + 3"},
+      {"id": "xValue", "label": "Value of x", "default": 5}
+    ],
+    "results": [
+      {"id": "answer", "label": "Result"}
+    ],
+    "calcFn": "var expr=expression.trim();var xv=parseFloat(xValue);var substituted=expr.replace(/([0-9)])x/g,'$1*x').replace(/x([0-9(])/g,'x*$1').replace(/x/g,'('+xv+')');var safe=/^[0-9+\\-*/().\\s]+$/.test(substituted);if(!safe){document.getElementById('answer').textContent='Error: expression contains unsupported characters';return;}try{var result=new Function('return ('+substituted+')')();document.getElementById('answer').textContent='When x = '+xv+': '+expr+' = '+fmt(result,6);}catch(e){document.getElementById('answer').textContent='Error: could not evaluate expression';}",
+    "faq": [
+      {"question": "What does it mean to evaluate an expression?", "answer": "Evaluating an expression means substituting a given value for the variable and then simplifying to get a numerical answer. For example, evaluating 2x + 3 when x = 5 gives 2(5) + 3 = 13."},
+      {"question": "What is a variable in math?", "answer": "A variable is a letter (like x, y, or n) that represents an unknown or changeable value. It acts as a placeholder for a number that may change or that you need to find."},
+      {"question": "How do you substitute a value into an expression?", "answer": "Replace every instance of the variable with the given value, using parentheses. Then follow the order of operations (PEMDAS) to simplify. For example, 3x² when x = 4: 3(4)² = 3(16) = 48."},
+      {"question": "What is the difference between an expression and an equation?", "answer": "An expression is a combination of numbers, variables, and operations (like 2x + 3). An equation sets two expressions equal to each other (like 2x + 3 = 11). Expressions are evaluated; equations are solved."}
+    ],
+    "formulas": [
+      "Substitute x = value into expression, then simplify",
+      "Follow PEMDAS order of operations after substitution"
+    ],
+    "relatedTools": ["order-of-operations-calculator", "one-step-equation-solver", "two-step-equation-solver"]
+  },
+  {
+    "slug": "distributive-property-calculator",
+    "toolName": "Distributive Property Calculator",
+    "category": "middle-school-math",
+    "tagline": "Apply the distributive property to expand expressions like a(b + c) step by step",
+    "keywords": "distributive property, expand expression, distribute, multiply brackets, algebra distributive, factor out, algebra expansion, distributive law",
+    "inputs": [
+      {"id": "multiplier", "label": "Multiplier (a)", "default": 3},
+      {"id": "term1", "label": "First Term (b)", "default": 4},
+      {"id": "term2", "label": "Second Term (c)", "default": 5}
+    ],
+    "results": [
+      {"id": "expanded", "label": "Expanded"},
+      {"id": "simplified", "label": "Simplified"}
+    ],
+    "calcFn": "var a=parseFloat(multiplier),b=parseFloat(term1),c=parseFloat(term2);var ab=a*b,ac=a*c;var total=ab+ac;document.getElementById('expanded').textContent=a+'('+b+' + '+c+') = '+a+' × '+b+' + '+a+' × '+c+' = '+ab+' + '+ac;document.getElementById('simplified').textContent=ab+' + '+ac+' = '+total;",
+    "faq": [
+      {"question": "What is the distributive property?", "answer": "The distributive property states that a(b + c) = ab + ac. It means you multiply the outside factor by each term inside the parentheses. For example, 3(4 + 5) = 3×4 + 3×5 = 12 + 15 = 27."},
+      {"question": "Does the distributive property work with subtraction?", "answer": "Yes. a(b - c) = ab - ac. The same rule applies: multiply the outside factor by each term inside. For example, 5(x - 3) = 5x - 15."},
+      {"question": "Why is the distributive property important in algebra?", "answer": "It allows you to remove parentheses from expressions, which is often the first step in solving equations. It is also used in reverse (factoring) to simplify expressions."},
+      {"question": "Can you distribute a negative number?", "answer": "Yes. Be careful with signs. For example, -2(3 + 4) = -2×3 + (-2)×4 = -6 + (-8) = -14. A negative times a positive is negative."}
+    ],
+    "formulas": [
+      "a(b + c) = ab + ac",
+      "a(b - c) = ab - ac"
+    ],
+    "relatedTools": ["combining-like-terms-calculator", "evaluating-expressions-calculator", "one-step-equation-solver"]
+  },
+  {
+    "slug": "combining-like-terms-calculator",
+    "toolName": "Combining Like Terms Calculator",
+    "category": "middle-school-math",
+    "tagline": "Combine like terms in algebraic expressions to simplify them instantly",
+    "keywords": "combining like terms, simplify expression, like terms, algebra simplification, combine terms, coefficient, algebraic expression, simplify algebra",
+    "inputs": [
+      {"id": "term1Coeff", "label": "Coefficient 1", "default": 3},
+      {"id": "term1Var", "label": "Variable 1", "type": "text", "default": "x"},
+      {"id": "term2Coeff", "label": "Coefficient 2", "default": 5},
+      {"id": "term2Var", "label": "Variable 2", "type": "text", "default": "y"},
+      {"id": "term3Coeff", "label": "Coefficient 3", "default": 2},
+      {"id": "term3Var", "label": "Variable 3", "type": "text", "default": "x"}
+    ],
+    "results": [
+      {"id": "simplified", "label": "Simplified Expression"}
+    ],
+    "calcFn": "var c1=parseFloat(term1Coeff),v1=term1Var.trim(),c2=parseFloat(term2Coeff),v2=term2Var.trim(),c3=parseFloat(term3Coeff),v3=term3Var.trim();var terms={};function addTerm(c,v){var key=v||'constant';terms[key]=(terms[key]||0)+c;}addTerm(c1,v1);addTerm(c2,v2);addTerm(c3,v3);var parts=[];var keys=Object.keys(terms).sort();keys.forEach(function(k){var c=terms[k];if(c===0)return;if(k==='constant'){parts.push(c.toString());}else{if(c===1)parts.push(k);else if(c===-1)parts.push('-'+k);else parts.push(c+k);}});document.getElementById('simplified').textContent=parts.length>0?parts.join(' + ').replace(/\\+ -/g,'- '):'0';",
+    "faq": [
+      {"question": "What are like terms?", "answer": "Like terms are terms that have the same variable raised to the same power. For example, 3x and 5x are like terms because they both have the variable x. But 3x and 3x² are NOT like terms because the exponents differ."},
+      {"question": "How do you combine like terms?", "answer": "Add or subtract the coefficients (the numbers in front of the variables) and keep the variable the same. For example, 3x + 5x = 8x. The coefficients 3 and 5 add to 8, and x stays the same."},
+      {"question": "Can constants be like terms?", "answer": "Yes. Numbers without variables (constants) are like terms with each other. For example, in 3x + 4 + 2x + 7, the constants 4 and 7 combine to 11, and 3x + 2x combine to 5x, giving 5x + 11."},
+      {"question": "What is a coefficient?", "answer": "A coefficient is the number multiplied by a variable. In 5x, the coefficient is 5. If you see just x with no number, the coefficient is 1. If you see -x, the coefficient is -1."}
+    ],
+    "formulas": [
+      "ax + bx = (a + b)x",
+      "Like terms: same variable(s) with same exponent(s)"
+    ],
+    "relatedTools": ["distributive-property-calculator", "evaluating-expressions-calculator", "one-step-equation-solver"]
+  },
+  {
+    "slug": "one-step-equation-solver",
+    "toolName": "One-Step Equation Solver",
+    "category": "middle-school-math",
+    "tagline": "Solve one-step equations (like 5x = 30) with the step-by-step process shown",
+    "keywords": "one step equation, solve equation, algebra solver, variable solver, equation calculator, basic equation, solve for x, algebra help",
+    "inputs": [
+      {"id": "coefficient", "label": "Coefficient", "default": 5},
+      {"id": "result", "label": "Equals", "default": 30}
+    ],
+    "results": [
+      {"id": "answer", "label": "x ="},
+      {"id": "steps", "label": "Steps"}
+    ],
+    "calcFn": "var c=parseFloat(coefficient),r=parseFloat(result);if(c===0){document.getElementById('answer').textContent=r===0?'Infinite solutions (0x = 0)':'No solution (0x ≠ '+r+')';document.getElementById('steps').textContent=c+'x = '+r;return;}var x=r/c;document.getElementById('answer').textContent=fmt(x,6);document.getElementById('steps').textContent=c+'x = '+r+' → Divide both sides by '+c+' → x = '+r+' ÷ '+c+' = '+fmt(x,6);",
+    "faq": [
+      {"question": "What is a one-step equation?", "answer": "A one-step equation requires only one operation to solve for the variable. Examples include x + 5 = 12, 3x = 15, or x/4 = 8. You perform one inverse operation to isolate the variable."},
+      {"question": "How do you solve a multiplication equation?", "answer": "Divide both sides by the coefficient. For example, 5x = 30: divide both sides by 5 to get x = 6."},
+      {"question": "What is an inverse operation?", "answer": "An inverse operation 'undoes' another operation. Addition and subtraction are inverses; multiplication and division are inverses. You use inverse operations to isolate the variable when solving equations."},
+      {"question": "How do you check your answer?", "answer": "Substitute your answer back into the original equation. If both sides are equal, your answer is correct. For 5x = 30, check: 5(6) = 30 ✓"}
+    ],
+    "formulas": [
+      "ax = b → x = b/a",
+      "x + a = b → x = b - a",
+      "x - a = b → x = b + a"
+    ],
+    "relatedTools": ["two-step-equation-solver", "evaluating-expressions-calculator", "proportion-solver"]
+  },
+  {
+    "slug": "two-step-equation-solver",
+    "toolName": "Two-Step Equation Solver",
+    "category": "middle-school-math",
+    "tagline": "Solve two-step equations of the form ax + b = c with both steps explained",
+    "keywords": "two step equation, solve ax+b=c, two step algebra, equation solver, algebra steps, solving equations, linear equation, algebra calculator",
+    "inputs": [
+      {"id": "a", "label": "a (coefficient of x)", "default": 3},
+      {"id": "b", "label": "b (constant added)", "default": 7},
+      {"id": "c", "label": "c (equals)", "default": 22}
+    ],
+    "results": [
+      {"id": "answer", "label": "x ="},
+      {"id": "step1", "label": "Step 1"},
+      {"id": "step2", "label": "Step 2"}
+    ],
+    "calcFn": "var av=parseFloat(a),bv=parseFloat(b),cv=parseFloat(c);if(av===0){document.getElementById('answer').textContent=(cv-bv)===0?'Infinite solutions':'No solution';document.getElementById('step1').textContent=av+'x + '+bv+' = '+cv;return;}var afterSub=cv-bv;var x=afterSub/av;document.getElementById('step1').textContent='Subtract '+bv+' from both sides: '+av+'x = '+cv+' - '+bv+' = '+afterSub;document.getElementById('step2').textContent='Divide both sides by '+av+': x = '+afterSub+' ÷ '+av+' = '+fmt(x,6);document.getElementById('answer').textContent=fmt(x,6);",
+    "faq": [
+      {"question": "What is a two-step equation?", "answer": "A two-step equation requires two operations to solve. The standard form is ax + b = c, where you first subtract b, then divide by a. For example, 3x + 7 = 22."},
+      {"question": "What are the two steps to solve ax + b = c?", "answer": "Step 1: Subtract b from both sides to get ax = c - b. Step 2: Divide both sides by a to get x = (c - b)/a. Always undo addition/subtraction first, then multiplication/division."},
+      {"question": "Why do you subtract before dividing?", "answer": "Following the reverse order of operations, you undo addition and subtraction first because they were the last operations applied to x. Then undo multiplication. This works inward toward x."},
+      {"question": "How do you check a two-step equation?", "answer": "Plug your answer back in. For 3x + 7 = 22 with x = 5: 3(5) + 7 = 15 + 7 = 22 ✓. Both sides match, confirming the solution."}
+    ],
+    "formulas": [
+      "ax + b = c → x = (c - b) / a",
+      "Step 1: Subtract b from both sides",
+      "Step 2: Divide both sides by a"
+    ],
+    "relatedTools": ["one-step-equation-solver", "evaluating-expressions-calculator", "distributive-property-calculator"]
+  },
+  {
+    "slug": "area-calculator",
+    "toolName": "Area Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the area of rectangles, triangles, circles, and trapezoids with formulas shown",
+    "keywords": "area calculator, area of rectangle, area of triangle, area of circle, area of trapezoid, geometry area, shape area, calculate area",
+    "inputs": [
+      {"id": "shape", "label": "Shape", "type": "select", "options": ["rectangle", "triangle", "circle", "trapezoid"], "default": "rectangle"},
+      {"id": "dimension1", "label": "Dimension 1 (length/base/radius)", "default": 10},
+      {"id": "dimension2", "label": "Dimension 2 (width/height)", "default": 5},
+      {"id": "dimension3", "label": "Dimension 3 (2nd base for trapezoid)", "default": 8}
+    ],
+    "results": [
+      {"id": "area", "label": "Area"},
+      {"id": "formula", "label": "Formula Used"}
+    ],
+    "calcFn": "var d1=parseFloat(dimension1),d2=parseFloat(dimension2),d3=parseFloat(dimension3);var area,formula;if(shape==='rectangle'){area=d1*d2;formula='Area = length × width = '+d1+' × '+d2+' = '+fmt(area,4);}else if(shape==='triangle'){area=0.5*d1*d2;formula='Area = ½ × base × height = ½ × '+d1+' × '+d2+' = '+fmt(area,4);}else if(shape==='circle'){area=Math.PI*d1*d1;formula='Area = π × r² = π × '+d1+'² = '+fmt(area,4);}else if(shape==='trapezoid'){area=0.5*(d1+d3)*d2;formula='Area = ½ × (b₁ + b₂) × h = ½ × ('+d1+' + '+d3+') × '+d2+' = '+fmt(area,4);}document.getElementById('area').textContent=fmt(area,4)+' square units';document.getElementById('formula').textContent=formula;",
+    "faq": [
+      {"question": "What is area?", "answer": "Area is the amount of space inside a two-dimensional shape, measured in square units. It tells you how many unit squares would fit inside the shape."},
+      {"question": "How do you calculate the area of a triangle?", "answer": "Use the formula A = ½ × base × height. The height must be perpendicular to the base. For example, a triangle with base 8 and height 6 has area ½ × 8 × 6 = 24 square units."},
+      {"question": "Why is the area of a circle π × r²?", "answer": "This formula comes from calculus, but intuitively, a circle can be broken into many thin triangular slices that, when rearranged, form a rectangle with width r and length πr, giving area πr²."},
+      {"question": "What is the difference between area and perimeter?", "answer": "Area measures the space inside a shape (square units), while perimeter measures the distance around the outside of a shape (linear units). For example, a room's floor space is area; the baseboard around the room is perimeter."}
+    ],
+    "formulas": [
+      "Rectangle: A = length × width",
+      "Triangle: A = ½ × base × height",
+      "Circle: A = π × r²",
+      "Trapezoid: A = ½ × (b₁ + b₂) × height"
+    ],
+    "relatedTools": ["perimeter-calculator", "circle-calculator", "volume-calculator", "surface-area-calculator"]
+  },
+  {
+    "slug": "perimeter-calculator",
+    "toolName": "Perimeter Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the perimeter or circumference of common shapes with formulas explained",
+    "keywords": "perimeter calculator, circumference, perimeter of rectangle, perimeter of triangle, perimeter of square, distance around, shape perimeter, geometry perimeter",
+    "inputs": [
+      {"id": "shape", "label": "Shape", "type": "select", "options": ["rectangle", "triangle", "square", "circle"], "default": "rectangle"},
+      {"id": "side1", "label": "Side 1 (length/side/radius)", "default": 10},
+      {"id": "side2", "label": "Side 2 (width, triangle side 2)", "default": 5},
+      {"id": "side3", "label": "Side 3 (triangle side 3)", "default": 7}
+    ],
+    "results": [
+      {"id": "perimeter", "label": "Perimeter"},
+      {"id": "formula", "label": "Formula Used"}
+    ],
+    "calcFn": "var s1=parseFloat(side1),s2=parseFloat(side2),s3=parseFloat(side3);var p,formula;if(shape==='rectangle'){p=2*(s1+s2);formula='P = 2(l + w) = 2('+s1+' + '+s2+') = '+fmt(p,4);}else if(shape==='triangle'){p=s1+s2+s3;formula='P = a + b + c = '+s1+' + '+s2+' + '+s3+' = '+fmt(p,4);}else if(shape==='square'){p=4*s1;formula='P = 4s = 4 × '+s1+' = '+fmt(p,4);}else if(shape==='circle'){p=2*Math.PI*s1;formula='C = 2πr = 2 × π × '+s1+' = '+fmt(p,4);}document.getElementById('perimeter').textContent=fmt(p,4)+' units';document.getElementById('formula').textContent=formula;",
+    "faq": [
+      {"question": "What is perimeter?", "answer": "Perimeter is the total distance around the outside of a two-dimensional shape. You find it by adding up the lengths of all the sides."},
+      {"question": "What is the difference between perimeter and circumference?", "answer": "Perimeter is the general term for the distance around any shape. Circumference specifically refers to the perimeter of a circle: C = 2πr or C = πd."},
+      {"question": "How do you find the perimeter of a rectangle?", "answer": "Add all four sides, or use the formula P = 2(length + width). Since a rectangle has two pairs of equal sides, you add length and width, then multiply by 2."},
+      {"question": "How do you find the perimeter of an irregular shape?", "answer": "Simply add up the lengths of all the sides. There is no shortcut formula for irregular shapes — you must measure and add each side individually."}
+    ],
+    "formulas": [
+      "Rectangle: P = 2(length + width)",
+      "Square: P = 4 × side",
+      "Triangle: P = a + b + c",
+      "Circle (Circumference): C = 2πr = πd"
+    ],
+    "relatedTools": ["area-calculator", "circle-calculator", "coordinate-distance-calculator"]
+  },
+  {
+    "slug": "circle-calculator",
+    "toolName": "Circle Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate radius, diameter, circumference, and area of a circle from any known value",
+    "keywords": "circle calculator, radius, diameter, circumference, area of circle, pi, circle formula, circle geometry, circle measurements",
+    "inputs": [
+      {"id": "knownValue", "label": "Known Value", "default": 5},
+      {"id": "knownType", "label": "Known Type", "type": "select", "options": ["radius", "diameter", "circumference", "area"], "default": "radius"}
+    ],
+    "results": [
+      {"id": "radius", "label": "Radius"},
+      {"id": "diameter", "label": "Diameter"},
+      {"id": "circumference", "label": "Circumference"},
+      {"id": "area", "label": "Area"}
+    ],
+    "calcFn": "var v=parseFloat(knownValue);var r;if(knownType==='radius'){r=v;}else if(knownType==='diameter'){r=v/2;}else if(knownType==='circumference'){r=v/(2*Math.PI);}else if(knownType==='area'){r=Math.sqrt(v/Math.PI);}if(r<0){document.getElementById('radius').textContent='Error: value must be positive';return;}document.getElementById('radius').textContent=fmt(r,6);document.getElementById('diameter').textContent=fmt(2*r,6);document.getElementById('circumference').textContent=fmt(2*Math.PI*r,6);document.getElementById('area').textContent=fmt(Math.PI*r*r,6)+' square units';",
+    "faq": [
+      {"question": "What is the relationship between radius and diameter?", "answer": "The diameter is always twice the radius: d = 2r. Conversely, the radius is half the diameter: r = d/2."},
+      {"question": "What is pi (π)?", "answer": "Pi is the ratio of a circle's circumference to its diameter. It is approximately 3.14159 and is an irrational number, meaning it goes on forever without repeating."},
+      {"question": "How do you find circumference from area?", "answer": "First find the radius from the area using r = √(A/π), then calculate circumference using C = 2πr."},
+      {"question": "What is the formula for circumference?", "answer": "Circumference = 2πr or equivalently Circumference = πd, where r is the radius and d is the diameter."}
+    ],
+    "formulas": [
+      "Diameter = 2 × radius",
+      "Circumference = 2πr = πd",
+      "Area = πr²",
+      "Radius from area: r = √(A/π)"
+    ],
+    "relatedTools": ["area-calculator", "perimeter-calculator", "volume-calculator"]
+  },
+  {
+    "slug": "volume-calculator",
+    "toolName": "Volume Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the volume of cubes, prisms, cylinders, cones, and spheres with formulas",
+    "keywords": "volume calculator, volume of cube, volume of cylinder, volume of cone, volume of sphere, 3D shapes, geometry volume, rectangular prism volume",
+    "inputs": [
+      {"id": "shape", "label": "Shape", "type": "select", "options": ["cube", "rectangular-prism", "cylinder", "cone", "sphere"], "default": "rectangular-prism"},
+      {"id": "dim1", "label": "Dimension 1 (side/length/radius)", "default": 5},
+      {"id": "dim2", "label": "Dimension 2 (width/height)", "default": 4},
+      {"id": "dim3", "label": "Dimension 3 (height for prism)", "default": 3}
+    ],
+    "results": [
+      {"id": "volume", "label": "Volume"},
+      {"id": "formula", "label": "Formula Used"}
+    ],
+    "calcFn": "var d1=parseFloat(dim1),d2=parseFloat(dim2),d3=parseFloat(dim3);var vol,formula;if(shape==='cube'){vol=d1*d1*d1;formula='V = s³ = '+d1+'³ = '+fmt(vol,4);}else if(shape==='rectangular-prism'){vol=d1*d2*d3;formula='V = l × w × h = '+d1+' × '+d2+' × '+d3+' = '+fmt(vol,4);}else if(shape==='cylinder'){vol=Math.PI*d1*d1*d2;formula='V = πr²h = π × '+d1+'² × '+d2+' = '+fmt(vol,4);}else if(shape==='cone'){vol=(1/3)*Math.PI*d1*d1*d2;formula='V = ⅓πr²h = ⅓ × π × '+d1+'² × '+d2+' = '+fmt(vol,4);}else if(shape==='sphere'){vol=(4/3)*Math.PI*d1*d1*d1;formula='V = ⁴⁄₃πr³ = ⁴⁄₃ × π × '+d1+'³ = '+fmt(vol,4);}document.getElementById('volume').textContent=fmt(vol,4)+' cubic units';document.getElementById('formula').textContent=formula;",
+    "faq": [
+      {"question": "What is volume?", "answer": "Volume is the amount of three-dimensional space inside a solid shape, measured in cubic units. It tells you how much something can hold."},
+      {"question": "How do you find the volume of a rectangular prism?", "answer": "Multiply length × width × height. For example, a box that is 5 × 4 × 3 has a volume of 60 cubic units."},
+      {"question": "Why is the volume of a cone one-third the volume of a cylinder?", "answer": "A cone with the same radius and height as a cylinder contains exactly one-third the space. You can demonstrate this by filling a cone with water and pouring it into a matching cylinder — it takes exactly 3 cones to fill the cylinder."},
+      {"question": "What units are used for volume?", "answer": "Volume is measured in cubic units: cubic inches (in³), cubic feet (ft³), cubic centimeters (cm³), cubic meters (m³), or liters (1 L = 1,000 cm³)."}
+    ],
+    "formulas": [
+      "Cube: V = s³",
+      "Rectangular Prism: V = l × w × h",
+      "Cylinder: V = πr²h",
+      "Cone: V = ⅓πr²h",
+      "Sphere: V = ⁴⁄₃πr³"
+    ],
+    "relatedTools": ["surface-area-calculator", "area-calculator", "circle-calculator"]
+  },
+  {
+    "slug": "surface-area-calculator",
+    "toolName": "Surface Area Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the total surface area of cubes, prisms, cylinders, and spheres",
+    "keywords": "surface area calculator, surface area of cube, surface area of cylinder, surface area of sphere, 3D surface area, geometry surface area, net area, total surface area",
+    "inputs": [
+      {"id": "shape", "label": "Shape", "type": "select", "options": ["cube", "rectangular-prism", "cylinder", "sphere"], "default": "rectangular-prism"},
+      {"id": "dim1", "label": "Dimension 1 (side/length/radius)", "default": 5},
+      {"id": "dim2", "label": "Dimension 2 (width/height)", "default": 4},
+      {"id": "dim3", "label": "Dimension 3 (height for prism)", "default": 3}
+    ],
+    "results": [
+      {"id": "surfaceArea", "label": "Surface Area"},
+      {"id": "formula", "label": "Formula Used"}
+    ],
+    "calcFn": "var d1=parseFloat(dim1),d2=parseFloat(dim2),d3=parseFloat(dim3);var sa,formula;if(shape==='cube'){sa=6*d1*d1;formula='SA = 6s² = 6 × '+d1+'² = '+fmt(sa,4);}else if(shape==='rectangular-prism'){sa=2*(d1*d2+d2*d3+d1*d3);formula='SA = 2(lw + wh + lh) = 2('+d1+'×'+d2+' + '+d2+'×'+d3+' + '+d1+'×'+d3+') = '+fmt(sa,4);}else if(shape==='cylinder'){sa=2*Math.PI*d1*d2+2*Math.PI*d1*d1;formula='SA = 2πrh + 2πr² = 2π('+d1+')('+d2+') + 2π('+d1+')² = '+fmt(sa,4);}else if(shape==='sphere'){sa=4*Math.PI*d1*d1;formula='SA = 4πr² = 4π('+d1+')² = '+fmt(sa,4);}document.getElementById('surfaceArea').textContent=fmt(sa,4)+' square units';document.getElementById('formula').textContent=formula;",
+    "faq": [
+      {"question": "What is surface area?", "answer": "Surface area is the total area of all the surfaces (faces) of a three-dimensional shape. Imagine unfolding a box flat — the surface area is the total area of that flat shape (called a net)."},
+      {"question": "How do you find the surface area of a rectangular prism?", "answer": "Add the areas of all 6 faces: SA = 2(lw + wh + lh). A rectangular prism has 3 pairs of identical faces."},
+      {"question": "What is the difference between surface area and volume?", "answer": "Surface area measures the total area of the outside surfaces (in square units), while volume measures the space inside (in cubic units). Think of wrapping paper (surface area) vs. filling a box (volume)."},
+      {"question": "How do you find the surface area of a cylinder?", "answer": "A cylinder has two circular bases and one rectangular side (when unrolled). SA = 2πrh (side) + 2πr² (two bases)."}
+    ],
+    "formulas": [
+      "Cube: SA = 6s²",
+      "Rectangular Prism: SA = 2(lw + wh + lh)",
+      "Cylinder: SA = 2πrh + 2πr²",
+      "Sphere: SA = 4πr²"
+    ],
+    "relatedTools": ["volume-calculator", "area-calculator", "circle-calculator"]
+  },
+  {
+    "slug": "coordinate-distance-calculator",
+    "toolName": "Coordinate Distance Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the distance and midpoint between two points on a coordinate plane",
+    "keywords": "distance formula, midpoint formula, coordinate plane, distance between points, coordinate geometry, Pythagorean theorem distance, midpoint calculator, graphing points",
+    "inputs": [
+      {"id": "x1", "label": "x₁", "default": 1},
+      {"id": "y1", "label": "y₁", "default": 2},
+      {"id": "x2", "label": "x₂", "default": 4},
+      {"id": "y2", "label": "y₂", "default": 6}
+    ],
+    "results": [
+      {"id": "distance", "label": "Distance"},
+      {"id": "midpoint", "label": "Midpoint"}
+    ],
+    "calcFn": "var xA=parseFloat(x1),yA=parseFloat(y1),xB=parseFloat(x2),yB=parseFloat(y2);var dx=xB-xA,dy=yB-yA;var dist=Math.sqrt(dx*dx+dy*dy);var mx=(xA+xB)/2,my=(yA+yB)/2;document.getElementById('distance').textContent=fmt(dist,6)+' units';document.getElementById('midpoint').textContent='('+fmt(mx,4)+', '+fmt(my,4)+')';",
+    "faq": [
+      {"question": "What is the distance formula?", "answer": "The distance formula finds the distance between two points (x₁, y₁) and (x₂, y₂): d = √((x₂-x₁)² + (y₂-y₁)²). It is derived from the Pythagorean theorem."},
+      {"question": "What is the midpoint formula?", "answer": "The midpoint formula finds the point exactly halfway between two points: M = ((x₁+x₂)/2, (y₁+y₂)/2). You simply average the x-coordinates and average the y-coordinates."},
+      {"question": "How is the distance formula related to the Pythagorean theorem?", "answer": "The distance formula IS the Pythagorean theorem applied to a coordinate plane. The horizontal distance (Δx) and vertical distance (Δy) form the two legs of a right triangle, and the distance between the points is the hypotenuse."},
+      {"question": "Can the distance formula give a negative answer?", "answer": "No. Distance is always positive or zero (if the two points are the same). The formula uses squares, and the square root of a positive number is always positive."}
+    ],
+    "formulas": [
+      "Distance = √((x₂ - x₁)² + (y₂ - y₁)²)",
+      "Midpoint = ((x₁ + x₂)/2, (y₁ + y₂)/2)"
+    ],
+    "relatedTools": ["area-calculator", "absolute-value-calculator", "square-root-calculator"]
+  },
+  {
+    "slug": "mean-median-mode-calculator",
+    "toolName": "Mean, Median, Mode Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the mean, median, mode, and range of any data set quickly",
+    "keywords": "mean calculator, median calculator, mode calculator, range, average, statistics, data set, measures of center, central tendency",
+    "inputs": [
+      {"id": "numbers", "label": "Numbers (comma-separated)", "type": "text", "default": "5, 8, 12, 8, 3, 15, 8, 6"}
+    ],
+    "results": [
+      {"id": "mean", "label": "Mean (Average)"},
+      {"id": "median", "label": "Median"},
+      {"id": "mode", "label": "Mode"},
+      {"id": "range", "label": "Range"},
+      {"id": "count", "label": "Count"}
+    ],
+    "calcFn": "var nums=numbers.split(',').map(function(s){return parseFloat(s.trim());}).filter(function(n){return !isNaN(n);});if(nums.length===0){document.getElementById('mean').textContent='Please enter at least one number';return;}document.getElementById('count').textContent=nums.length;var sum=nums.reduce(function(a,b){return a+b;},0);document.getElementById('mean').textContent=fmt(sum/nums.length,4);var sorted=nums.slice().sort(function(a,b){return a-b;});var mid=Math.floor(sorted.length/2);var median=sorted.length%2===0?(sorted[mid-1]+sorted[mid])/2:sorted[mid];document.getElementById('median').textContent=fmt(median,4);var freq={};nums.forEach(function(n){freq[n]=(freq[n]||0)+1;});var maxFreq=Math.max.apply(null,Object.values(freq));var modes=Object.keys(freq).filter(function(k){return freq[k]===maxFreq;});if(maxFreq===1){document.getElementById('mode').textContent='No mode (all values appear once)';}else{document.getElementById('mode').textContent=modes.join(', ')+' (appears '+maxFreq+' times)';}document.getElementById('range').textContent=fmt(sorted[sorted.length-1]-sorted[0],4);",
+    "faq": [
+      {"question": "What is the mean?", "answer": "The mean (or average) is the sum of all values divided by the number of values. For example, the mean of 4, 8, and 6 is (4+8+6)/3 = 18/3 = 6."},
+      {"question": "What is the median?", "answer": "The median is the middle value when numbers are sorted from least to greatest. If there is an even number of values, the median is the average of the two middle values."},
+      {"question": "What is the mode?", "answer": "The mode is the value that appears most frequently in a data set. A set can have no mode (all values appear equally), one mode, or multiple modes."},
+      {"question": "What is the range?", "answer": "The range is the difference between the highest and lowest values in a data set. It measures how spread out the data is. Range = Maximum - Minimum."},
+      {"question": "When should you use mean vs. median?", "answer": "Use the mean for data without extreme outliers. Use the median when there are outliers, as the median is not affected by extremely high or low values. For example, incomes in a neighborhood are better described by median because a few very wealthy residents would skew the mean."}
+    ],
+    "formulas": [
+      "Mean = Sum of values / Number of values",
+      "Median = Middle value of sorted data",
+      "Mode = Most frequent value",
+      "Range = Maximum - Minimum"
+    ],
+    "relatedTools": ["percentage-calculator", "rounding-calculator", "order-of-operations-calculator"]
+  },
+  {
+    "slug": "exponent-calculator",
+    "toolName": "Exponent Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate any base raised to a power and see the expanded multiplication form",
+    "keywords": "exponent calculator, power calculator, base and exponent, raised to the power, exponentiation, powers of numbers, squared, cubed",
+    "inputs": [
+      {"id": "base", "label": "Base", "default": 3},
+      {"id": "exponent", "label": "Exponent", "default": 4}
+    ],
+    "results": [
+      {"id": "answer", "label": "Result"},
+      {"id": "expanded", "label": "Expanded Form"}
+    ],
+    "calcFn": "var b=parseFloat(base),e=parseInt(exponent);var result=Math.pow(b,e);document.getElementById('answer').textContent=fmt(result,6);if(e>=0&&e<=20&&Number.isInteger(e)){var parts=[];for(var i=0;i<e;i++)parts.push(b);document.getElementById('expanded').textContent=b+'^'+e+' = '+(parts.length>0?parts.join(' × ')+' = '+fmt(result,6):'1');}else{document.getElementById('expanded').textContent=b+'^'+e+' = '+fmt(result,6);}",
+    "faq": [
+      {"question": "What is an exponent?", "answer": "An exponent tells you how many times to multiply a number (the base) by itself. In 3⁴, 3 is the base and 4 is the exponent, meaning 3 × 3 × 3 × 3 = 81."},
+      {"question": "What is any number raised to the power of 0?", "answer": "Any non-zero number raised to the power of 0 equals 1. For example, 5⁰ = 1 and 100⁰ = 1. This is a mathematical rule that keeps the pattern of exponents consistent."},
+      {"question": "What is a negative exponent?", "answer": "A negative exponent means take the reciprocal. a^(-n) = 1/(a^n). For example, 2^(-3) = 1/2³ = 1/8 = 0.125."},
+      {"question": "What is the difference between squared and cubed?", "answer": "Squared means raised to the power of 2 (e.g., 5² = 25). Cubed means raised to the power of 3 (e.g., 5³ = 125). These names come from geometry: area of a square uses side², volume of a cube uses side³."}
+    ],
+    "formulas": [
+      "a^n = a × a × a × ... (n times)",
+      "a^0 = 1 (for a ≠ 0)",
+      "a^(-n) = 1 / a^n",
+      "a^m × a^n = a^(m+n)"
+    ],
+    "relatedTools": ["square-root-calculator", "scientific-notation-converter", "order-of-operations-calculator"]
+  },
+  {
+    "slug": "square-root-calculator",
+    "toolName": "Square Root Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the square root of any number and check if it is a perfect square",
+    "keywords": "square root, square root calculator, perfect square, radical, simplify square root, sqrt, square root finder, radical simplification",
+    "inputs": [
+      {"id": "number", "label": "Number", "default": 72}
+    ],
+    "results": [
+      {"id": "squareRoot", "label": "Square Root"},
+      {"id": "simplified", "label": "Simplified Radical"},
+      {"id": "isPerfect", "label": "Perfect Square?"}
+    ],
+    "calcFn": "var n=parseFloat(number);if(n<0){document.getElementById('squareRoot').textContent='Error: cannot take square root of a negative number (in real numbers)';return;}var sr=Math.sqrt(n);document.getElementById('squareRoot').textContent=fmt(sr,8);var isP=Number.isInteger(sr);document.getElementById('isPerfect').textContent=isP?'Yes — '+n+' = '+sr+'²':'No — '+n+' is not a perfect square';if(Number.isInteger(n)&&n>0&&!isP){var nInt=Math.round(n);var outside=1;var inside=nInt;for(var i=Math.floor(Math.sqrt(nInt));i>=2;i--){if(inside%(i*i)===0){outside*=i;inside/=(i*i);}}if(outside>1){document.getElementById('simplified').textContent='√'+nInt+' = '+outside+'√'+inside;}else{document.getElementById('simplified').textContent='√'+nInt+' (cannot be simplified further)';}}else if(isP){document.getElementById('simplified').textContent='√'+n+' = '+sr;}else{document.getElementById('simplified').textContent='√'+n+' ≈ '+fmt(sr,6);}",
+    "faq": [
+      {"question": "What is a square root?", "answer": "The square root of a number is a value that, when multiplied by itself, gives the original number. For example, √25 = 5 because 5 × 5 = 25."},
+      {"question": "What is a perfect square?", "answer": "A perfect square is a number that has a whole number as its square root. Examples: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100. These are the squares of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10."},
+      {"question": "How do you simplify a square root?", "answer": "Factor out the largest perfect square. For example, √72 = √(36 × 2) = √36 × √2 = 6√2. Look for perfect square factors like 4, 9, 16, 25, 36, etc."},
+      {"question": "Can you take the square root of a negative number?", "answer": "Not with real numbers. The square root of a negative number involves imaginary numbers (using i, where i = √(-1)). In middle school math, square roots of negative numbers are considered undefined."}
+    ],
+    "formulas": [
+      "√(a × b) = √a × √b",
+      "√(a²) = |a|",
+      "Simplify: find largest perfect square factor"
+    ],
+    "relatedTools": ["exponent-calculator", "coordinate-distance-calculator", "prime-factorization-calculator"]
+  }
+]

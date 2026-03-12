@@ -1,0 +1,664 @@
+[
+  {
+    "slug": "pythagorean-theorem-calculator",
+    "toolName": "Pythagorean Theorem Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the missing side of a right triangle using the Pythagorean theorem a² + b² = c²",
+    "keywords": "pythagorean theorem, right triangle calculator, hypotenuse, a2+b2=c2, missing side, right triangle sides, pythagorean triple",
+    "inputs": [
+      {"id": "sideA", "label": "Side a", "default": 3},
+      {"id": "sideB", "label": "Side b", "default": 4},
+      {"id": "solveFor", "label": "Solve For", "type": "select", "default": "hypotenuse", "options": [{"value": "hypotenuse", "label": "Hypotenuse (c)"}, {"value": "leg", "label": "Missing Leg"}]}
+    ],
+    "results": [
+      {"id": "answer", "label": "Result"},
+      {"id": "formula", "label": "Formula Used"},
+      {"id": "isRightTriangle", "label": "Pythagorean Triple?"}
+    ],
+    "calcFn": "var a = parseFloat(document.getElementById('sideA').value); var b = parseFloat(document.getElementById('sideB').value); var mode = document.getElementById('solveFor').value; if(isNaN(a)||a<=0||isNaN(b)||b<=0){document.getElementById('answer').textContent='Enter positive values';return;} var result; if(mode==='hypotenuse'){result=Math.sqrt(a*a+b*b);document.getElementById('formula').textContent=a+'\\u00B2 + '+b+'\\u00B2 = '+fmt(a*a,2)+' + '+fmt(b*b,2)+' = '+fmt(a*a+b*b,2)+'; c = \\u221A'+fmt(a*a+b*b,2)+' = '+fmt(result,4);} else {if(b>=a){document.getElementById('answer').textContent='Side b (hypotenuse) must be entered as Side a, and the known leg as Side b when solving for a missing leg. Ensure a > b for valid result, or switch: a=hypotenuse, b=known leg.'; return;} result=Math.sqrt(a*a-b*b);document.getElementById('formula').textContent=a+'\\u00B2 - '+b+'\\u00B2 = '+fmt(a*a,2)+' - '+fmt(b*b,2)+' = '+fmt(a*a-b*b,2)+'; leg = \\u221A'+fmt(a*a-b*b,2)+' = '+fmt(result,4);} document.getElementById('answer').textContent=fmt(result,4); var r=Math.round(result*10000)/10000; var isTriple=(r===Math.floor(r)&&a===Math.floor(a)&&b===Math.floor(b)); document.getElementById('isRightTriangle').textContent=isTriple?'Yes \\u2014 '+Math.min(a,b,r)+', '+[a,b,r].sort(function(x,y){return x-y;})[1]+', '+Math.max(a,b,r)+' is a Pythagorean triple':'No \\u2014 not an integer triple';",
+    "faq": [
+      {"question": "What is the Pythagorean theorem?", "answer": "The Pythagorean theorem states that in a right triangle, the square of the hypotenuse (the side opposite the right angle) equals the sum of the squares of the other two sides: a² + b² = c²."},
+      {"question": "How do I find a missing leg instead of the hypotenuse?", "answer": "Rearrange the formula to solve for a leg: a = √(c² - b²). Enter the hypotenuse as Side a and the known leg as Side b, then select 'Missing Leg' from the dropdown."},
+      {"question": "What is a Pythagorean triple?", "answer": "A Pythagorean triple is a set of three positive integers (a, b, c) that satisfy a² + b² = c². Common examples include (3, 4, 5), (5, 12, 13), and (8, 15, 17)."},
+      {"question": "Does the Pythagorean theorem work for all triangles?", "answer": "No, the Pythagorean theorem only applies to right triangles (triangles with one 90-degree angle). For non-right triangles, use the Law of Cosines instead."}
+    ],
+    "formulas": ["a² + b² = c²", "c = √(a² + b²)", "a = √(c² - b²)"],
+    "relatedTools": ["triangle-solver", "special-right-triangles-calculator", "right-triangle-solver", "herons-formula-calculator"]
+  },
+  {
+    "slug": "triangle-area-calculator",
+    "toolName": "Triangle Area Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the area of any triangle using base and height, three sides, or two sides and an included angle",
+    "keywords": "triangle area, triangle calculator, heron's formula, base height area, triangle perimeter, SAS area, three sides area",
+    "inputs": [
+      {"id": "method", "label": "Method", "type": "select", "default": "base-height", "options": [{"value": "base-height", "label": "Base & Height"}, {"value": "three-sides", "label": "Three Sides (Heron's)"}, {"value": "two-sides-angle", "label": "Two Sides & Angle"}]},
+      {"id": "dim1", "label": "Base / Side a", "default": 10},
+      {"id": "dim2", "label": "Height / Side b", "default": 6},
+      {"id": "dim3", "label": "Side c / Angle (°)", "default": 8}
+    ],
+    "results": [
+      {"id": "area", "label": "Area"},
+      {"id": "formula", "label": "Formula Used"},
+      {"id": "perimeter", "label": "Perimeter"}
+    ],
+    "calcFn": "var method=document.getElementById('method').value; var d1=parseFloat(document.getElementById('dim1').value); var d2=parseFloat(document.getElementById('dim2').value); var d3=parseFloat(document.getElementById('dim3').value); if(isNaN(d1)||d1<=0||isNaN(d2)||d2<=0){document.getElementById('area').textContent='Enter positive values';return;} var area,peri; if(method==='base-height'){area=0.5*d1*d2;document.getElementById('formula').textContent='A = \\u00BD \\u00D7 base \\u00D7 height = \\u00BD \\u00D7 '+d1+' \\u00D7 '+d2;document.getElementById('perimeter').textContent='N/A (need all sides)';} else if(method==='three-sides'){if(isNaN(d3)||d3<=0){document.getElementById('area').textContent='Enter all three sides';return;} var s=(d1+d2+d3)/2; var val=s*(s-d1)*(s-d2)*(s-d3); if(val<=0){document.getElementById('area').textContent='Invalid triangle sides';return;} area=Math.sqrt(val);peri=d1+d2+d3;document.getElementById('formula').textContent='Heron\\'s: s='+fmt(s,2)+', A=\\u221A[s(s-a)(s-b)(s-c)]';document.getElementById('perimeter').textContent=fmt(peri,2);} else {if(isNaN(d3)||d3<=0||d3>=180){document.getElementById('area').textContent='Enter valid angle (0-180)';return;} var rad=d3*Math.PI/180; area=0.5*d1*d2*Math.sin(rad); var c2=d1*d1+d2*d2-2*d1*d2*Math.cos(rad); var sideC=Math.sqrt(c2); peri=d1+d2+sideC; document.getElementById('formula').textContent='A = \\u00BD \\u00D7 a \\u00D7 b \\u00D7 sin(C) = \\u00BD \\u00D7 '+d1+' \\u00D7 '+d2+' \\u00D7 sin('+d3+'\\u00B0)'; document.getElementById('perimeter').textContent=fmt(peri,2);} document.getElementById('area').textContent=fmt(area,4);",
+    "faq": [
+      {"question": "What is the easiest way to find triangle area?", "answer": "The simplest formula is A = ½ × base × height. Multiply the base by the perpendicular height and divide by 2."},
+      {"question": "How does Heron's formula work?", "answer": "Heron's formula finds the area when you know all three sides. First find the semi-perimeter s = (a+b+c)/2, then compute A = √[s(s-a)(s-b)(s-c)]."},
+      {"question": "When do I use the two-sides-and-angle method?", "answer": "Use A = ½ab·sin(C) when you know two sides and the angle between them (the included angle). This is the SAS (Side-Angle-Side) area method."},
+      {"question": "Can a triangle have zero area?", "answer": "A triangle has zero area only when the three vertices are collinear (all on the same line). Any three non-collinear points form a triangle with positive area."}
+    ],
+    "formulas": ["A = ½ × base × height", "A = √[s(s-a)(s-b)(s-c)] where s = (a+b+c)/2", "A = ½ × a × b × sin(C)"],
+    "relatedTools": ["herons-formula-calculator", "triangle-solver", "pythagorean-theorem-calculator", "regular-polygon-area-calculator"]
+  },
+  {
+    "slug": "regular-polygon-area-calculator",
+    "toolName": "Regular Polygon Area Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the area, perimeter, interior angle, and apothem of any regular polygon from triangle to dodecagon",
+    "keywords": "regular polygon area, polygon calculator, interior angle, apothem, pentagon area, hexagon area, octagon area, polygon perimeter",
+    "inputs": [
+      {"id": "sides", "label": "Number of Sides (3-12)", "default": 6},
+      {"id": "sideLength", "label": "Side Length", "default": 5}
+    ],
+    "results": [
+      {"id": "area", "label": "Area"},
+      {"id": "perimeter", "label": "Perimeter"},
+      {"id": "interiorAngle", "label": "Interior Angle"},
+      {"id": "apothem", "label": "Apothem"}
+    ],
+    "calcFn": "var n=parseInt(document.getElementById('sides').value); var s=parseFloat(document.getElementById('sideLength').value); if(isNaN(n)||n<3||n>12||isNaN(s)||s<=0){document.getElementById('area').textContent='Enter valid values (3-12 sides, positive length)';return;} var peri=n*s; var apothem=s/(2*Math.tan(Math.PI/n)); var area=(peri*apothem)/2; var intAngle=((n-2)*180)/n; document.getElementById('area').textContent=fmt(area,4); document.getElementById('perimeter').textContent=fmt(peri,4); document.getElementById('interiorAngle').textContent=fmt(intAngle,2)+'\\u00B0'; document.getElementById('apothem').textContent=fmt(apothem,4);",
+    "faq": [
+      {"question": "What is a regular polygon?", "answer": "A regular polygon has all sides equal in length and all interior angles equal in measure. Examples include equilateral triangles, squares, regular pentagons, and regular hexagons."},
+      {"question": "What is the apothem of a polygon?", "answer": "The apothem is the distance from the center of a regular polygon to the midpoint of any side. It is perpendicular to that side and is used in the area formula: A = ½ × perimeter × apothem."},
+      {"question": "How do you find the interior angle of a regular polygon?", "answer": "The interior angle of a regular polygon with n sides is (n-2) × 180° / n. For example, a regular hexagon has interior angles of (6-2) × 180° / 6 = 120°."},
+      {"question": "What is the sum of exterior angles of any polygon?", "answer": "The sum of exterior angles of any convex polygon is always 360°, regardless of the number of sides. Each exterior angle of a regular polygon equals 360°/n."}
+    ],
+    "formulas": ["A = ½ × perimeter × apothem", "apothem = s / (2 × tan(π/n))", "Interior angle = (n-2) × 180° / n", "Perimeter = n × s"],
+    "relatedTools": ["triangle-area-calculator", "prism-pyramid-volume-calculator", "sector-area-calculator"]
+  },
+  {
+    "slug": "prism-pyramid-volume-calculator",
+    "toolName": "Prism & Pyramid Volume Calculator",
+    "category": "middle-school-math",
+    "tagline": "Calculate the volume and surface area of rectangular prisms, triangular prisms, and pyramids",
+    "keywords": "prism volume, pyramid volume, rectangular prism, triangular prism, surface area, 3D shapes, solid geometry, pyramid surface area",
+    "inputs": [
+      {"id": "shape", "label": "Shape", "type": "select", "default": "rectangular-prism", "options": [{"value": "rectangular-prism", "label": "Rectangular Prism"}, {"value": "triangular-prism", "label": "Triangular Prism"}, {"value": "square-pyramid", "label": "Square Pyramid"}, {"value": "triangular-pyramid", "label": "Triangular Pyramid"}]},
+      {"id": "dim1", "label": "Length / Base Side", "default": 5},
+      {"id": "dim2", "label": "Width / Base Side 2", "default": 4},
+      {"id": "dim3", "label": "Height", "default": 6}
+    ],
+    "results": [
+      {"id": "volume", "label": "Volume"},
+      {"id": "surfaceArea", "label": "Surface Area"},
+      {"id": "formula", "label": "Formula Used"}
+    ],
+    "calcFn": "var shape=document.getElementById('shape').value; var d1=parseFloat(document.getElementById('dim1').value); var d2=parseFloat(document.getElementById('dim2').value); var d3=parseFloat(document.getElementById('dim3').value); if(isNaN(d1)||d1<=0||isNaN(d2)||d2<=0||isNaN(d3)||d3<=0){document.getElementById('volume').textContent='Enter positive values';return;} var vol,sa; if(shape==='rectangular-prism'){vol=d1*d2*d3; sa=2*(d1*d2+d2*d3+d1*d3); document.getElementById('formula').textContent='V = l\\u00D7w\\u00D7h = '+d1+'\\u00D7'+d2+'\\u00D7'+d3;} else if(shape==='triangular-prism'){var baseArea=0.5*d1*d2; vol=baseArea*d3; var triSide=Math.sqrt((d1/2)*(d1/2)+d2*d2); sa=d1*d3+2*triSide*d3+2*baseArea; document.getElementById('formula').textContent='V = \\u00BD\\u00D7base\\u00D7height\\u00D7length';} else if(shape==='square-pyramid'){vol=(1/3)*d1*d1*d3; var slant=Math.sqrt((d1/2)*(d1/2)+d3*d3); sa=d1*d1+2*d1*slant; document.getElementById('formula').textContent='V = \\u2153\\u00D7base\\u00B2\\u00D7h = \\u2153\\u00D7'+d1+'\\u00B2\\u00D7'+d3;} else {var baseArea=(Math.sqrt(3)/4)*d1*d1; vol=(1/3)*baseArea*d3; var slant=Math.sqrt((d1/Math.sqrt(3))*(d1/Math.sqrt(3))+d3*d3); sa=baseArea+1.5*d1*slant; document.getElementById('formula').textContent='V = \\u2153\\u00D7(\\u221A3/4)\\u00D7a\\u00B2\\u00D7h';} document.getElementById('volume').textContent=fmt(vol,4); document.getElementById('surfaceArea').textContent=fmt(sa,4);",
+    "faq": [
+      {"question": "What is the difference between a prism and a pyramid?", "answer": "A prism has two parallel, congruent bases connected by rectangular faces. A pyramid has one base and triangular faces that meet at a single apex point. Prism volume = base area × height; pyramid volume = ⅓ × base area × height."},
+      {"question": "How do you find the surface area of a pyramid?", "answer": "The surface area of a pyramid equals the base area plus the sum of the areas of all triangular faces. For a square pyramid: SA = base² + 2 × base × slant height."},
+      {"question": "Why is pyramid volume one-third of a prism?", "answer": "A pyramid's volume is exactly ⅓ of a prism with the same base and height. This can be proven by dividing a cube into three congruent pyramids, each with volume ⅓ of the cube."},
+      {"question": "What dimensions do I enter for a triangular prism?", "answer": "Enter the base of the triangle as dim1, the triangle's height as dim2, and the length (depth) of the prism as dim3. The calculator computes the triangular cross-section area first, then multiplies by the prism length."}
+    ],
+    "formulas": ["V(rect prism) = l × w × h", "V(pyramid) = ⅓ × base area × height", "V(tri prism) = ½ × b × h × length", "SA(rect prism) = 2(lw + wh + lh)"],
+    "relatedTools": ["sphere-cone-cylinder-calculator", "regular-polygon-area-calculator", "triangle-area-calculator"]
+  },
+  {
+    "slug": "sphere-cone-cylinder-calculator",
+    "toolName": "Sphere, Cone & Cylinder Calculator",
+    "category": "middle-school-math",
+    "tagline": "Find the volume and surface area of spheres, cones, and cylinders with step-by-step formulas",
+    "keywords": "sphere volume, cone volume, cylinder volume, surface area, sphere calculator, cone calculator, cylinder calculator, 3D geometry",
+    "inputs": [
+      {"id": "shape", "label": "Shape", "type": "select", "default": "cylinder", "options": [{"value": "sphere", "label": "Sphere"}, {"value": "cone", "label": "Cone"}, {"value": "cylinder", "label": "Cylinder"}]},
+      {"id": "radius", "label": "Radius", "default": 5},
+      {"id": "height", "label": "Height (not needed for sphere)", "default": 10}
+    ],
+    "results": [
+      {"id": "volume", "label": "Volume"},
+      {"id": "surfaceArea", "label": "Surface Area"},
+      {"id": "formula", "label": "Formula Used"}
+    ],
+    "calcFn": "var shape=document.getElementById('shape').value; var r=parseFloat(document.getElementById('radius').value); var h=parseFloat(document.getElementById('height').value); if(isNaN(r)||r<=0){document.getElementById('volume').textContent='Enter a positive radius';return;} var vol,sa; if(shape==='sphere'){vol=(4/3)*Math.PI*r*r*r; sa=4*Math.PI*r*r; document.getElementById('formula').textContent='V = (4/3)\\u03C0r\\u00B3; SA = 4\\u03C0r\\u00B2';} else if(shape==='cone'){if(isNaN(h)||h<=0){document.getElementById('volume').textContent='Enter a positive height';return;} vol=(1/3)*Math.PI*r*r*h; var slant=Math.sqrt(r*r+h*h); sa=Math.PI*r*(r+slant); document.getElementById('formula').textContent='V = (1/3)\\u03C0r\\u00B2h; SA = \\u03C0r(r + slant)';} else {if(isNaN(h)||h<=0){document.getElementById('volume').textContent='Enter a positive height';return;} vol=Math.PI*r*r*h; sa=2*Math.PI*r*(r+h); document.getElementById('formula').textContent='V = \\u03C0r\\u00B2h; SA = 2\\u03C0r(r + h)';} document.getElementById('volume').textContent=fmt(vol,4); document.getElementById('surfaceArea').textContent=fmt(sa,4);",
+    "faq": [
+      {"question": "How do you calculate the volume of a sphere?", "answer": "The volume of a sphere is V = (4/3)πr³. Cube the radius, multiply by π, then multiply by 4/3. For example, a sphere with radius 5 has volume (4/3)π(125) ≈ 523.6 cubic units."},
+      {"question": "What is the slant height of a cone?", "answer": "The slant height is the distance from the tip of the cone to any point on the edge of the base circle. It can be found using the Pythagorean theorem: slant = √(r² + h²), where r is the radius and h is the height."},
+      {"question": "How are cone and cylinder volumes related?", "answer": "A cone's volume is exactly one-third of a cylinder with the same radius and height. V(cone) = ⅓ × V(cylinder) = ⅓πr²h."},
+      {"question": "Does the sphere formula use height?", "answer": "No. A sphere is defined entirely by its radius. The volume formula V = (4/3)πr³ and surface area formula SA = 4πr² both depend only on the radius."}
+    ],
+    "formulas": ["V(sphere) = (4/3)πr³", "V(cone) = (1/3)πr²h", "V(cylinder) = πr²h", "SA(sphere) = 4πr²", "SA(cylinder) = 2πr(r + h)"],
+    "relatedTools": ["prism-pyramid-volume-calculator", "arc-length-calculator", "equation-of-circle-calculator"]
+  },
+  {
+    "slug": "triangle-solver",
+    "toolName": "Triangle Solver",
+    "category": "high-school-math",
+    "tagline": "Solve any triangle by entering sides and angles using SSS, SAS, ASA, or AAS methods",
+    "keywords": "triangle solver, solve triangle, SSS, SAS, ASA, AAS, law of sines, law of cosines, triangle calculator, oblique triangle",
+    "inputs": [
+      {"id": "method", "label": "Known Values", "type": "select", "default": "SSS", "options": [{"value": "SSS", "label": "SSS (3 Sides)"}, {"value": "SAS", "label": "SAS (2 Sides + Included Angle)"}, {"value": "ASA", "label": "ASA (2 Angles + Included Side)"}, {"value": "AAS", "label": "AAS (2 Angles + Non-Included Side)"}]},
+      {"id": "side1", "label": "Side a", "default": 7},
+      {"id": "side2", "label": "Side b", "default": 10},
+      {"id": "side3", "label": "Side c", "default": 5},
+      {"id": "angle1", "label": "Angle A (°)", "default": 0},
+      {"id": "angle2", "label": "Angle B (°)", "default": 0}
+    ],
+    "results": [
+      {"id": "missingSide", "label": "Side(s)"},
+      {"id": "missingAngle1", "label": "Angle A"},
+      {"id": "missingAngle2", "label": "Angle B"},
+      {"id": "area", "label": "Area"}
+    ],
+    "calcFn": "var method=document.getElementById('method').value; var a=parseFloat(document.getElementById('side1').value)||0; var b=parseFloat(document.getElementById('side2').value)||0; var c=parseFloat(document.getElementById('side3').value)||0; var A=parseFloat(document.getElementById('angle1').value)||0; var B=parseFloat(document.getElementById('angle2').value)||0; var toRad=Math.PI/180; var toDeg=180/Math.PI; var area=0; if(method==='SSS'){if(a<=0||b<=0||c<=0){document.getElementById('missingSide').textContent='Enter all 3 sides';return;} var cosA=(b*b+c*c-a*a)/(2*b*c); var cosB=(a*a+c*c-b*b)/(2*a*c); if(Math.abs(cosA)>1||Math.abs(cosB)>1){document.getElementById('missingSide').textContent='Invalid triangle';return;} A=Math.acos(cosA)*toDeg; B=Math.acos(cosB)*toDeg; var C=180-A-B; var s=(a+b+c)/2; area=Math.sqrt(s*(s-a)*(s-b)*(s-c)); document.getElementById('missingSide').textContent='a='+fmt(a,4)+', b='+fmt(b,4)+', c='+fmt(c,4); document.getElementById('missingAngle1').textContent=fmt(A,4)+'\\u00B0'; document.getElementById('missingAngle2').textContent='B='+fmt(B,4)+'\\u00B0, C='+fmt(C,4)+'\\u00B0';} else if(method==='SAS'){if(a<=0||b<=0||A<=0||A>=180){document.getElementById('missingSide').textContent='Enter sides a, b and angle A (included)';return;} c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(A*toRad)); var cosB2=(a*a+c*c-b*b)/(2*a*c); B=Math.acos(Math.min(1,Math.max(-1,cosB2)))*toDeg; var C=180-A-B; area=0.5*a*b*Math.sin(A*toRad); document.getElementById('missingSide').textContent='c = '+fmt(c,4); document.getElementById('missingAngle1').textContent=fmt(A,4)+'\\u00B0 (given)'; document.getElementById('missingAngle2').textContent='B='+fmt(B,4)+'\\u00B0, C='+fmt(C,4)+'\\u00B0';} else if(method==='ASA'){if(A<=0||B<=0||a<=0){document.getElementById('missingSide').textContent='Enter angles A, B and side a (between them)';return;} var C=180-A-B; if(C<=0){document.getElementById('missingSide').textContent='Angles must sum to less than 180\\u00B0';return;} var sideA=a*Math.sin(A*toRad)/Math.sin(C*toRad); var sideB=a*Math.sin(B*toRad)/Math.sin(C*toRad); area=0.5*sideA*sideB*Math.sin(C*toRad); document.getElementById('missingSide').textContent='a='+fmt(sideA,4)+', b='+fmt(sideB,4)+', c='+fmt(a,4); document.getElementById('missingAngle1').textContent=fmt(A,4)+'\\u00B0'; document.getElementById('missingAngle2').textContent='B='+fmt(B,4)+'\\u00B0, C='+fmt(C,4)+'\\u00B0';} else {if(A<=0||B<=0||a<=0){document.getElementById('missingSide').textContent='Enter angles A, B and side a (opposite A)';return;} var C=180-A-B; if(C<=0){document.getElementById('missingSide').textContent='Angles must sum to less than 180\\u00B0';return;} b=a*Math.sin(B*toRad)/Math.sin(A*toRad); c=a*Math.sin(C*toRad)/Math.sin(A*toRad); area=0.5*b*c*Math.sin(A*toRad); document.getElementById('missingSide').textContent='a='+fmt(a,4)+', b='+fmt(b,4)+', c='+fmt(c,4); document.getElementById('missingAngle1').textContent=fmt(A,4)+'\\u00B0'; document.getElementById('missingAngle2').textContent='B='+fmt(B,4)+'\\u00B0, C='+fmt(C,4)+'\\u00B0';} document.getElementById('area').textContent=fmt(area,4);",
+    "faq": [
+      {"question": "What does SSS, SAS, ASA, and AAS mean?", "answer": "These abbreviations describe which parts of a triangle you know. SSS = three sides, SAS = two sides and the included angle, ASA = two angles and the included side, AAS = two angles and a non-included side."},
+      {"question": "When do I use Law of Cosines vs Law of Sines?", "answer": "Use the Law of Cosines for SSS and SAS problems (when you know two or more sides). Use the Law of Sines for ASA and AAS problems (when you know two angles). Both can sometimes be used in combination."},
+      {"question": "Can a triangle have angles summing to more than 180 degrees?", "answer": "In Euclidean (flat) geometry, the angles of a triangle always sum to exactly 180°. If your inputs sum to more than 180°, the triangle is not valid."},
+      {"question": "What is the ambiguous case (SSA)?", "answer": "The SSA case (two sides and a non-included angle) can yield zero, one, or two valid triangles. This calculator handles the primary solution; check whether a second triangle exists by seeing if 180° minus the found angle also yields a valid triangle."}
+    ],
+    "formulas": ["Law of Cosines: c² = a² + b² - 2ab·cos(C)", "Law of Sines: a/sin(A) = b/sin(B) = c/sin(C)", "Angle sum: A + B + C = 180°", "Area = ½ab·sin(C)"],
+    "relatedTools": ["pythagorean-theorem-calculator", "law-of-sines-calculator", "law-of-cosines-calculator", "herons-formula-calculator"]
+  },
+  {
+    "slug": "special-right-triangles-calculator",
+    "toolName": "Special Right Triangles Calculator",
+    "category": "high-school-math",
+    "tagline": "Quickly find all sides of 45-45-90 and 30-60-90 special right triangles from any known side",
+    "keywords": "special right triangles, 45-45-90 triangle, 30-60-90 triangle, isosceles right triangle, special triangle ratios, geometry shortcuts",
+    "inputs": [
+      {"id": "triangleType", "label": "Triangle Type", "type": "select", "default": "45-45-90", "options": [{"value": "45-45-90", "label": "45-45-90"}, {"value": "30-60-90", "label": "30-60-90"}]},
+      {"id": "knownSide", "label": "Known Side Length", "default": 5},
+      {"id": "whichSide", "label": "Which Side Is Known?", "type": "select", "default": "short-leg", "options": [{"value": "short-leg", "label": "Short Leg"}, {"value": "long-leg", "label": "Long Leg"}, {"value": "hypotenuse", "label": "Hypotenuse"}]}
+    ],
+    "results": [
+      {"id": "allSides", "label": "All Three Sides"},
+      {"id": "explanation", "label": "Step-by-Step"}
+    ],
+    "calcFn": "var type=document.getElementById('triangleType').value; var val=parseFloat(document.getElementById('knownSide').value); var which=document.getElementById('whichSide').value; if(isNaN(val)||val<=0){document.getElementById('allSides').textContent='Enter a positive value';return;} var s1,s2,hyp,exp; if(type==='45-45-90'){if(which==='short-leg'||which==='long-leg'){s1=val;s2=val;hyp=val*Math.sqrt(2);exp='Leg = '+fmt(val,4)+'; other leg = '+fmt(val,4)+' (equal); hyp = leg\\u00D7\\u221A2 = '+fmt(hyp,4);} else {hyp=val;s1=val/Math.sqrt(2);s2=s1;exp='Hyp = '+fmt(val,4)+'; each leg = hyp/\\u221A2 = '+fmt(s1,4);} document.getElementById('allSides').textContent='Legs: '+fmt(s1,4)+', '+fmt(s2,4)+' | Hypotenuse: '+fmt(hyp,4);} else {if(which==='short-leg'){s1=val;s2=val*Math.sqrt(3);hyp=2*val;exp='Short leg = '+fmt(val,4)+'; long leg = short\\u00D7\\u221A3 = '+fmt(s2,4)+'; hyp = 2\\u00D7short = '+fmt(hyp,4);} else if(which==='long-leg'){s2=val;s1=val/Math.sqrt(3);hyp=2*s1;exp='Long leg = '+fmt(val,4)+'; short leg = long/\\u221A3 = '+fmt(s1,4)+'; hyp = 2\\u00D7short = '+fmt(hyp,4);} else {hyp=val;s1=val/2;s2=s1*Math.sqrt(3);exp='Hyp = '+fmt(val,4)+'; short leg = hyp/2 = '+fmt(s1,4)+'; long leg = short\\u00D7\\u221A3 = '+fmt(s2,4);} document.getElementById('allSides').textContent='Short leg: '+fmt(s1,4)+' | Long leg: '+fmt(s2,4)+' | Hypotenuse: '+fmt(hyp,4);} document.getElementById('explanation').textContent=exp;",
+    "faq": [
+      {"question": "What are the ratios for a 45-45-90 triangle?", "answer": "In a 45-45-90 triangle, the two legs are equal and the hypotenuse is leg × √2. The ratio is 1 : 1 : √2."},
+      {"question": "What are the ratios for a 30-60-90 triangle?", "answer": "In a 30-60-90 triangle, the side opposite 30° (short leg) has ratio 1, the side opposite 60° (long leg) has ratio √3, and the hypotenuse has ratio 2. The ratio is 1 : √3 : 2."},
+      {"question": "Why are special right triangles important?", "answer": "Special right triangles appear frequently in geometry, trigonometry, and standardized tests. Memorizing the ratios allows you to find missing sides instantly without using the Pythagorean theorem or trigonometric functions."},
+      {"question": "How do special triangles relate to the unit circle?", "answer": "The 30-60-90 and 45-45-90 triangles are used to derive the exact values of sine, cosine, and tangent for 30°, 45°, and 60° on the unit circle."}
+    ],
+    "formulas": ["45-45-90 ratio: 1 : 1 : √2", "30-60-90 ratio: 1 : √3 : 2", "Hypotenuse (45-45-90) = leg × √2", "Short leg (30-60-90) = hypotenuse / 2"],
+    "relatedTools": ["pythagorean-theorem-calculator", "right-triangle-solver", "unit-circle-calculator", "soh-cah-toa-calculator"]
+  },
+  {
+    "slug": "triangle-inequality-checker",
+    "toolName": "Triangle Inequality Checker",
+    "category": "high-school-math",
+    "tagline": "Check if three side lengths can form a valid triangle and identify its type (scalene, isosceles, equilateral)",
+    "keywords": "triangle inequality, valid triangle, triangle type, scalene, isosceles, equilateral, triangle checker, side lengths",
+    "inputs": [
+      {"id": "sideA", "label": "Side a", "default": 5},
+      {"id": "sideB", "label": "Side b", "default": 7},
+      {"id": "sideC", "label": "Side c", "default": 10}
+    ],
+    "results": [
+      {"id": "isValid", "label": "Valid Triangle?"},
+      {"id": "explanation", "label": "Inequality Check"},
+      {"id": "triangleType", "label": "Triangle Type"}
+    ],
+    "calcFn": "var a=parseFloat(document.getElementById('sideA').value); var b=parseFloat(document.getElementById('sideB').value); var c=parseFloat(document.getElementById('sideC').value); if(isNaN(a)||a<=0||isNaN(b)||b<=0||isNaN(c)||c<=0){document.getElementById('isValid').textContent='Enter positive values';return;} var check1=a+b>c; var check2=a+c>b; var check3=b+c>a; var valid=check1&&check2&&check3; document.getElementById('isValid').textContent=valid?'Yes \\u2014 Valid Triangle':'No \\u2014 Not a Valid Triangle'; document.getElementById('explanation').textContent=a+'+'+b+'='+fmt(a+b,2)+(check1?' > ':' \\u2264 ')+c+(check1?' \\u2713':' \\u2717')+' | '+a+'+'+c+'='+fmt(a+c,2)+(check2?' > ':' \\u2264 ')+b+(check2?' \\u2713':' \\u2717')+' | '+b+'+'+c+'='+fmt(b+c,2)+(check3?' > ':' \\u2264 ')+a+(check3?' \\u2713':' \\u2717'); if(!valid){document.getElementById('triangleType').textContent='N/A';return;} var sides=[a,b,c].sort(function(x,y){return x-y;}); var type=''; if(sides[0]===sides[1]&&sides[1]===sides[2]) type='Equilateral'; else if(sides[0]===sides[1]||sides[1]===sides[2]) type='Isosceles'; else type='Scalene'; var angCheck=sides[0]*sides[0]+sides[1]*sides[1]; if(Math.abs(angCheck-sides[2]*sides[2])<0.0001) type+=' (Right)'; else if(angCheck>sides[2]*sides[2]) type+=' (Acute)'; else type+=' (Obtuse)'; document.getElementById('triangleType').textContent=type;",
+    "faq": [
+      {"question": "What is the triangle inequality theorem?", "answer": "The triangle inequality theorem states that the sum of any two sides of a triangle must be greater than the third side. All three combinations must be checked: a+b > c, a+c > b, and b+c > a."},
+      {"question": "What is the difference between scalene, isosceles, and equilateral?", "answer": "A scalene triangle has no equal sides, an isosceles triangle has exactly two equal sides, and an equilateral triangle has all three sides equal."},
+      {"question": "How can I tell if a triangle is acute, right, or obtuse?", "answer": "Sort the sides so a ≤ b ≤ c. If a² + b² = c², it is a right triangle. If a² + b² > c², it is acute. If a² + b² < c², it is obtuse."},
+      {"question": "Can three equal lengths form a triangle?", "answer": "Yes, three equal positive lengths always form an equilateral triangle. For example, sides 5, 5, 5 satisfy 5+5 > 5 in all combinations."}
+    ],
+    "formulas": ["a + b > c", "a + c > b", "b + c > a", "Right test: a² + b² = c²"],
+    "relatedTools": ["triangle-solver", "pythagorean-theorem-calculator", "herons-formula-calculator"]
+  },
+  {
+    "slug": "herons-formula-calculator",
+    "toolName": "Heron's Formula Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate triangle area from three side lengths using Heron's formula with semi-perimeter",
+    "keywords": "heron's formula, triangle area from sides, semi-perimeter, triangle area calculator, three sides area, hero's formula",
+    "inputs": [
+      {"id": "sideA", "label": "Side a", "default": 7},
+      {"id": "sideB", "label": "Side b", "default": 8},
+      {"id": "sideC", "label": "Side c", "default": 9}
+    ],
+    "results": [
+      {"id": "area", "label": "Area"},
+      {"id": "semiPerimeter", "label": "Semi-Perimeter (s)"},
+      {"id": "isValid", "label": "Valid Triangle?"}
+    ],
+    "calcFn": "var a=parseFloat(document.getElementById('sideA').value); var b=parseFloat(document.getElementById('sideB').value); var c=parseFloat(document.getElementById('sideC').value); if(isNaN(a)||a<=0||isNaN(b)||b<=0||isNaN(c)||c<=0){document.getElementById('area').textContent='Enter positive values';return;} if(a+b<=c||a+c<=b||b+c<=a){document.getElementById('area').textContent='Invalid triangle'; document.getElementById('semiPerimeter').textContent='N/A'; document.getElementById('isValid').textContent='No \\u2014 fails triangle inequality';return;} var s=(a+b+c)/2; var area=Math.sqrt(s*(s-a)*(s-b)*(s-c)); document.getElementById('semiPerimeter').textContent=fmt(s,4); document.getElementById('area').textContent=fmt(area,4); document.getElementById('isValid').textContent='Yes \\u2014 valid triangle (perimeter = '+fmt(a+b+c,4)+')';",
+    "faq": [
+      {"question": "What is Heron's formula?", "answer": "Heron's formula calculates the area of a triangle given only its three side lengths. First find the semi-perimeter s = (a+b+c)/2, then the area = √[s(s-a)(s-b)(s-c)]."},
+      {"question": "Who was Heron of Alexandria?", "answer": "Heron (or Hero) was a Greek mathematician and engineer from the 1st century AD in Alexandria, Egypt. He is credited with this formula, though it may have been known earlier by Archimedes."},
+      {"question": "When should I use Heron's formula instead of ½bh?", "answer": "Use Heron's formula when you know all three sides but do not know the height. If you know the base and height, the standard formula A = ½bh is simpler."},
+      {"question": "Can Heron's formula give a negative value under the square root?", "answer": "Yes, if the three lengths do not form a valid triangle (violating the triangle inequality), the expression under the square root will be negative, indicating no valid triangle exists."}
+    ],
+    "formulas": ["s = (a + b + c) / 2", "A = √[s(s-a)(s-b)(s-c)]", "Perimeter = a + b + c"],
+    "relatedTools": ["triangle-area-calculator", "triangle-solver", "triangle-inequality-checker"]
+  },
+  {
+    "slug": "triangle-angle-sum-calculator",
+    "toolName": "Triangle Angle Sum Calculator",
+    "category": "high-school-math",
+    "tagline": "Find the missing angle of a triangle given two angles and classify the triangle type",
+    "keywords": "triangle angles, angle sum property, missing angle, triangle type, acute triangle, obtuse triangle, right triangle, angle sum 180",
+    "inputs": [
+      {"id": "angle1", "label": "Angle 1 (°)", "default": 45},
+      {"id": "angle2", "label": "Angle 2 (°)", "default": 60}
+    ],
+    "results": [
+      {"id": "angle3", "label": "Missing Angle"},
+      {"id": "triangleType", "label": "Triangle Type"},
+      {"id": "isValid", "label": "Valid?"}
+    ],
+    "calcFn": "var a1=parseFloat(document.getElementById('angle1').value); var a2=parseFloat(document.getElementById('angle2').value); if(isNaN(a1)||a1<=0||isNaN(a2)||a2<=0){document.getElementById('angle3').textContent='Enter positive angles';return;} var a3=180-a1-a2; if(a3<=0){document.getElementById('angle3').textContent='Invalid \\u2014 angles exceed 180\\u00B0'; document.getElementById('triangleType').textContent='N/A'; document.getElementById('isValid').textContent='No \\u2014 '+fmt(a1,2)+'\\u00B0 + '+fmt(a2,2)+'\\u00B0 = '+fmt(a1+a2,2)+'\\u00B0 (must be < 180\\u00B0)';return;} document.getElementById('angle3').textContent=fmt(a3,4)+'\\u00B0'; var angles=[a1,a2,a3]; var maxA=Math.max.apply(null,angles); var type=''; if(Math.abs(maxA-90)<0.0001) type='Right Triangle'; else if(maxA>90) type='Obtuse Triangle'; else type='Acute Triangle'; if(Math.abs(a1-a2)<0.0001&&Math.abs(a2-a3)<0.0001) type+=' (Equilateral)'; else if(Math.abs(a1-a2)<0.0001||Math.abs(a1-a3)<0.0001||Math.abs(a2-a3)<0.0001) type+=' (Isosceles)'; else type+=' (Scalene)'; document.getElementById('triangleType').textContent=type; document.getElementById('isValid').textContent='Yes \\u2014 '+fmt(a1,2)+'\\u00B0 + '+fmt(a2,2)+'\\u00B0 + '+fmt(a3,2)+'\\u00B0 = 180\\u00B0';",
+    "faq": [
+      {"question": "Why do triangle angles always sum to 180°?", "answer": "In Euclidean geometry, the interior angles of any triangle always sum to exactly 180° (or π radians). This is a fundamental property that follows from the parallel postulate."},
+      {"question": "What is an acute triangle?", "answer": "An acute triangle has all three angles less than 90°. Examples include equilateral triangles (all 60°) and any triangle where the largest angle is less than 90°."},
+      {"question": "What is an obtuse triangle?", "answer": "An obtuse triangle has one angle greater than 90°. A triangle can have at most one obtuse angle because the other two must sum to less than 90° to keep the total at 180°."},
+      {"question": "Can a triangle have two right angles?", "answer": "No. If two angles were each 90°, they would sum to 180° leaving 0° for the third angle, which is impossible. A triangle can have at most one right angle."}
+    ],
+    "formulas": ["A + B + C = 180°", "C = 180° - A - B"],
+    "relatedTools": ["triangle-solver", "triangle-inequality-checker", "soh-cah-toa-calculator"]
+  },
+  {
+    "slug": "soh-cah-toa-calculator",
+    "toolName": "SOH CAH TOA Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate sine, cosine, and tangent ratios for right triangles using SOH CAH TOA",
+    "keywords": "SOH CAH TOA, sine cosine tangent, trig ratios, right triangle trig, opposite adjacent hypotenuse, trigonometry basics, trig calculator",
+    "inputs": [
+      {"id": "findWhat", "label": "Find What?", "type": "select", "default": "sin", "options": [{"value": "sin", "label": "Sine (SOH)"}, {"value": "cos", "label": "Cosine (CAH)"}, {"value": "tan", "label": "Tangent (TOA)"}]},
+      {"id": "opposite", "label": "Opposite Side", "default": 3},
+      {"id": "adjacent", "label": "Adjacent Side", "default": 4},
+      {"id": "hypotenuse", "label": "Hypotenuse", "default": 5}
+    ],
+    "results": [
+      {"id": "ratio", "label": "Trig Ratio"},
+      {"id": "angle", "label": "Angle"},
+      {"id": "explanation", "label": "Explanation"}
+    ],
+    "calcFn": "var fn=document.getElementById('findWhat').value; var opp=parseFloat(document.getElementById('opposite').value)||0; var adj=parseFloat(document.getElementById('adjacent').value)||0; var hyp=parseFloat(document.getElementById('hypotenuse').value)||0; var ratio,angle,exp; if(fn==='sin'){if(opp<=0||hyp<=0){document.getElementById('ratio').textContent='Enter opposite and hypotenuse';return;} ratio=opp/hyp; angle=Math.asin(Math.min(1,ratio))*180/Math.PI; exp='sin(\\u03B8) = opposite/hypotenuse = '+opp+'/'+hyp+' = '+fmt(ratio,6);} else if(fn==='cos'){if(adj<=0||hyp<=0){document.getElementById('ratio').textContent='Enter adjacent and hypotenuse';return;} ratio=adj/hyp; angle=Math.acos(Math.min(1,ratio))*180/Math.PI; exp='cos(\\u03B8) = adjacent/hypotenuse = '+adj+'/'+hyp+' = '+fmt(ratio,6);} else {if(opp<=0||adj<=0){document.getElementById('ratio').textContent='Enter opposite and adjacent';return;} ratio=opp/adj; angle=Math.atan(ratio)*180/Math.PI; exp='tan(\\u03B8) = opposite/adjacent = '+opp+'/'+adj+' = '+fmt(ratio,6);} document.getElementById('ratio').textContent=fmt(ratio,6); document.getElementById('angle').textContent=fmt(angle,4)+'\\u00B0'; document.getElementById('explanation').textContent=exp;",
+    "faq": [
+      {"question": "What does SOH CAH TOA stand for?", "answer": "SOH CAH TOA is a mnemonic for the three basic trig ratios: Sine = Opposite/Hypotenuse (SOH), Cosine = Adjacent/Hypotenuse (CAH), Tangent = Opposite/Adjacent (TOA)."},
+      {"question": "Which sides are opposite and adjacent?", "answer": "The opposite side is across from the angle you are measuring. The adjacent side is next to the angle (not the hypotenuse). The hypotenuse is always the longest side, opposite the right angle."},
+      {"question": "When do I use SOH CAH TOA?", "answer": "Use SOH CAH TOA in right triangles to find a missing side when you know an angle and one side, or to find an angle when you know two sides."},
+      {"question": "Can sine or cosine be greater than 1?", "answer": "No. Since the opposite and adjacent sides are always shorter than the hypotenuse, sine and cosine values are always between -1 and 1. Tangent, however, can be any real number."}
+    ],
+    "formulas": ["sin(θ) = opposite / hypotenuse", "cos(θ) = adjacent / hypotenuse", "tan(θ) = opposite / adjacent", "θ = arcsin(opp/hyp), arccos(adj/hyp), or arctan(opp/adj)"],
+    "relatedTools": ["inverse-trig-calculator", "right-triangle-solver", "trig-function-evaluator", "special-right-triangles-calculator"]
+  },
+  {
+    "slug": "inverse-trig-calculator",
+    "toolName": "Inverse Trig Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate arcsin, arccos, and arctan to find angles from trigonometric ratios in degrees and radians",
+    "keywords": "inverse trig, arcsin, arccos, arctan, inverse sine, inverse cosine, inverse tangent, find angle from ratio",
+    "inputs": [
+      {"id": "trigFunction", "label": "Function", "type": "select", "default": "arcsin", "options": [{"value": "arcsin", "label": "arcsin (sin⁻¹)"}, {"value": "arccos", "label": "arccos (cos⁻¹)"}, {"value": "arctan", "label": "arctan (tan⁻¹)"}]},
+      {"id": "value", "label": "Value", "default": 0.5}
+    ],
+    "results": [
+      {"id": "angleDegrees", "label": "Angle (Degrees)"},
+      {"id": "angleRadians", "label": "Angle (Radians)"}
+    ],
+    "calcFn": "var fn=document.getElementById('trigFunction').value; var val=parseFloat(document.getElementById('value').value); if(isNaN(val)){document.getElementById('angleDegrees').textContent='Enter a number';return;} var rad; if(fn==='arcsin'){if(val<-1||val>1){document.getElementById('angleDegrees').textContent='arcsin requires value between -1 and 1';return;} rad=Math.asin(val);} else if(fn==='arccos'){if(val<-1||val>1){document.getElementById('angleDegrees').textContent='arccos requires value between -1 and 1';return;} rad=Math.acos(val);} else {rad=Math.atan(val);} var deg=rad*180/Math.PI; document.getElementById('angleDegrees').textContent=fmt(deg,6)+'\\u00B0'; document.getElementById('angleRadians').textContent=fmt(rad,6)+' rad';",
+    "faq": [
+      {"question": "What is an inverse trigonometric function?", "answer": "Inverse trig functions do the reverse of regular trig functions. While sin(30°) = 0.5, arcsin(0.5) = 30°. They take a ratio and return the angle that produces that ratio."},
+      {"question": "What are the domain restrictions for inverse trig functions?", "answer": "arcsin and arccos only accept inputs between -1 and 1 (since sine and cosine can only produce values in that range). arctan accepts any real number."},
+      {"question": "What is the range of arcsin, arccos, and arctan?", "answer": "arcsin returns angles from -90° to 90°. arccos returns angles from 0° to 180°. arctan returns angles from -90° to 90° (not including the endpoints)."},
+      {"question": "How do I find sin⁻¹ on a calculator?", "answer": "On most calculators, press the 'inverse' or '2nd' button, then press the sin, cos, or tan button. The notation sin⁻¹(x) means arcsin(x), not 1/sin(x)."}
+    ],
+    "formulas": ["arcsin(x) returns θ where sin(θ) = x", "arccos(x) returns θ where cos(θ) = x", "arctan(x) returns θ where tan(θ) = x", "Degrees = Radians × (180/π)"],
+    "relatedTools": ["soh-cah-toa-calculator", "trig-function-evaluator", "unit-circle-calculator", "degrees-to-radians-converter"]
+  },
+  {
+    "slug": "trig-function-evaluator",
+    "toolName": "Trig Function Evaluator",
+    "category": "high-school-math",
+    "tagline": "Evaluate all six trigonometric functions (sin, cos, tan, csc, sec, cot) for any angle",
+    "keywords": "trig functions, sine cosine tangent, cosecant secant cotangent, evaluate trig, all six trig functions, trig values",
+    "inputs": [
+      {"id": "angle", "label": "Angle", "default": 45},
+      {"id": "angleUnit", "label": "Unit", "type": "select", "default": "degrees", "options": [{"value": "degrees", "label": "Degrees"}, {"value": "radians", "label": "Radians"}]}
+    ],
+    "results": [
+      {"id": "sin", "label": "sin(θ)"},
+      {"id": "cos", "label": "cos(θ)"},
+      {"id": "tan", "label": "tan(θ)"},
+      {"id": "csc", "label": "csc(θ)"},
+      {"id": "sec", "label": "sec(θ)"},
+      {"id": "cot", "label": "cot(θ)"}
+    ],
+    "calcFn": "var angle=parseFloat(document.getElementById('angle').value); var unit=document.getElementById('angleUnit').value; if(isNaN(angle)){document.getElementById('sin').textContent='Enter a number';return;} var rad=unit==='degrees'?angle*Math.PI/180:angle; var sinVal=Math.sin(rad); var cosVal=Math.cos(rad); var tanVal; if(Math.abs(cosVal)<1e-10){tanVal='Undefined';} else {tanVal=sinVal/cosVal;} document.getElementById('sin').textContent=fmt(sinVal,8); document.getElementById('cos').textContent=fmt(cosVal,8); document.getElementById('tan').textContent=(typeof tanVal==='string')?tanVal:fmt(tanVal,8); document.getElementById('csc').textContent=Math.abs(sinVal)<1e-10?'Undefined':fmt(1/sinVal,8); document.getElementById('sec').textContent=Math.abs(cosVal)<1e-10?'Undefined':fmt(1/cosVal,8); document.getElementById('cot').textContent=(typeof tanVal==='string')?'0':Math.abs(tanVal)<1e-10?'Undefined':fmt(1/tanVal,8);",
+    "faq": [
+      {"question": "What are the six trigonometric functions?", "answer": "The six trig functions are sine (sin), cosine (cos), tangent (tan), cosecant (csc = 1/sin), secant (sec = 1/cos), and cotangent (cot = 1/tan or cos/sin)."},
+      {"question": "When is tangent undefined?", "answer": "Tangent is undefined when the cosine equals zero, which occurs at 90°, 270°, or more generally at 90° + 180°n for any integer n. At these angles, the ratio sin/cos involves division by zero."},
+      {"question": "What is the difference between degrees and radians?", "answer": "Degrees divide a full circle into 360 parts; radians use the ratio of arc length to radius. One full circle = 360° = 2π radians. To convert: radians = degrees × π/180."},
+      {"question": "What are the reciprocal trig functions?", "answer": "Cosecant (csc) is the reciprocal of sine, secant (sec) is the reciprocal of cosine, and cotangent (cot) is the reciprocal of tangent. For example, csc(θ) = 1/sin(θ)."}
+    ],
+    "formulas": ["sin(θ), cos(θ), tan(θ) = sin(θ)/cos(θ)", "csc(θ) = 1/sin(θ)", "sec(θ) = 1/cos(θ)", "cot(θ) = 1/tan(θ) = cos(θ)/sin(θ)"],
+    "relatedTools": ["unit-circle-calculator", "inverse-trig-calculator", "degrees-to-radians-converter", "soh-cah-toa-calculator"]
+  },
+  {
+    "slug": "degrees-to-radians-converter",
+    "toolName": "Degrees to Radians Converter",
+    "category": "high-school-math",
+    "tagline": "Convert between degrees and radians with exact pi-form results for common angles",
+    "keywords": "degrees to radians, radians to degrees, angle conversion, pi form, radian converter, degree converter, angle units",
+    "inputs": [
+      {"id": "value", "label": "Angle Value", "default": 90},
+      {"id": "convertFrom", "label": "Convert From", "type": "select", "default": "degrees", "options": [{"value": "degrees", "label": "Degrees → Radians"}, {"value": "radians", "label": "Radians → Degrees"}]}
+    ],
+    "results": [
+      {"id": "converted", "label": "Converted Value"},
+      {"id": "formula", "label": "Formula"},
+      {"id": "piForm", "label": "Pi Form"}
+    ],
+    "calcFn": "var val=parseFloat(document.getElementById('value').value); var from=document.getElementById('convertFrom').value; if(isNaN(val)){document.getElementById('converted').textContent='Enter a number';return;} if(from==='degrees'){var rad=val*Math.PI/180; document.getElementById('converted').textContent=fmt(rad,8)+' radians'; document.getElementById('formula').textContent=val+'\\u00B0 \\u00D7 (\\u03C0/180) = '+fmt(rad,8); var frac=val/180; var num=Math.round(frac*1000); var den=1000; var gcdVal=function(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}; var g=gcdVal(num,den); num=num/g; den=den/g; if(den===1){document.getElementById('piForm').textContent=(num===1?'':num===(-1)?'-':num)+'\\u03C0';} else {document.getElementById('piForm').textContent=(num===1?'':num===(-1)?'-':num)+'\\u03C0/'+den;}} else {var deg=val*180/Math.PI; document.getElementById('converted').textContent=fmt(deg,8)+'\\u00B0'; document.getElementById('formula').textContent=fmt(val,8)+' rad \\u00D7 (180/\\u03C0) = '+fmt(deg,8)+'\\u00B0'; var piMultiple=val/Math.PI; document.getElementById('piForm').textContent='Input \\u2248 '+fmt(piMultiple,6)+'\\u03C0';}",
+    "faq": [
+      {"question": "How do I convert degrees to radians?", "answer": "Multiply the degree value by π/180. For example, 90° × π/180 = π/2 radians. Common conversions: 30° = π/6, 45° = π/4, 60° = π/3, 90° = π/2, 180° = π, 360° = 2π."},
+      {"question": "How do I convert radians to degrees?", "answer": "Multiply the radian value by 180/π. For example, π/3 × 180/π = 60°."},
+      {"question": "Why do we use radians in math?", "answer": "Radians are the natural unit for angles in calculus and higher math because they simplify formulas. For instance, the derivative of sin(x) is cos(x) only when x is in radians. Arc length also simplifies to s = rθ."},
+      {"question": "What is a radian?", "answer": "A radian is the angle subtended at the center of a circle by an arc whose length equals the radius. One full revolution = 2π radians ≈ 6.2832 radians."}
+    ],
+    "formulas": ["Radians = Degrees × (π/180)", "Degrees = Radians × (180/π)", "Full circle = 360° = 2π radians", "1 radian ≈ 57.2958°"],
+    "relatedTools": ["trig-function-evaluator", "unit-circle-calculator", "arc-length-calculator"]
+  },
+  {
+    "slug": "law-of-sines-calculator",
+    "toolName": "Law of Sines Calculator",
+    "category": "high-school-math",
+    "tagline": "Solve triangles using the Law of Sines: find missing sides and angles from angle-side pairs",
+    "keywords": "law of sines, sine rule, triangle solver, AAS triangle, ASA triangle, ambiguous case, oblique triangle",
+    "inputs": [
+      {"id": "angleA", "label": "Angle A (°)", "default": 40},
+      {"id": "sideA", "label": "Side a (opposite A)", "default": 10},
+      {"id": "angleB", "label": "Angle B (°)", "default": 60}
+    ],
+    "results": [
+      {"id": "sideB", "label": "Side b"},
+      {"id": "angleC", "label": "Angle C"},
+      {"id": "sideC", "label": "Side c"},
+      {"id": "area", "label": "Area"}
+    ],
+    "calcFn": "var A=parseFloat(document.getElementById('angleA').value); var a=parseFloat(document.getElementById('sideA').value); var B=parseFloat(document.getElementById('angleB').value); if(isNaN(A)||A<=0||A>=180||isNaN(a)||a<=0||isNaN(B)||B<=0||B>=180){document.getElementById('sideB').textContent='Enter valid values';return;} var C=180-A-B; if(C<=0){document.getElementById('sideB').textContent='Angles must sum to less than 180\\u00B0';return;} var toRad=Math.PI/180; var b=a*Math.sin(B*toRad)/Math.sin(A*toRad); var c=a*Math.sin(C*toRad)/Math.sin(A*toRad); var area=0.5*b*c*Math.sin(A*toRad); document.getElementById('sideB').textContent=fmt(b,4); document.getElementById('angleC').textContent=fmt(C,4)+'\\u00B0'; document.getElementById('sideC').textContent=fmt(c,4); document.getElementById('area').textContent=fmt(area,4);",
+    "faq": [
+      {"question": "What is the Law of Sines?", "answer": "The Law of Sines states that in any triangle, the ratio of a side to the sine of its opposite angle is constant: a/sin(A) = b/sin(B) = c/sin(C). It is used to solve triangles when you know an angle-side pair plus one additional measurement."},
+      {"question": "When should I use the Law of Sines?", "answer": "Use the Law of Sines when you know: (1) Two angles and one side (AAS or ASA), or (2) Two sides and a non-included angle (SSA, the ambiguous case). For SAS or SSS problems, use the Law of Cosines instead."},
+      {"question": "What is the ambiguous case?", "answer": "The ambiguous case (SSA) arises when you know two sides and a non-included angle. Depending on the values, there may be zero, one, or two valid triangles. Check if sin(B) = b·sin(A)/a yields a valid sine value."},
+      {"question": "Can I solve a right triangle with the Law of Sines?", "answer": "Yes, but for right triangles, SOH CAH TOA and the Pythagorean theorem are simpler. The Law of Sines is most useful for oblique (non-right) triangles."}
+    ],
+    "formulas": ["a/sin(A) = b/sin(B) = c/sin(C)", "b = a × sin(B) / sin(A)", "C = 180° - A - B", "Area = ½bc·sin(A)"],
+    "relatedTools": ["law-of-cosines-calculator", "triangle-solver", "soh-cah-toa-calculator", "triangle-angle-sum-calculator"]
+  },
+  {
+    "slug": "law-of-cosines-calculator",
+    "toolName": "Law of Cosines Calculator",
+    "category": "high-school-math",
+    "tagline": "Find unknown sides and angles of any triangle using the Law of Cosines generalization of the Pythagorean theorem",
+    "keywords": "law of cosines, cosine rule, SAS triangle, SSS angles, oblique triangle, generalized pythagorean, triangle solver",
+    "inputs": [
+      {"id": "sideA", "label": "Side a", "default": 8},
+      {"id": "sideB", "label": "Side b", "default": 6},
+      {"id": "angleC", "label": "Angle C (° between a and b)", "default": 60}
+    ],
+    "results": [
+      {"id": "sideC", "label": "Side c"},
+      {"id": "angleA", "label": "Angle A"},
+      {"id": "angleB", "label": "Angle B"},
+      {"id": "area", "label": "Area"}
+    ],
+    "calcFn": "var a=parseFloat(document.getElementById('sideA').value); var b=parseFloat(document.getElementById('sideB').value); var C=parseFloat(document.getElementById('angleC').value); if(isNaN(a)||a<=0||isNaN(b)||b<=0||isNaN(C)||C<=0||C>=180){document.getElementById('sideC').textContent='Enter valid values (positive sides, angle 0-180)';return;} var toRad=Math.PI/180; var toDeg=180/Math.PI; var c2=a*a+b*b-2*a*b*Math.cos(C*toRad); if(c2<=0){document.getElementById('sideC').textContent='Invalid triangle';return;} var c=Math.sqrt(c2); var cosA=(b*b+c*c-a*a)/(2*b*c); var cosB=(a*a+c*c-b*b)/(2*a*c); var A=Math.acos(Math.min(1,Math.max(-1,cosA)))*toDeg; var B=Math.acos(Math.min(1,Math.max(-1,cosB)))*toDeg; var area=0.5*a*b*Math.sin(C*toRad); document.getElementById('sideC').textContent=fmt(c,4); document.getElementById('angleA').textContent=fmt(A,4)+'\\u00B0'; document.getElementById('angleB').textContent=fmt(B,4)+'\\u00B0'; document.getElementById('area').textContent=fmt(area,4);",
+    "faq": [
+      {"question": "What is the Law of Cosines?", "answer": "The Law of Cosines states c² = a² + b² - 2ab·cos(C). It generalizes the Pythagorean theorem to all triangles. When C = 90°, cos(90°) = 0 and it reduces to c² = a² + b²."},
+      {"question": "When should I use the Law of Cosines?", "answer": "Use it when you know: (1) Two sides and the included angle (SAS) to find the third side, or (2) All three sides (SSS) to find an angle. Rearrange to find angles: cos(C) = (a² + b² - c²)/(2ab)."},
+      {"question": "How is the Law of Cosines related to the Pythagorean theorem?", "answer": "The Pythagorean theorem is a special case of the Law of Cosines. When angle C is exactly 90°, cos(C) = 0, so the -2ab·cos(C) term disappears, leaving c² = a² + b²."},
+      {"question": "Can I find all three angles from three sides?", "answer": "Yes. Use the Law of Cosines three times to find each angle: cos(A) = (b²+c²-a²)/(2bc), cos(B) = (a²+c²-b²)/(2ac), and cos(C) = (a²+b²-c²)/(2ab). Or find two angles and use A+B+C=180° for the third."}
+    ],
+    "formulas": ["c² = a² + b² - 2ab·cos(C)", "cos(A) = (b² + c² - a²) / (2bc)", "cos(B) = (a² + c² - b²) / (2ac)", "Area = ½ab·sin(C)"],
+    "relatedTools": ["law-of-sines-calculator", "triangle-solver", "pythagorean-theorem-calculator", "herons-formula-calculator"]
+  },
+  {
+    "slug": "unit-circle-calculator",
+    "toolName": "Unit Circle Calculator",
+    "category": "high-school-math",
+    "tagline": "Find exact sine, cosine, and tangent values for any angle on the unit circle with quadrant identification",
+    "keywords": "unit circle, trig values, quadrant, reference angle, sine cosine tangent, unit circle chart, exact trig values, coordinates",
+    "inputs": [
+      {"id": "angle", "label": "Angle", "default": 135},
+      {"id": "unit", "label": "Unit", "type": "select", "default": "degrees", "options": [{"value": "degrees", "label": "Degrees"}, {"value": "radians", "label": "Radians"}]}
+    ],
+    "results": [
+      {"id": "sinValue", "label": "sin(θ)"},
+      {"id": "cosValue", "label": "cos(θ)"},
+      {"id": "tanValue", "label": "tan(θ)"},
+      {"id": "quadrant", "label": "Quadrant"},
+      {"id": "coordinates", "label": "Point on Unit Circle"}
+    ],
+    "calcFn": "var angle=parseFloat(document.getElementById('angle').value); var unit=document.getElementById('unit').value; if(isNaN(angle)){document.getElementById('sinValue').textContent='Enter a number';return;} var deg=unit==='degrees'?angle:angle*180/Math.PI; var rad=unit==='degrees'?angle*Math.PI/180:angle; var normDeg=((deg%360)+360)%360; var quad; if(normDeg>=0&&normDeg<90) quad='I'; else if(normDeg>=90&&normDeg<180) quad='II'; else if(normDeg>=180&&normDeg<270) quad='III'; else quad='IV'; if(normDeg===0||normDeg===180||normDeg===90||normDeg===270) quad+=' (axis)'; var sinV=Math.sin(rad); var cosV=Math.cos(rad); var tanV; if(Math.abs(cosV)<1e-10) tanV='Undefined'; else tanV=sinV/cosV; document.getElementById('sinValue').textContent=fmt(sinV,8); document.getElementById('cosValue').textContent=fmt(cosV,8); document.getElementById('tanValue').textContent=(typeof tanV==='string')?tanV:fmt(tanV,8); document.getElementById('quadrant').textContent='Quadrant '+quad; document.getElementById('coordinates').textContent='('+fmt(cosV,6)+', '+fmt(sinV,6)+')';",
+    "faq": [
+      {"question": "What is the unit circle?", "answer": "The unit circle is a circle with radius 1 centered at the origin (0,0). Any angle θ corresponds to a point (cos θ, sin θ) on the circle. It is the foundation for understanding trigonometric functions."},
+      {"question": "How do I determine the quadrant of an angle?", "answer": "Quadrant I: 0° to 90° (sin+, cos+). Quadrant II: 90° to 180° (sin+, cos-). Quadrant III: 180° to 270° (sin-, cos-). Quadrant IV: 270° to 360° (sin-, cos+). Remember: All Students Take Calculus."},
+      {"question": "What are the key angles to memorize on the unit circle?", "answer": "The most important angles are 0°, 30°, 45°, 60°, 90°, and their counterparts in each quadrant (120°, 135°, 150°, 180°, 210°, 225°, 240°, 270°, 300°, 315°, 330°, 360°)."},
+      {"question": "What is a reference angle?", "answer": "A reference angle is the acute angle formed between the terminal side of your angle and the x-axis. It helps find trig values for angles in any quadrant using known values from Quadrant I."}
+    ],
+    "formulas": ["Point on unit circle: (cos θ, sin θ)", "tan θ = sin θ / cos θ", "sin²θ + cos²θ = 1", "Reference angle: acute angle to x-axis"],
+    "relatedTools": ["trig-function-evaluator", "degrees-to-radians-converter", "special-right-triangles-calculator", "inverse-trig-calculator"]
+  },
+  {
+    "slug": "right-triangle-solver",
+    "toolName": "Right Triangle Solver",
+    "category": "high-school-math",
+    "tagline": "Solve any right triangle completely by entering two known measurements (sides or angle)",
+    "keywords": "right triangle solver, right triangle calculator, hypotenuse, legs, right angle, triangle sides angles, complete triangle",
+    "inputs": [
+      {"id": "knownSide1", "label": "Known Side 1 (leg a)", "default": 5},
+      {"id": "knownSide2", "label": "Known Side 2 (leg b or hypotenuse c)", "default": 12},
+      {"id": "knownAngle", "label": "Known Angle (° besides 90, or 0 if unknown)", "default": 0}
+    ],
+    "results": [
+      {"id": "allSides", "label": "All Sides"},
+      {"id": "allAngles", "label": "All Angles"},
+      {"id": "area", "label": "Area"}
+    ],
+    "calcFn": "var s1=parseFloat(document.getElementById('knownSide1').value)||0; var s2=parseFloat(document.getElementById('knownSide2').value)||0; var ang=parseFloat(document.getElementById('knownAngle').value)||0; var toDeg=180/Math.PI; var toRad=Math.PI/180; var a,b,c,A,B; if(s1>0&&s2>0&&ang===0){if(s2>s1){a=s1;b=0;c=s2;b=Math.sqrt(c*c-a*a);if(isNaN(b)||b<=0){a=s1;b=s2;c=Math.sqrt(a*a+b*b);}} else {a=s1;b=s2;c=Math.sqrt(a*a+b*b);} A=Math.atan(a/b)*toDeg; B=Math.atan(b/a)*toDeg;} else if(s1>0&&ang>0&&ang<90){a=s1; A=ang; B=90-ang; b=a/Math.tan(A*toRad); c=a/Math.sin(A*toRad);} else if(s1>0&&s2===0&&ang>0&&ang<90){a=s1;A=ang;B=90-ang;b=a/Math.tan(A*toRad);c=a/Math.sin(A*toRad);} else {document.getElementById('allSides').textContent='Enter two sides, or one side + one acute angle';return;} if(isNaN(a)||isNaN(b)||isNaN(c)||a<=0||b<=0||c<=0){document.getElementById('allSides').textContent='Invalid inputs';return;} var area=0.5*a*b; document.getElementById('allSides').textContent='a = '+fmt(a,4)+' | b = '+fmt(b,4)+' | c (hyp) = '+fmt(c,4); document.getElementById('allAngles').textContent='A = '+fmt(A,4)+'\\u00B0 | B = '+fmt(B,4)+'\\u00B0 | C = 90\\u00B0'; document.getElementById('area').textContent=fmt(area,4);",
+    "faq": [
+      {"question": "How do I solve a right triangle?", "answer": "You need at least two measurements (besides the 90° angle) to solve a right triangle. If you know two sides, use the Pythagorean theorem for the third and inverse trig to find angles. If you know one side and one angle, use trig ratios (SOH CAH TOA) to find the rest."},
+      {"question": "What should I enter as side 1 and side 2?", "answer": "Enter leg a as side 1. For side 2, enter either leg b or the hypotenuse c. If side 2 is larger than side 1, the calculator assumes it might be the hypotenuse and checks both interpretations."},
+      {"question": "What if I know the hypotenuse and one angle?", "answer": "Enter the hypotenuse as side 1, leave side 2 as 0, and enter the known acute angle. The calculator will use sine and cosine to find both legs."},
+      {"question": "What are the two acute angles in a right triangle?", "answer": "The two acute angles in a right triangle are complementary, meaning they sum to 90°. If one acute angle is A, the other is 90° - A."}
+    ],
+    "formulas": ["a² + b² = c²", "sin(A) = opposite/hypotenuse", "cos(A) = adjacent/hypotenuse", "Area = ½ × a × b", "A + B = 90°"],
+    "relatedTools": ["pythagorean-theorem-calculator", "soh-cah-toa-calculator", "special-right-triangles-calculator", "triangle-solver"]
+  },
+  {
+    "slug": "equation-of-circle-calculator",
+    "toolName": "Equation of a Circle Calculator",
+    "category": "high-school-math",
+    "tagline": "Generate the standard and general form equations of a circle from center coordinates and radius",
+    "keywords": "equation of circle, circle equation, standard form circle, general form, center radius form, circle formula, coordinate geometry",
+    "inputs": [
+      {"id": "centerX", "label": "Center X (h)", "default": 3},
+      {"id": "centerY", "label": "Center Y (k)", "default": -2},
+      {"id": "radius", "label": "Radius (r)", "default": 5}
+    ],
+    "results": [
+      {"id": "standardForm", "label": "Standard Form"},
+      {"id": "generalForm", "label": "General Form"},
+      {"id": "area", "label": "Area"},
+      {"id": "circumference", "label": "Circumference"}
+    ],
+    "calcFn": "var h=parseFloat(document.getElementById('centerX').value); var k=parseFloat(document.getElementById('centerY').value); var r=parseFloat(document.getElementById('radius').value); if(isNaN(h)||isNaN(k)||isNaN(r)||r<=0){document.getElementById('standardForm').textContent='Enter valid values (positive radius)';return;} var hStr=h>=0?'(x - '+h+')':'(x + '+Math.abs(h)+')'; var kStr=k>=0?'(y - '+k+')':'(y + '+Math.abs(k)+')'; if(h===0) hStr='x'; if(k===0) kStr='y'; document.getElementById('standardForm').textContent=hStr+'\\u00B2 + '+kStr+'\\u00B2 = '+fmt(r*r,4); var D=-2*h; var E=-2*k; var F=h*h+k*k-r*r; var dStr=D>=0?' + '+fmt(D,4)+'x':' - '+fmt(Math.abs(D),4)+'x'; var eStr=E>=0?' + '+fmt(E,4)+'y':' - '+fmt(Math.abs(E),4)+'y'; var fStr=F>=0?' + '+fmt(F,4):' - '+fmt(Math.abs(F),4); document.getElementById('generalForm').textContent='x\\u00B2 + y\\u00B2'+dStr+eStr+fStr+' = 0'; document.getElementById('area').textContent=fmt(Math.PI*r*r,4); document.getElementById('circumference').textContent=fmt(2*Math.PI*r,4);",
+    "faq": [
+      {"question": "What is the standard form of a circle equation?", "answer": "The standard form is (x - h)² + (y - k)² = r², where (h, k) is the center and r is the radius. This form clearly shows the center and radius."},
+      {"question": "What is the general form of a circle equation?", "answer": "The general form is x² + y² + Dx + Ey + F = 0, where D = -2h, E = -2k, and F = h² + k² - r². To convert back to standard form, complete the square."},
+      {"question": "How do I find the center and radius from general form?", "answer": "Given x² + y² + Dx + Ey + F = 0, the center is (-D/2, -E/2) and the radius is √((D/2)² + (E/2)² - F). Use the Circle Properties from Equation calculator for this."},
+      {"question": "What if the center is at the origin?", "answer": "When the center is (0, 0), the equation simplifies to x² + y² = r². This is the simplest form of a circle equation."}
+    ],
+    "formulas": ["(x - h)² + (y - k)² = r²", "x² + y² + Dx + Ey + F = 0", "Area = πr²", "Circumference = 2πr"],
+    "relatedTools": ["circle-properties-from-equation", "arc-length-calculator", "sector-area-calculator"]
+  },
+  {
+    "slug": "arc-length-calculator",
+    "toolName": "Arc Length Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate the arc length and sector area for a given radius and central angle in degrees or radians",
+    "keywords": "arc length, arc length formula, sector area, central angle, circle arc, radian arc length, arc of circle",
+    "inputs": [
+      {"id": "radius", "label": "Radius", "default": 10},
+      {"id": "angle", "label": "Central Angle", "default": 60},
+      {"id": "angleUnit", "label": "Angle Unit", "type": "select", "default": "degrees", "options": [{"value": "degrees", "label": "Degrees"}, {"value": "radians", "label": "Radians"}]}
+    ],
+    "results": [
+      {"id": "arcLength", "label": "Arc Length"},
+      {"id": "sectorArea", "label": "Sector Area"},
+      {"id": "formula", "label": "Formulas Used"}
+    ],
+    "calcFn": "var r=parseFloat(document.getElementById('radius').value); var angle=parseFloat(document.getElementById('angle').value); var unit=document.getElementById('angleUnit').value; if(isNaN(r)||r<=0||isNaN(angle)||angle<=0){document.getElementById('arcLength').textContent='Enter positive values';return;} var rad=unit==='degrees'?angle*Math.PI/180:angle; var arcLen=r*rad; var sectorA=0.5*r*r*rad; document.getElementById('arcLength').textContent=fmt(arcLen,4); document.getElementById('sectorArea').textContent=fmt(sectorA,4); if(unit==='degrees'){document.getElementById('formula').textContent='Arc = 2\\u03C0r(\\u03B8/360) = 2\\u03C0('+r+')('+angle+'/360) = '+fmt(arcLen,4)+'; Sector = \\u03C0r\\u00B2(\\u03B8/360)';} else {document.getElementById('formula').textContent='Arc = r\\u03B8 = '+r+'\\u00D7'+fmt(angle,4)+' = '+fmt(arcLen,4)+'; Sector = \\u00BDr\\u00B2\\u03B8';}",
+    "faq": [
+      {"question": "What is the arc length formula?", "answer": "In radians: arc length = rθ, where r is the radius and θ is the central angle in radians. In degrees: arc length = 2πr(θ/360)."},
+      {"question": "How is arc length related to sector area?", "answer": "Both depend on the central angle. Arc length = rθ and sector area = ½r²θ (in radians). You can derive sector area as ½ × r × arc length."},
+      {"question": "What fraction of the circle does my arc represent?", "answer": "The fraction is θ/360 (in degrees) or θ/(2π) (in radians). For example, a 90° arc is ¼ of the circle."},
+      {"question": "Can the arc length be longer than the circumference?", "answer": "If the central angle exceeds 360° (or 2π radians), the arc length will exceed the circumference. This represents wrapping around the circle more than once."}
+    ],
+    "formulas": ["Arc length = rθ (radians)", "Arc length = 2πr(θ/360) (degrees)", "Sector area = ½r²θ (radians)", "Sector area = πr²(θ/360) (degrees)"],
+    "relatedTools": ["sector-area-calculator", "degrees-to-radians-converter", "equation-of-circle-calculator", "sphere-cone-cylinder-calculator"]
+  },
+  {
+    "slug": "sector-area-calculator",
+    "toolName": "Sector Area Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate the area of a circular sector and its arc length from radius and central angle",
+    "keywords": "sector area, sector of circle, pie slice area, central angle area, circle sector, fractional area, sector calculator",
+    "inputs": [
+      {"id": "radius", "label": "Radius", "default": 8},
+      {"id": "angle", "label": "Central Angle", "default": 45},
+      {"id": "angleUnit", "label": "Angle Unit", "type": "select", "default": "degrees", "options": [{"value": "degrees", "label": "Degrees"}, {"value": "radians", "label": "Radians"}]}
+    ],
+    "results": [
+      {"id": "sectorArea", "label": "Sector Area"},
+      {"id": "arcLength", "label": "Arc Length"},
+      {"id": "fractionOfCircle", "label": "Fraction of Circle"}
+    ],
+    "calcFn": "var r=parseFloat(document.getElementById('radius').value); var angle=parseFloat(document.getElementById('angle').value); var unit=document.getElementById('angleUnit').value; if(isNaN(r)||r<=0||isNaN(angle)||angle<=0){document.getElementById('sectorArea').textContent='Enter positive values';return;} var rad=unit==='degrees'?angle*Math.PI/180:angle; var sectorA=0.5*r*r*rad; var arcLen=r*rad; var fraction=unit==='degrees'?angle/360:angle/(2*Math.PI); document.getElementById('sectorArea').textContent=fmt(sectorA,4); document.getElementById('arcLength').textContent=fmt(arcLen,4); document.getElementById('fractionOfCircle').textContent=fmt(fraction*100,4)+'% ('+fmt(fraction,6)+' of full circle)';",
+    "faq": [
+      {"question": "What is a sector of a circle?", "answer": "A sector is a pie-shaped region bounded by two radii and the arc between them. Think of it as a slice of pizza. The central angle determines how large the sector is."},
+      {"question": "How do you calculate sector area?", "answer": "In radians: A = ½r²θ. In degrees: A = πr²(θ/360). Both formulas give the same result; they just use different angle units."},
+      {"question": "What is the difference between a sector and a segment?", "answer": "A sector is bounded by two radii and an arc (pie slice shape). A segment is bounded by a chord and an arc. Segment area = sector area - triangle area formed by the chord and radii."},
+      {"question": "How do I find the angle if I know the sector area?", "answer": "Rearrange the formula: θ = 2A/r² (radians) or θ = 360A/(πr²) (degrees). Divide the sector area by the total circle area and multiply by 360° (or 2π)."}
+    ],
+    "formulas": ["A(sector) = ½r²θ (radians)", "A(sector) = πr²(θ/360) (degrees)", "Arc length = rθ (radians)", "Fraction = θ/360 (degrees)"],
+    "relatedTools": ["arc-length-calculator", "equation-of-circle-calculator", "sphere-cone-cylinder-calculator"]
+  },
+  {
+    "slug": "circle-properties-from-equation",
+    "toolName": "Circle Properties from Equation",
+    "category": "high-school-math",
+    "tagline": "Extract the center, radius, area, and circumference from any circle equation in general form x² + y² + Dx + Ey + F = 0",
+    "keywords": "circle equation, general form circle, completing the square, center and radius, circle from equation, x2 y2 circle, coordinate geometry",
+    "inputs": [
+      {"id": "d", "label": "D (coefficient of x)", "default": -6},
+      {"id": "e", "label": "E (coefficient of y)", "default": 4},
+      {"id": "f", "label": "F (constant)", "default": -12}
+    ],
+    "results": [
+      {"id": "centerX", "label": "Center X (h)"},
+      {"id": "centerY", "label": "Center Y (k)"},
+      {"id": "radius", "label": "Radius"},
+      {"id": "area", "label": "Area"}
+    ],
+    "calcFn": "var D=parseFloat(document.getElementById('d').value); var E=parseFloat(document.getElementById('e').value); var F=parseFloat(document.getElementById('f').value); if(isNaN(D)||isNaN(E)||isNaN(F)){document.getElementById('centerX').textContent='Enter valid numbers';return;} var h=-D/2; var k=-E/2; var r2=h*h+k*k-F; if(r2<=0){document.getElementById('centerX').textContent='No valid circle (r\\u00B2 \\u2264 0)'; document.getElementById('centerY').textContent='Check your coefficients'; document.getElementById('radius').textContent='N/A'; document.getElementById('area').textContent='N/A';return;} var r=Math.sqrt(r2); document.getElementById('centerX').textContent=fmt(h,4); document.getElementById('centerY').textContent=fmt(k,4); document.getElementById('radius').textContent=fmt(r,4); document.getElementById('area').textContent=fmt(Math.PI*r2,4)+' (circumference: '+fmt(2*Math.PI*r,4)+')';",
+    "faq": [
+      {"question": "How do I find the center and radius from x² + y² + Dx + Ey + F = 0?", "answer": "The center is (-D/2, -E/2) and the radius is √((D/2)² + (E/2)² - F). This comes from completing the square on both x and y terms."},
+      {"question": "What does completing the square mean for circles?", "answer": "Completing the square converts the general form x² + y² + Dx + Ey + F = 0 into standard form (x-h)² + (y-k)² = r² by adding the right constants to both sides."},
+      {"question": "When does the equation not represent a circle?", "answer": "If (D/2)² + (E/2)² - F ≤ 0, the equation does not represent a real circle. If it equals 0, you get a single point (degenerate circle). If negative, there are no real solutions."},
+      {"question": "What if the coefficients of x² and y² are not 1?", "answer": "First divide the entire equation by the common coefficient so x² and y² each have coefficient 1. For example, 2x² + 2y² + 4x - 6y + 1 = 0 becomes x² + y² + 2x - 3y + 0.5 = 0."}
+    ],
+    "formulas": ["h = -D/2, k = -E/2", "r = √((D/2)² + (E/2)² - F)", "(x-h)² + (y-k)² = r²", "Area = πr², Circumference = 2πr"],
+    "relatedTools": ["equation-of-circle-calculator", "arc-length-calculator", "sector-area-calculator"]
+  },
+  {
+    "slug": "logarithm-calculator",
+    "toolName": "Logarithm Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate logarithms of any base including natural log (ln), common log (log10), and custom bases with change of base",
+    "keywords": "logarithm calculator, log base, natural log, ln, log10, change of base formula, logarithmic, custom base log",
+    "inputs": [
+      {"id": "base", "label": "Base", "default": 2},
+      {"id": "value", "label": "Value (x)", "default": 8}
+    ],
+    "results": [
+      {"id": "logResult", "label": "log_b(x)"},
+      {"id": "naturalLog", "label": "ln(x)"},
+      {"id": "log10", "label": "log₁₀(x)"},
+      {"id": "changeOfBase", "label": "Change of Base"}
+    ],
+    "calcFn": "var base=parseFloat(document.getElementById('base').value); var x=parseFloat(document.getElementById('value').value); if(isNaN(base)||base<=0||base===1||isNaN(x)||x<=0){document.getElementById('logResult').textContent='Enter positive values (base \\u2260 1, value > 0)';return;} var result=Math.log(x)/Math.log(base); var ln=Math.log(x); var log10=Math.log10(x); document.getElementById('logResult').textContent='log\\u2080('+x+') = '+fmt(result,8)+' where base = '+base; document.getElementById('naturalLog').textContent='ln('+x+') = '+fmt(ln,8); document.getElementById('log10').textContent='log\\u2081\\u2080('+x+') = '+fmt(log10,8); document.getElementById('changeOfBase').textContent='log_'+base+'('+x+') = ln('+x+')/ln('+base+') = '+fmt(ln,6)+'/'+fmt(Math.log(base),6)+' = '+fmt(result,8);",
+    "faq": [
+      {"question": "What is a logarithm?", "answer": "A logarithm answers the question: what exponent must I raise the base to in order to get this value? log_b(x) = y means b^y = x. For example, log_2(8) = 3 because 2³ = 8."},
+      {"question": "What is the change of base formula?", "answer": "To calculate a logarithm with any base using a calculator that only has ln or log₁₀: log_b(x) = ln(x)/ln(b) = log₁₀(x)/log₁₀(b). This works for any base b > 0, b ≠ 1."},
+      {"question": "What is the difference between ln and log?", "answer": "ln is the natural logarithm (base e ≈ 2.71828), used extensively in calculus and science. log (or log₁₀) is the common logarithm (base 10), common in chemistry and engineering. In pure math, log sometimes means ln."},
+      {"question": "Why can't the base be 1 or the value be 0 or negative?", "answer": "Base 1 would make every logarithm undefined (1 raised to any power is always 1). Logarithms of zero or negative numbers are undefined in real numbers because no real exponent can make a positive base produce zero or a negative result."}
+    ],
+    "formulas": ["log_b(x) = y means b^y = x", "Change of base: log_b(x) = ln(x) / ln(b)", "ln(x) = log_e(x)", "log₁₀(x) = log(x)"],
+    "relatedTools": ["exponential-growth-decay-calculator", "combinations-permutations-calculator"]
+  },
+  {
+    "slug": "exponential-growth-decay-calculator",
+    "toolName": "Exponential Growth & Decay Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate exponential growth or decay with final amount, doubling time, and half-life from initial value, rate, and time",
+    "keywords": "exponential growth, exponential decay, doubling time, half-life, growth rate, compound growth, decay rate, population growth",
+    "inputs": [
+      {"id": "initial", "label": "Initial Amount", "default": 1000},
+      {"id": "rate", "label": "Rate (% per period)", "default": 5},
+      {"id": "time", "label": "Time (periods)", "default": 10},
+      {"id": "type", "label": "Type", "type": "select", "default": "growth", "options": [{"value": "growth", "label": "Growth"}, {"value": "decay", "label": "Decay"}]}
+    ],
+    "results": [
+      {"id": "finalAmount", "label": "Final Amount"},
+      {"id": "doublingTime", "label": "Doubling / Half-Life"},
+      {"id": "formula", "label": "Formula"}
+    ],
+    "calcFn": "var P=parseFloat(document.getElementById('initial').value); var rate=parseFloat(document.getElementById('rate').value); var t=parseFloat(document.getElementById('time').value); var type=document.getElementById('type').value; if(isNaN(P)||P<=0||isNaN(rate)||rate<=0||isNaN(t)||t<0){document.getElementById('finalAmount').textContent='Enter positive values';return;} var r=rate/100; var result; if(type==='growth'){result=P*Math.pow(1+r,t); var doubling=Math.log(2)/Math.log(1+r); document.getElementById('doublingTime').textContent='Doubling time: '+fmt(doubling,4)+' periods'; document.getElementById('formula').textContent='A = '+P+' \\u00D7 (1 + '+fmt(r,4)+')^'+t+' = '+fmt(result,2);} else {result=P*Math.pow(1-r,t); if(r>=1){document.getElementById('finalAmount').textContent='Rate must be less than 100% for decay';return;} var halfLife=Math.log(0.5)/Math.log(1-r); document.getElementById('doublingTime').textContent='Half-life: '+fmt(halfLife,4)+' periods'; document.getElementById('formula').textContent='A = '+P+' \\u00D7 (1 - '+fmt(r,4)+')^'+t+' = '+fmt(result,2);} document.getElementById('finalAmount').textContent=fmt(result,2);",
+    "faq": [
+      {"question": "What is exponential growth?", "answer": "Exponential growth occurs when a quantity increases by a fixed percentage each period. The formula is A = P(1+r)^t, where P is the initial amount, r is the rate per period, and t is the number of periods."},
+      {"question": "What is the doubling time?", "answer": "Doubling time is how long it takes for a quantity to double. It equals ln(2)/ln(1+r). The Rule of 72 approximation says doubling time ≈ 72/(rate%), which works well for small rates."},
+      {"question": "What is half-life?", "answer": "Half-life is the time it takes for a decaying quantity to reduce to half its value. It equals ln(0.5)/ln(1-r). This concept is central to radioactive decay, pharmacology, and depreciation."},
+      {"question": "What is the difference between exponential and linear growth?", "answer": "Linear growth adds a fixed amount each period (e.g., +100/year). Exponential growth multiplies by a fixed factor each period (e.g., ×1.05/year). Exponential growth starts slowly but eventually outpaces any linear growth."}
+    ],
+    "formulas": ["A = P(1 + r)^t (growth)", "A = P(1 - r)^t (decay)", "Doubling time = ln(2) / ln(1 + r)", "Half-life = ln(0.5) / ln(1 - r)"],
+    "relatedTools": ["logarithm-calculator", "combinations-permutations-calculator"]
+  },
+  {
+    "slug": "combinations-permutations-calculator",
+    "toolName": "Combinations & Permutations Calculator",
+    "category": "high-school-math",
+    "tagline": "Calculate combinations (nCr) and permutations (nPr) with step-by-step factorial breakdowns",
+    "keywords": "combinations, permutations, nCr, nPr, factorial, choose, counting principle, combinatorics, probability",
+    "inputs": [
+      {"id": "n", "label": "n (total items)", "default": 10},
+      {"id": "r", "label": "r (items chosen)", "default": 3},
+      {"id": "type", "label": "Type", "type": "select", "default": "combination", "options": [{"value": "combination", "label": "Combination (nCr)"}, {"value": "permutation", "label": "Permutation (nPr)"}]}
+    ],
+    "results": [
+      {"id": "answer", "label": "Result"},
+      {"id": "formula", "label": "Formula"},
+      {"id": "factorial_n", "label": "n!"},
+      {"id": "factorial_r", "label": "r!"}
+    ],
+    "calcFn": "var n=parseInt(document.getElementById('n').value); var r=parseInt(document.getElementById('r').value); var type=document.getElementById('type').value; if(isNaN(n)||n<0||isNaN(r)||r<0||r>n){document.getElementById('answer').textContent='Enter valid values (0 \\u2264 r \\u2264 n)';return;} function fact(x){if(x<=1)return 1;var result=1;for(var i=2;i<=x;i++)result*=i;return result;} var nFact=fact(n); var rFact=fact(r); var nrFact=fact(n-r); var result; if(type==='combination'){result=nFact/(rFact*nrFact); document.getElementById('formula').textContent='C('+n+','+r+') = '+n+'! / ('+r+'! \\u00D7 '+(n-r)+'!) = '+fmt(nFact,0)+' / ('+fmt(rFact,0)+' \\u00D7 '+fmt(nrFact,0)+')';} else {result=nFact/nrFact; document.getElementById('formula').textContent='P('+n+','+r+') = '+n+'! / '+(n-r)+'! = '+fmt(nFact,0)+' / '+fmt(nrFact,0);} document.getElementById('answer').textContent=fmt(result,0); document.getElementById('factorial_n').textContent=n+'! = '+fmt(nFact,0); document.getElementById('factorial_r').textContent=r+'! = '+fmt(rFact,0);",
+    "faq": [
+      {"question": "What is the difference between combinations and permutations?", "answer": "Combinations count the number of ways to choose items where order does not matter (e.g., selecting a committee). Permutations count arrangements where order matters (e.g., ranking contestants). nPr is always ≥ nCr."},
+      {"question": "What is the formula for combinations?", "answer": "C(n,r) = n! / (r! × (n-r)!). For example, C(10,3) = 10! / (3! × 7!) = 120. This counts how many ways to choose 3 items from 10 without regard to order."},
+      {"question": "What is the formula for permutations?", "answer": "P(n,r) = n! / (n-r)!. For example, P(10,3) = 10! / 7! = 720. This counts how many ways to arrange 3 items chosen from 10 where order matters."},
+      {"question": "What is a factorial?", "answer": "n! (n factorial) is the product of all positive integers from 1 to n. For example, 5! = 5×4×3×2×1 = 120. By convention, 0! = 1."},
+      {"question": "When do I use combinations vs permutations in probability?", "answer": "Use combinations when the outcome set is unordered (lottery picks, card hands, committees). Use permutations when order matters (passwords, race placements, seating arrangements)."}
+    ],
+    "formulas": ["C(n,r) = n! / (r! × (n-r)!)", "P(n,r) = n! / (n-r)!", "n! = n × (n-1) × ... × 2 × 1", "0! = 1"],
+    "relatedTools": ["exponential-growth-decay-calculator", "logarithm-calculator"]
+  }
+]

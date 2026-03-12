@@ -15,6 +15,27 @@ const { SHARE_SYSTEM_JS } = require('./share-system');
 const { EMAIL_CAPTURE_JS } = require('./email-capture');
 
 // ---------------------------------------------------------------------------
+// ADEM promo card — shown on math category tools
+// ---------------------------------------------------------------------------
+function buildAdemPromo(config) {
+  if (config.category !== 'high-school-math') return '';
+
+  let headline = 'Want to Actually Learn Algebra?';
+  let body = 'Calculators give you answers — but if you want to understand the math, All Day Every Day Math teaches Algebra 1 fast with structured lessons, worked examples, and practice quizzes that build real confidence.';
+
+  let html = '';
+  html += '  <div class="adem-promo">\n';
+  html += '    <div class="adem-inner">\n';
+  html += '      <p class="adem-badge">FREE RESOURCE</p>\n';
+  html += '      <p class="adem-heading">' + headline + '</p>\n';
+  html += '      <p class="adem-text">' + body + '</p>\n';
+  html += '      <a href="https://alldayeverydaymath.com/?utm_source=crunchmilk&utm_medium=promo&utm_campaign=math-tools&utm_content=' + config.slug + '" class="adem-btn" target="_blank" rel="noopener">Explore All Day Every Day Math &#8594;</a>\n';
+  html += '    </div>\n';
+  html += '  </div>\n';
+  return html;
+}
+
+// ---------------------------------------------------------------------------
 // Master tool list (loaded once, may not exist)
 // ---------------------------------------------------------------------------
 
@@ -308,7 +329,9 @@ const CATEGORY_META = {
   'gaming': { name: 'Gaming Calculators', slug: 'gaming-calculators' },
   'electrical': { name: 'Electrical Calculators', slug: 'electrical-calculators' },
   'plumbing': { name: 'Plumbing Calculators', slug: 'plumbing-calculators' },
-  'geopolitical-energy': { name: 'Geopolitical & Energy Calculators', slug: 'geopolitical-energy-calculators' }
+  'geopolitical-energy': { name: 'Geopolitical & Energy Calculators', slug: 'geopolitical-energy-calculators' },
+  'middle-school-math': { name: 'Middle School Math Calculators', slug: 'middle-school-math-calculators' },
+  'high-school-math': { name: 'High School Math Calculators', slug: 'high-school-math-calculators' }
 };
 
 // Top 20 emotionally charged tools that get aggressive share CTAs
@@ -564,6 +587,7 @@ function buildSite(configFile) {
     lastUpdatedHTML: lastUpdatedHTML,
     embedCodeHTML: embedCodeHTML,
     faqHTML: faqHTML,
+    ademPromo: buildAdemPromo(config),
     relatedToolsHTML: relatedToolsHTML,
     customJS: customJS,
     robotsMeta: config.noindex ? 'noindex, follow' : 'index, follow',
