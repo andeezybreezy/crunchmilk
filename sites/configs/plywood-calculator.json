@@ -79,30 +79,30 @@
       }
     ]
   },
-  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Plywood Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"areaLength\">Area Length (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"areaLength\" placeholder=\"e.g. 20\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"20\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"areaWidth\">Area Width (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"areaWidth\" placeholder=\"e.g. 12\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"12\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"sheetSize\">Sheet Size</label>\n    <div class=\"input-row\">\n      <select id=\"sheetSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"32\" selected>4 &times; 8 ft (32 sq ft)</option>\n        <option value=\"40\">4 &times; 10 ft (40 sq ft)</option>\n        <option value=\"48\">4 &times; 12 ft (48 sq ft)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"thickness\">Plywood Thickness</label>\n    <div class=\"input-row\">\n      <select id=\"thickness\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"0.25\">1/4\" (underlayment)</option>\n        <option value=\"0.375\">3/8\" (light sheathing)</option>\n        <option value=\"0.5\">1/2\" (wall sheathing)</option>\n        <option value=\"0.625\">5/8\" (roof sheathing)</option>\n        <option value=\"0.75\" selected>3/4\" (subfloor / structural)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wastePct\">Waste Allowance</label>\n    <div class=\"input-row\">\n      <select id=\"wastePct\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"0.05\">5% (minimal cuts)</option>\n        <option value=\"0.10\" selected>10% (standard)</option>\n        <option value=\"0.15\">15% (walls with openings)</option>\n        <option value=\"0.20\">20% (complex shapes)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pricePerSheet\">Price per Sheet (optional, $)</label>\n    <div class=\"input-row\">\n      <span style=\"font-size:1.2rem;font-weight:600;color:var(--text-light)\">$</span>\n      <input type=\"number\" id=\"pricePerSheet\" placeholder=\"e.g. 45\" step=\"0.01\" min=\"0\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Sheets Needed</div>\n        <div class=\"result-value\" id=\"outSheets\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Area</div>\n        <div class=\"result-value\" id=\"outArea\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Coverage with Waste</div>\n        <div class=\"result-value\" id=\"outCoverage\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\" id=\"costRow\" style=\"display:none\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Cost</div>\n        <div class=\"result-value\" id=\"outCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost per Sq Ft</div>\n        <div class=\"result-value\" id=\"outCostSqFt\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">Enter dimensions to calculate sheets needed.</div>\n  </div>\n</div>",
-  "chartHTML": "<div class=\"chart-section\">\n  <h2>Plywood Thickness &amp; Pricing Guide</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Approximate 4&times;8 sheet prices (CDX/construction grade). Prices vary by region and market conditions.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Thickness</th><th>Actual</th><th>Weight/Sheet</th><th>CDX Price</th><th>Sanded Price</th><th>Common Uses</th></tr></thead>\n      <tbody>\n        <tr><td>1/4\"</td><td>0.234\"</td><td>22 lbs</td><td>$15&ndash;25</td><td>$20&ndash;35</td><td>Underlayment, cabinet backs</td></tr>\n        <tr><td>3/8\"</td><td>0.354\"</td><td>29 lbs</td><td>$20&ndash;30</td><td>$25&ndash;40</td><td>Wall sheathing (non-structural)</td></tr>\n        <tr><td>1/2\"</td><td>0.469\"</td><td>41 lbs</td><td>$25&ndash;40</td><td>$35&ndash;55</td><td>Wall sheathing, shelving</td></tr>\n        <tr><td>5/8\"</td><td>0.594\"</td><td>48 lbs</td><td>$30&ndash;45</td><td>$40&ndash;60</td><td>Roof sheathing</td></tr>\n        <tr><td>3/4\"</td><td>0.703\"</td><td>60 lbs</td><td>$35&ndash;55</td><td>$50&ndash;75</td><td>Subfloor, structural, furniture</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
-  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Plywood Sheets</h2>\n  <p style=\"margin-bottom:12px\">Plywood calculations are straightforward: divide the total area by the sheet size, then add a waste factor for cuts and fitting.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fde68a;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Sheets = (Area &divide; 32) &times; (1 + Waste %)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Total area</strong> = length &times; width (in feet)</li>\n    <li>A standard 4&times;8 sheet covers <strong>32 square feet</strong></li>\n    <li>Divide area by 32 to get the minimum number of sheets</li>\n    <li>Add <strong>10% waste</strong> for simple layouts, 15-20% for complex</li>\n    <li>Always round up to the next whole sheet</li>\n    <li>For multiple rooms or walls, add all areas together first</li>\n  </ul>\n</div>",
+  "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Plywood Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"areaLength\">Area Length (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"areaLength\" placeholder=\"e.g. 20\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"20\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"areaWidth\">Area Width (ft)</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"areaWidth\" placeholder=\"e.g. 12\" step=\"0.5\" min=\"0\" inputmode=\"decimal\" value=\"12\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"sheetSize\">Sheet Size</label>\n    <div class=\"input-row\">\n      <select id=\"sheetSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"32\" selected>4 × 8 ft (32 sq ft)</option>\n        <option value=\"40\">4 × 10 ft (40 sq ft)</option>\n        <option value=\"48\">4 × 12 ft (48 sq ft)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"thickness\">Plywood Thickness</label>\n    <div class=\"input-row\">\n      <select id=\"thickness\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"0.25\">1/4\" (underlayment)</option>\n        <option value=\"0.375\">3/8\" (light sheathing)</option>\n        <option value=\"0.5\">1/2\" (wall sheathing)</option>\n        <option value=\"0.625\">5/8\" (roof sheathing)</option>\n        <option value=\"0.75\" selected>3/4\" (subfloor / structural)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"wastePct\">Waste Allowance</label>\n    <div class=\"input-row\">\n      <select id=\"wastePct\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n        <option value=\"0.05\">5% (minimal cuts)</option>\n        <option value=\"0.10\" selected>10% (standard)</option>\n        <option value=\"0.15\">15% (walls with openings)</option>\n        <option value=\"0.20\">20% (complex shapes)</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pricePerSheet\">Price per Sheet (optional, $)</label>\n    <div class=\"input-row\">\n      <span style=\"font-size:1.2rem;font-weight:600;color:var(--text-light)\">$</span>\n      <input type=\"number\" id=\"pricePerSheet\" placeholder=\"e.g. 45\" step=\"0.01\" min=\"0\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"result visible\" id=\"result\" style=\"display:block;margin-top:20px\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Sheets Needed</div>\n        <div class=\"result-value\" id=\"outSheets\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Area</div>\n        <div class=\"result-value\" id=\"outArea\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Coverage with Waste</div>\n        <div class=\"result-value\" id=\"outCoverage\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\" style=\"margin-top:12px\" id=\"costRow\" style=\"display:none\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Cost</div>\n        <div class=\"result-value\" id=\"outCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost per Sq Ft</div>\n        <div class=\"result-value\" id=\"outCostSqFt\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\">Enter dimensions to calculate sheets needed.</div>\n  </div>\n</div>",
+  "chartHTML": "<div class=\"chart-section\">\n  <h2>Plywood Thickness &amp; Pricing Guide</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Approximate 4×8 sheet prices (CDX/construction grade). Prices vary by region and market conditions.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead><tr><th>Thickness</th><th>Actual</th><th>Weight/Sheet</th><th>CDX Price</th><th>Sanded Price</th><th>Common Uses</th></tr></thead>\n      <tbody>\n        <tr><td>1/4\"</td><td>0.234\"</td><td>22 lbs</td><td>$15&ndash;25</td><td>$20&ndash;35</td><td>Underlayment, cabinet backs</td></tr>\n        <tr><td>3/8\"</td><td>0.354\"</td><td>29 lbs</td><td>$20&ndash;30</td><td>$25&ndash;40</td><td>Wall sheathing (non-structural)</td></tr>\n        <tr><td>1/2\"</td><td>0.469\"</td><td>41 lbs</td><td>$25&ndash;40</td><td>$35&ndash;55</td><td>Wall sheathing, shelving</td></tr>\n        <tr><td>5/8\"</td><td>0.594\"</td><td>48 lbs</td><td>$30&ndash;45</td><td>$40&ndash;60</td><td>Roof sheathing</td></tr>\n        <tr><td>3/4\"</td><td>0.703\"</td><td>60 lbs</td><td>$35&ndash;55</td><td>$50&ndash;75</td><td>Subfloor, structural, furniture</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How to Calculate Plywood Sheets</h2>\n  <p style=\"margin-bottom:12px\">Plywood calculations are straightforward: divide the total area by the sheet size, then add a waste factor for cuts and fitting.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fde68a;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Sheets = (Area ÷ 32) × (1 + Waste %)</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Total area</strong> = length × width (in feet)</li>\n    <li>A standard 4×8 sheet covers <strong>32 square feet</strong></li>\n    <li>Divide area by 32 to get the minimum number of sheets</li>\n    <li>Add <strong>10% waste</strong> for simple layouts, 15-20% for complex</li>\n    <li>Always round up to the next whole sheet</li>\n    <li>For multiple rooms or walls, add all areas together first</li>\n  </ul>\n</div>",
   "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\"><h3>How many square feet is a sheet of plywood?</h3><p>A standard 4×8 sheet covers 32 square feet. Also available: 4×10 (40 sq ft) and 4×12 (48 sq ft). Divide your total area by the sheet size to find how many sheets you need.</p></div>\n  <div class=\"faq-item\"><h3>How do I calculate plywood needed?</h3><p>Sheets = (Length × Width) ÷ 32 × (1 + waste%). For a 12×20 ft floor: 240 ÷ 32 = 7.5, with 10% waste = 8.25, round up to 9 sheets.</p></div>\n  <div class=\"faq-item\"><h3>What thickness do I need?</h3><p>1/4\" for underlayment, 3/8\" for non-structural sheathing, 1/2\" for wall sheathing, 5/8\" for roof sheathing, 3/4\" for subfloor and structural. Check code for your specific application.</p></div>\n  <div class=\"faq-item\"><h3>How much does plywood cost?</h3><p>4×8 CDX sheet prices: 1/4\" $15-25, 1/2\" $25-40, 3/4\" $35-55. Sanded/cabinet grade costs 30-50% more. Prices fluctuate with lumber markets.</p></div>\n  <div class=\"faq-item\"><h3>CDX vs sanded plywood?</h3><p>CDX has rough faces (C and D grade) with exterior glue — used for sheathing, subfloor, and roofing. Sanded plywood (BC, AB grades) has smooth faces for cabinets, furniture, and visible surfaces.</p></div>\n  <div class=\"faq-item\"><h3>How much waste to plan for?</h3><p>10% for rectangular areas, 15% for walls with windows/doors, 20% for complex shapes or grain-matched projects.</p></div>\n</div>",
   "category": "construction",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This plywood calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The math behind a plywood count is short: turn your surface into square feet, divide by the square footage of one sheet, pad for cutoffs, then round up because a lumberyard sells whole sheets.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Multiply your area length by width to get total square feet — a 12 × 16 ft floor is 192 sq ft.",
+      "Divide that area by the square footage of your chosen sheet: 32 sq ft for a 4 × 8, 40 for a 4 × 10, 48 for a 4 × 12. 192 ÷ 32 = 6 sheets before waste.",
+      "Multiply by 1 plus your waste factor to cover offcuts and mistakes: 6 × 1.10 ≈ 6.6.",
+      "Round up to the next whole sheet — 6.6 becomes 7. You buy 7 sheets for that 12 × 16 floor."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This gives you a purchase count, not a cut list. Odd rooms, staggered seams over joists, and grain direction can push the real number a sheet or two higher, so confirm against your actual layout before you buy."
   },
   "whenToUse": {
-    "intro": "This plywood calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this whenever you're covering a flat area with 4-foot-wide sheet goods and need to know how many to load in the truck.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Sizing subfloor: 3/4\" tongue-and-groove over floor joists, where sheets run perpendicular to the joists with staggered end seams.",
+      "Ordering wall sheathing: 1/2\" or 7/16\" panels over studs, then subtracting window and door openings from the wall area.",
+      "Counting roof decking: 5/8\" sheathing across the rafters, remembering that a sloped roof has more area than its floor footprint.",
+      "Estimating a shed, deck box, or workbench top where you just need whole sheets covering a known rectangle.",
+      "Checking a lumberyard or contractor's sheet count before you pay for the order."
     ]
   },
   "relatedTools": [
@@ -118,64 +118,68 @@
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Plywood Calculator?",
-        "body": "The Plywood Calculator is a free online tool designed for contractors and DIY builders who need quick, accurate calculations in the construction and building space. By entering your area length, area width, sheet size, you get instant results including sheets needed, total area, coverage with waste. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "One sheet, 32 square feet",
+        "body": "A standard 4 × 8 ft plywood sheet covers 32 square feet — that single number does most of the work. Take a 12 × 16 ft floor: that's 192 sq ft, and at 32 sq ft per sheet that's 6 sheets exactly. Add roughly 10% for the pieces you cut off and can't reuse and you land at 7 sheets to buy. The calculator runs that same chain for any dimensions and lets you swap in 4 × 10 (40 sq ft) or 4 × 12 (48 sq ft) panels if your supplier stocks them."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting sheets needed right can make the difference between success and costly mistakes. In construction and building, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by contractors and DIY builders worldwide, giving you confidence that your numbers are correct. Use it to plan your projects with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why you round up, and why you pad for waste",
+        "body": "Lumberyards sell whole sheets, so a result of 6.6 sheets means you carry home 7 — there's no such thing as buying two-thirds of a panel. The waste factor exists because real layouts never divide cleanly: you rip a strip off one sheet to close a gap and the leftover is too small for the next run. Ten percent covers straight rectangular work like a floor or roof; bump it to 15% once a wall is full of window and door openings you have to cut around, or 20% for angled and irregular shapes."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your area length and need to find the right sheets needed. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Match the thickness to the job",
+        "body": "Sheet count and thickness are separate decisions. Subfloor over joists at 16\" on-center is usually 3/4\" (nominal 23/32\") tongue-and-groove; exterior wall sheathing runs 1/2\" or 7/16\"; roof decking is commonly 5/8\". Thinner 1/4\" and 3/8\" panels are for underlayment and backing, not structure. The area math is identical whatever thickness you pick — thickness drives the weight per sheet and the price, not how many you need to cover the surface."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Area Length (ft)",
-      "description": "Start by entering your area length — this is the primary input for the calculation."
+      "title": "Measure the area in feet",
+      "description": "Enter the length and width of the surface you're covering. For a floor or roof deck, that's the plan dimensions; for a wall, use its length and height."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: area width, sheet size, plywood thickness, waste allowance, price per sheet. Each value refines the calculation for greater accuracy."
+      "title": "Pick your sheet size",
+      "description": "Leave it on 4 × 8 (32 sq ft) unless your yard stocks the longer 4 × 10 or 4 × 12 panels, which cut down on seams for large spans."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set thickness and waste",
+      "description": "Choose the thickness for your application, then a waste factor: 10% for open rectangles, 15% for walls with openings, 20% for complex cuts. Add a price per sheet if you want a cost total."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your sheets needed, total area, coverage with waste. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the sheet count",
+      "description": "The result rounds up to whole sheets and shows the coverage those sheets provide including waste. That's your shopping number."
     }
   ],
   "tips": [
-    "Double-check your area length before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both sheets needed and total area — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to plan your projects.",
-    "If you're unsure about your price per sheet, start with a conservative estimate and adjust from there."
+    "Order at least one extra full sheet beyond the count for the sheet you'll inevitably cut wrong or find damaged when you open the bundle.",
+    "On a subfloor, plan to stagger the end joints so seams don't line up across joists — that staggering is part of what the waste factor pays for.",
+    "A pitched roof has more surface than its footprint: a 6/12 roof is about 12% larger than the floor below it, so measure along the slope, not the ceiling.",
+    "Subtract big openings before you divide: a 10 × 8 ft wall is 80 sq ft, but a 3 × 5 window and a 3 × 7 door remove 36 sq ft, leaving 44 to sheathe.",
+    "Buy full sheets rather than pre-cut halves when you can — 4 × 8 panels almost always cost less per square foot than 2 × 4 or 4 × 4 pieces."
   ],
   "faq": [
     {
-      "question": "Is the Plywood Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How many square feet is a sheet of plywood?",
+      "answer": "A standard 4 × 8 ft sheet covers 32 square feet (4 × 8 = 32). A 4 × 10 sheet is 40 sq ft and a 4 × 12 is 48 sq ft. To count sheets, divide your total area by that number and round up."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard construction and building formulas trusted by contractors and DIY builders. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "How much waste should I add?",
+      "answer": "About 10% for simple rectangular areas like a floor or roof deck, 15% for walls with windows and doors you cut around, and 20% for angled or irregular shapes. The waste covers offcut strips that are too small to reuse."
     },
     {
-      "question": "What area length should I enter?",
-      "answer": "Enter the most accurate area length value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Do I round up or down on the sheet count?",
+      "answer": "Always up. Yards sell whole sheets, so a calculated 6.6 sheets means you buy 7. Rounding down leaves you short mid-project. This calculator rounds up for you automatically."
     },
     {
-      "question": "Can I use this calculator on my phone?",
-      "answer": "Yes, the Plywood Calculator is fully responsive and works on any device — phone, tablet, or desktop. No app download needed."
+      "question": "What's the difference between subfloor and sheathing plywood?",
+      "answer": "Subfloor is the structural layer over your floor joists, typically 3/4\" tongue-and-groove that carries foot traffic and furniture. Sheathing is the panel skin over wall studs or roof rafters, usually thinner (7/16\" to 5/8\") and often CDX with exterior glue. The sheet-count math is the same for both; only the thickness and grade change."
     },
     {
-      "question": "What does sheets needed mean in my results?",
-      "answer": "The sheets needed value represents the primary output of the calculation based on your inputs. Use it as a baseline figure for your construction and building planning and decision-making."
+      "question": "How do I figure sheets for a whole floor?",
+      "answer": "Multiply length by width for the area, divide by 32, then add waste and round up. A 12 × 16 ft room is 192 sq ft; 192 ÷ 32 = 6 sheets, or 7 once you add 10% for cuts. For an L-shaped or multi-room floor, add each rectangle's area together before dividing."
+    },
+    {
+      "question": "Does thickness change how many sheets I need?",
+      "answer": "No. A 4 × 8 sheet covers 32 sq ft whether it's 1/4\" or 3/4\", so the count stays the same. Thickness only changes the weight per sheet and the price — a 3/4\" sheet weighs about 60 lbs versus roughly 22 lbs for 1/4\"."
     }
   ]
 }

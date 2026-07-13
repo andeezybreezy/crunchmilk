@@ -5,6 +5,31 @@ anything. This is what makes the loop compound instead of repeating itself.
 
 ---
 
+## Run 1b — 2026-07-13 — De-template the next 15 demand pages (same day)
+
+**Hypothesis:** Same as Run 1 — don't wait a month; de-template more proven-demand
+pages now. Target the next 15 by impressions (after the first 15), biased toward
+winnable non-YMYL niches (construction/DIY/hobby) plus a few high-demand YMYL
+pages that are actively hurt by being templated.
+
+**Shipped (branch `seo-loop/2026-07-13-b`, 15 pages):**
+biorhythm, rv-propane, medication-half-life, vo2-max, quilt-backing,
+business-license-fee, brick, filament-cost, population-growth, epoxy-floor,
+drain-slope, plywood, ovulation, steps-to-calories, home-battery.
+~800–1,450 words of unique expert prose each; worked examples; medical/YMYL pages
+(medication-half-life, vo2-max, ovulation) carry "estimate, not advice"
+disclaimers. Verified valid JSON, zero boilerplate in output, entities→Unicode.
+
+**Running total: 30 of ~99 demand pages de-templated.** Remaining demand pages
+(~69) for future same-day batches or the monthly routine: uk-pension,
+sourdough-starter, cmu-wall, cattle-fencing, ai-job-displacement, box-size,
+muzzle-energy, + the tail of the 99-with-impressions list.
+
+**Note:** brick-calculator's `howItWorks` was pre-baked HTML (already brick-
+specific), left as-is; only the other prose fields changed.
+
+---
+
 ## Run 1 — 2026-07-13 — De-template the 15 highest-demand pages
 
 **Hypothesis:** The pages Google refuses to index share one templated prose
