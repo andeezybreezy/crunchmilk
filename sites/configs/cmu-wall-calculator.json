@@ -14,40 +14,45 @@
   "jsonLdDescription": "Calculate concrete masonry unit quantities including block count, mortar bags, rebar requirements, and grout fill for CMU block wall construction projects.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>CMU Wall Calculator</h2>\n    <p style=\"font-size:0.85rem;color:var(--text-light);margin-bottom:16px\">Estimate blocks, mortar, rebar, and grout fill for concrete block walls.</p>\n\n    <div class=\"input-group\">\n      <label for=\"wallLength\">Wall Length (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"wallLength\" placeholder=\"e.g. 40\" value=\"40\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"wallHeight\">Wall Height (feet)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 8\" value=\"8\" step=\"0.5\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"blockSize\">Block Size</label>\n      <select id=\"blockSize\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"8\">8\" × 8\" × 16\" (standard)</option>\n        <option value=\"12\">12\" × 8\" × 16\"</option>\n        <option value=\"6\">6\" × 8\" × 16\"</option>\n        <option value=\"4\">4\" × 8\" × 16\"</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fillCores\">Fill Cores with Grout?</label>\n      <select id=\"fillCores\" style=\"width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"all\">Yes — All cores (structural)</option>\n        <option value=\"rebar\">Only rebar cells (every 4')</option>\n        <option value=\"none\">No fill</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"blockPrice\">Price per Block ($)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"blockPrice\" placeholder=\"e.g. 2.25\" value=\"2.25\" step=\"0.05\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Materials</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Blocks Needed</div>\n          <div class=\"result-value\" id=\"rBlocks\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Mortar Bags (80lb)</div>\n          <div class=\"result-value\" id=\"rMortar\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Grout Fill</div>\n          <div class=\"result-value\" id=\"rGrout\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Rebar (#4)</div>\n          <div class=\"result-value\" id=\"rRebar\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Wall Area</div>\n          <div class=\"result-value\" id=\"rArea\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Block Cost</div>\n          <div class=\"result-value\" id=\"rCost\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "This calculator estimates CMU (concrete masonry unit) quantities based on wall dimensions, using the standard 8\" × 16\" face area per block including mortar joints (actual block is 7⅝\" × 15⅝\").",
+    "intro": "The math behind a block wall comes down to face area. A standard 8×8×16 in CMU covers about 1.125 sq ft of wall once you include the 3/8 in mortar joint, so the count is simply wall area divided by 1.125. From there the calculator layers on mortar, courses, rebar, and grout fill so you can price the whole job from two numbers: length and height.",
     "rules": [
-      "Blocks per square foot: 1.125 blocks/sq ft (based on 8\" × 16\" nominal face with 3/8\" mortar joints)",
-      "Mortar: approximately 8.5 blocks per 80lb bag of Type S mortar (standard for structural walls)",
-      "Grout fill: 0.5 cubic feet per 8\" block core (each standard block has 2 cores)",
-      "Rebar: vertical #4 bars every 48\" on center, horizontal bond beam every 48\" vertically",
-      "5% waste factor added to block count for breakage and cuts"
+      "Blocks per square foot: 1.125 blocks/sq ft (8 in × 16 in nominal face including a 3/8 in mortar joint; the block itself is 7⅝ in × 15⅝ in)",
+      "Courses: wall height in inches ÷ 8 in per course. An 8 ft wall is 96 in ÷ 8 = 12 courses",
+      "Mortar: roughly 1 bag of Type S per 30–35 blocks for 3/8 in joints (about 8.5 blocks per 80 lb bag on full-bed structural work)",
+      "Grout fill: about 0.5 cubic feet per 8 in block core, two cores per standard block",
+      "Rebar: vertical #4 bars near corners and every 48 in on center, with horizontal bond-beam steel roughly every 48 in of height",
+      "Waste: add about 5% to the block count for breakage, cuts, and corners"
     ],
-    "outro": "Material quantities are estimates. Actual needs depend on openings (doors/windows), corners, pilasters, and bond pattern. Always consult local building codes for structural reinforcement requirements."
+    "outro": "Treat every figure as a planning estimate. Doors, windows, corners, control joints, and pilasters all shift the real count, and reinforcement spacing is set by your local code and wall height rather than by a rule of thumb. Confirm rebar and grout requirements with the engineer or building official on any load-bearing or retaining wall before you order."
   },
   "faq": [
     {
       "question": "How many CMU blocks do I need per square foot?",
-      "answer": "You need approximately 1.125 standard CMU blocks (8\" × 8\" × 16\") per square foot of wall area. This accounts for the 3/8\" mortar joints. For a simple estimate, multiply wall area in square feet by 1.125, then add 5% for waste."
+      "answer": "About 1.125 standard blocks (8×8×16 in) per square foot of wall face. That single figure already accounts for the 3/8 in mortar joint around each block. Multiply your wall area in square feet by 1.125, then add roughly 5% for cuts and breakage. A 160 sq ft wall works out to 160 × 1.125 ≈ 180 blocks, or about 189 with waste."
+    },
+    {
+      "question": "How much mortar do I need for a CMU wall?",
+      "answer": "Plan on about one bag of Type S mortar for every 30–35 standard blocks laid with 3/8 in joints. So a 150-block shed wall needs roughly 4–5 bags. If you are laying a full mortar bed rather than face-shell bedding, mortar goes further per bag (closer to 8–9 blocks per 80 lb bag). Buy an extra bag or two — running short mid-course is far more disruptive than a leftover bag."
+    },
+    {
+      "question": "Do I need rebar in a CMU wall?",
+      "answer": "For anything load-bearing, below grade, or holding back soil, yes. Typical practice runs vertical #4 bars in grouted cells near each corner and every 48 in on center, tied to horizontal bond-beam steel every few courses. Short, free-standing garden walls under about 3 ft are sometimes allowed without vertical steel, but retaining walls and foundation walls always need engineered reinforcement. Your local code and wall height set the actual spacing."
+    },
+    {
+      "question": "How many courses of block will my wall be?",
+      "answer": "Divide the wall height in inches by 8, since each standard course (block plus its bed joint) is 8 in tall. An 8 ft wall is 96 ÷ 8 = 12 courses; a 4 ft wall is 6 courses. Because block heights come in 8 in increments, designing walls to a multiple of 8 in avoids cutting blocks down the final course."
     },
     {
       "question": "Do all CMU walls need to be filled with grout?",
-      "answer": "Not always. Non-structural partition walls may not require grout fill. However, structural walls, retaining walls, and walls in seismic zones typically require all cores to be grouted. At minimum, cells containing rebar must be filled. Check your local building code."
-    },
-    {
-      "question": "What type of mortar should I use for CMU walls?",
-      "answer": "Type S mortar is standard for structural CMU walls and below-grade applications. It has a compressive strength of 1,800 PSI. Type N can be used for non-structural above-grade walls. Type M (2,500 PSI) is used for below-grade and high-load applications."
-    },
-    {
-      "question": "How much does a CMU block wall cost per square foot?",
-      "answer": "A basic CMU block wall costs $10-$17 per square foot for materials only (blocks, mortar, rebar, grout). Installed cost with labor ranges from $15-$30 per square foot depending on wall height, reinforcement, and regional labor rates."
+      "answer": "No. Non-structural partition walls are often left hollow. Structural walls, retaining walls, and walls in seismic or high-wind zones usually need cores grouted — at minimum every cell that contains rebar, and sometimes all cells (fully grouted). Figure roughly 0.5 cubic feet of grout per filled 8 in core when you estimate. Check your local code for which cells must be solid."
     },
     {
       "question": "What size CMU block should I use?",
-      "answer": "8\" wide blocks are standard for most residential and commercial walls. 12\" blocks are used for tall retaining walls and commercial foundations. 6\" blocks work for non-load-bearing interior partitions. 4\" blocks are used for veneer and decorative applications only."
+      "answer": "8 in wide block is the default for most residential and light commercial walls. Step up to 12 in for tall retaining walls and heavily loaded foundations, drop to 6 in for lighter non-load-bearing partitions, and reserve 4 in units for veneer and decorative work. All of these share the same 8 in × 16 in face, so the per-square-foot block count stays about 1.125 regardless of width."
     },
     {
-      "question": "Do I need a footing for a CMU block wall?",
-      "answer": "Yes, all CMU walls need a concrete footing. The standard rule is the footing should be twice the width of the wall and at least 8\" deep. For an 8\" block wall, use a 16\" wide × 8\" deep footing minimum. Footings must extend below the frost line."
+      "question": "Do I need a footing under a block wall?",
+      "answer": "Yes — CMU walls bear on a poured concrete footing. A common rule sizes the footing at twice the wall width and at least 8 in deep, so an 8 in wall sits on a 16 in wide × 8 in deep footing, with the bottom below the local frost line. Vertical rebar is usually doweled up out of the footing so it ties into the grouted cells above."
     }
   ],
   "relatedTools": [
@@ -116,66 +121,67 @@
     ]
   },
   "category": "construction",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This cmu wall calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The estimate starts from wall face area and the fixed 1.125 blocks per square foot ratio for a standard 8×8×16 in unit, then adds mortar, courses, grout, and rebar on top.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Compute wall area: length (ft) × height (ft). A 40 ft × 8 ft wall is 320 sq ft.",
+      "Divide area by 1.125 sq ft per block to get the raw block count (320 ÷ 1.125 ≈ 285 blocks).",
+      "Add about 5% for breakage, cuts, and corners, then round up (≈ 300 blocks).",
+      "Estimate mortar at roughly one 80 lb bag per 30–35 blocks, and courses as height in inches ÷ 8.",
+      "For reinforced walls, add vertical #4 rebar near corners and every 48 in, plus about 0.5 cu ft of grout per filled core."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are planning estimates from standard ratios. Openings, bond pattern, and code-driven reinforcement change the real quantities — verify structural rebar and grout with an engineer or building official."
   },
   "whenToUse": {
-    "intro": "This cmu wall calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this calculator any time you need to turn a block-wall footprint into an order list — how many blocks, how many bags of mortar, and how much rebar and grout to buy.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Pricing a backyard retaining wall and needing block, rebar, and grout counts before ordering",
+      "Estimating foundation or stem walls for a shed, garage, or addition",
+      "Building a shed, workshop, or detached wall and sizing courses to avoid cutting the top row",
+      "Laying out a garden or privacy wall and checking mortar bags against block count",
+      "Sanity-checking a mason's material quote before you sign off on it"
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the CMU Wall Calculator?",
-        "body": "The CMU Wall Calculator is a free online tool designed for contractors and DIY builders who need quick, accurate calculations in the construction and building space. By entering your wall length, wall height, block size, you get instant results including blocks needed, mortar bags, grout fill. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "Estimating a CMU Block Wall",
+        "body": "Concrete masonry units are sized so the arithmetic stays simple. A standard 8×8×16 in block covers about 1.125 sq ft of wall face once the 3/8 in mortar joint is counted, which means one square foot of wall takes a little over one block. Give the calculator a length and a height and it returns block count, mortar, courses, rebar, and grout — the full material list for a straight run of wall."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting blocks needed right can make the difference between success and costly mistakes. In construction and building, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by contractors and DIY builders worldwide, giving you confidence that your numbers are correct. Use it to plan your projects with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Say you are building a 20 ft long, 8 ft tall wall. That is 20 × 8 = 160 sq ft of face. At 1.125 sq ft per block you need 160 ÷ 1.125 ≈ 142 blocks, and adding 5% for cuts and breakage rounds you to about 150 blocks to order. The wall stands 96 in ÷ 8 = 12 courses tall. For mortar, 150 blocks at roughly one bag per 30–35 blocks means 4–5 bags of Type S. If the wall is reinforced, you would add vertical #4 bars at the corners and every 48 in with grout in those cells."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your wall length and need to find the right blocks needed. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Where Reinforcement Comes In",
+        "body": "The block count is the easy part; the reinforcement is what varies. A low free-standing garden wall may need little more than blocks and mortar, while a retaining wall or foundation carries vertical rebar doweled up from the footing, horizontal bond-beam steel, and grouted cells to lock it all together. Grout runs about half a cubic foot per filled core, and the spacing of steel is dictated by wall height, soil load, and your local code rather than a fixed rule."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Wall Length (feet)",
-      "description": "Start by entering your wall length — this is the primary input for the calculation."
+      "title": "Enter Wall Length and Height",
+      "description": "Type in the length and height of the wall in feet. Length × height gives the wall face area the block count is built from."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: wall height, block size, fill cores with grout?, price per block. Each value refines the calculation for greater accuracy."
+      "title": "Pick Block Size and Fill",
+      "description": "Choose the block width (8 in is standard) and whether cores are fully grouted, filled only at rebar cells, or left hollow. This drives the grout and rebar figures."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Add a Price per Block",
+      "description": "Enter your local block price to get a materials cost alongside the quantities. Leave the default if you just want counts."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your blocks needed, mortar bags, grout fill. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Order",
+      "description": "Run the numbers to see blocks, mortar bags, courses, rebar, and grout. Round up and add a little cushion before placing the order."
     }
   ],
   "tips": [
-    "Double-check your wall length before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both blocks needed and mortar bags — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to plan your projects.",
-    "If you're unsure about your price per block, start with a conservative estimate and adjust from there."
+    "Design wall heights to a multiple of 8 in so the top course lands full-height and you avoid cutting every block on the last row.",
+    "Order about 5% extra block — corners, cuts, and the occasional cracked unit add up fast on a long wall.",
+    "Buy one or two more bags of mortar than the estimate; a full-bed structural mix uses more per block than face-shell bedding.",
+    "Grout only what the code requires — filling every core on a wall that only needs rebar cells wastes material and money.",
+    "Dowel vertical rebar up out of the footing before the concrete sets so the steel ties cleanly into the grouted cells above."
   ]
 }

@@ -14,35 +14,39 @@
   "jsonLdDescription": "Shipping box calculator that computes dimensional weight using L×W×H÷139 for domestic carriers, cubic volume, and billable weight comparison.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Shipping Box Size & DIM Weight</h2>\n\n    <div class=\"input-group\">\n      <label for=\"boxLength\">Length (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"boxLength\" placeholder=\"e.g. 18\" min=\"1\" max=\"200\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"boxWidth\">Width (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"boxWidth\" placeholder=\"e.g. 12\" min=\"1\" max=\"200\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"boxHeight\">Height (inches)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"boxHeight\" placeholder=\"e.g. 8\" min=\"1\" max=\"200\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"actualWeight\">Actual Weight (lbs)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"actualWeight\" placeholder=\"e.g. 5\" min=\"0.1\" step=\"0.1\" inputmode=\"decimal\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"carrier\">Carrier</label>\n      <div class=\"input-row\">\n        <select id=\"carrier\">\n          <option value=\"139\">UPS / FedEx (domestic)</option>\n          <option value=\"166\">UPS / FedEx (international)</option>\n          <option value=\"166\">USPS Priority Mail</option>\n        </select>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Dimensional Weight</div>\n          <div class=\"result-value\" id=\"dimWeight\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Billable Weight</div>\n          <div class=\"result-value\" id=\"billWeight\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cubic Volume</div>\n          <div class=\"result-value\" id=\"volume\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Girth + Length</div>\n          <div class=\"result-value\" id=\"girthLength\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Volume (cu ft)</div>\n          <div class=\"result-value\" id=\"cuFt\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Billed By</div>\n          <div class=\"result-value\" id=\"billedBy\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "Shipping carriers charge by the greater of actual weight or dimensional (DIM) weight. DIM weight accounts for how much space a package occupies relative to its actual weight.",
+    "intro": "Enter a box's length, width, and height in inches plus the item's actual weight, and this calculator returns the dimensional (DIM) weight, the billable weight, cubic volume, and the length-plus-girth measurement carriers use for oversize limits. Carriers bill you for the greater of actual weight or DIM weight, so a light item in a big box can cost far more than its scale weight suggests.",
     "rules": [
-      "<strong>DIM Weight = (L × W × H) / DIM Factor</strong> — round up to next whole pound",
-      "DIM factor: <strong>139</strong> for UPS/FedEx domestic, <strong>166</strong> for international and USPS",
-      "<strong>Billable weight = whichever is greater</strong>: actual weight or DIM weight",
-      "Girth + Length must be <strong>under 165\"</strong> for most carriers (girth = 2×W + 2×H)"
+      "<strong>DIM weight (lb) = (L × W × H in inches) ÷ DIM factor</strong>, then round up to the next whole pound",
+      "DIM factor is <strong>139</strong> for UPS/FedEx domestic and <strong>166</strong> for international and USPS Priority Mail — a higher divisor means lower DIM weight",
+      "<strong>Billable weight = the greater of actual weight or DIM weight</strong>; that's the number your rate is based on",
+      "Length + girth (girth = 2 × width + 2 × height) must stay under <strong>165 inches</strong> or the package moves to oversize/freight pricing"
     ],
-    "outro": "To minimize shipping costs, use the smallest box that safely fits your item with appropriate packing material. Reducing any dimension by even 1 inch can lower the DIM weight significantly."
+    "outro": "The takeaway: match the box to the item. A 12×12×12 in box holding a 5 lb item is billed as 12.4 lb domestically (1,728 ÷ 139), so trimming each side to 10 in drops the cube to 1,000 cu in and the DIM weight to about 7.2 lb — the same item, roughly 40% less billable weight."
   },
   "faq": [
     {
-      "question": "What is dimensional weight?",
-      "answer": "Dimensional weight (DIM weight) is a pricing method that accounts for a package's size rather than just its actual weight. Light but bulky packages cost more to ship because they take up truck/plane space. DIM weight = L×W×H ÷ DIM factor."
+      "question": "What is dimensional weight and why do carriers use it?",
+      "answer": "Dimensional weight prices a package by the space it occupies rather than what it weighs on a scale. A truck or plane fills up on volume long before it hits a weight limit, so a big, light box would cost the carrier space that a small heavy box doesn't. DIM weight = (L × W × H in inches) ÷ DIM factor. If that number beats your actual weight, you pay for the DIM weight."
     },
     {
-      "question": "What DIM factor should I use?",
-      "answer": "UPS and FedEx use a DIM factor of 139 for domestic shipments and 166 for international. USPS uses 166 for Priority Mail. Always check with your carrier as these factors can change."
+      "question": "Should I divide by 139 or 166?",
+      "answer": "Use 139 for UPS and FedEx domestic ground and air. Use 166 for UPS/FedEx international and for USPS Priority Mail. The larger divisor (166) produces a smaller DIM weight, so the exact same box is cheaper to ship internationally by DIM-weight math than domestically — for example, a 1,728 cu in box is 12.4 lb at ÷139 but only 10.4 lb at ÷166. Always confirm the current factor with your carrier or account rep, since these numbers change."
     },
     {
-      "question": "How do I measure my box?",
-      "answer": "Measure the longest side (Length), next longest (Width), and shortest (Height) of the outside of the box. Round up to the next whole inch. Use the outside dimensions, not inside dimensions."
+      "question": "How is billable weight decided?",
+      "answer": "The carrier compares your item's actual weight to its DIM weight and bills the greater of the two. A 5 lb item in a 12×12×12 in box has a DIM weight of about 12.4 lb, so you're billed 13 lb (rounded up), not 5. Put that same 5 lb item in a 10×8×6 in box (480 cu in ÷ 139 ≈ 3.5 lb DIM) and actual weight wins — you're billed 5 lb."
     },
     {
-      "question": "What is girth and why does it matter?",
-      "answer": "Girth is the perimeter of the cross-section: 2×Width + 2×Height. Most carriers limit Girth + Length to 165 inches. Packages exceeding this may require freight shipping."
+      "question": "How do I lower my shipping cost with a better box?",
+      "answer": "Downsize the box until it just fits the item plus a thin layer of protection, since every cubic inch you remove lowers DIM weight. Cut void fill and air pockets, switch soft goods like apparel to poly mailers (which have no meaningful DIM weight), and keep custom-cut boxes on hand instead of oversizing with one stock size. Because DIM weight is a product of all three dimensions, shaving even one inch off each side compounds into a real drop."
     },
     {
-      "question": "How can I reduce dimensional weight?",
-      "answer": "Use smaller boxes, reduce void fill, consider poly mailers for soft goods, and use custom box sizes instead of standard ones. Even a 1-inch reduction in each dimension can make a significant difference."
+      "question": "What are length and girth, and when do they trigger surcharges?",
+      "answer": "Girth is the distance around the box's cross-section: 2 × width + 2 × height. Carriers add length + girth and flag packages over 165 inches as oversize, which carries a steep surcharge or bumps you to freight. A tall, narrow box can pass on volume yet fail on length + girth, so check both figures before you ship."
+    },
+    {
+      "question": "How should I measure the box, inside or outside?",
+      "answer": "Measure the outside of the sealed box, because that's the space it occupies. Take the longest side as length, the next longest as width, and the shortest as height, then round each up to the next whole inch. Bulging seams or an over-stuffed box measure larger than the flat carton, and carriers measure what arrives, not what the box was rated for."
     }
   ],
   "relatedTools": [
@@ -114,66 +118,66 @@
     ]
   },
   "category": "shipping",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This box size calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The calculator runs the same dimensional-weight math UPS, FedEx, and USPS use to rate a package, working entirely from the length, width, height, actual weight, and carrier you enter.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Multiply length × width × height to get cubic volume in inches, then divide by the carrier's DIM factor (139 domestic, 166 international/USPS) and round up to the next whole pound for DIM weight",
+      "Compare that DIM weight against the actual weight you entered and take the greater of the two as billable weight",
+      "Compute length + girth (2 × width + 2 × height) to flag whether the box crosses the 165 in oversize threshold",
+      "Convert cubic inches to cubic feet (÷ 1,728) so you can gauge how much space the box occupies on a pallet or in a vehicle"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "DIM factors, oversize limits, and surcharges vary by carrier, service level, and account contract, and they change over time. Treat these figures as estimates and confirm live rates in your carrier's rate tool before shipping."
   },
   "whenToUse": {
-    "intro": "This box size calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this calculator any time the box, not the scale, might drive your shipping bill — which is most of the time for anything larger than an envelope.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Shipping a light-but-bulky item (pillows, lampshades, packing peanuts) where DIM weight almost certainly beats actual weight",
+      "Packing an order and choosing between two stock box sizes to see which keeps billable weight lower",
+      "Comparing the same box across carriers or destinations, since ÷139 domestic and ÷166 international give different DIM weights",
+      "Checking whether a long or tall box will trip the 165 in length + girth oversize surcharge before you build the order",
+      "Estimating fulfillment costs when quoting a product or setting flat-rate shipping so DIM weight doesn't eat your margin"
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Box Size Calculator?",
-        "body": "The Box Size Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your length, width, height, you get instant results including dimensional weight, billable weight, cubic volume. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Box Size Calculator Does",
+        "body": "Enter a box's length, width, and height in inches along with the item's actual weight, and this calculator returns four numbers that decide your shipping bill: dimensional weight, billable weight, cubic volume, and length + girth. Dimensional weight is what surprises most shippers — carriers charge for the space a box takes up, not just its scale weight, because a delivery truck runs out of room before it runs out of weight capacity. The tool applies the divisor for your chosen carrier (139 for UPS/FedEx domestic, 166 for international and USPS Priority Mail) and shows whether actual weight or DIM weight will be billed."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting dimensional weight right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why an Oversized Box Costs You Money — a Worked Example",
+        "body": "Say you ship a 5 lb item in a 12×12×12 in box. Volume is 12 × 12 × 12 = 1,728 cubic inches. Divide by the domestic DIM factor: 1,728 ÷ 139 ≈ 12.4 lb, which rounds up to 13 lb. You're billed for 13 lb even though the package weighs 5 lb on the scale — that's 8 lb of pure air you're paying to ship. Put the same item in a 10×8×6 in box instead: 480 cubic inches ÷ 139 ≈ 3.5 lb DIM weight, so now your actual 5 lb wins and you're billed for 5 lb. Same product, roughly 60% lower billable weight, just from picking a box that fits."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your length and need to find the right dimensional weight. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Choosing the Right Box",
+        "body": "The goal is the smallest box that still protects the item, because DIM weight is length × width × height — shave an inch off each side and the effect multiplies. Measure the item, add a thin margin for cushioning, and pick a box close to that size rather than reaching for one oversized stock carton. Keep an eye on length + girth too: a tall, skinny box can pass on volume yet cross the 165 in oversize limit and pick up a surcharge. When actual weight is already high relative to size, the box matters less; when the item is light and bulky, the box is the whole game."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Length (inches)",
-      "description": "Start by entering your length — this is the primary input for the calculation."
+      "title": "Measure and enter length, width, height",
+      "description": "Measure the outside of the sealed box in inches — longest side as length, next as width, shortest as height — and round each up to the next whole inch before entering."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: width, height, actual weight, carrier. Each value refines the calculation for greater accuracy."
+      "title": "Enter the actual weight and pick your carrier",
+      "description": "Add the item's scale weight in pounds, then choose UPS/FedEx domestic (÷139), international (÷166), or USPS Priority Mail (÷166). The carrier sets the DIM factor."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "The tool computes cubic volume, DIM weight, billable weight, and length + girth instantly in your browser. Nothing is sent to a server."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your dimensional weight, billable weight, cubic volume. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the billable weight and adjust",
+      "description": "Check which weight is billed. If DIM weight is winning, try smaller dimensions and recalculate to see how much billable weight — and cost — a tighter box saves."
     }
   ],
   "tips": [
-    "Double-check your length before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both dimensional weight and billable weight — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your carrier, start with a conservative estimate and adjust from there."
+    "If DIM weight is being billed instead of actual weight, your box is too big for the item — downsize until actual weight wins.",
+    "Cutting one inch off each dimension shrinks volume on all three axes at once, so the DIM-weight savings are larger than they look.",
+    "For soft, squishable goods like apparel or linens, a poly mailer sidesteps DIM weight almost entirely versus a rigid box.",
+    "Run the same box at ÷139 and ÷166 to see how domestic versus international DIM factors change the billable weight.",
+    "Check length + girth on tall or long boxes — clearing 165 inches triggers an oversize surcharge even if the volume looks modest."
   ]
 }

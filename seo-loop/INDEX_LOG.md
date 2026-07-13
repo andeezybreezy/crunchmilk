@@ -5,6 +5,23 @@ anything. This is what makes the loop compound instead of repeating itself.
 
 ---
 
+## Run 1c — 2026-07-13 — De-template the next 15 demand pages (same day)
+
+**Shipped (branch `seo-loop/2026-07-13-c`, 15 pages):**
+box-size, muzzle-energy, uk-pension (actually a WORKPLACE pension tool — agent
+matched prose to the real calculator), sourdough-starter, cmu-wall,
+cattle-fencing, ai-job-displacement, swimming-pace, boat-fuel, plant-spacing,
+wilks-score, water-heater-sizing, travel-visa-cost, interstate-migration,
+ink-cost-per-page. ~700–1,500 words unique expert prose each; valid JSON, zero
+boilerplate in output.
+
+**Running total: 45 of ~99 demand pages de-templated.** ~54 demand pages left
+(tail of the impressions list: homebrew-abv, wildfire-risk, off-grid-battery,
+heat-index, dew-point, ai-detection-score, motor-horsepower, and the long ≤8-impr
+tail). Then move to PRUNE of the ~1,800 zero-demand templated pages.
+
+---
+
 ## Run 1b — 2026-07-13 — De-template the next 15 demand pages (same day)
 
 **Hypothesis:** Same as Run 1 — don't wait a month; de-template more proven-demand

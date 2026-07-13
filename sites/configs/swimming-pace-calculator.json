@@ -14,34 +14,39 @@
   "jsonLdDescription": "Swimming Pace Calculator: Calculate swimming pace per 100m from time and distance. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Swimming Pace Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"distance\">Distance (meters)</label>\n      <input type=\"number\" id=\"distance\" value=\"1500\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"minutes\">Time (Minutes)</label>\n      <input type=\"number\" id=\"minutes\" value=\"25\" min=\"0\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"seconds\">Time (Seconds)</label>\n      <input type=\"number\" id=\"seconds\" value=\"30\" min=\"0\" max=\"59\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Pace per 100m</div>\n        <div class=\"result-value\" id=\"pace100\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Pace per 50m</div>\n        <div class=\"result-value\" id=\"pace50\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Time</div>\n        <div class=\"result-value\" id=\"totalSec\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Speed</div>\n        <div class=\"result-value\" id=\"speed\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This swimming pace calculator uses established formulas to provide accurate results.",
+    "intro": "Swimming pace is the time it takes to cover a fixed 100-length of pool, and this calculator finds it by dividing your total swim time by the distance, then scaling to 100. Because every swimmer's benchmark is per 100, the tool works the same whether you swam a 200 warm-up or a 1,500 open-water leg.",
     "rules": [
       "Pace per 100m = (Total Seconds ÷ Distance) × 100",
-      "Speed (m/s) = Distance ÷ Total Seconds",
-      "1 m/s = 2.237 mph"
+      "Pace per 50m = pace per 100m ÷ 2",
+      "Speed (m/s) = Distance ÷ Total Seconds; 1 m/s ≈ 2.237 mph",
+      "Convert per-100m to per-100yd by multiplying the seconds by about 0.9144 (a yard is shorter than a meter)"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "The result is a steady average across the whole swim. Your real splits usually start faster and drift slower as fatigue sets in, so treat the number as the pace you would need to hold evenly, not a guarantee of how any single 100 will feel."
   },
   "faq": [
     {
+      "question": "How do I figure out my pace per 100m?",
+      "answer": "Convert your total time to seconds, divide by the distance you swam, then multiply by 100. Example: 800 m in 14:00 is 840 seconds ÷ 800 × 100 = 105 seconds, which is 1:45 per 100 m. This calculator does the arithmetic and formats the minutes-and-seconds for you."
+    },
+    {
+      "question": "What is the difference between pace per 100m and pace per 100yd?",
+      "answer": "A meter is longer than a yard (1 m ≈ 1.0936 yd), so covering 100 m takes more time than 100 yd at the same effort. To turn a per-100m pace into per-100yd, multiply the seconds by about 0.9144. A 1:40 (100 s) per 100 m works out to roughly 91 s, or about 1:31 per 100 yd."
+    },
+    {
       "question": "What is a good swimming pace per 100m?",
-      "answer": "Beginner: 2:30-3:00/100m. Intermediate: 1:45-2:15/100m. Advanced: 1:20-1:45/100m. Competitive: under 1:20/100m. Elite Olympic swimmers race at 0:55-1:05/100m for distance events."
+      "answer": "As a rough guide for freestyle: beginners land around 2:30–3:00, steady lap swimmers around 1:45–2:15, trained club swimmers around 1:20–1:45, and competitive swimmers under 1:20. Distance specialists at the elite level hold roughly 0:55–1:05 per 100 m across a full race."
     },
     {
-      "question": "How do I improve my swimming pace?",
-      "answer": "Focus on technique first (streamlining, catch, rotation), then build endurance with interval sets. Drill work improves efficiency more than raw effort. Even 5-10% technique improvement can drop your pace significantly."
+      "question": "Does pool length change my pace?",
+      "answer": "Yes. A 25 m or 25 yd pool gives you twice as many walls per 100 as a 50 m pool, and each turn and push-off is faster than open swimming. Short-course times typically come out 1–3% quicker than long-course, so note the pool length whenever you compare two swims."
     },
     {
-      "question": "How does pool length affect pace?",
-      "answer": "Short course (25m pool) times are typically 1-3% faster than long course (50m pool) due to more wall turns and push-offs. When comparing times, note whether it was short or long course."
+      "question": "How do I use pace to set interval training times?",
+      "answer": "Pick the pace you want to hold, read it per 100, and add a short rest. If your goal pace is 1:45 per 100 m, a set of 10 × 100 on a 2:00 send-off gives you about 15 seconds rest per repeat. Shrink the send-off to make the set harder or grow it to build volume at pace."
     },
     {
-      "question": "Is the Swimming Pace Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard sports analytics formulas trusted by athletes, coaches, and fans. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why is my average pace slower than my best 100?",
+      "answer": "This tool reports the average across the entire distance, and fatigue makes later lengths slower than a single fresh 100. A swimmer who splits 1:30 on the first 100 might average 1:42 over 1,500 m. That gap between fresh speed and sustained pace is exactly what interval training narrows."
     }
   ],
   "relatedTools": [
@@ -50,70 +55,70 @@
     "era-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This swimming pace calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The math is a single division scaled to a 100-length, done entirely in your browser the moment you press Calculate.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Convert your minutes and seconds into one total number of seconds — 25:30 becomes 1,530 seconds",
+      "Divide the total seconds by the distance you swam to get seconds per meter",
+      "Multiply by 100 for pace per 100m, and halve that for pace per 50m",
+      "Divide distance by total seconds for speed in m/s, then multiply by 2.237 for mph"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "Results are an even average across the full distance and assume you swam the entire distance without stopping. Actual splits vary with fatigue, turns, and stroke, so use the pace as a training target rather than a promise of any single length."
   },
   "whenToUse": {
-    "intro": "This swimming pace calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this calculator whenever a swim time needs to become a pace you can plan around, compare, or chase.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Building interval sets — turn a goal pace into repeat times, like 100s on a fixed send-off with known rest",
+      "Race pacing — work out the even 100 split you need to hold to finish a 1,500 m or triathlon leg in your target time",
+      "Tracking improvement — log pace per 100 across weeks to see whether technique and fitness work is actually paying off",
+      "Comparing pools and courses — line up a short-course 25 m time against a long-course 50 m swim on the same per-100 scale",
+      "Switching units — read a per-100m pace and its per-100yd equivalent when your meet or pool uses the other measure"
     ]
   },
   "category": "sports",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Swimming Pace Calculator?",
-        "body": "The Swimming Pace Calculator is a free online tool designed for athletes, coaches, and fans who need quick, accurate calculations in the sports analytics space. By entering your distance, time, time, you get instant results including pace per 100m, pace per 50m, total time. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This tool turns any swim into a pace per 100, the benchmark coaches and swimmers use to talk about speed in the water. Enter how far you swam and how long it took, and it returns your pace per 100m, your pace per 50m, your total time in seconds, and your speed in meters per second and miles per hour. Because everything is expressed per 100, a 200 m warm-up and a 1,500 m set become directly comparable, whether you swim in a 25 m, 25 yd, or 50 m pool."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting pace per 100m right can make the difference between success and costly mistakes. In sports analytics, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by athletes, coaches, and fans worldwide, giving you confidence that your numbers are correct. Use it to analyze performance with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Suppose you swim 1,500 m in 30:00. First convert the time to seconds: 30 minutes is 1,800 seconds. Then divide by the distance and scale to 100: 1,800 ÷ 1,500 × 100 = 120 seconds, which is 2:00 per 100 m. Halving that gives a 1:00 pace per 50 m. Your speed is 1,500 ÷ 1,800 ≈ 0.83 m/s, or about 1.87 mph. From there you can flip the math around: to break 28:00 over the same 1,500 m you would need to average roughly 1:52 per 100 m instead."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your distance and need to find the right pace per 100m. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Meters, Yards, and Pool Length",
+        "body": "Pace only means something once you know the units and the pool. A meter is about 1.0936 yards, so 100 m takes a little more time than 100 yd at the same effort — multiply your per-100m seconds by about 0.9144 to read the per-100yd equivalent. Pool length matters too: a 25 m or 25 yd pool packs in twice the turns of a 50 m pool per 100, and those push-offs make short-course times run 1–3% faster than long-course. When you compare two swims, always check that you are matching meters to meters and course to course."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Distance (meters)",
-      "description": "Type or select your distance in the field provided. Use the most accurate value available for best results."
+      "description": "Type the total distance you swam in meters — 1500 for a distance set, 100 for a single lap, or whatever your workout covered. If you swam in yards, convert first or read the per-100yd note in the results."
     },
     {
       "title": "Enter Your Time (Minutes)",
-      "description": "Type or select your time in the field provided. Use the most accurate value available for best results."
+      "description": "Enter the whole minutes of your swim time. For a 25:30 swim, this field is 25."
     },
     {
       "title": "Enter Your Time (Seconds)",
-      "description": "Type or select your time in the field provided. Use the most accurate value available for best results."
+      "description": "Enter the leftover seconds, 0 to 59. For a 25:30 swim, this field is 30."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Press Calculate to divide time by distance and scale to 100. Your pace, splits, and speed appear instantly below."
     },
     {
       "title": "Review Your Results",
-      "description": "Check your pace per 100m, pace per 50m, total time. Use these figures to inform your next decision or compare against alternative scenarios."
+      "description": "Read your pace per 100m and per 50m to set interval send-offs, and check speed in m/s or mph to compare against past swims or a target race time."
     }
   ],
   "tips": [
-    "Double-check your distance before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both pace per 100m and pace per 50m — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to analyze performance.",
-    "If you're unsure about your time, start with a conservative estimate and adjust from there."
+    "Confirm your distance and units before calculating — mixing up meters and yards throws the per-100 pace off by nearly 10%.",
+    "Use the per-100 result as your send-off base: add 10–20 seconds of rest to turn goal pace into a repeatable interval set.",
+    "Log pace per 100 across sessions rather than raw times, so 100s, 400s, and 1,500s all sit on one comparable scale.",
+    "When you compare an old time to a new one, note whether each was short course (25 m/yd) or long course (50 m) before drawing conclusions.",
+    "Expect your full-distance average to be a few seconds slower per 100 than a single fresh 100 — that gap is normal and shrinks as your endurance improves."
   ]
 }

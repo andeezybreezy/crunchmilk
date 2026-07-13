@@ -14,35 +14,40 @@
   "jsonLdDescription": "Calculate your Wilks coefficient for powerlifting using the official formula. Compare strength across different body weight classes.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Wilks Score Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"bodyWeight\">Body Weight</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"bodyWeight\" placeholder=\"e.g. 180\" inputmode=\"decimal\">\n        <div class=\"unit-toggle\" role=\"group\" aria-label=\"Weight unit\">\n          <button type=\"button\" class=\"active\" data-unit=\"lbs\" aria-pressed=\"true\">lbs</button>\n          <button type=\"button\" data-unit=\"kg\" aria-pressed=\"false\">kg</button>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"totalLift\">Competition Total (Squat + Bench + Deadlift)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"totalLift\" placeholder=\"e.g. 1200\" inputmode=\"decimal\">\n        <span class=\"unit-label\" id=\"liftUnitLabel\">lbs</span>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Sex</label>\n      <div class=\"input-row\">\n        <div class=\"unit-toggle\" role=\"group\" aria-label=\"Sex\" id=\"sexToggle\">\n          <button type=\"button\" class=\"active\" data-sex=\"male\" aria-pressed=\"true\">Male</button>\n          <button type=\"button\" data-sex=\"female\" aria-pressed=\"false\">Female</button>\n        </div>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Wilks Score</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Wilks Score</div>\n          <div class=\"result-value\" id=\"wilksScore\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Rating</div>\n          <div class=\"result-value\" id=\"wilksRating\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "The Wilks score is a coefficient used in powerlifting to compare lifters of different body weights on a level playing field.",
+    "intro": "Raw totals reward heavy lifters — a 140 kg lifter almost always out-totals a 60 kg lifter. The Wilks score removes that advantage by scaling every total against a bodyweight curve, so a 500 kg total means something different for each lifter and can be ranked head to head.",
     "rules": [
-      "Enter your body weight and competition total (squat + bench press + deadlift)",
-      "The Wilks formula applies a polynomial coefficient based on body weight and sex",
-      "The formula is: Wilks = Total × Coefficient, where the coefficient is calculated from a 5th-degree polynomial",
-      "Higher scores indicate greater relative strength for your body weight"
+      "Enter your bodyweight, your competition total (squat + bench + deadlift), and your sex.",
+      "The calculator plugs your bodyweight in kilograms into a 5th-degree polynomial to produce a coefficient — men and women use different constants.",
+      "Your total is multiplied by that coefficient: Wilks = total (kg) × coefficient. Lighter lifters get a larger coefficient, which is how they stay competitive with heavier lifters.",
+      "The coefficient peaks for very light lifters and shrinks as bodyweight climbs, flattening the raw advantage of extra mass.",
+      "Enter a single lift instead of a full total if you only want to compare one movement."
     ],
-    "outro": "The Wilks score is used by the International Powerlifting Federation (IPF) and most powerlifting federations worldwide to determine best lifter awards and compare performances across weight classes."
+    "outro": "For years the Wilks coefficient was the standard for best-lifter awards worldwide. Federations have since moved toward Wilks-2 (a 2020 recalibration) and IPF GL points, but the original Wilks remains the number most lifters know, and it is still the easiest way to compare an old total against a new one on the same scale."
   },
   "faq": [
     {
       "question": "What is a good Wilks score?",
-      "answer": "For men: under 300 is beginner, 300-400 is intermediate, 400-450 is advanced, and 450+ is elite. For women: under 250 is beginner, 250-350 is intermediate, 350-400 is advanced, and 400+ is elite."
+      "answer": "As a rough map for men: a beginner clears 200-300, an intermediate lifter lands around 300-400, 400-450 is advanced, and 450+ is elite. For women, subtract roughly 50 points at each tier — 250-350 is a solid intermediate range and 400+ is elite. A raw total scoring 400+ generally puts a man in national-competitor territory; the very best open lifters push past 500."
     },
     {
-      "question": "What is the Wilks formula?",
-      "answer": "The Wilks coefficient = 500 / (a + b×x + c×x² + d×x³ + e×x⁴ + f×x⁵), where x is body weight in kg and a through f are sex-specific constants. Your Wilks score is then Total (kg) × coefficient."
+      "question": "Why normalize a total by bodyweight at all?",
+      "answer": "Absolute strength scales with body mass, so a raw total leaderboard is really a bodyweight leaderboard — the heaviest lifters win by default. Normalizing lets a 66 kg lifter and a 120 kg lifter compare pound-for-pound. It is also the only fair way to hand out a single best-lifter award at a meet where competitors span 60 kg to 140 kg."
     },
     {
-      "question": "Is Wilks or DOTS better?",
-      "answer": "Both are used to compare lifters across weight classes. DOTS is a newer formula that some argue is more accurate for very light and very heavy lifters. The Wilks score remains the most widely recognized and used in competition."
+      "question": "What is the exact Wilks formula?",
+      "answer": "Coefficient = 500 ÷ (a + b·x + c·x² + d·x³ + e·x⁴ + f·x⁵), where x is bodyweight in kilograms and a through f are constants that differ for men and women. Your score is total (kg) × coefficient. Because bodyweight sits in the denominator, a lighter lifter gets a bigger multiplier."
     },
     {
-      "question": "Does the Wilks score work for single lifts?",
-      "answer": "Yes, you can use any total or single lift value. However, the Wilks score is most commonly applied to the powerlifting total (squat + bench + deadlift). For single lifts, use the single lift weight as your total."
+      "question": "Wilks vs IPF GL points — what's the difference?",
+      "answer": "Both normalize by bodyweight, but they were fit to different data. The original Wilks was calibrated in the mid-1990s. Wilks-2 (2020) refit the same polynomial to modern results, and IPF GL points use a different equation form tuned to IPF drug-tested records. GL points now decide IPF best-lifter awards, while classic Wilks lingers on gym boards and in older records. Numbers from different systems are not interchangeable."
     },
     {
-      "question": "What body weight range does the Wilks formula cover?",
-      "answer": "The Wilks formula is validated for body weights between 40 kg (88 lbs) and 205 kg (452 lbs) for men, and 40 kg to 150 kg (331 lbs) for women. Outside these ranges, results may be less accurate."
+      "question": "Does the Wilks score work for a single lift?",
+      "answer": "Yes — enter one lift instead of the full total and you get a Wilks number for that movement, useful for ranking bench-only meets or comparing your deadlift to a training partner's. Just keep it consistent: a single-lift Wilks only compares to other single-lift Wilks of the same movement, never to a full-total score."
+    },
+    {
+      "question": "What bodyweight range is the Wilks formula valid for?",
+      "answer": "It is fit for roughly 40-205 kg (88-452 lbs) for men and 40-150 kg (88-331 lbs) for women. Inside that band it behaves well; at the extreme light and extreme heavy ends the curve is thinner on data, which is one reason DOTS and Wilks-2 were introduced."
     }
   ],
   "relatedTools": [
@@ -97,70 +102,70 @@
     ]
   },
   "category": "fitness",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This wilks score calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The calculator follows the same steps a meet scorer would, converting your inputs to metric and running them through the sex-specific Wilks polynomial.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "If you enter pounds, your bodyweight and total are first converted to kilograms (1 lb ≈ 0.4536 kg), because the Wilks polynomial is defined in kilograms.",
+      "Your bodyweight in kg is raised to the 1st through 5th powers and multiplied by the six constants for your sex.",
+      "Those terms are summed and divided into 500 to produce the Wilks coefficient — the multiplier that shrinks as bodyweight rises.",
+      "Your total in kg is multiplied by the coefficient to give the Wilks score, and it is mapped to a rating band so you can see where it lands."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This uses the original Wilks coefficients. Meets may now score with Wilks-2, DOTS, or IPF GL points, so an official result sheet can differ from the number here. Treat this as a training reference, not an official meet score."
   },
   "whenToUse": {
-    "intro": "This wilks score calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for a Wilks score any time a raw total alone would be misleading — which is most of the time you're comparing lifters or comparing your past self to your current self.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Comparing two lifters in different weight classes to see who is stronger pound-for-pound.",
+      "Tracking your own progress after gaining or cutting bodyweight, when your total and your weight both moved.",
+      "Deciding a meet's best-lifter award across everyone who competed, not just within one class.",
+      "Setting a goal — for example, chasing a 400 Wilks — that stays meaningful whether you bulk up or lean out.",
+      "Sanity-checking whether a bodyweight cut is actually worth it: if your total holds, a lighter bodyweight raises your Wilks."
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Wilks Score Calculator?",
-        "body": "The Wilks Score Calculator is a free online tool designed for athletes and fitness enthusiasts who need quick, accurate calculations in the fitness and training space. By entering your body weight, competition total, sex, you get instant results including wilks score, rating. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What the Wilks Score Actually Measures",
+        "body": "The Wilks score answers a question raw totals cannot: who is strongest relative to their size? It multiplies your competition total by a coefficient derived from your bodyweight, so lighter and heavier lifters land on one comparable scale. Elite raw lifters score around 400 and up; the best open competitors climb past 500. Enter your bodyweight, your total, and your sex, and you get both the score and a rating band showing where you sit."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting wilks score right can make the difference between success and costly mistakes. In fitness and training, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by athletes and fitness enthusiasts worldwide, giving you confidence that your numbers are correct. Use it to optimize your training with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Take two lifters who both total 500 kg. The 80 kg lifter earns a larger coefficient than the 120 kg lifter, so the lighter athlete posts the higher Wilks score even though the barbell weight is identical. That is the whole point — the formula credits the smaller lifter for moving the same load with less body mass behind it. Swap in your own numbers and you can watch the coefficient fall as bodyweight rises, which is why a lean bulk that adds total but also adds weight doesn't always move your Wilks."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your body weight and need to find the right wilks score. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Where Wilks Fits Among Modern Formulas",
+        "body": "Wilks was the sport's default normalizer for decades, but it isn't the only one anymore. Wilks-2 recalibrated the same polynomial to newer data in 2020, DOTS offers an alternative curve some prefer at the bodyweight extremes, and the IPF now uses GL points for its own awards. This tool computes the classic Wilks so you can line up against historical totals and the gym-board numbers most lifters still quote — just know that scores from different systems aren't directly comparable."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Body Weight",
-      "description": "Type or select your body weight in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Your Bodyweight",
+      "description": "Use your weigh-in bodyweight, not a round number — the coefficient is sensitive to it. Pick lbs or kg with the toggle; the calculator converts for you."
     },
     {
-      "title": "Enter Your Competition Total (Squat + Bench + Deadlift)",
-      "description": "Type or select your competition total in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Your Total",
+      "description": "Add your best squat, bench, and deadlift for a full powerlifting total, or enter a single lift if you only want to score one movement."
     },
     {
-      "title": "Enter Your Sex",
-      "description": "Type or select your sex in the field provided. Use the most accurate value available for best results."
+      "title": "Select Your Sex",
+      "description": "Men and women use different coefficients, so this choice changes the result. Pick the one that matches the formula constants you want applied."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Calculate",
+      "description": "Run the numbers and the Wilks score appears instantly, computed in your browser."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your wilks score, rating. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the Score and Rating",
+      "description": "Compare the score against another lifter's, log it next to your bodyweight, or check the rating band to see whether you're intermediate, advanced, or elite."
     }
   ],
   "tips": [
-    "Double-check your body weight before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both wilks score and rating — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to optimize your training.",
-    "If you're unsure about your sex, start with a conservative estimate and adjust from there."
+    "Use your actual weigh-in bodyweight. Rounding 82.4 kg to 80 kg nudges the coefficient and inflates your score.",
+    "Match units across both inputs — the toggle handles the conversion, but a total in kg against a bodyweight in lbs will be nonsense.",
+    "Log your Wilks alongside your bodyweight each time. If your total rose but your Wilks didn't, the extra bodyweight ate the gain.",
+    "To compare against a friend, make sure you're both using the classic Wilks here rather than mixing in a DOTS or IPF GL number.",
+    "A single-lift Wilks only compares to the same lift — don't stack a bench-only score against someone's full total."
   ]
 }
