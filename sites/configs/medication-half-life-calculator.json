@@ -14,39 +14,39 @@
   "jsonLdDescription": "Calculate medication levels remaining in the body over time based on dose, half-life, and elapsed time using exponential decay formulas.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Medication Half-Life Calculator</h2>\n    <p class=\"disclaimer\" style=\"background:#faf5ff;border:1px solid #a78bfa;border-radius:8px;padding:12px;margin-bottom:16px;font-size:0.9rem;color:#5b21b6;\"><strong>Disclaimer:</strong> For educational purposes only. Consult your healthcare provider for medical advice.</p>\n\n    <div class=\"input-group\">\n      <label for=\"presetMed\">Common Medication (optional)</label>\n      <select id=\"presetMed\"><option value=\"\">Custom — enter below</option><option value=\"2.5\">Acetaminophen (Tylenol) — 2.5 hr</option><option value=\"2\">Ibuprofen (Advil) — 2 hr</option><option value=\"5\">Caffeine — 5 hr</option><option value=\"1.5\">Melatonin — 1.5 hr</option><option value=\"3.5\">Aspirin — 3.5 hr</option><option value=\"6\">Naproxen (Aleve) — 6 hr</option><option value=\"12\">Omeprazole (Prilosec) — 12 hr</option><option value=\"36\">Fluoxetine (Prozac) — 36 hr</option></select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"initDose\">Initial Dose (mg)</label>\n      <input type=\"number\" id=\"initDose\" placeholder=\"e.g. 500\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"halfLife\">Half-Life (hours)</label>\n      <input type=\"number\" id=\"halfLife\" placeholder=\"e.g. 2.5\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"elapsed\">Time Elapsed (hours)</label>\n      <input type=\"number\" id=\"elapsed\" placeholder=\"e.g. 8\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Amount Remaining</div><div class=\"result-value\" id=\"remaining\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">% Eliminated</div><div class=\"result-value\" id=\"eliminated\">—</div></div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Half-Lives Elapsed</div><div class=\"result-value\" id=\"halvesElapsed\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Time to ~97% Eliminated</div><div class=\"result-value\" id=\"clearTime\">—</div></div>\n      </div>\n      <div id=\"decayTable\" style=\"margin-top:16px;\"></div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "A medication's half-life is the time it takes for the amount of drug in your body to decrease by half. This follows an exponential decay pattern.",
+    "intro": "A medication's half-life is the time it takes for the amount of drug in your body to fall by half. Because each half-life removes half of whatever is left — not a fixed amount — the amount remaining follows an exponential decay curve rather than a straight line.",
     "rules": [
       "<strong>Formula:</strong> Remaining = Initial Dose × (0.5)^(time ÷ half-life)",
       "After <strong>1 half-life:</strong> 50% remains; after <strong>2:</strong> 25%; after <strong>3:</strong> 12.5%; after <strong>4:</strong> 6.25%; after <strong>5:</strong> 3.125%",
       "A drug is considered effectively eliminated after <strong>5 half-lives</strong> (~97% gone)",
       "Multiple doses can lead to drug accumulation until <strong>steady state</strong> is reached (~5 half-lives of regular dosing)"
     ],
-    "outro": "Half-life is affected by liver function, kidney function, age, body composition, and drug interactions. The values used here are population averages. Individual half-lives may vary significantly."
+    "outro": "The half-life values used here are population averages. A person's actual half-life shifts with liver function, kidney function, age, body composition, hydration, genetics, and interactions with other drugs, so real elimination can run faster or slower than the curve shown."
   },
   "faq": [
     {
-      "question": "What is a medication half-life?",
-      "answer": "Half-life is the time it takes for the concentration of a medication in your body to decrease by 50%. For example, if you take 500 mg of a drug with a 2-hour half-life, after 2 hours approximately 250 mg remains, after 4 hours about 125 mg remains, and so on."
+      "question": "How many half-lives does it take for a drug to clear?",
+      "answer": "Clinically, a drug is treated as effectively gone after about 5 half-lives, when roughly 97% has left the body (3.125% remains, then ~1.5% after the sixth). Take a drug with a 12-hour half-life: after 24 hours (2 half-lives) 25% remains, and after 60 hours (5 half-lives) only about 3% is left. The last few percent lingers for a while, so 'cleared' means practically negligible, not literally zero."
     },
     {
-      "question": "How long until a medication is completely out of my system?",
-      "answer": "A drug is considered effectively eliminated after about 5 half-lives, when approximately 97% has been cleared. For acetaminophen (half-life ~2.5 hours), that's about 12.5 hours. For fluoxetine (half-life ~36 hours), it takes about 7.5 days."
+      "question": "What does half-life actually mean?",
+      "answer": "Half-life is the time needed for the amount of drug in your body to drop by 50%. The key idea is that it always halves what is currently present. If you start with 500 mg and the half-life is 12 hours, you have 250 mg at 12 hours, 125 mg at 24 hours, and 62.5 mg at 36 hours — each step cuts the remaining amount in half, not by a fixed 250 mg."
     },
     {
-      "question": "Why do some medications last longer than others?",
-      "answer": "Half-life depends on how quickly your body metabolizes and excretes the drug. Factors include the drug's chemical properties, liver metabolism speed, kidney filtration rate, and whether the drug is stored in fat tissue. Longer half-lives mean longer-lasting effects."
+      "question": "Is this calculator medical advice?",
+      "answer": "No. This tool is for general education only and shows a mathematical estimate from the numbers you type in. It uses population-average half-lives that may not match your body, and it does not account for your health, other medications, or the specific product you took. It is not a substitute for professional judgment — for anything involving your own medication, timing, or dosing, talk to a pharmacist or healthcare provider."
     },
     {
-      "question": "What is steady state?",
-      "answer": "When you take a medication regularly, it accumulates until the amount eliminated per dose interval equals the dose taken. This balance is called steady state and is reached after approximately 5 half-lives of regular dosing. At steady state, drug levels remain relatively constant."
+      "question": "Why does the amount left drop fast at first and then slowly?",
+      "answer": "Because decay is proportional to how much is present. Early on there is a lot of drug, so half of a large amount is a large drop. As the amount shrinks, half of a small amount is a small drop. With a 12-hour half-life you lose 250 mg of a 500 mg dose in the first 12 hours but only about 8 mg between the fifth and sixth half-life."
     },
     {
-      "question": "Does half-life determine how often I take medication?",
-      "answer": "Yes, partially. Medications with short half-lives (like ibuprofen at 2 hours) need to be taken more frequently to maintain effective levels. Drugs with long half-lives (like fluoxetine at 36 hours) can be taken once daily. Dosing schedules also consider the therapeutic window."
+      "question": "Does a longer half-life mean the drug is stronger?",
+      "answer": "No. Half-life describes how long a drug stays in the body, not how potent it is. A drug with a 36-hour half-life such as fluoxetine simply lingers far longer than one with a 2-hour half-life such as ibuprofen — it takes roughly 7.5 days versus about 10 hours to reach the ~97% cleared mark. Strength depends on the dose and how the drug acts, which is a separate question from elimination time."
     },
     {
-      "question": "Can half-life vary between people?",
-      "answer": "Yes, significantly. Liver disease, kidney disease, age (elderly and neonates metabolize drugs differently), obesity, genetics, and drug interactions all affect half-life. Smokers metabolize some drugs faster. The values shown are population averages."
+      "question": "Can my real half-life differ from the value shown?",
+      "answer": "Yes, sometimes substantially. Reduced liver or kidney function can slow elimination and lengthen the effective half-life; age, body composition, hydration, genetics, and other medications all shift it as well. The presets and chart here are population averages, so treat any result as a rough illustration of the pattern rather than a measurement of what is happening in your body."
     }
   ],
   "chart": {
@@ -122,25 +122,25 @@
     ]
   },
   "category": "niche-health",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This medication half-life calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The calculator applies the standard first-order elimination formula used in pharmacology: Remaining = Dose × 0.5^(time ÷ half-life). Everything runs in your browser from the three numbers you enter.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Divide the elapsed time by the half-life to get the number of half-lives that have passed (for example, 60 hours ÷ 12 hours = 5 half-lives).",
+      "Raise 0.5 to that power to find the fraction still present (0.5^5 ≈ 0.031, so about 3.1% remains).",
+      "Multiply that fraction by the initial dose to get the amount remaining in milligrams, and subtract from 100% to get the percentage eliminated.",
+      "Estimate the practical clearance time as 5 × half-life, the point where roughly 97% of the drug is gone."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures are estimates only and are not medical advice. They use average half-lives that may not reflect your body, health conditions, or other medications. Do not use this tool to decide when to take, skip, or re-dose any medication — consult a pharmacist or healthcare provider for anything affecting your care."
   },
   "whenToUse": {
-    "intro": "This medication half-life calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "This calculator is a learning aid for seeing how a drug leaves the body over time. It answers 'how much is left after X hours' and 'when is it mostly gone' in general educational terms — not for making decisions about your own treatment.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Understanding roughly how long a substance like caffeine may linger before bedtime — caffeine's ~5-hour half-life means a late-afternoon dose is still ~25% present around midnight.",
+      "Learning why short half-life drugs are dosed more often than long half-life drugs, by comparing how fast each decay curve falls.",
+      "Studying pharmacology or nursing concepts and wanting a quick way to check the 50% / 25% / 12.5% pattern across successive half-lives.",
+      "Getting an intuition for the '5 half-lives ≈ 97% cleared' rule of thumb using real example numbers.",
+      "Exploring how doubling the half-life roughly doubles the time a drug takes to reach the same low remaining level."
     ]
   },
   "relatedTools": [
@@ -154,41 +154,41 @@
     "sections": [
       {
         "title": "What Is the Medication Half-Life Calculator?",
-        "body": "The Medication Half-Life Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your common medication, initial dose, half-life, you get instant results including amount remaining, % eliminated, half-lives elapsed. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This calculator estimates how much of a medication is still in your body after a given amount of time, based on the drug's half-life. You enter an initial dose in milligrams, the half-life in hours, and how much time has passed; it returns the amount remaining, the percentage eliminated, the number of half-lives that have gone by, and a rough time to reach ~97% cleared. It models the drug alone using population-average half-lives — it does not know your health, your other medications, or the exact product you took, so treat every result as a general illustration rather than a reading of what is in your system."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting amount remaining right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Suppose you take a drug with a 12-hour half-life. After the first 12 hours, half is gone and 50% remains. After 24 hours — that's 2 half-lives — you're down to 25%. Keep going and the pattern continues: 12.5% at 36 hours, 6.25% at 48 hours, and about 3% at 60 hours, which is 5 half-lives. That last figure is why practitioners use the '5 half-lives' rule: at 60 hours roughly 97% of the dose has left the body, so the drug is considered effectively eliminated even though a trace still lingers."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your common medication and need to find the right amount remaining. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why the Curve Bends Instead of Sloping Straight",
+        "body": "Half-life describes proportional loss: each half-life removes half of whatever is currently present, not a fixed number of milligrams. That is why the drop is steep early and gentle later. From a 500 mg dose with a 12-hour half-life, the body sheds 250 mg in the first 12 hours but only about 8 mg between the fifth and sixth half-life. Understanding this shape explains a lot of everyday pharmacology — why a bedtime dose can still be active in the morning, and why stopping a long half-life drug doesn't clear it immediately."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Common Medication (optional)",
-      "description": "Start by entering your common medication — this is the primary input for the calculation."
+      "title": "Choose a Medication or Enter a Half-Life",
+      "description": "Pick a common medication from the dropdown to auto-fill its average half-life, or leave it on Custom and type your own half-life in hours."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: initial dose, half-life, time elapsed. Each value refines the calculation for greater accuracy."
+      "title": "Enter the Initial Dose",
+      "description": "Type the starting amount in milligrams, for example 500. This is the quantity the calculator halves at each successive half-life."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Enter the Time Elapsed",
+      "description": "Enter how many hours have passed since the dose. The tool divides this by the half-life to find how many half-lives have gone by."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your amount remaining, % eliminated, half-lives elapsed. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Read the Curve",
+      "description": "Click Calculate to see the amount remaining, percentage eliminated, half-lives elapsed, and the estimated time to reach ~97% cleared. Remember these are educational estimates, not dosing guidance."
     }
   ],
   "tips": [
-    "Double-check your common medication before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both amount remaining and % eliminated — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your time elapsed, start with a conservative estimate and adjust from there."
+    "Multiply the half-life by 5 for a fast mental estimate of when a drug is roughly 97% cleared — a 12-hour half-life clears in about 60 hours.",
+    "Watch the pattern, not just one number: 50% → 25% → 12.5% → 6.25% → 3.125% at each successive half-life shows how the decay slows down.",
+    "The presets use average half-lives; a real person with reduced liver or kidney function may clear a drug more slowly than the curve suggests.",
+    "For substances like caffeine, entering your dose and the hours before bedtime shows how much may still be circulating when you try to sleep.",
+    "This tool models one dose in isolation — with repeated dosing, levels build toward steady state over about 5 half-lives, which this single-dose view does not capture."
   ]
 }

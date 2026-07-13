@@ -14,47 +14,47 @@
   "jsonLdDescription": "Filament Cost Calculator: Calculate the exact filament cost for any 3D print based on weight, material, and spool price. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Filament Cost Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"spoolPrice\">Spool Price ($)</label>\n      <input type=\"number\" id=\"spoolPrice\" value=\"25\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"spoolWeight\">Spool Weight (g)</label>\n      <input type=\"number\" id=\"spoolWeight\" value=\"1000\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"printWeight\">Print Weight (g)</label>\n      <input type=\"number\" id=\"printWeight\" value=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"failRate\">Expected Fail Rate (%)</label>\n      <input type=\"number\" id=\"failRate\" value=\"5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost per Gram</div>\n        <div class=\"result-value\" id=\"costPerGram\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Print Cost</div>\n        <div class=\"result-value\" id=\"printCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Adjusted Cost (w/ failures)</div>\n        <div class=\"result-value\" id=\"adjustedCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Prints per Spool</div>\n        <div class=\"result-value\" id=\"printsPerSpool\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This filament cost calculator uses established formulas to provide accurate results.",
+    "intro": "The calculator turns a spool price into a per-gram rate, then multiplies by the grams your slicer reports for the print. A $25 spool holding 1000 g works out to $0.025 per gram, so a 50 g print costs 50 × $0.025 = $1.25 in raw filament.",
     "rules": [
       "Cost per Gram = Spool Price ÷ Spool Weight",
       "Print Cost = Cost per Gram × Print Weight",
       "Adjusted Cost = Print Cost × (1 + Fail Rate / 100)",
       "Prints per Spool = Spool Weight ÷ Print Weight (rounded down)"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "Filament is only the material line. If you sell prints, layer electricity, machine wear, and your own time on top of the adjusted cost before you set a price."
   },
   "faq": [
     {
+      "question": "How do I find the grams of filament my print uses?",
+      "answer": "Slice the model first. Cura shows the filament weight and length in the bottom-right after slicing; PrusaSlicer and OrcaSlicer print it in the sliced-info panel, often with a dollar estimate if you entered your spool price. Use that gram figure directly in the Print Weight field — it already accounts for your infill, walls, and supports. If you only have the length in meters, roughly 3 g of 1.75 mm PLA equals about 1 meter."
+    },
+    {
+      "question": "Should I include electricity and failed prints in the cost?",
+      "answer": "For hobby prints, filament alone is close enough. If you sell or quote, add both. Electricity is small: a printer drawing 120 W for a 5-hour print uses 0.12 × 5 = 0.6 kWh, which at $0.15/kWh is about 9 cents. Failures matter more. Set the Fail Rate to your real average — 2-5% once you are dialed in, 10-20% while you are learning — so a scrapped print does not quietly eat your margin."
+    },
+    {
+      "question": "How do I price a 3D print to actually make a profit?",
+      "answer": "Start with the adjusted filament cost, then add electricity, a wear allowance for nozzles and belts, and pay yourself for design, slicing, and post-processing time. A common shop approach is to sum material plus machine time (often $1-$3 per printer-hour) plus labor, then apply a markup of 2-3× for retail. Example: a 60 g PLA print with $1.50 filament, 20 cents power, and 15 minutes of cleanup at $20/hour lands near $6.70 before markup."
+    },
+    {
       "question": "How much does 3D printing filament cost per gram?",
-      "answer": "Most PLA filament costs $0.02-$0.03 per gram ($20-$30 per 1kg spool). Specialty filaments like carbon fiber or flexible TPU can cost $0.04-$0.10 per gram."
+      "answer": "Most PLA runs $0.02-$0.03 per gram ($20-$30 per 1 kg spool). PETG is close at $0.022-$0.035/g. Flexible TPU, carbon-fiber blends, and polycarbonate climb to $0.04-$0.10 per gram. Plug your actual spool receipt into the calculator — sale-price and bulk spools can drop PLA below $0.02/g."
     },
     {
-      "question": "How do I estimate the weight of my 3D print?",
-      "answer": "Most slicing software (Cura, PrusaSlicer) shows estimated print weight. As a rough guide, a solid 1cm cube of PLA weighs about 1.24 grams."
+      "question": "Does the printed weight match the spool weight I paid for?",
+      "answer": "Not quite. A '1 kg spool' means 1000 g of filament, but a small amount is unreachable — the last few grams near the empty core, plus purge and skirt on every print. In practice you get slightly fewer usable grams than the label. If you want to be exact, weigh the spool empty and full on a kitchen scale and use the net grams as your Spool Weight."
     },
     {
-      "question": "Should I account for failed prints in my cost estimate?",
-      "answer": "Yes. Beginners typically have a 10-20% fail rate, while experienced users average 2-5%. Factor this into cost calculations for accurate budgeting."
-    },
-    {
-      "question": "Is the Filament Cost Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard 3D printing and additive manufacturing formulas trusted by makers and 3D printing enthusiasts. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
-    },
-    {
-      "question": "How much does PLA filament cost per gram?",
-      "answer": "Standard PLA filament costs $0.02-$0.03 per gram based on typical 1kg spool prices of $20-$30. Premium or specialty PLA (silk, matte, wood-fill) runs $0.03-$0.05 per gram. Buying in bulk or during sales can drop costs below $0.02/gram."
+      "question": "Should I compare PLA and PETG on price alone?",
+      "answer": "Price per gram gets you started, but the same model rarely weighs the same in both. PETG is a touch denser than PLA and often printed with thicker walls, so a part can use a few more grams. Slice the model in each material, read the gram figure from the slicer, and run both through the calculator. The cheaper spool per kilogram is not always the cheaper finished part."
     },
     {
       "question": "How much filament does a typical 3D print use?",
-      "answer": "Small prints (keychains, small figurines) use 5-20 grams. Medium prints (phone cases, brackets) use 30-80 grams. Large prints (vases, cosplay parts) can use 200-500+ grams. Your slicer software shows the exact weight estimate before printing."
+      "answer": "Small prints like keychains and minis use 5-20 grams. Medium prints such as phone stands and brackets use 30-80 grams. Large prints like vases and cosplay armor can hit 200-500+ grams. Your slicer reports the exact figure for your infill and wall settings before you commit to the print."
     },
     {
-      "question": "Which 3D printing filament is cheapest?",
-      "answer": "PLA is the cheapest common filament at $20-$30 per kg. PETG runs $22-$35/kg. ABS costs $20-$30/kg but requires an enclosure. TPU (flexible) is $25-$40/kg. Specialty filaments like carbon fiber, nylon, and polycarbonate range from $35-$80/kg."
+      "question": "Which common filament is cheapest to print with?",
+      "answer": "PLA is usually the cheapest at $20-$30/kg and prints without an enclosure. PETG runs $22-$35/kg, ABS $20-$30/kg but needs heat containment, and TPU $25-$40/kg. Cheapest per kilogram is not always cheapest per part — a bulky PLA print can cost more filament than a small PETG one, so compare the finished-part cost the calculator gives you."
     }
   ],
   "relatedTools": [
@@ -63,66 +63,66 @@
     "resin-volume-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This filament cost calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "Two spool numbers set your per-gram rate; one print number scales it to the job. Here is the exact path from inputs to the figures shown above.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Divide the spool price by the spool weight to get cost per gram — $25 ÷ 1000 g = $0.025/g.",
+      "Multiply that rate by the grams your slicer reports for the print — $0.025 × 50 g = $1.25.",
+      "Bump it for scrapped prints using your fail rate — at 5%, $1.25 × 1.05 = $1.31 amortized per good print.",
+      "Divide spool weight by print weight for a rough count of how many copies one spool yields — 1000 ÷ 50 = 20 prints."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This covers filament only. Electricity, nozzle and belt wear, and your labor are separate line items — add them before quoting a customer."
   },
   "whenToUse": {
-    "intro": "This filament cost calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this when a spool receipt and a slicer estimate need to become a real per-print number — usually before you sell, quote, or pick a material.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Pricing prints for sale on Etsy or at a market, where you need the material floor before adding labor and markup",
+      "Quoting a custom job so a client sees a number that already covers wasted grams from the odd failed print",
+      "Comparing two filament brands by finished-part cost, not just the sticker price per kilogram",
+      "Deciding between PLA and PETG for a part, after slicing it in each and reading the gram figures",
+      "Checking how many copies a fresh spool will yield before a batch run so you know when to reorder"
     ]
   },
   "category": "3d-printing",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Filament Cost Calculator?",
-        "body": "The Filament Cost Calculator is a free online tool designed for makers and 3D printing enthusiasts who need quick, accurate calculations in the 3D printing and additive manufacturing space. By entering your spool price, spool weight, print weight, you get instant results including cost per gram, print cost, adjusted cost. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Tells You",
+        "body": "Enter a spool price, the spool's gram weight, and how many grams your slicer says the print uses, and you get the material cost of that print. A 60 g print from a $25/kg spool costs 60 × $0.025 = $1.50 in filament; add a few cents of electricity and you have the true out-of-pocket cost. The Adjusted Cost field folds in your fail rate so a scrapped print is spread across the good ones, and Prints per Spool tells you how many copies one roll will make before you reorder."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting cost per gram right can make the difference between success and costly mistakes. In 3D printing and additive manufacturing, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by makers and 3D printing enthusiasts worldwide, giving you confidence that your numbers are correct. Use it to optimize your prints with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Per-Gram Cost Beats a Guess",
+        "body": "Spools are sold by the kilogram, but you print by the gram, and a spool almost never divides cleanly into whole parts. Reading the slicer's gram estimate and running it through the per-gram rate is the only way to know whether a print costs 40 cents or four dollars. That gap decides whether an Etsy listing makes money and whether a custom quote leaves you with margin after a failed first attempt."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your spool price and need to find the right cost per gram. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Filament Is the Floor, Not the Price",
+        "body": "The number here is your material cost — the floor. Selling prints means stacking electricity, machine wear, and your time on top. A printer pulling 120 W over a 5-hour job burns about 0.6 kWh, roughly 9 cents at $0.15/kWh, so power is minor; your labor and a sensible markup are what actually set the sticker price. Use this figure as the starting line, then build the quote up from there."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Spool Price ($)",
-      "description": "Start by entering your spool price — this is the primary input for the calculation."
+      "title": "Enter the Spool Price and Weight",
+      "description": "Type in what you paid for the spool and how many grams it holds — usually 1000 g for a 1 kg roll. Together these set your cost per gram, e.g. $25 ÷ 1000 = $0.025/g."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: spool weight, print weight, expected fail rate. Each value refines the calculation for greater accuracy."
+      "title": "Enter the Print Weight from Your Slicer",
+      "description": "Slice the model in Cura, PrusaSlicer, or OrcaSlicer and copy the filament weight it reports into the Print Weight field. This already reflects your infill, walls, and supports."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set Your Fail Rate",
+      "description": "Enter the share of prints you typically scrap — 2-5% once your printer is tuned, higher while you are still dialing in a new material. Leave it at 0 to see raw material cost only."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your cost per gram, print cost, adjusted cost. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Read the Breakdown",
+      "description": "Hit Calculate to see cost per gram, print cost, failure-adjusted cost, and prints per spool. Use the adjusted cost as your material floor when pricing a print for sale."
     }
   ],
   "tips": [
-    "Double-check your spool price before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both cost per gram and print cost — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to optimize your prints.",
-    "If you're unsure about your expected fail rate, start with a conservative estimate and adjust from there."
+    "Take the Print Weight straight from your slicer's sliced-info panel — it already counts infill, walls, and supports, so you don't have to estimate.",
+    "Set the Fail Rate to your honest average. At a 10% fail rate a $1.50 print really costs about $1.65 once you amortize the scrapped ones.",
+    "Weigh a spool empty and full on a kitchen scale if you want an exact rate — the reachable filament is a bit less than the labeled kilogram.",
+    "When choosing between PLA and PETG, slice the part in both and compare finished cost; the denser material can use more grams even at a similar spool price.",
+    "For prints you sell, treat this figure as the floor, then add electricity (printer watts × hours ÷ 1000 × your $/kWh), machine wear, and your labor before markup."
   ]
 }
