@@ -14,36 +14,40 @@
   "jsonLdDescription": "Calculate how many plants fit in a garden bed using square grid or triangular offset spacing patterns with precise plant counts.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Plant Spacing Calculator</h2>\n\n  <div class=\"input-row\">\n    <div class=\"input-group\">\n      <label for=\"areaLength\">Bed Length (feet)</label>\n      <input type=\"number\" id=\"areaLength\" value=\"10\" min=\"1\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\">\n      <label for=\"areaWidth\">Bed Width (feet)</label>\n      <input type=\"number\" id=\"areaWidth\" value=\"5\" min=\"1\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"plantSpacing\">Plant Spacing (inches, center to center)</label>\n    <input type=\"number\" id=\"plantSpacing\" value=\"12\" min=\"1\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"pattern\">Spacing Pattern</label>\n    <select id=\"pattern\">\n      <option value=\"square\" selected>Square Grid</option>\n      <option value=\"triangle\">Triangular (Offset) — fits ~15% more</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"edgeBuffer\">Edge Buffer (inches from bed edge)</label>\n    <input type=\"number\" id=\"edgeBuffer\" value=\"3\" min=\"0\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Plants</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Plants</div>\n        <div class=\"result-value\" id=\"totalPlants\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Plants Per Sq Ft</div>\n        <div class=\"result-value\" id=\"plantsPerSqFt\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Rows</div>\n        <div class=\"result-value\" id=\"numRows\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Columns (per row)</div>\n        <div class=\"result-value\" id=\"numCols\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Usable Area</div>\n        <div class=\"result-value\" id=\"usableArea\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Sq Ft Per Plant</div>\n        <div class=\"result-value\" id=\"sqFtPerPlant\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "The calculator determines how many plants fit in a rectangular area based on the spacing pattern and any edge buffer.",
+    "intro": "The calculator takes your bed dimensions, the center-to-center spacing each plant needs at maturity, and an edge buffer, then packs the bed with either a square grid or a triangular offset layout and counts the plants that fit.",
     "rules": [
-      "Square grid: plants in evenly spaced rows and columns",
-      "Triangular offset: alternating rows are shifted by half the spacing, fitting ~15% more plants",
-      "Rows along width = (usable width ÷ spacing) + 1",
-      "Columns along length = (usable length ÷ spacing) + 1",
-      "Edge buffer reduces the usable planting area from each side"
+      "Square grid: plants line up in straight rows and columns, spaced equally in both directions",
+      "Triangular offset: alternating rows shift by half the spacing, nesting plants into the gaps so about 15% more fit in the same bed",
+      "Rows across the width = (usable width ÷ spacing) + 1, since the first plant sits on the buffer line",
+      "Columns along the length = (usable length ÷ spacing) + 1",
+      "The edge buffer is subtracted from both sides, so a 3 in buffer shrinks a 60 in dimension to 54 in of usable planting space"
     ],
-    "outro": "Triangular (offset) spacing is more efficient and gives each plant equal distance from all neighbors. It is ideal for groundcovers, perennial beds, and dense plantings."
+    "outro": "Square grids are easier to lay out by hand and to weed between, while triangular spacing squeezes in more plants and gives every plant the same distance to its neighbors. Reach for the offset pattern with groundcovers, dense perennial drifts, and anything you want to close the canopy fast."
   },
   "faq": [
     {
-      "question": "What is triangular spacing?",
-      "answer": "In triangular (or offset/staggered) spacing, every other row is shifted by half the plant spacing. This creates equilateral triangles between plants, giving each plant equal distance from all its neighbors and fitting about 15% more plants per area."
+      "question": "Square vs triangular spacing: which fits more plants?",
+      "answer": "Triangular (offset) spacing fits roughly 15% more plants in the same bed. In a square grid each plant sits at the corner of a square; in a triangular layout every other row shifts over by half the spacing, so plants nest into the gaps and form equilateral triangles. A 10×10 ft bed at 12 in spacing holds about 100 plants on a square grid but around 115 with a triangular offset. Use square when you want tidy rows to hoe between, and triangular when you want the fullest coverage per plant."
     },
     {
-      "question": "How do I know what spacing to use?",
-      "answer": "Check the plant tag or seed packet for the recommended spacing. This is the mature spread of the plant. Common examples: 12\" for most perennials, 18-24\" for shrubs, 6\" for groundcovers, and 36\" for large shrubs."
+      "question": "How many plants fit per square foot?",
+      "answer": "For a square grid, plants per square foot = 144 ÷ (spacing in inches)². At 12 in spacing that is 144 ÷ 144 = 1 plant per sq ft; at 6 in it is 144 ÷ 36 = 4 per sq ft; at 4 in it is 144 ÷ 16 = 9 per sq ft. Triangular spacing raises those figures by about 15%. This is the same density math behind square-foot gardening charts."
     },
     {
-      "question": "Should I leave space at the edge?",
-      "answer": "Yes. A 3-6 inch buffer from the bed edge keeps plants from hanging over borders and allows air circulation. For raised beds with walls, half the plant spacing as a buffer ensures plants don't crowd the edge."
+      "question": "Does the plant count include edge spacing?",
+      "answer": "Yes. The edge buffer you enter is subtracted from every side before any plants are placed, so the count reflects only the usable interior. A 3–6 in buffer keeps mature plants from flopping over the border and lets air move around the outer row. Set the buffer to 0 if you want to fill the bed corner to corner, or to half the plant spacing if you want the outer plants centered a comfortable distance from the wall of a raised bed."
     },
     {
-      "question": "How do I convert between spacing and plants per square foot?",
-      "answer": "For square spacing: plants per sq ft = 144 ÷ (spacing in inches)². For 12\" spacing: 144/144 = 1 plant per sq ft. For 6\" spacing: 144/36 = 4 plants per sq ft."
+      "question": "What spacing number should I enter?",
+      "answer": "Use the recommended spacing on the plant tag or seed packet — it reflects the mature spread of the plant, measured center to center. Common starting points are 6 in for groundcovers, 12 in for most perennials and leafy annuals, 18–24 in for medium shrubs, and 36 in for large shrubs. When a tag gives a range like 18–24 in, use the smaller number for a lush, quick-filling look and the larger number if you want each plant to reach full size with breathing room."
     },
     {
-      "question": "Is the Plant Spacing Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How do rows and columns relate to the total?",
+      "answer": "On a square grid the total is simply rows × columns. The calculator finds how many plants fit across the usable width (the rows) and how many fit along the usable length (the columns per row), then multiplies. Because a plant sits at each end of a line, it adds 1 to each count: a 54 in usable length at 12 in spacing gives 54 ÷ 12 = 4.5, rounded down to 4 gaps, which means 5 plants in that direction."
+    },
+    {
+      "question": "Why does triangular spacing give equal distance to every neighbor?",
+      "answer": "In a square grid a plant's diagonal neighbors sit farther away than its side neighbors, so coverage is slightly uneven. Shifting every other row by half the spacing turns the pattern into a mesh of equilateral triangles, so each plant is the same distance from all six of its closest neighbors. That even spacing is why offset planting closes the canopy faster and suppresses weeds more evenly."
     }
   ],
   "relatedTools": [
@@ -115,66 +119,66 @@
     ]
   },
   "category": "gardening",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This plant spacing calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The plant count comes from packing your usable bed area with plants at the spacing you enter, using the same geometry landscapers use to estimate flats and liners.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Subtract the edge buffer from both the length and the width to get the usable planting rectangle",
+      "Convert plant spacing from inches to feet and divide it into each usable dimension to find the number of gaps, then add 1 for the plant at the far end",
+      "For a square grid, multiply rows by columns; for a triangular offset, multiply the square-grid count by about 1.15 to account for the nested rows",
+      "Divide the total by the bed area to report plants per square foot, and invert it for square feet per plant"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures are planning estimates. Real beds have curves, obstacles, and plants that grow wider or narrower than the tag predicts, so buy a few extra and adjust spacing as you lay the plants out."
   },
   "whenToUse": {
-    "intro": "This plant spacing calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this calculator whenever you are about to buy plants and need to know how many will fill a space without crowding or leaving bare gaps.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Planning a garden bed or border: enter the bed size and mature spacing to see how many perennials, annuals, or groundcovers to buy",
+      "Ordering from planting flats or liners: convert a target density into total plants so you know how many trays of plugs to order",
+      "Laying out farm or nursery rows: check plants per row and total count before buying transplants for a field bed",
+      "Comparing square vs triangular layouts to decide whether the tighter offset pattern is worth the extra plants",
+      "Sanity-checking a landscaper's plant quote against the square footage you are actually paying to fill"
     ]
   },
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Plant Spacing Calculator?",
-        "body": "The Plant Spacing Calculator is a free online tool designed for gardeners and growers who need quick, accurate calculations in the gardening and horticulture space. By entering your bed length, bed width, plant spacing, you get instant results including total plants, plants per sq ft, rows. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This calculator answers the question every gardener faces at the nursery: how many plants do I actually need? Give it your bed length and width, the center-to-center spacing on the plant tag, and an edge buffer, and it lays out a virtual grid to count the plants that fit. It reports the total, plants per square foot, and the rows and columns of the layout, and it lets you switch between a straight square grid and a space-saving triangular offset so you can see both options before you buy."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting total plants right can make the difference between success and costly mistakes. In gardening and horticulture, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by gardeners and growers worldwide, giving you confidence that your numbers are correct. Use it to grow a thriving garden with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example You Can Follow",
+        "body": "Say you have a 10×10 ft bed and you are planting something that wants 12 in spacing. On a square grid, each plant claims a 12 in × 12 in square, which is exactly 1 square foot, so the 100 sq ft bed holds about 100 plants. Switch to triangular spacing and the alternating rows nest together, fitting roughly 15% more — about 115 plants in the same bed. That difference of 15 plants is the payoff for staggering your rows, and it grows larger as the bed gets bigger."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your bed length and need to find the right total plants. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Square Grid vs Triangular Offset",
+        "body": "A square grid keeps plants in clean rows and columns — simple to mark out with string and easy to walk or hoe between. A triangular offset shifts every other row over by half the spacing so plants slot into the gaps, forming equilateral triangles that pack about 15% more plants into the same footprint. Beyond the higher count, offset spacing gives each plant the same distance to every neighbor, which helps a groundcover or perennial drift knit into full coverage faster and leaves fewer weed-friendly gaps."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Bed Length (feet)",
-      "description": "Start by entering your bed length — this is the primary input for the calculation."
+      "title": "Enter your bed length and width",
+      "description": "Measure the planting area in feet and type in the length and width. For an irregular bed, break it into rectangles and run each one separately."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: bed width, plant spacing, spacing pattern, edge buffer. Each value refines the calculation for greater accuracy."
+      "title": "Set the plant spacing",
+      "description": "Enter the center-to-center spacing in inches from the plant tag or seed packet — this is the mature spread, not the size of the pot it comes in."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Choose square or triangular and set an edge buffer",
+      "description": "Pick a square grid for tidy rows or triangular offset to fit about 15% more plants. Add an edge buffer (3–6 in is typical) so the outer plants don't spill over the border."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your total plants, plants per sq ft, rows. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and read the layout",
+      "description": "Hit Calculate to see total plants, plants per square foot, and the rows and columns. Toggle the pattern to compare the two layouts before you place your order."
     }
   ],
   "tips": [
-    "Double-check your bed length before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both total plants and plants per sq ft — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to grow a thriving garden.",
-    "If you're unsure about your edge buffer, start with a conservative estimate and adjust from there."
+    "Space plants center to center using their mature spread, not the size of the nursery pot — a 4 in pot that grows to 18 in wide still needs 18 in spacing.",
+    "Choose triangular offset when you want a groundcover or perennial drift to close its canopy fast; the nested rows fit about 15% more plants and shade out weeds sooner.",
+    "When a tag lists a spacing range, use the smaller number for quick, full coverage and the larger number if you want each plant to reach full size with room to spare.",
+    "Order about 5–10% more plants than the count shows to cover breakage, losses, and the odd corner where the grid doesn't come out even.",
+    "For beds you view from one side, plant the back rows slightly tighter and the front row on the wider end of the range so the display reads full without crowding."
   ]
 }

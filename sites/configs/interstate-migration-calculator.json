@@ -14,40 +14,44 @@
   "jsonLdDescription": "Calculate the total financial impact of an interstate move including moving expenses, state income tax differences, cost-of-living adjustments, and first-year costs.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Interstate Migration Calculator</h2>\n\n    <div class=\"input-row\">\n      <div class=\"input-group\">\n        <label for=\"fromState\">Moving From</label>\n        <select id=\"fromState\"><option value=\"\">Select state...</option></select>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"toState\">Moving To</label>\n        <select id=\"toState\"><option value=\"\">Select state...</option></select>\n      </div>\n    </div>\n\n    <div class=\"input-row\">\n      <div class=\"input-group\">\n        <label for=\"annualIncome\">Annual Household Income ($)</label>\n        <input type=\"number\" id=\"annualIncome\" placeholder=\"e.g. 100000\" inputmode=\"numeric\">\n      </div>\n      <div class=\"input-group\">\n        <label for=\"homeSize\">Home Size</label>\n        <select id=\"homeSize\">\n          <option value=\"studio\">Studio/1BR</option>\n          <option value=\"small\">2BR</option>\n          <option value=\"medium\">3BR</option>\n          <option value=\"large\">4BR+</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"moveDistance\">Approximate Distance (miles)</label>\n      <input type=\"number\" id=\"moveDistance\" placeholder=\"e.g. 1000\" inputmode=\"numeric\">\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Move Impact</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <h3 style=\"margin:0 0 12px;font-size:1.1rem;\">Moving Costs</h3>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Full-Service Movers</div><div class=\"result-value\" id=\"moverCost\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">DIY Truck Rental</div><div class=\"result-value\" id=\"diyTruck\">—</div></div>\n      </div>\n      <h3 style=\"margin:16px 0 12px;font-size:1.1rem;\">Annual Tax Difference</h3>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">Income Tax Change</div><div class=\"result-value\" id=\"taxDiff\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Effective Rate Comparison</div><div class=\"result-value\" id=\"rateComp\">—</div></div>\n      </div>\n      <h3 style=\"margin:16px 0 12px;font-size:1.1rem;\">Cost of Living</h3>\n      <div class=\"result-row\">\n        <div class=\"result-item\"><div class=\"result-label\">COL Index Change</div><div class=\"result-value\" id=\"colChange\">—</div></div>\n        <div class=\"result-item\"><div class=\"result-label\">Equivalent Salary Needed</div><div class=\"result-value\" id=\"equivSalary\">—</div></div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "This calculator estimates the financial impact of an interstate move by comparing taxes, cost of living, and moving expenses.",
+    "intro": "Pick the state you are leaving and the state you are heading to, add your household income, home size, and the driving distance, and the calculator returns three things at once: what the physical move will cost, how your state income tax bill changes, and how far your salary stretches once cost of living shifts.",
     "rules": [
-      "<strong>Moving costs:</strong> full-service movers typically charge $0.50-$1.00/lb based on distance; DIY truck rentals are 50-70% less",
-      "<strong>State income tax:</strong> ranges from 0% (9 states) to 13.3% (California top bracket); calculated using simplified effective rates",
-      "<strong>Cost of living:</strong> uses state-level COL indices (national average = 100) to adjust purchasing power",
-      "<strong>Equivalent salary:</strong> shows what you'd need to earn in the new state to maintain the same standard of living",
-      "Does not include property tax differences, sales tax, or city-level cost variations"
+      "<strong>Moving costs:</strong> full-service movers are estimated from home size (weight) and distance at roughly $0.50–$1.00 per pound; the DIY truck figure assumes a rental, fuel, and supplies at 50–70% less",
+      "<strong>State income tax:</strong> each state carries a simplified effective rate at your income level, so the tax line is the difference between the two — a positive number is money back in your pocket",
+      "<strong>Effective rate comparison:</strong> shows the two states' effective rates side by side rather than the top marginal brackets, which almost no one actually pays",
+      "<strong>Cost of living:</strong> each state has a COL index where 100 is the national average; the equivalent salary tells you what you would need to earn in the new state to keep the same standard of living",
+      "Property tax, sales tax, and city-level differences are not modeled — this is a state-to-state estimate, not a full household budget"
     ],
-    "outro": "Tax savings from moving to a no-income-tax state can be substantial for high earners. However, states often make up the difference through higher property taxes, sales taxes, or other fees. Always evaluate the complete financial picture."
+    "outro": "Read the three sections together. A big income-tax saving can be swallowed whole by a higher cost-of-living index, and a cheap move can hide behind an expensive first year of deposits and fees. The equivalent-salary line is usually the most honest number on the page: it tells you whether the same paycheck actually buys more or less where you are going."
   },
   "faq": [
     {
-      "question": "Which states have no income tax?",
-      "answer": "Nine states have no state income tax: Alaska, Florida, Nevada, New Hampshire (dividends/interest only), South Dakota, Tennessee, Texas, Washington, and Wyoming. These states generate revenue through other taxes like sales tax, property tax, or severance taxes."
+      "question": "Does this calculator estimate the cost of the move or the tax impact?",
+      "answer": "Both, in one pass. The top section estimates the physical move (full-service movers and a DIY truck rental) from your home size and distance. The middle section shows how your annual state income tax bill changes between the two states. The bottom section adjusts for cost of living and tells you the equivalent salary you'd need in the destination to break even on purchasing power."
     },
     {
-      "question": "How much does it cost to move interstate?",
-      "answer": "A full-service interstate move for a 2-3 bedroom home typically costs $3,000-$7,500 depending on distance. Cross-country moves (2,000+ miles) can reach $8,000-$15,000. DIY truck rentals run $1,500-$4,000 for the same distances."
+      "question": "How does it turn home size and distance into a moving cost?",
+      "answer": "Home size stands in for how much you're hauling — a studio weighs far less than a 4BR house — and distance drives the mileage portion. Full-service movers are estimated at roughly $0.50–$1.00 per pound scaled by distance; the DIY truck figure assumes you rent the truck, buy fuel and supplies, and do the labor yourself, which typically lands 50–70% below the full-service number."
     },
     {
-      "question": "Do I have to pay income tax in both states when I move?",
-      "answer": "Yes, in most cases. You'll owe taxes to your origin state for income earned before the move and to your destination state for income earned after. Most states have part-year resident filing. Some state pairs have reciprocity agreements."
+      "question": "Why does the tax section show an effective rate instead of the top bracket?",
+      "answer": "Top marginal brackets are misleading. California's headline rate is 13.3%, but a household at $100k pays an effective rate closer to 5.8% once lower brackets and deductions are factored in. The calculator compares effective rates at your income level so the tax-change figure reflects what you'd actually owe, not the scary number in the headline."
     },
     {
-      "question": "How does cost of living vary between states?",
-      "answer": "Cost of living varies dramatically — Hawaii and California are 80-90% above the national average, while Mississippi and Oklahoma are 15-20% below. Housing is typically the biggest factor, followed by healthcare, transportation, and food."
+      "question": "What does the 'equivalent salary needed' figure mean?",
+      "answer": "It answers the real relocation question: will the same paycheck go further? If you earn $100,000 in a state with a COL index of 100 and move somewhere with an index of 142, you'd need about $142,000 there to maintain the same standard of living. If the destination index is lower than your origin, the equivalent salary drops and your money stretches further."
     },
     {
-      "question": "What hidden costs come with interstate moves?",
-      "answer": "Common hidden costs include: new state vehicle registration and inspection ($50-$500), updated driver's license ($15-$90), new professional license fees, lease-breaking penalties, utility deposits ($200-$500), and temporary housing if there's a gap between moves."
+      "question": "Do I have to pay income tax in both states the year I move?",
+      "answer": "Usually yes. You file as a part-year resident in each state — your origin state taxes income earned before the move, your destination state taxes income earned after. A handful of neighboring states have reciprocity agreements that simplify this. The calculator estimates a full-year comparison, so treat the moving year itself as a blended, one-time exception."
     },
     {
-      "question": "Should I move to a no-income-tax state to save money?",
-      "answer": "Not necessarily. No-income-tax states often have higher property taxes (Texas), higher sales taxes (Tennessee), or higher cost of living (Washington). Calculate the full tax burden including property, sales, and other taxes. For high earners ($200k+), the income tax savings often outweigh other costs."
+      "question": "What costs does this calculator leave out?",
+      "answer": "It focuses on movers, state income tax, and cost of living. It does not model property tax, sales tax, or city-level price swings — and those matter. Texas has no income tax but high property taxes; Tennessee has no income tax but a steep sales tax. It also skips one-time move costs like vehicle registration, a new driver's license, utility deposits, and any lease-break penalty."
+    },
+    {
+      "question": "Is a no-income-tax state always the cheaper choice?",
+      "answer": "No. Nine states levy no income tax — Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming — but they recover revenue through property, sales, and other taxes, and several (Washington, Florida) carry an above-average cost of living. For high earners the income-tax saving often wins; for middle incomes the COL index frequently decides it. Read all three sections before you conclude anything."
     }
   ],
   "relatedTools": [
@@ -141,66 +145,66 @@
     ]
   },
   "category": "demographics",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This interstate migration calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The calculator combines three separate estimates — a moving-cost model, a state income tax comparison, and a cost-of-living adjustment — and reports them together so you can weigh the one-time expense against the recurring change in what you keep and what you spend.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Read your two states and pull their effective income tax rate at your income level plus their cost-of-living index (100 = national average).",
+      "Estimate moving cost from home size (a proxy for shipment weight) and distance: full-service at roughly $0.50–$1.00 per pound, DIY truck rental at 50–70% less.",
+      "Subtract the destination's income tax from the origin's at your income to get the annual tax change — positive means you keep more.",
+      "Scale your income by the ratio of the two COL indices to produce the equivalent salary you'd need in the new state to hold your standard of living steady."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "Figures are estimates built on state-level averages and simplified effective rates. They exclude property tax, sales tax, and city-level cost swings. Before committing to a move, confirm the numbers with a mover's binding quote and a tax professional."
   },
   "whenToUse": {
-    "intro": "This interstate migration calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this when a relocation is on the table and you want the whole financial picture — the check you write to move plus the ongoing change to your paycheck and expenses — instead of guessing at one piece.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "You're relocating and want a realistic budget for movers or a DIY truck before you commit to a date.",
+      "You're comparing two or three states for a job offer, remote-work move, or retirement and need the tax and cost-of-living difference side by side.",
+      "You're weighing a no-income-tax state against your current one and want to see whether the cost of living cancels out the tax saving.",
+      "You're negotiating a relocation package or remote salary and need the equivalent-salary figure to argue for the right number.",
+      "You're deciding whether to leave a high-cost metro and want to know how far the same income stretches somewhere cheaper."
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Interstate Migration Calculator?",
-        "body": "The Interstate Migration Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your moving from, moving to, annual household income, you get instant results including full-service movers, diy truck rental, income tax change. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What the Interstate Migration Calculator Does",
+        "body": "Moving across state lines changes your finances in three ways at once, and this tool measures all three. Choose the state you're leaving and the one you're moving to, enter your household income, home size, and driving distance, and you get an estimate of the move itself — full-service movers versus a DIY truck — alongside how your state income tax bill shifts and how your cost of living rises or falls. The point isn't any single number; it's seeing the one-time cost of moving next to the recurring change in what you earn and spend, so you can tell a good financial move from an expensive one."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting full-service movers right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example: Austin to Denver",
+        "body": "Say your household earns $100,000, you have a 3BR home, and you're moving about 900 miles from Texas to Colorado. Texas has no income tax and a COL index near 92; Colorado's effective rate at $100k is about 4.1% with a COL index near 105. The tax section shows roughly $4,100 more owed each year — Colorado costs you where Texas didn't. The cost-of-living section flags the index jump from 92 to 105, meaning you'd need about $114,000 in Denver to match the buying power of $100,000 in Austin. Layer on a full-service move that lands in the low-to-mid four figures for a 3BR at that distance (a DIY truck cutting that by more than half), and the picture is clear: this particular move raises your annual costs on both the tax and living-expense lines, so the deciding factor is whether the new salary or opportunity more than covers roughly $18,000 a year in combined difference."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your moving from and need to find the right full-service movers. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why the Three Numbers Have to Be Read Together",
+        "body": "The most common relocation mistake is fixating on one line. People chase a no-income-tax state and forget that Washington's cost of living sits well above average, or they find a cheap-to-live-in state and overlook that its effective income tax quietly claws back the savings. A low moving quote means little if the destination costs you thousands more every year afterward, and a painful move can be worth it if your paycheck stretches noticeably further once you arrive. This calculator puts the movers, the tax change, and the equivalent salary on one screen for exactly that reason — the answer lives in how they add up, not in any single figure."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Moving From",
-      "description": "Start by entering your moving from — this is the primary input for the calculation."
+      "title": "Choose Your Two States",
+      "description": "Select the state you're moving from and the state you're moving to. These set the income tax rates and cost-of-living indices the calculator compares."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: moving to, annual household income, home size, approximate distance. Each value refines the calculation for greater accuracy."
+      "title": "Enter Income, Home Size, and Distance",
+      "description": "Add your annual household income (this drives the effective tax comparison), pick your home size (a proxy for how much you're hauling), and enter the approximate driving distance in miles."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Calculate the Move Impact",
+      "description": "Click Calculate Move Impact. The tool runs the moving-cost, tax, and cost-of-living estimates together, all in your browser."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your full-service movers, diy truck rental, income tax change. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Compare All Three Sections",
+      "description": "Read the moving costs, the annual tax change, and the equivalent-salary figure as one picture. Rerun with a different destination state to see how the numbers move."
     }
   ],
   "tips": [
-    "Double-check your moving from before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both full-service movers and diy truck rental — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your approximate distance, start with a conservative estimate and adjust from there."
+    "Confirm both states are selected before calculating — the tax and cost-of-living lines both depend on the pair, so a missing state throws off every result.",
+    "Run the same income and home size against two or three destination states to see which one genuinely leaves you ahead once tax and cost of living are combined.",
+    "Watch the equivalent-salary line as closely as the tax line — a state can hand you an income tax saving and take it right back through a higher cost of living.",
+    "Pick home size honestly: it stands in for shipment weight, so undersizing it makes both the mover and DIY-truck estimates look cheaper than the real move.",
+    "Remember the model stops at state income tax and cost of living — budget separately for property tax, sales tax, deposits, and vehicle re-registration in your new state."
   ]
 }
