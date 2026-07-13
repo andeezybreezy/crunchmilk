@@ -14,7 +14,7 @@
   "jsonLdDescription": "Calculate wildfire risk for any property based on vegetation type, terrain slope, climate zone, defensible space, and building materials to generate a comprehensive risk score.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Wildfire Risk Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"vegType\">Surrounding Vegetation</label>\n      <select id=\"vegType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Irrigated lawn / minimal vegetation</option>\n        <option value=\"2\">Hardwood forest / green landscape</option>\n        <option value=\"3\" selected>Mixed brush and grass</option>\n        <option value=\"4\">Dense chaparral / dry brush</option>\n        <option value=\"5\">Dense conifer forest / eucalyptus</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"slopeGrade\">Terrain Slope</label>\n      <select id=\"slopeGrade\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Flat (0-5%)</option>\n        <option value=\"2\" selected>Gentle slope (5-15%)</option>\n        <option value=\"3\">Moderate slope (15-30%)</option>\n        <option value=\"4\">Steep slope (30-50%)</option>\n        <option value=\"5\">Very steep (50%+)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"climateZone\">Climate Zone</label>\n      <select id=\"climateZone\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Humid / high rainfall (>40 in/yr)</option>\n        <option value=\"2\">Moderate rainfall (20-40 in/yr)</option>\n        <option value=\"3\" selected>Semi-arid (10-20 in/yr)</option>\n        <option value=\"4\">Arid / drought-prone (<10 in/yr)</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"defSpace\">Defensible Space (feet cleared)</label>\n      <input type=\"number\" id=\"defSpace\" value=\"30\" min=\"0\" max=\"200\" step=\"5\" inputmode=\"numeric\">\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"roofType\">Roof Material</label>\n      <select id=\"roofType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Class A (metal, tile, concrete)</option>\n        <option value=\"2\" selected>Class B (composite shingle)</option>\n        <option value=\"3\">Class C (plywood, untreated shake)</option>\n        <option value=\"4\">Unrated / wood shake</option>\n      </select>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"accessRoad\">Road Access</label>\n      <select id=\"accessRoad\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n        <option value=\"1\">Multiple paved routes</option>\n        <option value=\"2\" selected>Single paved road</option>\n        <option value=\"3\">Single narrow/unpaved road</option>\n        <option value=\"4\">Dead-end / limited access</option>\n      </select>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Risk Score</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Overall Risk Score</div>\n          <div class=\"result-value\" id=\"rScore\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Risk Level</div>\n          <div class=\"result-value\" id=\"rLevel\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Vegetation Risk</div>\n          <div class=\"result-value\" id=\"rVeg\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Terrain Risk</div>\n          <div class=\"result-value\" id=\"rTerrain\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Structural Vulnerability</div>\n          <div class=\"result-value\" id=\"rStruct\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Est. Insurance Impact</div>\n          <div class=\"result-value\" id=\"rInsurance\">—</div>\n        </div>\n      </div>\n      <div class=\"result-tip\" id=\"resultTip\"></div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "This calculator generates a composite wildfire risk score (0-100) by weighting six key factors that determine a property's vulnerability to wildfire damage.",
+    "intro": "This calculator generates an illustrative wildfire risk score (0-100) by weighting six factors that shape how easily a fire ignites, how fast it spreads, and how vulnerable a structure is once flames or embers arrive.",
     "rules": [
       "Vegetation type contributes 30% of the score — dense dry brush and conifers score highest risk",
       "Terrain slope contributes 20% — fire travels faster uphill, doubling speed for every 20% increase in slope",
@@ -23,28 +23,32 @@
       "Roof material contributes 10% — ember exposure is the leading cause of structure ignition during wildfires",
       "Road access contributes 10% — affects both evacuation safety and firefighter response time"
     ],
-    "outro": "This is an educational risk estimate. For official risk assessments, consult your local fire department, CAL FIRE hazard maps, or a certified wildfire risk assessor. Insurance companies use proprietary models that may weight factors differently."
+    "outro": "The weights are a teaching simplification, not a regulatory formula. Official hazard ratings fold in wind patterns, fire history, fuel moisture, and parcel data this tool cannot see. For a designation that counts, consult your local fire department, your state forestry or CAL FIRE hazard maps, or a certified wildfire risk assessor — and remember that insurers run their own proprietary models."
   },
   "faq": [
     {
-      "question": "What is a good wildfire risk score?",
-      "answer": "Scores under 30 indicate low risk, 30-50 moderate risk, 50-70 high risk, and above 70 extreme risk. Most properties in wildland-urban interface areas score 40-70. The goal is to reduce controllable factors like defensible space and building materials."
+      "question": "What raises a property's wildfire risk the most?",
+      "answer": "Dense, dry, continuous vegetation close to the structure is the biggest driver, followed by steep terrain that lets fire race uphill toward the home. After those, low rainfall and drought, a lack of cleared defensible space, a combustible roof, and poor road access each add to the danger. In practice, the deadliest combination is heavy fuel on a steep slope with little clearing — the fuel carries the fire, the slope speeds it up, and the thin buffer gives the home no protection."
     },
     {
-      "question": "How much defensible space do I need?",
-      "answer": "CAL FIRE requires 100 feet of defensible space around structures in State Responsibility Areas. Zone 1 (0-30 feet) should be lean, clean, and green with no combustible material. Zone 2 (30-100 feet) should have reduced and spaced vegetation. Some communities require up to 200 feet."
+      "question": "What is defensible space?",
+      "answer": "Defensible space is the buffer of managed, thinned, or cleared vegetation around a structure that slows an approaching fire and gives firefighters room to work. It is commonly divided into three zones: the immediate zone from 0 to 5 feet, kept completely free of combustible material; the intermediate zone from 5 to 30 feet, where plants are spaced out and ladder fuels removed; and the extended zone from 30 to 100 feet, thinned so a fire drops in intensity before it reaches the house. Requirements vary by location, and some fire authorities call for clearing well beyond 100 feet on steep or downslope lots."
     },
     {
-      "question": "Does wildfire risk affect my insurance?",
-      "answer": "Yes, significantly. Homes in high-risk areas may face premiums 2-5x higher than low-risk homes, or may be dropped by insurers entirely. California's FAIR Plan provides last-resort coverage. Demonstrating defensible space and fire-resistant materials can help reduce premiums."
+      "question": "Is this score an official wildfire hazard rating?",
+      "answer": "No. This is an educational estimate meant to help you understand which factors drive risk and where mitigation would help most. It is not a legal hazard designation and does not reflect the fire-behavior modeling, wind data, fuel surveys, and parcel-level records that official maps use. For a rating that affects building codes, disclosures, or insurance, rely on your local fire department, your state or CAL FIRE hazard-zone maps, or a certified wildfire risk assessor."
     },
     {
-      "question": "What roof material is best for wildfire?",
-      "answer": "Class A rated roofing (metal, concrete tile, clay tile, slate) offers the best fire protection. Asphalt composition shingles are Class A or B. Wood shake and shingle roofs are the most vulnerable. Replacing a wood shake roof is one of the most impactful mitigation steps."
+      "question": "Which mitigation steps lower risk the fastest?",
+      "answer": "The highest-impact moves are usually clearing and maintaining the 0-to-30-foot zones around the home, replacing a wood-shake roof with a Class A material, and screening vents with 1/8-inch metal mesh to block embers. Embers, not direct flame, ignite most homes, so hardening the building and keeping the immediate zone free of anything that can catch a spark often matters more than clearing distant vegetation."
     },
     {
-      "question": "How does slope affect wildfire spread?",
-      "answer": "Fire moves faster uphill because flames preheat upslope fuels. For every 10-degree increase in slope, fire spread rate roughly doubles. A fire on a 30% slope can move 2-4 times faster than on flat ground. Homes on ridgetops and steep hillsides face elevated risk from below."
+      "question": "Why does slope raise the score so much?",
+      "answer": "Flames lean into and preheat the fuel above them, so fire accelerates as it climbs. Spread rate rises sharply with grade — a fire on a steep hillside can move several times faster than the same fire on flat ground — which is why homes on ridgetops and above steep, brushy slopes face elevated risk from fire coming up at them. Slope is also one of the factors you cannot change, so on steep lots the practical response is to extend defensible space farther downhill and harden the structure."
+    },
+    {
+      "question": "Does wildfire risk affect home insurance?",
+      "answer": "It often does. Homes in high-risk areas can face much higher premiums or difficulty finding coverage at all, and some regions offer last-resort plans for properties that private insurers decline. Documenting your defensible space and fire-resistant materials can help, but insurers use their own underwriting models, so treat this calculator as background understanding rather than a prediction of what any specific carrier will charge."
     }
   ],
   "relatedTools": [
@@ -112,66 +116,69 @@
     ]
   },
   "category": "climate",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This wildfire risk calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The score is a weighted blend of six inputs, each scaled to a common risk band and then combined so no single factor dominates on its own. Here is what happens after you press Calculate.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Each input — vegetation, slope, climate, defensible space, roof class, and road access — is converted to a 0-to-5 severity value based on the option you selected.",
+      "Vegetation and slope carry the heaviest weights (30% and 20%) because fuel type and terrain drive how readily a fire ignites and how fast it climbs toward a structure.",
+      "Defensible space is scored against the 100-foot benchmark: clearing beyond 100 feet earns the lowest risk value, while zero clearing earns the highest.",
+      "The weighted values are summed and mapped onto a 0-to-100 scale, then bucketed into low, moderate, high, or extreme so the number is easy to read.",
+      "Everything runs in your browser using the fixed weights shown above — no address, coordinates, or property data leave your device."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This is an educational illustration, not an official hazard rating. It does not replace a CAL FIRE hazard-zone map, a state or county fire-severity designation, a home inspection, or an insurer's underwriting model — all of which use property-specific data this tool cannot see. Use the score to understand which factors you can influence, then contact your local fire authority for an authoritative assessment."
   },
   "whenToUse": {
-    "intro": "This wildfire risk calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "This calculator is aimed at homeowners and renters living in or near fire-prone landscapes who want to understand how their property stacks up before they invest time or money in mitigation.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "You live in a wildland-urban interface neighborhood and want a plain-language sense of where your biggest exposures are.",
+      "You are planning defensible-space work and want to see how much clearing distance moves the score before you hire a crew.",
+      "You are weighing a roof replacement or exterior upgrade and want to compare the risk difference between a wood-shake and a Class A roof.",
+      "You are shopping for a home in a foothill or forested area and want to compare two properties on vegetation, slope, and access.",
+      "You want a starting point for a conversation with your fire district, HOA, or insurer about reducing your property's vulnerability."
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Wildfire Risk Calculator?",
-        "body": "The Wildfire Risk Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your surrounding vegetation, terrain slope, climate zone, you get instant results including overall risk score, risk level, vegetation risk. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Wildfire Risk Calculator Does",
+        "body": "Wildfire damage to a home rarely comes down to one thing. It is the interaction of the fuel around the structure, the shape of the land, the local climate, how much space has been cleared, and how the building itself is made. This calculator takes six of those factors and rolls them into a single illustrative score from 0 to 100 so you can see, at a glance, whether your property leans toward low, moderate, high, or extreme exposure. It is built for learning and self-assessment — a way to reason about the drivers of risk — and it is deliberately not an official hazard rating. Your local fire authority remains the source of record for any designation that affects building requirements or insurance."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting overall risk score right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "How the Factors Combine",
+        "body": "The factors do not add up evenly; they are weighted by how much each one influences whether a fire reaches and ignites a home. Vegetation carries the most weight because dry, continuous fuel is what carries flame toward a structure, and slope is next because fire preheats the fuel above it and races uphill. Climate, defensible space, roof material, and road access fill in the rest. Consider two houses in the same drought-prone valley. The first sits on a gentle 8% grade, surrounded by an irrigated lawn, with 100 feet cleared and a metal roof — its factors pull in low directions and it lands in the moderate band mostly because of the arid climate it cannot change. The second sits on a 40% slope in dense chaparral, with only 15 feet cleared and a wood-shake roof. Same climate, but the steep slope, heavy fuel, thin buffer, and vulnerable roof stack on top of each other and push it deep into the extreme band. The lesson the score is trying to teach: the factors you control — clearing distance and building materials — are often what separate a survivable property from a lost one, even when terrain and climate are fixed."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your surrounding vegetation and need to find the right overall risk score. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Educational Estimate, Not an Official Rating",
+        "body": "Treat the result as a conversation starter, not a verdict. Real hazard mapping uses fire-behavior modeling, historical fire perimeters, fuel surveys, wind patterns, and parcel-level data that a six-field form cannot capture. Two homes with an identical score here can face very different real-world outcomes depending on prevailing winds, ember cast from neighboring structures, and the exact condition of the vegetation on the day a fire arrives. Use this tool to prioritize where to focus, then confirm your property's actual designation with your county fire district, your state forestry agency, or a certified wildfire risk assessor before making decisions about construction, insurance, or evacuation planning."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Surrounding Vegetation",
-      "description": "Start by entering your surrounding vegetation — this is the primary input for the calculation."
+      "title": "Describe the Vegetation Around the Home",
+      "description": "Pick the option that best matches the fuel within roughly 100 feet of the structure — from irrigated lawn up through dense conifer or eucalyptus. This is the single most influential input, so choose the category that reflects the driest, most continuous fuel present."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: terrain slope, climate zone, defensible space, roof material, road access. Each value refines the calculation for greater accuracy."
+      "title": "Set the Terrain and Climate",
+      "description": "Select the slope grade the home sits on and the climate zone for your area. Steep ground and low-rainfall regions both raise the score, and unlike the other inputs these are the factors you generally cannot change."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Enter Your Defensible Space and Building Details",
+      "description": "Type in how many feet of vegetation you have actually cleared around the structure, then choose your roof class and road-access situation. These are the levers you control, so they are where the score responds most to real mitigation work."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your overall risk score, risk level, vegetation risk. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the Score and Focus Your Next Step",
+      "description": "Press Calculate to see the overall band plus the vegetation, terrain, and structural sub-scores. Look at which sub-score is highest, then use it to decide what to tackle first — and confirm your official hazard designation with your local fire authority."
     }
   ],
   "tips": [
-    "Double-check your surrounding vegetation before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both overall risk score and risk level — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your road access, start with a conservative estimate and adjust from there."
+    "Work the zones outward from the wall: keep the immediate 0-to-5-foot band completely free of mulch, dead plants, and anything combustible, since wind-driven embers collect against the foundation and under decks.",
+    "In the 5-to-30-foot intermediate zone, break up continuous fuel — space out shrubs, prune tree limbs up off the ground, and remove ladder fuels so a grass fire cannot climb into the canopy.",
+    "Extend thinning through the 30-to-100-foot zone (or farther on a downhill slope, where fire will be moving toward you faster) so a fire loses intensity before it reaches the intermediate zone.",
+    "Cover attic, foundation, and eave vents with 1/8-inch metal mesh — ember intrusion through vents ignites more homes than direct flame contact does.",
+    "Clean roof valleys and gutters of pine needles and leaf litter before fire season; a Class A roof does little good if there is a bed of dry tinder sitting on top of it.",
+    "If you can only afford one big upgrade, replacing a wood-shake roof with a Class A material typically removes one of the largest structural vulnerabilities on the whole property.",
+    "Re-evaluate after every dry spell — defensible space is not a one-time chore, since vegetation regrows and cured summer grass raises real risk even when your inputs here have not changed."
   ]
 }

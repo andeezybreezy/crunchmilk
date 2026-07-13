@@ -14,33 +14,43 @@
   "jsonLdDescription": "Crypto Whale Alert Calculator: Determine whale transaction thresholds and market impact. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Crypto Whale Alert Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"coinPrice\">Coin Price ($)</label>\n      <input type=\"number\" id=\"coinPrice\" value=\"65000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dailyVolume\">24h Trading Volume ($)</label>\n      <input type=\"number\" id=\"dailyVolume\" value=\"25000000000\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"transactionUSD\">Transaction Size ($)</label>\n      <input type=\"number\" id=\"transactionUSD\" value=\"10000000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"marketCap\">Market Cap ($)</label>\n      <input type=\"number\" id=\"marketCap\" value=\"1200000000000\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Coins Transferred</div>\n        <div class=\"result-value\" id=\"coinAmount\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">% of Daily Volume</div>\n        <div class=\"result-value\" id=\"volumePct\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">% of Market Cap</div>\n        <div class=\"result-value\" id=\"marketCapPct\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Whale Classification</div>\n        <div class=\"result-value\" id=\"whaleStatus\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This crypto whale alert calculator uses established formulas to provide accurate results.",
+    "intro": "\"Whale\" is on-chain slang for an address big enough to move a market. This tool starts from a transaction's dollar size, converts it back into coins at the price you enter, then measures that dollar figure against two yardsticks that decide whether it actually matters: the day's trading volume and the coin's total market cap.",
     "rules": [
-      "Coins = Transaction USD / Coin Price",
-      "Volume Impact = Transaction / 24h Volume x 100"
+      "Coins transferred = Transaction USD ÷ Coin Price",
+      "Share of daily volume = Transaction USD ÷ 24h Volume × 100",
+      "Share of market cap = Transaction USD ÷ Market Cap × 100",
+      "A move gets flagged as whale-sized when its dollar total clears the threshold and lands as a meaningful slice of daily volume"
     ],
-    "outro": "Cryptocurrency markets are highly volatile. Past performance does not guarantee future results."
+    "outro": "The same $10M transfer is a rounding error against Bitcoin's volume and a market-shaking event on a small-cap token. That is why raw coin counts alone never tell you if something is a whale — context does. Nothing here is trading advice."
   },
   "faq": [
     {
-      "question": "What defines a crypto whale?",
-      "answer": "There is no strict definition, but generally: holding/moving over $10M in a single cryptocurrency is considered a whale. For Bitcoin, owning 1,000+ BTC qualifies. About 2,000 addresses hold more than 1,000 BTC, controlling roughly 40% of all Bitcoin."
+      "question": "What is a crypto whale?",
+      "answer": "A crypto whale is a single holder — a person, fund, exchange, or protocol treasury — whose stake is large enough that their buys, sells, and transfers can visibly influence a coin's price or liquidity. In Bitcoin terms, addresses holding 1,000+ BTC are the classic whales; roughly 2,000 such addresses control a large share of all Bitcoin. The word is deliberately relative: a whale on a $50M token might hold only a few hundred thousand dollars."
     },
     {
-      "question": "Do whale transactions affect price?",
-      "answer": "Large on-chain transfers do not directly move prices, but whale movements to exchanges often signal selling intent and can trigger panic. A whale depositing $50M+ to an exchange typically correlates with 2-5% price drops within 24 hours."
+      "question": "What counts as a whale transaction?",
+      "answer": "There is no official cutoff, but tracking services commonly flag on-chain transfers worth $1M or more, and $10M+ moves draw serious attention. This calculator lets you set the context yourself: enter the transaction size and it shows the dollar value alongside its share of daily volume and market cap. A $2M transfer is a whale event on a mid-cap coin and background noise on Bitcoin."
     },
     {
-      "question": "Is the Crypto Whale Alert Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Why do whale moves get watched?",
+      "answer": "Because a single large holder can absorb or dump enough supply to shift the order book. Analysts watch the direction most of all: coins moving from a private wallet onto an exchange often precede selling, while coins leaving an exchange into cold storage suggest accumulation. The transfer itself doesn't change the price, but what it signals about a whale's intentions can move sentiment fast."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard cryptocurrency and blockchain formulas trusted by crypto investors and traders. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Do whale transactions directly move the price?",
+      "answer": "Moving coins between wallets does not change the price at all — no trade has happened. The impact comes when a whale actually buys or sells on an exchange, which is why large deposits to exchanges are treated as a warning sign. As a rough gauge, a transfer worth a notable percentage of a coin's daily volume has the potential to move the market when it hits the order book; a transfer that is a fraction of a percent usually does not."
     },
     {
-      "question": "What coin price should I enter?",
-      "answer": "Enter the most accurate coin price value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "How do I read the market-impact percentages?",
+      "answer": "Share of daily volume tells you how big the move is relative to what normally trades in 24 hours — anything in the low single digits is significant, and double digits is large enough to strain liquidity. Share of market cap tells you how big the holding is relative to the entire coin. A transfer that is a tiny slice of volume can still be a whale by dollar size; both numbers together give the fuller picture."
+    },
+    {
+      "question": "Where does whale-alert data actually come from?",
+      "answer": "Public blockchains record every transfer, so anyone can watch large movements in real time. Alert services scan those ledgers for transactions above a size threshold and label known exchange, treasury, and bridge wallets. This calculator does not connect to any chain — it is a teaching aid that shows how a transaction's size maps to volume and market cap so the alerts you see elsewhere make sense."
+    },
+    {
+      "question": "Is this calculator free?",
+      "answer": "Yes. There is no signup, no limit, and every calculation runs entirely in your browser — none of your inputs leave your device."
     }
   ],
   "relatedTools": [
@@ -49,66 +59,66 @@
     "crypto-tax-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This crypto whale alert calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "Every figure here comes from arithmetic you could do by hand — the calculator just does it instantly and keeps the ratios lined up so you can compare a transfer's size against the market around it.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Enter the coin price, then the transaction size in dollars — dividing one by the other gives the number of coins actually moved",
+      "Enter the 24h trading volume so the tool can express the transfer as a percentage of everything traded that day",
+      "Enter the market cap so the transfer can be measured against the coin's full valuation",
+      "The classification combines the dollar size with its volume share to label the move — ordinary, notable, or whale-sized"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This is an educational tool, not financial or trading advice. It does not read live blockchain data, and its labels are illustrative. Verify any on-chain activity against a block explorer or a dedicated tracking service before acting on it."
   },
   "whenToUse": {
-    "intro": "This crypto whale alert calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this when you have spotted a large transfer — or a whale alert on social media — and want to understand how big it really is relative to the market.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "When a whale-alert feed reports a multi-million-dollar transfer and you want to gauge whether it's meaningful for that specific coin",
+      "When you're watching coins move onto or off an exchange and want to size the move against daily volume",
+      "When comparing the same dollar transfer across a large-cap and a small-cap coin to see why it matters more on one",
+      "When you're simply curious how many coins a headline dollar figure actually represents at today's price",
+      "When teaching or learning how on-chain whale watching works, without needing live data"
     ]
   },
   "category": "crypto",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Crypto Whale Alert Calculator?",
-        "body": "The Crypto Whale Alert Calculator is a free online tool designed for crypto investors and traders who need quick, accurate calculations in the cryptocurrency and blockchain space. By entering your coin price, 24h trading volume, transaction size, you get instant results including coins transferred, % of daily volume, % of market cap. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What the Crypto Whale Alert Calculator Does",
+        "body": "This tool takes a dollar-sized on-chain transfer and translates it into the numbers that actually tell you whether it's a whale move: how many coins changed hands, what share of the day's trading volume it represents, and what slice of the coin's market cap it touches. You enter the coin price, the 24h volume, the transaction size, and the market cap; it returns the coin count, both impact percentages, and a plain-language classification. The point is context — a transfer that looks enormous in dollars can be trivial against a deep, liquid market, and this shows you which it is."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting coins transferred right can make the difference between success and costly mistakes. In cryptocurrency and blockchain, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by crypto investors and traders worldwide, giving you confidence that your numbers are correct. Use it to evaluate your crypto portfolio with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Say a wallet moves 500 BTC while Bitcoin trades at $60,000. That is 500 × $60,000 = $30 million — far past any common whale threshold, which usually sits around $1M. But size alone isn't the whole story. If Bitcoin is doing $25 billion in daily volume, that $30M transfer is only about 0.12% of the day's trading, so it barely nudges the order book. Run the same $30M through a small-cap token doing $40M a day and it's 75% of daily volume — a genuine market event. Same dollars, completely different meaning."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your coin price and need to find the right coins transferred. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why Whale Watching Became a Discipline",
+        "body": "Public blockchains make every transfer visible, so a whole practice grew up around reading large movements the moment they happen. The most-watched signal is direction: coins flowing from private wallets onto exchanges are often a prelude to selling, while coins leaving exchanges for cold storage suggest a holder is settling in for the long term. None of it is a crystal ball — a transfer is just a transfer until someone trades — but tracked against volume and market cap, whale activity is one more piece of context that traders and researchers watch closely."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Coin Price ($)",
-      "description": "Start by entering your coin price — this is the primary input for the calculation."
+      "title": "Enter the Coin Price",
+      "description": "Type the current price of the coin in dollars. Together with the transaction size, this is what converts the transfer back into a coin count."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: 24h trading volume, transaction size, market cap. Each value refines the calculation for greater accuracy."
+      "title": "Add Volume, Transaction Size, and Market Cap",
+      "description": "Fill in the 24h trading volume, the transaction size in dollars, and the coin's market cap. These three set the context that decides whether a transfer is whale-sized or ordinary."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Run the numbers. The calculator returns the coins transferred, the share of daily volume, the share of market cap, and a whale classification — all instantly, in your browser."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your coins transferred, % of daily volume, % of market cap. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the Impact, Not Just the Size",
+      "description": "Focus on the volume and market-cap percentages, not the raw dollar figure. A large transfer that's a fraction of a percent of daily volume rarely moves the market; a smaller one that's a big slice of a thin market can."
     }
   ],
   "tips": [
-    "Double-check your coin price before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both coins transferred and % of daily volume — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to evaluate your crypto portfolio.",
-    "If you're unsure about your market cap, start with a conservative estimate and adjust from there."
+    "Watch the share of daily volume above all — it's the number that separates a real market event from a whale simply reshuffling wallets.",
+    "Direction matters more than size: transfers onto exchanges hint at selling, transfers off exchanges hint at holding.",
+    "Run the same transaction against a large-cap and a small-cap coin to see firsthand why identical dollar amounts have wildly different impact.",
+    "Remember a transfer isn't a trade — coins moving between wallets don't change the price until someone actually buys or sells.",
+    "Treat whale-alert headlines as one signal among many, not a buy or sell trigger; the calculator sizes the move, it doesn't predict the market."
   ]
 }

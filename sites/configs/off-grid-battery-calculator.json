@@ -14,35 +14,39 @@
   "jsonLdDescription": "Off-Grid Battery Calculator: Size your off-grid battery bank for reliable energy storage and backup power. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Off-Grid Battery Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dailyUsage\">Daily Energy Usage (kWh)</label>\n      <input type=\"number\" id=\"dailyUsage\" value=\"30\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"autonomyDays\">Days of Autonomy</label>\n      <input type=\"number\" id=\"autonomyDays\" value=\"3\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"depthOfDischarge\">Depth of Discharge (%)</label>\n      <input type=\"number\" id=\"depthOfDischarge\" value=\"80\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"batteryVoltage\">System Voltage</label>\n      <select id=\"batteryVoltage\"><option value=\"12\">12V</option><option value=\"24\">24V</option><option value=\"48\" selected>48V</option></select>\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"batteryType\">Battery Type</label>\n      <select id=\"batteryType\"><option value=\"lithium\" selected>LiFePO4 ($400/kWh)</option><option value=\"agm\">AGM Lead-Acid ($200/kWh)</option><option value=\"flooded\">Flooded Lead-Acid ($150/kWh)</option></select>\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Battery Capacity Needed</div>\n        <div class=\"result-value\" id=\"totalCapacity\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Amp-Hours Needed</div>\n        <div class=\"result-value\" id=\"ampHours\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Battery Cost</div>\n        <div class=\"result-value\" id=\"estimatedCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Expected Battery Life</div>\n        <div class=\"result-value\" id=\"batteryLife\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This off-grid battery calculator uses established formulas to provide accurate results.",
+    "intro": "Battery bank sizing works backward from your loads. You start with the watt-hours you burn in a day, multiply by the number of cloudy days you want to ride out, then divide by your system voltage and how deeply you are willing to drain the pack. The calculator turns those four numbers into a target capacity in kilowatt-hours and amp-hours, plus a rough cost and cycle-life estimate for the chemistry you pick.",
     "rules": [
       "Total Capacity = (Daily Usage × Autonomy Days) ÷ Depth of Discharge",
       "Amp-Hours = Total Capacity (Wh) ÷ System Voltage",
       "Battery Cost = Capacity (kWh) × Cost per kWh",
       "LiFePO4: 5000+ cycles at 80% DOD; Lead-acid: 1000 at 50% DOD"
     ],
-    "outro": "Energy costs and incentives change by region and season. Check with your local utility for current rates."
+    "outro": "Chemistry prices and cycle ratings drift as the lithium market moves, and real autonomy depends on your latitude and how many gray-sky days your site actually gets. Treat the output as a planning target and confirm against your panels' winter production and your charge controller's limits before you buy cells."
   },
   "faq": [
     {
-      "question": "How many batteries do I need for off-grid?",
-      "answer": "For a home using 30 kWh/day with 3 days autonomy at 80% DOD: you need about 112.5 kWh of battery capacity. In 48V LiFePO4, that's about 2,344 Ah — roughly 5-8 large battery modules."
+      "question": "How many days of autonomy should I plan for?",
+      "answer": "Autonomy is how long the bank runs your loads with zero solar input. For a weekend van or RV, 1–2 days is usually enough since you move and recharge often. A full-time off-grid cabin in a sunny climate typically wants 2–3 days; in a cloudy northern region, plan 3–5 days or add a generator. More autonomy means a bigger, pricier bank, so most builds settle at 2–3 days and cover the rare long storm with a backup generator instead of oversizing batteries."
     },
     {
-      "question": "LiFePO4 vs lead-acid for off-grid?",
-      "answer": "LiFePO4 costs 2× more upfront but lasts 3-5× longer, has 80% DOD (vs 50% for lead-acid), weighs 1/3 as much, and needs no maintenance. Lifetime cost is usually lower with lithium."
+      "question": "Lithium (LiFePO4) vs lead-acid — how does depth of discharge change the math?",
+      "answer": "Depth of discharge (DoD) is the fraction of rated capacity you actually use. LiFePO4 tolerates 80–100% DoD, so a 100 Ah lithium battery gives you 80–100 usable Ah. Lead-acid (AGM or flooded) should only go to about 50% DoD to protect cycle life, so a 100 Ah lead battery gives roughly 50 usable Ah. That means lead-acid banks must be sized nearly double the rated capacity of lithium for the same usable energy — a big reason lithium wins on total lifetime cost despite the higher sticker price."
     },
     {
-      "question": "What is depth of discharge (DOD)?",
-      "answer": "DOD is how much of the battery's capacity you use. LiFePO4: 80-90% DOD safely. AGM: 50% max recommended. Flooded lead-acid: 50% max. Deeper discharge shortens battery life."
+      "question": "What system voltage should I use — 12 V, 24 V, or 48 V?",
+      "answer": "Higher voltage moves the same power at lower current, which means thinner, cheaper wiring and less heat loss. 12 V suits small van and RV builds under about 1,500 W of load. 24 V is a good middle ground for larger vans and small cabins. 48 V is the standard for whole-home off-grid systems because it keeps amperage manageable — a 5,000 W load draws roughly 417 A at 12 V but only about 104 A at 48 V. Higher voltage also gives you more amp-hours for the same energy, since Ah = Wh ÷ voltage."
+    },
+    {
+      "question": "How do I turn watt-hours into the amp-hours I actually shop for?",
+      "answer": "Batteries are sold in amp-hours at a given voltage, so convert with Ah = Wh ÷ system voltage. Take your required usable energy in watt-hours, then divide by 12, 24, or 48. For example, 4,000 usable Wh at 48 V is about 83 Ah, while the same 4,000 Wh at 12 V is 333 Ah. Same energy, very different amp-hour number — which is why comparing batteries only makes sense once you have fixed your system voltage."
+    },
+    {
+      "question": "Does the calculator account for inverter and wiring losses?",
+      "answer": "The core formula sizes the raw battery bank, but real systems lose 10–20% to inverter inefficiency, wiring resistance, and charge/discharge losses. A practical habit is to add roughly 20% headroom on top of the calculated capacity, or enter your daily usage as measured at the loads and pad it. Also leave margin for future loads — off-grid energy use almost always grows after you move in."
     },
     {
       "question": "Is the Off-Grid Battery Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "answer": "Yes, completely free with no signup required. Everything runs in your browser, so you can re-run different voltages, autonomy days, and chemistries as many times as you want while you compare bank designs."
     }
   ],
   "relatedTools": [
@@ -50,66 +54,66 @@
     "geothermal-savings-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This off-grid battery calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator applies the standard off-grid bank-sizing equation, then converts the result into the amp-hours and cost figures you use when shopping for cells.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Multiply your daily energy usage by days of autonomy to get the total energy the bank must store between charges.",
+      "Divide by depth of discharge so the usable-energy target reflects how deeply your chemistry can safely drain — 0.80 for LiFePO4, 0.50 for lead-acid.",
+      "Convert that capacity to amp-hours by dividing watt-hours by your system voltage (12, 24, or 48 V).",
+      "Multiply the kilowatt-hour capacity by the per-kWh price of your chosen chemistry to estimate bank cost, and map DoD to a cycle-life expectation."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures are planning estimates. Winter solar production, temperature derating, and inverter losses all shift real requirements, so confirm your final bank size against your panel array and charge controller before purchasing."
   },
   "whenToUse": {
-    "intro": "This off-grid battery calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this calculator whenever you are sizing or re-sizing a battery bank for a solar system that has to stand on its own without grid backup.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Designing an off-grid cabin bank: pin down daily kWh from your appliances, choose 2–3 days autonomy for cloudy stretches, and size a 48 V LiFePO4 pack.",
+      "Building a van or RV solar setup: work at 12 V or 24 V, keep autonomy to 1–2 days since you recharge on the move, and check the amp-hours fit your battery box.",
+      "Planning a backup power bank: size storage to carry critical loads through outages and compare lithium against cheaper lead-acid on usable capacity.",
+      "Comparing chemistries: run the same loads through LiFePO4 at 80% DoD and lead-acid at 50% DoD to see how much extra rated capacity lead-acid demands.",
+      "Choosing a system voltage: test 12 V, 24 V, and 48 V to see how amperage and amp-hour requirements shift before you commit to wiring and an inverter."
     ]
   },
   "category": "energy-independence",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Off-Grid Battery Calculator?",
-        "body": "The Off-Grid Battery Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your daily energy usage, days of autonomy, depth of discharge, you get instant results including total battery capacity needed, amp-hours needed, estimated battery cost. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "The Off-Grid Battery Calculator sizes the battery bank a solar system needs to run without grid backup. You enter the energy you burn in a day, how many cloudy days you want to survive without sun, how deeply your battery chemistry can safely discharge, and your system voltage. It returns the total storage capacity you need in kilowatt-hours, the amp-hour figure you actually shop for, a rough cost for the chemistry you pick, and an expected cycle life. It is built for cabins, vans, RVs, and backup power builds where undersizing means the lights go out and oversizing wastes thousands of dollars."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting total battery capacity needed right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "The Formula, Worked Through",
+        "body": "Bank capacity in amp-hours equals daily watt-hours × days of autonomy ÷ (system voltage × depth of discharge). Say a small cabin uses 2,000 Wh per day and you want 2 days of autonomy on a 24 V system with a lead-acid pack limited to 50% depth of discharge. That is 2,000 × 2 ÷ (24 × 0.5) ≈ 333 Ah. Swap to LiFePO4 at 80% DoD and the same loads need only 2,000 × 2 ÷ (24 × 0.8) ≈ 208 Ah — the deeper safe discharge shrinks the pack by more than a third. The math is simple; the payoff is that every variable is one you can measure or choose deliberately."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your daily energy usage and need to find the right total battery capacity needed. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Depth of Discharge Drives the Whole Design",
+        "body": "Depth of discharge is the single number that separates a lithium build from a lead-acid one. LiFePO4 cells shrug off 80–100% discharge cycle after cycle, so nearly all their rated capacity is usable. Flooded and AGM lead-acid batteries need you to stop around 50% to reach their rated cycle life, so you must buy almost twice the rated amp-hours to get the same usable energy. That is why lithium usually wins on lifetime cost even at a higher price per kWh: you buy less capacity, it weighs a third as much, and it lasts several times longer before replacement."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Daily Energy Usage (kWh)",
-      "description": "Start by entering your daily energy usage — this is the primary input for the calculation."
+      "description": "Add up the watt-hours your loads draw in a typical day — lights, fridge, pumps, laptops — and enter the total in kWh. Measured numbers from a battery monitor beat guesses."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: days of autonomy, depth of discharge, system voltage, battery type. Each value refines the calculation for greater accuracy."
+      "title": "Set Days of Autonomy and Depth of Discharge",
+      "description": "Choose how many sunless days the bank must cover (1–2 for vans, 2–5 for cabins) and set depth of discharge to match your chemistry: about 80% for LiFePO4, 50% for lead-acid."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Pick System Voltage and Battery Type",
+      "description": "Select 12 V, 24 V, or 48 V — higher voltage means lower current and thinner wiring — then choose LiFePO4, AGM, or flooded lead-acid to price the bank."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your total battery capacity needed, amp-hours needed, estimated battery cost. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Review",
+      "description": "Hit Calculate to see total capacity, amp-hours, estimated cost, and cycle life. Re-run with a different voltage or chemistry to compare designs side by side."
     }
   ],
   "tips": [
-    "Double-check your daily energy usage before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both total battery capacity needed and amp-hours needed — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your battery type, start with a conservative estimate and adjust from there."
+    "Measure daily usage with a battery monitor or shunt for a week rather than estimating — off-grid loads are almost always higher than people expect.",
+    "Match depth of discharge to your chemistry: entering 80% for a lead-acid bank will badly undersize it, since lead-acid should stop near 50%.",
+    "Add about 20% on top of the calculated capacity to cover inverter and wiring losses and give the bank room to grow into new loads.",
+    "Prefer 48 V for whole-home cabins and 12 V for small vans — higher voltage cuts amperage, wiring cost, and heat for the same power.",
+    "Compare lithium and lead-acid on usable amp-hours, not sticker price: lead-acid needs roughly double the rated capacity to match LiFePO4."
   ]
 }
