@@ -6,7 +6,22 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(ROOT, 'output');
+const CONFIGS_DIR = path.join(ROOT, 'sites', 'configs');
 const DOMAIN = 'crunchmilk.com';
+
+// Per-page <lastmod> should reflect when that page actually changed, not the
+// build date. An all-identical lastmod reads as untrustworthy to Google and
+// wastes the freshness signal on the handful of pages we really updated.
+// Use the config's lastUpdated when present; fall back to today only if missing.
+function lastmodFor(slug, today) {
+  try {
+    const cfg = JSON.parse(fs.readFileSync(path.join(CONFIGS_DIR, slug + '.json'), 'utf8'));
+    if (cfg && typeof cfg.lastUpdated === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(cfg.lastUpdated)) {
+      return cfg.lastUpdated;
+    }
+  } catch (e) { /* no config for hubs/state variants — fall through */ }
+  return today;
+}
 
 function main() {
   const dirs = fs.readdirSync(OUTPUT_DIR).filter(d => {
@@ -27,8 +42,9 @@ function main() {
     const isState = /-[a-z]{2}$/.test(dir) && dir.length > 5;
     const priority = isHub ? '0.8' : isState ? '0.5' : '0.7';
     const freq = isHub ? 'weekly' : 'monthly';
+    const lastmod = lastmodFor(dir, today);
 
-    xml += `  <url>\n    <loc>https://${DOMAIN}/${dir}/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://${DOMAIN}/${dir}/</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
   });
 
   xml += '</urlset>\n';
