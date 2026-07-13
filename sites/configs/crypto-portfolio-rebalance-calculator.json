@@ -14,33 +14,38 @@
   "jsonLdDescription": "Crypto Portfolio Rebalance Calculator: Calculate trades needed to rebalance your crypto portfolio. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Crypto Portfolio Rebalance Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"totalValue\">Total Portfolio Value ($)</label>\n      <input type=\"number\" id=\"totalValue\" value=\"50000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"btcCurrent\">Current BTC % (%)</label>\n      <input type=\"number\" id=\"btcCurrent\" value=\"60\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ethCurrent\">Current ETH % (%)</label>\n      <input type=\"number\" id=\"ethCurrent\" value=\"25\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"altCurrent\">Current Alt % (%)</label>\n      <input type=\"number\" id=\"altCurrent\" value=\"15\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"btcTarget\">Target BTC % (%)</label>\n      <input type=\"number\" id=\"btcTarget\" value=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ethTarget\">Target ETH % (%)</label>\n      <input type=\"number\" id=\"ethTarget\" value=\"30\" inputmode=\"decimal\">\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"altTarget\">Target Alt % (%)</label>\n      <input type=\"number\" id=\"altTarget\" value=\"20\" inputmode=\"decimal\">\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">BTC Trade</div>\n        <div class=\"result-value\" id=\"btcTrade\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">ETH Trade</div>\n        <div class=\"result-value\" id=\"ethTrade\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Alt Trade</div>\n        <div class=\"result-value\" id=\"altTrade\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Volume Traded</div>\n        <div class=\"result-value\" id=\"totalTraded\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This crypto portfolio rebalance calculator uses established formulas to provide accurate results.",
+    "intro": "Rebalancing math starts from one simple gap: the difference between where each coin sits today and the target weight you actually want it to hold. This tool turns that gap into a dollar amount to buy or sell for each asset, so your holdings snap back to your intended allocation.",
     "rules": [
-      "Trade Amount = (Target % - Current %) x Portfolio Value",
-      "Total Traded = Sum of absolute trades / 2"
+      "Trade Amount = (Target % − Current %) × Portfolio Value",
+      "A negative trade means sell that amount; a positive trade means buy it",
+      "Total Traded = Sum of the absolute trades ÷ 2 (every dollar sold funds a dollar bought)"
     ],
-    "outro": "Cryptocurrency markets are highly volatile. Past performance does not guarantee future results."
+    "outro": "Crypto prices move fast, so the current percentages you type are only a snapshot. Recalculate right before you place orders, because a sharp move in BTC or ETH can shift every weight in the minutes it takes to log into an exchange."
   },
   "faq": [
     {
+      "question": "What is portfolio rebalancing?",
+      "answer": "Rebalancing is the act of buying and selling assets to return a portfolio to its target allocation after prices drift. Say you want 60% BTC and 40% ETH. If BTC rallies and the split becomes 70/30, you are now more concentrated in Bitcoin than you planned. Rebalancing sells the overweight asset and buys the underweight one until the mix matches your target again. It is a discipline for controlling risk, not a way to chase gains."
+    },
+    {
       "question": "How often should I rebalance my crypto portfolio?",
-      "answer": "Most strategies rebalance monthly, quarterly, or when allocations drift more than 5% from targets. Frequent rebalancing incurs more fees and tax events. Threshold-based rebalancing (only when drift exceeds 5-10%) is often more efficient."
+      "answer": "Two common approaches: on a fixed calendar (monthly or quarterly), or by threshold (only when an asset drifts more than 5-10 percentage points from its target). Crypto is volatile enough that threshold rebalancing tends to trigger often, so many holders cap it to avoid churning fees. There is no universally correct cadence — rebalancing more often keeps you closer to target but costs more in fees and taxable events."
+    },
+    {
+      "question": "Does rebalancing trigger taxes or fees?",
+      "answer": "In most jurisdictions, yes. Every sell to rebalance is a disposal that can create a capital gain or loss, even though you never cashed out to your bank. Short-term gains on assets held under a year are usually taxed at a higher rate. On top of that, exchanges charge trading fees and you may lose a little to the bid-ask spread on each swap. This tool does not model taxes or fees — treat its trade amounts as pre-tax, pre-fee figures and confirm the tax consequences for your country before trading."
+    },
+    {
+      "question": "Do the current percentages need to add up to 100?",
+      "answer": "Ideally, yes. Your current BTC, ETH, and alt percentages describe how your existing portfolio is split today, so they should total 100%. Your target percentages should also total 100%. If they don't sum cleanly, the trade amounts will still calculate but they won't fully net out, which is usually a sign a weight was mistyped."
+    },
+    {
+      "question": "Why is my total volume traded lower than the sum of the trades?",
+      "answer": "Because rebalancing is a swap. The dollars you sell from overweight assets are the same dollars you use to buy underweight ones. Adding up the buys and sells double-counts that money, so total volume divides the sum of absolute trades by two to show the real cash actually changing hands."
     },
     {
       "question": "Does rebalancing improve returns?",
-      "answer": "Rebalancing primarily manages risk by preventing overexposure to volatile assets. It forces a buy-low-sell-high discipline. Studies show rebalancing can improve risk-adjusted returns by 0.5-1.5% annually in diversified portfolios."
-    },
-    {
-      "question": "Is the Crypto Portfolio Rebalance Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard cryptocurrency and blockchain formulas trusted by crypto investors and traders. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
-    },
-    {
-      "question": "What total portfolio value should I enter?",
-      "answer": "Enter the most accurate total portfolio value value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "answer": "Its main job is risk control — it stops one runaway coin from quietly becoming most of your portfolio. It also enforces a buy-low, sell-high rhythm, since you trim what rose and add to what lagged. In trending markets that can cost you upside, and in choppy markets it can help. Think of it as managing how much risk you carry, not as a return booster."
     }
   ],
   "relatedTools": [
@@ -49,66 +54,67 @@
     "gas-fee-optimizer-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This crypto portfolio rebalance calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator compares your current allocation against your target allocation, coin by coin, and converts each difference into a dollar trade. Here is the sequence it runs the moment you press Calculate.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Read your total portfolio value and the current percentage held in BTC, ETH, and alts",
+      "Read the target percentage you want in each of those three buckets",
+      "For each coin, compute (Target % − Current %) × Portfolio Value to get the buy or sell amount",
+      "Flag negatives as sells (overweight) and positives as buys (underweight)",
+      "Sum the absolute value of all trades and halve it to report the actual volume changing hands"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This is an educational planning tool, not financial advice. It ignores trading fees, spreads, slippage, and the capital gains taxes that selling can create. Cryptocurrency is highly volatile and you can lose money. Confirm live prices and consult a qualified financial or tax professional before acting on any figure here."
   },
   "whenToUse": {
-    "intro": "This crypto portfolio rebalance calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this calculator whenever your actual holdings have drifted away from the split you decided on, and you want the exact trades to correct the drift.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "On your regular rebalancing date — the monthly or quarterly check where you reset weights back to plan",
+      "After a big move in one coin, such as a BTC rally that has quietly made Bitcoin a larger share than you intended",
+      "When you change your strategy and want to shift target weights, for example dialing down alt exposure",
+      "When adding new cash and you want to steer the deposit toward whichever assets are currently underweight",
+      "When comparing how aggressively to rebalance by testing a tight 50/30/20 target against a looser mix"
     ]
   },
   "category": "crypto",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Crypto Portfolio Rebalance Calculator?",
-        "body": "The Crypto Portfolio Rebalance Calculator is a free online tool designed for crypto investors and traders who need quick, accurate calculations in the cryptocurrency and blockchain space. By entering your total portfolio value, current btc %, current eth %, you get instant results including btc trade, eth trade, alt trade. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This calculator tells you exactly how much of each coin to buy or sell to bring a drifted crypto portfolio back to your target allocation. You enter your total portfolio value, the percentage you currently hold in BTC, ETH, and alts, and the target percentages you want. It returns a trade amount for each asset — a sell where you are overweight, a buy where you are underweight — plus the total volume of cash that actually changes hands. It is built for holders who set an allocation on purpose and want to maintain it as prices move."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting btc trade right can make the difference between success and costly mistakes. In cryptocurrency and blockchain, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by crypto investors and traders worldwide, giving you confidence that your numbers are correct. Use it to evaluate your crypto portfolio with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Suppose you hold a $10,000 portfolio and your plan is 60% BTC and 40% ETH. A Bitcoin rally pushes the split to 70/30 without you trading a thing — BTC is now worth $7,000 and ETH $3,000, but your targets say they should be $6,000 and $4,000. The calculator shows a BTC trade of −$1,000 (sell) and an ETH trade of +$1,000 (buy). Sell $1,000 of Bitcoin, use it to buy $1,000 of Ether, and you are back to 60/40. Total volume traded is $1,000, because the same dollars that leave BTC are what fund ETH."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your total portfolio value and need to find the right btc trade. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why Rebalancing Is About Risk, Not Timing",
+        "body": "When one asset outruns the rest, it quietly becomes a bigger slice of your portfolio — and a bigger source of risk. A 60% BTC target that has crept to 75% means three-quarters of your money now rides on a single coin, whether or not that was ever your intention. Rebalancing pulls concentration back to a level you chose deliberately. It also imposes a mechanical buy-low, sell-high discipline, since you trim whatever ran up and top up whatever lagged. The point is keeping your risk where you want it, not predicting the next move."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Total Portfolio Value ($)",
-      "description": "Start by entering your total portfolio value — this is the primary input for the calculation."
+      "description": "Add up the current dollar value of all the crypto in this portfolio and enter the total. Use live prices, since a stale total will skew every trade amount."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: current btc %, current eth %, current alt %, target btc %, target eth %, target alt %. Each value refines the calculation for greater accuracy."
+      "title": "Enter Your Current Allocation",
+      "description": "Fill in the percentage you hold right now in BTC, ETH, and alts. These are today's actual weights, and they should add up to 100%."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Enter Your Target Allocation",
+      "description": "Set the target percentage you want in each bucket — the split you are trying to maintain. These should also total 100%."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your btc trade, eth trade, alt trade. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Read the Trades",
+      "description": "Press Calculate. A negative trade means sell that dollar amount of the coin; a positive trade means buy it. The total volume figure is the real cash moving between assets."
     }
   ],
   "tips": [
-    "Double-check your total portfolio value before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both btc trade and eth trade — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to evaluate your crypto portfolio.",
-    "If you're unsure about your target alt %, start with a conservative estimate and adjust from there."
+    "Refresh your total value and current percentages with live prices right before you calculate — crypto drifts fast and yesterday's snapshot produces the wrong trades.",
+    "Make your current percentages sum to 100% and your targets sum to 100%; if the trades don't net to roughly zero, a weight was probably mistyped.",
+    "Before placing orders, subtract your exchange's trading fee and expect a little slippage — the tool reports clean, pre-fee amounts.",
+    "Remember every sell can be a taxable event; if a trade would realize a large short-term gain, weigh whether the drift is worth correcting right now.",
+    "Consider threshold rebalancing: only act when a coin drifts more than 5-10 percentage points from target, which cuts down on fees and taxable trades versus rebalancing on every small wobble."
   ]
 }

@@ -14,35 +14,44 @@
   "jsonLdDescription": "Photo print size calculator that determines maximum print dimensions at various DPI settings from image pixel dimensions, with aspect ratio matching to standard print sizes.",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Photo Print Size Calculator</h2>\n\n    <div class=\"input-group\">\n      <label for=\"pixelWidth\">Image Width (pixels)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"pixelWidth\" placeholder=\"e.g. 4032\" min=\"1\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"pixelHeight\">Image Height (pixels)</label>\n      <div class=\"input-row\">\n        <input type=\"number\" id=\"pixelHeight\" placeholder=\"e.g. 3024\" min=\"1\" inputmode=\"numeric\">\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"convertBtn\">Calculate Print Sizes</button>\n\n    <div class=\"result\" id=\"result\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max @ 300 DPI (Excellent)</div>\n          <div class=\"result-value\" id=\"size300\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max @ 200 DPI (Good)</div>\n          <div class=\"result-value\" id=\"size200\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Max @ 150 DPI (OK for distance)</div>\n          <div class=\"result-value\" id=\"size150\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Aspect Ratio</div>\n          <div class=\"result-value\" id=\"aspectRatio\">—</div>\n        </div>\n      </div>\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Megapixels</div>\n          <div class=\"result-value\" id=\"megapixels\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Best Standard Print</div>\n          <div class=\"result-value\" id=\"bestStandard\">—</div>\n        </div>\n      </div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "Your maximum print size depends on image resolution (pixels) and the desired DPI (dots per inch). Higher DPI means sharper prints but smaller maximum sizes.",
+    "intro": "A digital photo has a fixed number of pixels. When you print it, those pixels get spread across paper, and DPI (dots per inch) sets how densely they pack. The formula is print inches = pixels ÷ DPI, run separately for width and height. Pack the pixels tightly (300 DPI) and you get a small, razor-sharp print; spread them out (150 DPI) and the same file covers a much larger sheet, at the cost of visible detail up close.",
     "rules": [
-      "<strong>Max Print Size = Pixels / DPI</strong> for each dimension",
-      "<strong>300 DPI</strong> — excellent quality for photos viewed up close",
-      "<strong>200 DPI</strong> — good quality, hard to distinguish from 300 at arm's length",
-      "Aspect ratio determines which standard print sizes match without cropping"
+      "<strong>Print inches = pixels ÷ DPI</strong>, calculated for width and height separately",
+      "<strong>300 DPI</strong> — the standard for prints you hold and inspect closely, like albums and 4×6s",
+      "<strong>150 DPI</strong> — perfectly acceptable for larger prints and posters viewed from a few feet back",
+      "The farther away a print is viewed, the lower the DPI you can get away with — a billboard runs 10–20 DPI",
+      "Aspect ratio decides which standard sizes fit your photo without cropping"
     ],
-    "outro": "If your image doesn't match a standard print size ratio, you'll need to crop. A 4:3 photo (most phones) matches 8×6 and 12×9 but needs cropping for 8×10 or 5×7. A 3:2 photo (most DSLRs) matches 4×6 and 6×9."
+    "outro": "The catch is viewing distance. A 3,000 × 2,400 px photo makes a crisp 10 × 8 in print at 300 DPI, or a 20 × 16 in print at 150 DPI — the file didn't change, only how far back you stand. Nose-to-the-glass, the 150 DPI version looks soft; hung on a wall and seen from six feet, both look identical."
   },
   "faq": [
     {
-      "question": "How do I find my image's pixel dimensions?",
-      "answer": "On a phone, check photo details/info in your gallery app. On a computer, right-click the file and check Properties (Windows) or Get Info (Mac). In Photoshop, check Image > Image Size."
+      "question": "What is the biggest print I can make from my megapixels?",
+      "answer": "Multiply width pixels by height pixels to get total pixels, then divide each dimension by your target DPI. A 24 MP camera shooting 6,000 × 4,000 px prints 20 × 13.3 in at 300 DPI, or a full 40 × 26.7 in at 150 DPI. As a rough rule at 300 DPI: 12 MP gives you about 13 × 10 in, 24 MP about 20 × 13 in, and 45 MP about 27 × 18 in. Drop to 150 DPI for a wall poster and every one of those doubles in each direction."
     },
     {
-      "question": "What DPI should I print at?",
-      "answer": "300 DPI is ideal for photos viewed at arm's length. 200 DPI is acceptable for larger prints. For wall art viewed from several feet away, 150 DPI can work. Below 150 DPI, quality degrades noticeably."
+      "question": "What DPI should I use?",
+      "answer": "Match it to how close the print will be viewed. Use 300 DPI for anything held in the hand — photo books, 4×6 and 5×7 prints, greeting cards. Use around 150 DPI for large wall prints and posters that live several feet away, where your eye can't resolve the extra dots anyway. Between the two, 200 DPI is a safe middle ground for medium prints. Below 150 DPI you start seeing softness even at a distance, so treat that as the floor for photographic work."
+    },
+    {
+      "question": "Can I print a phone photo big?",
+      "answer": "Usually yes, more than people expect. A modern phone shoots roughly 4,032 × 3,024 px (12 MP), which prints a sharp 13 × 10 in at 300 DPI and a solid 26 × 20 in poster at 150 DPI. The limits are real, though: heavy digital zoom, low-light noise, and cropping all throw away pixels before you ever print. Start from the actual pixel dimensions of the specific shot, not the camera's headline spec, and check the number the calculator returns."
+    },
+    {
+      "question": "How do I find my image's pixel dimensions?",
+      "answer": "On a phone, open the photo and tap the info or details button in your gallery app. On a computer, right-click the file and choose Properties (Windows) or Get Info (Mac) to see width × height in pixels. In Photoshop, use Image > Image Size, and in Lightroom check the Metadata panel. Enter those two numbers into the fields above."
     },
     {
       "question": "Why doesn't my photo fit a standard print size?",
-      "answer": "Different cameras use different aspect ratios. Phone cameras are typically 4:3, DSLRs are 3:2, and medium format is 4:5. Standard print sizes like 8×10 (4:5) or 5×7 (5:7) don't match all cameras, requiring cropping."
+      "answer": "Standard print sizes were set to different shapes than most cameras capture. Phone cameras are typically 4:3, most DSLRs and mirrorless are 3:2, and common frames like 8×10 are 4:5. When your photo's aspect ratio doesn't match the paper, the lab crops the mismatch off one pair of edges. Check the aspect ratio the calculator reports and pick a print size that matches it, or compose with extra room around the subject so a crop won't cut anything important."
     },
     {
-      "question": "Can I enlarge my photo beyond these sizes?",
-      "answer": "AI upscaling tools can increase resolution, but they add interpolated (guessed) detail. For critical prints, it's better to reshoot at higher resolution. For casual display, upscaling 1.5-2× usually looks acceptable."
+      "question": "Can I enlarge a photo past its maximum size?",
+      "answer": "You can, but you're inventing pixels rather than recording them. AI upscalers guess plausible detail and often look convincing for casual display at 1.5–2× enlargement. For a print you'll scrutinize up close, that guessed detail shows, so it's better to shoot at higher resolution or accept a lower DPI and a longer viewing distance instead."
     },
     {
-      "question": "Does file format affect print size?",
-      "answer": "No, print size depends only on pixel dimensions and DPI. RAW, TIFF, JPEG, and PNG all print the same size at the same pixel dimensions. However, RAW/TIFF preserve more detail for editing."
+      "question": "Does file format change the print size?",
+      "answer": "No. Print size is set entirely by pixel dimensions and DPI, so a JPEG, PNG, TIFF, and RAW of the same photo all print at exactly the same size. RAW and TIFF hold more tonal and color detail for editing, which affects how good the print looks, but not how big it can be."
     }
   ],
   "relatedTools": [
@@ -112,66 +121,66 @@
     ]
   },
   "category": "photography",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This print size calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "Print size comes straight from the division print inches = pixels ÷ DPI. Here is exactly what happens when you enter your photo's width and height.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Take your pixel width and pixel height as entered — say 3,000 × 2,400 px",
+      "Divide each by 300 DPI to get the largest sharp print: 3,000 ÷ 300 = 10 in wide, 2,400 ÷ 300 = 8 in tall, so 10 × 8 in",
+      "Repeat at 200 and 150 DPI for larger, more distance-tolerant sizes — at 150 DPI that same file spreads to 20 × 16 in",
+      "Divide width by height to get the aspect ratio, then match it against standard print sizes to flag which ones fit without cropping"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures assume your pixels carry real detail. A blurry, noisy, or heavily zoomed shot won't look as sharp as the numbers suggest, and different papers and printers render fine detail slightly differently."
   },
   "whenToUse": {
-    "intro": "This print size calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this calculator whenever a photo is heading to paper and you need to know how large it can go before it turns soft.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Before ordering prints from a lab, to confirm the size you selected will look sharp at the intended viewing distance",
+      "When checking a photo is big enough for the frame you already bought — enter the pixels and see if 8×10 or 11×14 clears 300 DPI",
+      "When planning a poster or wall art, to find the largest size that still holds up at 150 DPI from a few feet away",
+      "When deciding whether a cropped or phone-zoomed shot still has the pixels for the print size you want",
+      "When choosing a print size that matches your photo's aspect ratio so the lab doesn't crop off part of the subject"
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Print Size Calculator?",
-        "body": "The Print Size Calculator is a free online tool designed for photographers who need quick, accurate calculations in the photography space. By entering your image width, image height, you get instant results including max @ 300 dpi, max @ 200 dpi, max @ 150 dpi. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Tells You",
+        "body": "Enter a photo's pixel width and height and this tool shows the largest print you can make at 300, 200, and 150 DPI, plus its aspect ratio and the closest standard print size. It answers the question every print order raises: is this file big enough for the size I want? The math is print inches = pixels ÷ DPI, done for both dimensions, so you see the trade-off between a small sharp print and a large one you view from farther back."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting max @ 300 dpi right can make the difference between success and costly mistakes. In photography, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by photographers worldwide, giving you confidence that your numbers are correct. Use it to capture better images with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Take a 3,000 × 2,400 px photo — a 7.2 MP file. At 300 DPI it prints 10 × 8 in (3,000 ÷ 300 = 10, 2,400 ÷ 300 = 8), which is tack-sharp in an album. Keep the same file and drop to 150 DPI and it spreads to 20 × 16 in, a poster-sized print. Nothing about the photo changed; you simply chose to view a larger print from farther away. That is the whole idea behind maximum print size: bigger prints are fine as long as the viewer stands back."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your image width and need to find the right max @ 300 dpi. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why DPI and Distance Go Together",
+        "body": "There is no single \"minimum\" resolution for a good print — it depends on how close someone stands. A photo book page lives inches from your eyes and needs 300 DPI to look clean. A framed print on a wall sits several feet away, so 150 DPI is plenty. A billboard runs 10–20 DPI and looks flawless from across the street. When you compare the three sizes this calculator returns, you're really choosing a viewing distance for each one."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Image Width (pixels)",
-      "description": "Type or select your image width in the field provided. Use the most accurate value available for best results."
+      "title": "Find your photo's pixel dimensions",
+      "description": "Check the width × height in pixels: photo info in your phone gallery, Get Info / Properties on a computer, or Image Size in your editor. Example: 4,032 × 3,024 px for a typical phone shot."
     },
     {
-      "title": "Enter Your Image Height (pixels)",
-      "description": "Type or select your image height in the field provided. Use the most accurate value available for best results."
+      "title": "Enter the width and height in pixels",
+      "description": "Type the pixel width and pixel height into the two fields. Use the actual dimensions of the specific shot, since cropping and zoom change them from the camera's headline megapixels."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Calculate the print sizes",
+      "description": "Press Calculate to divide each dimension by 300, 200, and 150 DPI. The largest sharp size, larger distance-viewed sizes, aspect ratio, and megapixels appear instantly below."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your max @ 300 dpi, max @ 200 dpi, max @ 150 dpi. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Pick a size for your viewing distance",
+      "description": "Use the 300 DPI figure for prints held close, and the 150 DPI figure for wall art and posters seen from a few feet. Match the aspect ratio to a standard size to avoid cropping."
     }
   ],
   "tips": [
-    "Double-check your image width before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both max @ 300 dpi and max @ 200 dpi — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to capture better images.",
-    "If you're unsure about your image height, start with a conservative estimate and adjust from there."
+    "Read the pixel dimensions off the actual file you plan to print, not the camera spec — cropping and digital zoom shrink the numbers that matter.",
+    "For prints you'll hold and inspect, aim for 300 DPI; for framed wall art and posters seen from a few feet, 150 DPI looks just as good and prints far larger.",
+    "If your photo's aspect ratio doesn't match a standard frame, compose with breathing room around the subject so the lab's crop doesn't cut anything important.",
+    "Doubling a print's dimensions quarters its effective DPI, so a 10 × 8 in at 300 DPI becomes 20 × 16 in at 150 DPI — the same file, viewed from farther back.",
+    "Treat 150 DPI as the floor for photographic prints; below it, softness shows even at a distance, and it's better to reshoot or print smaller."
   ]
 }

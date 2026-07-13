@@ -14,32 +14,36 @@
   "jsonLdDescription": "AI Agent Cost Calculator: Estimate costs for running autonomous AI agents. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>AI Agent Cost Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"stepsPerTask\">Avg Steps per Task</label>\n      <input type=\"number\" id=\"stepsPerTask\" value=\"15\" min=\"1\" max=\"100\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tokensPerStep\">Tokens per Step (in+out)</label>\n      <input type=\"number\" id=\"tokensPerStep\" value=\"5000\" min=\"100\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tasksPerDay\">Tasks per Day</label>\n      <input type=\"number\" id=\"tasksPerDay\" value=\"50\" min=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"model\">Model</label>\n      <select id=\"model\"><option value=\"haiku\">Haiku ($0.25/$1.25 MTok)</option><option value=\"sonnet\" selected>Sonnet ($3/$15 MTok)</option><option value=\"opus\">Opus ($15/$75 MTok)</option></select>\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"days\">Days per Month</label>\n      <input type=\"number\" id=\"days\" value=\"30\" inputmode=\"decimal\">\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Tokens per Task</div>\n        <div class=\"result-value\" id=\"tokensPerTask\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost per Task</div>\n        <div class=\"result-value\" id=\"costPerTask\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Cost</div>\n        <div class=\"result-value\" id=\"dailyCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Cost</div>\n        <div class=\"result-value\" id=\"monthlyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This ai agent cost calculator uses established formulas to provide accurate results.",
+    "intro": "Every call your agent makes bills on two token streams: the prompt you send in and the text the model generates back. This calculator counts both across all the steps in a task, prices them at the model's per-million rate, then scales that single-task cost up to your daily and monthly volume.",
     "rules": [
       "Cost per Task = Steps × Tokens per Step × Average Token Rate"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "Because the model rereads the growing conversation on every step, an agent that takes 15 steps rarely uses 15× the tokens of one step — it uses more, since each step carries the accumulated history. Treat the monthly figure as a floor and add headroom for retries."
   },
   "faq": [
     {
+      "question": "Why do output tokens cost several times more than input tokens?",
+      "answer": "Generating text is more compute-heavy than reading it. The model produces output one token at a time, running a full forward pass for each one, while input tokens are processed in parallel in a single pass. Providers price that difference in — output often runs 4× to 5× the input rate. Take a task with 1M input tokens at $3/M and 500K output at $15/M: input costs $3.00, output costs $7.50, so the output half is more than double the bill despite being fewer tokens. Anywhere you can trade a long generated answer for a short one, you save real money."
+    },
+    {
+      "question": "How do I estimate token counts before I have real usage data?",
+      "answer": "A rough English-language rule is about 4 characters or 0.75 words per token, so 1,000 words lands near 1,300 tokens. For agents, estimate per step: count the system prompt, tool definitions, and accumulated conversation as input, and the model's reasoning plus tool calls as output. Then multiply by your expected step count. Most provider SDKs return exact input and output token counts on every response, so once you run a handful of real tasks, replace your estimate with the measured average — that is the number worth plugging in here."
+    },
+    {
+      "question": "How do agent loops blow the cost up so fast?",
+      "answer": "Two compounding effects. First, the conversation grows: on step 10 the model rereads everything from steps 1 through 9, so input tokens climb with each turn rather than staying flat. Second, retries and self-correction add steps you did not plan for — a failed tool call, a reflection pass, or a loop that cannot decide it is done can double or triple the step count. A task you budgeted at 15 steps can quietly run 40. Cap the maximum steps, log token usage per task, and alert when a task exceeds its budget."
+    },
+    {
+      "question": "How do I cut the cost of running an LLM agent?",
+      "answer": "Route by difficulty — send simple classification, extraction, and routing subtasks to a cheaper model and reserve the expensive one for hard reasoning. Cache the stable parts of your prompt (system instructions, tool schemas, retrieved documents) so you are not paying to reprocess them every step. Trim the context you carry forward instead of appending the full history. Set a hard step ceiling. And shorten outputs: ask for structured or terse responses, since output tokens are where the money goes."
+    },
+    {
       "question": "How much do AI agents cost to run?",
-      "answer": "A single agent task using Sonnet with 15 steps at 5K tokens/step costs roughly $0.67. At 50 tasks/day, that is about $33/day or $1,000/month."
+      "answer": "It depends entirely on the model, task length, and volume. As a worked example, a single agent task using Sonnet-tier pricing with 15 steps at 5K tokens per step costs roughly $0.67. At 50 tasks per day that is about $33/day or $1,000/month. Swap to a cheaper model and it drops severalfold; move to a top-tier model or add retry loops and it climbs just as fast. Run your own numbers in the calculator above."
     },
     {
-      "question": "How to reduce AI agent costs?",
-      "answer": "Use Haiku for simple subtasks, cache repeated context, limit maximum steps, and use smaller models for routing and classification tasks."
-    },
-    {
-      "question": "Is the AI Agent Cost Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
-    },
-    {
-      "question": "What avg steps per task should I enter?",
-      "answer": "Enter the most accurate avg steps per task value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Does this calculator send my numbers anywhere?",
+      "answer": "No. The math runs entirely in your browser, nothing is uploaded, and there is no signup. Adjust the inputs as often as you like to compare models or volume scenarios."
     }
   ],
   "relatedTools": [
@@ -47,66 +51,66 @@
     "llm-comparison-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This ai agent cost calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator builds up from a single step to a monthly bill so you can see exactly where the money goes.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Multiply your average steps per task by the tokens each step consumes to get total tokens per task",
+      "Apply the selected model's blended input-and-output rate per million tokens to price one task",
+      "Multiply the per-task cost by tasks per day to get your daily spend",
+      "Multiply daily spend by days per month for the monthly total — all computed in your browser, nothing leaves your device"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are planning estimates. Real bills shift with prompt caching, growing conversation history, retries, and provider rate changes — measure actual token usage from your SDK responses to tighten the numbers."
   },
   "whenToUse": {
-    "intro": "This ai agent cost calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this before you turn an AI feature on, not after the invoice arrives.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Budgeting a new AI feature — sizing the monthly bill before you ship it to users",
+      "Comparing models — checking whether a cheaper model at higher volume beats a premium model with fewer calls",
+      "Estimating agent loops — projecting how a multi-step agent scales when step counts and retries add up",
+      "Setting a per-task cost ceiling so you can flag runaway tasks in production",
+      "Explaining LLM spend to a team or finance stakeholder who needs the math laid out"
     ]
   },
   "category": "ai-developer",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the AI Agent Cost Calculator?",
-        "body": "The AI Agent Cost Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your avg steps per task, tokens per step, tasks per day, you get instant results including tokens per task, cost per task, daily cost. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This calculator estimates what it costs to run an LLM-powered agent at scale. You give it the average number of steps a task takes, the tokens each step burns, how many tasks you run per day, and the model you are using; it returns the tokens per task, cost per task, daily cost, and monthly cost. The core formula is simple: cost = (input tokens ÷ 1M × input price) + (output tokens ÷ 1M × output price), multiplied by the number of requests. The catch that surprises most teams is that the same task run 1,000 times a day is a very different bill from running it once — this tool shows both."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting tokens per task right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example: Output Tokens Dominate the Bill",
+        "body": "Say one task sends 1M input tokens at $3 per million and generates 500K output tokens at $15 per million. Input costs $3.00 and output costs $7.50, for $10.50 per task — and notice the output side is more than double the cost despite being half the token count, because generated tokens are priced several times higher than tokens you send in. Now run that task 1,000 times: 1,000 × $10.50 = $10,500. Cutting the prompt in half saves $1,500; cutting the generated output in half saves $3,750. That asymmetry is why trimming responses beats trimming prompts almost every time."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your avg steps per task and need to find the right tokens per task. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why Agent Loops Change the Math",
+        "body": "A single LLM call is easy to price. An agent is a loop — it calls the model, acts on the result, feeds the outcome back, and calls again, sometimes retrying on failure or reflecting on its own work. Each pass carries the accumulated conversation, so token use per step climbs as the task runs, and an unbounded loop can rack up far more steps than you planned. That is where budgets quietly blow up. Estimating steps and tokens per step here, then capping both in your code, keeps an agent from turning a $0.67 task into a $6 one."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Avg Steps per Task",
-      "description": "Start by entering your avg steps per task — this is the primary input for the calculation."
+      "description": "Set how many model calls a typical task takes. A one-shot answer is 1; a tool-using agent that plans, acts, and checks its work is often 10 to 20. If retries are common, round up."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: tokens per step, tasks per day, model, days per month. Each value refines the calculation for greater accuracy."
+      "title": "Fill In Tokens per Step and Volume",
+      "description": "Enter the combined input-plus-output tokens a single step consumes, then your tasks per day, model, and days per month. If you have real SDK usage numbers, use the measured average rather than a guess."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Run the numbers. You get tokens per task, cost per task, and both daily and monthly totals at the selected model's rate."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your tokens per task, cost per task, daily cost. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Compare and Stress-Test",
+      "description": "Switch the model, bump the step count to mimic a retry-heavy loop, or raise tasks per day to see where the monthly bill lands. The gap between a cheap model and a premium one at your volume is usually the deciding number."
     }
   ],
   "tips": [
-    "Double-check your avg steps per task before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both tokens per task and cost per task — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your days per month, start with a conservative estimate and adjust from there."
+    "Output tokens are where the cost concentrates — a shorter generated answer usually saves far more than a shorter prompt.",
+    "Your tokens-per-step figure should account for the growing conversation: later steps carry all the earlier history, so an average pulled from real runs beats the token count of a single step.",
+    "Add a retry buffer. If tasks fail and re-run even 20% of the time, model that by raising steps per task rather than trusting the happy-path number.",
+    "Run the cheap model and the premium model side by side at your real volume before committing — higher volume can flip which one is actually cheaper.",
+    "Prompt caching can slash the input half of your bill when the system prompt and tool definitions repeat every step; if you use it, lower your effective tokens-per-step accordingly."
   ]
 }

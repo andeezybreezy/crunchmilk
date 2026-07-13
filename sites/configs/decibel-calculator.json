@@ -14,35 +14,43 @@
   "jsonLdDescription": "Decibel Calculator: Convert between decibels, watts, and voltages — add or compare sound levels. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Decibel Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mode\">Calculation Mode</label>\n      <select id=\"mode\"><option value=\"add\" selected>Add dB levels</option><option value=\"power\">Power (watts) to dB</option><option value=\"voltage\">Voltage to dB</option><option value=\"distance\">dB at distance</option></select>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"val1\">Value 1 (dB or watts or volts)</label>\n      <input type=\"number\" id=\"val1\" value=\"85\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"val2\">Value 2 (dB or reference)</label>\n      <input type=\"number\" id=\"val2\" value=\"82\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"distance\">Distance (meters, for distance mode)</label>\n      <input type=\"number\" id=\"distance\" value=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Result</div>\n        <div class=\"result-value\" id=\"result1\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Detail</div>\n        <div class=\"result-value\" id=\"result2\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Perception</div>\n        <div class=\"result-value\" id=\"perception\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This decibel calculator uses established formulas to provide accurate results.",
+    "intro": "Decibels are a logarithmic ratio, not a plain count, so this calculator never just adds the numbers you type. It picks the right formula for the mode you choose — combining levels, converting power or voltage to dB, or projecting a level to a new distance — and does the log math for you.",
     "rules": [
       "Adding: dB_total = 10 × log₁₀(10^(dB₁/10) + 10^(dB₂/10))",
       "Power: dB = 10 × log₁₀(P₁ / P₂)",
       "Voltage: dB = 20 × log₁₀(V₁ / V₂)",
       "Distance: dB₂ = dB₁ - 20 × log₁₀(d₂ / d₁)"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "The distance rule assumes a point source radiating into a free field with no reflections. Indoors, walls and ceilings bounce sound back, so real rooms fall off more slowly than the formula predicts — treat outdoor-style results as a best case."
   },
   "faq": [
     {
-      "question": "How do you add decibels together?",
-      "answer": "You can't simply add dB values. Two sources at 80 dB don't make 160 dB — they make 83 dB. Use: combined = 10 × log₁₀(10^(dB1/10) + 10^(dB2/10))."
+      "question": "Why can't I just add two decibel numbers together?",
+      "answer": "Because decibels are logarithmic, they measure a ratio of power rather than a linear quantity. Two 80 dB machines running together produce about 83 dB, not 160 dB. To combine levels you convert each back to power with 10^(dB/10), add the powers, then convert back with 10 × log₁₀ of the sum. This calculator does that for you in Add mode."
     },
     {
-      "question": "How much louder is 10 dB?",
-      "answer": "A 10 dB increase is perceived as roughly twice as loud. A 3 dB increase doubles the acoustic power. A 1 dB change is the smallest difference most people can detect."
+      "question": "Why do two equal sources add only +3 dB?",
+      "answer": "Adding a second identical source doubles the acoustic power, and 10 × log₁₀(2) ≈ 3.01 dB. So two 70 dB fans make 73 dB, four make 76 dB, and eight make 79 dB — every doubling of sources adds 3 dB. Perceptually 3 dB is noticeable but modest, which is why halving the number of noisy machines rarely feels like half the noise."
     },
     {
-      "question": "How does distance affect sound level?",
-      "answer": "Sound drops 6 dB each time distance doubles (inverse square law in free field). A speaker at 90 dB/1m will be about 84 dB at 2m and 78 dB at 4m."
+      "question": "When do I use 10·log versus 20·log?",
+      "answer": "Use 10 × log₁₀ for power or intensity quantities — watts, sound intensity, acoustic power. Use 20 × log₁₀ for field quantities like voltage or sound pressure, because power is proportional to the square of pressure or voltage. The factor of 20 is just the factor of 10 with the square pulled out of the log. Pick Power mode for watts and Voltage mode for volts and the tool applies the correct factor."
+    },
+    {
+      "question": "How much does sound drop as I move away from the source?",
+      "answer": "For a point source in the open, level falls about 6 dB every time you double the distance — the inverse-square law expressed as 20 × log₁₀(d₂/d₁). A speaker measuring 90 dB at 1 m reads roughly 84 dB at 2 m, 78 dB at 4 m, and 72 dB at 8 m. Line arrays, walls, and enclosed rooms change this, so use it as a free-field estimate."
+    },
+    {
+      "question": "How much louder is a 10 dB increase?",
+      "answer": "A 10 dB rise is generally perceived as about twice as loud, even though it represents ten times the acoustic power. By contrast a 3 dB rise doubles the power but is only a mild change to the ear, and roughly 1 dB is the smallest step most listeners can reliably detect. This is why loudness and raw power move on very different scales."
+    },
+    {
+      "question": "Can I subtract a known noise source from a total measurement?",
+      "answer": "Yes, decibel subtraction works the same way in reverse: convert both the total and the known source to power, subtract, then convert back. If a total reading is 85 dB and a background source is 82 dB, the remaining source is about 82 dB — not 3 dB — because the two nearly equal levels shared most of the energy. The gap between the numbers matters more than their difference."
     },
     {
       "question": "Is the Decibel Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "answer": "Yes, completely free with no signup required. Everything runs in your browser, so you can add levels, convert watts or volts, and project distance as many times as you like at no cost."
     }
   ],
   "relatedTools": [
@@ -51,66 +59,67 @@
     "crossover-frequency-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This decibel calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "Every mode reduces to the same idea: convert decibels to and from the linear power or field quantity they represent, do the arithmetic there, then convert back. Here is what happens when you press Calculate.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "The mode you select decides which formula runs — combining two levels, converting watts, converting volts, or projecting a level to a new distance.",
+      "For Add mode, each level is turned into relative power with 10^(dB/10), the two powers are summed, and the total goes back through 10 × log₁₀.",
+      "For Power mode the ratio uses 10 × log₁₀(P₁/P₂); for Voltage mode it uses 20 × log₁₀(V₁/V₂) because power scales with the square of voltage.",
+      "For Distance mode the level is reduced by 20 × log₁₀(d₂/d₁), the free-field inverse-square drop of about 6 dB per doubling.",
+      "The result is paired with a rough perception note so you can judge whether the change is barely audible, clearly louder, or roughly twice as loud."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are free-field estimates using standard acoustic formulas. Room reflections, source directivity, and measurement weighting (dBA versus dBC) shift real readings. For OSHA compliance or legal noise limits, use a calibrated sound level meter and a qualified professional."
   },
   "whenToUse": {
-    "intro": "This decibel calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this whenever a decibel figure needs to be combined, converted, or moved to a new distance rather than read straight off a meter.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Sizing a PA or studio monitor: convert amplifier watts to dB gain, or check how a 3 dB power doubling actually maps to loudness before spending on more headroom.",
+      "Estimating workplace noise: combine several machines running at once to see whether a workspace crosses the 85 dBA action level or the 90 dBA limit where hearing protection and monitoring kick in.",
+      "Room and venue acoustics: project a speaker's rated 1 m level out to the back row using the distance mode to check coverage.",
+      "Comparing gear specs: line up two devices quoted in dB — signal-to-noise, gain, sensitivity — and see the real difference instead of assuming the numbers add.",
+      "Teaching or studying: show why two equal sources add 3 dB and why 10·log and 20·log apply to different quantities."
     ]
   },
   "category": "audio",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Decibel Calculator?",
-        "body": "The Decibel Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your calculation mode, value 1, value 2, you get instant results including result, detail, perception. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "The Decibel Calculator handles the four everyday jobs that trip people up because decibels are logarithmic: combining two or more sound levels, converting acoustic power in watts to dB, converting voltage to dB, and projecting a measured level out to a new distance. Pick a mode, type your numbers, and it does the log arithmetic — the same 10·log and 20·log math that a spreadsheet or a physics textbook would use, without the setup. You get the result, a supporting detail, and a plain-language note on how the change would actually sound."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting result right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Decibels Don't Simply Add",
+        "body": "A decibel is a ratio on a logarithmic scale, so intuition about ordinary numbers fails. The classic example: two machines each measured at 80 dB, running side by side, produce about 83 dB together — not 160 dB. Doubling the number of equal sources adds only 3 dB because it doubles acoustic power, and 10 × log₁₀(2) is roughly 3. That single fact reshapes noise planning: silencing one of two identical sources buys you 3 dB, and getting a room 10 dB quieter — the point where it sounds about half as loud — takes cutting power to a tenth."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your calculation mode and need to find the right result. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Power, Voltage, and Distance in One Place",
+        "body": "The same tool covers the conversions engineers reach for constantly. Power ratios use dB = 10 × log₁₀(P₁/P₂); field quantities like voltage or sound pressure use 20 × log₁₀(V₁/V₂), because power rises with the square of voltage, which is where the factor of 20 comes from. For distance, a point source in the open loses about 6 dB every time you double how far away you stand — a 90 dB reading at 1 m becomes roughly 84 dB at 2 m and 78 dB at 4 m. Choose the matching mode and the calculator applies the right formula automatically."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Calculation Mode",
-      "description": "Start by entering your calculation mode — this is the primary input for the calculation."
+      "title": "Choose a Calculation Mode",
+      "description": "Pick Add dB levels to combine sources, Power (watts) to dB for acoustic or amplifier power, Voltage to dB for field quantities, or dB at distance to project a level."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: value 1, value 2, distance. Each value refines the calculation for greater accuracy."
+      "title": "Enter Value 1 and Value 2",
+      "description": "In Add mode these are two levels in dB. In Power or Voltage mode they are the measured and reference quantities forming the ratio. In Distance mode, Value 1 is the known level at the reference distance."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set the Distance If Needed",
+      "description": "For distance mode, enter the new distance in meters. The reference distance is the point where Value 1 was measured — typically 1 m for a rated speaker spec."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your result, detail, perception. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Click Calculate and Read the Perception Note",
+      "description": "Hit Calculate to see the combined or converted level plus its detail. Use the perception line to judge whether the change is barely audible, clearly louder, or about twice as loud."
     }
   ],
   "tips": [
-    "Double-check your calculation mode before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both result and detail — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your distance, start with a conservative estimate and adjust from there."
+    "When two levels are within about 1 dB of each other, expect roughly +3 dB combined; when they are 10 dB or more apart, the quieter source barely moves the total.",
+    "To cut noise, target the loudest single source first — trimming a source that is already 10 dB below the total changes almost nothing.",
+    "Match the mode to the quantity: watts and acoustic power use the 10·log Power mode, while voltage and sound pressure use the 20·log Voltage mode.",
+    "For distance estimates, remember the 6 dB per doubling rule only holds outdoors or in a free field; enclosed rooms fall off more slowly because of reflections.",
+    "If you are checking against an 85 or 90 dBA workplace limit, note that this tool gives unweighted level math — a calibrated dBA meter is what compliance actually requires."
   ]
 }

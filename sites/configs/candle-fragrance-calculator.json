@@ -14,7 +14,7 @@
   "jsonLdDescription": "Calculate the exact amount of fragrance oil needed for candle making based on wax weight and desired fragrance load percentage.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Candle Fragrance Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"waxType\">Wax Type</label>\n    <select id=\"waxType\">\n      <option value=\"soy\">Soy Wax (max ~10%)</option>\n      <option value=\"paraffin\">Paraffin Wax (max ~12%)</option>\n      <option value=\"coconut\">Coconut Wax (max ~10%)</option>\n      <option value=\"beeswax\">Beeswax (max ~6%)</option>\n      <option value=\"custom\">Custom</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"waxWeight\">Wax Weight (ounces)</label>\n    <input type=\"number\" id=\"waxWeight\" value=\"16\" min=\"0\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"fragrancePct\">Fragrance Load (%)</label>\n    <input type=\"number\" id=\"fragrancePct\" value=\"8\" min=\"0\" max=\"15\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"numCandles\">Number of Candles</label>\n    <input type=\"number\" id=\"numCandles\" value=\"1\" min=\"1\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Fragrance</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Fragrance Oil Per Candle</div>\n        <div class=\"result-value\" id=\"foPerCandle\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Fragrance Oil</div>\n        <div class=\"result-value\" id=\"foTotal\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Wax Needed</div>\n        <div class=\"result-value\" id=\"waxTotal\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Batch Weight</div>\n        <div class=\"result-value\" id=\"batchWeight\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Fragrance (mL)</div>\n        <div class=\"result-value\" id=\"foMl\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Fragrance (grams)</div>\n        <div class=\"result-value\" id=\"foGrams\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "Fragrance oil is added as a percentage of the wax weight. The maximum safe fragrance load depends on the wax type.",
+    "intro": "Fragrance load is a percentage of your wax weight, not the finished candle weight. Multiply the wax weight by the load percent and you have the fragrance oil to weigh out. The ceiling on that percent is set by the wax, because each wax can only hold so much oil before it stops binding.",
     "rules": [
       "Fragrance oil (oz) = wax weight (oz) × fragrance percentage / 100",
       "Total batch weight = wax weight + fragrance oil weight",
@@ -22,28 +22,36 @@
       "Paraffin wax can hold up to 10–12%",
       "Beeswax holds less fragrance — typically 3–6%"
     ],
-    "outro": "Adding more fragrance than the wax can hold causes sweating (oil pooling on the surface), poor burn, and potential wick clogging. Always test your specific wax and fragrance combination."
+    "outro": "Pouring more oil than the wax can hold does not make a stronger candle. Past the binding limit the extra fragrance separates out as sweating (beads of oil on the surface), clogs the wick, and can make the flame sputter. When a scent reads weak, the fix is almost never more oil — it is cure time, wick size, or pour temperature. Test each wax and fragrance pairing before you scale."
   },
   "faq": [
     {
-      "question": "What fragrance percentage should I use?",
-      "answer": "For soy wax, 6-10% is typical. Start at 6% for subtle scent and increase to 8-10% for strong hot throw. Never exceed your wax manufacturer's recommended maximum, as excess oil won't bind to the wax."
+      "question": "What fragrance load percentage should I use?",
+      "answer": "Most makers land between 6% and 10% of the wax weight. Start at 6% for a soft, close scent and move toward 8–10% for a room-filling hot throw. On 16 oz of soy at 8% that works out to 1.28 oz of fragrance oil. Stay at or below your wax's rated maximum — for soy and coconut that is usually about 10%, paraffin about 12%, and beeswax closer to 6%."
     },
     {
-      "question": "What is hot throw vs cold throw?",
-      "answer": "Cold throw is how a candle smells unlit. Hot throw is the scent when burning. Good hot throw requires proper fragrance load, correct pouring temperature, adequate cure time (1-2 weeks for soy), and appropriate wick size."
+      "question": "Can I exceed the wax's maximum fragrance load?",
+      "answer": "No — going past the rated maximum backfires. Once you pass the amount the wax can bind, the surplus oil separates instead of dissolving. You get sweating on the surface, a wick that clogs and drowns, and in some cases a flame that flares or sputters. The wax simply cannot lock in more oil, so the extra is wasted and works against you."
+    },
+    {
+      "question": "Should I measure fragrance oil by weight or by volume?",
+      "answer": "Always by weight, on a digital scale in ounces or grams. Fragrance load is a weight-to-weight ratio against the wax, and oils vary in density, so measuring by volume (mL or teaspoons) drifts off target. Zero the scale with your pouring pitcher on it, add wax, note the weight, then multiply by your load percent to get the oil weight. The calculator shows mL and grams too, but weight is the number to trust."
+    },
+    {
+      "question": "Why does my candle have weak scent throw?",
+      "answer": "Weak throw usually is not a fragrance-load problem. The common causes are too little cure time (soy often needs 1–2 weeks), a wick too small to melt a full pool and release scent, or fragrance added when the wax was too hot, which flashes off the oil. Adding more oil past the wax's limit will not help and can cause sweating. Check cure, wick size, and pour temperature first."
+    },
+    {
+      "question": "At what temperature do I add the fragrance oil?",
+      "answer": "Add fragrance once the melted wax has cooled to the range your wax recommends, commonly around 180–185°F for soy, and stir gently for a full minute or two so the oil binds evenly. Pouring oil into wax that is above the fragrance's flash point burns off scent and is a fire risk, so keep the flash point in mind."
+    },
+    {
+      "question": "Do IFRA limits affect how much fragrance I can add?",
+      "answer": "Yes. Beyond what the wax can physically hold, the fragrance supplier publishes an IFRA maximum usage level for candles based on the oil's ingredients. That safety ceiling can be lower than the wax's binding limit, so use whichever is smaller. Check the IFRA certificate for each oil, especially if you sell your candles."
     },
     {
       "question": "Can I use essential oils instead of fragrance oil?",
-      "answer": "Yes, but essential oils are generally weaker in candles and more expensive. Use the same percentage calculations. Some essential oils like citrus have low flash points and may not perform well. Always check flash point ratings."
-    },
-    {
-      "question": "What is the flash point and why does it matter?",
-      "answer": "Flash point is the temperature at which fragrance oil can ignite. Add fragrance oil to wax that has cooled below the oil's flash point (typically 170-200°F). Adding to hotter wax burns off the scent and is a fire risk."
-    },
-    {
-      "question": "Is the Candle Fragrance Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "answer": "You can, but essential oils tend to throw weaker in wax and cost more, and some (citrus especially) have low flash points that hurt performance. Use the same percentage math against the wax weight, and check each oil's flash point and safe-use guidance before pouring."
     }
   ],
   "relatedTools": [
@@ -108,66 +116,68 @@
     ]
   },
   "category": "crafts",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This candle fragrance calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The math behind fragrance load is a single weight-to-weight ratio against your wax, plus a check against the wax's binding limit. Here is exactly what the calculator does with your inputs.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Take your wax weight in ounces (measured on a scale, not by container size)",
+      "Multiply it by your fragrance load percent and divide by 100 — that is the fragrance oil to weigh out (16 oz × 8% = 1.28 oz)",
+      "Add the oil weight to the wax weight to get the total batch weight you will pour",
+      "Multiply per-candle amounts by your number of candles to size the whole batch",
+      "Convert the oil to grams and mL for reference, and compare your percent against the wax's rated maximum"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures follow standard candle-making ratios. Always follow the maximum fragrance load on your wax's spec sheet and the IFRA usage level on your fragrance oil's certificate — whichever is lower — and test-burn before selling."
   },
   "whenToUse": {
-    "intro": "This candle fragrance calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this calculator any time you are weighing out fragrance oil for a pour and want the exact amount rather than a guess.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Making candles: you know your wax weight and load percent and need the oil amount to weigh out",
+      "Scaling a batch: turn a single-candle recipe into totals for a full pour of six, twelve, or more",
+      "Testing scent throw: hold everything else steady and step the load from 6% to 8% to 10% to find the sweet spot",
+      "Switching wax types: recheck the maximum load when moving between soy, paraffin, coconut, or beeswax",
+      "Costing a run: knowing total fragrance oil per batch tells you how much stock and spend each pour needs"
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Candle Fragrance Calculator?",
-        "body": "The Candle Fragrance Calculator is a free online tool designed for crafters and makers who need quick, accurate calculations in the crafting and DIY space. By entering your wax type, wax weight, fragrance load, you get instant results including fragrance oil per candle, total fragrance oil, total wax needed. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "How Fragrance Load Works",
+        "body": "In candle making, fragrance is dosed as a percentage of the wax weight — the fragrance load. Choose your wax type, weigh your wax, pick a load percent, and the amount of fragrance oil follows directly. Most candles sit between 6% and 10% load. That percentage, not the size of your jar, is what determines how much oil goes in and how the candle will smell."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting fragrance oil per candle right can make the difference between success and costly mistakes. In crafting and DIY, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by crafters and makers worldwide, giving you confidence that your numbers are correct. Use it to plan your projects with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example: 16 oz of Soy at 8%",
+        "body": "Say you are pouring one candle from 16 oz (1 lb) of soy wax and want an 8% fragrance load. The math is 16 × 8 ÷ 100 = 1.28 oz of fragrance oil. Weigh out 1.28 oz on a scale, add it to the 16 oz of wax, and your total batch weighs 17.28 oz. Bump the load to 10% and you would use 1.6 oz instead. This is the same simple ratio the calculator runs, scaled up for however many candles you pour."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your wax type and need to find the right fragrance oil per candle. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Respecting the Wax's Maximum Load",
+        "body": "Every wax has a ceiling on how much oil it can bind — often around 10% for soy and coconut, up to 12% for paraffin, and closer to 6% for beeswax. Below that ceiling the oil dissolves into the wax and burns clean. Above it the oil separates out, sweats on the surface, and drowns the wick, and the scent does not actually get stronger. Treat the wax maximum as a hard cap, and remember the fragrance supplier's IFRA usage level may cap it lower still."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Wax Type",
-      "description": "Start by entering your wax type — this is the primary input for the calculation."
+      "title": "Select Your Wax Type",
+      "description": "Pick soy, paraffin, coconut, or beeswax. Each has a different maximum fragrance load, so this sets the safe ceiling for your pour."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: wax weight, fragrance load, number of candles. Each value refines the calculation for greater accuracy."
+      "title": "Weigh and Enter Your Wax",
+      "description": "Enter the wax weight in ounces, measured on a scale rather than by jar size. Fragrance load is calculated against this weight."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set Your Fragrance Load and Candle Count",
+      "description": "Choose a load percent (6–10% is typical) and how many candles you are pouring. Keep the percent at or below your wax's maximum."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your fragrance oil per candle, total fragrance oil, total wax needed. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Weigh Out the Oil",
+      "description": "Run the numbers to get fragrance oil per candle, total oil for the batch, and total batch weight. Weigh the oil on a scale to hit the amount exactly."
     }
   ],
   "tips": [
-    "Double-check your wax type before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both fragrance oil per candle and total fragrance oil — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to plan your projects.",
-    "If you're unsure about your number of candles, start with a conservative estimate and adjust from there."
+    "Weigh both wax and fragrance oil on a digital scale — fragrance load is a weight ratio, so measuring oil by volume throws off the dose.",
+    "Keep your load at or below the wax's rated maximum; past that point the oil sweats out and the scent does not get any stronger.",
+    "Compare the IFRA usage level on the fragrance's certificate against the wax maximum and use the lower of the two.",
+    "When throw seems weak, cure the candles longer and check your wick size before you ever reach for more oil.",
+    "Add fragrance at the temperature your wax recommends (around 180°F for soy) and stir a full minute or two so the oil binds evenly.",
+    "Log the wax, fragrance, load percent, and cure time for each test pour so you can repeat the ones that throw best."
   ]
 }
