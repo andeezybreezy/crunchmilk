@@ -1,0 +1,28 @@
+{
+  "_readme": "Monthly cloud routine for the CrunchMilk SEO loop. BLOCKED until GitHub is connected to the Claude cloud account (run /web-setup, or install the Claude GitHub App at https://claude.ai/code, on andeezybreezy/crunchmilk). Once connected, re-run the /schedule skill or POST this body to the code triggers API. Cron 0 14 1 * * = 1st of each month, 9am America/Chicago.",
+  "name": "crunchmilk-seo-loop",
+  "cron_expression": "0 14 1 * *",
+  "enabled": true,
+  "job_config": {
+    "ccr": {
+      "environment_id": "env_01JixqcQ6fV6Z4jWUwZznEEP",
+      "session_context": {
+        "model": "claude-sonnet-5",
+        "sources": [{ "git_repository": { "url": "https://github.com/andeezybreezy/crunchmilk" } }],
+        "allowed_tools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep"]
+      },
+      "events": [{
+        "data": {
+          "uuid": "26717d63-c4f8-456e-9a36-b0d3d7d62d5f",
+          "session_id": "",
+          "type": "user",
+          "parent_tool_use_id": null,
+          "message": {
+            "role": "user",
+            "content": "You are the CrunchMilk SEO Loop agent running your scheduled monthly pass. Read seo-loop/INSTRUCTIONS.md and seo-loop/INDEX_LOG.md in full first, then the newest folder under seo-loop/data/. Follow the run procedure in INSTRUCTIONS.md exactly: assess whether last run's pages improved, form ONE hypothesis, de-template the next ~15-20 highest-demand pages not already done (most impressions in the newest Pages.csv/Queries.csv that have a sites/configs/<slug>.json), rewriting ONLY the prose fields (contentIntro, howItWorks, howWeCalculate, whenToUse, tips, howToSteps, faq) into 800+ words of unique expert content with a worked example. Never touch calculatorHTML/titles/meta/keywords. Avoid the banned template phrases in INSTRUCTIONS.md; use Unicode symbols not HTML entities. Rebuild via node generator/build.js <slug> then node generator/build-sitemap.js, verify valid JSON + no banned phrases in output. Commit to branch seo-loop/YYYY-MM-DD, open a PR against main with gh (NEVER merge/push main), prepend a run entry to seo-loop/INDEX_LOG.md in the same PR, and print a 3-line summary + PR URL."
+          }
+        }
+      }]
+    }
+  }
+}
