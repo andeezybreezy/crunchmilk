@@ -14,31 +14,39 @@
   "jsonLdDescription": "Overtime Worth Calculator: Calculate your real after-tax overtime earnings and whether the extra hours are worth it. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Overtime Worth Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"hourlyRate\">Regular Hourly Rate ($)</label>\n      <input type=\"number\" id=\"hourlyRate\" value=\"30\" min=\"7.25\" max=\"200\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"regularHours\">Regular Hours/Week</label>\n      <input type=\"number\" id=\"regularHours\" value=\"40\" min=\"20\" max=\"40\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"overtimeHours\">Overtime Hours/Week</label>\n      <input type=\"number\" id=\"overtimeHours\" value=\"10\" min=\"0\" max=\"40\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"overtimeRate\">OT Multiplier</label>\n      <select id=\"overtimeRate\"><option value=\"1.5\" selected>Time and a Half (1.5x)</option><option value=\"2.0\">Double Time (2.0x)</option></select>\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"taxBracket\">Marginal Tax Bracket (%)</label>\n      <input type=\"number\" id=\"taxBracket\" value=\"22\" min=\"10\" max=\"37\" step=\"2\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"weeksPerYear\">OT Weeks per Year</label>\n      <input type=\"number\" id=\"weeksPerYear\" value=\"48\" min=\"1\" max=\"52\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Gross OT per Week</div>\n        <div class=\"result-value\" id=\"grossOT\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">After-Tax OT per Week</div>\n        <div class=\"result-value\" id=\"netOT\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Effective OT Hourly Rate</div>\n        <div class=\"result-value\" id=\"effectiveOTRate\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual OT Gross</div>\n        <div class=\"result-value\" id=\"annualOTGross\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual OT Take-Home</div>\n        <div class=\"result-value\" id=\"annualOTNet\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Real After-Tax $/Hour</div>\n        <div class=\"result-value\" id=\"hourlyAfterTax\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This overtime worth calculator uses established formulas to provide accurate results.",
+    "intro": "Overtime pay in the U.S. is governed by the Fair Labor Standards Act, which requires most hourly employees to be paid at least 1.5× their regular rate for hours worked beyond 40 in a week. This tool takes that time-and-a-half rate, subtracts the taxes that actually come out of a paycheck, and shows you what an extra hour is really worth in your pocket.",
     "rules": [
       "Gross OT = Hourly Rate x OT Multiplier x OT Hours",
       "Total Tax Rate = Marginal Federal Rate + 7.65% FICA",
       "Net OT = Gross OT x (1 - Total Tax Rate)",
       "Effective OT Rate = Net OT per Week / OT Hours"
     ],
-    "outro": "Results are estimates. Consult a professional for critical decisions."
+    "outro": "The result is your true take-home overtime rate — the number that actually matters when you are deciding whether the extra hours are worth giving up an evening or a weekend."
   },
   "faq": [
     {
-      "question": "Is overtime taxed at a higher rate?",
-      "answer": "Overtime is not taxed at a special rate, but it IS taxed at your marginal rate. Since OT pushes your income higher, it is often taxed at a higher bracket than your base pay. For someone in the 22% bracket, OT take-home is about 70% of gross after federal, state, and FICA taxes."
+      "question": "Does overtime get taxed at a higher rate than regular pay?",
+      "answer": "No. There is no separate, higher tax rate reserved for overtime. Your OT dollars are taxed exactly like any other income. What confuses people is withholding: because a paycheck with overtime is larger, payroll software may withhold at a higher percentage that week, assuming that pay level continues all year. That extra withholding comes back at tax time. The only real reason OT can be taxed more is if those specific dollars land in a higher marginal bracket."
     },
     {
-      "question": "Is working overtime worth it financially?",
-      "answer": "Even after higher marginal taxes, overtime at 1.5x still pays significantly more per hour than regular time. A $30/hour worker gets $45/hour gross OT, which is about $31.50/hour after taxes in the 22% bracket — still more than their regular after-tax rate."
+      "question": "What does time-and-a-half actually mean?",
+      "answer": "Time-and-a-half means you earn 1.5× your regular hourly rate for qualifying overtime hours. If you make $20/hour, each overtime hour pays $30. Some employers pay double time (2.0×) for holidays or hours beyond a daily threshold, so those hours would pay $40. This calculator lets you switch between the 1.5× and 2.0× multipliers to match your situation."
     },
     {
-      "question": "When does overtime stop being worth it?",
-      "answer": "Diminishing returns kick in when: OT pushes you into a much higher tax bracket, the time cost hurts relationships or health, or you could earn more per hour through a side business. Also consider that burnout reduces productivity at your regular job."
+      "question": "Is overtime still worth it after taxes?",
+      "answer": "In almost every case, yes. Taxes take a slice of your overtime, but they never take all of it — you always keep the majority of each extra dollar. A worker at $20/hour who nets around $23/hour after tax on overtime is still earning far more per hour than their regular after-tax wage of roughly $16. The real question is rarely the money; it is whether the time and energy the hours cost you are worth that net gain."
     },
     {
-      "question": "Can I avoid taxes on overtime?",
-      "answer": "You cannot avoid income taxes on overtime, but you can reduce the impact by maximizing 401(k) contributions (which reduce taxable income) or using HSA contributions. Some states periodically propose overtime tax exemptions, but none have passed permanently."
+      "question": "Will working overtime push my whole income into a higher tax bracket?",
+      "answer": "No, and this is the most common overtime myth. The U.S. uses a progressive, marginal system, which means only the dollars that cross a bracket threshold are taxed at the higher rate — not your entire income. Picking up overtime can never leave you with less total take-home pay. At worst, the last few overtime dollars are taxed a bit higher than the first ones."
+    },
+    {
+      "question": "How do I figure out my real after-tax overtime rate?",
+      "answer": "Start with your regular rate, multiply by your overtime multiplier to get the gross OT rate, then subtract your marginal tax bracket plus 7.65% for Social Security and Medicare. For example, $20/hour at 1.5× is $30/hour gross; after roughly 22–24% marginal federal tax and FICA, you net about $23/hour. Enter your own numbers above and the tool does this math instantly, including state tax if you add it into the bracket field."
+    },
+    {
+      "question": "Overtime versus a side job — which pays more per hour?",
+      "answer": "Overtime usually wins on convenience: no commute, no new skills, and a guaranteed 1.5× rate. But side work can beat it when your side rate is high, or when self-employment lets you deduct expenses. The catch is that self-employment income owes the full 15.3% payroll tax instead of your half of FICA. Compare the real after-tax hourly figures side by side before assuming the side hustle pays more."
     }
   ],
   "relatedTools": [
@@ -47,16 +55,20 @@
     "minimum-wage-impact-calculator"
   ],
   "category": "finance",
-  "lastUpdated": "2026-03-12",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Overtime Worth Calculator?",
-        "body": "The Overtime Worth Calculator helps you get precise numbers for your specific situation in seconds. Instead of guessing or spending hours on manual calculations, get accurate results in seconds. Enter your details above and let the calculator do the work."
+        "title": "What This Overtime Calculator Tells You",
+        "body": "Your boss offers you extra hours at time-and-a-half. The gross number sounds great, but the money that actually lands in your bank account is smaller, and that after-tax figure is the one worth deciding on. This tool takes your regular hourly rate, your overtime multiplier, and your marginal tax bracket, then shows the real per-hour value of overtime after federal tax and the 7.65% payroll tax are removed. You see the gross, the take-home, and the true effective rate side by side."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Making financial decisions without accurate numbers is like driving without a dashboard. This calculator gives you the specific figures for your situation so you can plan with confidence rather than rough estimates."
+        "title": "A Worked Example: $20/Hour at Time-and-a-Half",
+        "body": "Say you earn $20/hour and pick up overtime at 1.5×. Each overtime hour pays $30 gross. Because you sit in the 22% federal bracket and owe 7.65% for Social Security and Medicare, roughly 30% of that $30 comes out, leaving about $23 per overtime hour in your pocket. That is still well above your regular after-tax wage of about $16/hour. Overtime does not push your whole paycheck into a higher bracket — only the marginal dollars that cross a threshold are taxed at the top rate, so you never end up with less by working more."
+      },
+      {
+        "title": "Why the After-Tax Number Is the One That Matters",
+        "body": "The gross overtime rate is a headline; the take-home rate is the decision. Once you can see that an extra ten hours a week nets a specific dollar figure, you can weigh it honestly against what those hours cost you — an evening with family, a workout, or the rest you need to perform well at your regular job. A clear net number turns a vague 'is this worth it?' into a real trade you can judge."
       }
     ]
   }

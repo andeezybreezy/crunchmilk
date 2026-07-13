@@ -14,35 +14,39 @@
   "jsonLdDescription": "Focal Length Crop Factor Calculator: Calculate the equivalent focal length and field of view for different sensor sizes. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Focal Length Crop Factor Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"focalLength\">Lens Focal Length (mm)</label>\n      <input type=\"number\" id=\"focalLength\" value=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"cropFactor\">Crop Factor</label>\n      <select id=\"cropFactor\"><option value=\"1\">Full Frame (1.0×)</option><option value=\"1.5\" selected>APS-C Nikon/Sony (1.5×)</option><option value=\"1.6\">APS-C Canon (1.6×)</option><option value=\"2\">Micro 4/3 (2.0×)</option><option value=\"2.7\">1-inch sensor (2.7×)</option><option value=\"5.6\">Smartphone (5.6×)</option></select>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"maxAperture\">Lens Max Aperture</label>\n      <input type=\"number\" id=\"maxAperture\" value=\"1.8\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Equivalent Focal Length</div>\n        <div class=\"result-value\" id=\"equivFL\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Equivalent Aperture (DOF)</div>\n        <div class=\"result-value\" id=\"equivAperture\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Horizontal Field of View</div>\n        <div class=\"result-value\" id=\"fov\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Min Handheld Shutter Speed</div>\n        <div class=\"result-value\" id=\"minShutter\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This focal length crop factor calculator uses established formulas to provide accurate results.",
+    "intro": "The math behind crop factor is a single multiplication, but it quietly reshapes how every lens behaves on your body. Here are the four relationships this tool applies to turn a lens spec sheet into what you will actually see through the viewfinder.",
     "rules": [
       "Equivalent Focal Length = Actual FL × Crop Factor",
       "Equivalent Aperture (DOF) = Actual Aperture × Crop Factor",
       "Horizontal FOV = 2 × arctan(36mm ÷ (2 × Equivalent FL))",
       "Min Shutter Speed = 1 ÷ Equivalent Focal Length"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "The equivalent focal length is a framing shorthand, not a physical change to the lens. Your 50mm is still a 50mm optically — it just projects a smaller sensor's worth of that image circle, so the crop reads as extra reach."
   },
   "faq": [
     {
       "question": "What is crop factor?",
-      "answer": "Crop factor is the ratio of a full-frame sensor diagonal (43.3mm) to your camera's sensor diagonal. APS-C sensors have a 1.5-1.6× crop factor, making a 50mm lens act like 75mm on full frame."
+      "answer": "Crop factor is the ratio between a full-frame sensor's diagonal (43.3mm) and your camera's smaller sensor diagonal. Because the smaller sensor captures only the center of the lens's image circle, the scene appears more magnified. Common values are 1.5× for Nikon and Sony APS-C, 1.6× for Canon APS-C, and 2.0× for Micro Four Thirds. Multiply your lens focal length by that number to get the full-frame-equivalent framing."
     },
     {
-      "question": "Does crop factor affect aperture?",
-      "answer": "It doesn't change the actual aperture or exposure, but it does affect depth of field. A 50mm f/1.8 on APS-C gives similar DOF to a 75mm f/2.7 on full frame."
+      "question": "What does a 50mm lens act like on APS-C?",
+      "answer": "On a 1.6× Canon APS-C body, a 50mm lens frames like an 80mm lens would on full frame (50 × 1.6 = 80). On a 1.5× Nikon or Sony APS-C body the same lens frames like 75mm. That is why a cheap 'nifty fifty' becomes a flattering short portrait lens on a crop camera — the tighter field of view pushes it into portrait territory."
     },
     {
-      "question": "What is the reciprocal rule?",
-      "answer": "For sharp handheld shots, use a shutter speed of at least 1/(equivalent focal length). A 200mm equivalent needs at least 1/200s. Image stabilization lets you go 2-5 stops slower."
+      "question": "Does crop factor change the aperture?",
+      "answer": "No. Your f/1.8 stays f/1.8 for exposure — the same shutter speed and ISO give the same brightness on any sensor. What the crop factor changes is depth of field. A 50mm f/1.8 on a 1.6× body renders roughly the depth of field of an 80mm f/2.9 on full frame, so the background blur is a little less dramatic than the raw f-number suggests."
     },
     {
-      "question": "Is the Focal Length Crop Factor Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Does a crop sensor give me more actual reach?",
+      "answer": "It gives you tighter framing, which feels like reach, but not more optical resolution than the lens and sensor deliver. A 300mm lens on a 2.0× Micro Four Thirds body frames like a 600mm lens on full frame — genuinely useful for wildlife and sports. You are essentially pre-cropping in-camera, so you keep every pixel of your sensor rather than cropping a full-frame file down later."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard photography formulas trusted by photographers. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why do wide-angle lenses feel less wide on a crop body?",
+      "answer": "The crop multiplies every focal length, so wide lenses lose the most width. A 16mm ultra-wide on a 1.6× body frames like a 26mm lens — closer to a normal snapshot than a sweeping landscape. Crop shooters who want true wide-angle coverage buy shorter lenses (a 10-18mm, for example) to land back near the field of view a full-frame shooter gets from a 16-24mm."
+    },
+    {
+      "question": "Does the reciprocal rule use the equivalent focal length?",
+      "answer": "Yes. For sharp handheld shots, keep your shutter speed at or above 1 divided by the equivalent focal length. A 200mm lens on a 1.5× body frames like 300mm, so aim for at least 1/300s rather than 1/200s. Image stabilization can buy back two to five stops, but the crop still raises the baseline you should plan around."
     }
   ],
   "relatedTools": [
@@ -51,70 +55,70 @@
     "photo-file-size-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This focal length crop factor calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator takes your lens focal length, sensor crop factor, and maximum aperture, then works out the four numbers that actually describe how the setup will frame and behave.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Multiply your lens focal length by the selected crop factor to get the full-frame-equivalent focal length — the framing an equivalent lens would give on a 35mm sensor.",
+      "Multiply your maximum aperture by the same crop factor to estimate the equivalent aperture for depth of field, while noting your exposure aperture is unchanged.",
+      "Derive the horizontal field of view from the equivalent focal length against a 36mm full-frame sensor width, so wider lenses report a wider angle.",
+      "Apply the reciprocal rule to the equivalent focal length to suggest a minimum handheld shutter speed for a sharp frame."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "Equivalent-aperture depth of field and the reciprocal shutter guideline are planning estimates. Real sharpness also depends on subject distance, stabilization, and your own steadiness — treat the numbers as a starting point, not a guarantee."
   },
   "whenToUse": {
-    "intro": "This focal length crop factor calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this whenever a lens spec is quoted in full-frame terms but you are shooting a crop body, or the reverse — the moments where 'how tight will this actually be?' matters before you buy or before you shoot.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Choosing a lens: translate a full-frame focal length you like into what it will actually frame on your APS-C or Micro Four Thirds body before you spend money.",
+      "Understanding reach on a crop body: see how a telephoto's equivalent focal length stretches for wildlife, sports, or events where you can't get closer.",
+      "Hunting for true wide-angle: check how much a wide lens narrows on your sensor so you buy short enough to keep the sweeping look.",
+      "Comparing two systems: put a full-frame and a crop setup side by side in equivalent terms to judge which reaches or opens up more.",
+      "Matching a portrait look: find the actual lens that frames like the classic 85mm portrait length on your particular sensor."
     ]
   },
   "category": "photography",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Focal Length Crop Factor Calculator?",
-        "body": "The Focal Length Crop Factor Calculator is a free online tool designed for photographers who need quick, accurate calculations in the photography space. By entering your lens focal length, crop factor, lens max aperture, you get instant results including equivalent focal length, equivalent aperture, horizontal field of view. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Crop Factor Calculator Does",
+        "body": "Sensor size decides how much of a lens's image circle your camera actually records, and crop factor is the number that captures that difference. Enter your lens focal length, pick your sensor's crop factor, and add the maximum aperture, and the tool returns the equivalent focal length, the equivalent aperture for depth of field, the horizontal field of view, and a suggested minimum handheld shutter speed. It is built for photographers translating between the full-frame numbers on a lens box and what their crop body will really see."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting equivalent focal length right can make the difference between success and costly mistakes. In photography, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by photographers worldwide, giving you confidence that your numbers are correct. Use it to capture better images with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example: 50mm on Canon APS-C",
+        "body": "Say you mount a 50mm lens on a Canon APS-C body with a 1.6× crop factor. Multiply 50 by 1.6 and you get an 80mm full-frame equivalent — the lens frames noticeably tighter than a 50mm would on full frame, which is why it makes a flattering portrait length on crop. The same 50mm on a Nikon or Sony 1.5× body works out to 75mm, and on a 2.0× Micro Four Thirds body it frames like a 100mm. In every case the lens is still physically a 50mm; only the field of view has tightened because the smaller sensor is cropping into the center of the projected image."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your lens focal length and need to find the right equivalent focal length. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Framing and Reach, Not a New Lens",
+        "body": "It is worth being precise about what crop factor does and does not change. It changes the field of view and the depth-of-field character, so the scene looks more magnified and the background blur is slightly gentler than the raw f-number implies. It does not change the lens's true focal length, its light-gathering aperture for exposure, or how far it can physically resolve detail. Think of the crop as pre-cropping into a full-frame image in-camera — you gain apparent reach for wildlife and sports and lose width on your wide-angle glass, all from the same optics."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Lens Focal Length (mm)",
-      "description": "Type or select your lens focal length in the field provided. Use the most accurate value available for best results."
+      "description": "Type the focal length printed on your lens, for example 50 for a nifty fifty or 200 for a telephoto. Use the actual optical focal length, not an equivalent you saw quoted elsewhere."
     },
     {
-      "title": "Enter Your Crop Factor",
-      "description": "Type or select your crop factor in the field provided. Use the most accurate value available for best results."
+      "title": "Select Your Crop Factor",
+      "description": "Choose your sensor: 1.0× full frame, 1.5× Nikon/Sony APS-C, 1.6× Canon APS-C, or 2.0× Micro Four Thirds. If you are unsure, the crop factor is listed in your camera's sensor specifications."
     },
     {
       "title": "Enter Your Lens Max Aperture",
-      "description": "Type or select your lens max aperture in the field provided. Use the most accurate value available for best results."
+      "description": "Type the widest f-number your lens opens to, such as 1.8 or 2.8. This feeds the equivalent-aperture estimate so you can see how the crop affects depth of field."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Run the numbers to get your equivalent focal length, equivalent aperture, horizontal field of view, and suggested minimum handheld shutter speed."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your equivalent focal length, equivalent aperture, horizontal field of view. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the Framing",
+      "description": "Compare the equivalent focal length against lenses you already know — 35mm feels natural, 50mm slightly tight, 85mm is portrait reach — to picture how your setup will actually frame the shot."
     }
   ],
   "tips": [
-    "Double-check your lens focal length before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both equivalent focal length and equivalent aperture — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to capture better images.",
-    "If you're unsure about your lens max aperture, start with a conservative estimate and adjust from there."
+    "Multiply, never add: a 50mm on a 1.6× body is 80mm equivalent, not 51.6mm. The crop scales the whole focal length.",
+    "Wide lenses lose the most: a 16mm frames like 26mm on a 1.6× body, so buy shorter than you think if you want a true wide-angle look on crop.",
+    "For portraits on APS-C, a 50mm lens lands near the classic 75-80mm portrait framing, which is why it is such a popular first prime.",
+    "Remember the aperture stays put for exposure — f/1.8 is still f/1.8 for brightness; only the depth-of-field character shifts with the crop.",
+    "When quoting reach for wildlife, use the equivalent figure: a 300mm on Micro Four Thirds behaves like a 600mm, a real advantage for distant subjects."
   ]
 }

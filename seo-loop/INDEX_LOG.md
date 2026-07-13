@@ -5,6 +5,30 @@ anything. This is what makes the loop compound instead of repeating itself.
 
 ---
 
+## Run 1e — 2026-07-13 — Finish the demand tier (15 more, same day)
+
+**Shipped (branch `seo-loop/2026-07-13-e`, 15 pages):**
+focal-length-crop, candle-fragrance, print-size, overtime-worth,
+canada-provincial-tax, uk-student-loan-repayment, postpartum-recovery,
+label-sheet, integer-operations, gratitude-practice-benefits,
+dog-walking-calories, decibel, crypto-portfolio-rebalance, baby-formula,
+ai-agent-cost. YMYL pages (postpartum, baby-formula) carry not-advice
+disclaimers. Some configs only had a subset of prose fields (contentIntro/faq/
+howItWorks) — agents correctly edited only fields present.
+
+**Running total: 75 of ~99 demand pages de-templated.** Only a ~19-page tail of
+1–2 impression pages remains — LOW ROI, left for the monthly routine.
+
+**DECISION — content tier is essentially done. Next lever is the PRUNE:**
+~1,800 zero-impression templated tool pages are index bloat dragging site-wide
+quality/crawl-budget. Plan: add a `noindex` capability (config flag → base
+template `<meta robots noindex>`), set it on zero-demand templated pages, drop
+them from the sitemap. This is CONSEQUENTIAL (hides most of the site from Google)
+though reversible — stage as its own PR for a human look before merging, unlike
+the auto-merged content batches. Also: consolidate the heat-index dup.
+
+---
+
 ## Run 1d — 2026-07-13 — De-template the next 15 demand pages (same day)
 
 **Shipped (branch `seo-loop/2026-07-13-d`, 15 pages):**
