@@ -14,49 +14,41 @@
   "jsonLdDescription": "Oil Price to Gas Pump Price Calculator: See exactly how crude oil prices translate to what you pay at the pump. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Oil Price to Gas Pump Price Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"crudePrice\">Crude Oil ($/barrel)</label>\n      <input type=\"number\" id=\"crudePrice\" value=\"70\" min=\"20\" max=\"200\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"stateTax\">State Gas Tax ($/gal)</label>\n      <input type=\"number\" id=\"stateTax\" value=\"0.35\" min=\"0\" max=\"0.8\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"refiningCost\">Refining Cost ($/gal)</label>\n      <input type=\"number\" id=\"refiningCost\" value=\"0.4\" min=\"0.15\" max=\"1\" step=\"0.05\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Crude Oil Per Gallon</div>\n        <div class=\"result-value\" id=\"crudePerGallon\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Federal Tax</div>\n        <div class=\"result-value\" id=\"federalTax\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Taxes</div>\n        <div class=\"result-value\" id=\"totalTax\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Retailer Margin</div>\n        <div class=\"result-value\" id=\"retailMargin\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Gas Price</div>\n        <div class=\"result-value\" id=\"estimatedGas\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Crude % of Gas Price</div>\n        <div class=\"result-value\" id=\"crudePct\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This oil price to gas pump price calculator uses established formulas to provide accurate results.",
+    "intro": "Start with the one number that anchors everything: a barrel of crude holds 42 gallons, so dividing the barrel price by 42 tells you the raw crude cost baked into every gallon of gas. From there the calculator stacks on the four other costs that turn crude into finished fuel at the pump — refining, distribution and marketing, the 18.4-cent federal excise tax, and your state's gas tax.",
     "rules": [
       "Crude per gallon = barrel price / 42",
       "Estimated gas = crude/gal + refining + taxes + margin"
     ],
-    "outro": "Results are estimates. Consult a professional for critical decisions."
+    "outro": "A useful rule of thumb falls out of the math: every $1 move in crude shifts the pump by about 2.4 cents a gallon, since $1 spread over 42 gallons is roughly $0.024. The output is a cost-based estimate, not a live quote — real pump prices lag crude by weeks and vary by region."
   },
   "faq": [
     {
       "question": "How many gallons of gas come from a barrel of oil?",
-      "answer": "One barrel of crude oil (42 gallons) produces approximately 19-20 gallons of gasoline, plus diesel, jet fuel, and other products."
+      "answer": "A 42-gallon barrel of crude yields roughly 19-20 gallons of gasoline, plus diesel, jet fuel, heating oil, and other products. That is why the crude cost per gallon in this tool uses 42 (the physical barrel size) rather than the smaller gasoline yield — the whole barrel has to be paid for, and refiners recover the rest of the cost across every product they sell."
     },
     {
-      "question": "Why doesn't gas price drop as fast as oil?",
-      "answer": "Gas prices are 'sticky' on the way down. Refiners and retailers maintain margins during price drops, a phenomenon economists call 'rockets and feathers' — prices rise like rockets but fall like feathers."
+      "question": "Why don't pump prices drop right away when oil prices fall?",
+      "answer": "Two reasons. First, timing: the gasoline in the station's underground tanks was refined from crude bought weeks earlier, so today's price reflects last month's oil. Second, behavior: stations raise prices fast when crude jumps to protect margins but lower them slowly when crude drops, an asymmetry economists nicknamed 'rockets and feathers.' A crude decline usually takes 4-6 weeks to fully show up at the pump, versus 1-2 weeks for an increase."
     },
     {
-      "question": "Is the Oil Price to Gas Pump Price Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How much do taxes add to a gallon of gas?",
+      "answer": "The federal excise tax is a flat 18.4 cents per gallon and has not changed since 1993. State taxes stack on top and vary widely — from single digits in a few states to well over 60 cents in California, Pennsylvania, and Illinois. Combined, taxes typically add 40 to 80 cents per gallon. Because these are fixed cents-per-gallon amounts, they do not shrink when crude falls, which is a big reason cheap oil never fully translates to cheap gas."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard geopolitics and energy markets formulas trusted by analysts and informed citizens. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "What is the refining margin, and why does it swing?",
+      "answer": "Refining margin (often tracked as the 'crack spread') is what refiners charge to turn crude into finished gasoline. It usually runs 30 to 60 cents a gallon but blows out to a dollar or more when refineries go offline for maintenance, get hit by hurricanes, or can't keep up with summer demand. This margin is why gas can spike even when crude is flat — the bottleneck is refining capacity, not the price of oil itself."
     },
     {
-      "question": "What crude oil should I enter?",
-      "answer": "Enter the most accurate crude oil value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Why does gas cost more in the summer?",
+      "answer": "From roughly June through September, the EPA requires lower-volatility 'summer blend' gasoline in many metro areas to cut smog. Summer blend is more expensive to produce and there are dozens of regional recipes (so-called boutique fuels), which fragments supply. Add peak driving-season demand and the seasonal switch typically adds 10 to 40 cents a gallon that has nothing to do with the crude price you enter here."
     },
     {
-      "question": "How much would gas cost if oil is $200 a barrel?",
-      "answer": "At $200 per barrel, crude oil alone costs about $4.76 per gallon. Add refining costs ($0.40-$0.60), federal tax ($0.184), state taxes ($0.25-$0.65), and retailer margin ($0.10-$0.15), and gas would likely cost $5.80-$6.30 per gallon. Some analysts project even higher prices due to refining capacity constraints during a supply crisis."
+      "question": "How much would gas cost if oil hit $200 a barrel?",
+      "answer": "At $200 per barrel, crude alone is $200 / 42 = about $4.76 per gallon. Add roughly $0.40-$0.60 for refining, $0.10-$0.15 retailer margin, and $0.55-$0.85 in combined federal and state taxes, and the pump lands around $5.80-$6.30 per gallon. Real prices could run higher if a $200 barrel came from a supply shock that also strained refining capacity."
     },
     {
-      "question": "What percentage of gas price comes from crude oil?",
-      "answer": "Crude oil typically accounts for 50-60% of the retail gas price. The remainder breaks down roughly as: refining costs and profits (14-18%), federal and state taxes (16-22%), and distribution and marketing including retailer margin (6-12%). When oil prices spike, crude's share can exceed 65%."
-    },
-    {
-      "question": "How quickly do oil price changes affect gas prices?",
-      "answer": "Gas prices typically respond to oil price increases within 1-2 weeks. However, price decreases take 4-6 weeks to fully appear at the pump. This asymmetry is well-documented in energy economics research and is driven by refiner and retailer pricing behavior."
-    },
-    {
-      "question": "What is the current average gas price in the US?",
-      "answer": "Gas prices change daily based on crude oil markets, refining costs, and seasonal demand. Use this calculator to estimate what gas should cost at any given crude oil price. For current real-time prices, check GasBuddy or the AAA fuel gauge report."
+      "question": "What share of the pump price is actually crude oil?",
+      "answer": "At normal prices, crude makes up about 50-60% of what you pay. Taxes are usually 16-22%, refining is 14-18%, and distribution, marketing, and retailer margin cover the rest. When oil spikes, crude's share climbs past 65% because the fixed-cent taxes and margins shrink as a percentage of a bigger total. Run two scenarios in the calculator and watch the 'Crude % of Gas Price' figure move."
     }
   ],
   "relatedTools": [
@@ -67,50 +59,50 @@
     "fuel-hedging-calculator"
   ],
   "category": "geopolitical-energy",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "How Oil Prices Directly Affect What You Pay at the Pump",
-        "body": "Every barrel of crude oil produces about 19-20 gallons of gasoline. When oil prices swing — whether from OPEC production decisions, Middle East tensions, trade tariffs, or supply disruptions — those changes ripple directly to gas station prices within 2-4 weeks. This calculator shows you exactly how much of every gallon of gas goes to crude oil costs, refining, federal and state taxes, and retailer margins. Enter any crude oil price from $20 to $200 per barrel and see the real breakdown."
+        "title": "From Barrel to Gallon: Where the 42 Comes From",
+        "body": "A barrel of crude is 42 gallons, and that single number does most of the work here. Divide the barrel price by 42 and you get the crude cost embedded in one gallon of gasoline before anyone refines, ships, or taxes it. At $70 crude that is $1.67 a gallon; at $120 crude it is $2.86. Everything else at the pump — refining, distribution and marketing, and taxes — gets stacked on top of that base. The handy shortcut worth remembering: a $1 change in crude moves the pump by about 2.4 cents, because $1 spread across 42 gallons is roughly $0.024."
       },
       {
-        "title": "Why Gas Prices Don't Move in Lockstep with Oil",
-        "body": "If oil drops 20%, gas rarely drops 20%. Economists call this the 'rockets and feathers' effect — gas prices rise quickly when oil goes up but fall slowly when oil comes down. Refining capacity, seasonal demand (summer driving season pushes prices up), regional regulations requiring special fuel blends, and retailer pricing strategies all create a gap between crude oil movements and pump price changes. This calculator gives you the pure cost-based estimate so you can see what gas should cost at any oil price."
+        "title": "A Worked Example at $80 a Barrel",
+        "body": "Say crude is trading at $80. The crude cost per gallon is $80 / 42 = about $1.90. Refining typically adds around $0.40, and distribution plus marketing and retailer margin adds roughly another $0.20, so call it $0.60 of downstream cost. Taxes land near $0.50 for a typical state — the 18.4-cent federal excise tax plus a state tax in the low-to-mid 30s. Add it up: $1.90 + $0.60 + $0.50 lands right around $3.00 a gallon at the pump. Change the crude input to $100 and the crude slice jumps to $2.38, pushing the same build toward $3.50 — that is the 2.4-cents-per-dollar rule playing out."
       },
       {
-        "title": "What Would Gas Cost at Different Oil Prices?",
-        "body": "At $70/barrel crude oil, gas typically runs $3.00-$3.50 per gallon depending on your state's tax rate. At $100/barrel, expect $4.00-$4.50. At $150/barrel, gas would likely hit $5.50-$6.00. And if oil ever reached $200/barrel — a scenario discussed during severe geopolitical crises — gas could exceed $7.00 per gallon. Use this calculator to model any scenario and understand exactly where each dollar goes."
+        "title": "Why the Pump Lags the Barrel",
+        "body": "Oil prices reset by the second on futures screens, but the gasoline in a station's tanks was refined from crude purchased weeks ago, so the pump is always looking backward. Layer on the fixed cents-per-gallon taxes that never fall when crude falls, refining margins that widen during outages and the summer-blend switch, and the well-documented tendency of retailers to raise fast and cut slow, and you get a pump price that drifts rather than tracks. This tool strips all that noise out and shows the pure cost-based number, so you can see what gas should cost at a given crude price and how far reality has wandered from it."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Crude Oil ($/barrel)",
-      "description": "Type or select your crude oil in the field provided. Use the most accurate value available for best results."
+      "title": "Enter the Crude Oil Price ($/barrel)",
+      "description": "Type the current WTI or Brent barrel price — the field accepts $20 to $200. This is the one input that drives the crude-per-gallon base, computed as barrel price divided by 42 gallons."
     },
     {
-      "title": "Enter Your State Gas Tax ($/gal)",
-      "description": "Type or select your state gas tax in the field provided. Use the most accurate value available for best results."
+      "title": "Set Your State Gas Tax ($/gal)",
+      "description": "Enter your state's per-gallon gas tax. It ranges from single digits to over $0.60 depending on where you live; the federal 18.4-cent tax is already added for you."
     },
     {
-      "title": "Enter Your Refining Cost ($/gal)",
-      "description": "Type or select your refining cost in the field provided. Use the most accurate value available for best results."
+      "title": "Adjust the Refining Cost ($/gal)",
+      "description": "Set the refining margin. Around $0.40 is typical, but bump it toward $0.80-$1.00 during refinery outages, hurricane season, or the summer-blend changeover."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Run the numbers to stack crude, refining, taxes, and margin into an estimated pump price. Results appear instantly below."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your crude oil per gallon, federal tax, total taxes. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the Breakdown",
+      "description": "Check the crude cost per gallon, total taxes, retailer margin, and the crude share of the total. Change the barrel price and recalculate to see the roughly 2.4-cents-per-dollar sensitivity for yourself."
     }
   ],
   "tips": [
-    "Double-check your crude oil before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both crude oil per gallon and federal tax — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to understand global dynamics.",
-    "If you're unsure about your refining cost, start with a conservative estimate and adjust from there."
+    "Remember the shortcut: every $1 move in crude shifts the pump about 2.4 cents ($1 ÷ 42 gallons ≈ $0.024), so a $10 crude swing is roughly a quarter a gallon.",
+    "Use WTI or Brent spot prices for the barrel input — they usually differ by a few dollars, so pick whichever benchmark your region's refiners actually buy.",
+    "Nudge the refining cost up in summer: EPA low-volatility blends and peak demand routinely add 10-40 cents a gallon that crude alone won't explain.",
+    "Compare your calculated price to what you're actually paying — a big gap usually means crude moved recently and the pump hasn't caught up, or a refinery is offline.",
+    "Look up your own state's gas tax rather than guessing; the spread between low- and high-tax states is over 50 cents a gallon and dwarfs small crude moves."
   ]
 }

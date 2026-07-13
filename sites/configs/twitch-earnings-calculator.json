@@ -14,45 +14,41 @@
   "jsonLdDescription": "Twitch Earnings Calculator: Estimate Twitch streamer income from subs and ads. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Twitch Earnings Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"avgViewers\">Average Viewers</label>\n      <input type=\"number\" id=\"avgViewers\" value=\"100\" min=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"subscribers\">Subscribers</label>\n      <input type=\"number\" id=\"subscribers\" value=\"50\" min=\"0\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"hoursPerWeek\">Stream Hours/Week</label>\n      <input type=\"number\" id=\"hoursPerWeek\" value=\"20\" min=\"1\" max=\"60\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"adRate\">Ad CPM ($)</label>\n      <input type=\"number\" id=\"adRate\" value=\"3.5\" min=\"0\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Sub Revenue</div>\n        <div class=\"result-value\" id=\"subRevenue\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Ad Revenue (est.)</div>\n        <div class=\"result-value\" id=\"adRevenue\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Bits (est.)</div>\n        <div class=\"result-value\" id=\"bitsRevenue\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Monthly (est.)</div>\n        <div class=\"result-value\" id=\"totalMonthly\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Per Stream Hour</div>\n        <div class=\"result-value\" id=\"perHour\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This twitch earnings calculator uses established formulas to provide accurate results.",
+    "intro": "The calculator adds up the three ways money actually reaches your Twitch payout: subscriptions, bits, and ads. Sub revenue is the big lever, so it drives most of the total.",
     "rules": [
-      "Sub Revenue = Subscribers × $2.50 (average split)",
-      "Ad Revenue = (Viewers × Hours × Ads/hr × CPM) / 1000"
+      "Sub Revenue = Subscribers × $2.50 (your half of a $4.99 Tier 1 sub under the standard 50/50 split)",
+      "Ad Revenue = (Viewers × Hours × Ads/hr × CPM) / 1000, using a ~$3.50 CPM baseline"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "Bits are counted separately at $0.01 each, since a viewer cheering 100 bits puts $1 in your pocket. Donations and sponsorships sit outside these numbers because they don't run through Twitch's payout at all."
   },
   "faq": [
     {
-      "question": "How much do Twitch streamers make?",
-      "answer": "Small streamers (50-100 avg viewers) might make $200-500/month from subs and ads. Streamers with 1,000+ viewers can earn $5,000-20,000/month. Top streamers earn $50,000+/month."
+      "question": "How much does a streamer make per subscriber?",
+      "answer": "Under the standard 50/50 split, a $4.99 Tier 1 sub sends you about $2.50. So 200 Tier 1 subs is roughly $500 a month before bits and ads. Tier 2 ($9.99) pays you around $5.00 and Tier 3 ($24.99) around $12.50. Prime subs (the free monthly sub Amazon Prime members can give) pay the streamer the same ~$2.50 as a paid Tier 1."
     },
     {
-      "question": "Is the Twitch Earnings Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "What is a bit worth to the streamer?",
+      "answer": "One bit equals one cent to you. When a viewer cheers 100 bits you get $1.00, and 10,000 bits works out to $100. Viewers pay a bit more than that to buy bits, but the streamer's side is a clean penny each. In this calculator, 50,000 bits cheered in a month adds about $500 to your total."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Do Twitch streamers split subs 50/50 or 70/30?",
+      "answer": "The default is 50/50, which is where the ~$2.50-per-sub figure comes from. A 70/30 split (about $3.50 per Tier 1 sub) was historically limited to larger partners and specific programs, and Twitch has moved most creators to a flat 50/50 or a 70/30 tier that caps at $100,000 in sub revenue. Unless you've been told otherwise, plan around 50/50."
     },
     {
-      "question": "What average viewers should I enter?",
-      "answer": "Enter the most accurate average viewers value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "When do ads actually pay, and how much?",
+      "answer": "Ads pay per thousand impressions (CPM), typically around $3.50 but swinging from roughly $2 to $10+ depending on your game, audience country, and time of year (Q4 pays best). With 100 average viewers running a couple of ad minutes an hour across 20 hours a week, ad revenue usually lands in the tens of dollars per month, not hundreds. It's real, but it's the smallest slice for most mid-size streamers."
     },
     {
-      "question": "Can I use this calculator on my phone?",
-      "answer": "Yes, the Twitch Earnings Calculator is fully responsive and works on any device — phone, tablet, or desktop. No app download needed."
+      "question": "Can you put a worked example together?",
+      "answer": "Say you hold 300 Tier 1 subs: that's about $750 a month. Add 50,000 bits cheered ($500) and a few dozen dollars of ad revenue, and you're near $1,300 for the month before any donations or sponsorships. Drop the subs to 100 and the same math falls closer to $350."
     },
     {
-      "question": "How much does a Twitch streamer make per subscriber?",
-      "answer": "Twitch streamers earn approximately $2.50 per Tier 1 subscriber ($4.99 sub, 50% goes to Twitch). Top-tier partners may negotiate up to 70% ($3.50 per sub). Tier 2 subs ($9.99) pay about $5.00 and Tier 3 ($24.99) pays about $12.50 to the streamer."
+      "question": "How many viewers do you need to go full-time on Twitch?",
+      "answer": "To clear $30,000-$40,000 a year from Twitch alone, most streamers need somewhere around 200-500 average concurrent viewers plus a steady sub base and regular bits. Many full-time streamers actually get there faster through donations, sponsorships, and YouTube on the side than through subs and ads by themselves, so treat this calculator's total as the Twitch-payout floor, not your whole income."
     },
     {
-      "question": "How many viewers do you need to make a living on Twitch?",
-      "answer": "To earn a basic living ($30,000-$40,000/year), most streamers need 200-500 average concurrent viewers with a healthy sub count and consistent streaming schedule. However, income varies greatly based on engagement, donations, sponsorships, and other revenue streams beyond Twitch payouts."
-    },
-    {
-      "question": "Do Twitch streamers pay taxes on their earnings?",
-      "answer": "Yes, Twitch income is taxable. Twitch sends a 1099 form to streamers earning over $600/year. Streamers are typically classified as self-employed independent contractors and must pay both income tax and self-employment tax (15.3% for Social Security and Medicare)."
+      "question": "Do Twitch streamers pay taxes on this?",
+      "answer": "Yes. Twitch income is taxable and you'll get a 1099 once you clear the reporting threshold. Most streamers are self-employed, so you owe income tax plus self-employment tax (15.3% for Social Security and Medicare) on your net earnings. Set aside a chunk of every payout so it isn't a surprise in April."
     }
   ],
   "relatedTools": [
@@ -60,66 +56,66 @@
     "loot-drop-probability-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This twitch earnings calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The math mirrors how Twitch pays out: subs at your split, bits at a penny each, and ads at a CPM rate against your viewer-hours.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Multiply your active subscriber count by $2.50 to get monthly sub revenue at the standard 50/50 Tier 1 split.",
+      "Estimate ad revenue as viewers × stream hours × ad minutes per hour × CPM, divided by 1,000 impressions.",
+      "Convert bits cheered at $0.01 each, so 20,000 bits reads as $200.",
+      "Add the three together for a monthly total, then divide by monthly stream hours to see your effective hourly rate."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are estimates. Your real split, CPM, sub tier mix, and bit volume vary month to month, and donations or sponsorships aren't included here."
   },
   "whenToUse": {
-    "intro": "This twitch earnings calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this when you're trying to turn a Twitch audience into a dollar figure you can actually plan around.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Projecting next month's income after a raid, a sub-a-thon, or a big follower spike",
+      "Deciding whether your current channel could support going full-time, or how far off you are",
+      "Setting a sub-count goal, like working out how many subs it takes to cover rent",
+      "Sanity-checking a sponsorship offer against what your subs, bits, and ads already bring in",
+      "Explaining to family or a partner what streaming realistically pays at your size"
     ]
   },
   "category": "gaming",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Twitch Earnings Calculator?",
-        "body": "The Twitch Earnings Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your average viewers, subscribers, stream hours/week, you get instant results including monthly sub revenue, monthly ad revenue, monthly bits. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Tells You",
+        "body": "Enter your average viewers, subscriber count, weekly stream hours, and ad CPM, and this tool breaks your Twitch income into the three pieces that hit your payout: sub revenue, bits, and ads. Subs do most of the work, because your half of a $4.99 Tier 1 sub is about $2.50, so a channel with 200 subs is already near $500 a month before anything else. It's built for streamers, not spreadsheets, so you get a monthly total and an effective per-hour rate in one click."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting monthly sub revenue right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Picture a channel holding 300 Tier 1 subs. At roughly $2.50 each that's about $750 a month. Add 50,000 bits cheered over the month, which is another $500 since every bit is worth a penny to you, plus a modest chunk of ad revenue at a $3.50 CPM, and the total lands near $1,300. Cut the subs to 100 and skip the bits, and the same channel is closer to $250-$300. Seeing those numbers side by side is usually more honest than the 'streamers are rich' headlines."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your average viewers and need to find the right monthly sub revenue. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "What It Leaves Out",
+        "body": "This covers the money Twitch pays you directly, which is only part of the picture for most working streamers. Donations through PayPal or StreamElements, brand sponsorships, YouTube revenue, and merch all land outside Twitch's payout and often add up to more than subs and ads combined. Treat the total here as your Twitch baseline, then stack those other streams on top when you're deciding whether the numbers add up to a living."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Average Viewers",
-      "description": "Start by entering your average viewers — this is the primary input for the calculation."
+      "description": "Use your concurrent-viewer average from your Twitch dashboard, not your peak. This drives the ad revenue estimate."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: subscribers, stream hours/week, ad cpm. Each value refines the calculation for greater accuracy."
+      "title": "Add Subs, Hours, and CPM",
+      "description": "Enter your current subscriber count, how many hours you stream in a typical week, and an ad CPM (start at $3.50 if you're unsure). Subs move the total the most."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Hit Calculate to see sub revenue, ad revenue, and bits broken out, plus a monthly total and a per-stream-hour rate."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your monthly sub revenue, monthly ad revenue, monthly bits. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Test the Scenarios That Matter",
+      "description": "Re-run it with the sub count you're aiming for, or a bigger audience, to see what it would take to hit a full-time number."
     }
   ],
   "tips": [
-    "Double-check your average viewers before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both monthly sub revenue and monthly ad revenue — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your ad cpm, start with a conservative estimate and adjust from there."
+    "Subs are the lever: gaining 50 Tier 1 subs adds about $125 a month, far more than most realistic ad-revenue gains.",
+    "Use your average concurrent viewers from the Twitch dashboard, not your all-time peak, or the ad estimate will run high.",
+    "Prime subs pay you the same ~$2.50 as a paid Tier 1, so count them in your subscriber total.",
+    "Ad CPM climbs in Q4 (holiday advertising) and dips in January, so nudge the CPM field up or down by season.",
+    "Add bits and donations mentally on top of this number, since they often rival sub revenue on an engaged channel."
   ]
 }

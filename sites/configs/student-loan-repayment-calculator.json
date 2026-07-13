@@ -14,36 +14,40 @@
   "jsonLdDescription": "Student Loan Repayment Calculator: Estimate your student loan payoff timeline and total interest. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Student Loan Repayment Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"balance\">Loan Balance ($)</label>\n      <input type=\"number\" id=\"balance\" value=\"undefined\" min=\"1000\" max=\"500000\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rate\">Interest Rate (%)</label>\n      <input type=\"number\" id=\"rate\" value=\"undefined\" min=\"0.1\" max=\"15\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"payment\">Monthly Payment ($)</label>\n      <input type=\"number\" id=\"payment\" value=\"undefined\" min=\"50\" max=\"10000\" step=\"50\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Months to Payoff</div>\n        <div class=\"result-value\" id=\"months\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Interest Paid</div>\n        <div class=\"result-value\" id=\"totalInterest\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Amount Paid</div>\n        <div class=\"result-value\" id=\"totalPaid\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This student loan repayment calculator uses established formulas to provide accurate results.",
+    "intro": "Student loans amortize the same way a mortgage does: each monthly payment covers that month's interest first, and whatever is left chips away at the principal. Early on, most of your payment is interest; near the end, almost all of it goes to principal.",
     "rules": [
       {
         "name": "Months to Payoff",
         "formula": "n = -ln(1 - Balance × r / Payment) / ln(1 + r)",
-        "explanation": "Solve the amortization formula for the number of payments."
+        "explanation": "This solves the amortization formula for the number of payments, where r is the monthly rate (APR ÷ 12). If your payment doesn't exceed one month's interest — Balance × r — the loan never pays off and the term is undefined."
       }
     ],
-    "outro": "Educational costs and financial aid vary by institution. Contact schools directly for current figures."
+    "outro": "The result assumes a fixed rate and equal payments. Federal loans and most private loans use simple daily interest, so paying a few days early or late shifts the totals slightly from this estimate."
   },
   "faq": [
     {
-      "question": "How long will it take to pay off student loans?",
-      "answer": "Depends on balance, rate, and payment. The standard plan is 10 years (120 months)."
+      "question": "How much does paying extra each month actually save?",
+      "answer": "A lot, because every extra dollar goes straight to principal and stops accruing interest for the rest of the term. On a $30,000 balance at 6.5%, the standard payment is about $341/month, finishing in 120 months with roughly $10,900 in interest. Add $50/month and you pay it off in about 100 months and cut interest to around $8,900 — saving roughly $2,000 and 20 months."
     },
     {
-      "question": "Should I pay extra?",
-      "answer": "Even small extra payments significantly reduce total interest and payoff time."
+      "question": "Standard 10-year plan vs. an income-driven plan — which costs less?",
+      "answer": "The standard plan (fixed payments over 120 months) almost always costs the least total interest because you pay the loan down fastest. Income-driven plans (like SAVE or IBR) lower the monthly payment by stretching the term to 20-25 years, so you pay far more interest over time — sometimes double. Choose income-driven when you need the lower payment to afford your budget, not to save money."
     },
     {
-      "question": "Is the Student Loan Repayment Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Should I refinance my student loans?",
+      "answer": "Refinancing replaces your loans with a new private loan at a lower rate. Dropping a $40,000 balance from 7% to 5% saves roughly $3,000-$4,000 in interest over 10 years. The catch: refinancing federal loans into a private loan permanently gives up income-driven plans, deferment, and any forgiveness. Only refinance federal debt if you have stable income and won't need those protections."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard education and learning formulas trusted by students and educators. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "What's the difference between subsidized and unsubsidized loans?",
+      "answer": "On subsidized federal loans, the government pays the interest while you're in school and during deferment, so the balance doesn't grow until repayment begins. Unsubsidized loans accrue interest the entire time — if you don't pay it during school, that unpaid interest capitalizes (gets added to principal) at repayment, and you then pay interest on interest. Pay down unsubsidized interest early if you can."
     },
     {
-      "question": "What loan balance should I enter?",
-      "answer": "Enter the most accurate loan balance value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "How long does it take to pay off student loans?",
+      "answer": "The federal standard plan is 10 years, or 120 months. This calculator works backward from your actual payment: enter your balance, rate, and monthly payment and it solves for the exact number of months. If you pay more than the standard amount, the term shrinks; if you pay only the minimum on a stretched plan, it can run 20-25 years."
+    },
+    {
+      "question": "Why does my loan barely shrink in the first year?",
+      "answer": "Amortization front-loads interest. On that $30,000 loan at 6.5%, the first $341 payment includes about $163 of interest, so only ~$178 reduces the balance. As principal drops, the interest portion shrinks and more of each payment attacks the balance — which is exactly why extra payments early in the loan save the most."
     }
   ],
   "relatedTools": [
@@ -55,70 +59,70 @@
     "personal-loan-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This student loan repayment calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator runs standard loan amortization, the same math your servicer uses to build your payment schedule.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Convert your APR to a monthly rate by dividing by 12 — a 6.5% loan uses r = 0.005417 per month.",
+      "Compute one month's interest as Balance × r, then subtract it from your payment to find how much principal you retire that month.",
+      "Repeat against the shrinking balance until it reaches zero, counting the months — that count is your payoff term.",
+      "Sum every interest slice for total interest paid, and add it to your original balance for total amount paid."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This is an estimate using a fixed rate and equal payments. Federal servicers use simple daily interest and your actual rate, fees, or a variable rate can shift the totals. Check your servicer's statement for exact figures."
   },
   "whenToUse": {
-    "intro": "This student loan repayment calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this calculator whenever a repayment decision comes down to how many months and how much interest.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Deciding whether an extra $50 or $100 a month is worth it — see the months and interest you'd save before committing.",
+      "Comparing the 10-year standard plan against a longer term to weigh a lower payment against higher lifetime interest.",
+      "Checking whether a refinance offer at a lower rate actually beats your current loan over the remaining term.",
+      "Figuring out what monthly payment clears a specific balance before a deadline, like a signing bonus or grace period ending.",
+      "Estimating how much unsubsidized interest will capitalize if you leave it unpaid through school or deferment."
     ]
   },
   "category": "education",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Student Loan Repayment Calculator?",
-        "body": "The Student Loan Repayment Calculator is a free online tool designed for students and educators who need quick, accurate calculations in the education and learning space. By entering your loan balance, interest rate, monthly payment, you get instant results including months to payoff, total interest paid, total amount paid. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Tells You",
+        "body": "Enter your loan balance, interest rate, and the monthly payment you can make, and this tool solves the amortization equation for the two numbers that matter: how many months until the balance hits zero, and how much interest you'll hand over along the way. It works for a single federal loan, a private loan, or a consolidated balance — anything that charges a fixed rate and takes level monthly payments. Because it solves for the term from your real payment, you can also test what happens when you pay more or less than the standard amount."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting months to payoff right can make the difference between success and costly mistakes. In education and learning, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by students and educators worldwide, giving you confidence that your numbers are correct. Use it to plan your education with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Say you graduate with $30,000 in unsubsidized loans at a 6.5% fixed rate on the standard 10-year plan. The monthly payment works out to about $341, and over 120 payments you'll pay roughly $10,900 in interest — meaning the degree's loan costs about $40,900 in total. Bump the payment to $391 (an extra $50) and you finish in about 100 months with around $8,900 in interest, keeping roughly $2,000 in your pocket. Those two scenarios are one field change apart in the calculator above."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your loan balance and need to find the right months to payoff. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Standard, Extra, or Refinance",
+        "body": "The standard 10-year plan retires the loan fastest and cheapest, which is why federal loans default to it. Extra payments push the payoff date earlier because every added dollar skips the interest line and reduces principal directly. Refinancing swaps the whole loan for a lower rate — attractive if you have strong credit and steady income, but it converts federal loans to private and forfeits income-driven plans and forgiveness. Run each version here and compare the interest totals side by side before you decide."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Loan Balance ($)",
-      "description": "Type or select your loan balance in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Your Loan Balance",
+      "description": "Use the current principal balance from your servicer's statement, not the original amount borrowed. If interest has capitalized on an unsubsidized loan, that higher figure is your real starting balance."
     },
     {
-      "title": "Enter Your Interest Rate (%)",
-      "description": "Type or select your interest rate in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Your Interest Rate",
+      "description": "Type your loan's APR — federal undergraduate loans are commonly in the 5-7% range, graduate and private loans often higher. Use the exact rate from your statement for an accurate term."
     },
     {
-      "title": "Enter Your Monthly Payment ($)",
-      "description": "Type or select your monthly payment in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Your Monthly Payment",
+      "description": "Enter what you actually pay each month. To test extra payments, add $25 or $50 to the standard amount and watch the payoff months drop."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "The tool solves the amortization formula and returns your months to payoff, total interest, and total amount paid instantly in your browser."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your months to payoff, total interest paid, total amount paid. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Compare Scenarios",
+      "description": "Change the payment or rate and calculate again. Line up the interest totals to see exactly what an extra payment or a refinance would save you."
     }
   ],
   "tips": [
-    "Double-check your loan balance before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both months to payoff and total interest paid — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to plan your education.",
-    "If you're unsure about your monthly payment, start with a conservative estimate and adjust from there."
+    "If your payment is less than one month's interest (Balance × APR ÷ 12), the balance grows instead of shrinks and the loan never pays off — raise the payment above that threshold first.",
+    "Extra payments help most in the first few years, when the interest portion of each payment is largest; the same $50 saves more applied in year one than in year eight.",
+    "Tell your servicer to apply extra money to principal, not to prepay next month's bill — otherwise it won't shorten your term.",
+    "On unsubsidized loans, paying even just the interest during school or deferment stops it from capitalizing and inflating your starting balance.",
+    "Before refinancing federal loans, weigh the interest savings against losing income-driven plans, deferment, and forgiveness — run both rates here to see the actual dollar gap."
   ]
 }

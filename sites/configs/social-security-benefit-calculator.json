@@ -21,7 +21,7 @@
   "jsonLdDescription": "Social Security Benefit Calculator: Estimate your monthly Social Security retirement benefit based on earnings history. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Social Security Benefit Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"avgEarnings\">Average Annual Earnings (top 35 years)</label>\n      <input type=\"number\" id=\"avgEarnings\" value=\"undefined\" min=\"0\" max=\"500000\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"claimAge\">Age You Plan to Claim</label>\n      <select id=\"claimAge\"><option value=\"62\">62 (early)</option><option value=\"65\">65</option><option value=\"67\">67 (full retirement)</option><option value=\"70\">70 (maximum)</option></select>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"birthYear\">Birth Year</label>\n      <input type=\"number\" id=\"birthYear\" value=\"undefined\" min=\"1940\" max=\"2005\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Monthly Benefit</div>\n        <div class=\"result-value\" id=\"monthlyBenefit\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Annual Benefit</div>\n        <div class=\"result-value\" id=\"annualBenefit\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Primary Insurance Amount (PIA)</div>\n        <div class=\"result-value\" id=\"pia\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Full Retirement Age</div>\n        <div class=\"result-value\" id=\"fra\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Early/Late Adjustment</div>\n        <div class=\"result-value\" id=\"adjustment\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This social security benefit calculator uses established formulas to provide accurate results.",
+    "intro": "Your benefit starts from your Average Indexed Monthly Earnings (AIME), then runs through the bend-point formula to get your Primary Insurance Amount (PIA) — the monthly check you would receive at Full Retirement Age. Claiming earlier or later adjusts that PIA up or down.",
     "rules": [
       {
         "name": "PIA Formula",
@@ -34,28 +34,32 @@
         "explanation": "Each year you delay past full retirement age adds 8% to your benefit permanently."
       }
     ],
-    "outro": "Tax laws and financial markets change frequently. Verify current rates with your financial institution."
+    "outro": "The bend-point dollar amounts shift each year with wage growth, and the figures here use recent bend points. For the official number tied to your actual earnings record, pull your statement from ssa.gov."
   },
   "faq": [
     {
-      "question": "Should I claim Social Security at 62 or wait?",
-      "answer": "Claiming at 62 gives you smaller checks for more years. Waiting until 70 gives you roughly 76% more per month than at 62. If you expect to live past 80, delaying usually pays more total. If you need income now or have health concerns, claiming earlier may make sense."
+      "question": "What is Full Retirement Age (FRA)?",
+      "answer": "FRA is the age at which you collect 100% of your Primary Insurance Amount with no reduction and no bonus. Anyone born in 1960 or later has an FRA of 67. People born 1955-1959 fall between 66 and 2 months and 66 and 10 months. Claiming before FRA shrinks the check; claiming after grows it."
     },
     {
-      "question": "How is the PIA calculated?",
-      "answer": "SSA takes your highest 35 years of inflation-adjusted earnings, divides by 420 months to get AIME (Average Indexed Monthly Earnings), then applies a progressive formula: 90% of the first $1,174, 32% of AIME between $1,174-$7,078, and 15% above $7,078 (2024 bend points)."
+      "question": "How much do I lose by claiming at 62 instead of 67?",
+      "answer": "For someone with an FRA of 67, filing at 62 permanently cuts the benefit by about 30%. A $2,000 full-retirement check becomes roughly $1,400. The reduction is 5/9 of 1% per month for the first 36 months early and 5/12 of 1% per month beyond that."
     },
     {
-      "question": "Can I work while collecting Social Security?",
-      "answer": "Yes, but before full retirement age, benefits are reduced by $1 for every $2 earned above $22,320 (2024). After FRA there is no earnings penalty, and your benefit may be recalculated higher."
+      "question": "Is it worth waiting until 70?",
+      "answer": "Each year you delay past FRA adds 8% in delayed retirement credits, up to age 70. On a $2,000 FRA benefit, waiting from 67 to 70 raises the monthly check to about $2,480. Credits stop accruing at 70, so there is no reason to wait longer. Delaying pays off most if you expect a long life; claiming early pays more total if you do not live much past your late 70s."
     },
     {
-      "question": "Is the Social Security Benefit Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How is the benefit calculated from my earnings?",
+      "answer": "SSA indexes your highest 35 years of earnings for wage inflation, sums them, and divides by 420 months to get your AIME. The AIME runs through the bend-point formula — 90% of the first slice, 32% of the middle slice, 15% of the top slice — to produce your PIA. This tool approximates that using your average annual earnings rather than a year-by-year record."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard financial planning formulas trusted by individuals and families. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Is this the official amount I will receive?",
+      "answer": "No. This is a planning estimate built from average earnings and current bend points, not your certified benefit. The official figure comes from SSA using your actual indexed earnings record, cost-of-living adjustments, and any Medicare premium deductions. Check your personalized number at ssa.gov/myaccount before making a claiming decision."
+    },
+    {
+      "question": "Can I keep working while collecting?",
+      "answer": "Yes, but if you claim before FRA and keep earning, SSA withholds $1 for every $2 above the annual earnings limit (about $23,400 in 2025). Once you reach FRA there is no penalty, and withheld amounts are credited back through a higher benefit."
     }
   ],
   "relatedTools": [
@@ -64,70 +68,70 @@
     "salary-after-tax-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This social security benefit calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The tool converts your average earnings into an AIME, applies the bend-point formula for your PIA, then adjusts for the claiming age you pick relative to your Full Retirement Age.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Your average annual earnings are divided by 12 to approximate your Average Indexed Monthly Earnings (AIME).",
+      "The AIME runs through the progressive bend-point formula — 90% of the lowest slice, 32% of the middle, 15% of the top — to produce your Primary Insurance Amount (PIA).",
+      "Your birth year sets your Full Retirement Age (67 for anyone born 1960 or later).",
+      "Claiming before FRA reduces the PIA (about 30% at 62); claiming after adds 8% per year in delayed credits up to age 70."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This is an estimate for planning, not the official SSA figure. It uses average earnings instead of your full year-by-year record and does not reflect cost-of-living adjustments, taxation, or Medicare deductions. Confirm your actual benefit at ssa.gov."
   },
   "whenToUse": {
-    "intro": "This social security benefit calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this when you are weighing a claiming decision or sketching out retirement income and want to see how age and earnings move the monthly number.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Deciding whether to file at 62, wait until your Full Retirement Age of 67, or hold out to 70 for the maximum check.",
+      "Estimating how a $2,000 full-retirement benefit shrinks to about $1,400 at 62 or grows to about $2,480 at 70.",
+      "Building a retirement budget and needing a monthly and annual benefit figure to plug in.",
+      "Comparing your own claiming age against a spouse's to coordinate household income and survivor benefits.",
+      "Seeing roughly where you land on the bend-point formula before pulling your official statement from ssa.gov."
     ]
   },
   "category": "finance",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Social Security Benefit Calculator?",
-        "body": "The Social Security Benefit Calculator is a free online tool designed for individuals and families who need quick, accurate calculations in the financial planning space. By entering your average annual earnings, age you plan to claim, birth year, you get instant results including estimated monthly benefit, estimated annual benefit, primary insurance amount. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Estimates",
+        "body": "Social Security retirement benefits come from a specific chain: your top 35 years of earnings become your Average Indexed Monthly Earnings (AIME), the AIME runs through a bend-point formula to set your Primary Insurance Amount (PIA), and your claiming age raises or lowers that PIA. Enter your average annual earnings, your birth year, and the age you plan to file, and this tool walks that chain to show an estimated monthly and annual benefit. It is a planning estimate, not the certified figure SSA calculates from your actual earnings record."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting estimated monthly benefit right can make the difference between success and costly mistakes. In financial planning, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by individuals and families worldwide, giving you confidence that your numbers are correct. Use it to manage your finances with precision and avoid common pitfalls that trip up beginners."
+        "title": "How Claiming Age Changes the Check",
+        "body": "The single biggest lever is when you file. For anyone born in 1960 or later, Full Retirement Age is 67. Claim at 62 and you take a permanent cut of roughly 30% — a $2,000 full-retirement benefit drops to about $1,400 a month. Wait past 67 and you earn delayed retirement credits of 8% per year up to age 70, so that same $2,000 benefit climbs to about $2,480. Filing early means smaller checks for more years; filing late means larger checks for fewer years, and where you come out ahead depends mostly on how long you live."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your average annual earnings and need to find the right estimated monthly benefit. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "The Bend-Point Formula in Plain Terms",
+        "body": "The PIA formula is deliberately progressive so it replaces more of a low earner's income than a high earner's. It credits 90% of the first slice of AIME, 32% of the middle slice, and only 15% of the top slice. That is why doubling your career earnings does not double your benefit — the extra dollars land in the 15% band. The dollar thresholds between those slices, called bend points, shift a little each year with national wage growth, so estimates will drift over time until you check your real number at ssa.gov."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Average Annual Earnings (top 35 years)",
-      "description": "Type or select your average annual earnings in the field provided. Use the most accurate value available for best results."
+      "title": "Enter your average annual earnings",
+      "description": "Use the average of your highest 35 earning years, in today's dollars. If some years were low or zero, they still count toward the 35, which pulls the average down."
     },
     {
-      "title": "Enter Your Age You Plan to Claim",
-      "description": "Type or select your age you plan to claim in the field provided. Use the most accurate value available for best results."
+      "title": "Enter your birth year",
+      "description": "This sets your Full Retirement Age. Anyone born in 1960 or later has an FRA of 67; earlier birth years fall between 66 and 2 months and 66 and 10 months."
     },
     {
-      "title": "Enter Your Birth Year",
-      "description": "Type or select your birth year in the field provided. Use the most accurate value available for best results."
+      "title": "Pick the age you plan to claim",
+      "description": "Choose 62 for the earliest option, 67 for a full benefit, or 70 for the maximum. Each choice adjusts your Primary Insurance Amount up or down."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "The tool computes your AIME, applies the bend-point formula for your PIA, then adds the early reduction or delayed credit for your claiming age."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your estimated monthly benefit, estimated annual benefit, primary insurance amount. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Compare a few claiming ages",
+      "description": "Run 62, 67, and 70 back to back to see the spread between the smallest and largest check, then verify against your official statement at ssa.gov."
     }
   ],
   "tips": [
-    "Double-check your average annual earnings before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both estimated monthly benefit and estimated annual benefit — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to manage your finances.",
-    "If you're unsure about your birth year, start with a conservative estimate and adjust from there."
+    "Every year of near-zero earnings inside your top 35 drags the average down — the formula fills any missing years with zeros.",
+    "Delayed retirement credits stop at age 70, so there is no benefit to filing later than 70.",
+    "Between 62 and 67 the check grows roughly 6% to 8% for each year you wait; running each age shows exactly what a year of patience is worth.",
+    "If you are married, model both spouses' claiming ages together — the higher earner's decision also sets the survivor benefit.",
+    "Treat the result as a ballpark. Your official PIA depends on your full indexed earnings record and annual cost-of-living adjustments."
   ]
 }

@@ -10,38 +10,38 @@
   "primaryDarkColor": "#57534e",
   "calculatorHTML": "<div class=\"calc-card\">\n    <h2>Concrete Block Fill Calculator</h2>\n\n    <div class=\"presets\" style=\"margin-top:0;margin-bottom:20px\">\n      <h3>Quick Presets</h3>\n      <div class=\"preset-grid\" id=\"presetGrid\"></div>\n    </div>\n\n    <div class=\"input-group\">\n      <label>Input Method</label>\n      <div class=\"unit-toggle\" role=\"group\" id=\"modeToggle\">\n        <button type=\"button\" class=\"active\" data-mode=\"wall\" aria-pressed=\"true\">Wall Dimensions</button>\n        <button type=\"button\" data-mode=\"count\" aria-pressed=\"false\">Block Count</button>\n      </div>\n    </div>\n\n    <div id=\"wallInputs\">\n      <div class=\"input-group\">\n        <label for=\"wallLength\">Wall Length (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"wallLength\" placeholder=\"e.g. 40\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n      <div class=\"input-group\">\n        <label for=\"wallHeight\">Wall Height (feet)</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"wallHeight\" placeholder=\"e.g. 8\" inputmode=\"decimal\" step=\"any\">\n        </div>\n      </div>\n    </div>\n\n    <div id=\"countInputs\" style=\"display:none\">\n      <div class=\"input-group\">\n        <label for=\"blockCount\">Number of Blocks</label>\n        <div class=\"input-row\">\n          <input type=\"number\" id=\"blockCount\" placeholder=\"e.g. 200\" inputmode=\"numeric\" min=\"1\" step=\"1\">\n        </div>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"blockSize\">Block Size</label>\n      <div class=\"input-row\">\n        <select id=\"blockSize\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"8\" selected>8\" CMU (standard)</option>\n          <option value=\"10\">10\" CMU</option>\n          <option value=\"12\">12\" CMU</option>\n        </select>\n      </div>\n    </div>\n\n    <div class=\"input-group\">\n      <label for=\"fillPercent\">Fill Percentage</label>\n      <div class=\"input-row\">\n        <select id=\"fillPercent\" style=\"flex:1;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;background:#fff;cursor:pointer\">\n          <option value=\"100\" selected>100% — Full grouting (all cores)</option>\n          <option value=\"50\">50% — Every other core</option>\n          <option value=\"25\">25% — Rebar cells only</option>\n        </select>\n      </div>\n    </div>\n\n    <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Fill Needed</button>\n\n    <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n      <div class=\"result-row\">\n        <div class=\"result-item\">\n          <div class=\"result-label\">Cubic Yards</div>\n          <div class=\"result-value\" id=\"rYards\">—</div>\n        </div>\n        <div class=\"result-item\">\n          <div class=\"result-label\">Blocks</div>\n          <div class=\"result-value\" id=\"rBlocks\">—</div>\n        </div>\n      </div>\n      <div id=\"resultDetails\" style=\"text-align:left;margin-top:20px;padding-top:16px;border-top:1px solid #c8d0da\"></div>\n    </div>\n  </div>",
   "howItWorks": {
-    "intro": "CMU (concrete masonry unit) blocks have hollow cores that are often filled with concrete or grout for structural strength. The fill volume depends on the block size and how many cores you fill.",
+    "intro": "A CMU block is hollow: a standard 8x8x16 unit has two open cells that together hold about 0.11 to 0.12 cubic feet of grout. This calculator counts your blocks (or works them out from wall length and height) and multiplies by the fill volume for your block size.",
     "rules": [
-      "A standard 8&times;8&times;16 CMU block has a core volume of about 0.0069 cubic yards (0.187 cu ft). 10\" and 12\" blocks have proportionally larger cores",
-      "Wall dimensions method: 1.125 blocks per square foot of wall face (accounting for mortar joints)",
-      "Full grouting fills every core. Partial grouting fills only cells containing rebar — check your structural engineer's specs"
+      "A standard 8-inch CMU holds roughly 0.11 to 0.12 cu ft of fill across both cores; 10-inch blocks hold about 0.16 cu ft and 12-inch blocks about 0.20 cu ft each",
+      "From wall dimensions, figure about 1.125 blocks per square foot of wall face, which already accounts for the 3/8-inch mortar joints",
+      "Set the fill percentage to match your plan: 100% grouts every cell, 50% does every other cell, and 25% covers only the cells that carry vertical rebar"
     ],
-    "outro": "Use fine grout (not standard concrete) for filling block cores — it flows better into the narrow cells. For walls with rebar, vibrate or rod the grout to eliminate voids around the steel."
+    "outro": "Order grout, not standard concrete, so the mix flows down the narrow cells and packs around the steel. On any pour taller than about 4 feet, grout in lifts and consolidate each lift with a rod or vibrator so you don't leave voids."
   },
   "faq": [
     {
-      "question": "How much concrete to fill a cinder block?",
-      "answer": "A standard 8x8x16 CMU block requires about 0.187 cubic feet (0.0069 cubic yards) of fill per block. That's roughly 1 bag of 80-lb concrete mix per 3 blocks. A 10\" block needs about 0.25 cu ft and a 12\" block needs about 0.31 cu ft per block."
+      "question": "How much concrete does it take to fill one 8-inch block?",
+      "answer": "About 0.11 to 0.12 cubic feet per standard 8x8x16 block, counting both cores. That works out to roughly one 80-lb bag of grout mix for every 5 blocks, since an 80-lb bag yields about 0.6 cu ft. A 10-inch block takes about 0.16 cu ft and a 12-inch block about 0.20 cu ft."
     },
     {
-      "question": "Should I fill all the cores in a block wall?",
-      "answer": "It depends on the wall's purpose and local code. Retaining walls and structural walls typically require full grouting (all cores). Non-structural walls may only need grouting in cells with rebar (every 32-48 inches). Always check your building code and engineer specs."
+      "question": "Do I have to fill every core in the wall?",
+      "answer": "Not always. Load-bearing and retaining walls are usually fully grouted, but many walls only need the cells that hold vertical rebar filled, typically every 32 to 48 inches. Your local code and the engineer's drawings set the spacing, so match the fill percentage on this calculator to what those specs call for."
     },
     {
-      "question": "What's the difference between grout and concrete for block fill?",
-      "answer": "Grout is a fluid concrete mix designed to flow into narrow block cores. It has smaller aggregate (pea gravel) and more water than standard concrete. Use fine grout for cells under 4 inches wide and coarse grout for larger cells. Standard concrete does not flow well enough for block filling."
+      "question": "Should I use grout or regular concrete?",
+      "answer": "Use grout. It carries a smaller pea-gravel aggregate and more water so it flows into the cells and around rebar instead of bridging and leaving gaps. Standard concrete is too stiff for narrow cores. Fine grout suits cells under about 4 inches; coarse grout works for wider cells and bond beams."
     },
     {
-      "question": "How many blocks are in a square foot of wall?",
-      "answer": "About 1.125 standard 8x8x16 blocks per square foot of wall face, accounting for 3/8-inch mortar joints. A 100-square-foot wall (10' long x 10' high) needs approximately 113 blocks."
+      "question": "How much grout does a 100-block wall need?",
+      "answer": "One hundred standard 8-inch blocks fully grouted take about 11 to 12 cubic feet of fill. At 0.6 cu ft per 80-lb bag that's roughly 20 bags, and it's only about 0.44 cubic yards, so a single wall usually stays a bag job rather than a ready-mix delivery."
     },
     {
-      "question": "Do I need to fill blocks with concrete for a retaining wall?",
-      "answer": "Yes. Retaining walls under load must be fully grouted with rebar for structural integrity. Typical retaining walls require #4 or #5 rebar every 24-48 inches vertically and horizontally, with all rebar cells fully grouted. Unfilled retaining walls can fail dangerously."
+      "question": "When should I mix bags versus order ready-mix?",
+      "answer": "Mixing 80-lb bags is fine up to about half a cubic yard, or one modest wall. Past roughly a cubic yard the bag count climbs fast, so a full basement or a long retaining wall is where you call for a ready-mix grout truck. Ready-mix also gives you a consistent slump for pumping into tall cells."
     },
     {
-      "question": "How much does it cost to fill block walls?",
-      "answer": "Grout costs about $5-8 per 80-lb bag (DIY) or $3-5 per square foot of wall face for professional grouting. For a 100-block wall with full grouting, expect to use about 35-40 bags of 80-lb grout mix at roughly $200-300 in material."
+      "question": "How does rebar change the fill amount?",
+      "answer": "Steel bars displace only a sliver of the cell, so #4 or #5 rebar barely moves the grout total and most estimators ignore it. What rebar really changes is which cells you fill: any cell with a bar must be solidly grouted, and that determines whether you're at 25%, 50%, or 100% fill on this calculator."
     }
   ],
   "relatedTools": [
@@ -89,66 +89,66 @@
     ]
   },
   "category": "construction",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-07-13",
   "howWeCalculate": {
-    "intro": "This concrete block fill calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The math is a straight volume estimate: count the cells you're filling, multiply by the fill volume for that block size, then convert to cubic yards and 80-lb bags.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Get a block count, either entered directly or figured from wall length times height at about 1.125 blocks per square foot of face",
+      "Multiply the block count by the per-block core volume for your size (about 0.11 to 0.12 cu ft for an 8-inch unit)",
+      "Apply the fill percentage so only the cells you actually grout are counted",
+      "Convert total cubic feet to cubic yards (divide by 27) and to 80-lb bags (divide by about 0.6 cu ft per bag)"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are planning estimates for ordering material. Block core volumes vary by manufacturer and block profile, and grout yield shifts with slump and waste, so buy a little extra. For structural walls, follow the engineer's drawings and local code for grout spacing and rebar."
   },
   "whenToUse": {
-    "intro": "This concrete block fill calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Reach for this when you're pricing grout or deciding between bags and a ready-mix truck for a block wall.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Grouting a segmental retaining wall where every core must be solid",
+      "Filling the rebar cells of a reinforced load-bearing or shear wall",
+      "Pouring a block stem wall or foundation wall that ties into the footing",
+      "Solid-grouting the top course or a bond beam for an anchor bolt or lintel",
+      "Estimating how many 80-lb grout bags a short garden or planter wall will take"
     ]
   },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Concrete Block Fill Calculator?",
-        "body": "The Concrete Block Fill Calculator is a free online tool designed for contractors and DIY builders who need quick, accurate calculations in the construction and building space. By entering your input method, wall length, wall height, you get instant results including cubic yards, blocks. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Figures Out",
+        "body": "Hollow CMU walls get their strength from the grout poured down the cores, and you need to know how much before the crew shows up. Give this tool a block count, or a wall length and height, and it returns the fill in cubic feet, cubic yards, and 80-lb bags. A standard 8x8x16 block holds about 0.11 to 0.12 cubic feet across both cores, so the total scales directly with how many blocks you have and how many cells you actually fill."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting cubic yards right can make the difference between success and costly mistakes. In construction and building, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by contractors and DIY builders worldwide, giving you confidence that your numbers are correct. Use it to plan your projects with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Say you have a wall of 100 standard 8-inch blocks and you're grouting every core. That's about 11 to 12 cubic feet of grout, which is roughly 20 bags of 80-lb concrete mix at 0.6 cu ft a bag, or only about 0.44 cubic yards. A wall that size is a bag job. Scale up to a full basement of 1,000 blocks and you're near 4.4 cubic yards, well past where you'd stop mixing bags and order a ready-mix grout truck instead."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your input method and need to find the right cubic yards. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Full Grout, Partial Grout, or Rebar Cells Only",
+        "body": "The single biggest swing in your total is how many cells you fill. Retaining walls and structural walls are often grouted solid, every cell. Many code-minimum walls only need the cells carrying vertical rebar filled, typically every 32 to 48 inches, which can cut your grout by half or more. Set the fill percentage to match the drawings before you buy: 100 percent for solid, 50 percent for every other cell, 25 percent for rebar cells only."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Input Method",
-      "description": "Start by entering your input method — this is the primary input for the calculation."
+      "title": "Pick How You'll Enter the Wall",
+      "description": "Switch to Block Count if you already have a takeoff, or use Wall Dimensions to enter length and height in feet and let the tool figure the block count at about 1.125 blocks per square foot."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: wall length, wall height, number of blocks, block size, fill percentage. Each value refines the calculation for greater accuracy."
+      "title": "Choose Your Block Size",
+      "description": "Select 8, 10, or 12-inch CMU. Bigger blocks have bigger cores, so a 12-inch unit takes almost twice the grout of an 8-inch one."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set the Fill Percentage",
+      "description": "Pick 100% for solid grouting, 50% for every other cell, or 25% for rebar cells only. Match this to the engineer's drawings or your local code."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your cubic yards, blocks. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Order",
+      "description": "Read the cubic yards and bag count, add a little for waste and spillage, and decide whether to mix 80-lb bags or call for ready-mix."
     }
   ],
   "tips": [
-    "Double-check your input method before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both cubic yards and blocks — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to plan your projects.",
-    "If you're unsure about your fill percentage, start with a conservative estimate and adjust from there."
+    "One 80-lb bag of grout mix yields about 0.6 cu ft, so figure roughly one bag for every 5 standard 8-inch blocks you fill solid.",
+    "Grout in lifts on tall walls and rod or vibrate each lift so it packs around the rebar without leaving voids.",
+    "Buy about 5 to 10 percent extra: cell volumes vary by block brand, and some grout is always lost to spillage and overfill.",
+    "Confirm which cells actually need filling from the drawings before ordering, since going from rebar-only to solid can double your grout.",
+    "Once you're past about a cubic yard, price a ready-mix grout delivery against the bag count before you haul another pallet."
   ]
 }
