@@ -5,6 +5,24 @@ anything. This is what makes the loop compound instead of repeating itself.
 
 ---
 
+## Run 1d — 2026-07-13 — De-template the next 15 demand pages (same day)
+
+**Shipped (branch `seo-loop/2026-07-13-d`, 15 pages):**
+homebrew-abv, wildfire-risk, off-grid-battery, heat-index-temperature,
+dew-point-from-humidity, ai-detection-score, print-resolution-megapixel,
+motor-horsepower, fertilizer-cost-per-acre, bullet-drop-ballistic,
+food-truck-profit, crypto-whale-alert, side-hustle-income,
+precious-metal-storage-cost, gravitational-force. Valid JSON, zero boilerplate.
+
+**Running total: 60 of ~99 demand pages de-templated.** ~39 low-impression
+(≤6) demand pages remain, then the PRUNE of ~1,800 zero-demand templated pages.
+
+**Cannibalization note for a future run:** `heat-index-temperature-calculator`
+AND `heat-index-calculator` both exist and target the same query — consolidate
+(301/canonical one into the other) rather than compete.
+
+---
+
 ## Run 1c — 2026-07-13 — De-template the next 15 demand pages (same day)
 
 **Shipped (branch `seo-loop/2026-07-13-c`, 15 pages):**

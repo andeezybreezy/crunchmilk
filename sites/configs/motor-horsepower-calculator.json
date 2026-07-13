@@ -20,33 +20,37 @@
   "jsonLdDescription": "Motor Horsepower Calculator: Calculate electric motor horsepower from torque and RPM or voltage and amperage. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Motor Horsepower Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"torque\">Torque (ft-lbs)</label>\n      <input type=\"number\" id=\"torque\" value=\"50\" min=\"0\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rpm\">Motor Speed (RPM)</label>\n      <input type=\"number\" id=\"rpm\" value=\"1750\" min=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"efficiency\">Motor Efficiency (%)</label>\n      <input type=\"number\" id=\"efficiency\" value=\"90\" min=\"50\" max=\"100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Mechanical HP (shaft)</div>\n        <div class=\"result-value\" id=\"mechHP\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Electrical HP (input)</div>\n        <div class=\"result-value\" id=\"elecHP\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Power in Watts</div>\n        <div class=\"result-value\" id=\"watts\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This motor horsepower calculator uses established formulas to provide accurate results.",
+    "intro": "Shaft horsepower is the product of how hard the motor twists (torque) and how fast the shaft spins (RPM), scaled by the constant 5,252. This calculator takes torque in ft-lbs and speed in RPM to give you mechanical horsepower at the shaft, then divides by efficiency to reveal the electrical horsepower the motor actually pulls from the line.",
     "rules": [
       "HP = (Torque x RPM) / 5252",
       "Electrical HP = Mechanical HP / Efficiency"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "Mechanical HP is the useful work delivered at the coupling; electrical HP is what the motor draws to produce it. The gap between the two is the loss you pay for as heat. Nameplate values from the motor label always override these estimates for warranty and sizing decisions."
   },
   "faq": [
     {
-      "question": "How is horsepower calculated from torque?",
-      "answer": "HP = (Torque in ft-lbs x RPM) / 5252. The constant 5252 comes from converting ft-lbs/min to horsepower (33,000 ft-lbs/min = 1 HP, and 33000 / (2 x pi) = 5252)."
+      "question": "How do I calculate horsepower from torque and RPM?",
+      "answer": "Multiply torque in ft-lbs by shaft speed in RPM, then divide by 5,252. A motor producing 300 ft-lbs at 3,500 RPM makes (300 × 3,500) ÷ 5,252 ≈ 200 HP. At the calculator's default 50 ft-lbs and 1,750 RPM you get (50 × 1,750) ÷ 5,252 ≈ 16.7 HP at the shaft."
     },
     {
-      "question": "What is typical motor efficiency?",
-      "answer": "Standard motors are 85-90% efficient. Premium efficiency motors reach 92-96%. Efficiency drops at partial loads — a motor running at 50% load may only be 80% efficient."
+      "question": "Why is 5,252 the magic number in the horsepower formula?",
+      "answer": "One horsepower is defined as 33,000 ft-lbs of work per minute. A shaft turning one full revolution moves torque through 2π radians, so to convert ft-lbs × RPM into ft-lbs per minute of work you divide by 2π and multiply by the HP definition: 33,000 ÷ (2 × π) ≈ 5,252. A useful side effect is that torque and horsepower curves always cross at exactly 5,252 RPM on any dyno chart, because that is the speed where the two quantities are numerically equal."
     },
     {
-      "question": "Is the Motor Horsepower Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How do I find horsepower for an electric motor from volts and amps?",
+      "answer": "When you have electrical inputs instead of shaft torque, use HP = (Volts × Amps × Efficiency) ÷ 746, since 746 watts equals one horsepower. A 240 V motor drawing 25 A at 90% efficiency makes (240 × 25 × 0.90) ÷ 746 ≈ 7.2 HP of usable output. For three-phase motors multiply the volts × amps term by 1.732 (√3) and include the power factor."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "What is the difference between mechanical HP and electrical HP here?",
+      "answer": "Mechanical HP is the shaft power the motor delivers to your load. Electrical HP is the larger figure the motor pulls from the supply to make that shaft power, because no motor is 100% efficient. This calculator divides mechanical HP by your efficiency percentage, so at 90% efficiency a 16.7 HP shaft output needs about 18.5 HP of electrical input."
     },
     {
-      "question": "What torque should I enter?",
-      "answer": "Enter the most accurate torque value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What efficiency should I enter for my motor?",
+      "answer": "Standard-efficiency induction motors run about 85-90%. NEMA Premium and IE3/IE4 motors reach 92-96%. Efficiency sags at light loads, so a motor loafing at 25-50% of rating may drop below 80%. If you have the nameplate, use its rated efficiency; otherwise 90% is a safe default for a mid-size motor near full load."
+    },
+    {
+      "question": "How do I convert the result into watts or kilowatts?",
+      "answer": "Multiply horsepower by 746 to get watts. The 16.7 HP shaft output from the default inputs is about 16.7 × 746 ≈ 12,430 watts, or 12.4 kW. Because 746 W = 1 HP exactly, this is the standard bridge between the US horsepower rating on a nameplate and the kilowatt rating used on IEC motors sold outside North America."
     }
   ],
   "relatedTools": [
@@ -55,70 +59,71 @@
     "electrical-load-balancing-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This motor horsepower calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator works in two stages: it converts torque and speed into shaft horsepower, then works backward through efficiency to the electrical draw and the equivalent power in watts.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Read torque (ft-lbs), speed (RPM), and efficiency (%) from the fields above.",
+      "Compute mechanical HP as (Torque × RPM) ÷ 5,252 — the shaft power delivered to the load.",
+      "Compute electrical HP as Mechanical HP ÷ (Efficiency ÷ 100) — the larger power the motor pulls from the line to overcome its losses.",
+      "Convert to power in watts by multiplying horsepower by 746, giving the SI figure that matches kW-rated motors."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are engineering estimates. The motor nameplate is authoritative for rated HP, service factor, and full-load amps; use it, not this tool, for breaker sizing, warranty, or code-compliance decisions."
   },
   "whenToUse": {
-    "intro": "This motor horsepower calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this whenever you have two of the three quantities — torque, speed, or power — and need to pin down a motor's horsepower rating or draw.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Sizing a motor for a pump, fan, conveyor, or compressor where you know the required torque at operating speed.",
+      "Reading a dyno or gearmotor spec sheet that lists torque in ft-lbs and RPM but not horsepower.",
+      "Estimating an EV or traction motor's continuous output from its torque and shaft-speed rating.",
+      "Checking whether an existing motor has enough shaft HP before adding load or increasing belt speed.",
+      "Comparing a US HP nameplate against an IEC kW nameplate when swapping or sourcing a replacement motor.",
+      "Sanity-checking a supplier's horsepower claim against the torque and RPM they quote."
     ]
   },
   "category": "electrical",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Motor Horsepower Calculator?",
-        "body": "The Motor Horsepower Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your torque, motor speed, motor efficiency, you get instant results including mechanical hp, electrical hp, power in watts. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This tool turns a motor's twisting force and spinning speed into a horsepower rating. Enter torque in ft-lbs, shaft speed in RPM, and the motor's efficiency, and it returns three numbers: the mechanical (shaft) horsepower delivered to your load, the electrical horsepower the motor draws to produce it, and the equivalent power in watts. It is built around the two relationships every motor engineer uses daily — HP = (Torque × RPM) ÷ 5,252 for shaft power, and 746 watts per horsepower for the electrical side."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting mechanical hp right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Take the default values: 50 ft-lbs of torque at 1,750 RPM (a common four-pole induction speed) with 90% efficiency. Shaft horsepower is (50 × 1,750) ÷ 5,252 ≈ 16.7 HP. Because the motor is only 90% efficient, the electrical horsepower it pulls from the line is 16.7 ÷ 0.90 ≈ 18.5 HP. Converting the shaft output to SI units, 16.7 × 746 ≈ 12,430 watts, or about 12.4 kW. Scale it up and the formula holds: 300 ft-lbs at 3,500 RPM comes to (300 × 3,500) ÷ 5,252 ≈ 200 HP."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your torque and need to find the right mechanical hp. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Reading the Torque-Speed Relationship",
+        "body": "Horsepower is not a fixed property of a motor — it depends on where on the torque-speed curve the motor is running. A motor making its rated torque low in the RPM band produces less horsepower than the same torque higher up, because HP scales directly with speed. That is why 5,252 matters: torque and horsepower are numerically equal at 5,252 RPM, below it torque leads, and above it horsepower leads. If your torque or RPM figure is an estimate, run a few values to see how sensitive the horsepower result is before you commit to a frame size."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Torque (ft-lbs)",
-      "description": "Type or select your torque in the field provided. Use the most accurate value available for best results."
+      "description": "Type the shaft torque in pound-feet. Use the rated or measured value from the load; if the spec is in Nm, divide by 1.356 to get ft-lbs first."
     },
     {
       "title": "Enter Your Motor Speed (RPM)",
-      "description": "Type or select your motor speed in the field provided. Use the most accurate value available for best results."
+      "description": "Type the shaft speed in revolutions per minute. Common induction speeds are 3,450 (two-pole), 1,750 (four-pole), and 1,150 (six-pole) at rated load."
     },
     {
       "title": "Enter Your Motor Efficiency (%)",
-      "description": "Type or select your motor efficiency in the field provided. Use the most accurate value available for best results."
+      "description": "Type the motor's efficiency. Use the nameplate value if you have it, or roughly 90% for a standard motor near full load, 92-96% for a premium-efficiency motor."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Hit Calculate to apply (Torque × RPM) ÷ 5,252 for shaft HP, then divide by efficiency for electrical HP. Results appear instantly below."
     },
     {
       "title": "Review Your Results",
-      "description": "Check your mechanical hp, electrical hp, power in watts. Use these figures to inform your next decision or compare against alternative scenarios."
+      "description": "Compare mechanical HP (what the shaft delivers) against electrical HP (what the motor draws) and the watts figure. Use the electrical HP when sizing supply and the mechanical HP when matching a load."
     }
   ],
   "tips": [
-    "Double-check your torque before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both mechanical hp and electrical hp — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your motor efficiency, start with a conservative estimate and adjust from there."
+    "Torque in Nm won't work here — convert to ft-lbs first by dividing Nm by 1.356.",
+    "The torque and horsepower curves always intersect at 5,252 RPM; use that as a quick gut-check when reading a dyno chart.",
+    "Size overload protection and wiring from the electrical HP (and the nameplate full-load amps), not the shaft HP.",
+    "Efficiency falls off at light load, so a lightly loaded motor draws proportionally more electrical HP than its rating suggests.",
+    "For a three-phase electric motor with volts and amps instead of torque, use HP = (Volts × Amps × Efficiency × 1.732) ÷ 746 with the power factor included."
   ]
 }

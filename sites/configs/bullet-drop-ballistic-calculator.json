@@ -14,100 +14,104 @@
   "jsonLdDescription": "Bullet Drop Calculator: Calculate bullet drop at various distances. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Bullet Drop Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"velocity\">Muzzle Velocity (fps)</label>\n      <input type=\"number\" id=\"velocity\" value=\"undefined\" min=\"500\" max=\"5000\" step=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"bc\">Ballistic Coefficient</label>\n      <input type=\"number\" id=\"bc\" value=\"undefined\" min=\"0.1\" max=\"1\" step=\"0.01\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"distance\">Distance (yards)</label>\n      <input type=\"number\" id=\"distance\" value=\"undefined\" min=\"50\" max=\"1500\" step=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"zeroRange\">Zero Range (yards)</label>\n      <input type=\"number\" id=\"zeroRange\" value=\"undefined\" min=\"25\" max=\"300\" step=\"25\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Bullet Drop</div>\n        <div class=\"result-value\" id=\"drop\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Adjustment</div>\n        <div class=\"result-value\" id=\"moa\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Velocity at Range</div>\n        <div class=\"result-value\" id=\"velocity_at_range\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This bullet drop calculator uses established formulas to provide accurate results.",
+    "intro": "The moment a bullet leaves the muzzle, gravity begins pulling it toward the earth at the same 32.2 ft/s² it pulls everything else. This calculator estimates how far the bullet falls over a given distance by working out the flight time from your muzzle velocity, then applying the physics of free fall — and correcting that fall for the range you zeroed your rifle at.",
     "rules": [
       {
         "name": "Simple Drop",
         "formula": "Drop = ½g × t² (adjusted for zero range)",
-        "explanation": "Gravity-based drop corrected for sight-in distance."
+        "explanation": "Gravity acts on the bullet for the entire flight, so drop grows with the square of time in the air. Sighting in at your zero range removes the drop at that one distance and shifts everything else relative to it."
       }
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "This is a gravity-only model. It ignores air drag, which is the single biggest factor in real trajectories, so treat the numbers as a teaching estimate rather than a dope card for the range."
   },
   "faq": [
     {
+      "question": "What actually causes bullet drop?",
+      "answer": "Gravity. From the instant the bullet clears the barrel it is in free fall, accelerating downward at 32.2 ft/s² regardless of how fast it is traveling forward. A bullet does not fly level and then dip — it starts falling immediately. The reason a fast bullet appears to shoot 'flatter' is only that it reaches the target sooner, so gravity has had less time to work on it."
+    },
+    {
+      "question": "What is zeroing a rifle?",
+      "answer": "Zeroing (or sighting in) is adjusting your sights so the bullet strikes exactly where the crosshair points at one chosen distance — the zero range. Because the barrel is tilted slightly upward relative to the line of sight, the bullet crosses your sight line on the way up, peaks, and crosses it again coming down at the zero distance. Past the zero the bullet drops below your point of aim, which is the holdover you have to account for."
+    },
+    {
+      "question": "Why does muzzle velocity matter so much?",
+      "answer": "Velocity sets the flight time, and drop depends on the square of that time. A faster bullet spends less time exposed to gravity before reaching the target, so it drops less. Roughly, flight time equals distance divided by velocity — bump the muzzle velocity up and the same target is reached quicker, shrinking the drop. This is why load developers and reloaders chase consistent, higher velocities within safe pressure limits."
+    },
+    {
+      "question": "What is the difference between MOA and mil?",
+      "answer": "Both are angular units for dialing your scope. One MOA (minute of angle) subtends about 1.047 inches at 100 yards — near enough to 1 inch that shooters round it. One mil (milliradian) subtends 3.6 inches at 100 yards, or 3.6 inches per 100 yards at any range. Neither is more accurate; they are just different rulers. Match your scope's turrets to its reticle — mil/mil or MOA/MOA — so a holdover you see in the reticle equals the clicks you dial."
+    },
+    {
+      "question": "Why do real ballistics need the ballistic coefficient?",
+      "answer": "This calculator's simple model assumes only gravity acts on the bullet, but in reality air drag is constantly slowing it down, which increases flight time and therefore increases drop beyond the gravity-only figure. The ballistic coefficient (BC) is a number describing how well a bullet's shape and weight let it resist that drag — a higher BC means less velocity lost and less drop. Accurate long-range solutions require BC plus a drag model (like G1 or G7), which is why a serious dope card comes from a full ballistic solver or verified field data."
+    },
+    {
       "question": "What affects bullet drop?",
-      "answer": "Velocity, ballistic coefficient, distance, altitude, and wind."
-    },
-    {
-      "question": "What is ballistic coefficient?",
-      "answer": "A measure of a bullet's ability to resist air drag. Higher BC = less drop."
-    },
-    {
-      "question": "Is the Bullet Drop Ballistic Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
-    },
-    {
-      "question": "What muzzle velocity should I enter?",
-      "answer": "Enter the most accurate muzzle velocity value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "answer": "Muzzle velocity and distance drive the gravity-only drop. In the real world, air drag, ballistic coefficient, altitude and air density, temperature, and even the shooting angle all change the trajectory, and wind pushes the bullet sideways rather than down."
     }
   ],
   "relatedTools": [],
   "howWeCalculate": {
-    "intro": "This bullet drop calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "This calculator uses a simplified free-fall model to estimate drop. It is deliberately transparent about the physics so you can see where the number comes from, but it does not model aerodynamic drag.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Convert your distance to feet and divide by muzzle velocity to estimate the bullet's flight time (t = distance ÷ velocity).",
+      "Apply the free-fall equation, drop = ½ × 32.2 × t², to find how far gravity pulls the bullet over that flight time.",
+      "Shift the result relative to your zero range, since sighting in cancels the drop at that one distance.",
+      "Express the remaining drop as an angular adjustment so you can compare it to MOA or mil clicks on your scope."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This is a simplified, gravity-only estimate that ignores air drag, ballistic coefficient, and environmental conditions. Real drop is greater than these figures because drag slows the bullet in flight. Confirm your actual holds on paper at the range or with a full ballistic solver before relying on them."
   },
   "whenToUse": {
-    "intro": "This bullet drop calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "This calculator is a fast way to build intuition for how velocity, distance, and zero interact — useful for planning and learning, not for replacing a verified dope card.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Zeroing a new rifle: preview roughly where a 100-yard or 200-yard zero puts your point of impact at other distances before you burn ammo.",
+      "Estimating long-range holdover: get a ballpark sense of how much the bullet falls past your zero so you know whether to hold or dial.",
+      "Comparing loads: see how a faster muzzle velocity flattens the trajectory when you are weighing one cartridge or handload against another.",
+      "Teaching the physics: show a new shooter why gravity acts the moment the bullet leaves the barrel and why flight time is what really changes.",
+      "Sanity-checking a solver: make sure a full ballistic app's output moves in the direction the underlying physics says it should."
     ]
   },
   "category": "firearms",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Bullet Drop Ballistic Calculator?",
-        "body": "The Bullet Drop Ballistic Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your muzzle velocity, ballistic coefficient, distance, you get instant results including bullet drop, adjustment, velocity at range. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This calculator estimates how far a bullet falls between the muzzle and the target using the physics of gravity. You enter your muzzle velocity, distance to the target, and the range you zeroed at, and it returns an approximate drop along with the sight adjustment needed to correct it. The core idea is simple: the longer a bullet is in the air, the more gravity pulls it down, and that time in the air is set by how fast the bullet leaves the barrel. It is a clear, physics-first way to understand trajectory before you ever dial a scope."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting bullet drop right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example at 300 Yards",
+        "body": "Suppose you are shooting at 300 yards — that is 900 feet — with a bullet leaving the muzzle at 2,800 fps. First find the flight time: t ≈ 900 ÷ 2,800 ≈ 0.32 seconds. Then apply free fall: drop ≈ ½ × 32.2 × 0.32² ≈ 1.65 feet, or about 20 inches, before you account for your zero. Zeroing at, say, 100 yards shifts that figure so the drop is measured from your point of aim. Keep in mind this is the gravity-only answer. Real bullets shed velocity to air drag the whole way downrange, so the true drop at 300 yards is noticeably more — accurate numbers need the bullet's ballistic coefficient and a proper drag model."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your muzzle velocity and need to find the right bullet drop. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why Zero Range Changes Everything",
+        "body": "Bullet drop is only meaningful relative to where your sights are set. Because the bore sits below and tilts up toward the line of sight, the bullet crosses your aiming line twice: once on the way up and again coming down at your zero range. Inside the zero the bullet can print slightly high; past it, the drop you have to hold for grows quickly. That is why the same cartridge behaves very differently with a 100-yard zero versus a 200-yard zero, and why every honest drop number has to state the zero it was measured from."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Muzzle Velocity (fps)",
-      "description": "Start by entering your muzzle velocity — this is the primary input for the calculation."
+      "description": "Use the velocity from your ammo box or, better, a chronograph reading for your rifle. This drives the flight time and has the largest effect on drop."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: ballistic coefficient, distance, zero range. Each value refines the calculation for greater accuracy."
+      "title": "Add Ballistic Coefficient and Distance",
+      "description": "Enter the bullet's BC and the distance to your target in yards. Distance sets how long gravity has to act; BC describes how well the bullet fights drag downrange."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set Your Zero Range",
+      "description": "Enter the distance your rifle is sighted in at — commonly 100 or 200 yards. Drop is always reported relative to this zero, so it matters as much as any other input."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your bullet drop, adjustment, velocity at range. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Read the Holdover",
+      "description": "Hit Calculate to see the estimated drop and the matching sight adjustment. Use it to plan a hold or a dial, then confirm the real value on paper at the range."
     }
   ],
   "tips": [
-    "Double-check your muzzle velocity before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both bullet drop and adjustment — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your zero range, start with a conservative estimate and adjust from there."
+    "Chronograph your actual load if you can — a 100 fps error in muzzle velocity meaningfully changes the flight time and the drop, especially past 300 yards.",
+    "Always note the zero range next to any drop figure. '20 inches of drop' means nothing until you say whether it is from a 100- or 200-yard zero.",
+    "Match your turret units to your reticle. Dialing MOA while holding off a mil reticle (or vice versa) is a common way to miss under time pressure.",
+    "Remember this model is gravity-only, so it under-predicts real drop. Treat it as a floor and expect the true holdover to be larger once drag is included.",
+    "Verify your solution on paper. Build a dope card by shooting at known distances and compare it to any calculator before trusting a long-range hold."
   ]
 }

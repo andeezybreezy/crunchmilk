@@ -49,42 +49,50 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How accurate are AI detection tools?",
+      "name": "What is perplexity in AI detection?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Most AI detectors claim 85-98% accuracy, but independent testing shows real-world accuracy of 60-85%, with significant false positive rates (5-15%). They work best on unedited AI text and struggle with AI text that has been humanized or edited. No detector is reliable enough for high-stakes decisions."
+        "text": "Perplexity measures how surprised a language model is by the next word. If almost every word is the one a model would have predicted, perplexity is low — and low perplexity is a classic 'AI-like' signal, because generators tend to reach for the most probable word. Human writing is bumpier: we drop in odd word choices, tangents, and turns of phrase a model would not have guessed, which pushes perplexity up. The catch is that clear, formulaic human writing (a polished cover letter, a textbook paragraph) is also low-perplexity, which is one reason these signals misfire."
       }
     },
     {
       "@type": "Question",
-      "name": "What makes text look AI-generated?",
+      "name": "What is burstiness and why does it matter?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Key signals include: uniform sentence length, overuse of transitional phrases, certain vocabulary choices ('delve', 'landscape', 'leverage', 'crucial'), lack of personal anecdotes or specific examples, overly balanced paragraph structure, and a tendency to hedge with qualifiers. AI text also tends to lack the messy complexity of genuine human thought."
+        "text": "Burstiness describes how much your sentence lengths vary. Human writing tends to be bursty — a nine-word sentence, then a rambling twenty-eight-word one, then a three-word fragment. Machine text often settles into a steady rhythm of similar mid-length sentences. Compare 'The results were clear. Everyone agreed. Then the argument started.' with 'The results were fairly clear and most of the participants agreed with the overall conclusion of the study.' The first is bursty; the second is smooth. Low burstiness nudges a detection score up, but it is a stylistic tell, not evidence of anything."
       }
     },
     {
       "@type": "Question",
-      "name": "How can I make AI text less detectable?",
+      "name": "Are AI detectors accurate?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Add personal voice and specific examples from real experience. Vary sentence length dramatically — mix very short punchy sentences with longer complex ones. Use colloquial language and contractions. Remove common AI phrases. Add opinions, humor, or emotional language. Restructure paragraphs to be less formulaic."
+        "text": "No — not accurate enough to rely on. Vendors advertise high numbers, but independent testing repeatedly finds false-positive rates around 5-15%, meaning genuine human writing gets flagged. OpenAI even retired its own detector in 2023 for low accuracy. Detectors do worst on short passages, edited or paraphrased text, and writing from non-native English speakers, whose simpler vocabulary reads as 'predictable.' A score is a rough signal, never a fact."
       }
     },
     {
       "@type": "Question",
-      "name": "Does this tool actually detect AI?",
+      "name": "Can this prove a piece of text was written by AI?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "This tool estimates detection probability using the same heuristics that AI detectors use — it does not determine with certainty whether text was AI-generated. It is a useful guide for understanding what triggers detectors, but should not be used as definitive proof of AI or human authorship."
+        "text": "No, and neither can any commercial detector. This tool only measures surface patterns — predictability, sentence variety, stock phrases — that happen to correlate with AI output. Correlation is not proof. A human can write low-perplexity, low-burstiness prose, and a careful AI edit can score like a person. Please do not use this or any detector to accuse a student, employee, or writer of cheating; a false accusation does real harm, and the underlying signals simply cannot bear that weight."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the AI Detection Score Calculator free to use?",
+      "name": "Why do AI detectors flag non-native English writers so often?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+        "text": "Detectors reward vocabulary variety and unpredictable phrasing. Writers working in a second language often use a smaller, more common set of words and steadier sentence structures — the same features a detector reads as 'machine-like.' A widely cited Stanford study found detectors flagged the majority of essays by non-native speakers as AI while rarely flagging native writers. That built-in bias is a core reason detection scores should never drive consequences for a real person."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should I actually use this score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As a curiosity check on your own draft. If your writing scores high and that surprises you, read it aloud and notice where it feels flat — uniform sentences, hedge words, phrases like 'it is important to note.' Then rewrite for your own voice: real examples, varied rhythm, specific detail. The goal is clearer, more human writing, not gaming a detector. And if you are on the receiving end of a detector result, treat it as a prompt to have a conversation, never as a confession."
       }
     }
   ]
@@ -338,16 +346,16 @@ footer a:hover{color:#fff}
 
   <!-- Content Intro -->
     <div class="info-section">
-    <h2>What Is the AI Detection Score Calculator?</h2>
-    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">The AI Detection Score Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your your text, content type, you get instant results including detection probability, risk level, sentence variance. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork.</p>
+    <h2>What This Calculator Actually Does</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Paste a passage and this tool estimates how 'AI-like' it reads on the surface. It is not a real detector and it does not phone a model — it applies a transparent heuristic in your browser, scoring signals such as low predictability, uniform sentence length, and repetitive phrasing. The output is a rough probability and a risk label, meant to help you understand what tips detectors off. Treat it as a mirror for your own draft, not a judgment about authorship.</p>
   </div>
   <div class="info-section">
-    <h2>Why This Calculation Matters</h2>
-    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Getting detection probability right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners.</p>
+    <h2>The Signals It Reads: Perplexity, Burstiness, and Stock Phrases</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Three plain ideas drive most AI detection. Perplexity is predictability: if nearly every word is the one a model would have guessed next, the text scores as 'AI-like,' because generators favor probable words. Burstiness is sentence-length variety — humans swing between short punches and long, winding sentences, while machine text often holds a steady mid-length beat. Consider 'It rained. The game stopped. Nobody minded.' next to 'The persistent rainfall eventually caused the organizers to postpone the scheduled afternoon match.' The first is bursty and less predictable; the second is smooth and even. The third signal is simple: recurring stock phrases like 'delve into,' 'in today's world,' and 'it is important to note' that generated drafts overuse.</p>
   </div>
   <div class="info-section">
-    <h2>When Should You Use This Calculator?</h2>
-    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">This tool is most useful when you know your your text and need to find the right detection probability. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup.</p>
+    <h2>Why You Should Not Trust the Number Too Much</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Every signal here is a correlation, not proof. Careful, formulaic human writing — a cover letter, a lab report — can read as low-perplexity and low-burstiness and score high. Meanwhile a lightly edited AI draft can score like a person. Real commercial detectors have this same weakness: independent tests show false-positive rates around 5-15%, and research has found they flag non-native English writers far more often than native ones. Use the score to improve your own prose, and never to decide whether someone else cheated.</p>
   </div>
 
 
@@ -441,17 +449,17 @@ footer a:hover{color:#fff}
     <div class="info-section">
     <h2>How to Use This Calculator</h2>
     <ol style="margin-left:20px;margin-bottom:12px">
-      <li style="margin-bottom:8px"><strong>Enter Your Your Text (min 50 words):</strong> Type or select your your text in the field provided. Use the most accurate value available for best results.</li>
-      <li style="margin-bottom:8px"><strong>Enter Your Content Type:</strong> Type or select your content type in the field provided. Use the most accurate value available for best results.</li>
-      <li style="margin-bottom:8px"><strong>Click Calculate:</strong> Hit the Calculate button to run the numbers. Results appear instantly below.</li>
-      <li style="margin-bottom:8px"><strong>Review Your Results:</strong> Check your detection probability, risk level, sentence variance. Use these figures to inform your next decision or compare against alternative scenarios.</li>
+      <li style="margin-bottom:8px"><strong>Paste at least 50 words:</strong> Drop in a real passage of your own writing. Short snippets give the perplexity and burstiness signals too little to work with, so longer samples produce a steadier estimate.</li>
+      <li style="margin-bottom:8px"><strong>Pick the content type:</strong> Choose whether it's general, academic, business, creative, or technical. Formal and technical writing is naturally more uniform, so telling the tool the genre keeps the score in a fair range.</li>
+      <li style="margin-bottom:8px"><strong>Analyze the text:</strong> Press Analyze Text. Everything runs locally in your browser — your writing is never uploaded — and the breakdown appears immediately below.</li>
+      <li style="margin-bottom:8px"><strong>Read the signals, not just the number:</strong> Look past the headline probability to the sentence-variance, vocabulary-diversity, and stock-phrase flags. They show you which patterns pulled the score up so you know what to rework. Remember the result is a rough signal, not proof of authorship.</li>
     </ol>
   </div>
 
   <!-- How It Works -->
     <div class="calc-card">
     <h2>How It Works</h2>
-    <p style="margin-bottom:12px">This calculator uses heuristic analysis to estimate how likely AI detection tools (GPTZero, Originality.ai, Turnitin) would flag your text. It analyzes the same linguistic features these tools look for.</p>
+    <p style="margin-bottom:12px">Paste a passage and this tool reads it the way a machine reader would — measuring how predictable each word is, how much your sentence lengths vary, and how often certain giveaway phrases show up. It then turns those readings into a single illustrative score. Think of it as a mirror that shows which surface patterns in your writing tend to trip AI detectors, not a verdict on who or what wrote the text.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
       <li>AI text tends to have uniform sentence lengths — human writing varies more in rhythm and structure</li>
@@ -459,7 +467,7 @@ footer a:hover{color:#fff}
       <li>Low vocabulary diversity (many repeated common words) is a strong AI signal</li>
       <li>AI text tends toward medium-length sentences (15-25 words) and avoids very short or very long ones</li>
     </ul>
-    <p style="font-size:0.9rem;color:var(--text-light)">No detector is perfect. AI detection tools have false positive rates of 5-15%, meaning human-written text is sometimes flagged incorrectly. This tool provides an estimate, not a guarantee. The best approach is to add your genuine voice, specific examples, and personal experience to any text.</p>
+    <p style="font-size:0.9rem;color:var(--text-light)">Here is the honest part: these signals are correlations, not proof. Plenty of careful human writing scores high, and edited AI text scores low. Real detectors carry false-positive rates in the 5-15% range, and studies have shown they flag writing from non-native English speakers far more often than native writing. Treat any score here as a conversation starter about your own draft — never as evidence about someone else's.</p>
   </div>
 
   <!-- ADEM Promo -->
@@ -469,11 +477,11 @@ footer a:hover{color:#fff}
     <div class="info-section">
     <h2>Tips &amp; Considerations</h2>
     <ul>
-      <li style="margin-bottom:8px">Double-check your your text before calculating — even small input errors can significantly change your results.</li>
-      <li style="margin-bottom:8px">Run the calculator with different values to compare scenarios and find the optimal approach for your situation.</li>
-      <li style="margin-bottom:8px">Pay attention to both detection probability and risk level — they work together to give you the full picture.</li>
-      <li style="margin-bottom:8px">Bookmark this page for quick access next time you need to get accurate results.</li>
-      <li style="margin-bottom:8px">If you're unsure about your content type, start with a conservative estimate and adjust from there.</li>
+      <li style="margin-bottom:8px">Read your draft aloud — the spots where you stumble or hear a flat, even rhythm are usually the same low-burstiness stretches that push the score up.</li>
+      <li style="margin-bottom:8px">Vary your sentence lengths on purpose: follow a long, winding sentence with a short, blunt one to break the steady machine-like beat.</li>
+      <li style="margin-bottom:8px">Delete stock phrases like 'delve into,' 'it is important to note,' and 'in today's world' — swapping them for plain, specific wording lowers the score and reads better.</li>
+      <li style="margin-bottom:8px">Add something only you could write: a real example, a concrete number, a small opinion. Specific detail raises perplexity in the human direction.</li>
+      <li style="margin-bottom:8px">If this tool or a real detector flags your writing, treat it as feedback on your draft — not as evidence, and never as grounds to accuse anyone else.</li>
     </ul>
   </div>
 
@@ -482,28 +490,33 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>How accurate are AI detection tools?</h3>
-      <p>Most AI detectors claim 85-98% accuracy, but independent testing shows real-world accuracy of 60-85%, with significant false positive rates (5-15%). They work best on unedited AI text and struggle with AI text that has been humanized or edited. No detector is reliable enough for high-stakes decisions.</p>
+      <h3>What is perplexity in AI detection?</h3>
+      <p>Perplexity measures how surprised a language model is by the next word. If almost every word is the one a model would have predicted, perplexity is low — and low perplexity is a classic 'AI-like' signal, because generators tend to reach for the most probable word. Human writing is bumpier: we drop in odd word choices, tangents, and turns of phrase a model would not have guessed, which pushes perplexity up. The catch is that clear, formulaic human writing (a polished cover letter, a textbook paragraph) is also low-perplexity, which is one reason these signals misfire.</p>
     </div>
 
     <div class="faq-item">
-      <h3>What makes text look AI-generated?</h3>
-      <p>Key signals include: uniform sentence length, overuse of transitional phrases, certain vocabulary choices ('delve', 'landscape', 'leverage', 'crucial'), lack of personal anecdotes or specific examples, overly balanced paragraph structure, and a tendency to hedge with qualifiers. AI text also tends to lack the messy complexity of genuine human thought.</p>
+      <h3>What is burstiness and why does it matter?</h3>
+      <p>Burstiness describes how much your sentence lengths vary. Human writing tends to be bursty — a nine-word sentence, then a rambling twenty-eight-word one, then a three-word fragment. Machine text often settles into a steady rhythm of similar mid-length sentences. Compare 'The results were clear. Everyone agreed. Then the argument started.' with 'The results were fairly clear and most of the participants agreed with the overall conclusion of the study.' The first is bursty; the second is smooth. Low burstiness nudges a detection score up, but it is a stylistic tell, not evidence of anything.</p>
     </div>
 
     <div class="faq-item">
-      <h3>How can I make AI text less detectable?</h3>
-      <p>Add personal voice and specific examples from real experience. Vary sentence length dramatically — mix very short punchy sentences with longer complex ones. Use colloquial language and contractions. Remove common AI phrases. Add opinions, humor, or emotional language. Restructure paragraphs to be less formulaic.</p>
+      <h3>Are AI detectors accurate?</h3>
+      <p>No — not accurate enough to rely on. Vendors advertise high numbers, but independent testing repeatedly finds false-positive rates around 5-15%, meaning genuine human writing gets flagged. OpenAI even retired its own detector in 2023 for low accuracy. Detectors do worst on short passages, edited or paraphrased text, and writing from non-native English speakers, whose simpler vocabulary reads as 'predictable.' A score is a rough signal, never a fact.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Does this tool actually detect AI?</h3>
-      <p>This tool estimates detection probability using the same heuristics that AI detectors use — it does not determine with certainty whether text was AI-generated. It is a useful guide for understanding what triggers detectors, but should not be used as definitive proof of AI or human authorship.</p>
+      <h3>Can this prove a piece of text was written by AI?</h3>
+      <p>No, and neither can any commercial detector. This tool only measures surface patterns — predictability, sentence variety, stock phrases — that happen to correlate with AI output. Correlation is not proof. A human can write low-perplexity, low-burstiness prose, and a careful AI edit can score like a person. Please do not use this or any detector to accuse a student, employee, or writer of cheating; a false accusation does real harm, and the underlying signals simply cannot bear that weight.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Is the AI Detection Score Calculator free to use?</h3>
-      <p>Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees.</p>
+      <h3>Why do AI detectors flag non-native English writers so often?</h3>
+      <p>Detectors reward vocabulary variety and unpredictable phrasing. Writers working in a second language often use a smaller, more common set of words and steadier sentence structures — the same features a detector reads as 'machine-like.' A widely cited Stanford study found detectors flagged the majority of essays by non-native speakers as AI while rarely flagging native writers. That built-in bias is a core reason detection scores should never drive consequences for a real person.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How should I actually use this score?</h3>
+      <p>As a curiosity check on your own draft. If your writing scores high and that surprises you, read it aloud and notice where it feels flat — uniform sentences, hedge words, phrases like 'it is important to note.' Then rewrite for your own voice: real examples, varied rhythm, specific detail. The goal is clearer, more human writing, not gaming a detector. And if you are on the receiving end of a detector result, treat it as a prompt to have a conversation, never as a confession.</p>
     </div>
 
   </div>

@@ -14,32 +14,36 @@
   "jsonLdDescription": "Homebrew ABV Calculator: Calculate alcohol content from original and final gravity. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Homebrew ABV Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"og\">Original Gravity</label>\n      <input type=\"number\" id=\"og\" value=\"1.05\" min=\"1\" max=\"1.15\" step=\"0.001\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"fg\">Final Gravity</label>\n      <input type=\"number\" id=\"fg\" value=\"1.01\" min=\"0.99\" max=\"1.05\" step=\"0.001\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">ABV %</div>\n        <div class=\"result-value\" id=\"abv\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">ABW %</div>\n        <div class=\"result-value\" id=\"abw\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Apparent Attenuation</div>\n        <div class=\"result-value\" id=\"attenuation\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This homebrew abv calculator uses established formulas to provide accurate results.",
+    "intro": "Alcohol by volume is worked out from how much sugar the yeast ate during fermentation. You take two hydrometer readings — one before the yeast goes to work (original gravity) and one after fermentation finishes (final gravity) — and the drop between them tells you how much sugar turned into alcohol.",
     "rules": [
       "ABV = (OG - FG) × 131.25"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "The ×131.25 constant is a linear shortcut that fits standard beer- and wine-strength brews well. It slowly overshoots on very strong batches, so treat a reading above roughly 10% ABV as a close estimate rather than a lab number."
   },
   "faq": [
     {
-      "question": "How do I calculate ABV?",
-      "answer": "ABV = (Original Gravity - Final Gravity) × 131.25. This formula uses the difference in specific gravity readings before and after fermentation."
+      "question": "What are OG and FG?",
+      "answer": "OG is original gravity, the specific gravity of your wort or must before you pitch the yeast — it reflects all the fermentable sugar you started with. FG is final gravity, the reading once fermentation has stopped and the yeast has converted what it can into alcohol and CO2. Both are dimensionless numbers close to water (1.000), like 1.055 and 1.010. The bigger the gap between them, the more sugar was fermented and the higher the ABV."
     },
     {
-      "question": "Is the Homebrew ABV Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Why multiply by 131.25?",
+      "answer": "131.25 is an empirical constant that converts the gravity drop into a percentage of alcohol by volume. It bundles together the density of ethanol and the relationship between sugar consumed and alcohol produced into one tidy number. Some brewers use 125 instead, which reads a touch lower; the difference is small at session strength but widens on big beers. Neither is exact physics — both are practical approximations that fit the typical homebrew range."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "How do I read a hydrometer?",
+      "answer": "Fill the test tube or float the hydrometer in a sample of wort, give it a gentle spin to shake off clinging bubbles, and let it settle. Read the number where the liquid surface crosses the stem, looking at the bottom of the meniscus (the little curved dip) at eye level. Foam and carbonation will throw the reading off, so degas fizzy samples first. A refractometer is an alternative for OG, but it needs a correction once alcohol is present, so a hydrometer is simpler for FG."
     },
     {
-      "question": "What original gravity should I enter?",
-      "answer": "Enter the most accurate original gravity value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Does temperature affect the reading?",
+      "answer": "Yes. Hydrometers are calibrated to one temperature, usually 60°F (20°C), and a warm sample reads artificially low because the liquid is less dense. If you measure a hot sample straight off the boil, correct it upward or cool it to calibration temperature before reading. A few tenths of a gravity point from temperature can shift your final ABV by a couple of tenths of a percent, so it is worth getting right on both the OG and FG readings."
     },
     {
-      "question": "Can I use this calculator on my phone?",
-      "answer": "Yes, the Homebrew ABV Calculator is fully responsive and works on any device — phone, tablet, or desktop. No app download needed."
+      "question": "Why does the ×131.25 factor drift at high ABV?",
+      "answer": "The formula assumes a straight-line relationship between gravity drop and alcohol, but that relationship curves as strength climbs. On a strong barleywine, mead, or wine — say an OG of 1.100 fermenting down to 1.010 — the simple formula tends to overstate the result slightly. For those big batches, an alternate formula such as ABV = (76.08 × (OG − FG) / (1.775 − OG)) × (FG / 0.794) tracks reality better. For everyday beers this drift is negligible."
+    },
+    {
+      "question": "How do I know fermentation is finished?",
+      "answer": "Take gravity readings two or three days apart. When the final gravity holds steady across those readings and matches the ballpark you expected for the recipe, fermentation is done. A stable FG, not the calendar or airlock activity, is the reliable signal that the yeast has finished and the beer is ready to package."
     }
   ],
   "relatedTools": [
@@ -47,66 +51,66 @@
     "mead-gravity-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This homebrew abv calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator applies the standard homebrew ABV formula to the two gravity readings you enter, then derives a couple of related figures brewers care about.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Enter your original gravity (before fermentation) and final gravity (after fermentation) in the fields above",
+      "The calculator subtracts FG from OG to find the gravity drop, then multiplies by 131.25 to get ABV %",
+      "ABW % (alcohol by weight) is derived from ABV, and apparent attenuation shows the percentage of sugar the yeast fermented",
+      "Everything runs in your browser using your numbers only — no readings are sent anywhere"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "The ×131.25 formula is a practical approximation tuned for typical beer and wine strengths. Expect a small upward drift above roughly 10% ABV, and use it as a brewing estimate rather than a legal or nutritional measurement."
   },
   "whenToUse": {
-    "intro": "This homebrew abv calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this whenever you have a before-and-after gravity pair and want to know how strong the batch turned out.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Working out the ABV of a finished beer from your logged OG and FG",
+      "Estimating the strength of a wine or mead, where gravity drops are larger and the high-ABV drift matters",
+      "Confirming fermentation is actually done by checking that FG has stopped moving between readings",
+      "Comparing a batch against its recipe target to see whether the yeast hit expected attenuation",
+      "Backing out the ABV of a mystery batch when you only recorded OG and are now reading FG at packaging"
     ]
   },
   "category": "food-beverage",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Homebrew ABV Calculator?",
-        "body": "The Homebrew ABV Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your original gravity, final gravity, you get instant results including abv %, abw %, apparent attenuation. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "From Two Gravity Readings to Your ABV",
+        "body": "Every homebrew starts sweet and finishes drier because yeast eats sugar and gives back alcohol and CO2. This calculator turns that transformation into a number. Give it your original gravity — the density of the wort or must before pitching — and your final gravity once fermentation settles, and it returns the alcohol by volume along with alcohol by weight and apparent attenuation. The whole method rests on a single, well-worn brewing formula, so the readings you take with your hydrometer are the only thing standing between you and an accurate result."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting abv % right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example: 1.055 Down to 1.010",
+        "body": "Say you brewed a pale ale that started at an original gravity of 1.055 and finished at a final gravity of 1.010. Subtract the final from the original to get the gravity drop: 1.055 − 1.010 = 0.045. Multiply that by the standard factor: 0.045 × 131.25 ≈ 5.9% ABV. That is a classic session-to-standard strength beer. Notice how much the small numbers matter — if you had misread the FG as 1.015 instead of 1.010, your gravity drop shrinks to 0.040 and the ABV falls to about 5.25%. A single hydrometer point moves the answer by roughly 0.13% ABV."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your original gravity and need to find the right abv %. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why the ×131.25 Factor Isn't Perfect",
+        "body": "The 131.25 constant is an empirical fit, not a law of physics. It assumes alcohol production scales linearly with the gravity drop, which holds up beautifully across the ordinary beer range but begins to overstate strength on big brews. Ferment a 1.100 wort down to 1.010 and the simple formula reads high by a noticeable margin because the real relationship curves at those extremes. For strong ales, wines, and meads, a nonlinear formula tracks better. You will also see some brewers use ×125 rather than ×131.25, which yields a slightly more conservative number; both are common in the hobby."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Original Gravity",
-      "description": "Type or select your original gravity in the field provided. Use the most accurate value available for best results."
+      "title": "Record Your Original Gravity",
+      "description": "Before pitching yeast, take a hydrometer reading of the wort or must at calibration temperature and enter it as your original gravity — for example 1.055."
     },
     {
-      "title": "Enter Your Final Gravity",
-      "description": "Type or select your final gravity in the field provided. Use the most accurate value available for best results."
+      "title": "Record Your Final Gravity",
+      "description": "Once fermentation has stopped and the reading is stable across a couple of days, measure the final gravity and enter it — for example 1.010."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "The calculator finds the gravity drop, multiplies by 131.25, and returns your ABV instantly below."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your abv %, abw %, apparent attenuation. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read Your Results",
+      "description": "Check the ABV %, alcohol by weight, and apparent attenuation. Compare the attenuation figure against your recipe to judge whether the yeast performed as expected."
     }
   ],
   "tips": [
-    "Double-check your original gravity before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both abv % and abw % — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your final gravity, start with a conservative estimate and adjust from there."
+    "Take OG and FG at the same temperature your hydrometer is calibrated for — usually 60°F (20°C) — or correct the reading, since a warm sample reads low.",
+    "Spin the hydrometer and let CO2 bubbles clear before reading; clinging bubbles lift the float and inflate the number.",
+    "Read at the bottom of the meniscus with your eye level to the liquid surface for a consistent value.",
+    "Confirm fermentation is done by taking two FG readings a few days apart — a steady number, not the airlock, tells you it is finished.",
+    "For strong wines, meads, or barleywines above about 10% ABV, treat the ×131.25 result as an estimate that reads slightly high and consider a nonlinear formula."
   ]
 }

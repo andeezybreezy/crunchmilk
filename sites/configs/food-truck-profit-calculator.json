@@ -14,7 +14,7 @@
   "jsonLdDescription": "Food Truck Profit Calculator: Estimate daily and monthly profit for a food truck business. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Food Truck Profit Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"avgTicket\">Average Ticket Price ($)</label>\n      <input type=\"number\" id=\"avgTicket\" value=\"undefined\" min=\"3\" max=\"50\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"customersPerDay\">Customers per Day</label>\n      <input type=\"number\" id=\"customersPerDay\" value=\"undefined\" min=\"10\" max=\"500\" step=\"5\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"foodCostPct\">Food Cost (%)</label>\n      <input type=\"number\" id=\"foodCostPct\" value=\"undefined\" min=\"15\" max=\"50\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"daysPerWeek\">Days Open per Week</label>\n      <input type=\"number\" id=\"daysPerWeek\" value=\"undefined\" min=\"1\" max=\"7\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"rent\">Monthly Lot Fees / Rent ($)</label>\n      <input type=\"number\" id=\"rent\" value=\"undefined\" min=\"0\" max=\"5000\" step=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"laborDaily\">Daily Labor Cost ($)</label>\n      <input type=\"number\" id=\"laborDaily\" value=\"undefined\" min=\"0\" max=\"1000\" step=\"25\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Revenue</div>\n        <div class=\"result-value\" id=\"dailyRevenue\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Net Profit</div>\n        <div class=\"result-value\" id=\"dailyProfit\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Net Profit</div>\n        <div class=\"result-value\" id=\"monthlyProfit\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual Net Profit</div>\n        <div class=\"result-value\" id=\"annualProfit\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This food truck profit calculator uses established formulas to provide accurate results.",
+    "intro": "A food truck's profit comes down to one line: what you sell in a service window minus what that window costs you to run. This calculator builds daily revenue from your customer count and average ticket, then peels off food cost, labor, and your fixed lot and rent overhead to show what actually lands in your pocket.",
     "rules": [
       {
         "name": "Daily Profit",
@@ -22,28 +22,32 @@
         "explanation": "Gross revenue minus all variable daily costs gives your daily operating profit."
       }
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "The numbers here are planning estimates. Real trucks swing hard with weather, events, and slow lunch days, so pull a few weeks of your own sales tickets before you trust any single figure."
   },
   "faq": [
     {
-      "question": "How much can a food truck make per year?",
-      "answer": "Successful food trucks gross $250,000-$500,000 annually. After all expenses, net profit is typically $50,000-$150,000."
+      "question": "What food cost percentage is healthy for a food truck?",
+      "answer": "Aim for food cost in the 28-35% range of sales. Under 28% and your portions may feel stingy or your menu overpriced for the line; over 35% and there is little left after labor and lot fees. Trucks with a tight menu and high-margin items like tacos, loaded fries, or specialty coffee often land near 28-30%, while premium proteins such as brisket or seafood push closer to 35%."
     },
     {
-      "question": "What is a good food cost percentage for a food truck?",
-      "answer": "Target 28-32% food cost. Below 25% may signal quality issues, above 35% squeezes margins too thin."
+      "question": "What are the biggest hidden costs of running a food truck?",
+      "answer": "The line items that blindside new owners are commissary or prep-kitchen rent (often $500-$1,200/month and required by many health departments), generator fuel and propane, permit and health-inspection renewals across every city you serve, insurance, credit-card processing fees at roughly 3% of sales, and the truck payment or major repairs. Engine, generator, and refrigeration breakdowns can wipe out a month of profit in a single day."
+    },
+    {
+      "question": "How many orders do I need per day to break even?",
+      "answer": "Break-even depends on your average ticket and fixed costs. Take your daily fixed costs (labor plus a daily share of monthly rent, insurance, and truck payment), then divide by your contribution per order, which is the average ticket minus its food cost. At a $12 ticket with 30% food cost, each order contributes about $8.40. If your fixed costs run $500/day, you need roughly 60 orders just to break even, and everything above that is profit."
+    },
+    {
+      "question": "How much can a food truck make per year?",
+      "answer": "Successful food trucks gross $250,000-$500,000 annually. After all expenses, net profit is typically $50,000-$150,000, with the top end reserved for owners who work the truck themselves, hit high-traffic events, and keep food cost disciplined."
+    },
+    {
+      "question": "What average ticket price should I use for a food truck?",
+      "answer": "Most street-food trucks average $10-$15 per order once you account for drinks and add-ons. Combo pricing, a signature upsell, and a card-only setup that removes the friction of exact change all nudge the average ticket up. Bump the average ticket field by even a dollar in the calculator and watch how much it moves your monthly profit."
     },
     {
       "question": "Is the Food Truck Profit Calculator free to use?",
       "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
-    {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
-    },
-    {
-      "question": "What average ticket price should I enter?",
-      "answer": "Enter the most accurate average ticket price value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
     }
   ],
   "relatedTools": [
@@ -51,66 +55,66 @@
     "recipe-cost-per-serving-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This food truck profit calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The math mirrors how a truck owner reads a day's close-out: build revenue from volume and ticket size, subtract the costs that scale with sales, then subtract the fixed overhead that shows up whether you sell one taco or a thousand.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Daily revenue = customers per day × average ticket price. So 120 orders at a $12 ticket gives $1,440 in sales.",
+      "Food cost (COGS) = revenue × your food cost percentage. At 32%, that $1,440 day costs about $460 in ingredients.",
+      "Subtract daily labor, then subtract a daily share of your monthly lot fees, rent, and other fixed overhead to reach daily net profit.",
+      "Monthly and annual profit scale the daily figure by your days open per week — a truck running that same day five days a week clears roughly $480 × 5 ≈ $2,400 a week before slow-day variance."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are estimates for planning. Fuel, event fees, spoilage, and repair surprises are not modeled here, so keep a cash cushion and verify against your own sales history before making a purchase or hiring decision."
   },
   "whenToUse": {
-    "intro": "This food truck profit calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this calculator whenever a decision hinges on whether the truck actually pays for itself, not just whether the line looks long.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Starting a food truck: pressure-test the business plan by seeing how many customers a day it takes to cover your truck payment, commissary rent, and a living wage.",
+      "Pricing your menu: raise the average ticket by a dollar or trim food cost by a few points and watch the monthly profit shift before you print new menu boards.",
+      "Event planning: estimate whether a festival's expected foot traffic and vendor fee will clear a profit, or whether the day just buys you exposure.",
+      "Comparing locations: run a busy lunch corner against a slower but cheaper lot to see which nets more after fees.",
+      "Deciding whether to add a second staffer: check if the extra labor pays for itself by moving more orders through the window."
     ]
   },
   "category": "food-beverage",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-07-13",
   "contentIntro": {
     "sections": [
       {
         "title": "What Is the Food Truck Profit Calculator?",
-        "body": "The Food Truck Profit Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your average ticket price, customers per day, food cost, you get instant results including daily revenue, daily net profit, monthly net profit. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "body": "This calculator turns the messy reality of running a mobile kitchen into one clear number: how much a service day actually leaves in your pocket. You enter your average ticket price, customers per day, food cost percentage, days open per week, monthly lot fees, and daily labor, and it returns daily revenue alongside daily, monthly, and annual net profit. It is built for the way food trucks really earn — high volume, thin margins, and fixed overhead that has to be covered before you see a dime of profit."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting daily revenue right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "A Worked Example",
+        "body": "Say you serve 120 orders in a day at an average ticket of $12. That is $1,440 in daily revenue. Food cost at roughly 32% eats about $460, a two-person crew for the shift runs about $300, and fuel, propane, and your daily slice of lot fees add another $200 or so. That leaves about $480 in daily profit. Run that five days a week and you are looking at roughly $2,400 a week before the inevitable slow days and event fees pull it around. The lesson most new owners learn from this: volume and ticket size do the heavy lifting, and shaving a few points off food cost is often easier than finding another dozen customers."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your average ticket price and need to find the right daily revenue. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Why Margins Are So Tight on Wheels",
+        "body": "A food truck looks lean next to a brick-and-mortar restaurant, but the costs do not disappear — they move around. Rent becomes commissary fees and lot rentals, utilities become generator fuel and propane, and a single engine or refrigeration failure can erase a strong week. Because a truck only has so many minutes of a lunch rush to sell into, your profit is capped by how fast the window moves and how disciplined your food cost stays. This tool helps you see, before you commit, which levers actually change the outcome."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Average Ticket Price ($)",
-      "description": "Start by entering your average ticket price — this is the primary input for the calculation."
+      "description": "Put in what a typical customer spends per order, drinks and sides included. Most street-food trucks land between $10 and $15."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: customers per day, food cost, days open per week, monthly lot fees / rent, daily labor cost. Each value refines the calculation for greater accuracy."
+      "title": "Add Volume and Food Cost",
+      "description": "Enter your customers per day, your food cost percentage (28-35% is the healthy range), and how many days a week you run. These three drive most of the result."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Enter Your Fixed and Labor Costs",
+      "description": "Fill in monthly lot fees or rent and your daily labor cost. Include commissary rent in the monthly figure if your health department requires one."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your daily revenue, daily net profit, monthly net profit. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Click Calculate and Read the Breakdown",
+      "description": "Review daily revenue and net profit, then the monthly and annual figures. Adjust ticket price or food cost and recalculate to see which lever moves your bottom line most."
     }
   ],
   "tips": [
-    "Double-check your average ticket price before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both daily revenue and daily net profit — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your daily labor cost, start with a conservative estimate and adjust from there."
+    "Nudge your average ticket up with combos, a signature upsell, and card-only ordering — a single extra dollar per order often beats chasing more foot traffic.",
+    "Keep food cost between 28% and 35%. If it creeps higher, re-portion your top sellers or renegotiate with suppliers before you touch menu prices.",
+    "Fold commissary rent, insurance, and your truck payment into the monthly fixed costs — leaving them out is the fastest way to overstate profit.",
+    "Model a rainy or slow day, not just a good one. Trucks live and die on variance, so know your break-even order count before you sign an event contract.",
+    "Before committing to a festival or lot, run the expected turnout against the vendor fee here to confirm the day clears a profit rather than just buying exposure."
   ]
 }
