@@ -14,7 +14,7 @@
   "jsonLdDescription": "Health Insurance Premium Calculator: Estimate your ACA marketplace health insurance premium. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Health Insurance Premium Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"income\">Annual Income ($)</label>\n      <input type=\"number\" id=\"income\" value=\"undefined\" min=\"10000\" max=\"500000\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"age\">Age</label>\n      <input type=\"number\" id=\"age\" value=\"undefined\" min=\"18\" max=\"64\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"familySize\">Family Size</label>\n      <input type=\"number\" id=\"familySize\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tier\">Plan Tier</label>\n      <select id=\"tier\"><option value=\"Bronze\" selected>Bronze</option><option value=\"Silver\">Silver</option><option value=\"Gold\">Gold</option><option value=\"Platinum\">Platinum</option><option value=\"tier\">tier</option></select>\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Monthly Premium</div>\n        <div class=\"result-value\" id=\"monthlyPremium\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual Premium</div>\n        <div class=\"result-value\" id=\"annualPremium\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Subsidy</div>\n        <div class=\"result-value\" id=\"subsidy\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This health insurance premium calculator uses established formulas to provide accurate results.",
+    "intro": "This estimate multiplies a national-average base premium by an age-rating factor modeled on the ACA's permitted 3:1 age curve and a family-size factor that adds each covered member's individually-rated premium, then subtracts an estimated premium tax credit based on how your income compares to the federal poverty level. It's a simplified stand-in for the county-by-county underwriting math insurers and healthcare.gov actually run.",
     "rules": [
       {
         "name": "Premium",
@@ -22,92 +22,100 @@
         "explanation": "Adjusted base premium minus any applicable subsidies."
       }
     ],
-    "outro": "Insurance rates depend on many individual factors. Get personalized quotes from licensed providers."
+    "outro": "Because this calculator can't see your ZIP code, your insurers' actual filed rates, or this year's official poverty guidelines, treat the output as a starting point for budgeting — not a bindable rate. Real premiums are filed per county rating area and reset every plan year, so confirm numbers on healthcare.gov, your state's exchange, or with a licensed agent before you enroll."
   },
   "faq": [
     {
       "question": "Do I qualify for a subsidy?",
-      "answer": "If your income is below 400% of the federal poverty level, you may qualify for premium tax credits."
+      "answer": "Historically, households with MAGI roughly between 100% and 400% of the federal poverty level have qualified for premium tax credits, and enhanced-credit rules have at times extended eligibility above 400% by capping the benchmark Silver premium as a share of income instead of a hard cutoff. Because these thresholds and enhancement rules are set by legislation and change over time, confirm current eligibility on healthcare.gov rather than relying on any single percentage."
     },
     {
       "question": "What plan tier should I choose?",
-      "answer": "Bronze for low premiums/high deductibles, Silver for subsidies, Gold/Platinum for frequent care."
+      "answer": "Bronze suits someone who rarely sees a doctor and mainly wants protection from catastrophic costs — premiums are low, deductibles are high. Silver is worth a close look if your income qualifies you for cost-sharing reductions, since it can quietly beat Gold on real out-of-pocket costs. Gold and Platinum tend to pay off if you expect regular prescriptions, specialist visits, or a planned procedure, where the higher premium is offset by much lower deductibles and copays."
     },
     {
-      "question": "Is the Health Insurance Premium Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Why does my age change the premium so much?",
+      "answer": "ACA rules let insurers charge their oldest enrollees (64) up to three times what they charge a 21-year-old for the identical plan. That ratio phases in gradually with each birthday rather than jumping at a single threshold, which is why the age factor is usually the biggest single driver of the estimate once you're past your late 40s."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard insurance planning formulas trusted by individuals and families. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why doesn't this ask for my state or ZIP code?",
+      "answer": "Because real premiums are filed by insurers per county rating area and change annually, an enrollable quote requires pulling live plan data for your exact location. This calculator applies national-average pricing scaled by age, family size, and tier, so use the dollar figures as a planning baseline and pull your real number from healthcare.gov or your state exchange."
     },
     {
-      "question": "What annual income should I enter?",
-      "answer": "Enter the most accurate annual income value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Is this the same as pricing an employer health plan?",
+      "answer": "No. Employer-sponsored premiums are priced across your company's whole risk pool and usually include an employer contribution this tool doesn't model. This calculator estimates individual marketplace pricing, which insurers price per person by age, tobacco use, and location — COBRA continuation coverage, by contrast, typically costs the full unsubsidized group rate plus a 2% administrative fee."
+    },
+    {
+      "question": "How accurate is this estimate?",
+      "answer": "It's built for budgeting and side-by-side comparison, not enrollment. Real premiums depend on your specific insurer, county, plan design, and the current year's official poverty guidelines and subsidy formulas, all of which shift year to year. Before enrolling, verify pricing directly on healthcare.gov, your state's exchange, or with a licensed agent."
     }
   ],
   "relatedTools": [],
   "howWeCalculate": {
-    "intro": "This health insurance premium calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The estimate runs in three layers: a base monthly premium standing in for an average-cost plan nationally, an age multiplier drawn from the ACA's permitted 3:1 rating curve, and a family-size multiplier that adds each additional covered person's individually-rated premium — a couple pays roughly double a single adult's rate, not the flat per-person number a simpler calculator might suggest.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Your annual income is compared against the federal poverty level for your household size to estimate what share of income you'd be expected to contribute toward a benchmark Silver plan",
+      "Your age is run through the ACA's 3:1 age curve to scale the base premium up or down — this is usually the single biggest lever in the estimate for adults over 50",
+      "Family size adds an individually-rated premium for each additional household member, since insurers price dependents one at a time rather than applying a flat headcount multiplier",
+      "Your selected plan tier adjusts the base premium by its actuarial-value band, then the estimated subsidy is subtracted to produce the net monthly and annual figures shown"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This model uses national averages and simplified age and subsidy curves — it doesn't know your state, county rating area, insurer network, or the current year's official poverty guidelines. For an enrollable quote, use healthcare.gov, your state's exchange, or a licensed insurance agent."
   },
   "whenToUse": {
-    "intro": "This health insurance premium calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "A premium estimate is most useful before you're staring down a real enrollment deadline. A few situations where running these numbers actually helps:",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Comparing a COBRA offer against marketplace pricing after a layoff, before your COBRA election window closes",
+      "Estimating whether a part-time or freelance income shift mid-year would change your subsidy eligibility",
+      "Deciding between a high-deductible Bronze plan paired with an HSA and a lower-deductible Silver plan before open enrollment starts",
+      "Sanity-checking a healthcare.gov quote that looks unusually high or low for your age and income",
+      "Modeling how adding a spouse or dependent to your policy changes the household premium versus keeping separate coverage"
     ]
   },
   "category": "insurance",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-08-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Health Insurance Premium Calculator?",
-        "body": "The Health Insurance Premium Calculator is a free online tool designed for individuals and families who need quick, accurate calculations in the insurance planning space. By entering your annual income, age, family size, you get instant results including estimated monthly premium, annual premium, estimated subsidy. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "Metal Tiers: The Premium-vs-Deductible Tradeoff",
+        "body": "The ACA marketplace sorts every plan into one of four metal tiers — Bronze, Silver, Gold, or Platinum — based on actuarial value, not on plan quality. Actuarial value is the average share of covered costs the insurer pays for a standard population: roughly 60% for Bronze, 70% for Silver, 80% for Gold, and 90% for Platinum. The plan covers that percentage; you cover the rest through deductibles, copays, and coinsurance. That's why Bronze premiums run lowest while individual deductibles often clear $7,000, and why Platinum premiums run highest while deductibles can sit under $500. Silver occupies the middle and carries one extra feature the others don't: it's the only tier eligible for cost-sharing reductions (CSRs), which shrink out-of-pocket maximums for households under roughly 250% of the federal poverty level — which is why advisors often steer lower-income shoppers toward Silver even when Bronze looks cheaper on the sticker price."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting estimated monthly premium right can make the difference between success and costly mistakes. In insurance planning, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by individuals and families worldwide, giving you confidence that your numbers are correct. Use it to choose the right coverage with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Two People the Same Age Pay Different Premiums",
+        "body": "Federal rules restrict insurers to varying individual-market premiums by only three factors: age, tobacco use, and geographic rating area — never health status, gender, or pre-existing conditions. Age pricing follows a published curve; insurers can charge their oldest enrollees (64) up to three times what they charge a 21-year-old for the identical plan, and this calculator's age factor mirrors that curve, which is why premiums climb noticeably faster once you're past your late 40s. Rating area is usually tied to county and reflects local hospital and provider costs — a Bronze plan in a rural county can differ from the same metal tier in a nearby metro area by well over $100/month at the same age. States can also layer stricter rules on top of the federal floor: New York and Vermont use pure community rating with no age variation at all, while most states use the full 3:1 band. Because this tool has no way to know your county, treat its base premium as a national-average starting point, not a locked-in rate for your area."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your annual income and need to find the right estimated monthly premium. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "A Worked Example: Age 45, $42,000 Income, Household of One",
+        "body": "Say you're 45, single, and expect roughly $42,000 in modified adjusted gross income (MAGI) for the coverage year. Illustrative, non-quoted premiums might show a benchmark Silver plan (the second-lowest-cost Silver plan in an area, used to calculate subsidies) at $610/month and a comparable Bronze plan at $480/month. If your income puts your required contribution toward the benchmark plan at around 6% of MAGI — about $210/month in this example — your estimated premium tax credit would be the difference: roughly $400/month. Apply that same $400 credit to the cheaper Bronze plan and your net cost drops to about $80/month with a high deductible; apply it to the benchmark Silver plan instead and you'd pay closer to $210/month with meaningfully lower out-of-pocket costs if you also qualify for cost-sharing reductions. Every number here is illustrative — your real benchmark premium depends entirely on which insurers filed plans in your county for that plan year."
+      },
+      {
+        "title": "Employer Coverage vs. the Marketplace",
+        "body": "If you have access to an employer plan that's considered affordable (employee-only premium under a federally set percentage of income) and meets minimum value standards, you generally won't qualify for marketplace subsidies even if you decline it and shop the exchange instead. This calculator models individual marketplace pricing only — it doesn't reflect employer group-rate premiums, which are priced across your whole company's risk pool rather than by individual age, or COBRA continuation coverage, which typically costs the full unsubsidized group premium plus a 2% administrative fee."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Annual Income ($)",
-      "description": "Start by entering your annual income — this is the primary input for the calculation."
+      "title": "Enter Your Annual Income",
+      "description": "Use your expected modified adjusted gross income (MAGI) for the coverage year, not last year's W-2 total. Self-employed users and retirees especially should estimate forward, since this figure drives the subsidy portion of the result."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: age, family size, plan tier. Each value refines the calculation for greater accuracy."
+      "title": "Enter Your Age and Family Size",
+      "description": "Age feeds directly into the ACA's age-rating curve. Family size should reflect your tax household — the people you'd claim on your return — since that determines both the poverty-level comparison and the per-person premium add-ons."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Select a Plan Tier",
+      "description": "Bronze trades a low premium for a high deductible (about 60% actuarial value); Gold and Platinum flip that ratio toward higher premiums and lower out-of-pocket costs. If you're unsure, Silver is the only tier that unlocks cost-sharing reductions for qualifying incomes."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your estimated monthly premium, annual premium, estimated subsidy. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Review the Premium and Subsidy Breakdown",
+      "description": "The subsidy figure is an estimated premium tax credit; the monthly and annual premiums shown are household totals, not per-person amounts. Compare the net numbers across tiers before deciding where to shop first."
     }
   ],
   "tips": [
-    "Double-check your annual income before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both estimated monthly premium and annual premium — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to choose the right coverage.",
-    "If you're unsure about your plan tier, start with a conservative estimate and adjust from there."
+    "Enter modified adjusted gross income (MAGI), not gross wages — self-employment deductions, pre-tax retirement contributions, and above-the-line deductions all reduce MAGI and can change the subsidy estimate meaningfully.",
+    "If you're under 30, or qualify for a hardship exemption, catastrophic plans exist outside these four metal tiers and aren't modeled here — very low premiums, but no subsidy eligibility.",
+    "Only Bronze and some Silver plans typically qualify as HSA-eligible high-deductible health plans; a Gold or Platinum plan generally won't let you contribute to an HSA even with a comparatively high deductible.",
+    "Silver is the only tier where cost-sharing reductions apply, so two Silver quotes at the same premium can carry very different real-world deductibles depending on household income.",
+    "For subsidy purposes, family size means your tax household, not just the people on the policy — dependents you claim still count even if they're covered elsewhere."
   ]
 }

@@ -14,34 +14,34 @@
   "jsonLdDescription": "Sea Level Rise Calculator: Estimate flood risk from projected sea level rise. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Sea Level Rise Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"elevation\">Property Elevation (feet above sea level)</label>\n      <input type=\"number\" id=\"elevation\" value=\"10\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"scenario\">Climate Scenario</label>\n      <select id=\"scenario\"><option value=\"low\">Low Emissions (1 ft by 2100)</option><option value=\"moderate\" selected>Moderate (2 ft by 2100)</option><option value=\"high\">High Emissions (4 ft by 2100)</option><option value=\"extreme\">Extreme (6+ ft by 2100)</option></select>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"yearTarget\">Target Year</label>\n      <input type=\"number\" id=\"yearTarget\" value=\"2060\" min=\"2030\" max=\"2100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Projected Rise by Target Year</div>\n        <div class=\"result-value\" id=\"projectedRise\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Safety Margin</div>\n        <div class=\"result-value\" id=\"margin\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Risk Level</div>\n        <div class=\"result-value\" id=\"riskLevel\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This sea level rise calculator uses established formulas to provide accurate results.",
+    "intro": "The calculator interpolates linearly between a 2020 sea-level baseline and your chosen scenario's 2100 endpoint, then measures the result against your entered elevation to produce a projected rise, a numeric safety margin, and a risk tier.",
     "rules": [
       "Rise projection scaled linearly from 2020 baseline to 2100 target",
       "NOAA scenarios: Low (1ft), Intermediate (2ft), High (4ft), Extreme (6.5ft) by 2100",
       "Storm surge adds 3-15+ feet on top of sea level during hurricanes"
     ],
-    "outro": "Energy costs and incentives change by region and season. Check with your local utility for current rates."
+    "outro": "Scenario choice matters far more than the arithmetic here: the gap between Low and Extreme is nearly sevenfold, driven mostly by how fast the Antarctic and Greenland ice sheets respond to warming — a genuinely open scientific question, not a rounding error. Treat every number on this page as a planning range, not a forecast, and check it against your county's FEMA Flood Insurance Rate Map and any state or regional coastal resilience study before making elevation, insurance, or purchase decisions."
   },
   "faq": [
     {
-      "question": "How much will sea levels rise?",
-      "answer": "NOAA projects 1-6.5 feet of rise by 2100 depending on emissions. The current rate is ~3.6mm/year and accelerating. Even under best-case scenarios, at least 1 foot of rise is locked in from ice already melting."
+      "question": "How much sea level rise is actually expected?",
+      "answer": "NOAA's 2022 interagency scenarios span roughly 1 foot (Low) to 6.5+ feet (Extreme) of global rise by 2100, which tracks the IPCC's broader range of about 0.3 to over 1 meter depending on emissions and how quickly the Antarctic and Greenland ice sheets respond. The current global rate is running near 3.6-4 mm per year and has been accelerating since satellite altimetry records began in 1993. Even in a low-emissions future, some further rise is already committed from ocean heat storage and ice already in motion."
     },
     {
-      "question": "What areas are most at risk?",
-      "answer": "South Florida, Louisiana Gulf Coast, Chesapeake Bay, NYC metro, and Pacific islands face the highest risk. Any coastal area below 10 feet elevation should plan for eventual flooding impacts."
+      "question": "Why might my actual risk be higher than the calculator shows?",
+      "answer": "Two things this tool intentionally doesn't model: local land subsidence and tidal range. Parts of the Louisiana Gulf Coast and Chesapeake Bay are sinking 3-6+ mm per year from groundwater withdrawal, sediment compaction, and glacial isostatic adjustment, which stacks on top of global rise to produce relative sea level rise well above the national figures used here. A location with a large tidal range will also see high-tide ('nuisance') flooding show up sooner than a location at the same elevation with a smaller tidal swing, because flooding frequency depends on how often the tidal peak crosses your threshold, not on the mean alone."
     },
     {
       "question": "Does this account for storm surge?",
-      "answer": "No — this shows baseline sea level only. Hurricane storm surge adds 3-15+ feet. A Category 3 hurricane with 3 feet of sea level rise could push water 18+ feet above current sea level in vulnerable areas."
+      "answer": "No — this is a baseline mean-sea-level projection only. Storm surge is a separate, short-lived event driven by a storm's wind field and pressure, typically adding 3 to 15+ feet above whatever the baseline sea level happens to be at landfall. The two effects compound over time: as the baseline creeps upward, the same category of storm pushes surge water further inland than it did a generation ago."
     },
     {
-      "question": "Is the Sea Level Rise Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How precise is the target-year number?",
+      "answer": "Treat it as a midpoint estimate with a real uncertainty band, not a guarantee. Straight-line interpolation between 2020 and 2100 simplifies a process that's expected to accelerate rather than proceed evenly, particularly if ice-sheet dynamics turn out to be nonlinear — which is one of the largest open questions in the underlying science. A single-year figure here is approximate, not exact."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "What should I check before making a real decision from this?",
+      "answer": "Cross-reference the output against your county's FEMA Flood Insurance Rate Map, NOAA's regional sea level viewer, and — for a purchase, refinance, or major renovation — a licensed surveyor's elevation certificate. This calculator is meant to build intuition about long-horizon coastal exposure, not to replace the flood-risk documentation used for insurance, financing, or permitting decisions."
     }
   ],
   "relatedTools": [
@@ -50,70 +50,70 @@
     "air-quality-health-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This sea level rise calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The projection is a straight-line interpolation between two points on a national scenario curve — not a physical ice-sheet, ocean-dynamics, or regional climate model.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Property elevation is read as feet above today's mean sea level — use a surveyed benchmark or FEMA elevation certificate if you have one, since consumer elevation tools can be off by a foot or more on flat coastal terrain",
+      "The selected scenario's 2100 endpoint (1, 2, 4, or 6.5+ feet nationally, per NOAA's 2022 interagency sea level rise report) is set against a 2020 baseline of zero and interpolated forward to your target year",
+      "Projected rise at the target year is subtracted from your entered elevation to produce the numeric safety margin",
+      "A risk tier is assigned from the size of that margin alone — it does not factor in local subsidence, tidal range, or storm surge, all of which can materially change real-world exposure at a specific address"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "Linear interpolation is a simplification: sea level rise is widely expected to accelerate rather than track a straight line, and ice-sheet contributions in particular are nonlinear and difficult to forecast decades out. Use this as a rough planning signal, and consult NOAA's regional sea level viewer or a local coastal engineer for site-specific figures."
   },
   "whenToUse": {
-    "intro": "This sea level rise calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "This is a screening tool for long-horizon coastal exposure — useful for building intuition quickly, not a substitute for a site-specific flood study.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Sizing up a coastal property purchase and wanting a rough sense of how much elevation buffer remains under different emissions pathways",
+      "Comparing two parcels, or two possible building-pad elevations, to see which holds a larger margin by a given decade",
+      "Explaining to a co-owner, client, or lender why a modest difference in ground elevation matters over a 30-40 year mortgage or design horizon",
+      "Sanity-checking a scenario figure cited in a news article, insurance notice, or local planning document against the underlying NOAA ranges",
+      "Building intuition for how subsidence and tidal range can matter as much as the global emissions scenario itself before digging into a full flood study"
     ]
   },
   "category": "climate",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-08-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Sea Level Rise Calculator?",
-        "body": "The Sea Level Rise Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your property elevation, climate scenario, target year, you get instant results including projected rise by target year, safety margin, risk level. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Actually Projects",
+        "body": "Global mean sea level has risen roughly 8-9 inches (21-24 cm) since 1900, and the rate of rise has roughly tripled since the early 1990s to about 3.6-4 mm per year today, based on NOAA tide-gauge and satellite altimetry records. This calculator carries that trajectory forward: enter a property elevation above current sea level, pick one of four NOAA-aligned emissions scenarios, and choose a target year, and it interpolates linearly between a 2020 baseline and the scenario's 2100 endpoint to estimate how much rise will have accumulated by that year. It then subtracts the projected rise from your elevation to produce a numeric safety margin and a rough risk tier. This is a planning-order-of-magnitude tool — it is not a substitute for a FEMA flood map, a surveyed elevation certificate, or a coastal engineer's site-specific subsidence study."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting projected rise by target year right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "Global Averages vs. What Happens at Your Address",
+        "body": "NOAA's four national scenarios — roughly 1 foot (Low), 2 feet (Intermediate), 4 feet (High), and 6.5+ feet (Extreme) of global rise by 2100 — sit inside the IPCC's broader assessed range of about 0.3 to 0.6+ meters under lower-emissions pathways, extending past a meter under high-emissions, high-ice-loss pathways where West Antarctic ice sheet behavior remains genuinely uncertain. But a 'global mean' number is not what shows up at a specific dock or driveway. Land itself moves: parts of Louisiana's Gulf Coast and the Chesapeake Bay are subsiding 3-6+ mm per year from groundwater withdrawal, sediment compaction, and glacial isostatic adjustment, which can add 50-100% on top of the global rate locally. Parts of Alaska and Scandinavia, by contrast, are still rebounding upward from historic ice loss, partially offsetting global rise. Tidal range matters too — a stretch of coast with a 1-foot tidal swing behaves very differently from one with a 6-foot swing at the same nominal elevation, because high-tide ('nuisance') flooding frequency depends on how often the tidal peak crosses a given threshold, not on the mean alone."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your property elevation and need to find the right projected rise by target year. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "A Worked Example, and Where Storm Surge Fits In",
+        "body": "The rise figure here deliberately excludes storm surge, which is a separate, short-duration event driven by a storm's wind field and barometric pressure and can temporarily push water 3 to 15+ feet above whatever the baseline sea level happens to be at the time. The two effects stack over the decades: as the baseline creeps upward, the same category of storm pushes surge water further inland than it did a generation ago. Worked example: a house sits at 6 feet elevation above today's mean sea level on the Texas Gulf Coast. Under the Intermediate scenario (about 2 feet of national rise by 2100), roughly half that rise — call it 1 foot — may be realized by 2060, leaving a 5-foot nominal margin. If that parcel also sits in a basin subsiding around 4 mm per year, add another 0.3-0.4 feet of local relative rise by 2060, trimming the real margin closer to 4.6 feet — before a single storm surge event is factored in. That gap between the national number and the site-specific one is exactly what a FEMA flood map and a local elevation certificate are for."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Property Elevation (feet above sea level)",
-      "description": "Type or select your property elevation in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Property Elevation Above Current Sea Level",
+      "description": "Use feet above today's mean sea level, ideally from a survey, FEMA elevation certificate, or topographic source. This single number carries more weight than any other input, since a foot of error here changes the margin by a full foot."
     },
     {
-      "title": "Enter Your Climate Scenario",
-      "description": "Type or select your climate scenario in the field provided. Use the most accurate value available for best results."
+      "title": "Choose a Climate Scenario",
+      "description": "Low, Intermediate, High, and Extreme correspond to NOAA's national scenarios (roughly 1, 2, 4, and 6.5+ feet of global rise by 2100). Intermediate is the commonly cited middle-of-the-road planning figure, but High is increasingly the default for critical or long-lived infrastructure."
     },
     {
-      "title": "Enter Your Target Year",
-      "description": "Type or select your target year in the field provided. Use the most accurate value available for best results."
+      "title": "Set a Target Year",
+      "description": "Pick the year relevant to your decision — a 30-year mortgage horizon, a structure's design life, or a specific planning deadline — since projected rise compounds nonlinearly the further out you look."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Run the Calculation",
+      "description": "The calculator interpolates the chosen scenario's trajectory forward to your target year and compares it against your elevation instantly, entirely in your browser."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your projected rise by target year, safety margin, risk level. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read the Margin and Risk Tier Together",
+      "description": "A shrinking safety margin matters more than the raw rise figure on its own. Remember this number excludes storm surge and local land subsidence, both of which can be added on top of whatever margin the calculator shows."
     }
   ],
   "tips": [
-    "Double-check your property elevation before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both projected rise by target year and safety margin — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your target year, start with a conservative estimate and adjust from there."
+    "Source your elevation from a surveyed benchmark or FEMA elevation certificate where possible — consumer GPS and web-based elevation lookups can carry meter-scale error on flat coastal land, which can swamp the signal you're trying to measure.",
+    "Run the Intermediate and High scenarios side by side rather than trusting a single number. The spread between them is the actual scientific uncertainty, not a rounding difference you can average away.",
+    "If your property sits in a basin known for subsidence — the Gulf Coast, Chesapeake Bay, or parts of the California coast near groundwater-depleted basins — mentally add roughly 20-50% to the projected rise figure to approximate local relative sea level rise.",
+    "Remember the projected rise number is a baseline mean, not a flood elevation. High-tide nuisance flooding and storm surge both ride on top of it and drive most near-term risk, even before the long-term mean catches up.",
+    "Treat the target-year output as a planning midpoint with real error bars, not a date-certain prediction, and revisit it every few years as NOAA updates its scenario guidance."
   ]
 }
