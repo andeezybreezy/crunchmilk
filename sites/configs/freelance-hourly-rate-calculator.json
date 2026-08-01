@@ -14,7 +14,7 @@
   "jsonLdDescription": "Freelance Hourly Rate Calculator: Calculate what to charge as a freelancer. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Freelance Hourly Rate Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"targetSalary\">Target Annual Income ($)</label>\n      <input type=\"number\" id=\"targetSalary\" value=\"undefined\" min=\"20000\" max=\"500000\" step=\"5000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"billableHours\">Billable Hours per Week</label>\n      <input type=\"number\" id=\"billableHours\" value=\"undefined\" min=\"5\" max=\"45\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"weeksOff\">Weeks Off per Year</label>\n      <input type=\"number\" id=\"weeksOff\" value=\"undefined\" min=\"0\" max=\"12\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"expensesPct\">Business Expenses (%)</label>\n      <input type=\"number\" id=\"expensesPct\" value=\"undefined\" min=\"10\" max=\"50\" step=\"5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Minimum Hourly Rate</div>\n        <div class=\"result-value\" id=\"hourlyRate\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Day Rate (8hrs)</div>\n        <div class=\"result-value\" id=\"dayRate\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly Rate</div>\n        <div class=\"result-value\" id=\"projectRate\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This freelance hourly rate calculator uses established formulas to provide accurate results.",
+    "intro": "This version of the rate math treats your weekly billable-hours estimate — not an annual day count — as the anchor. It grosses up your income target for the share eaten by business expenses, then spreads that grossed-up figure across the hours you'll actually bill in a working year.",
     "rules": [
       {
         "name": "Hourly Rate",
@@ -22,92 +22,92 @@
         "explanation": "Target income grossed up for expenses divided by billable hours."
       }
     ],
-    "outro": "Tax laws and financial markets change frequently. Verify current rates with your financial institution."
+    "outro": "The weekly billable-hours figure you enter is the input worth revisiting most often — track actual invoiced hours for a month or two, compare them to what you typed in here, and recalculate with the real number."
   },
   "faq": [
     {
-      "question": "How do I set my freelance rate?",
-      "answer": "Start with your desired salary, add expenses and taxes, divide by billable hours."
+      "question": "Why does this calculator ask for weekly billable hours instead of an annual number?",
+      "answer": "Because weekly capacity is what you actually experience and can check against reality — pull up your time tracker or last month's invoices and count real billable hours. An annual figure hides the guesswork; a weekly one forces you to be specific about a number you can verify."
     },
     {
-      "question": "What percentage of hours are billable?",
-      "answer": "Typically only 50-65% of working hours are billable - the rest is admin, marketing, etc."
+      "question": "What's the difference between the hourly rate, day rate, and weekly rate this gives me?",
+      "answer": "They're the same underlying rate expressed three ways. The hourly rate is your floor per hour. The day rate multiplies it by 8, useful when a client wants to book you for full days. The weekly rate multiplies it by your billable-hours input, useful for retainer or block-time agreements — it assumes you actually bill that many hours that week, not that you're available for 40."
     },
     {
-      "question": "Is the Freelance Hourly Rate Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How much does underestimating my billable hours actually cost me?",
+      "answer": "More than most freelancers expect, and it compounds silently. At a $90,000 target with 20% expenses and 4 weeks off, billing 25 hours a week yields roughly $93.75/hr. The same target at 32 billable hours a week drops to about $73.24/hr — a swing of over $20 an hour from a 7-hour difference in a single input."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard financial planning formulas trusted by individuals and families. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "What should I count in \"Weeks Off per Year\"?",
+      "answer": "Everything that keeps you from billing: vacation, sick time, the slow month your industry always has, and — the one people forget — the average gap between one contract ending and the next one landing. If that gap runs 2-3 weeks a few times a year, it belongs in this field even though it isn't a planned vacation."
     },
     {
-      "question": "What target annual income should I enter?",
-      "answer": "Enter the most accurate target annual income value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Is the \"Business Expenses (%)\" field the same as self-employment tax?",
+      "answer": "No — it's whatever share of revenue your specific costs (software, insurance, tax set-asides, equipment, professional fees) actually represent, which you set yourself rather than a fixed rate. If self-employment tax runs roughly 15% of revenue for you and other costs add another 10%, enter 25%, not just the tax portion."
     }
   ],
   "relatedTools": [],
   "howWeCalculate": {
-    "intro": "This freelance hourly rate calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator runs three steps in sequence: gross up your income target for expenses, convert your weekly billable-hours estimate into an annual figure using the weeks you're actually working, then divide the first by the second.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Enter your target take-home income and the percentage of revenue you expect business expenses to consume.",
+      "Enter the hours you can realistically bill in an average week and how many weeks a year go unbilled between vacation, slow periods, and gaps between contracts.",
+      "The calculator grosses up your income target by dividing it by (1 − expense percentage), then multiplies your weekly billable hours by (52 − weeks off) to get annual billable hours.",
+      "It divides the grossed-up target by annual billable hours for your minimum hourly rate, then derives the day rate (× 8) and weekly rate (× your billable hours) from it."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures are a floor, not a target — they show what covers your costs and income goal, not what the market will pay for your particular skill set. Confirm your expense percentage with a bookkeeper or accountant before pricing off it."
   },
   "whenToUse": {
-    "intro": "This freelance hourly rate calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this version of the math when the number you're unsure about is your own capacity, not your income goal.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "You've never tracked how many hours a week you actually invoice and want to see how sensitive your rate is to that number.",
+      "You're quoting a client who wants a day rate or a weekly retainer instead of an hourly figure.",
+      "You take real time off between contracts, not just vacation, and want that bench time reflected in your rate.",
+      "Your business expenses move as a share of revenue rather than as a flat dollar figure, and a percentage-based expense input fits your situation better than a line-item budget.",
+      "You want to stress-test how a few fewer billable hours per week changes what you need to charge before committing to a lighter schedule."
     ]
   },
   "category": "finance",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-08-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Freelance Hourly Rate Calculator?",
-        "body": "The Freelance Hourly Rate Calculator is a free online tool designed for individuals and families who need quick, accurate calculations in the financial planning space. By entering your target annual income, billable hours per week, weeks off per year, you get instant results including minimum hourly rate, day rate, weekly rate. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Solves For",
+        "body": "Most freelance rate math starts from an annual salary target and works backward through 260 working days and a fixed vacation allowance. This version skips that detour and asks for the number you actually control week to week: how many hours you can realistically bill in a normal week, and how many weeks a year you expect to go unbilled. Enter your income target, that weekly billable-hours figure, weeks off, and the percentage of revenue eaten by business costs, and the calculator grosses up your target for expenses first, then divides by your annual billable hours — weekly hours multiplied by the weeks you're actually working — to hand back a minimum hourly rate, an 8-hour day rate, and a weekly rate sized to your real billable capacity, not a theoretical 40-hour week."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting minimum hourly rate right can make the difference between success and costly mistakes. In financial planning, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by individuals and families worldwide, giving you confidence that your numbers are correct. Use it to manage your finances with precision and avoid common pitfalls that trip up beginners."
+        "title": "The 25-vs-32 Problem",
+        "body": "Say you want to take home $90,000, you've budgeted 20% of revenue for expenses (software, insurance, tax set-asides), and you take 4 weeks off a year. If you're honest that you can only bill 25 hours in a typical week — the other 15 go to proposals, revisions, email, and admin — the math runs: $90,000 ÷ 0.80 = $112,500 grossed-up need, divided by 25 hrs × 48 working weeks = 1,200 annual billable hours, giving a minimum hourly rate of $93.75, a day rate of $750, and a weekly rate of $2,343.75. Now rerun it assuming a more optimistic 32 billable hours a week — a number many freelancers write down without ever tracking it. Annual billable hours jump to 1,536, and the same $112,500 need spreads out to just $73.24 an hour. Overestimating your weekly capacity by seven hours quietly discounted your rate by more than 20% — the calculator doesn't know you were optimistic, it just does the division."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your target annual income and need to find the right minimum hourly rate. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Weeks Off Isn't Just Vacation",
+        "body": "Freelancers tend to fill in \"weeks off\" with whatever paid vacation they'd want as an employee — two or three weeks — and stop there. That undercounts the real unbillable stretches: the week between one contract ending and the next starting, the slow month every industry has, the days lost chasing a late invoice instead of doing billable work. If your actual pattern includes 2 weeks of vacation plus 6 scattered weeks of bench time between projects, put in 8, not 2. Understating weeks off has the same effect as overstating your billable hours — both quietly lower the rate the calculator hands you below what you need to clear your income target once the calendar plays out as it really does, not as a tidy 50-week grind."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Target Annual Income ($)",
-      "description": "Start by entering your target annual income — this is the primary input for the calculation."
+      "title": "Set your income target and expense share",
+      "description": "Enter the annual income you want to clear, then estimate what percentage of your revenue business expenses and taxes will consume."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: billable hours per week, weeks off per year, business expenses. Each value refines the calculation for greater accuracy."
+      "title": "Estimate your real weekly billable hours",
+      "description": "Enter the hours you can realistically bill in a normal week — not your total desk time, just the hours a client would see on an invoice."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Account for weeks you won't bill",
+      "description": "Enter weeks off covering vacation, slow seasons, and the gaps that typically appear between one contract ending and the next beginning."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your minimum hourly rate, day rate, weekly rate. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Compare the hourly, day, and weekly figures",
+      "description": "Use the minimum hourly rate as your floor, the day rate for day-based engagements, and the weekly rate for retainer conversations."
     }
   ],
   "tips": [
-    "Double-check your target annual income before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both minimum hourly rate and day rate — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to manage your finances.",
-    "If you're unsure about your business expenses, start with a conservative estimate and adjust from there."
+    "Track your actual invoiced hours for 4-6 weeks before typing a number into \"Billable Hours per Week\" — most freelancers guess high.",
+    "Set \"Weeks Off\" to cover every unbilled week you can predict: vacation, the slow season your industry has, and the average gap you see between contracts ending and new ones starting.",
+    "If your expenses swing with revenue (payment processing fees, contractor help, ad spend), the percentage-based expense field here fits better than a fixed dollar budget.",
+    "Compare the day rate and weekly rate outputs before you quote — a client asking for \"3 days a week\" should be priced off the day rate, not the hourly rate multiplied loosely.",
+    "Recalculate whenever your billable-hours estimate changes by more than a couple of hours a week; it moves your rate more than almost any other input."
   ]
 }
