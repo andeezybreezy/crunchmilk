@@ -14,7 +14,7 @@
   "jsonLdDescription": "Smart Contract Gas Cost Calculator: Estimate deployment and interaction gas costs for smart contracts. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Smart Contract Gas Cost Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"contractSize\">Contract Size (bytes)</label>\n      <input type=\"number\" id=\"contractSize\" value=\"undefined\" min=\"100\" max=\"50000\" step=\"100\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"functions\">Avg Functions Called/Day</label>\n      <input type=\"number\" id=\"functions\" value=\"undefined\" min=\"1\" max=\"10000\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"gasPrice\">Gas Price (Gwei)</label>\n      <input type=\"number\" id=\"gasPrice\" value=\"undefined\" min=\"1\" max=\"500\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"ethPrice\">ETH Price (USD)</label>\n      <input type=\"number\" id=\"ethPrice\" value=\"undefined\" min=\"100\" max=\"20000\" step=\"50\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Deployment Gas</div>\n        <div class=\"result-value\" id=\"deployGas\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Deployment Cost</div>\n        <div class=\"result-value\" id=\"deployCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Interaction Cost</div>\n        <div class=\"result-value\" id=\"dailyInteractionCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Interaction Cost</div>\n        <div class=\"result-value\" id=\"monthlyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This smart contract gas cost calculator uses established formulas to provide accurate results.",
+    "intro": "The dollar cost of any Ethereum action reduces to one relationship: gas units used, multiplied by the price you pay per unit of gas, multiplied by what ETH is worth in dollars at that moment.",
     "rules": [
       {
         "name": "Gas Cost",
@@ -22,28 +22,32 @@
         "explanation": "Convert gas units to ETH using the gas price, then multiply by the current ETH/USD exchange rate."
       }
     ],
-    "outro": "Cryptocurrency markets are highly volatile. Past performance does not guarantee future results."
+    "outro": "Gas prices swing block to block with network demand, and ETH's dollar price moves independently and often sharply — so treat every figure above as a snapshot based on the gas price and ETH price you entered, not a live quote, and not financial or investment advice."
   },
   "faq": [
     {
-      "question": "How much does it cost to deploy a smart contract?",
-      "answer": "Deployment costs depend on contract size and gas prices. A typical ERC-20 token contract costs $50-$500 at moderate gas prices."
+      "question": "Why is deployment cost so much higher than a single interaction?",
+      "answer": "Deployment writes your entire contract bytecode to the blockchain permanently, which costs roughly 200 gas per byte on top of the ~32,000-gas contract-creation overhead — a contract with 10,000 bytes of bytecode alone accounts for roughly 2,000,000 gas before the constructor even runs. A later function call only executes the specific opcodes that function needs, so it's typically a small fraction of the deployment cost."
     },
     {
-      "question": "How can I reduce smart contract gas costs?",
-      "answer": "Optimize storage usage, use events instead of storage where possible, batch operations, and consider Layer 2 solutions like Arbitrum or Optimism."
+      "question": "What's a realistic gas price to use for \"Gas Price (Gwei)\"?",
+      "answer": "Check a live gas tracker or your wallet's fee estimator right before you plan to transact. Ethereum mainnet gas price commonly ranges from single digits during quiet periods to 50-100+ gwei during high demand (NFT mints, major DeFi activity), and it can spike well above that during extreme congestion. Enter the combined base-fee-plus-tip figure your wallet shows, not the base fee alone."
     },
     {
-      "question": "Is the Smart Contract Gas Cost Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Why does a token swap cost more gas than sending ETH?",
+      "answer": "A plain ETH transfer is 21,000 gas because it does nothing but move a balance between two accounts. A swap on a decentralized exchange has to read pool reserves, run the pricing math, update two token balances, check allowances, and emit log events — each of those is separate EVM execution, which is why swaps typically run 100,000-150,000 gas, five to seven times a simple transfer."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "How do I lower my contract's gas costs?",
+      "answer": "For deployment, trim bytecode size — remove unused functions, avoid storing large constant strings on-chain, and share code across deployments with libraries or a proxy pattern. For interactions, minimize SSTORE operations (a cold storage write can cost 20,000+ gas by itself), pack several small values into a single 32-byte storage slot, and prefer emitting events over storing data you don't need to read back on-chain later."
     },
     {
-      "question": "What contract size should I enter?",
-      "answer": "Enter the most accurate contract size value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "Does this calculator use live gas prices or ETH prices?",
+      "answer": "No — you enter both manually, and the result is only as current as the numbers you type in. Gas prices can move meaningfully within a single block, and ETH's dollar price can swing several percent in a day, so treat the output as a planning estimate for that specific input, not a live quote, and not financial advice."
+    },
+    {
+      "question": "Why do deployment gas and interaction gas need separate budgets?",
+      "answer": "Deployment is a one-time cost paid once when the contract goes live; interaction cost recurs every time someone calls a function, and it's usually paid by whoever sends that transaction — often your users, not you. The \"Avg Functions Called/Day\" field projects that recurring cost separately so you can see the true monthly operating cost of a live contract, not just the upfront deployment bill."
     }
   ],
   "relatedTools": [
@@ -51,23 +55,23 @@
     "blockchain-transaction-fee-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This smart contract gas cost calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "This calculator applies the same gas-to-dollar conversion validators and wallets use under the hood, run entirely in your browser against the numbers you supply.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Enter your contract's deployed bytecode size in bytes — larger contracts cost more to write to the chain because of Ethereum's per-byte code-deposit fee",
+      "Enter how many times per day you expect users to call the contract's functions once it's live, so ongoing interaction cost can be projected alongside the one-time deployment cost",
+      "Enter the gas price in gwei (base fee plus priority tip) and the current ETH/USD price — both change constantly, so use the values your wallet or a gas tracker shows at the time you plan to transact",
+      "Click Calculate to convert deployment and interaction gas into ETH and USD costs instantly, with no data leaving your browser"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These are engineering estimates for planning a deployment and its ongoing operating cost, not a substitute for simulating the exact transaction against current mainnet or testnet conditions, and not financial advice — gas and ETH prices can move significantly between when you calculate and when you actually transact."
   },
   "whenToUse": {
-    "intro": "This smart contract gas cost calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Reach for this calculator whenever a gas or ETH price move could change whether a deployment or a feature is still worth shipping at its current cost.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Budgeting a contract launch, when you need to know deployment cost before committing bytecode to mainnet",
+      "Sizing the ongoing cost of a feature that calls a contract function frequently, like a DeFi protocol's swap or claim function",
+      "Comparing gas costs across different network conditions — deploying during low-congestion hours versus peak demand",
+      "Deciding whether to deploy to an L2 or sidechain instead of Ethereum mainnet, once you see what mainnet gas at current prices would cost",
+      "Explaining to a non-technical stakeholder why a contract redesign that touches more storage slots or does more computation carries real dollar cost"
     ]
   },
   "category": "blockchain",
