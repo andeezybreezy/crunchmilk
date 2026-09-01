@@ -81,28 +81,29 @@
   },
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Candle Wax Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"containerVolume\">Container Volume</label>\n    <div class=\"input-row\">\n      <input type=\"number\" id=\"containerVolume\" placeholder=\"e.g. 8\" step=\"0.1\" min=\"0\" inputmode=\"decimal\" value=\"8\">\n      <select id=\"volumeUnit\" style=\"flex:0 0 auto;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1rem;background:#fff\">\n        <option value=\"oz\" selected>fl oz</option>\n        <option value=\"ml\">ml</option>\n      </select>\n    </div>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"numCandles\">Number of Candles</label>\n    <input type=\"number\" id=\"numCandles\" value=\"1\" min=\"1\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"waxType\">Wax Type</label>\n    <select id=\"waxType\" style=\"width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:1.1rem;background:#fff\">\n      <option value=\"soy\" selected>Soy Wax</option>\n      <option value=\"paraffin\">Paraffin Wax</option>\n      <option value=\"beeswax\">Beeswax</option>\n      <option value=\"coconut\">Coconut Blend</option>\n    </select>\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"fragranceLoad\">Fragrance Load (%)</label>\n    <input type=\"number\" id=\"fragranceLoad\" value=\"8\" min=\"0\" max=\"15\" step=\"0.5\" inputmode=\"decimal\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"fillPercent\">Fill Percentage (%)</label>\n    <input type=\"number\" id=\"fillPercent\" value=\"85\" min=\"50\" max=\"100\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Wax per Candle</div>\n        <div class=\"result-value\" id=\"waxPerCandle\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Wax Needed</div>\n        <div class=\"result-value\" id=\"totalWax\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Fragrance Oil</div>\n        <div class=\"result-value\" id=\"fragranceOil\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Dye Amount</div>\n        <div class=\"result-value\" id=\"dyeAmount\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n\n  <div class=\"presets\">\n    <h3>Common Container Sizes</h3>\n    <div class=\"preset-grid\" id=\"presetGrid\"></div>\n  </div>\n</div>",
   "chartHTML": "<div class=\"chart-section\">\n  <h2>Wax Density & Fill Reference</h2>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\">\n      <thead>\n        <tr><th>Wax Type</th><th>Density (oz/fl oz)</th><th>Density (g/ml)</th><th>Max Fragrance Load</th><th>Melting Point</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>Soy Wax</td><td>0.86</td><td>0.90</td><td>10-12%</td><td>113-127°F</td></tr>\n        <tr><td>Paraffin Wax</td><td>0.90</td><td>0.93</td><td>6-10%</td><td>130-150°F</td></tr>\n        <tr><td>Beeswax</td><td>0.96</td><td>0.96</td><td>6%</td><td>144-149°F</td></tr>\n        <tr><td>Coconut Blend</td><td>0.82</td><td>0.85</td><td>10-12%</td><td>100-107°F</td></tr>\n      </tbody>\n    </table>\n  </div>\n</div>",
-  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Candle Wax Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator determines how much wax, fragrance oil, and dye you need based on your container size and wax type.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fde68a;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Wax Weight = Container Volume × Fill % × Wax Density</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Fill percentage</strong> (typically 85%) leaves room for the wick and prevents overflow</li>\n    <li><strong>Wax density</strong> varies by type — soy is lighter than paraffin or beeswax</li>\n    <li><strong>Fragrance oil</strong> is calculated as a percentage of the wax weight (6-10% typical)</li>\n    <li><strong>Dye amount</strong> is estimated at ~0.1 oz per pound of wax for medium color</li>\n  </ul>\n  <p><strong>Example:</strong> An 8 oz container with soy wax at 85% fill = 8 × 0.85 × 0.86 = 5.85 oz of wax per candle.</p>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Candle Wax Calculator Works</h2>\n  <p style=\"margin-bottom:12px\">This calculator turns your container's fluid-ounce or milliliter volume into the number that matters at the pour pot: a wax weight, plus the fragrance oil and dye that scale off of it. It doesn't treat wax as interchangeable — soy, paraffin, beeswax, and coconut blends each have a different density, so the same jar yields a different wax weight depending which one you select.</p>\n  <div style=\"background:#fef3c7;border:2px solid #fde68a;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1.1rem;font-weight:700;color:var(--primary)\">Wax Weight = Container Volume × Fill % × Wax Density</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li><strong>Fill percentage</strong> (typically 85-90%) leaves room for the wick and prevents overflow</li>\n    <li><strong>Wax density</strong> varies by type — soy is lighter than paraffin or beeswax</li>\n    <li><strong>Fragrance oil</strong> is calculated as a percentage of the wax weight (6-10% typical)</li>\n    <li><strong>Dye amount</strong> is estimated at ~0.1 oz per pound of wax for medium color</li>\n  </ul>\n  <p><strong>Example:</strong> A 9 oz tin with paraffin wax at 90% fill = 9 × 0.90 × 0.90 ≈ 7.29 oz of wax per candle — about 207 g at paraffin's ≈0.90 g/mL density. At an 8% fragrance load, that adds roughly 16.5 g of fragrance oil, best poured around 160-180°F once the wax and fragrance are fully blended.</p>\n</div>",
   "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>How much wax do I need for a candle?</h3>\n    <p>The amount depends on your container volume and wax type. Multiply the container volume by the fill percentage (85%) and the wax density. For soy wax, an 8 oz container needs about 5.8 oz of wax.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is fragrance load percentage?</h3>\n    <p>Fragrance load is the percentage of fragrance oil relative to wax weight. Most waxes support 6-10%. Going above the recommended maximum can cause sweating, poor burn, or safety issues.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is the density of soy wax?</h3>\n    <p>Soy wax has a density of approximately 0.86 oz per fluid ounce (0.90 g/ml). It is lighter than paraffin (0.90 oz/fl oz) and beeswax (0.96 oz/fl oz).</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How much dye do I use per pound of wax?</h3>\n    <p>For liquid dye, use 3-10 drops per pound. For dye blocks, approximately 0.1-0.2 oz per pound. Start light and increase for deeper colors.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Should I fill my candle container all the way?</h3>\n    <p>No. Fill to 85-90% capacity to leave room for the wick, prevent overflow when the wax melts, and allow for a clean finish. This calculator accounts for fill percentage.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What's the difference between soy and paraffin wax?</h3>\n    <p>Soy wax is plant-based, burns cleaner with less soot, and has a lower melting point. Paraffin is petroleum-based, provides better scent throw, and produces more vibrant colors. Coconut blends offer a middle ground.</p>\n  </div>\n</div>",
   "category": "crafts",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-09-01",
   "howWeCalculate": {
-    "intro": "This candle wax calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "The math here is a short chain, not a black box: container volume sets the ceiling, fill percentage brings it down to a realistic pour target, wax density converts that volume into a weight, and fragrance load and dye ratios scale off that wax weight. Change the wax type and every downstream number moves, because soy, paraffin, beeswax, and coconut blends don't share a density.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Container volume × fill percentage gives the melted-wax volume you're actually pouring, leaving headroom for the wick and preventing overflow at the rim",
+      "That volume converts to a weight using your selected wax's density — soy ≈0.9 g/mL, paraffin ≈0.90-0.93 g/mL, beeswax ≈0.96 g/mL, coconut blends ≈0.82-0.85 g/mL",
+      "Fragrance oil is calculated as your chosen percentage of that wax weight and reported separately, since it's stirred in after the wax has melted",
+      "Dye is estimated from a standard ratio of roughly 0.1-0.2 oz of dye block per pound of wax, scaled to your batch size, as a starting point for color testing",
+      "All figures are multiplied by your number of candles so you know exact totals to weigh out before a batch pour"
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These figures are planning estimates, not a substitute for testing. Wax densities vary between manufacturers and even between production batches, and fragrance oils affect set time and hot throw differently depending on the blend. Always do a small test pour and a full burn test — including checking your wick size — before committing to a full batch, and follow your wax and fragrance suppliers' documented maximum-load and safety guidance."
   },
   "whenToUse": {
-    "intro": "This candle wax calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "This calculator earns its keep whenever you're planning a pour rather than winging one — sizing a batch, budgeting wax and fragrance oil purchases, or adapting a recipe to a container or wax type you haven't used before.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Sizing a wholesale or market batch, where the number-of-candles field multiplies your per-unit wax, fragrance, and dye needs across the whole run",
+      "Switching wax types — say from paraffin to soy — where reusing an old recipe's weights would over- or under-fill the container, since the densities differ",
+      "Testing a new container or vessel before committing a full case of wax to it, so you know your yield and approximate cost per candle first",
+      "Dialing in fragrance load within a wax's supported range (commonly 6-10% for soy and paraffin, up to 10-12% for some soy blends) without guessing at drops",
+      "Costing out a recipe for pricing, where knowing exact wax, fragrance oil, and dye weights per candle feeds directly into a per-unit cost calculation"
     ]
   },
   "relatedTools": [
@@ -113,64 +114,68 @@
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Candle Wax Calculator?",
-        "body": "The Candle Wax Calculator is a free online tool designed for crafters and makers who need quick, accurate calculations in the crafting and DIY space. By entering your container volume, number of candles, wax type, you get instant results including wax per candle, total wax needed, fragrance oil. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Actually Does",
+        "body": "Candle making runs on two numbers that don't behave the way beginners expect: the volume printed on your jar and the weight of wax that actually goes into it. This calculator bridges that gap. Enter your container's volume in fluid ounces or milliliters, tell it how many candles you're pouring, pick a wax type — soy, paraffin, beeswax, or a coconut blend — and set your fragrance load and fill percentage. It returns four numbers: wax weight per candle, total wax for the batch, fragrance oil to add, and a dye estimate. The reason this needs more than a rule of thumb is density. A fluid ounce of water weighs roughly an ounce, but wax doesn't. Soy wax runs about 0.9 g/mL (≈0.86 oz per fl oz of volume), paraffin sits close behind at 0.90-0.93 g/mL, beeswax is denser at ≈0.96 g/mL, and coconut wax blends run lighter, often 0.82-0.85 g/mL depending on the coconut-to-soy or coconut-to-paraffin ratio the manufacturer uses. Pour the same 8 oz jar with soy and with beeswax and you'll use meaningfully different weights of wax, even though the container is identical."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting wax per candle right can make the difference between success and costly mistakes. In crafting and DIY, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by crafters and makers worldwide, giving you confidence that your numbers are correct. Use it to plan your projects with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Container Volume Isn't the Same as Wax Weight",
+        "body": "Container volume also isn't the target fill amount. Fill a jar to the brim with melted wax and there's nowhere for the wick, tab, and any wick bar to sit, and you risk wax creeping over the rim as it settles. Most chandlers fill to 85-90% of stated container volume, which is why this calculator treats fill percentage as its own input rather than assuming 100%. There's a second wrinkle specific to natural waxes: soy and coconut blends shrink as they cool and crystallize, which is why many soy candles get a second, smaller repour once the surface has set, to fill in the crater that forms around the wick. Paraffin shrinks too but is more forgiving and less prone to visible sinkholes. Fragrance oil adds a further complication — it isn't wax, so once you add it the total liquid volume and weight both increase, which is why the calculator reports it as an addition on top of the wax weight rather than folding it silently into the total. Worked example: an 8 fl oz jar (≈237 mL) filled to 90% for wick clearance needs about 213 mL of melted wax. At soy wax's typical density of ≈0.9 g/mL, that's roughly 192 g of finished pour weight. At a 6% fragrance load, that splits into about 11.5 g of fragrance oil stirred into about 181 g of wax."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your container volume and need to find the right wax per candle. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "When You'll Reach for This Tool",
+        "body": "Use it any time you're scaling a recipe rather than eyeballing it. It's built for batch planning — set the number of candles to 12 and it multiplies the per-candle wax, fragrance, and dye figures across the whole run, the fastest way to know how many pounds of wax and how many ounces of fragrance oil to order before you start melting. It's equally useful when you switch wax suppliers or wax types mid-project: a recipe tuned for paraffin will under-fill or over-fill a jar if you swap in soy or a coconut blend without recalculating, because the densities aren't interchangeable. Testing a new container is another common case — measure its volume once, run it through the calculator at your usual fragrance load and fill percentage, and you'll know your per-candle yield and rough wax cost before committing a whole batch of wax to an untested vessel."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Container Volume",
-      "description": "Start by entering your container volume — this is the primary input for the calculation."
+      "title": "Measure Your Container",
+      "description": "Find your container's usable volume in fl oz or mL — check the manufacturer spec sheet, or fill it with water and measure, since printed jar sizes are often rounded."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: number of candles, wax type, fragrance load, fill percentage. Each value refines the calculation for greater accuracy."
+      "title": "Set Wax Type, Batch Size, and Ratios",
+      "description": "Choose soy, paraffin, beeswax, or coconut blend, enter how many candles you're pouring, and set your fragrance load percentage and fill percentage (85-90% is standard to leave wick clearance)."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "The calculator converts your container volume to a wax weight using that wax type's density, then derives fragrance oil and dye amounts from it."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your wax per candle, total wax needed, fragrance oil. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read Off Wax, Fragrance, and Dye Weights",
+      "description": "Use the wax-per-candle and total-wax figures to weigh out your pour, the fragrance oil figure to measure your scent addition, and the dye estimate as a starting point — adjust dye to taste on a test pour."
     }
   ],
   "tips": [
-    "Double-check your container volume before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both wax per candle and total wax needed — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to plan your projects.",
-    "If you're unsure about your fill percentage, start with a conservative estimate and adjust from there."
+    "Weigh your container empty, fill it with water, and weigh again to get a true volume in grams (1 g of water ≈ 1 mL) if you don't trust the manufacturer's stated fl oz — printed container volumes are often rounded.",
+    "For soy wax, plan on a second, smaller repour once the first pour has set and a sinkhole forms around the wick — this is normal shrinkage, not a failed batch, and the total wax figure should cover both pours combined.",
+    "Pour temperature affects finish as much as the recipe does: soy typically pours best around 120-135°F, paraffin container wax around 160-180°F, and beeswax needs to stay hot longer given its ≈144-149°F melting point — check your specific wax's data sheet rather than using one temperature for every type.",
+    "Stay inside your wax's tested fragrance load ceiling even if the jar has volume to spare — pushing past it (often 10-12% for soy, 6-10% for paraffin) risks fragrance oil separating out, or 'sweating,' on the surface of the finished candle.",
+    "Add fragrance oil and dye after removing wax from heat, not while it's still at pour temperature — many fragrance oils lose scent compounds when held at sustained high heat."
   ],
   "faq": [
     {
-      "question": "Is the Candle Wax Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Why does the calculator ask for wax type instead of just using container volume?",
+      "answer": "Because wax types don't share a density. Soy wax is about 0.9 g/mL, paraffin is comparable at 0.90-0.93 g/mL, beeswax is denser at roughly 0.96 g/mL, and coconut blends run lighter at 0.82-0.85 g/mL depending on the blend. The same 8 oz jar takes meaningfully different weights of wax depending which one you pour, which is why the wax weight output changes when you switch the wax type dropdown."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard crafting and DIY formulas trusted by crafters and makers. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why is my wax weight lower than my container's fluid ounce size?",
+      "answer": "Two reasons stack together: fill percentage and density. A fill percentage below 100% (85-90% is typical) reserves room for the wick, and most waxes weigh slightly less per fluid ounce than water does. An 8 fl oz jar at 90% fill with soy wax's ≈0.86 oz-per-fl-oz density works out to roughly 8 × 0.90 × 0.86 ≈ 6.2 oz of wax, not 8 oz."
     },
     {
-      "question": "What container volume should I enter?",
-      "answer": "Enter the most accurate container volume value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "How is fragrance oil calculated?",
+      "answer": "Fragrance oil is calculated as a percentage of your wax weight — the fragrance load you set — and reported as a separate addition. At an 8% load on 180 g of wax, that's roughly 14.4 g of fragrance oil stirred into the melted wax before pouring, on top of the wax weight, not carved out of it."
     },
     {
-      "question": "Can I use this calculator on my phone?",
-      "answer": "Yes, the Candle Wax Calculator is fully responsive and works on any device — phone, tablet, or desktop. No app download needed."
+      "question": "Why does the total change so much when I switch from paraffin to soy?",
+      "answer": "Mainly density and fragrance ceiling together. Soy is slightly less dense than paraffin by volume, so the raw wax weight moves a little, but the bigger shift is usually that soy tolerates a higher fragrance load (commonly up to 10-12%) than paraffin (commonly 6-10%), so if you're maximizing scent throw the fragrance oil total can shift more than the wax weight does."
     },
     {
-      "question": "What does wax per candle mean in my results?",
-      "answer": "The wax per candle value represents the primary output of the calculation based on your inputs. Use it as a baseline figure for your crafting and DIY planning and decision-making."
+      "question": "Do I need to account for a second pour when using this calculator?",
+      "answer": "The total wax figure covers the full amount of wax that ends up in the candle, including a repour. For soy and coconut blends, which shrink and crater around the wick as they cool, plan to hold back roughly 10% of your melted wax for that second pour rather than pouring the entire batch amount in one go."
+    },
+    {
+      "question": "What if my container has an unusual shape, like a hexagon or tapered tin?",
+      "answer": "Volume is volume regardless of shape — measure it by filling the container with water and pouring that water into a measuring cup, or weighing it, since 1 mL of water ≈ 1 g, then enter that figure. The wax weight calculation doesn't care whether the container is a straight-sided jar or a tapered tin, only its usable volume."
     }
   ]
 }

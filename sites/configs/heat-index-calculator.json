@@ -81,28 +81,29 @@
   },
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Heat Index Calculator</h2>\n\n  <div class=\"input-group\">\n    <label for=\"airTemp\">Air Temperature (°F)</label>\n    <input type=\"number\" id=\"airTemp\" value=\"90\" min=\"80\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <div class=\"input-group\">\n    <label for=\"humidity\">Relative Humidity (%)</label>\n    <input type=\"number\" id=\"humidity\" value=\"65\" min=\"0\" max=\"100\" step=\"1\" inputmode=\"numeric\">\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate Heat Index</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Heat Index (Feels Like)</div>\n        <div class=\"result-value\" id=\"heatIndex\" style=\"font-size:2.2rem\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Danger Level</div>\n        <div class=\"result-value\" id=\"dangerLevel\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Health Risks</div>\n        <div class=\"result-value\" id=\"healthRisk\" style=\"font-size:0.95rem\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "chartHTML": "<div class=\"chart-section\">\n  <h2>Heat Index Chart (°F)</h2>\n  <p style=\"font-size:0.9rem;color:var(--text-light);margin-bottom:16px\">Heat index values by temperature and relative humidity. Colors indicate danger level.</p>\n  <div style=\"overflow-x:auto\">\n    <table class=\"chart-table\" style=\"font-size:0.8rem\">\n      <thead>\n        <tr><th>Temp \\ RH</th><th>40%</th><th>50%</th><th>60%</th><th>70%</th><th>80%</th><th>90%</th><th>100%</th></tr>\n      </thead>\n      <tbody>\n        <tr><td>80°F</td><td>80</td><td>81</td><td>82</td><td>83</td><td>84</td><td>86</td><td>87</td></tr>\n        <tr><td>85°F</td><td>84</td><td>86</td><td>88</td><td>90</td><td>93</td><td>96</td><td>99</td></tr>\n        <tr style=\"background:#fef3c7\"><td>90°F</td><td>88</td><td>91</td><td>95</td><td>99</td><td>104</td><td>109</td><td>115</td></tr>\n        <tr style=\"background:#fed7aa\"><td>95°F</td><td>93</td><td>97</td><td>102</td><td>108</td><td>116</td><td>124</td><td>133</td></tr>\n        <tr style=\"background:#fecaca\"><td>100°F</td><td>99</td><td>104</td><td>110</td><td>119</td><td>129</td><td>140</td><td>—</td></tr>\n        <tr style=\"background:#fca5a5\"><td>105°F</td><td>105</td><td>111</td><td>120</td><td>131</td><td>143</td><td>—</td><td>—</td></tr>\n        <tr style=\"background:#f87171\"><td>110°F</td><td>112</td><td>120</td><td>132</td><td>144</td><td>—</td><td>—</td><td>—</td></tr>\n      </tbody>\n    </table>\n  </div>\n  <div style=\"margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;font-size:0.8rem\">\n    <span style=\"padding:4px 10px;background:#fef3c7;border-radius:4px\">Caution (80-90°F)</span>\n    <span style=\"padding:4px 10px;background:#fed7aa;border-radius:4px\">Extreme Caution (90-103°F)</span>\n    <span style=\"padding:4px 10px;background:#fecaca;border-radius:4px\">Danger (103-124°F)</span>\n    <span style=\"padding:4px 10px;background:#f87171;border-radius:4px;color:#fff\">Extreme Danger (125°F+)</span>\n  </div>\n</div>",
-  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Heat Index Is Calculated</h2>\n  <p style=\"margin-bottom:12px\">This calculator uses the Rothfusz regression equation, the official NWS formula for computing the heat index.</p>\n  <div style=\"background:#fee2e2;border:2px solid #fecaca;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1rem;font-weight:700;color:var(--primary)\">HI = -42.379 + 2.04901523T + 10.14333127R - 0.22475541TR - ...</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li>Uses temperature (°F) and relative humidity (%)</li>\n    <li>Valid for temperatures ≥ 80°F</li>\n    <li>Includes adjustments for low humidity with high temps and high humidity with moderate temps</li>\n    <li>Assumes shade and light wind — add up to 15°F for full sun exposure</li>\n  </ul>\n  <p style=\"margin-top:12px\"><strong>Danger Levels:</strong> Caution (80-90°F), Extreme Caution (90-103°F), Danger (103-124°F), Extreme Danger (125°F+)</p>\n</div>",
+  "howItWorks": "<div class=\"calc-card\">\n  <h2>How the Heat Index Is Calculated</h2>\n  <p style=\"margin-bottom:12px\">Air temperature alone doesn't capture how hot conditions actually feel to the human body. The National Weather Service's heat index — also called the apparent temperature — combines dry-bulb air temperature with relative humidity, because humidity governs how efficiently sweat evaporates off your skin. This calculator runs the same Rothfusz regression the NWS uses operationally, so the figure you get matches what a heat advisory is built on.</p>\n  <div style=\"background:#fee2e2;border:2px solid #fecaca;border-radius:8px;padding:16px;text-align:center;margin-bottom:16px\">\n    <span style=\"font-size:1rem;font-weight:700;color:var(--primary)\">HI = -42.379 + 2.04901523T + 10.14333127R - 0.22475541TR - ...</span>\n  </div>\n  <ul style=\"margin-left:20px;margin-bottom:12px;line-height:2\">\n    <li>Uses temperature (°F) and relative humidity (%)</li>\n    <li>Valid for temperatures ≥ 80°F — the range the regression was fit to</li>\n    <li>Includes correction terms for low humidity with high temps and high humidity with moderate temps</li>\n    <li>Assumes shade and light wind (≈ 5 mph) — add up to 15°F for full sun exposure</li>\n  </ul>\n  <p style=\"margin-top:12px\"><strong>Danger Levels:</strong> Caution (80-90°F), Extreme Caution (90-103°F), Danger (103-124°F), Extreme Danger (125°F+)</p>\n  <p style=\"margin-top:12px\">These four bands aren't arbitrary cutoffs — they're calibrated to observed heat-illness patterns. Below 90°F, prolonged exposure or activity can bring on fatigue; by the Danger band, heat cramps and heat exhaustion are likely and heat stroke becomes a real possibility with continued exertion. Anyone working, training, or exercising outdoors should treat the heat index, not the thermometer, as the number that decides when to slow down, hydrate, and get into shade.</p>\n</div>",
   "faqHTML": "<div class=\"faq-section\">\n  <h2>Frequently Asked Questions</h2>\n  <div class=\"faq-item\">\n    <h3>What is the heat index?</h3>\n    <p>The heat index combines air temperature and relative humidity to determine what the temperature \"feels like\" to the human body. High humidity reduces the body's ability to cool through sweat evaporation.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>How is heat index calculated?</h3>\n    <p>The NWS uses the Rothfusz regression equation, a 9-term polynomial formula using temperature and humidity, with adjustment factors applied at extremes. It is valid for temperatures at or above 80°F.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What heat index is dangerous?</h3>\n    <p>Caution at 80-90°F (fatigue possible). Extreme Caution at 90-103°F (heat cramps/exhaustion possible). Danger at 103-124°F (heat exhaustion likely). Extreme Danger above 125°F (heatstroke imminent).</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>What is the highest heat index ever recorded?</h3>\n    <p>Heat indices exceeding 170°F have been calculated in the Persian Gulf region. In the US, values above 130°F have occurred in the desert Southwest during extreme heat events.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Why does humidity make it feel hotter?</h3>\n    <p>Your body cools by sweating. When humidity is high, sweat cannot evaporate efficiently, trapping heat. At 90°F with 40% humidity the heat index is 88°F, but at 90% humidity it jumps to 109°F.</p>\n  </div>\n  <div class=\"faq-item\">\n    <h3>Is heat index calculated in the shade or sun?</h3>\n    <p>The official heat index assumes shade with light wind. Direct sun can add up to 15°F to the perceived temperature. Physical activity further increases heat stress risk beyond what the index shows.</p>\n  </div>\n</div>",
   "category": "weather",
-  "lastUpdated": "2026-03-10",
+  "lastUpdated": "2026-09-01",
   "howWeCalculate": {
-    "intro": "This heat index calculator uses established formulas and industry-standard data to provide accurate estimates.",
+    "intro": "This calculator runs the National Weather Service's official Rothfusz regression — the same polynomial NWS forecasters use to generate heat advisories — rather than a simplified rule of thumb.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Your air temperature (°F) and relative humidity (%) are plugged into the 9-term Rothfusz polynomial, which was fit by regression to Steadman's original apparent-temperature model.",
+      "If temperature falls between 80–112°F and RH is under 13%, a dryness correction is subtracted, since the base polynomial alone overstates heat stress in very dry air.",
+      "If temperature falls between 80–87°F and RH is above 85%, a humidity correction is added for the same reason in the opposite direction.",
+      "The corrected result is your heat index, which is then matched against the NWS Caution / Extreme Caution / Danger / Extreme Danger bands to show the illness-risk category.",
+      "Add up to 15°F to the displayed heat index if you're in direct sun rather than shade, and treat any result as a floor — not a ceiling — once you factor in physical exertion."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "A heat index above roughly 103°F (Danger) or 125°F (Extreme Danger) calls for limiting outdoor exertion and watching for heat exhaustion or heat stroke symptoms — both are real medical risks. This tool is informational and does not replace an active NWS heat advisory or warning, or guidance from a medical professional."
   },
   "whenToUse": {
-    "intro": "This heat index calculator is designed for anyone who needs quick, reliable estimates without complex spreadsheets or professional consultations.",
+    "intro": "Check the heat index — not just the thermometer — any time humidity is likely pushing the real heat stress well above the air temperature.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received from a professional",
-      "When teaching or learning about the concepts behind these calculations"
+      "Before scheduling outdoor labor — construction, roofing, landscaping, agriculture — on a hot, humid day, to plan work/rest cycles and hydration breaks.",
+      "Before a run, hike, youth sports practice, or any strenuous outdoor activity when forecast humidity is high alongside the heat.",
+      "When a coach, employer, or camp director needs an objective trigger for moving activity indoors or adding water breaks.",
+      "When checking on elderly relatives, infants, or anyone with a chronic condition during a humid heat wave, since they regulate body heat less effectively than a healthy adult.",
+      "When an NWS heat advisory or excessive heat warning is in effect and you want to see the actual number driving it."
     ]
   },
   "relatedTools": [
@@ -114,64 +115,72 @@
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Heat Index Calculator?",
-        "body": "The Heat Index Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your air temperature, relative humidity, you get instant results including heat index, danger level, health risks. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Calculator Tells You",
+        "body": "Enter air temperature and relative humidity and this calculator returns the National Weather Service heat index — the “feels like” temperature — along with the official NWS danger category and the health risks tied to it. The heat index exists because a thermometer only measures air temperature; it says nothing about how efficiently your body can actually shed that heat, and humidity is what controls that. At 90°F with 70% relative humidity, for instance, the heat index is 106°F — fourteen degrees hotter than the air itself, and enough to push conditions from Extreme Caution into the Danger band."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting heat index right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Humidity Changes Everything",
+        "body": "Your body's main defense against heat is sweat evaporation — as moisture leaves the skin it carries heat away with it. That process depends entirely on the surrounding air's capacity to absorb more water vapor. In dry air, sweat evaporates fast and cools you effectively even at high temperatures. In humid air, the surrounding atmosphere is already close to saturated, evaporation slows dramatically, and heat stays trapped against your skin. Two locations at the identical 95°F air temperature can present very different physiological loads depending only on how much water vapor is in the air."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your air temperature and need to find the right heat index. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Built Around NWS Heat Safety Categories",
+        "body": "This calculator returns the same four risk bands the National Weather Service uses to trigger heat advisories and excessive heat warnings: Caution, Extreme Caution, Danger, and Extreme Danger. Reach for it before scheduling outdoor labor, athletic practice, or strenuous activity on a humid day, or whenever you want to understand the number behind an active heat advisory rather than just the raw forecast temperature."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Air Temperature (°F)",
-      "description": "Type or select your air temperature in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Air Temperature (°F)",
+      "description": "Use the current shaded, dry-bulb reading from a nearby station or thermometer — the heat index formula is only valid at 80°F and above."
     },
     {
-      "title": "Enter Your Relative Humidity (%)",
-      "description": "Type or select your relative humidity in the field provided. Use the most accurate value available for best results."
+      "title": "Enter Relative Humidity (%)",
+      "description": "Use current relative humidity, not dew point. Most weather apps list both figures — make sure you're reading the percentage, not a dew-point temperature."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Click Calculate Heat Index",
+      "description": "The calculator applies the NWS Rothfusz regression, including the low- and high-humidity correction terms, and returns the feels-like temperature instantly."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your heat index, danger level, health risks. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Check the Danger Level and Health Risks",
+      "description": "Match the result against the Caution / Extreme Caution / Danger / Extreme Danger bands and use the health-risk notes to decide whether outdoor activity should be shortened or moved indoors."
     }
   ],
   "tips": [
-    "Double-check your air temperature before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both heat index and danger level — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your relative humidity, start with a conservative estimate and adjust from there."
+    "Use current, local relative humidity rather than a seasonal average — heat index can shift several degrees for every 10 percentage points of RH.",
+    "If you only have a dew point reading, convert it to relative humidity first — the two aren't interchangeable and mixing them up skews the result.",
+    "Remember the calculator assumes shade with light wind — in full sun, treat the displayed heat index as roughly 10–15°F low.",
+    "Re-check the heat index in early-to-mid afternoon, when peak temperature often overlaps with lingering humidity and produces the day's highest reading.",
+    "Once the heat index crosses 103°F, shorten work or exercise intervals and add water breaks regardless of how anyone individually 'feels' — heat tolerance varies and symptoms can lag well behind exposure."
   ],
   "faq": [
     {
-      "question": "Is the Heat Index Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "What exactly does the heat index measure?",
+      "answer": "The heat index is the National Weather Service's official 'feels like' temperature — what the air actually feels like on exposed skin once relative humidity is factored in alongside dry-bulb air temperature. It exists because humidity, not just heat, determines how efficiently your body can cool itself through sweat evaporation."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why does 95°F at 60% humidity feel so much worse than 95°F at 30% humidity?",
+      "answer": "Because evaporative cooling, not the air temperature itself, is what your body relies on to shed heat. At 95°F air temperature with 60% relative humidity, the heat index works out to approximately 114°F — solidly in the NWS 'Danger' category — because the humid air is already close to saturated and sweat barely evaporates. The same 95°F at 30% relative humidity produces a heat index closer to 96–98°F, only just into 'Extreme Caution,' because dry air lets sweat evaporate freely and carry heat away. Same thermometer reading, very different physiological load."
     },
     {
-      "question": "What air temperature should I enter?",
-      "answer": "Enter the most accurate air temperature value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What are the NWS heat index categories, and what do they mean for safety?",
+      "answer": "NWS defines four bands: Caution (80–90°F) — fatigue is possible with prolonged exposure or activity; Extreme Caution (90–103°F) — heat cramps and heat exhaustion become possible; Danger (103–124°F) — heat cramps and heat exhaustion are likely, heat stroke is possible with continued exposure or exertion; and Extreme Danger (125°F and above) — heat stroke is highly likely. These are the same thresholds NWS uses when deciding whether to issue a Heat Advisory or an Excessive Heat Warning."
     },
     {
-      "question": "Can I use this calculator on my phone?",
-      "answer": "Yes, the Heat Index Calculator is fully responsive and works on any device — phone, tablet, or desktop. No app download needed."
+      "question": "Who is most at risk when the heat index climbs?",
+      "answer": "Outdoor workers — construction, agriculture, roofing, landscaping — face the highest cumulative exposure and are the group most heat-illness prevention guidance targets first. Endurance athletes and anyone doing sustained exertion generate extra internal heat on top of the ambient load. Infants and young children have less-developed thermoregulation and can't always communicate distress. Older adults and people with cardiovascular disease, diabetes, or certain medications (diuretics, some blood pressure or psychiatric drugs) often have reduced sweating capacity or altered heat perception. Anyone without reliable air conditioning is at elevated risk regardless of age."
     },
     {
-      "question": "What does heat index mean in my results?",
-      "answer": "The heat index value represents the primary output of the calculation based on your inputs. Use it as a baseline figure for your practical calculation planning and decision-making."
+      "question": "How does heat index differ from wet-bulb globe temperature (WBGT)?",
+      "answer": "Heat index is calculated for shade with light wind and is meant for general public heat-safety messaging. WBGT, used for formal work/rest and hydration schedules, also factors in direct solar radiation and measured wind speed, so it can run several degrees higher than heat index in full sun. If you're setting work/rest cycles for an outdoor crew or athletic team, WBGT is the more precise tool — heat index is the right one for everyday planning and general risk awareness."
+    },
+    {
+      "question": "Does the heat index number change if I'm standing in direct sun instead of shade?",
+      "answer": "The published formula and this calculator's output both assume shady conditions with a light wind around 5 mph — that's the environment the Rothfusz regression was fit to. Direct sunshine can add up to 15°F to how hot conditions actually feel, so full-sun exposure should be treated as meaningfully more dangerous than the displayed number alone suggests."
+    },
+    {
+      "question": "At what heat index should I stop outdoor work or sports?",
+      "answer": "There's no single nationwide cutoff, but NWS guidance and most heat-illness prevention plans treat 103°F (the start of the Danger category) as the point to shorten exertion intervals, add more frequent water and shade breaks, and watch closely for early heat-exhaustion symptoms — heavy sweating, dizziness, nausea, cool clammy skin. Above 125°F (Extreme Danger), strenuous outdoor activity should generally be postponed or moved indoors, since heat stroke — a medical emergency — becomes highly likely with continued exposure."
     }
   ]
 }

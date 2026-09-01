@@ -14,7 +14,7 @@
   "jsonLdDescription": "Work-Life Balance Calculator: Score your work-life balance across key areas. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Work-Life Balance Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"workHours\">Weekly Work Hours</label>\n      <input type=\"number\" id=\"workHours\" value=\"50\" min=\"0\" max=\"100\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"exercise\">Exercise Days/Week</label>\n      <input type=\"number\" id=\"exercise\" value=\"2\" min=\"0\" max=\"7\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"socialHours\">Social/Hobby Hours/Week</label>\n      <input type=\"number\" id=\"socialHours\" value=\"5\" min=\"0\" max=\"40\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"sleepHours\">Sleep Hours/Night</label>\n      <input type=\"number\" id=\"sleepHours\" value=\"6.5\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"vacation\">Vacation Days Used/Year</label>\n      <input type=\"number\" id=\"vacation\" value=\"10\" min=\"0\" max=\"30\" inputmode=\"decimal\">\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Balance Score</div>\n        <div class=\"result-value\" id=\"balanceScore\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Grade</div>\n        <div class=\"result-value\" id=\"grade\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Top Area to Improve</div>\n        <div class=\"result-value\" id=\"topIssue\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This work-life balance calculator uses established formulas to provide accurate results.",
+    "intro": "This calculator scores five weekly inputs — work hours, exercise days, social/hobby hours, sleep hours per night, and vacation days used per year — against thresholds drawn from occupational health and sleep research, then combines them into one 0–100 balance score and a letter grade.",
     "rules": [
       "Work hours: 40hr=25pts, 50hr=15pts, 60hr+=5pts",
       "Exercise: 4+/week=25pts, 2/week=15pts, 0=5pts",
@@ -22,28 +22,32 @@
       "Sleep: 7.5+hr=20pts, 6hr=10pts",
       "Vacation: 15+days=10pts, 5days=5pts"
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "Treat the score as a snapshot of one week's shape, not a diagnosis. A single rough week — a project crunch, a sick kid, a canceled vacation — will pull the score down without meaning your life is unbalanced. What matters more is whether the score recovers within a few weeks or stays low for a whole season."
   },
   "faq": [
     {
-      "question": "What is good work-life balance?",
-      "answer": "There's no universal standard, but key indicators include: working 40-45 hours/week, exercising 3+ times/week, getting 7+ hours sleep, having meaningful social connections, and using your vacation time. The right balance is personal."
+      "question": "Why does the calculator count vacation days used, not vacation days available?",
+      "answer": "Because unused vacation doesn't recover anything — it's banked time, not rest that actually happened. If you have 20 days available but only took 5, your balance score reflects the 5 days of real recovery, not the 20 sitting on the books unused."
     },
     {
-      "question": "How many hours is too many to work?",
-      "answer": "Research shows productivity drops significantly after 50 hours/week and collapses after 55. The WHO found working 55+ hours/week increases stroke risk by 35% and heart disease by 17%. Sustainable high performance requires recovery."
+      "question": "Does commute time count toward my work hours input?",
+      "answer": "No — enter only the hours you're actually working. But don't ignore commute either: it's real time gone from your day even though it isn't logged as work. A 45-hour work week with a 6-hour weekly commute leaves noticeably less discretionary time than 45 hours with no commute at all, even though the work-hours input is identical in both cases."
     },
     {
-      "question": "How can I improve work-life balance?",
-      "answer": "Set firm boundaries (no email after 7pm), schedule personal time like meetings, take your vacation days, learn to say no, batch similar tasks, delegate, and remember that being busy isn't the same as being productive."
+      "question": "I work 55 hours some weeks and 35 hours others — which number do I enter?",
+      "answer": "Enter a typical week if you have one, or run the calculator separately for a heavy week and a light week to see the range. Balance is better judged as a season-long average than a single week — a 60-hour launch week followed by a genuinely lighter recovery week can be healthy even though neither week alone looks balanced."
     },
     {
-      "question": "Is the Work-Life Balance Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "My hours are reasonable but I still feel stretched thin. Why?",
+      "answer": "Raw hours miss boundary-crossing: after-hours email, weekend on-call, or a phone that's never really off. Someone working 42 hours under those expectations often has less real discretionary time than someone working 48 hours with a hard stop at day's end. If that describes your situation, treat the score as a floor, not the full picture."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard mental health and wellness formulas trusted by individuals seeking balance. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "What counts as social/hobby hours versus just downtime?",
+      "answer": "Time spent actively connecting with people or doing something you chose for its own sake — dinner with friends, a rec league game, an instrument, a hobby project. Passive time, like scrolling or half-watching TV while doing chores, doesn't recover you the same way, so it's worth counting honestly rather than padding the number."
+    },
+    {
+      "question": "How is the balance score turned into a letter grade?",
+      "answer": "Each of the five pillars — work hours, exercise, social/hobby time, sleep, and vacation used — earns points on its own scale based on research thresholds (for instance, 7.5+ hours of sleep scores higher than 6). The five scores sum to a 0–100 total, which maps to a letter grade, and the lowest-scoring pillar is flagged separately as your top area to improve."
     }
   ],
   "relatedTools": [
@@ -52,66 +56,66 @@
     "anxiety-score-calculator"
   ],
   "howWeCalculate": {
-    "intro": "This work-life balance calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The calculator converts each of your five inputs into points on a fixed scale, sums them into a single 0–100 total, and separately reports whichever pillar scored lowest.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Enter your weekly work hours, exercise days, social/hobby hours, sleep hours per night, and vacation days used this year.",
+      "Each input is scored against research-based thresholds — for example, 40 hours of work scores higher than 60, and 7.5+ hours of sleep scores higher than 6.",
+      "The five pillar scores are summed into a 0–100 balance score and mapped to a letter grade, calculated instantly in your browser.",
+      "The pillar with the lowest individual score is flagged as your top area to improve, since that's usually the fastest lever for moving the total."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "These thresholds reflect general research on work hours, sleep, and recovery — not your specific job, health history, or life circumstances. A low score is a prompt to look closer, not a medical or psychological assessment. If work stress is affecting your health, talk to a doctor or licensed counselor."
   },
   "whenToUse": {
-    "intro": "This work-life balance calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "This calculator is most useful as a recurring check-in rather than a one-time reading — run it every few weeks and watch the trend, not just the single number.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Before accepting a new job or a schedule change — plug in the new work hours and expected commute to see how your weekly time budget shifts before you sign anything.",
+      "After a promotion, a new baby, or a move that changed your commute, to see which pillar actually took the hit instead of guessing.",
+      "During a known crunch period (a launch, tax season, a major deadline) to decide in advance what you'll trade off and for how long, then again afterward to confirm you actually recovered.",
+      "When negotiating workload or a return-to-office change with a manager, to put a number on what altering your hours or commute would do to your week.",
+      "Every month or quarter as a standing check, since one week's score means far less than the trend across several."
     ]
   },
   "category": "mental-health",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-09-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Work-Life Balance Calculator?",
-        "body": "The Work-Life Balance Calculator is a free online tool designed for individuals seeking balance who need quick, accurate calculations in the mental health and wellness space. By entering your weekly work hours, exercise days/week, social/hobby hours/week, you get instant results including balance score, grade, top area to improve. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What the Work-Life Balance Calculator Actually Measures",
+        "body": "The Work-Life Balance Calculator takes five weekly inputs — work hours, exercise days, social and hobby hours, sleep hours per night, and vacation days used over the year — and converts them into a 0–100 balance score, a letter grade, and a single flagged area that's dragging the score down the most. It isn't scoring the idea that 40 hours is virtuous and 50 is bad; it's scoring the pattern across five pillars at once, because someone who works 45 hours but sleeps 5 and never takes vacation is in worse shape than someone who works 50 but sleeps 8 and exercises four times a week. Enter your numbers, hit Calculate, and the tool weighs each pillar against research-backed thresholds so you get a number you can compare week to week, not a single opinion about your job."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting balance score right can make the difference between success and costly mistakes. In mental health and wellness, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by individuals seeking balance worldwide, giving you confidence that your numbers are correct. Use it to support your mental well-being with precision and avoid common pitfalls that trip up beginners."
+        "title": "The 168-Hour Week and the Commute You're Not Counting",
+        "body": "Every week hands everyone the same budget: 24 hours × 7 days = 168 hours, full stop. Work-life balance math starts there, not at 'how many hours did I work.' Sleep and work are the two biggest claims on that budget, but the claim people chronically undercount is commuting — the unpaid third shift wedged between them. Take a realistic case: 45 hours worked, plus 6 hours commuting (about 1.2 hours round-trip a day over 5 days, roughly 9 work-adjacent hours per weekday), plus 56 hours of sleep at 8 a night, leaves 168 − 45 − 6 − 56 ≈ 61 hours of discretionary time. That looks reasonable — until you subtract the 10 hours a week that unavoidable chores and errands eat (groceries, laundry, appointments), which brings real personal time down to about 51 hours, or roughly 7.3 hours a day. Commute time rarely comes up when someone asks how many hours you work, but it behaves exactly like work time: fixed, daily, and gone before you notice it."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your weekly work hours and need to find the right balance score. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Balance Is Sustainability Over a Season, Not a 50/50 Split Every Week",
+        "body": "Two ideas get conflated constantly. One is balance-as-even-split: work and life each get roughly half the clock, every single week. The other is balance-as-sustainability: your average across a month or quarter stays livable even though any one week might be badly lopsided — a launch week at 60 hours followed by a genuinely slower week at 35 can be perfectly healthy if the slow week actually happens and actually pays back the debt. The calculator scores one week because that's the input it can take, but the useful habit is running it every few weeks and watching the trend, not treating a single bad week as a verdict. There's also a stronger predictor of strain than raw hours worked: whether work crosses boundaries it isn't supposed to. Someone working 42 hours who's expected to answer email at 9pm and carry an on-call phone on weekends is often worse off than someone working 48 hours with a hard stop at 6pm and genuinely no-contact weekends. Hours are what this tool measures; boundary-crossing is the pattern worth watching yourself, because it quietly erodes the discretionary time the math says you have."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Weekly Work Hours",
-      "description": "Start by entering your weekly work hours — this is the primary input for the calculation."
+      "description": "Start with your typical weekly work hours — the number you'd give if someone asked how much you actually worked last week, overtime included."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: exercise days/week, social/hobby hours/week, sleep hours/night, vacation days used/year. Each value refines the calculation for greater accuracy."
+      "title": "Add Exercise, Social Time, Sleep, and Vacation",
+      "description": "Fill in exercise days per week, social/hobby hours per week, sleep hours per night, and vacation days used this year. Each pillar adjusts the score independently, so an honest answer here matters as much as the work-hours figure."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "The calculator scores all five inputs against research-based thresholds and combines them into a total, calculated instantly in your browser."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your balance score, grade, top area to improve. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Read Your Score, Grade, and Top Area to Improve",
+      "description": "Your balance score and grade summarize the week; the flagged 'top area to improve' names the single pillar dragging the total down the most — usually the highest-leverage place to start."
     }
   ],
   "tips": [
-    "Double-check your weekly work hours before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both balance score and grade — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to support your mental well-being.",
-    "If you're unsure about your vacation days used/year, start with a conservative estimate and adjust from there."
+    "Count your commute as real time, not free time — 6 hours a week of driving or transit behaves like unpaid work even though it never shows up in 'hours worked.'",
+    "Score a typical week, not your best or worst one — a single outlier week understates or overstates your real balance in either direction.",
+    "If your job carries after-hours email or on-call expectations, weigh that alongside raw work hours — boundary-crossing erodes discretionary time even when the hour count looks fine on paper.",
+    "A rough week isn't a failure if the next few weeks pay it back — track the score every few weeks and judge the average over a month or a season, not any single reading.",
+    "Unused vacation days don't help you if they're banked and never taken — the calculator only credits days you actually used, since that's the recovery time that counts."
   ]
 }

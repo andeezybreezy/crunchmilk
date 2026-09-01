@@ -14,77 +14,106 @@
   "jsonLdDescription": "Diesel Fuel Cost Per Mile Calculator: Calculate your diesel fuel cost per mile for trucks, fleets, and commercial vehicles. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Diesel Fuel Cost Per Mile Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dieselPrice\">Diesel Price ($/gal)</label>\n      <input type=\"number\" id=\"dieselPrice\" value=\"4.1\" min=\"2\" max=\"8\" step=\"0.05\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mpg\">Vehicle MPG</label>\n      <input type=\"number\" id=\"mpg\" value=\"6.5\" min=\"3\" max=\"30\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dailyMiles\">Daily Miles</label>\n      <input type=\"number\" id=\"dailyMiles\" value=\"500\" min=\"50\" max=\"1000\" step=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"daysPerWeek\">Days Per Week</label>\n      <input type=\"number\" id=\"daysPerWeek\" value=\"5\" min=\"1\" max=\"7\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost Per Mile</div>\n        <div class=\"result-value\" id=\"costPerMile\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Fuel Cost</div>\n        <div class=\"result-value\" id=\"dailyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly Fuel Cost</div>\n        <div class=\"result-value\" id=\"weeklyCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Fuel Cost</div>\n        <div class=\"result-value\" id=\"monthlyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual Fuel Cost</div>\n        <div class=\"result-value\" id=\"annualCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This diesel fuel cost per mile calculator uses established formulas to provide accurate results.",
+    "intro": "The math behind this calculator is a short chain, not a black box. It first turns your diesel price and MPG into a raw cost per mile, then multiplies that figure out across your daily miles, days per week, and finally a full month and year, so a single fill-up price tells you what a route, a week, or a whole year of driving actually costs in fuel.",
     "rules": [
       "Cost per mile = diesel price / MPG",
       "Daily cost = cost per mile × daily miles"
     ],
-    "outro": "Results are estimates. Consult a professional for critical decisions."
+    "outro": "Treat the result as a fuel-only baseline, not a full cost-per-mile figure. It doesn't include diesel exhaust fluid, idle burn, tolls, maintenance, or insurance, and it assumes a flat MPG that a loaded truck won't actually hold on hills or in a headwind. Reconcile it against your fuel card or ELD data every few weeks — if the two drift apart by more than a few cents a mile, your entered MPG or diesel price needs adjusting, not the formula."
+  },
+  "howWeCalculate": {
+    "intro": "This calculator runs the same four-input formula owner-operators and fleet dispatchers use every day to turn a diesel price and a truck's real-world MPG into a per-mile cost, then scales that number out to a daily, weekly, monthly, and annual fuel budget.",
+    "steps": [
+      "Divide diesel price per gallon by vehicle MPG to get the raw fuel cost per mile — for example, $3.85 ÷ 6.5 MPG ≈ $0.59/mile.",
+      "Multiply cost per mile by daily miles driven to get a daily fuel spend, then multiply that by days per week for a weekly total.",
+      "Scale the weekly figure by roughly 4.33 to project a monthly cost, and by 52 to project an annual cost, holding diesel price and MPG constant.",
+      "Layer in what the base formula leaves out — DEF consumption (about 2-3% of diesel volume), idle-time fuel burn, and load-weight MPG loss — to move from a theoretical cost per mile to an effective one."
+    ],
+    "disclaimer": "These are fuel-cost estimates only, driven entirely by the diesel price and MPG you enter. They exclude DEF, tolls, permits, maintenance, tires, and insurance unless you add them separately, and actual burn shifts with load, terrain, weather, and driving style. For rate-setting, IFTA filings, or tax purposes, reconcile against your actual fuel receipts and ELD mileage."
   },
   "faq": [
     {
-      "question": "What's the average MPG for a semi truck?",
-      "answer": "A loaded Class 8 semi truck averages 5.5-6.5 MPG. Empty trucks can achieve 7-8 MPG. Newer aerodynamic models may reach 8-10 MPG."
+      "question": "Why does a diesel truck cost less per mile even though diesel is pricier than gasoline?",
+      "answer": "Diesel carries roughly 11-15% more usable energy per gallon than gasoline, and diesel engines run much higher compression ratios (typically 16:1 to 20:1 versus 8:1 to 12:1 for gas), so they extract more work from that energy. The net result is that a diesel engine's MPG advantage usually outweighs its higher pump price. Example: a gas truck at 12 MPG and $3.20/gallon runs about $0.267/mile, while a comparable diesel at 17 MPG and $3.85/gallon runs about $0.226/mile — cheaper per mile despite diesel costing $0.65 more per gallon."
     },
     {
-      "question": "How does diesel price affect shipping costs?",
-      "answer": "Fuel is typically 30-40% of trucking operating costs. A $1/gallon increase in diesel adds roughly $0.15 per mile, or about $70-80 per day for a long-haul trucker."
+      "question": "How much does DEF add to my cost per mile?",
+      "answer": "Modern diesel engines with selective catalytic reduction (SCR) consume diesel exhaust fluid at roughly 2-3% of diesel volume. At $3.85/gallon diesel and around $3/gallon DEF, that works out to about $0.01-$0.02 per mile on top of the base fuel cost. It looks small, but on 100,000+ annual miles it adds up to $1,000-$2,000 a truck, so it belongs in any serious cost-per-mile figure even though this calculator's base formula doesn't include it automatically."
     },
     {
-      "question": "Is the Diesel Fuel Cost Per Mile Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How much fuel does idling burn, and should I count it in cost per mile?",
+      "answer": "A heavy-duty diesel typically burns about 0.5-1 gallon per hour at idle with zero miles covered — a driver running the APU-free sleeper HVAC for 7-8 hours overnight can burn 4-8 gallons doing nothing but sitting still. That fuel doesn't show up in a mileage-based MPG figure, so it's worth tracking separately (gallons per idle-hour × hours × price) rather than trying to fold it into the per-mile number, which will understate true fuel spend on routes with a lot of dwell or wait time."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard geopolitics and energy markets formulas trusted by analysts and informed citizens. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "How does load weight affect a truck's MPG and cost per mile?",
+      "answer": "A Class 8 tractor commonly loses 1-1.5 MPG running near its 80,000 lb gross weight compared to running empty or lightly loaded, since more weight means more rolling resistance and more energy needed to accelerate and climb grades. If your lanes mix loaded and deadhead miles, run this calculator twice — once with loaded MPG and once with empty MPG — rather than averaging one number, since the difference can shift cost per mile by $0.03-$0.05 or more."
     },
     {
-      "question": "What diesel price should I enter?",
-      "answer": "Enter the most accurate diesel price value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What MPG should I enter for a semi truck?",
+      "answer": "A loaded Class 8 semi typically averages 5.5-6.5 MPG. Running empty or lightly loaded, the same truck can reach 7-8 MPG, and newer aerodynamic tractors with skirts, gap fairings, and low-rolling-resistance tires can push 8-10+ MPG under good conditions. Enter the MPG that matches how the truck actually runs on the lane you're pricing, not a fleet-wide average, since a 1 MPG swing at $3.85/gallon moves cost per mile by roughly $0.09-$0.14 depending on where you're starting from."
+    },
+    {
+      "question": "How do I use this to check a fuel surcharge from a broker or shipper?",
+      "answer": "Fuel surcharges are usually pegged to a baseline diesel price set when the base rate was negotiated. Plug today's diesel price and your truck's MPG into this calculator to get a current cost per mile, then compare it to the cost per mile at the baseline price the surcharge was built on. The difference, times your loaded miles, is roughly what the surcharge should be covering — if it's falling short, that's your leverage in the conversation."
+    },
+    {
+      "question": "Does this calculator include DEF, tolls, or maintenance costs?",
+      "answer": "No — it calculates diesel fuel cost only, from price per gallon and MPG. DEF, tolls, permits, tires, maintenance, insurance, and driver pay are all separate per-mile costs that a full operating cost-per-mile figure needs on top of this fuel number. Use the 2-3% DEF ratio to add that piece by hand, and keep a running per-mile figure for the rest from your own expense records."
     }
   ],
   "relatedTools": [],
   "category": "geopolitical-energy",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-09-01",
+  "whenToUse": {
+    "intro": "Owner-operators, fleet managers, and dispatchers reach for a fuel cost-per-mile number any time a real decision hinges on what a mile actually costs to run — not just what diesel costs at the pump.",
+    "scenarios": [
+      "Setting a rate floor before accepting a load, so you know the minimum per-mile rate that keeps the run from losing money on fuel alone.",
+      "Checking whether a broker's or shipper's fuel surcharge still covers the gap between today's diesel price and the price the base rate was built on.",
+      "Comparing two trucks, engines, or aero upgrades by their actual fuel cost per mile rather than a sticker MPG number that assumes ideal conditions.",
+      "Budgeting a fleet's annual fuel line item from average daily miles, days run per week, and a representative diesel price for the year ahead.",
+      "Estimating how much DEF consumption and overnight idling add to a lane's true fuel cost before quoting a long-haul run.",
+      "Deciding whether a deadhead leg, a reroute, or an idling stop is worth the fuel it burns before committing to it."
+    ]
+  },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Diesel Fuel Cost Per Mile Calculator?",
-        "body": "The Diesel Fuel Cost Per Mile Calculator is a free online tool designed for analysts and informed citizens who need quick, accurate calculations in the geopolitics and energy markets space. By entering your diesel price, vehicle mpg, daily miles, you get instant results including cost per mile, daily fuel cost, weekly fuel cost. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Diesel Cost Per Mile Calculator Solves",
+        "body": "Enter your diesel price per gallon, your truck's MPG, your typical daily miles, and days run per week, and this calculator returns cost per mile plus daily, weekly, monthly, and annual fuel spend. Cost per mile (CPM) is the base unit trucking runs on — it's how owner-operators set rate floors, how dispatchers judge whether a load pencils out, and how fleets forecast fuel budgets months in advance. Getting the per-mile number right, then scaling it correctly across a week, month, and year, is the whole job of this tool."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting cost per mile right can make the difference between success and costly mistakes. In geopolitics and energy markets, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by analysts and informed citizens worldwide, giving you confidence that your numbers are correct. Use it to understand global dynamics with precision and avoid common pitfalls that trip up beginners."
+        "title": "Diesel vs. Gasoline: Why the Higher Pump Price Doesn't Mean a Higher Cost Per Mile",
+        "body": "Diesel routinely costs $0.20-$0.60 more per gallon than regular gasoline depending on region and season, which makes it look like the more expensive fuel. But diesel packs roughly 11-15% more usable energy per gallon, and diesel engines run much higher compression ratios — typically 16:1 to 20:1, versus 8:1 to 12:1 for gasoline — so they convert more of that energy into torque at the wheels. The practical result: a diesel truck's MPG advantage over a comparable gas engine (often 25-35% higher) usually outweighs the pump-price premium, and cost per mile ends up lower on diesel even though the gallon costs more."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your diesel price and need to find the right cost per mile. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "A Worked Example: Semi Truck Fuel Cost, DEF Included",
+        "body": "A semi truck averaging 6.5 MPG at $3.85/gallon diesel costs about $3.85 ÷ 6.5 ≈ $0.59/mile in fuel alone. Add DEF: SCR-equipped diesels burn DEF at roughly a 2-3% ratio to diesel consumption, which at around $3/gallon for DEF works out to about $0.01-$0.02/mile, pushing the effective fuel cost to roughly $0.60-$0.61/mile. On a 500-mile run, that's about $300-305 in fuel plus DEF — and at 5 days a week, this calculator scales that same math to roughly $1,500-1,525 weekly, $6,500-6,600 monthly, and $78,000-79,300 a year, before idle burn, tolls, or maintenance are added on top."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Diesel Price ($/gal)",
-      "description": "Start by entering your diesel price — this is the primary input for the calculation."
+      "description": "Use the current price at your terminal or the lane you're pricing rather than a national average — diesel can swing $0.20-$0.50/gallon between regions and seasons, and that difference moves cost per mile directly."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: vehicle mpg, daily miles, days per week. Each value refines the calculation for greater accuracy."
+      "title": "Enter Your Truck's MPG",
+      "description": "Match the MPG to how the truck actually runs: 5.5-6.5 MPG for a loaded Class 8 semi, 7-8 MPG empty or lightly loaded, and 8-10+ MPG for newer aerodynamic tractors under good conditions. Loaded and empty MPG differ enough to matter — run the calculator separately for each if your route mixes both."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set Daily Miles and Days Per Week",
+      "description": "Enter the miles you typically run in a day and how many days a week you're on the road. These two fields are what let the calculator scale a single cost-per-mile figure into realistic weekly, monthly, and annual fuel budgets."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your cost per mile, daily fuel cost, weekly fuel cost. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Calculate and Compare",
+      "description": "Review cost per mile alongside the daily, weekly, monthly, and annual totals. Use cost per mile to set a rate floor or check a fuel surcharge, and use the longer-horizon totals for budgeting — then add DEF, idle burn, and load-weight adjustments from the tips below for a more complete number."
     }
   ],
   "tips": [
-    "Double-check your diesel price before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both cost per mile and daily fuel cost — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to understand global dynamics.",
-    "If you're unsure about your days per week, start with a conservative estimate and adjust from there."
+    "Use a trailing average diesel price (from your fuel card statements or EIA regional data) for annual budgeting instead of today's pump price — diesel is volatile enough that a single day's price can skew a full-year projection.",
+    "Add DEF as a separate line: at a 2-3% consumption ratio to diesel, $3.85/gallon diesel and $3/gallon DEF add roughly $0.01-$0.02 to every mile — small per mile, but $1,000-$2,000 a year on a typical long-haul truck.",
+    "Track idle-hour fuel burn (about 0.5-1 gallon per hour) separately from mileage-based cost per mile — an overnight idle can burn 4-8 gallons that a per-mile MPG figure won't capture.",
+    "Run the calculator once with loaded MPG and once with empty or deadhead MPG if your lanes mix both — a Class 8 tractor often loses 1-1.5 MPG at gross weight versus empty, which shifts cost per mile by $0.03-$0.05 or more.",
+    "Re-run the numbers whenever diesel moves more than $0.15-$0.20/gallon; on a 6.5 MPG truck that swing alone shifts cost per mile by roughly $0.02-$0.03, which compounds fast across a fleet or a full year of miles."
   ]
 }

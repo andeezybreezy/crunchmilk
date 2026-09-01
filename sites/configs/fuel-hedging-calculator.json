@@ -14,78 +14,107 @@
   "jsonLdDescription": "Fuel Hedging Savings Calculator for Businesses: Calculate potential savings from fuel price hedging for your fleet or business. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Fuel Hedging Savings Calculator for Businesses</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"monthlyGallons\">Monthly Fuel Use (gallons)</label>\n      <input type=\"number\" id=\"monthlyGallons\" value=\"5000\" min=\"500\" max=\"100000\" step=\"500\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"currentPrice\">Current Fuel Price ($/gal)</label>\n      <input type=\"number\" id=\"currentPrice\" value=\"3.8\" min=\"2\" max=\"8\" step=\"0.05\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"hedgePrice\">Hedge Lock-in Price ($/gal)</label>\n      <input type=\"number\" id=\"hedgePrice\" value=\"3.9\" min=\"2\" max=\"8\" step=\"0.05\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"priceSpike\">Projected Crisis Price ($/gal)</label>\n      <input type=\"number\" id=\"priceSpike\" value=\"5.5\" min=\"3\" max=\"10\" step=\"0.1\" inputmode=\"decimal\">\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"hedgeMonths\">Hedge Duration (months)</label>\n      <input type=\"number\" id=\"hedgeMonths\" value=\"12\" min=\"3\" max=\"24\" step=\"3\" inputmode=\"decimal\">\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Hedged Cost</div>\n        <div class=\"result-value\" id=\"hedgeCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Unhedged Cost (at spike)</div>\n        <div class=\"result-value\" id=\"unhegdedCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Potential Savings</div>\n        <div class=\"result-value\" id=\"savings\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Hedge Premium</div>\n        <div class=\"result-value\" id=\"hedgePremium\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Breakeven Fuel Price</div>\n        <div class=\"result-value\" id=\"breakeven\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This fuel hedging savings calculator for businesses uses established formulas to provide accurate results.",
+    "intro": "This calculator runs the same three-line arithmetic a fuel broker or fleet controller uses to price a hedge: multiply gallons by price by duration, then compare the locked-in cost against what full market exposure would cost at a stress price you choose.",
     "rules": [
       "Total hedged cost = monthly gallons × hedge price × months",
       "Savings = unhedged cost - hedged cost",
       "Premium = gallons × (hedge price - current price)"
     ],
-    "outro": "Results are estimates. Consult a professional for critical decisions."
+    "outro": "These numbers compare two cost scenarios — they are not a forecast of where diesel or jet fuel prices will actually go. Real hedge contracts also carry broker fees, margin requirements, and basis risk between the index price and what you pay at the pump. Talk to a commodities broker or your CFO/treasury advisor before signing anything."
   },
   "faq": [
     {
-      "question": "What is fuel hedging?",
-      "answer": "Fuel hedging locks in a future purchase price for fuel using financial contracts. Airlines, trucking companies, and large fleets use hedging to protect against price spikes. Southwest Airlines famously saved $3.5 billion through fuel hedging during the 2008 oil spike."
+      "question": "What does fuel hedging actually mean for a fleet or logistics business?",
+      "answer": "It means locking in a price for fuel you haven't bought yet, instead of paying whatever the spot market charges on delivery day. You can lock in through diesel or jet fuel futures contracts, a forward purchase agreement with a supplier, or a fuel surcharge clause negotiated into customer contracts. Whichever route, you trade the chance of a lower future price for protection against a higher one — you're buying certainty, not a discount."
     },
     {
-      "question": "Is the Fuel Hedging Savings Calculator for Businesses free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Can a fuel hedge actually lose a business money?",
+      "answer": "Yes, and that's the tradeoff this calculator is built to show. If you lock in at $3.90/gal and spot fuel later drops to $3.20/gal, you're still paying $3.90 — you gave up $0.70/gal in savings you would have gotten by staying exposed. Hedging doesn't guarantee the lowest price; it guarantees a known price. Whether that trade was worth it only shows up after the fact, once you know which way the market moved."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard geopolitics and energy markets formulas trusted by analysts and informed citizens. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Who typically hedges fuel, and why?",
+      "answer": "Trucking and delivery fleets, airlines, marine shippers, and any business where fuel is a large, unpredictable share of operating cost. For a trucking company, diesel commonly runs 20-25% of per-mile operating cost — a spike that isn't hedged or surcharged can erase margin on contracts signed months earlier at a lower fuel assumption. Airlines hedge jet fuel for the same reason at much larger scale; Southwest's hedge book is the textbook case, worth billions during the 2008 oil spike and a drag on results when prices later fell."
     },
     {
-      "question": "What monthly fuel use should I enter?",
-      "answer": "Enter the most accurate monthly fuel use value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What's the difference between hedging with futures and using a fuel surcharge?",
+      "answer": "A futures or forward contract locks a price with a financial counterparty or supplier — you owe that price regardless of what customers pay you. A fuel surcharge instead passes fuel cost swings through to customers via a formula tied to a published diesel index, so your exposure shifts to them (with a lag). Many fleets use both: a surcharge for pass-through protection on the revenue side, and a partial futures or forward hedge to smooth out the timing gap and the portion surcharges don't fully cover."
     },
     {
-      "question": "Can I use this calculator on my phone?",
-      "answer": "Yes, the Fuel Hedging Savings Calculator for Businesses is fully responsive and works on any device — phone, tablet, or desktop. No app download needed."
+      "question": "How much of our fuel volume should we hedge?",
+      "answer": "There's no universal answer — it's a risk tolerance and cash flow question for your CFO or treasury team, not a formula. Many fleets hedge 30-60% of expected volume rather than 100%, capping worst-case exposure while leaving room to benefit if prices fall. Run this calculator at a few different hedge percentages and hedge prices to see how the potential-savings and foregone-savings numbers move before deciding."
+    },
+    {
+      "question": "What is the breakeven fuel price telling me?",
+      "answer": "It's the spot price at which hedging comes out exactly even — which is your hedge lock-in price itself. If spot ends up above that price, the hedge saved you money; below it, staying unhedged would have been cheaper. The gap between your breakeven and where you actually think fuel is headed is the real bet you're making."
+    },
+    {
+      "question": "Does this calculator account for broker fees or margin requirements?",
+      "answer": "No — it isolates the fuel-price arithmetic (locked cost vs. spot-exposed cost) so you can see that tradeoff clearly. Real futures and forward contracts also involve transaction costs, potential margin calls if the market moves against an open position, and basis risk between the futures index and your local diesel price. Bring those specifics to a commodities broker before sizing an actual hedge."
     }
   ],
   "relatedTools": [],
   "category": "geopolitical-energy",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-09-01",
+  "howWeCalculate": {
+    "intro": "This tool compares two cost paths for the same fuel volume: what you'd pay under a locked-in hedge price versus what you'd pay if a spike hits and you had no protection. It's the same back-of-envelope math a fleet controller runs before calling a broker.",
+    "steps": [
+      "Total Hedged Cost = monthly gallons × hedge lock-in price × hedge duration in months — the amount you're committed to under the hedge, regardless of where spot moves afterward.",
+      "Unhedged Cost = monthly gallons × your projected crisis price × the same duration — what that volume would cost if spot spiked to the level you're stress-testing against, with no hedge in place.",
+      "Potential Savings = Unhedged Cost − Total Hedged Cost — the dollar benefit the hedge delivers if that spike scenario actually plays out.",
+      "Hedge Premium = monthly gallons × (hedge price − current price) — what locking in costs you (or nets you, if the hedge price is below today's spot) relative to buying at today's price instead.",
+      "Breakeven Fuel Price is simply your hedge lock-in price: the spot level at which the hedge is a wash. Spot above it and the hedge wins; spot below it and staying exposed would have been cheaper."
+    ],
+    "disclaimer": "This models the arithmetic of comparing a locked price to a stress-tested spot price — it isn't a forecast of where diesel or jet fuel is headed, and it doesn't include broker fees, margin calls, or basis risk between an index price and your local pump price. Before entering an actual futures contract, forward purchase, or fuel surcharge agreement, work through the structure and cost with a commodities broker or your CFO/treasury advisor."
+  },
+  "whenToUse": {
+    "intro": "Reach for this before a hedge conversation with a broker or supplier, whenever a fixed fuel cost is being weighed against staying exposed to the spot market.",
+    "scenarios": [
+      "You run a trucking or delivery fleet where diesel is one of your top three operating costs and want to see, in dollars, what a 6- or 12-month hedge would have cost or saved against a real price swing.",
+      "Your CFO or treasury team is deciding what share of annual fuel volume to hedge — 25%, 50%, 100% — and needs the premium paid weighed against the protection it buys before choosing a number.",
+      "A fuel supplier or broker has quoted you a lock-in price and you want to check the math behind it against current spot before signing, rather than taking the quote on faith.",
+      "You're building next year's budget and want a fuel line that doesn't blow up mid-year if crude spikes, so you're testing how a partial hedge changes your worst-case cost.",
+      "You already hold a hedge position and a price move has happened — you want to quantify in real dollars what it actually saved or cost, instead of eyeballing it."
+    ]
+  },
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Fuel Hedging Savings Calculator for Businesses?",
-        "body": "The Fuel Hedging Savings Calculator for Businesses is a free online tool designed for analysts and informed citizens who need quick, accurate calculations in the geopolitics and energy markets space. By entering your monthly fuel use, current fuel price, hedge lock-in price, you get instant results including total hedged cost, unhedged cost, potential savings. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What This Fuel Hedging Calculator Actually Models",
+        "body": "Fuel hedging means locking in a price today for fuel you'll buy later — through a futures contract, a forward purchase with a supplier, or a fuel surcharge formula — instead of paying whatever the spot market charges when the fuel is delivered. This calculator takes your monthly fuel use, your current spot price, the price a hedge would lock in, and a stress price you're worried about, and turns them into five numbers: total hedged cost, unhedged cost at the stress price, potential savings, the premium you pay to hedge, and the breakeven price where the hedge neither helps nor hurts. It's the arithmetic side of a hedging decision, not a substitute for the decision itself."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting total hedged cost right can make the difference between success and costly mistakes. In geopolitics and energy markets, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by analysts and informed citizens worldwide, giving you confidence that your numbers are correct. Use it to understand global dynamics with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Diesel and Jet Fuel Volatility Hits Margins So Hard",
+        "body": "For a trucking or delivery fleet, fuel commonly runs 20-25% of per-mile operating cost — larger than driver pay in some lanes and second only to labor overall. Airlines carry a similar exposure in jet fuel. Freight and passenger rates are usually set months in advance, often locked into contracts, so when spot diesel or jet fuel jumps 20-30% in a quarter, that cost increase has nowhere to go — it comes straight out of margin. Hedging exists to break that link: it swaps an unknown future fuel bill for a known one, at the cost of giving up any upside if prices fall instead. That's the whole tradeoff — protection against a spike, in exchange for possibly overpaying if the spike never comes."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your monthly fuel use and need to find the right total hedged cost. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "A Worked Example: Hedging Half a Fleet's Volume",
+        "body": "Take a fleet burning 50,000 gallons of diesel a month that hedges half its volume — 25,000 gallons — at a locked price of $3.80/gal, leaving the other 25,000 gallons exposed to spot. If spot then rises to $4.50/gal, the hedged gallons save $0.70 × 25,000 = $17,500 that month versus paying spot on the full volume. But if spot instead falls to $3.20/gal, that same hedge costs $0.60 × 25,000 = $15,000 in savings the fleet would have captured by staying unhedged. Neither outcome is a mistake — it's the nature of a hedge: it narrows the range of possible fuel bills, it doesn't guarantee the best one. Run your own volume, lock-in price, and a spike scenario you're actually worried about through the calculator above to see where your breakeven sits."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Monthly Fuel Use (gallons)",
-      "description": "Start by entering your monthly fuel use — this is the primary input for the calculation."
+      "title": "Enter your monthly fuel use in gallons",
+      "description": "This is the volume the whole comparison scales from — use your fleet's actual average monthly diesel or jet fuel consumption, not a rounded guess."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: current fuel price, hedge lock-in price, projected crisis price, hedge duration. Each value refines the calculation for greater accuracy."
+      "title": "Enter your current spot price and the price a hedge would lock in",
+      "description": "Current price is what you'd pay on the open market today; the hedge lock-in price is the fixed rate a broker, supplier, or surcharge formula would guarantee you for the contract period."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Set a projected crisis price and hedge duration",
+      "description": "The projected price is the spot spike you're stress-testing against — base it on a real scenario, like the highest price you saw in the last major runup. Duration is how many months the hedge covers."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your total hedged cost, unhedged cost, potential savings. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Click Calculate and read the five results",
+      "description": "Check total hedged cost, unhedged cost at your stress price, potential savings, the hedge premium, and the breakeven price — then re-run with different hedge percentages or price scenarios before taking numbers to a broker or your CFO."
     }
   ],
   "tips": [
-    "Double-check your monthly fuel use before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both total hedged cost and unhedged cost — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to understand global dynamics.",
-    "If you're unsure about your hedge duration, start with a conservative estimate and adjust from there."
+    "Set the projected crisis price to something you've actually seen, not a worst-case guess — pull the highest diesel or jet fuel price from the last 2-3 years so the comparison reflects real volatility, not fear.",
+    "Run the calculator at a few different hedge percentages of your total volume (25%, 50%, 100%) rather than assuming you should hedge everything — partial hedges cap worst-case cost while leaving room to benefit if prices drop.",
+    "Compare the hedge premium against the potential savings, not just the savings alone — a hedge that costs $0.10/gal to lock in versus a spike that would cost $1.70/gal is a very different trade than a hedge priced close to the stress scenario.",
+    "Remember the breakeven price is your hedge lock-in price itself — if you genuinely expect spot to stay below that level for the contract term, staying unhedged (or hedging a smaller share) may be the better call.",
+    "Treat this calculator as the arithmetic step, not the whole decision — bring your numbers to a commodities broker or your CFO/treasury advisor before entering an actual futures, forward, or surcharge contract, since real hedges carry fees, margin requirements, and basis risk this model doesn't include."
   ]
 }

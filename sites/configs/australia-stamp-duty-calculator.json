@@ -14,31 +14,39 @@
   "jsonLdDescription": "Australia Stamp Duty Calculator: Calculate stamp duty (transfer duty) by state and territory for Australian property purchases. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Australia Stamp Duty Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"propertyValue\">Property Value (A$)</label>\n      <input type=\"number\" id=\"propertyValue\" value=\"750000\" min=\"0\" step=\"10000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"state\">State/Territory</label>\n      <select id=\"state\"><option value=\"NSW\" selected>New South Wales</option><option value=\"VIC\">Victoria</option><option value=\"QLD\">Queensland</option><option value=\"WA\">Western Australia</option><option value=\"SA\">South Australia</option><option value=\"TAS\">Tasmania</option><option value=\"ACT\">ACT</option></select>\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"propertyType\">Property Type</label>\n      <select id=\"propertyType\"><option value=\"established\" selected>Established Home</option><option value=\"new\">New Home</option><option value=\"vacant\">Vacant Land</option><option value=\"investment\">Investment Property</option></select>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"firstHomeBuyer\">First Home Buyer?</label>\n      <select id=\"firstHomeBuyer\"><option value=\"no\" selected>No</option><option value=\"yes\">Yes</option></select>\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"foreignBuyer\">Foreign Buyer?</label>\n      <select id=\"foreignBuyer\"><option value=\"no\" selected>No (Australian citizen/PR)</option><option value=\"yes\">Yes (foreign purchaser)</option></select>\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Stamp Duty (Transfer Duty)</div>\n        <div class=\"result-value\" id=\"stampDuty\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">First Home Buyer Concession</div>\n        <div class=\"result-value\" id=\"fhbConcession\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Foreign Buyer Surcharge</div>\n        <div class=\"result-value\" id=\"foreignSurcharge\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Duty Payable</div>\n        <div class=\"result-value\" id=\"totalDuty\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Total Purchase Cost</div>\n        <div class=\"result-value\" id=\"totalPurchaseCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This australia stamp duty calculator uses established formulas to provide accurate results.",
+    "intro": "Transfer duty in every Australian state and territory is charged on a marginal, bracket-based scale rather than a flat percentage of the purchase price — conceptually closer to how income tax brackets work than to a single sales-tax-style rate. This calculator applies the bracket structure for the state or territory you select, then layers on any first-home-buyer concession and any foreign purchaser surcharge your inputs trigger, in roughly the same way a state revenue office's own online estimator does.",
     "rules": [
       "Stamp duty is calculated on progressive bands that vary by state/territory",
       "NSW example: 1.25% to $17k, 1.5% $17k-$36k, 1.75% $36k-$97k, 3.5% $97k-$364k, 4.5% $364k-$1.21M, 5.5% above",
       "First home buyer exemptions vary by state (e.g., NSW up to $800k, VIC up to $600k)",
       "Foreign buyer surcharges: 7-8% additional on top of standard duty"
     ],
-    "outro": "Results are estimates. Consult a professional for critical decisions."
+    "outro": "These figures are a planning estimate, not a settlement figure. Duty scales, first-home-buyer thresholds, and foreign purchaser surcharge rates are set independently by each state and territory government and are revised — sometimes mid-year — in state budgets. Before you rely on a number for contract exchange or settlement, confirm the current rates and thresholds with your state or territory revenue office (for example Revenue NSW or the State Revenue Office Victoria) or with your conveyancer or solicitor."
   },
   "faq": [
     {
-      "question": "How is stamp duty calculated in Australia?",
-      "answer": "Stamp duty (transfer duty) is calculated on a sliding scale that varies by state. Each state has different thresholds and rates. The duty increases progressively with the property price, typically ranging from 1-6% of the purchase price."
+      "question": "Is stamp duty the same amount in every state?",
+      "answer": "No. Stamp duty (transfer duty) is a state and territory tax, not a federal one, so NSW, VIC, QLD, WA, SA, TAS, ACT, and NT each legislate their own bracket scale, thresholds, and concessions independently. The same $750,000 property can attract a noticeably different duty bill purely because of which state it sits in — the property's location determines the rules, not where the buyer lives."
     },
     {
-      "question": "Do first home buyers get a stamp duty exemption?",
-      "answer": "Yes, most states offer concessions. NSW: full exemption up to $800,000. VIC: full exemption up to $600,000. QLD: full concession up to $700,000. Thresholds and eligibility vary by state and property type."
+      "question": "How does the bracket-based calculation actually work?",
+      "answer": "It works like a progressive income tax scale: the portion of the price up to the first threshold is taxed at a low rate, the next slice at a higher rate, and so on, with the top marginal rate only applying to the value above the highest threshold — not the whole price. Using NSW's typical bracket structure as an illustration, a $750,000 established-home purchase by a non-first-home-buyer works out to roughly $28,000-$29,000 in duty; the same purchase by an eligible first home buyer under the state's exemption threshold could attract little or no duty at all. Treat any such figure as indicative, since brackets shift with each state budget."
     },
     {
-      "question": "Is there a foreign buyer surcharge?",
-      "answer": "Yes. All states charge additional duty for foreign purchasers: NSW 8%, VIC 8%, QLD 7%, WA 7%, SA 7%, TAS 8%, ACT 7.5%. This is on top of the standard stamp duty."
+      "question": "Do first home buyers really pay no stamp duty?",
+      "answer": "In most states, eligible first home buyers get a full exemption below one price threshold and a phased concession up to a higher threshold, so many pay nothing or a reduced amount rather than the full standard rate. Eligibility usually requires the property to become your principal place of residence, not an investment, and thresholds and cutoffs differ by state and are revised periodically — always check the current figures on your state revenue office's site before assuming you qualify."
     },
     {
-      "question": "Can I add stamp duty to my mortgage?",
-      "answer": "Generally no. Stamp duty must be paid at settlement from your own funds. Some lenders may allow capitalisation into the loan if your LVR is low enough, but this is uncommon and increases your total borrowing."
+      "question": "What is the foreign buyer (foreign purchaser) surcharge?",
+      "answer": "Most states and territories add an extra duty surcharge — commonly in the high single digits as a percentage of the property's value — on top of standard duty when the buyer meets that state's definition of a foreign person. It's assessed on citizenship and residency status, not on the source of the purchase funds, and a small number of jurisdictions apply it differently or exempt certain permanent residents and New Zealand citizens, so it's worth confirming your status against the specific state's rules."
+    },
+    {
+      "question": "Does the type of property change what I owe?",
+      "answer": "The base duty formula is generally driven by price regardless of property type, but eligibility for concessions often isn't. First-home-buyer schemes typically exclude investment properties, some states offer separate concessions or deferral options for off-the-plan and new-home purchases, and vacant land can face different thresholds or be excluded from certain concessions entirely — the property type field in this calculator exists because it changes which rules apply, not just the headline rate."
+    },
+    {
+      "question": "Can stamp duty be rolled into my home loan?",
+      "answer": "Generally no — duty is due at or shortly before settlement and is expected to come from your own funds (deposit, savings, or other equity), not the loan itself. A small number of lenders will consider capitalising it into the mortgage if your loan-to-value ratio has enough headroom, but this is uncommon, increases the loan principal, and means you pay interest on your duty bill for the life of the loan."
     }
   ],
   "relatedTools": [
@@ -47,17 +55,70 @@
     "australia-negative-gearing-calculator"
   ],
   "category": "finance",
-  "lastUpdated": "2026-03-12",
+  "lastUpdated": "2026-09-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Australia Stamp Duty Calculator?",
-        "body": "The Australia Stamp Duty Calculator helps you get precise numbers for your specific situation in seconds. Instead of guessing or spending hours on manual calculations, get accurate results in seconds. Enter your details above and let the calculator do the work."
+        "title": "What Stamp Duty Actually Is (and Why It's Not One National Number)",
+        "body": "Stamp duty — officially transfer duty in most jurisdictions — is a state and territory tax charged when property ownership changes hands in Australia. There is no single federal rate: each of the eight states and territories runs its own bracket scale, its own first-home-buyer scheme, and its own foreign purchaser surcharge, so identical purchase prices can attract meaningfully different bills purely because of where the property is located. This calculator takes the property price alongside the state or territory, property type (established home, new build, vacant land, or investment property), first-home-buyer status, and foreign purchaser status, then estimates the base duty plus any concession or surcharge that applies."
       },
       {
-        "title": "Understanding the Australian System",
-        "body": "Australian tax and financial regulations have specific thresholds, rates, and rules that differ from other countries. This calculator uses current Australian rates and brackets so you get results that actually apply to your situation rather than generic estimates."
+        "title": "Why the Bill Isn't a Flat Percentage",
+        "body": "Transfer duty is worked out on a progressive sliding scale, the same structural idea as income tax brackets: the first slice of the purchase price is taxed at a low rate, and each higher slice is taxed at a progressively higher marginal rate, so your effective rate climbs gradually rather than jumping all at once. Using NSW's typical bracket structure as an illustration — roughly 1.25% up to about $17,000, then stepping through 1.5%, 1.75%, and 3.5% bands, then 4.5% on the portion between roughly $364,000 and $1.21 million — a $750,000 established-home purchase by a buyer who isn't a first home buyer lands around $28,000-$29,000 in duty. An eligible first home buyer purchasing that same property under NSW's exemption threshold could pay far less, or nothing at all. Every figure here is illustrative: state governments revise thresholds and rates in their budgets, sometimes more than once a year, so always check the current scale for your state before relying on a number."
       }
     ]
-  }
+  },
+  "howWeCalculate": {
+    "intro": "This calculator applies each state or territory's bracket-based duty scale to the property value you enter, then adjusts the result for the concessions and surcharges your other answers trigger.",
+    "steps": [
+      "We take your property price and match it against the current bracket scale for the state or territory you selected — the same bracket-by-bracket logic used in income tax, where each slice of the value is taxed at its own marginal rate rather than the whole price being taxed at one flat rate.",
+      "If you've indicated first-home-buyer status, we check whether the price falls under that state's exemption or concession threshold and reduce the base duty accordingly — potentially to zero if you're under the full exemption cutoff.",
+      "If you've flagged the purchase as a foreign buyer transaction, we add that state's foreign purchaser surcharge — typically several percentage points calculated on the full property value — on top of the base duty.",
+      "The tool totals the base duty, any concession, and any surcharge into a single estimated transfer duty figure, alongside an approximate total purchase cost so you can see the full cash requirement you're planning for at settlement."
+    ],
+    "disclaimer": "This is a planning estimate only, built on bracket structures and thresholds that state and territory governments revise periodically. It is not a substitute for a settlement figure or professional advice — confirm current rates with your state revenue office or a conveyancer before exchanging contracts."
+  },
+  "whenToUse": {
+    "intro": "Stamp duty is one of the largest, and most easily underestimated, upfront costs in an Australian property purchase — this calculator is built for the moments when you need a realistic figure before it becomes a settlement-day surprise.",
+    "scenarios": [
+      "Budgeting for a purchase across state lines — comparing what the same price would cost in duty in NSW versus Victoria or Queensland before you decide where to buy.",
+      "Working out whether you qualify for a first-home-buyer exemption or concession, and roughly how much it's worth in dollar terms at your specific price point.",
+      "Estimating total settlement costs — duty is usually the largest single cost beyond the deposit — so your finance and cash-on-hand planning holds up.",
+      "Checking whether the foreign purchaser surcharge applies to your situation before you make an offer, since it can add tens of thousands of dollars at higher price points.",
+      "Sense-checking a duty figure quoted by a conveyancer, mortgage broker, or real estate agent before you commit to a contract."
+    ]
+  },
+  "howToSteps": [
+    {
+      "title": "Enter the Property Price",
+      "description": "Type in the purchase price (or contract price) in Australian dollars — use the figure from your contract of sale, or a realistic target price if you're still shopping around."
+    },
+    {
+      "title": "Select Your State or Territory",
+      "description": "Choose the state or territory where the property is located, not where you currently live. Duty is charged by the jurisdiction the property sits in, and each one runs its own bracket scale."
+    },
+    {
+      "title": "Choose the Property Type",
+      "description": "Select established home, new home, vacant land, or investment property. Some concessions and exemptions apply only to certain property types, so this affects which rules the estimate applies."
+    },
+    {
+      "title": "Indicate First-Home-Buyer Status",
+      "description": "Select yes only if this is genuinely your first property purchase and you intend to live in it — most state concessions require owner-occupation, not just first-purchase status."
+    },
+    {
+      "title": "Flag Foreign Buyer Status",
+      "description": "Select yes if you're purchasing as a foreign person under your state's definition — this triggers an additional surcharge in most jurisdictions, calculated on top of the base duty."
+    },
+    {
+      "title": "Review Your Results",
+      "description": "Check the base stamp duty, any first-home-buyer concession, any foreign buyer surcharge, the total duty payable, and the estimated total purchase cost — then confirm the figure with your state revenue office or conveyancer before relying on it for settlement."
+    }
+  ],
+  "tips": [
+    "Confirm which value the state uses for the calculation — some jurisdictions apply duty on the higher of purchase price or the property's unencumbered market value, not just the contract price.",
+    "First-home-buyer thresholds usually depend on the property becoming your principal place of residence — an investment purchase typically won't qualify even if it's genuinely your first property.",
+    "Off-the-plan and new-build purchases sometimes carry separate concessions or payment deferral options that established homes don't get — check your specific state's rules rather than assuming they're identical.",
+    "Foreign purchaser surcharges are based on citizenship and residency status, not on where your deposit funds originate — get this classification wrong and the surcharge can catch you by surprise at settlement.",
+    "Budget for duty separately from your deposit. In most states it's due at or shortly after settlement, and it generally can't be rolled into your mortgage without a lender's specific approval."
+  ]
 }
