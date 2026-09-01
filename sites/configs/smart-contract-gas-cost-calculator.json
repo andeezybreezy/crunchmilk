@@ -75,46 +75,46 @@
     ]
   },
   "category": "blockchain",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-09-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Smart Contract Gas Cost Calculator?",
-        "body": "The Smart Contract Gas Cost Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your contract size, avg functions called/day, gas price, you get instant results including deployment gas, deployment cost, daily interaction cost. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "What Gas Actually Measures on Ethereum",
+        "body": "Gas is Ethereum's unit of account for computation. Every opcode the EVM executes — an addition, a storage write, a call to another contract — has a fixed gas cost defined in the protocol, and a transaction's total gas usage is the sum of every opcode it triggers plus the base cost of including it in a block. Deploying a contract burns gas for the 21,000-gas base transaction fee, roughly 32,000 gas for contract creation itself, and about 200 gas for every byte of bytecode written to the chain, on top of whatever the constructor executes. This calculator takes four inputs — contract size in bytes, the average number of function calls you expect per day once the contract is live, the gas price in gwei, and the current ETH/USD price — and turns them into deployment gas, deployment cost, and both daily and monthly interaction costs, so you can budget a launch and its ongoing operating cost in the same pass."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting deployment gas right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners."
+        "title": "Why Gas Price and Network Congestion Move Together",
+        "body": "Since the London upgrade (EIP-1559), every block has a base fee denominated in gwei — one gwei equals 0.000000001 ETH — that is set algorithmically from how full the previous block was and burned outright, plus an optional priority fee, a tip, you add to get a validator to include your transaction faster. When demand for block space rises, the base fee climbs block over block until enough transactions get priced out that usage falls back toward the network's target; when the network is quiet, it decays instead. The \"Gas Price (Gwei)\" field in this calculator represents that combined base-fee-plus-tip rate you're willing to pay per unit of gas, which is why the same contract can cost dramatically different amounts to deploy or use depending purely on when you submit the transaction, not on anything about the contract itself."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your contract size and need to find the right deployment gas. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "From Gas Units to Dollars: Reading Your Results",
+        "body": "Cost in ETH is gas units × gas price in gwei, divided by 1e9 to convert gwei to ETH, then × the ETH/USD price to get dollars. A simple ETH transfer always costs exactly 21,000 gas — there's no logic to execute, just a value transfer. A token swap through an automated market maker like Uniswap, by contrast, typically runs 100,000-150,000 gas because it has to read reserves, update balances in at least two token contracts, and emit events. Concretely: a swap using 150,000 gas at a combined base-fee-plus-tip price of 30 gwei costs 150,000 × 30 gwei = 4,500,000 gwei = 0.0045 ETH; at an ETH price of $3,200 that's about $14.40 for the transaction — versus a plain 21,000-gas ETH transfer at the same 30 gwei price, which costs only 0.00063 ETH, about $2.02. Deployment cost scales mostly with bytecode size and constructor complexity, while ongoing interaction cost scales with how often each function is called, which is exactly what the \"Avg Functions Called/Day\" field lets you project. Keep in mind that both gas prices and ETH's dollar price are highly volatile and change block to block — this tool estimates cost from the specific gas price and ETH price you type in at one point in time, not a live quote, and nothing here is financial advice."
       }
     ]
   },
   "howToSteps": [
     {
       "title": "Enter Your Contract Size (bytes)",
-      "description": "Start by entering your contract size — this is the primary input for the calculation."
+      "description": "Start with your contract's deployed bytecode size — this is the main driver of one-time deployment gas because Ethereum charges roughly 200 gas for every byte written to the chain."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: avg functions called/day, gas price, eth price. Each value refines the calculation for greater accuracy."
+      "title": "Fill In Gas Price, ETH Price, and Daily Calls",
+      "description": "Add the current gas price in gwei, the ETH/USD price, and how many times per day you expect functions to be called — these determine both your deployment cost and your ongoing interaction costs."
     },
     {
       "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "description": "Run the numbers. The calculator converts gas units to ETH using your gas price, then to dollars using your ETH price, entirely in your browser."
     },
     {
       "title": "Review Your Results",
-      "description": "Check your deployment gas, deployment cost, daily interaction cost. Use these figures to inform your next decision or compare against alternative scenarios."
+      "description": "Check deployment gas, deployment cost, and daily/monthly interaction cost together — a contract can be cheap to deploy but expensive to run, or vice versa, depending on how storage-heavy each function call is."
     }
   ],
   "tips": [
-    "Double-check your contract size before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both deployment gas and deployment cost — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to get accurate results.",
-    "If you're unsure about your eth price, start with a conservative estimate and adjust from there."
+    "Contract size drives deployment cost almost linearly — trimming bytecode (fewer inlined libraries, smaller strings, tighter storage layout) directly lowers the code-deposit gas you pay.",
+    "Gas price shifts by the hour. Check a live gas tracker before you deploy, then plug that gwei figure in here rather than assuming yesterday's price still holds.",
+    "Interaction cost adds up fast at scale — a function that costs a few cents per call becomes real money once thousands of users call it daily, so model \"Avg Functions Called/Day\" realistically.",
+    "ETH's dollar price moves independently of gas price, so a cheap-gas moment can still be an expensive-dollar moment if ETH has rallied — check both inputs together, not separately.",
+    "If storage writes are the biggest cost driver in your contract, look at packing struct fields into fewer 32-byte slots — SSTORE is one of the most expensive opcodes in the EVM."
   ]
 }
