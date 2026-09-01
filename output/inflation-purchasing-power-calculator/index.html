@@ -49,26 +49,50 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How does inflation erode purchasing power?",
+      "name": "Why does my $50,000 in savings show as worth less in 20 years if I never touch it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "At 3% inflation, prices double roughly every 24 years. Your $100 today buys only $74 worth of goods in 10 years and $55 in 20 years. Money sitting in a low-yield savings account loses real value every year."
+        "text": "The account balance itself doesn't shrink — you still hold $50,000. What shrinks is what those dollars can buy. At the calculator's default 3.5% inflation rate, $50,000 ÷ 1.035^20 ≈ $25,128 in today's purchasing power after 20 years, a roughly 50% loss, because the same goods that cost $50,000 now will cost close to $99,000 by then. Nominal balance and real purchasing power are two separate numbers, and the Purchasing Power results report the second one."
       }
     },
     {
       "@type": "Question",
-      "name": "What is the real inflation rate vs official CPI?",
+      "name": "How is the Income Gap at 10 Years actually calculated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The official CPI may understate actual cost increases for essentials. Housing, healthcare, and education have historically risen faster than headline CPI. Many economists estimate true cost-of-living increases are 1-2% higher than reported CPI."
+        "text": "It compares two projections of your annual income: what your income would need to be to keep up with inflation, versus what it will actually be if it only grows at your expected raise rate. Using the calculator's defaults — $75,000 income, 3.5% inflation, 2.5% average raise — income would need to reach about $105,795 by year 10 just to maintain today's standard of living, but raise-adjusted income only reaches about $96,006. That roughly $9,789 annual shortfall is the Income Gap: real ground lost even though the paycheck is objectively bigger."
       }
     },
     {
       "@type": "Question",
-      "name": "How can I protect against inflation?",
+      "name": "What is the Rule of 72 and how does it apply to inflation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Invest in assets that historically outpace inflation: equities (7-10% historical real return), real estate, TIPS (Treasury Inflation-Protected Securities), I-Bonds, and commodities. Holding excess cash is the worst strategy during high inflation."
+        "text": "Divide 72 by the inflation rate to estimate how many years it takes for prices to double, or equivalently for a fixed sum of money to lose half its purchasing power. At the calculator's default 3.5%, that's 72 ÷ 3.5 ≈ 20.6 years. At 3% (the long-run U.S. average) it's 24 years; at 6% it drops to 12 years; at the roughly 8% inflation the U.S. saw in mid-2022, it's just 9 years. The rule is an approximation, not an exact formula, but it's accurate enough for quick mental math."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does U.S. inflation history compare to the rates I can enter here?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Consumer Price Index has averaged close to 3% per year over the long run, but the path has been anything but smooth: inflation ran under 2% for most of the 2010s, spiked to about 8% year-over-year in mid-2022 as pandemic-era demand and supply shocks collided, and reached double digits — over 13% in 1980 — during the stagflation years of the late 1970s and early 1980s. The calculator's 0.5%-15% input range is built to cover that full historical spread, so you can stress-test your numbers against both a calm decade and a genuinely bad one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a 2.5% annual raise enough to keep up with inflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only if inflation stays at or below 2.5%. Whenever your raise rate is lower than the inflation rate you enter, your real income is shrinking even as your nominal paycheck grows — that gap is exactly what the Income Gap result measures. Any year inflation spikes above your raise rate, as it did broadly in 2021-2022, you take a real pay cut without your employer changing a single number on your paystub."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this different from looking at investment returns after inflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The same math applies, but the sign matters. A savings account paying 4% APY against 3.5% inflation nets a real return of only about 0.5% a year — barely ahead of erosion. Cash that isn't earning at least the inflation rate is a guaranteed loser in real terms, which is why this calculator's wealth-erosion figures on uninvested savings tend to look worse than an equivalent amount invested in assets that have historically outpaced inflation, like diversified stock portfolios or Treasury Inflation-Protected Securities (TIPS)."
       }
     }
   ]
@@ -321,7 +345,19 @@ footer a:hover{color:#fff}
   <!-- Ad Slot: Top (replace with ad code) -->
 
   <!-- Content Intro -->
-  
+    <div class="info-section">
+    <h2>What This Calculator Actually Measures</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Every input here maps to a specific piece of a real financial picture: current savings, annual income, the inflation rate you expect, the raise rate you expect, and how much you're setting aside each month. The calculator doesn't just tell you what your savings balance will be in the future — it tells you what that balance, and your income, will actually buy once rising prices have taken their cut. Enter the defaults ($50,000 in savings, $75,000 income, 3.5% inflation, 2.5% raises, $500/month contributions) and you'll see purchasing power fall from $50,000 today to roughly $25,128 in 20 years, even though the account statement would show growth from the monthly contributions alone. That distinction — nominal dollars versus real purchasing power — is the entire point of the tool.</p>
+  </div>
+  <div class="info-section">
+    <h2>The Compound Math Behind Every Result</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Purchasing power erosion follows the same compounding logic as investment growth, just running in reverse: Future Purchasing Power = Present Value ÷ (1 + Inflation Rate)^Years. Because the divisor compounds, losses accelerate the longer money sits idle. The Rule of 72 gives a fast approximation of how long that erosion takes to reach the halfway point: 72 ÷ inflation rate. At 3% long-run average U.S. inflation, that's 24 years; at the roughly 8% spike the U.S. saw in 2022, it's just 9 years. Concretely: $50,000 today, eroded by 3% annual inflation for 20 years, buys the equivalent of about $50,000 ÷ 1.03^20 ≈ $27,684 in today's terms — a roughly 45% loss of purchasing power even though the dollar figure never changed; at 6% inflation the same 20 years cuts it to about $15,594, a 69% loss. Double the inflation rate and you don't just double the damage — you very nearly triple it, because the erosion compounds exponentially, not linearly.</p>
+  </div>
+  <div class="info-section">
+    <h2>Why Income Gap and Wealth Erosion Tell a Fuller Story Than a Bank Balance</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">A rising paycheck feels like progress, but it's only real progress if it outruns inflation. The Income Gap figure compares your income grown at your expected raise rate against the income you'd need to maintain today's purchasing power — using the defaults, a 2.5% raise against 3.5% inflation leaves you roughly $9,789 short of keeping pace by year 10, a real pay cut disguised as a raise. This is a different question from nominal versus real investment returns, though the arithmetic is identical: a savings account paying 4% against 3.5% inflation nets a real return of only about 0.5%, while cash earning nothing at all loses ground at the full inflation rate every year. The Total Wealth Erosion figure adds up that gap across your nominal savings and contributions, converting an abstract percentage into a dollar amount you can plan around.</p>
+  </div>
+
 
   <!-- Calculator -->
   <div class="calc-card">
@@ -393,44 +429,78 @@ footer a:hover{color:#fff}
   
 
   <!-- How To Use -->
-  
+    <div class="info-section">
+    <h2>How to Use This Calculator</h2>
+    <ol style="margin-left:20px;margin-bottom:12px">
+      <li style="margin-bottom:8px"><strong>Enter Your Current Savings:</strong> Type in the total dollar amount you currently hold in savings, checking, or similar cash-equivalent accounts — this is the balance that gets discounted for inflation at each time horizon.</li>
+      <li style="margin-bottom:8px"><strong>Enter Your Annual Income:</strong> Enter your current gross annual income. This figure anchors the Income Gap calculation, which compares it against an inflation-adjusted income target.</li>
+      <li style="margin-bottom:8px"><strong>Set Your Expected Inflation Rate:</strong> Enter the annual inflation rate you want to model, from 0.5% to 15%. Try the long-run U.S. average near 3% first, then a higher rate like 6-8% to see a worse-case scenario.</li>
+      <li style="margin-bottom:8px"><strong>Set Your Expected Annual Raise:</strong> Enter the average yearly raise you expect for your income, as a percentage. This is compared against your inflation rate to calculate the Income Gap at year 10.</li>
+      <li style="margin-bottom:8px"><strong>Enter Your Monthly Savings Contribution:</strong> Enter how much you add to savings each month. This amount is factored into the Total Wealth Erosion figure, since new contributions are worth less in real terms with each year that passes before they're added.</li>
+      <li style="margin-bottom:8px"><strong>Review Your Results:</strong> Check Purchasing Power at 1, 5, 10, and 20 years, the Income Gap at 10 Years, and Total Wealth Erosion at 20 Years together — the first shows what's happening to money you already have, the second shows whether your paycheck is keeping pace, and the third puts a single dollar figure on the combined effect.</li>
+    </ol>
+  </div>
 
   <!-- How It Works -->
     <div class="calc-card">
     <h2>How It Works</h2>
-    <p style="margin-bottom:12px">This inflation purchasing power calculator uses established formulas to provide accurate results.</p>
+    <p style="margin-bottom:12px">Purchasing power is what your money can actually buy, not the number printed on a statement. This calculator takes your current savings, annual income, expected inflation rate, expected annual raise, and monthly contribution, then runs each figure through the compound inflation formula to show what today's savings and monthly contributions will really be worth in 1, 5, 10, and 20 years — and whether your raises are keeping pace with rising prices or quietly losing ground.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
       <li>Real Purchasing Power = Nominal Value / (1 + Inflation Rate)^Years</li>
       <li>Income Gap = Income Needed (inflation-adjusted) - Projected Income (raise-adjusted)</li>
       <li>Total Erosion = Nominal Savings - Real Purchasing Power</li>
     </ul>
-    <p style="font-size:0.9rem;color:var(--text-light)">Results are estimates. Consult a professional for critical decisions.</p>
+    <p style="font-size:0.9rem;color:var(--text-light)">These projections hold the inflation rate and raise rate constant for the full period, which real life rarely does — U.S. inflation sat near 2% for most of the 2010s, spiked to roughly 8% in 2022, and hit double digits in the late 1970s and early 1980s. Rerun the calculator at a higher and a lower inflation assumption to see the spread of outcomes, and treat the results as planning estimates rather than guarantees; for decisions involving retirement accounts or large purchases, a fee-only financial planner can weigh in your full tax and account picture.</p>
   </div>
 
   <!-- ADEM Promo -->
   
 
   <!-- Tips -->
-  
+    <div class="info-section">
+    <h2>Tips &amp; Considerations</h2>
+    <ul>
+      <li style="margin-bottom:8px">Run the calculator twice — once at the long-run U.S. average of about 3%, once at a stress-test rate like 6-8% — to see how sensitive your plan is to a bad inflation decade.</li>
+      <li style="margin-bottom:8px">Compare your actual raise history over the last 3-5 years against the inflation rate you enter; if raises have consistently lagged, your real income has already been shrinking.</li>
+      <li style="margin-bottom:8px">Treat the 20-year Purchasing Power figure as a floor, not a forecast — it assumes zero investment growth on your savings, so it understates outcomes for money that's actually invested.</li>
+      <li style="margin-bottom:8px">Use the Income Gap result in raise negotiations — a dollar figure is harder to wave away than an abstract inflation percentage.</li>
+      <li style="margin-bottom:8px">Re-run the numbers whenever the headline CPI report changes meaningfully; a swing from 3% to 6% roughly doubles your purchasing-power losses at every time horizon.</li>
+    </ul>
+  </div>
 
   <!-- FAQ -->
     <div class="faq-section">
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>How does inflation erode purchasing power?</h3>
-      <p>At 3% inflation, prices double roughly every 24 years. Your $100 today buys only $74 worth of goods in 10 years and $55 in 20 years. Money sitting in a low-yield savings account loses real value every year.</p>
+      <h3>Why does my $50,000 in savings show as worth less in 20 years if I never touch it?</h3>
+      <p>The account balance itself doesn't shrink — you still hold $50,000. What shrinks is what those dollars can buy. At the calculator's default 3.5% inflation rate, $50,000 ÷ 1.035^20 ≈ $25,128 in today's purchasing power after 20 years, a roughly 50% loss, because the same goods that cost $50,000 now will cost close to $99,000 by then. Nominal balance and real purchasing power are two separate numbers, and the Purchasing Power results report the second one.</p>
     </div>
 
     <div class="faq-item">
-      <h3>What is the real inflation rate vs official CPI?</h3>
-      <p>The official CPI may understate actual cost increases for essentials. Housing, healthcare, and education have historically risen faster than headline CPI. Many economists estimate true cost-of-living increases are 1-2% higher than reported CPI.</p>
+      <h3>How is the Income Gap at 10 Years actually calculated?</h3>
+      <p>It compares two projections of your annual income: what your income would need to be to keep up with inflation, versus what it will actually be if it only grows at your expected raise rate. Using the calculator's defaults — $75,000 income, 3.5% inflation, 2.5% average raise — income would need to reach about $105,795 by year 10 just to maintain today's standard of living, but raise-adjusted income only reaches about $96,006. That roughly $9,789 annual shortfall is the Income Gap: real ground lost even though the paycheck is objectively bigger.</p>
     </div>
 
     <div class="faq-item">
-      <h3>How can I protect against inflation?</h3>
-      <p>Invest in assets that historically outpace inflation: equities (7-10% historical real return), real estate, TIPS (Treasury Inflation-Protected Securities), I-Bonds, and commodities. Holding excess cash is the worst strategy during high inflation.</p>
+      <h3>What is the Rule of 72 and how does it apply to inflation?</h3>
+      <p>Divide 72 by the inflation rate to estimate how many years it takes for prices to double, or equivalently for a fixed sum of money to lose half its purchasing power. At the calculator's default 3.5%, that's 72 ÷ 3.5 ≈ 20.6 years. At 3% (the long-run U.S. average) it's 24 years; at 6% it drops to 12 years; at the roughly 8% inflation the U.S. saw in mid-2022, it's just 9 years. The rule is an approximation, not an exact formula, but it's accurate enough for quick mental math.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How does U.S. inflation history compare to the rates I can enter here?</h3>
+      <p>The Consumer Price Index has averaged close to 3% per year over the long run, but the path has been anything but smooth: inflation ran under 2% for most of the 2010s, spiked to about 8% year-over-year in mid-2022 as pandemic-era demand and supply shocks collided, and reached double digits — over 13% in 1980 — during the stagflation years of the late 1970s and early 1980s. The calculator's 0.5%-15% input range is built to cover that full historical spread, so you can stress-test your numbers against both a calm decade and a genuinely bad one.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is a 2.5% annual raise enough to keep up with inflation?</h3>
+      <p>Only if inflation stays at or below 2.5%. Whenever your raise rate is lower than the inflation rate you enter, your real income is shrinking even as your nominal paycheck grows — that gap is exactly what the Income Gap result measures. Any year inflation spikes above your raise rate, as it did broadly in 2021-2022, you take a real pay cut without your employer changing a single number on your paystub.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How is this different from looking at investment returns after inflation?</h3>
+      <p>The same math applies, but the sign matters. A savings account paying 4% APY against 3.5% inflation nets a real return of only about 0.5% a year — barely ahead of erosion. Cash that isn't earning at least the inflation rate is a guaranteed loser in real terms, which is why this calculator's wealth-erosion figures on uninvested savings tend to look worse than an equivalent amount invested in assets that have historically outpaced inflation, like diversified stock portfolios or Treasury Inflation-Protected Securities (TIPS).</p>
     </div>
 
   </div>

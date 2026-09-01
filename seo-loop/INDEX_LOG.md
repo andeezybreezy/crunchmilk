@@ -5,6 +5,91 @@ anything. This is what makes the loop compound instead of repeating itself.
 
 ---
 
+## Run 2 — 2026-09-01 — Finish the demand tier (final 19 pages) + no fresh GSC data
+
+**Data status:** No new export landed in `seo-loop/data/` since Run 1e — the
+newest folder is still `2026-07-13`, the same one every prior run used. Per
+the contract, this run proceeded on on-page reasoning rather than fresh GSC
+numbers. **This is now the second run in a row without fresh data — flag
+prominently for Andy: drop a new GSC export (Performance + Indexing) into
+`seo-loop/data/<today>/` before the next run, or the loop can't verify
+whether Runs 1–1e actually moved the indexed-count needle.**
+
+**Did last run's changes (Runs 1–1e, 75 pages) improve?** Cannot verify —
+no post-Run-1e GSC export exists yet. Indexed count, impressions, and
+position for the 75 previously de-templated pages are unknown deltas. This
+is the single most important open question for the next run.
+
+**Hypothesis:** Same as prior runs — de-templating the remaining
+highest-impression pages should make them eligible for indexing. This run
+targeted the last ~19-page tail of the ~99-page demand list (Pages.csv,
+2026-07-13 export), finishing that list completely.
+
+**Shipped (branch `seo-loop/2026-09-01`, 19 pages):**
+shotgun-choke-spread, halloween-candy-cost, stock-market-drop-401k,
+daily-mood-score, candle-wax, heat-index, fuel-hedging, seed-oil-intake,
+sea-level-rise, trademark-filing-cost, diesel-cost-per-mile,
+social-connection-health, rv-campground-budget, smart-contract-gas-cost,
+inflation-purchasing-power, work-life-balance, health-insurance-premium,
+freelance-hourly-rate, australia-stamp-duty. (Skipped
+`business-idea-viability-quiz` — it's a quiz page with no `sites/configs/`
+JSON, out of scope for this tool.) 1,600–2,300 words of unique expert prose
+per page (some configs were missing 2–5 prose fields entirely — e.g.
+`howWeCalculate`/`whenToUse`/`tips`/`howToSteps` — those were added fresh,
+not just rewritten). YMYL pages (health-insurance-premium,
+stock-market-drop-401k, inflation-purchasing-power, seed-oil-intake,
+daily-mood-score, social-connection-health, trademark-filing-cost,
+australia-stamp-duty, smart-contract-gas-cost, fuel-hedging) carry natural
+"not advice, consult a professional" notes. Used 19 parallel domain-expert
+subagents (one per page), each with the actual `calculatorHTML` inputs read
+first so worked examples match the real formula/fields. Verified: all 19
+valid JSON, no protected fields (calculatorHTML/title/meta/keywords/colors/
+slug/category/toolName/etc.) touched, zero banned phrases in rendered
+output, no double-escaped HTML entities, `lastUpdated` = 2026-09-01,
+sitemap `lastmod` bumped for all 19.
+
+**Running total: 94 of ~99 demand pages de-templated — the demand tier
+identified in Run 0/1's diagnosis is now essentially exhausted.**
+(`business-idea-viability-quiz` remains as the one demand-list entry with
+no matching tool config.)
+
+**Cannibalization note (unresolved, carried from Run 1d):**
+`heat-index-calculator` (this run) and `heat-index-temperature-calculator`
+(Run 1d) still both exist and target overlapping queries. Gave them
+deliberately distinct angles this run (NWS safety-category framing vs. the
+presumed temperature-conversion framing of the other) as a stopgap, but a
+future run should still evaluate consolidating one into the other via
+canonical/301 rather than letting them compete long-term. Similarly
+`freelance-hourly-rate-calculator` (this run) and `freelance-rate-calculator`
+(Run 1) may overlap — worth checking GSC query overlap once data resumes.
+
+**DECISION — content-tier work on the original demand list is done.** With
+no fresh GSC data to confirm whether de-templating is actually moving pages
+into the index, the next run should NOT default to widening scope (e.g.
+starting the PRUNE of the ~1,800 zero-demand templated pages) without first
+seeing real evidence. Next run should check FIRST, in order:
+1. **Get a fresh GSC export.** This is now blocking — two runs have shipped
+   content changes with zero visibility into whether Google noticed.
+2. In GSC → Indexing, did any of the 94 de-templated slugs move from
+   "Discovered/Crawled – not indexed" to "Indexed"? This is the whole test
+   of the loop's core hypothesis.
+3. If indexing moved on the de-templated batch: hypothesis confirmed — move
+   to the PRUNE (noindex/cut the ~1,800 zero-demand templated pages) and/or
+   strengthen internal links into the 94 winners, per the original plan in
+   Run 1e.
+4. If indexing did NOT move despite 94 genuinely unique pages: the
+   templated-content hypothesis may be insufficient on its own — domain
+   authority (zero backlinks, ~6-month-old domain) may be the binding
+   constraint, not content quality. Consider backlink-building actions
+   (outside this repo) as the next lever rather than more content batches.
+
+**Action needed from Andy:** merge this PR, drop a fresh GSC export
+(Performance + Indexing CSVs) into `seo-loop/data/2026-09-01/` (or a more
+recent date) before the next scheduled run, and consider using "Request
+indexing" in GSC on a handful of this run's 19 URLs to prod a recrawl.
+
+---
+
 ## Run 1e — 2026-07-13 — Finish the demand tier (15 more, same day)
 
 **Shipped (branch `seo-loop/2026-07-13-e`, 15 pages):**
