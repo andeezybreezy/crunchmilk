@@ -14,100 +14,105 @@
   "jsonLdDescription": "Freelance Hourly Rate Calculator: Calculate what to charge as a freelancer. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Freelance Hourly Rate Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"targetSalary\">Target Annual Income ($)</label>\n      <input type=\"number\" id=\"targetSalary\" value=\"undefined\" min=\"20000\" max=\"500000\" step=\"5000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"billableHours\">Billable Hours per Week</label>\n      <input type=\"number\" id=\"billableHours\" value=\"undefined\" min=\"5\" max=\"45\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"weeksOff\">Weeks Off per Year</label>\n      <input type=\"number\" id=\"weeksOff\" value=\"undefined\" min=\"0\" max=\"12\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"expensesPct\">Business Expenses (%)</label>\n      <input type=\"number\" id=\"expensesPct\" value=\"undefined\" min=\"10\" max=\"50\" step=\"5\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Minimum Hourly Rate</div>\n        <div class=\"result-value\" id=\"hourlyRate\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Day Rate (8hrs)</div>\n        <div class=\"result-value\" id=\"dayRate\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly Rate</div>\n        <div class=\"result-value\" id=\"projectRate\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This freelance hourly rate calculator uses established formulas to provide accurate results.",
+    "intro": "This calculator works backward from the income you want to take home to the billable rate that actually produces it, closing the gap between a salary figure and a freelance calendar's realities.",
     "rules": [
       {
-        "name": "Hourly Rate",
-        "formula": "Rate = (Salary / (1 - Expense%)) / Billable Hours",
-        "explanation": "Target income grossed up for expenses divided by billable hours."
+        "name": "Annual Billable Hours",
+        "formula": "Billable Hours = Billable Hours per Week × (52 − Weeks Off)",
+        "explanation": "Only hours you can actually invoice count. Admin, marketing, proposal writing, and unpaid time off are excluded before the rate is ever set — they don't disappear, they just don't get billed."
+      },
+      {
+        "name": "Rate Needed Per Billable Hour",
+        "formula": "Hourly Rate = [Target Income ÷ (1 − Overhead %)] ÷ Annual Billable Hours",
+        "explanation": "Target income is grossed up to cover business overhead and the self-employment tax bite, then spread across the smaller pool of billable hours instead of total hours worked."
       }
     ],
-    "outro": "Tax laws and financial markets change frequently. Verify current rates with your financial institution."
+    "outro": "Treat the result as a floor, not a ceiling. A rate that only covers income, tax, and overhead leaves nothing for raises, slow months, or the retirement contributions a salaried job would otherwise fund on your behalf."
   },
   "faq": [
     {
-      "question": "How do I set my freelance rate?",
-      "answer": "Start with your desired salary, add expenses and taxes, divide by billable hours."
+      "question": "Why is the rate here so much higher than my target salary divided by 2,080 hours?",
+      "answer": "Because 2,080 hours assumes every hour you work gets billed, and that none of your income is lost to self-employment tax. In practice, admin, marketing, and unpaid time off typically remove 20–35% of your working hours from the billable pool, and self-employment tax takes roughly 15.3% of net earnings before overhead is even factored in. Both gaps push the real rate well above a simple salary ÷ hours figure."
     },
     {
-      "question": "What percentage of hours are billable?",
-      "answer": "Typically only 50-65% of working hours are billable - the rest is admin, marketing, etc."
+      "question": "What exactly counts as non-billable time?",
+      "answer": "Proposal writing, client communication that isn't on a paid clock, invoicing and bookkeeping, marketing and networking, professional development, and any unpaid sick days, holidays, or vacation. For most independent contractors this runs 15–30% of total working hours, even in a busy year — it's time spent running the business, not doing the billable work."
     },
     {
-      "question": "Is the Freelance Hourly Rate Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Is 15.3% the right self-employment tax figure to use?",
+      "answer": "15.3% covers the combined Social Security and Medicare portion of self-employment tax on net earnings — the cost a traditional employer would otherwise split with you. It doesn't include federal or state income tax, so your real tax-driven markup may need to run higher depending on your bracket, deductions, and state."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard financial planning formulas trusted by individuals and families. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Should health insurance count as business overhead?",
+      "answer": "Either treatment works as long as you're consistent. If you buy your own coverage, folding the premium into your overhead percentage means it gets funded by your rate directly, instead of quietly eating into the take-home income you were trying to hit."
     },
     {
-      "question": "What target annual income should I enter?",
-      "answer": "Enter the most accurate target annual income value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What if I only freelance part-time alongside a regular job?",
+      "answer": "Use a lower weekly billable-hours figure and set your target income to whatever amount you want the freelance work alone to produce. The same gross-up for self-employment tax and overhead still applies — those costs don't shrink just because the work is part-time."
     }
   ],
   "relatedTools": [],
   "howWeCalculate": {
-    "intro": "This freelance hourly rate calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "The math runs in two passes: first narrowing your total work year down to the hours you can actually invoice, then grossing up your income target to cover costs a paycheck normally absorbs for you.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Start with your target annual income — the take-home amount you're trying to replace or exceed as a freelancer.",
+      "Subtract non-billable time from your work year: client admin, marketing and outreach, proposal writing, professional development, and any unpaid sick days or vacation, to find your realistic annual billable hours.",
+      "Gross up the target income to account for self-employment tax (≈15.3% of net earnings) and recurring business overhead such as software, insurance, and equipment.",
+      "Divide the grossed-up income by your annual billable hours to get the rate each billable hour actually needs to carry."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This figure estimates the rate needed to hit an income target given your inputs. Actual tax liability depends on deductions, filing status, and state rules, so confirm numbers with an accountant before setting contracts."
   },
   "whenToUse": {
-    "intro": "This freelance hourly rate calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "This conversion matters most at the moments when you're translating a dollar goal into a number a client will actually see on an invoice.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Leaving a salaried job and trying to figure out what hourly rate replaces your old paycheck, benefits included.",
+      "Your billable utilization has dropped — more time going to proposals, admin, or marketing than last year — and your old rate no longer covers your income target.",
+      "You're about to take unpaid time off (parental leave, a sabbatical, extended travel) and need to see how fewer billable hours changes the rate on remaining work.",
+      "You're budgeting for new overhead — liability insurance, a coworking membership, new equipment — and want to know how much of that cost has to flow into your rate.",
+      "You're comparing a retainer or flat-project offer against your hourly floor to make sure it isn't quietly underpaying you."
     ]
   },
   "category": "finance",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-11-01",
   "contentIntro": {
     "sections": [
       {
-        "title": "What Is the Freelance Hourly Rate Calculator?",
-        "body": "The Freelance Hourly Rate Calculator is a free online tool designed for individuals and families who need quick, accurate calculations in the financial planning space. By entering your target annual income, billable hours per week, weeks off per year, you get instant results including minimum hourly rate, day rate, weekly rate. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork."
+        "title": "Why Dividing Salary by 2,000 Hours Shortchanges You",
+        "body": "Most freelancers price their time by picking a target income and dividing by 2,000 — the classic 40 hours × 50 weeks. That shortcut assumes every one of those 2,000 hours gets billed to a client. It never does. Between writing proposals, chasing invoices, posting on LinkedIn, learning new tools, and the week you take off sick without pay, a sizeable chunk of the work year produces zero revenue. A rate built on 2,000 hours is a rate built on a number that doesn't exist in your actual calendar."
       },
       {
-        "title": "Why This Calculation Matters",
-        "body": "Getting minimum hourly rate right can make the difference between success and costly mistakes. In financial planning, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by individuals and families worldwide, giving you confidence that your numbers are correct. Use it to manage your finances with precision and avoid common pitfalls that trip up beginners."
+        "title": "Three Gaps a Paycheck Already Closes for You",
+        "body": "Converting a target income into a billable hourly rate means closing three gaps a traditional paycheck handles quietly in the background. First, non-billable time — admin, marketing, proposals, unpaid sick days and vacation — routinely eats 15–30% of a freelancer's working hours, so the hours you can actually invoice sit well below your total hours worked. Second, self-employment tax: as a sole proprietor you cover both the employee and employer share of Social Security and Medicare, roughly 15.3% of net self-employment earnings, a cost a W-2 employer absorbs on your behalf. Third, overhead — software subscriptions, business insurance, a portion of your home office, accounting fees, equipment — expenses a salaried job simply never bills you for. Each gap has to be folded into the rate before you multiply by a single hour."
       },
       {
-        "title": "When Should You Use This Calculator?",
-        "body": "This tool is most useful when you know your target annual income and need to find the right minimum hourly rate. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup."
+        "title": "Worked Example: Turning $90,000 Into a Real Hourly Rate",
+        "body": "Say you want your freelance income to feel like a $90,000 salary. A freelancer working 40-hour weeks for 50 weeks a year has 2,000 nominal work hours — but after subtracting time spent on admin, marketing, and unpaid time off (commonly 20% of the work year), only about 1,600 of those hours are actually billable. Divide $90,000 by 2,000 and you get $45/hour — a number that looks reasonable and is quietly wrong. Instead, gross up $90,000 to cover self-employment tax (≈15.3%) and business overhead (say 10%): $90,000 ÷ (1 − 0.153 − 0.10) = $90,000 ÷ 0.747 ≈ $120,482. That's the revenue your business actually needs to collect in a year. Divide that by the 1,600 hours you can realistically bill, and the rate comes out to roughly $75.30/hour — about 67% higher than the naive $45 figure, and the number that actually funds a $90,000 lifestyle once taxes and overhead are paid."
       }
     ]
   },
   "howToSteps": [
     {
-      "title": "Enter Your Target Annual Income ($)",
-      "description": "Start by entering your target annual income — this is the primary input for the calculation."
+      "title": "Enter the income you're targeting",
+      "description": "Input the annual income figure you want your freelance work to produce — the number you're replacing or aiming for, before tax and overhead are layered on top."
     },
     {
-      "title": "Fill In Additional Details",
-      "description": "Complete the remaining fields: billable hours per week, weeks off per year, business expenses. Each value refines the calculation for greater accuracy."
+      "title": "Set your realistic billable hours per week",
+      "description": "Enter the hours you expect to actually invoice in a typical week, not your total working hours. If a third of your week goes to admin and outreach, your billable hours sit lower than your desk time."
     },
     {
-      "title": "Click Calculate",
-      "description": "Hit the Calculate button to run the numbers. Results appear instantly below."
+      "title": "Account for weeks you won't bill",
+      "description": "Enter the weeks per year you expect to take off, paid or not — vacation, illness, slow seasons. Every week off shrinks the pool of hours left to carry your income target."
     },
     {
-      "title": "Review Your Results",
-      "description": "Check your minimum hourly rate, day rate, weekly rate. Use these figures to inform your next decision or compare against alternative scenarios."
+      "title": "Add your business overhead percentage",
+      "description": "Include software, insurance, equipment, and other recurring costs as a share of revenue, then run the calculation to see the hourly rate that actually funds your target income after tax and overhead."
     }
   ],
   "tips": [
-    "Double-check your target annual income before calculating — even small input errors can significantly change your results.",
-    "Run the calculator with different values to compare scenarios and find the optimal approach for your situation.",
-    "Pay attention to both minimum hourly rate and day rate — they work together to give you the full picture.",
-    "Bookmark this page for quick access next time you need to manage your finances.",
-    "If you're unsure about your business expenses, start with a conservative estimate and adjust from there."
+    "Track your actual billable hours for a month before trusting a 'standard' utilization rate — many freelancers bill closer to 50–70% of hours worked, not the 80% often assumed.",
+    "Set aside for self-employment tax as it's earned, not at filing time — 15.3% of net profit on top of income tax adds up fast if it isn't priced into your rate from day one.",
+    "Recalculate when your overhead changes — adding health insurance, a new software subscription, or a coworking desk should flow straight into your rate, not get absorbed silently.",
+    "Price unpaid time off into your rate, not into guilt — if you want two weeks away each year, that time has to be funded by the weeks you do bill.",
+    "Revisit the rate annually rather than waiting for a client to push back — mid-negotiation is the wrong moment to discover your rate was undercosted from the start."
   ]
 }

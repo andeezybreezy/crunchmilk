@@ -5,6 +5,69 @@ anything. This is what makes the loop compound instead of repeating itself.
 
 ---
 
+## Run 2 — 2026-11-01 — Finish the demand tier (final 18) — NO FRESH DATA
+
+**Data check (do this first, honestly):** `seo-loop/data/` still has only the
+`2026-07-13` export — no newer folder was dropped since Run 1e on 2026-07-13.
+This run could NOT verify whether any of the 75 previously-shipped pages
+(Runs 1/1b/1c/1d/1e) moved from "discovered/crawled — not indexed" to
+"Indexed," and could NOT check impressions/position movement. **That check
+is still the most important thing for the next run to do, and it has now
+been deferred across two runs.** Andy: please drop a fresh GSC export
+(Performance `Pages.csv`/`Queries.csv` + Indexing export) into
+`seo-loop/data/<today>/` before the next run — the loop is flying blind on
+its primary metric without it.
+
+**Hypothesis:** With no new data to react to, the highest-value, lowest-risk
+move is to finish the one well-defined task already queued from Run 1e: the
+~18-page tail of 1–2-impression demand pages that was explicitly left for
+"the monthly routine." Completing it closes out the content-tier lever
+entirely, so whatever the next data pull shows, we'll know the content tier
+is 100% done and any remaining non-indexing is NOT explained by "some pages
+still templated."
+
+**Shipped (branch `seo-loop/2026-11-01`, 18 pages — the full remaining tail
+from `Pages.csv`'s 1–2 impression rows, mapped to existing configs):**
+halloween-candy-cost, shotgun-choke-spread, stock-market-drop-401k,
+daily-mood-score, candle-wax, fuel-hedging, seed-oil-intake, sea-level-rise,
+trademark-filing-cost, diesel-cost-per-mile, social-connection-health,
+rv-campground-budget, smart-contract-gas-cost, inflation-purchasing-power,
+work-life-balance, health-insurance-premium, freelance-hourly-rate,
+australia-stamp-duty. Each page's present prose fields only (some configs
+only had contentIntro/howItWorks/faq — those fields only) were rewritten into
+800+ words (most landed 1,300–2,400 words) of genuinely unique, topic-expert
+content with a concrete worked example with real numbers each. YMYL pages
+(daily-mood-score, seed-oil-intake, social-connection-health,
+work-life-balance, health-insurance-premium) carry natural, non-boilerplate
+not-a-diagnosis/not-advice framing. All 18 configs verified valid JSON, zero
+banned boilerplate phrases in rendered `output/<slug>/index.html`, real
+Unicode math symbols (no HTML entities). `lastUpdated` set to 2026-11-01;
+sitemap rebuilt (lastmod bump → recrawl signal).
+
+**Running total: 93 of ~99 demand pages de-templated — the content tier is
+now effectively complete.** One page was deliberately skipped, not missed:
+`heat-index-calculator` duplicates `heat-index-temperature-calculator`
+(already de-templated in Run 1d) — per the standing cannibalization note
+below, it needs a 301/canonical consolidation, not a second unique rewrite,
+and that's still unresolved.
+
+**DECISION — this closes the content-tier era.** Per Run 1e's plan, the next
+lever is the PRUNE: ~1,800 zero-impression templated pages are index bloat
+diluting crawl budget/site-quality signal. **Next run should, in order:**
+1. Check the (hopefully by-then fresh) GSC data: did indexed count move off
+   1? Did any of the 93 de-templated pages flip to "Indexed"? This is the
+   whole ballgame and has now been unchecked for 2+ runs.
+2. If indexed count is still ~1 despite 93 genuinely unique pages, that is
+   itself a strong signal the content tier alone isn't sufficient — proceed
+   to design the `noindex` capability (config flag → base template
+   `<meta robots noindex>`) and apply it to a first batch of the
+   lowest-value templated pages, staged as its own PR for a human look
+   (per the guardrail: consequential, reversible, needs a human eyeball).
+3. Resolve the heat-index-calculator / heat-index-temperature-calculator
+   duplicate (canonical or 301 one into the other).
+
+---
+
 ## Run 1e — 2026-07-13 — Finish the demand tier (15 more, same day)
 
 **Shipped (branch `seo-loop/2026-07-13-e`, 15 pages):**
