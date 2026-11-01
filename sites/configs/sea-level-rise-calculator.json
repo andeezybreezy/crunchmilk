@@ -14,34 +14,34 @@
   "jsonLdDescription": "Sea Level Rise Calculator: Estimate flood risk from projected sea level rise. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Sea Level Rise Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"elevation\">Property Elevation (feet above sea level)</label>\n      <input type=\"number\" id=\"elevation\" value=\"10\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"scenario\">Climate Scenario</label>\n      <select id=\"scenario\"><option value=\"low\">Low Emissions (1 ft by 2100)</option><option value=\"moderate\" selected>Moderate (2 ft by 2100)</option><option value=\"high\">High Emissions (4 ft by 2100)</option><option value=\"extreme\">Extreme (6+ ft by 2100)</option></select>\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"yearTarget\">Target Year</label>\n      <input type=\"number\" id=\"yearTarget\" value=\"2060\" min=\"2030\" max=\"2100\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Projected Rise by Target Year</div>\n        <div class=\"result-value\" id=\"projectedRise\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Safety Margin</div>\n        <div class=\"result-value\" id=\"margin\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Risk Level</div>\n        <div class=\"result-value\" id=\"riskLevel\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This sea level rise calculator uses established formulas to provide accurate results.",
+    "intro": "This calculator layers three inputs — current elevation, a chosen emissions scenario, and a target year — onto NOAA's published sea level rise curves, then checks the result against a storm surge allowance to produce a flood margin and a risk label.",
     "rules": [
-      "Rise projection scaled linearly from 2020 baseline to 2100 target",
-      "NOAA scenarios: Low (1ft), Intermediate (2ft), High (4ft), Extreme (6.5ft) by 2100",
-      "Storm surge adds 3-15+ feet on top of sea level during hurricanes"
+      "Rise is interpolated along NOAA's 2022 scenario curves rather than a straight line from a 2020 baseline to the 2100 endpoint, since ice-sheet contributions accelerate instead of growing at a constant rate",
+      "Scenario endpoints by 2100: Low ≈1 ft (0.3 m), Moderate ≈2 ft (0.6 m), High ≈4 ft (1.2 m), Extreme ≈6.5 ft (2.0 m) — spanning the IPCC likely range plus its low-confidence high-end tail",
+      "A storm surge allowance (roughly 3–15+ ft depending on storm category and local bathymetry) is added on top of the baseline projection, because the worst coastal flooding happens when a surge rides on an already-elevated sea, not during calm weather"
     ],
-    "outro": "Energy costs and incentives change by region and season. Check with your local utility for current rates."
+    "outro": "These figures describe open-ocean projections only. Your actual exposure also depends on local subsidence or uplift, levees and seawalls, and the shape of your specific shoreline — none of which a global curve can capture, so treat the output as a starting estimate rather than a substitute for a site-specific flood study."
   },
   "faq": [
     {
-      "question": "How much will sea levels rise?",
-      "answer": "NOAA projects 1-6.5 feet of rise by 2100 depending on emissions. The current rate is ~3.6mm/year and accelerating. Even under best-case scenarios, at least 1 foot of rise is locked in from ice already melting."
+      "question": "How much is global sea level actually projected to rise by 2100?",
+      "answer": "IPCC AR6's likely range runs from about 0.28–0.55 m (roughly 1–1.8 ft) under a low-emissions pathway to 0.63–1.01 m (about 2–3.3 ft) under a high-emissions pathway, measured against 1995–2014 levels, with a low-confidence possibility above 1.5 m if West Antarctic ice-sheet collapse accelerates faster than current models capture. The rate is already running near 4 mm/year globally and increasing, and a meaningful amount of this century's rise is already locked in from heat the ocean has absorbed."
     },
     {
-      "question": "What areas are most at risk?",
-      "answer": "South Florida, Louisiana Gulf Coast, Chesapeake Bay, NYC metro, and Pacific islands face the highest risk. Any coastal area below 10 feet elevation should plan for eventual flooding impacts."
+      "question": "Why does my local flood risk differ from the global average?",
+      "answer": "Global figures describe eustatic (ocean-volume) change only. What floods your street is relative sea level — eustatic rise plus local land motion. Coastal Louisiana, parts of Texas, and the Chesapeake subside several millimeters a year from sediment compaction and groundwater withdrawal, roughly doubling or tripling their effective local rise, while parts of coastal Alaska are still rebounding from Ice Age glacial unloading and can see relative sea level hold flat or even fall. That is why FEMA flood maps and nearby tide-gauge records matter more for any one address than a global average ever will."
     },
     {
-      "question": "Does this account for storm surge?",
-      "answer": "No — this shows baseline sea level only. Hurricane storm surge adds 3-15+ feet. A Category 3 hurricane with 3 feet of sea level rise could push water 18+ feet above current sea level in vulnerable areas."
+      "question": "Does this calculator include storm surge?",
+      "answer": "Yes, as a separate allowance layered on top of the baseline rise projection — surge is a short-lived, event-driven spike, not part of the long-term trend. A Category 3 storm can push surge of roughly 9–12 ft in vulnerable Gulf Coast geography, while a smaller tropical storm might add only 3–5 ft. In the worked example above, a property at 4 ft elevation facing 1.6 ft of projected rise plus a 3.3 ft surge ends up roughly 0.9 ft underwater during that event, even though the long-term rise alone looked manageable."
     },
     {
-      "question": "Is the Sea Level Rise Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
-    },
+      "question": "Is this a substitute for a FEMA flood map or elevation certificate?",
+      "answer": "No. FEMA Flood Insurance Rate Maps and surveyed elevation certificates are the regulatory, legally referenced documents for insurance, permitting, and lending, and they incorporate local topography, levees, and historical flood data at a resolution no global calculator can match. Use this tool to frame a long-range planning question, then confirm anything financially or legally significant against your parcel's actual flood zone designation."
+            },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "How reliable are these numbers?",
+      "answer": "They're grounded in published NOAA and IPCC scenario curves, but every projection carries real uncertainty — future emissions are a policy choice, not a physical constant, and ice-sheet dynamics in Antarctica remain one of the least-constrained variables in the climate system. Treat the output as a scientifically informed estimate with a wide error range, especially toward the century's end and under the higher-emissions scenarios, not as a prediction of the exact water level at your property in any given year."
     }
   ],
   "relatedTools": [

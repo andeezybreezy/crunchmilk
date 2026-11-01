@@ -14,61 +14,61 @@
   "jsonLdDescription": "Daily Mood Tracker Score Calculator: Track and score your daily mood patterns. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Daily Mood Tracker Score Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"overallMood\">Overall Mood (1-10)</label>\n      <input type=\"number\" id=\"overallMood\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"anxiety\">Anxiety Level (1-10)</label>\n      <input type=\"number\" id=\"anxiety\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"energy\">Energy Level (1-10)</label>\n      <input type=\"number\" id=\"energy\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"sleepQuality\">Sleep Quality (1-10)</label>\n      <input type=\"number\" id=\"sleepQuality\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n    <div class=\"input-group\">\n      <label for=\"socialConnection\">Social Connection (1-10)</label>\n      <input type=\"number\" id=\"socialConnection\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Wellness Score</div>\n        <div class=\"result-value\" id=\"score\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Assessment</div>\n        <div class=\"result-value\" id=\"assessment\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This daily mood tracker score calculator uses established formulas to provide accurate results.",
+    "intro": "The wellness score is a composite of five same-day self-report ratings, built so each dimension pulls the total in the direction that matches how a good or bad day actually feels.",
     "rules": [
       {
-        "name": "Wellness Score",
+        "name": "Composite Wellness Score",
         "formula": "Score = (Mood + (11-Anxiety) + Energy + Sleep + Social) / 50 × 100",
-        "explanation": "Five-factor composite with anxiety inverted (lower is better)."
+        "explanation": "Mood, energy, sleep quality, and social connection are summed directly; anxiety is subtracted from 11 first, so a lower anxiety rating contributes a higher number instead of a lower one. The five adjusted values (each 1–10) are divided by the maximum possible total of 50 and expressed as a percentage."
       }
     ],
-    "outro": "Results are estimates based on standard formulas. Verify with current local data for your specific situation."
+    "outro": "Because every input is a same-day self-rating, the score reflects how today compares with other days you've logged — not an absolute clinical benchmark. Its real value comes from looking at a string of these numbers side by side, not any single reading."
   },
   "faq": [
     {
-      "question": "Why track mood daily?",
-      "answer": "Tracking reveals patterns, triggers, and trends that help you manage mental health proactively."
+      "question": "Is this the same as a clinical depression or anxiety screening?",
+      "answer": "No. Clinical tools like the PHQ-9 or GAD-7 use fixed item sets and scoring thresholds that were developed and validated specifically for screening. This calculator is a simpler self-report composite meant for personal tracking — useful for spotting your own patterns, not for diagnosing a mood or anxiety disorder. If you're consistently scoring low, or having thoughts of self-harm, please talk to a doctor or therapist rather than relying on this number."
     },
     {
-      "question": "What affects mood most?",
-      "answer": "Sleep, exercise, social connection, and stress are the biggest controllable mood factors."
+      "question": "Why rate five things instead of just one overall mood number?",
+      "answer": "A single 1–10 mood rating is quick to log but tells you little about why a day was good or bad. Separating out anxiety, energy, sleep quality, and social connection lets you see which specific factor is moving alongside your mood — for a lot of people it's sleep debt, for others it's social contact, and the breakdown is more informative than the total on its own."
     },
     {
-      "question": "Is the Daily Mood Tracker Score Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Does the time of day I fill this in matter?",
+      "answer": "Yes, to some degree. Mood and energy both follow a rough circadian pattern — generally lower on waking and late in the evening, higher in late morning and afternoon for most people. Rating at a consistent time, or explicitly rating 'the day so far' at a fixed point each evening, keeps your scores comparable to each other, which matters more than any single day's exact number."
+      },
+    {
+      "question": "How many days of tracking before patterns become meaningful?",
+      "answer": "Most people start seeing genuine patterns after two to four weeks of fairly consistent entries. One weekend, or even one rough week, usually isn't enough to separate a real trend from ordinary day-to-day variation — especially around something like a sleep-debt dip that resolves on its own once you catch up on rest."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard mental health and wellness formulas trusted by individuals seeking balance. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
-    },
-    {
-      "question": "What overall mood should I enter?",
-      "answer": "Enter the most accurate overall mood value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What counts as a 'good' score?",
+      "answer": "There isn't a universal cutoff, which is part of why this isn't a diagnostic tool. Your own baseline matters more than the absolute number — if you typically score in the 60s and a run of days drops into the 30s and stays there, that shift is the meaningful signal, not whether 34 or 58 is 'good' in some general sense."
     }
   ],
   "relatedTools": [],
   "howWeCalculate": {
-    "intro": "This daily mood tracker score calculator uses established formulas and current data to provide accurate estimates.",
+    "intro": "To see the five-factor formula in action, take a hypothetical week where someone logs Mood, Anxiety, Energy, Sleep quality, and Social connection every evening. Monday and Tuesday look ordinary: scores of 70 and 60. Wednesday, after two short nights in a row, Sleep quality drops to 4 and Energy to 4, and the composite falls to 44. Thursday compounds the sleep debt further — Sleep quality 3, Energy 3, Anxiety climbing to 7 — and the score bottoms out at 34, the week's low point. Friday brings partial recovery (52), and after two nights of genuinely restorative sleep over the weekend (Sleep quality 9 and then 8), Saturday and Sunday both land at 74. The week's average works out to (70+60+44+34+52+74+74) ÷ 7 ≈ 58.3 — but the average hides the real finding: the Wednesday–Thursday trough tracks almost exactly with the two worst nights of sleep that week, landing a day before the lowest mood readings. That lag is the kind of pattern a single day's number can never show you.",
     "steps": [
-      "Enter your specific values into the calculator fields above",
-      "Our algorithm applies the relevant formulas using your inputs",
-      "Results are calculated instantly in your browser — nothing is sent to a server",
-      "Review the detailed breakdown to understand how each factor affects your result"
+      "Rate each of the five dimensions against the same reference point in your day — most people get the most comparable results by rating at a fixed time or as an end-of-day summary, since mood genuinely shifts across morning, afternoon, and evening.",
+      "Anxiety is flipped automatically (11 minus your rating) before anything is added, so you simply enter how anxious you felt — there's no need to invert it yourself.",
+      "The five adjusted values are summed and divided by 50, the maximum possible total, then multiplied by 100 to produce a 0–100 score you can compare day to day.",
+      "The calculation runs entirely in your browser against the numbers you typed in; nothing you enter is stored or transmitted, which matters for something as personal as mood data."
     ],
-    "disclaimer": "These calculations are estimates based on standard formulas. For critical decisions, always consult a qualified professional."
+    "disclaimer": "This number describes a pattern in your own same-day ratings — it isn't a diagnostic instrument, carries no clinical cutoff, and can't substitute for an evaluation by a therapist or physician. Think of it as a self-reflection and tracking aid, nothing more."
   },
   "whenToUse": {
-    "intro": "This daily mood tracker score calculator is designed for anyone who needs quick, reliable estimates.",
+    "intro": "Daily mood scoring tends to be most informative in a few specific situations, rather than as a constant background metric you check without a reason.",
     "scenarios": [
-      "When you need a quick estimate before committing to a purchase or project",
-      "When comparing different options or scenarios side by side",
-      "When planning a budget and need to understand potential costs",
-      "When you want to verify a quote or estimate you've received",
-      "When teaching or learning about the concepts behind these calculations"
+      "Starting or adjusting a medication or therapy approach, where you and a clinician want day-by-day data instead of relying on memory at a monthly appointment",
+      "Working through a stretch of poor sleep, shift work, or travel across time zones, to see how directly sleep debt is showing up in your mood and energy",
+      "Rebuilding a routine after a stressful period, to check whether exercise, social plans, or a steadier sleep schedule are actually moving your scores rather than just assuming they help",
+      "Noticing a recurring low point tied to a day of the week, a menstrual cycle phase, or a season — a few weeks of logged scores can confirm or rule out a pattern you've only half-noticed",
+      "Preparing for a therapy or psychiatry appointment, where a run of daily scores gives a clinician more to work with than a single 'I've been okay, I guess'"
     ]
   },
   "category": "mental-health",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-11-01",
   "contentIntro": {
     "sections": [
       {
