@@ -14,36 +14,46 @@
   "jsonLdDescription": "Health Insurance Premium Calculator: Estimate your ACA marketplace health insurance premium. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Health Insurance Premium Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"income\">Annual Income ($)</label>\n      <input type=\"number\" id=\"income\" value=\"undefined\" min=\"10000\" max=\"500000\" step=\"1000\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"age\">Age</label>\n      <input type=\"number\" id=\"age\" value=\"undefined\" min=\"18\" max=\"64\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"familySize\">Family Size</label>\n      <input type=\"number\" id=\"familySize\" value=\"undefined\" min=\"1\" max=\"10\" step=\"1\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"tier\">Plan Tier</label>\n      <select id=\"tier\"><option value=\"Bronze\" selected>Bronze</option><option value=\"Silver\">Silver</option><option value=\"Gold\">Gold</option><option value=\"Platinum\">Platinum</option><option value=\"tier\">tier</option></select>\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Monthly Premium</div>\n        <div class=\"result-value\" id=\"monthlyPremium\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual Premium</div>\n        <div class=\"result-value\" id=\"annualPremium\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Estimated Subsidy</div>\n        <div class=\"result-value\" id=\"subsidy\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This health insurance premium calculator uses established formulas to provide accurate results.",
+    "intro": "The calculator works backward from the two levers that actually move an ACA marketplace bill: age and income. It starts with a baseline sticker premium for the metal tier you select, then applies an age-rating multiplier — insurers are permitted to charge their oldest enrollees (64) up to 3× what they charge their youngest adult enrollees (21) for the identical plan in the identical rating area, scaled smoothly by age in between. Family size adds each additional enrollee's own age-rated cost rather than a flat multiplier, which is how real marketplace billing works for adults (children are rated differently and the ACA caps how much a plan can count toward the total for the third and later child). Once the gross (sticker) premium is set, the tool estimates a premium tax credit by comparing your household income, expressed as a percentage of the federal poverty level (FPL), against a sliding applicable-percentage scale — the lower your income sits relative to FPL, the smaller the share of it you're expected to put toward a benchmark Silver plan, and the larger the subsidy that covers the rest.",
     "rules": [
       {
-        "name": "Premium",
-        "formula": "Premium = Base × Age Factor × Family Size Factor - Subsidy",
-        "explanation": "Adjusted base premium minus any applicable subsidies."
+        "name": "Gross premium",
+        "formula": "Gross premium = Tier base rate × Age-rating factor (up to 3× from age 21 to 64) + additional family members' own age-rated premiums",
+        "explanation": "Each metal tier has its own base rate because it targets a different actuarial value — the share of an average population's medical costs the plan picks up: about 60% for Bronze, 70% for Silver, 80% for Gold, and 90% for Platinum. Higher actuarial value means a higher gross premium and lower cost-sharing (deductibles, copays) when you use care."
+      },
+      {
+        "name": "Premium tax credit (subsidy)",
+        "formula": "Subsidy ≈ Benchmark Silver premium − (Household income × Applicable % ÷ 12)",
+        "explanation": "The applicable percentage rises as your income climbs further above 100% of the federal poverty level — it is not a flat rate. The resulting dollar subsidy is fixed for the year and can be applied to any metal tier, not just Silver, which is why picking a cheaper Bronze plan with the same subsidy can sometimes bring the net premium close to $0, while applying it to a pricier Gold plan narrows but doesn't erase the gap."
+      },
+      {
+        "name": "Net premium",
+        "formula": "Net premium = Gross premium − Subsidy (floored at $0)",
+        "explanation": "This is the number that would actually appear on a monthly invoice if the underlying inputs matched a real plan exactly — which, given regional pricing differences, they usually won't."
       }
     ],
-    "outro": "Insurance rates depend on many individual factors. Get personalized quotes from licensed providers."
+    "outro": "Everything above is a planning estimate, not an actual quote. Real ACA marketplace premiums are set at the county and insurer level — two people with identical age and income living a few counties apart can see meaningfully different benchmark premiums and subsidy amounts. Before budgeting around a number, confirm it against the actual plans listed for your ZIP code at healthcare.gov or your state's own exchange."
   },
   "faq": [
     {
-      "question": "Do I qualify for a subsidy?",
-      "answer": "If your income is below 400% of the federal poverty level, you may qualify for premium tax credits."
+      "question": "Why does the subsidy depend on my income as a percent of the federal poverty level, not just my raw income?",
+      "answer": "Because the ACA's sliding-scale formula is built around the federal poverty level (FPL) for your household size, not a dollar income bracket. For a single adult, 100% of FPL is roughly $15,000 to $15,700 depending on the year (add roughly $5,000 to $5,500 per additional household member). Your subsidy eligibility and the applicable percentage you're expected to contribute are both set by where your income falls on that FPL scale — so a $40,000 income means something very different for a household of one versus a household of four."
     },
     {
-      "question": "What plan tier should I choose?",
-      "answer": "Bronze for low premiums/high deductibles, Silver for subsidies, Gold/Platinum for frequent care."
+      "question": "Which plan tier should I pick — Bronze, Silver, Gold, or Platinum?",
+      "answer": "It depends on how much care you expect to use and whether you qualify for cost-sharing reductions. Bronze (about 60% actuarial value) has the lowest premium and the highest deductible, which can suit someone healthy who mainly wants protection from a worst-case bill. Silver (about 70%) is the tier that matters most if you're subsidy-eligible, because premium tax credits are calculated off the benchmark Silver plan, and only Silver plans unlock additional cost-sharing reductions for incomes under roughly 200–250% of FPL. Gold (about 80%) and Platinum (about 90%) trade a higher monthly premium for lower costs when you actually see a doctor — worth it if you have ongoing prescriptions, a chronic condition, or expect surgery."
     },
     {
-      "question": "Is the Health Insurance Premium Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "Can you walk through an actual numbers example?",
+      "answer": "Take a single 40-year-old earning $43,000 a year, which is about 275% of the 2025 FPL used for 2026 coverage (roughly $15,650 for one person). Suppose the second-lowest-cost Silver plan (the benchmark) in their county runs $560/month, and at 275% of FPL their applicable percentage works out to about 6% of income. That caps their expected contribution at $43,000 × 6% ÷ 12 ≈ $215/month, so the monthly subsidy is about $560 − $215 = $345. If they actually enroll in a Silver plan priced at $530/month, their net premium is $530 − $345 = $185/month, or about $2,220 for the year — even though the plan's full sticker price was nearly three times that after subsidy."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard insurance planning formulas trusted by individuals and families. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why would my real quote differ from this estimate?",
+      "answer": "This tool uses a simplified, single baseline rate per tier and a generic applicable-percentage curve. Actual marketplace premiums are filed separately by every insurer, for every plan, in every county-level rating area, so two neighboring counties can show different benchmark premiums, different insurer line-ups, or different subsidy amounts. Tobacco use can also add a surcharge of up to 50% in states that allow it, and your state may run cost-sharing reduction or subsidy rules on top of the federal baseline. Treat this as a starting point for budgeting, then confirm exact numbers against plans available for your ZIP code at healthcare.gov or your state exchange."
     },
     {
-      "question": "What annual income should I enter?",
-      "answer": "Enter the most accurate annual income value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "What income figure should I enter?",
+      "answer": "Use your projected Modified Adjusted Gross Income (MAGI) for the coverage year, not last year's W-2 — marketplace subsidies are based on an estimate of this year's income, reconciled against your actual MAGI when you file taxes. If you underestimate and your income comes in higher than projected, you may have to repay part of the subsidy at tax time; if you overestimate, you may be owed additional credit. Updating your income estimate on the marketplace promptly after a raise, job change, or new contract work helps avoid a surprise reconciliation bill."
     }
   ],
   "relatedTools": [],

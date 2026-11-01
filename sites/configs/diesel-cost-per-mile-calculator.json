@@ -14,33 +14,39 @@
   "jsonLdDescription": "Diesel Fuel Cost Per Mile Calculator: Calculate your diesel fuel cost per mile for trucks, fleets, and commercial vehicles. Enter your values for instant results.",
   "calculatorHTML": "<div class=\"calc-card\">\n  <h2>Diesel Fuel Cost Per Mile Calculator</h2>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dieselPrice\">Diesel Price ($/gal)</label>\n      <input type=\"number\" id=\"dieselPrice\" value=\"4.1\" min=\"2\" max=\"8\" step=\"0.05\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"mpg\">Vehicle MPG</label>\n      <input type=\"number\" id=\"mpg\" value=\"6.5\" min=\"3\" max=\"30\" step=\"0.5\" inputmode=\"decimal\">\n    </div>\n  </div>\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"dailyMiles\">Daily Miles</label>\n      <input type=\"number\" id=\"dailyMiles\" value=\"500\" min=\"50\" max=\"1000\" step=\"50\" inputmode=\"decimal\">\n    </div>\n    <div class=\"input-group\" style=\"margin-bottom:0\">\n      <label for=\"daysPerWeek\">Days Per Week</label>\n      <input type=\"number\" id=\"daysPerWeek\" value=\"5\" min=\"1\" max=\"7\" step=\"1\" inputmode=\"decimal\">\n    </div>\n  </div>\n\n  <button type=\"button\" class=\"convert-btn\" id=\"calcBtn\">Calculate</button>\n\n  <div class=\"result\" id=\"result\" role=\"status\" aria-live=\"polite\">\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Cost Per Mile</div>\n        <div class=\"result-value\" id=\"costPerMile\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Daily Fuel Cost</div>\n        <div class=\"result-value\" id=\"dailyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Weekly Fuel Cost</div>\n        <div class=\"result-value\" id=\"weeklyCost\">—</div>\n      </div>\n      <div class=\"result-item\">\n        <div class=\"result-label\">Monthly Fuel Cost</div>\n        <div class=\"result-value\" id=\"monthlyCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-row\">\n      <div class=\"result-item\">\n        <div class=\"result-label\">Annual Fuel Cost</div>\n        <div class=\"result-value\" id=\"annualCost\">—</div>\n      </div>\n    </div>\n    <div class=\"result-tip\" id=\"resultTip\"></div>\n  </div>\n</div>",
   "howItWorks": {
-    "intro": "This diesel fuel cost per mile calculator uses established formulas to provide accurate results.",
+    "intro": "The calculator runs the same per-mile math dispatchers and fuel desks use, then scales it across your actual operating pattern.",
     "rules": [
-      "Cost per mile = diesel price / MPG",
-      "Daily cost = cost per mile × daily miles"
+      "Cost per mile = diesel price per gallon ÷ vehicle MPG",
+      "Daily fuel cost = cost per mile × daily miles",
+      "Weekly fuel cost = daily fuel cost × days per week",
+      "Monthly and annual totals extrapolate the weekly figure across roughly 4.33 weeks per month and 52 weeks per year"
     ],
-    "outro": "Results are estimates. Consult a professional for critical decisions."
+    "outro": "These are pump-price, point-in-time figures. They don't account for idle-time burn, state-to-state fuel-tax differences, or a fuel surcharge you may already be collecting from a shipper — add those separately for a true landed cost per mile."
   },
   "faq": [
     {
-      "question": "What's the average MPG for a semi truck?",
-      "answer": "A loaded Class 8 semi truck averages 5.5-6.5 MPG. Empty trucks can achieve 7-8 MPG. Newer aerodynamic models may reach 8-10 MPG."
+      "question": "What's a realistic MPG for a loaded semi truck?",
+      "answer": "A loaded Class 8 tractor-trailer typically averages 6 to 8 MPG on the highway. Empty or lightly loaded runs can reach 8-9 MPG, while mountainous terrain, strong headwinds, or an underinflated tire can drop it to 5-5.5 MPG. Aerodynamic trailer skirts and consistent tire pressure can realistically add 0.3-0.5 MPG back."
     },
     {
-      "question": "How does diesel price affect shipping costs?",
-      "answer": "Fuel is typically 30-40% of trucking operating costs. A $1/gallon increase in diesel adds roughly $0.15 per mile, or about $70-80 per day for a long-haul trucker."
+      "question": "How much does a $0.50/gallon diesel price jump cost per mile?",
+      "answer": "At 6.5 MPG, a $0.50/gallon increase adds about $0.077 per mile ($0.50 ÷ 6.5). For a truck running 11,000 miles in a month, that's roughly $847 in added fuel cost with no change to the freight rate — which is exactly the gap a fuel surcharge is meant to close."
     },
     {
-      "question": "Is the Diesel Fuel Cost Per Mile Calculator free to use?",
-      "answer": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+      "question": "How do carriers calculate fuel surcharges?",
+      "answer": "Most carriers index their fuel surcharge to the weekly U.S. average diesel price published by the EIA, compared against a baseline price built into the base linehaul rate. The difference is divided by an assumed MPG — often 6 MPG — to produce a cents-per-mile surcharge added to the rate and typically recalculated every week as diesel prices move."
     },
     {
-      "question": "How accurate is this calculator?",
-      "answer": "This calculator uses standard geopolitics and energy markets formulas trusted by analysts and informed citizens. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+      "question": "Why is diesel usually priced higher than gasoline?",
+      "answer": "Diesel carries a federal excise tax about 6 cents per gallon higher than gasoline, and diesel demand competes with heating oil during winter months, which can tighten refining supply and push prices up seasonally even when crude oil is flat. Diesel also requires more tightly refined, higher-cetane fuel, which adds production cost."
     },
     {
-      "question": "What diesel price should I enter?",
-      "answer": "Enter the most accurate diesel price value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+      "question": "How much fuel does idling burn?",
+      "answer": "A diesel engine idling to run climate control or cab accessories burns roughly 0.8 to 1 gallon per hour while covering zero miles. Two hours of nightly idling adds 1.6-2 gallons a day — at $3.80/gal, that's $6-7.60 burned before the truck ever moves, or $180-230 over a month."
+    },
+    {
+      "question": "Is fuel cost per mile the same for an owner-operator and a fleet?",
+      "answer": "No. For an owner-operator, fuel is usually the single largest variable cost, often 20-25% of per-mile revenue — ahead of maintenance, insurance, and tires. A fleet reports a blended average across many tractors, lanes, and driving habits, so a healthy fleet-wide number can still hide individual trucks running well above it."
     }
   ],
   "relatedTools": [],
