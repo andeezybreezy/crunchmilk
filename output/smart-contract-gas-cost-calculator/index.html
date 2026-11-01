@@ -49,42 +49,42 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How much does it cost to deploy a smart contract?",
+      "name": "How much gas does it actually take to deploy a smart contract?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Deployment costs depend on contract size and gas prices. A typical ERC-20 token contract costs $50-$500 at moderate gas prices."
+        "text": "It depends almost entirely on bytecode size and constructor complexity. A minimal ERC-20 using OpenZeppelin's library typically deploys for 800,000–1,200,000 gas. A simple storage or counter contract can deploy for under 200,000 gas. A full-featured protocol contract with multiple inherited modules can run 2,000,000–4,000,000+ gas. At 30 gwei and ETH at $3,200, 1,200,000 gas works out to 0.036 ETH, or $115.20 — the same bytecode at 80 gwei would cost $307.20."
       }
     },
     {
       "@type": "Question",
-      "name": "How can I reduce smart contract gas costs?",
+      "name": "Why does my ERC-20 transfer cost more gas the first time someone receives a token?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Optimize storage usage, use events instead of storage where possible, batch operations, and consider Layer 2 solutions like Arbitrum or Optimism."
+        "text": "EIP-2929 introduced 'cold' and 'warm' access costs: the first time a storage slot is touched in a transaction it costs 2,100 gas to read or 20,000 gas to write from zero, but touching it again later in the same transaction only costs 100 gas or 2,900 gas respectively. A transfer to an address that has never held the token before writes to a fresh, zero-valued balance slot, which is the more expensive cold-write path — that's the difference between a ~45,000-gas transfer and a ~65,000-gas one."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the Smart Contract Gas Cost Calculator free to use?",
+      "name": "Should I deploy on Ethereum mainnet or an L2 like Arbitrum or Optimism?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees."
+        "text": "The gas unit accounting is nearly identical — the same bytecode runs the same opcodes — but L2 gas prices are typically a fraction of a cent per unit because execution is batched and only proof data gets settled on L1. The same 1,200,000-gas deployment that costs over $100 on mainnet at moderate gas prices often costs well under $1 on a rollup. Mainnet still matters for protocols that need direct L1 liquidity or composability with L1-only contracts."
       }
     },
     {
       "@type": "Question",
-      "name": "How accurate is this calculator?",
+      "name": "Why did the same transaction cost less than I expected?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify."
+        "text": "Under EIP-1559 you set a max fee per gas as a ceiling, but you only pay the actual base fee plus your priority fee tip — the gap between your ceiling and that effective price is refunded. If the network was less congested than when you set your max fee, or the base fee dropped between blocks (it can move down up to 12.5% per block), your realized cost comes in under the worst case you budgeted for."
       }
     },
     {
       "@type": "Question",
-      "name": "What contract size should I enter?",
+      "name": "What's the single most effective way to lower my contract's gas cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Enter the most accurate contract size value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results."
+        "text": "Reduce SSTORE operations, or make the ones you keep cheaper. Writing to a zero storage slot costs 20,000 gas versus 2,900 gas for an already-set slot, so initializing variables in the constructor rather than leaving them to be set on first use, packing multiple small fields into one 32-byte slot, and replacing storage-only audit trails with emitted events typically cuts interaction gas by 30–60% without changing the contract's external behavior."
       }
     }
   ]
@@ -338,16 +338,16 @@ footer a:hover{color:#fff}
 
   <!-- Content Intro -->
     <div class="info-section">
-    <h2>What Is the Smart Contract Gas Cost Calculator?</h2>
-    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">The Smart Contract Gas Cost Calculator is a free online tool designed for users who need quick, accurate calculations in the practical calculation space. By entering your contract size, avg functions called/day, gas price, you get instant results including deployment gas, deployment cost, daily interaction cost. No formulas to memorize, no spreadsheets to build — just enter your numbers and get the answer in seconds. Whether you're a beginner or experienced professional, this calculator saves you time and eliminates guesswork.</p>
+    <h2>What the Smart Contract Gas Cost Calculator Computes</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Gas is the unit Ethereum uses to meter computation — every opcode a contract executes, from an ADD to an SSTORE, has a fixed gas cost defined in the EVM's fee schedule. Gas price is separate: since EIP-1559, you pay a base fee (burned, and set algorithmically by how full the previous block was) plus a priority fee, or tip, that goes to the validator. Your wallet sets a max fee per gas as a ceiling; you're refunded the difference between that ceiling and the actual base fee + tip. This calculator takes your contract's bytecode size in bytes and your expected daily call volume, applies the deployment cost formula (21,000 gas intrinsic + 32,000 gas for the CREATE operation + roughly 200 gas per byte of init code, plus whatever constructor logic and storage initialization your contract runs), and multiplies the resulting gas total by your gas price in gwei and current ETH/USD rate. The output splits deployment cost from the ongoing cost of calling your contract's functions, because those two numbers behave very differently as your dApp scales.</p>
   </div>
   <div class="info-section">
-    <h2>Why This Calculation Matters</h2>
-    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Getting deployment gas right can make the difference between success and costly mistakes. In practical calculation, small errors compound quickly. Manual calculations are error-prone and time-consuming, especially under pressure. This calculator applies proven formulas used by users worldwide, giving you confidence that your numbers are correct. Use it to get accurate results with precision and avoid common pitfalls that trip up beginners.</p>
+    <h2>Why Two Contracts of the Same Size Can Cost Wildly Different Amounts</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Bytecode size tells you roughly how much it costs to get a contract onto the chain, but it says almost nothing about what it costs to use afterward. A plain ETH transfer between two externally-owned accounts costs exactly 21,000 gas — that number is fixed in the protocol. An ERC-20 transfer() typically runs 45,000–65,000 gas depending on whether the recipient's balance slot is already 'warm' (touched earlier in the same transaction, per EIP-2929) and whether the token does extra bookkeeping like checkpoints for voting weight. The real cost driver is storage: writing to a previously-zero storage slot with SSTORE costs 20,000 gas, writing to an already-set slot costs 2,900 gas, and clearing a slot back to zero actually refunds gas. Reading storage with SLOAD costs 2,100 gas cold or 100 gas warm — an order of magnitude cheaper than writing. That's why a contract that writes to five storage variables on every call can cost far more per interaction than a much larger contract that only reads state and emits events.</p>
   </div>
   <div class="info-section">
-    <h2>When Should You Use This Calculator?</h2>
-    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">This tool is most useful when you know your contract size and need to find the right deployment gas. It's also great for quick estimates before committing to a decision, and to double-check manual calculations or professional quotes, and when comparing different scenarios side by side. Bookmark this page and come back whenever you need a fast, reliable answer — the calculator is always free and requires no signup.</p>
+    <h2>A Worked Example: Deploying at 30 Gwei</h2>
+    <p style="font-size:0.92rem;line-height:1.8;color:var(--text)">Say your compiled bytecode and constructor logic come out to roughly 1,200,000 gas total for deployment — typical for a mid-sized DeFi contract with a handful of mappings initialized in the constructor. At a gas price of 30 gwei and an ETH price of $3,200, the math is: 1,200,000 gas × 30 gwei = 36,000,000 gwei. Divide by 1e9 (gwei per ETH) and you get 0.036 ETH. Multiply by $3,200 and deployment costs $115.20. Bump the gas price to 80 gwei, which isn't unusual during an NFT mint rush or a token launch, and the same deployment jumps to $307.20 — more than 2.5× — without a single line of code changing. That sensitivity is exactly why it's worth checking current base fee conditions (or waiting for a quieter block) before pushing a large contract to mainnet.</p>
   </div>
 
 
@@ -410,22 +410,23 @@ footer a:hover{color:#fff}
     <div class="info-section">
     <h2>How to Use This Calculator</h2>
     <ol style="margin-left:20px;margin-bottom:12px">
-      <li style="margin-bottom:8px"><strong>Enter Your Contract Size (bytes):</strong> Start by entering your contract size — this is the primary input for the calculation.</li>
-      <li style="margin-bottom:8px"><strong>Fill In Additional Details:</strong> Complete the remaining fields: avg functions called/day, gas price, eth price. Each value refines the calculation for greater accuracy.</li>
-      <li style="margin-bottom:8px"><strong>Click Calculate:</strong> Hit the Calculate button to run the numbers. Results appear instantly below.</li>
-      <li style="margin-bottom:8px"><strong>Review Your Results:</strong> Check your deployment gas, deployment cost, daily interaction cost. Use these figures to inform your next decision or compare against alternative scenarios.</li>
+      <li style="margin-bottom:8px"><strong>Enter your contract's bytecode size in bytes:</strong> Use the deployed bytecode size from your compiler output (e.g. Hardhat's or Foundry's build artifacts), not the raw Solidity source file size — the two can differ by an order of magnitude once the optimizer runs.</li>
+      <li style="margin-bottom:8px"><strong>Estimate average functions called per day:</strong> Count the calls that actually write state, not read-only view/pure calls — those cost no gas when called off-chain and shouldn't be folded into your interaction estimate.</li>
+      <li style="margin-bottom:8px"><strong>Set the gas price in gwei:</strong> Pull a current base fee + priority fee figure from a gas tracker, or model a worst-case congestion scenario by entering a higher gwei value to stress-test your budget.</li>
+      <li style="margin-bottom:8px"><strong>Set the ETH/USD price:</strong> Use the current spot price for a snapshot estimate, or run the calculator at a higher and lower price to see how exposed your deployment budget is to ETH volatility.</li>
+      <li style="margin-bottom:8px"><strong>Read the deployment, daily, and monthly breakdown:</strong> Deployment cost is a one-time number; daily and monthly interaction costs compound with usage, so a contract that looks cheap to deploy can still be expensive to operate at scale.</li>
     </ol>
   </div>
 
   <!-- How It Works -->
     <div class="calc-card">
     <h2>How It Works</h2>
-    <p style="margin-bottom:12px">This smart contract gas cost calculator uses established formulas to provide accurate results.</p>
+    <p style="margin-bottom:12px">A gas unit measures computational work; a gwei is one-billionth of an ETH (10⁻⁹ ETH) and is how gas price is quoted. Multiplying the two together and converting through that 1e9 factor turns raw EVM execution into a dollar figure.</p>
     <p style="margin-bottom:12px"><strong>The basic rule:</strong></p>
     <ul style="margin-left:20px;margin-bottom:12px;line-height:2">
-      <li><strong>Gas Cost</strong> — Cost (USD) = Gas Units x Gas Price (Gwei) / 1e9 x ETH Price — <em>Convert gas units to ETH using the gas price, then multiply by the current ETH/USD exchange rate.</em></li>
+      <li><strong>Gas Cost in USD</strong> — Cost (USD) = Gas Units × Gas Price (gwei) ÷ 1,000,000,000 × ETH Price (USD) — <em>Gas units come from the opcodes your transaction executes (fixed for simple transfers, variable for contract calls). Under EIP-1559 the gas price you actually pay per unit is base fee + priority fee, capped by the max fee you set — any unused headroom above base fee + tip is refunded automatically, so the effective price can be lower than your max fee. Dividing by 1e9 converts gwei into ETH, and multiplying by the ETH/USD rate gives you a fiat estimate at that moment.</em></li>
     </ul>
-    <p style="font-size:0.9rem;color:var(--text-light)">Cryptocurrency markets are highly volatile. Past performance does not guarantee future results.</p>
+    <p style="font-size:0.9rem;color:var(--text-light)">Base fee moves block-to-block based on how full the previous block was (up or down by at most 12.5% per block), and ETH/USD can move meaningfully within the few minutes a transaction sits in the mempool. Treat this as a point-in-time estimate tied to the gas price and ETH price you entered, not a locked-in quote.</p>
   </div>
 
   <!-- ADEM Promo -->
@@ -435,11 +436,12 @@ footer a:hover{color:#fff}
     <div class="info-section">
     <h2>Tips &amp; Considerations</h2>
     <ul>
-      <li style="margin-bottom:8px">Double-check your contract size before calculating — even small input errors can significantly change your results.</li>
-      <li style="margin-bottom:8px">Run the calculator with different values to compare scenarios and find the optimal approach for your situation.</li>
-      <li style="margin-bottom:8px">Pay attention to both deployment gas and deployment cost — they work together to give you the full picture.</li>
-      <li style="margin-bottom:8px">Bookmark this page for quick access next time you need to get accurate results.</li>
-      <li style="margin-bottom:8px">If you're unsure about your eth price, start with a conservative estimate and adjust from there.</li>
+      <li style="margin-bottom:8px">SSTORE is almost always the biggest line item in interaction cost — writing to a zero slot costs 20,000 gas, so reusing an already-initialized slot (2,900 gas) instead of creating a new one is the single highest-leverage optimization</li>
+      <li style="margin-bottom:8px">Pack multiple small variables (uint128, bool, address) into the same 32-byte storage slot in your struct definitions — the EVM charges per slot touched, not per variable</li>
+      <li style="margin-bottom:8px">Use calldata instead of memory for function arguments you only read, especially arrays and strings — memory requires an extra copy that calldata skips</li>
+      <li style="margin-bottom:8px">Mark values that never change after deployment as immutable rather than storing them in regular state — immutable values are baked into the runtime bytecode and read far more cheaply</li>
+      <li style="margin-bottom:8px">If you only need data for off-chain indexing (a subgraph, a dashboard) rather than on-chain logic, emit an event instead of writing to storage — events are dramatically cheaper than SSTORE</li>
+      <li style="margin-bottom:8px">Gas price swings hard during mint events and congestion spikes, so run this calculator at both a calm-network gwei figure and a worst-case figure before committing to a launch window</li>
     </ul>
   </div>
 
@@ -448,28 +450,28 @@ footer a:hover{color:#fff}
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>How much does it cost to deploy a smart contract?</h3>
-      <p>Deployment costs depend on contract size and gas prices. A typical ERC-20 token contract costs $50-$500 at moderate gas prices.</p>
+      <h3>How much gas does it actually take to deploy a smart contract?</h3>
+      <p>It depends almost entirely on bytecode size and constructor complexity. A minimal ERC-20 using OpenZeppelin's library typically deploys for 800,000–1,200,000 gas. A simple storage or counter contract can deploy for under 200,000 gas. A full-featured protocol contract with multiple inherited modules can run 2,000,000–4,000,000+ gas. At 30 gwei and ETH at $3,200, 1,200,000 gas works out to 0.036 ETH, or $115.20 — the same bytecode at 80 gwei would cost $307.20.</p>
     </div>
 
     <div class="faq-item">
-      <h3>How can I reduce smart contract gas costs?</h3>
-      <p>Optimize storage usage, use events instead of storage where possible, batch operations, and consider Layer 2 solutions like Arbitrum or Optimism.</p>
+      <h3>Why does my ERC-20 transfer cost more gas the first time someone receives a token?</h3>
+      <p>EIP-2929 introduced 'cold' and 'warm' access costs: the first time a storage slot is touched in a transaction it costs 2,100 gas to read or 20,000 gas to write from zero, but touching it again later in the same transaction only costs 100 gas or 2,900 gas respectively. A transfer to an address that has never held the token before writes to a fresh, zero-valued balance slot, which is the more expensive cold-write path — that's the difference between a ~45,000-gas transfer and a ~65,000-gas one.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Is the Smart Contract Gas Cost Calculator free to use?</h3>
-      <p>Yes, completely free with no signup required. Use it as many times as you need — there are no limits or hidden fees.</p>
+      <h3>Should I deploy on Ethereum mainnet or an L2 like Arbitrum or Optimism?</h3>
+      <p>The gas unit accounting is nearly identical — the same bytecode runs the same opcodes — but L2 gas prices are typically a fraction of a cent per unit because execution is batched and only proof data gets settled on L1. The same 1,200,000-gas deployment that costs over $100 on mainnet at moderate gas prices often costs well under $1 on a rollup. Mainnet still matters for protocols that need direct L1 liquidity or composability with L1-only contracts.</p>
     </div>
 
     <div class="faq-item">
-      <h3>How accurate is this calculator?</h3>
-      <p>This calculator uses standard practical calculation formulas trusted by users. Results are reliable estimates for planning purposes. For critical decisions, we recommend consulting a qualified professional to verify.</p>
+      <h3>Why did the same transaction cost less than I expected?</h3>
+      <p>Under EIP-1559 you set a max fee per gas as a ceiling, but you only pay the actual base fee plus your priority fee tip — the gap between your ceiling and that effective price is refunded. If the network was less congested than when you set your max fee, or the base fee dropped between blocks (it can move down up to 12.5% per block), your realized cost comes in under the worst case you budgeted for.</p>
     </div>
 
     <div class="faq-item">
-      <h3>What contract size should I enter?</h3>
-      <p>Enter the most accurate contract size value you have available. If you're estimating, use a conservative figure. You can always run the calculator again with different values to see how changes affect the results.</p>
+      <h3>What's the single most effective way to lower my contract's gas cost?</h3>
+      <p>Reduce SSTORE operations, or make the ones you keep cheaper. Writing to a zero storage slot costs 20,000 gas versus 2,900 gas for an already-set slot, so initializing variables in the constructor rather than leaving them to be set on first use, packing multiple small fields into one 32-byte slot, and replacing storage-only audit trails with emitted events typically cuts interaction gas by 30–60% without changing the contract's external behavior.</p>
     </div>
 
   </div>
